@@ -45,7 +45,6 @@ func listTasks(flags *pflag.FlagSet) []atomic.Task {
 		log.Fatalf("No atomics path provided - set it with $ATOMICS_PATH or --atomics-path")
 	}
 	q := getTaskQuery(flags)
-
 	client, err := atomic.NewClient(atomicsPath)
 	if err != nil {
 		log.Fatalf("Failed to create client: %s", err)
@@ -62,11 +61,17 @@ func getTaskQuery(flags *pflag.FlagSet) *atomic.TaskQuery {
 	platforms, _ := flags.GetStringArray("platform")
 	tags, _ := flags.GetStringArray("tag")
 
-	return &atomic.TaskQuery{
+	query := &atomic.TaskQuery{
 		TaskIds:   taskIds,
 		Platforms: platforms,
 		Tags:      tags,
 	}
+
+	if flags.Changed("elevation-required") {
+		elevationRequired, _ := flags.GetBool("elevation-required")
+		query.ElevationRequired = &elevationRequired
+	}
+	return query
 }
 
 func init() {
@@ -77,4 +82,5 @@ func init() {
 	sharedFlags.StringP("atomics-path", "i", atomic.DefaultAtomicsPath, "Path to atomics file/directory")
 	sharedFlags.StringArrayP("platform", "p", nil, "(windows,linux,darwin)")
 	sharedFlags.StringArrayP("tag", "t", nil, "")
+	sharedFlags.Bool("elevation-required", false, "")
 }

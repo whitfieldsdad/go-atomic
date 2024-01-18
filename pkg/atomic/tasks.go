@@ -12,7 +12,7 @@ type Task struct {
 	Description       string   `json:"description"`
 	Steps             []Step   `json:"steps"`
 	Platforms         []string `json:"platforms"`
-	RequiresElevation bool     `json:"requires_elevation"`
+	ElevationRequired bool     `json:"elevation_required"`
 	Tags              []string `json:"tags"`
 }
 

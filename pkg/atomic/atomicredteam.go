@@ -61,11 +61,13 @@ func (t AtomicRedTeamTest) GetTaskWithArgs(args map[string]interface{}) (*Task, 
 	}
 
 	task := &Task{
-		Id:          uuid.NewString(),
-		Name:        t.Name,
-		Description: t.Description,
-		Steps:       steps,
-		Tags:        []string{t.AttackTechniqueId, t.Id},
+		Id:                uuid.NewString(),
+		Name:              t.Name,
+		Description:       t.Description,
+		Steps:             steps,
+		Platforms:         t.Platforms,
+		ElevationRequired: t.Executor.ElevationRequired,
+		Tags:              []string{t.AttackTechniqueId, t.Id},
 	}
 	return task, nil
 }
@@ -102,6 +104,11 @@ func ReadAtomicRedTeamYAMLFile(path string) (*AtomicRedTeamTestBundle, error) {
 		test.AttackTechniqueId = bundle.AttackTechniqueId
 		for _, dependency := range test.Dependencies {
 			dependency.ExecutorName = test.DependencyExecutorName
+		}
+		for i, platform := range test.Platforms {
+			if platform == "macos" {
+				test.Platforms[i] = "darwin"
+			}
 		}
 		bundle.Tests[i] = test
 	}

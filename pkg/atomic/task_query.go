@@ -20,9 +20,10 @@ var (
 )
 
 type TaskQuery struct {
-	TaskIds   []string `json:"ids"`
-	Tags      []string `json:"tags"`
-	Platforms []string `json:"platforms"`
+	TaskIds           []string `json:"ids"`
+	Tags              []string `json:"tags"`
+	Platforms         []string `json:"platforms"`
+	ElevationRequired *bool    `json:"elevation_required"`
 }
 
 func (q TaskQuery) Matches(t Task) bool {
@@ -34,6 +35,12 @@ func (q TaskQuery) Matches(t Task) bool {
 	}
 	if len(q.Platforms) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern(t.Platforms, q.Platforms) {
 		return false
+	}
+	if q.ElevationRequired != nil {
+		elevationRequired := *q.ElevationRequired
+		if elevationRequired != t.ElevationRequired {
+			return false
+		}
 	}
 	return true
 }
