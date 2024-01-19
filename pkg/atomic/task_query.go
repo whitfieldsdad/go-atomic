@@ -27,8 +27,14 @@ type TaskQuery struct {
 }
 
 func (q TaskQuery) Matches(t Task) bool {
-	if len(q.TaskIds) > 0 && !StringMatchesAnyCaseInsensitivePattern(t.Id, q.TaskIds) {
-		return false
+	if len(q.TaskIds) > 0 {
+		aliases := []string{t.Id}
+		if len(t.Aliases) > 0 {
+			aliases = append(aliases, t.Aliases...)
+		}
+		if !AnyStringMatchesAnyCaseInsensitivePattern(aliases, q.TaskIds) {
+			return false
+		}
 	}
 	if len(q.Tags) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern(t.Tags, q.Tags) {
 		return false

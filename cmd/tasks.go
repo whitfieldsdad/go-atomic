@@ -41,6 +41,22 @@ var countTasksCmd = &cobra.Command{
 	},
 }
 
+var executeTasksCmd = &cobra.Command{
+	Use:     "exec",
+	Aliases: []string{"x", "execute", "run"},
+	Short:   "Execute tasks",
+	Run: func(cmd *cobra.Command, args []string) {
+		flags := cmd.Flags()
+		tasks := listTasks(flags)
+
+		ctx := cmd.Context()
+		for _, task := range tasks {
+			result := task.Exec(ctx)
+			printJson(result)
+		}
+	},
+}
+
 func listTasks(flags *pflag.FlagSet) []atomic.Task {
 	atomicsPath, _ := flags.GetString("atomics-path")
 	if atomicsPath == "" {
@@ -89,10 +105,12 @@ func getTaskQuery(flags *pflag.FlagSet) *atomic.TaskQuery {
 
 func init() {
 	rootCmd.AddCommand(testsCmd)
-	testsCmd.AddCommand(listTasksCmd, countTasksCmd)
+	testsCmd.AddCommand(listTasksCmd, countTasksCmd, executeTasksCmd)
 
 	sharedFlags := testsCmd.PersistentFlags()
 	sharedFlags.StringP("atomics-path", "i", atomic.DefaultAtomicsPath, "Path to atomics file/directory")
+
+	sharedFlags.StringArray("task-id", nil, "Task ID")
 	sharedFlags.StringArrayP("platform", "p", nil, "(windows,linux,darwin)")
 	sharedFlags.StringArrayP("tag", "t", nil, "")
 	sharedFlags.Bool("elevation-required", false, "")

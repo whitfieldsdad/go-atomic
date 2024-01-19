@@ -8,6 +8,7 @@ import (
 
 type Task struct {
 	Id                string   `json:"id"`
+	Aliases           []string `json:"aliases,omitempty"`
 	Name              string   `json:"name"`
 	Description       string   `json:"description"`
 	Steps             []Step   `json:"steps"`
