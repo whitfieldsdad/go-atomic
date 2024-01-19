@@ -2,11 +2,13 @@ package cmd
 
 import (
 	"fmt"
+	"runtime"
 
 	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/whitfieldsdad/go-atomic-red-team/pkg/atomic"
+	"golang.org/x/exp/slices"
 )
 
 var testsCmd = &cobra.Command{
@@ -67,6 +69,17 @@ func getTaskQuery(flags *pflag.FlagSet) *atomic.TaskQuery {
 		Tags:      tags,
 	}
 
+	auto, _ := flags.GetBool("auto")
+	if auto {
+		if !slices.Contains(query.Platforms, runtime.GOOS) {
+			query.Platforms = append(query.Platforms, runtime.GOOS)
+		}
+		elevated := atomic.IsElevated()
+		if !elevated {
+			elevationRequired := false
+			query.ElevationRequired = &elevationRequired
+		}
+	}
 	if flags.Changed("elevation-required") {
 		elevationRequired, _ := flags.GetBool("elevation-required")
 		query.ElevationRequired = &elevationRequired
@@ -83,4 +96,5 @@ func init() {
 	sharedFlags.StringArrayP("platform", "p", nil, "(windows,linux,darwin)")
 	sharedFlags.StringArrayP("tag", "t", nil, "")
 	sharedFlags.Bool("elevation-required", false, "")
+	sharedFlags.Bool("auto", false, "Select tests which can be run by the current user")
 }

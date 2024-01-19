@@ -1,6 +1,3 @@
-//go:build !windows && !js && !darwin
-// +build !windows,!js,!darwin
-
 package atomic
 
 import "syscall"

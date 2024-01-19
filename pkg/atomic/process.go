@@ -40,13 +40,13 @@ func ListProcesses() ([]Process, error) {
 	}
 	var rows []Process
 	for _, p := range processes {
-		row := parseProcess(*p)
+		row := parseProcess(p)
 		rows = append(rows, row)
 	}
 	return rows, nil
 }
 
-func parseProcess(p ps.Process) Process {
+func parseProcess(p *ps.Process) Process {
 	name, _ := p.Name()
 	cwd, _ := p.Cwd()
 	ppid, _ := p.Ppid()
@@ -110,4 +110,8 @@ func parseProcess(p ps.Process) Process {
 		GroupIds:   gids,
 	}
 	return process
+}
+
+func IsElevated() bool {
+	return isElevated()
 }
