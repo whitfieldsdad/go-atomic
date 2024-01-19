@@ -43,9 +43,23 @@ func (t AtomicRedTeamTest) GetTask() (*Task, error) {
 	return t.GetTaskWithArgs(nil)
 }
 
-func (t AtomicRedTeamTest) GetTaskWithArgs(args map[string]interface{}) (*Task, error) {
-	var steps []Step
+func (t AtomicRedTeamTest) GetArgs() map[string]interface{} {
+	m := make(map[string]interface{})
+	for k, argspec := range t.InputArguments {
+		v := argspec.Default
+		m[k] = v
+	}
+	return m
+}
 
+func (t AtomicRedTeamTest) GetTaskWithArgs(args map[string]interface{}) (*Task, error) {
+	if args == nil {
+		args = t.GetArgs()
+	} else {
+		args = MergeInputArgs(t.GetArgs(), args)
+	}
+
+	var steps []Step
 	testStep, err := NewExecStepWithArgs(t.Executor.Command, t.Executor.Name, args)
 	if err != nil {
 		return nil, err
@@ -100,9 +114,7 @@ func ReadAtomicRedTeamYAMLFile(path string) (*AtomicRedTeamTestBundle, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	var tests []AtomicRedTeamTest
-
 	for _, test := range bundle.Tests {
 		if test.Executor.Name == "manual" {
 			continue
