@@ -100,7 +100,13 @@ func ReadAtomicRedTeamYAMLFile(path string) (*AtomicRedTeamTestBundle, error) {
 	if err != nil {
 		return nil, err
 	}
-	for i, test := range bundle.Tests {
+
+	var tests []AtomicRedTeamTest
+
+	for _, test := range bundle.Tests {
+		if test.Executor.Name == "manual" {
+			continue
+		}
 		test.AttackTechniqueId = bundle.AttackTechniqueId
 		for _, dependency := range test.Dependencies {
 			dependency.ExecutorName = test.DependencyExecutorName
@@ -110,7 +116,8 @@ func ReadAtomicRedTeamYAMLFile(path string) (*AtomicRedTeamTestBundle, error) {
 				test.Platforms[i] = "darwin"
 			}
 		}
-		bundle.Tests[i] = test
+		tests = append(tests, test)
 	}
+	bundle.Tests = tests
 	return &bundle, nil
 }
