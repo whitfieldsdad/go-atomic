@@ -2,6 +2,7 @@ package atomic
 
 import (
 	"context"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -22,19 +23,30 @@ func NewTask(id string, steps []Step) *Task {
 }
 
 func (t *Task) Exec(ctx context.Context) ExecutedTask {
-	et := ExecutedTask{
-		Id:     uuid.NewString(),
-		TaskId: t.Id,
+	startTime := time.Now()
+	var stepResults []StepResult
+	for _, step := range t.Steps {
+		stepResult := step.Exec(ctx)
+		stepResults = append(stepResults, stepResult)
 	}
-	for _, s := range t.Steps {
-		es := s.Exec(ctx)
-		et.ExecutedSteps = append(et.ExecutedSteps, es)
+	endTime := time.Now()
+	duration := endTime.Sub(startTime)
+
+	return ExecutedTask{
+		Id:            uuid.NewString(),
+		TaskId:        t.Id,
+		ExecutedSteps: stepResults,
+		StartTime:     startTime,
+		EndTime:       endTime,
+		Duration:      duration.Seconds(),
 	}
-	return et
 }
 
 type ExecutedTask struct {
 	Id            string       `json:"id"`
 	TaskId        string       `json:"task_id"`
 	ExecutedSteps []StepResult `json:"steps"`
+	StartTime     time.Time    `json:"start_time"`
+	EndTime       time.Time    `json:"end_time"`
+	Duration      float64      `json:"duration"`
 }

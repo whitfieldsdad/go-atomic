@@ -3,6 +3,7 @@ package atomic
 import (
 	"time"
 
+	"github.com/google/uuid"
 	ps "github.com/shirou/gopsutil/v3/process"
 )
 
@@ -96,6 +97,7 @@ func parseProcess(p *ps.Process) Process {
 	}
 
 	process := Process{
+		Id:         uuid.NewString(),
 		Time:       time.Now(),
 		PID:        int(p.Pid),
 		PPID:       int(ppid),

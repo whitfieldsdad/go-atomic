@@ -3,6 +3,7 @@ package atomic
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -22,6 +23,8 @@ func (s Step) Exec(ctx context.Context) StepResult {
 		result interface{}
 		err    error
 	)
+	startTime := time.Now()
+
 	d := s.Data
 	switch d.(type) {
 	case ExecStep:
@@ -30,21 +33,31 @@ func (s Step) Exec(ctx context.Context) StepResult {
 	default:
 		panic(fmt.Sprintf("Unresolved type: %s", s.StepType))
 	}
+
+	endTime := time.Now()
+	duration := endTime.Sub(startTime)
+
 	return StepResult{
-		Id:       uuid.NewString(),
-		StepId:   s.Id,
-		StepType: s.Id,
-		Data:     result,
-		Error:    err,
+		Id:        uuid.NewString(),
+		StepId:    s.Id,
+		StepType:  s.Id,
+		StartTime: startTime,
+		Duration:  duration.Seconds(),
+		EndTime:   endTime,
+		Data:      result,
+		Error:     err,
 	}
 }
 
 type StepResult struct {
-	Id       string      `json:"id"`
-	StepId   string      `json:"step_id"`
-	StepType string      `json:"step_type"`
-	Data     interface{} `json:"data,omitempty"`
-	Error    error       `json:"error,omitempty"`
+	Id        string      `json:"id"`
+	StepId    string      `json:"step_id"`
+	StepType  string      `json:"step_type"`
+	StartTime time.Time   `json:"start_time"`
+	EndTime   time.Time   `json:"end_time"`
+	Duration  float64     `json:"duration"`
+	Data      interface{} `json:"data,omitempty"`
+	Error     error       `json:"error,omitempty"`
 }
 
 type ExecStep struct {
