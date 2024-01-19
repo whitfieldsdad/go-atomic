@@ -28,10 +28,20 @@ type Process struct {
 
 func NewProcess(pid int) (*Process, error) {
 	result := &Process{
+		Id:   uuid.NewString(),
 		Time: time.Now(),
 		PID:  pid,
 	}
 	return result, nil
+}
+
+func GetProcess(pid int) (*Process, error) {
+	p, err := ps.NewProcess(int32(pid))
+	if err != nil {
+		return nil, err
+	}
+	info := parseProcess(p)
+	return &info, nil
 }
 
 func ListProcesses() ([]Process, error) {

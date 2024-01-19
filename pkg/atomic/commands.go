@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/charmbracelet/log"
+	"github.com/hairyhenderson/go-which"
 	"github.com/pkg/errors"
 )
 
@@ -131,9 +132,9 @@ func ExecArgv(ctx context.Context, argv []string) (*Process, error) {
 	command := strings.Join(argv, " ")
 	log.Infof("Executing command: %s", command)
 
-	path, err := exec.LookPath(argv[0])
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to find command")
+	path := which.Which(argv[0])
+	if path == "" {
+		return nil, errors.New("cannot execute command - executable not found")
 	}
 	cmd := exec.Command(path, argv[1:]...)
 	cmd.SysProcAttr = getSysProcAttrs()
@@ -143,18 +144,22 @@ func ExecArgv(ctx context.Context, argv []string) (*Process, error) {
 	cmd.Stdout = stdout
 	cmd.Stderr = stderr
 
-	err = cmd.Start()
+	err := cmd.Start()
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to start command")
 	}
 	log.Infof("Command started %s (PID: %d)", command, cmd.Process.Pid)
 
+	// Lookup information about the process
 	pid := cmd.Process.Pid
-	ppid := os.Getpid()
-	process, _ := NewProcess(pid)
-	process.PPID = ppid
-	process.Argv = argv
-	process.Argc = len(argv)
+	process, err := GetProcess(pid)
+	if err != nil {
+		process, _ := NewProcess(pid)
+		process.PPID = os.Getpid()
+		process.Argv = argv
+		process.Argc = len(argv)
+		process.Executable, _ = GetFile(path)
+	}
 
 	log.Infof("Waiting for command to exit (PID: %d, PPID: %d)", process.PID, process.PPID)
 
