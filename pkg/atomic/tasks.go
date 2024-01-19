@@ -8,14 +8,14 @@ import (
 )
 
 type Task struct {
-	Id                string   `json:"id"`
-	Aliases           []string `json:"aliases,omitempty"`
-	Name              string   `json:"name"`
-	Description       string   `json:"description"`
-	Steps             []Step   `json:"steps"`
-	Platforms         []string `json:"platforms"`
-	ElevationRequired bool     `json:"elevation_required"`
-	Tags              []string `json:"tags"`
+	Id                 string   `json:"id"`
+	Aliases            []string `json:"aliases,omitempty"`
+	AttackTechniqueIds []string `json:"attack_technique_ids,omitempty"`
+	Name               string   `json:"name"`
+	Description        string   `json:"description"`
+	Steps              []Step   `json:"steps"`
+	Platforms          []string `json:"platforms"`
+	ElevationRequired  bool     `json:"elevation_required"`
 }
 
 func NewTask(id string, steps []Step) *Task {

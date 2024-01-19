@@ -1,8 +1,11 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
+	"os"
 	"runtime"
+	"strings"
 
 	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
@@ -77,12 +80,30 @@ func listTasks(flags *pflag.FlagSet) []atomic.Task {
 func getTaskQuery(flags *pflag.FlagSet) *atomic.TaskQuery {
 	taskIds, _ := flags.GetStringArray("task-id")
 	platforms, _ := flags.GetStringArray("platform")
-	tags, _ := flags.GetStringArray("tag")
+
+	// Select tasks using ATT&CK tactic or technique IDs (e.g. TA0003, T1087)
+	attackTechniques, _ := flags.GetStringArray("attack-technique-id")
+	attackTactics, _ := flags.GetStringArray("attack-tactic-id")
+
+	if len(attackTactics) > 0 {
+		attackTacticsToTechniquesPath, _ := flags.GetString("attack-tactics-to-techniques-path")
+		attackTacticsToTechniques, err := readMapOfAttackTacticsToTechniques(attackTacticsToTechniquesPath)
+		if err != nil {
+			log.Fatalf("Failed to read map of ATT&CK tactics to techniques: %s", err)
+		}
+		for _, tactic := range attackTactics {
+			techniques, ok := attackTacticsToTechniques[tactic]
+			if ok {
+				log.Infof("Selected %d techniques related to %s: %s", len(techniques), tactic, strings.Join(techniques, ", "))
+				attackTechniques = append(attackTechniques, techniques...)
+			}
+		}
+	}
 
 	query := &atomic.TaskQuery{
-		TaskIds:   taskIds,
-		Platforms: platforms,
-		Tags:      tags,
+		TaskIds:            taskIds,
+		AttackTechniqueIds: attackTechniques,
+		Platforms:          platforms,
 	}
 
 	auto, _ := flags.GetBool("auto")
@@ -103,16 +124,30 @@ func getTaskQuery(flags *pflag.FlagSet) *atomic.TaskQuery {
 	return query
 }
 
+func readMapOfAttackTacticsToTechniques(path string) (map[string][]string, error) {
+	b, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+	m := make(map[string][]string)
+	err = json.Unmarshal(b, &m)
+	if err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func init() {
 	rootCmd.AddCommand(testsCmd)
 	testsCmd.AddCommand(listTasksCmd, countTasksCmd, executeTasksCmd)
 
 	sharedFlags := testsCmd.PersistentFlags()
-	sharedFlags.StringP("atomics-path", "i", atomic.DefaultAtomicsPath, "Path to atomics file/directory")
-
+	sharedFlags.String("atomics-path", atomic.DefaultAtomicsPath, "Path to atomics file/directory")
+	sharedFlags.String("attack-tactics-to-techniques-path", "", "Path to ATT&CK tactic to technique lookup table")
 	sharedFlags.StringArray("task-id", nil, "Task ID")
+	sharedFlags.StringArray("attack-tactic-id", nil, "ATT&CK tactic IDs")
+	sharedFlags.StringArray("attack-technique-id", nil, "ATT&CK technique IDs")
 	sharedFlags.StringArrayP("platform", "p", nil, "(windows,linux,darwin)")
-	sharedFlags.StringArrayP("tag", "t", nil, "")
 	sharedFlags.Bool("elevation-required", false, "")
 	sharedFlags.Bool("auto", false, "Select tests which can be run by the current user")
 }

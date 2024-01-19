@@ -75,14 +75,14 @@ func (t AtomicRedTeamTest) GetTaskWithArgs(args map[string]interface{}) (*Task, 
 	}
 
 	task := &Task{
-		Id:                uuid.NewString(),
-		Aliases:           []string{t.Id},
-		Name:              t.Name,
-		Description:       t.Description,
-		Steps:             steps,
-		Platforms:         t.Platforms,
-		ElevationRequired: t.Executor.ElevationRequired,
-		Tags:              []string{t.AttackTechniqueId},
+		Id:                 uuid.NewString(),
+		Aliases:            []string{t.Id},
+		AttackTechniqueIds: []string{t.AttackTechniqueId},
+		Name:               t.Name,
+		Description:        t.Description,
+		Steps:              steps,
+		Platforms:          t.Platforms,
+		ElevationRequired:  t.Executor.ElevationRequired,
 	}
 	return task, nil
 }

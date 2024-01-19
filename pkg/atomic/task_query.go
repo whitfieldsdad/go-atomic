@@ -20,10 +20,11 @@ var (
 )
 
 type TaskQuery struct {
-	TaskIds           []string `json:"ids"`
-	Tags              []string `json:"tags"`
-	Platforms         []string `json:"platforms"`
-	ElevationRequired *bool    `json:"elevation_required"`
+	TaskIds            []string `json:"ids"`
+	AttackTechniqueIds []string `json:"attack_technique_ids"`
+	Tags               []string `json:"tags"`
+	Platforms          []string `json:"platforms"`
+	ElevationRequired  *bool    `json:"elevation_required"`
 }
 
 func (q TaskQuery) Matches(t Task) bool {
@@ -36,7 +37,7 @@ func (q TaskQuery) Matches(t Task) bool {
 			return false
 		}
 	}
-	if len(q.Tags) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern(t.Tags, q.Tags) {
+	if len(q.AttackTechniqueIds) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern(t.AttackTechniqueIds, q.AttackTechniqueIds) {
 		return false
 	}
 	if len(q.Platforms) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern(t.Platforms, q.Platforms) {
@@ -49,12 +50,6 @@ func (q TaskQuery) Matches(t Task) bool {
 		}
 	}
 	return true
-}
-
-func (q TaskQuery) Merge(o TaskQuery) {
-	q.TaskIds = append(q.TaskIds, o.TaskIds...)
-	q.Tags = append(q.Tags, o.Tags...)
-	q.Platforms = append(q.Platforms, o.Platforms...)
 }
 
 func isPlatform(value string) bool {
