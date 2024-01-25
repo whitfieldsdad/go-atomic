@@ -21,4 +21,3 @@ func TestGetHashes(t *testing.T) {
 	}
 	assert.Equal(t, expected, hashes, "Hashes should match")
 }
-

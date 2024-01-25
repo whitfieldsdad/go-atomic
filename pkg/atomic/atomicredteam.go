@@ -1,6 +1,7 @@
 package atomic
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/google/uuid"
@@ -39,10 +40,6 @@ type AtomicRedTeamTest struct {
 	AttackTechniqueId      string                          `yaml:"-"`
 }
 
-func (t AtomicRedTeamTest) GetTask() (*Task, error) {
-	return t.GetTaskWithArgs(nil)
-}
-
 func (t AtomicRedTeamTest) GetArgs() map[string]interface{} {
 	m := make(map[string]interface{})
 	for k, argspec := range t.InputArguments {
@@ -50,6 +47,10 @@ func (t AtomicRedTeamTest) GetArgs() map[string]interface{} {
 		m[k] = v
 	}
 	return m
+}
+
+func (t AtomicRedTeamTest) GetTask() (*Task, error) {
+	return t.GetTaskWithArgs(nil)
 }
 
 func (t AtomicRedTeamTest) GetTaskWithArgs(args map[string]interface{}) (*Task, error) {
@@ -78,7 +79,7 @@ func (t AtomicRedTeamTest) GetTaskWithArgs(args map[string]interface{}) (*Task, 
 		Id:                 uuid.NewString(),
 		Aliases:            []string{t.Id},
 		AttackTechniqueIds: []string{t.AttackTechniqueId},
-		Name:               t.Name,
+		Name:               fmt.Sprintf("%s: %s", t.AttackTechniqueId, t.Name),
 		Description:        t.Description,
 		Steps:              steps,
 		Platforms:          t.Platforms,

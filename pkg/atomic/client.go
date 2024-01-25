@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/charmbracelet/log"
 )
@@ -60,9 +61,28 @@ func (c Client) listAtomicRedTeamTasks() ([]Task, error) {
 	return tasks, nil
 }
 
+func getRealPath(path string) (string, error) {
+	if strings.Contains(path, "~") {
+		homedir, err := os.UserHomeDir()
+		if err != nil {
+			return "", err
+		}
+		path = strings.ReplaceAll(path, "~", homedir)
+	}
+	return path, nil
+}
+
 func findFilePaths(root, pathPattern string) ([]string, error) {
 	var paths []string
-	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+
+	root, err := getRealPath(root)
+	if err != nil {
+		return nil, err
+	}
+	err = filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+		if info == nil {
+			log.Fatalf("%s is nil", path)
+		}
 		if info.IsDir() {
 			return nil
 		}

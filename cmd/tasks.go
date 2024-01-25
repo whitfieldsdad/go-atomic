@@ -144,6 +144,7 @@ func init() {
 	sharedFlags := testsCmd.PersistentFlags()
 	sharedFlags.String("atomics-path", atomic.DefaultAtomicsPath, "Path to atomics file/directory")
 	sharedFlags.String("attack-tactics-to-techniques-path", "", "Path to ATT&CK tactic to technique lookup table")
+
 	sharedFlags.StringArray("task-id", nil, "Task ID")
 	sharedFlags.StringArray("attack-tactic-id", nil, "ATT&CK tactic IDs")
 	sharedFlags.StringArray("attack-technique-id", nil, "ATT&CK technique IDs")

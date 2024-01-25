@@ -40,7 +40,7 @@ func (s Step) Exec(ctx context.Context) StepResult {
 	return StepResult{
 		Id:        uuid.NewString(),
 		StepId:    s.Id,
-		StepType:  s.Id,
+		StepType:  s.StepType,
 		StartTime: startTime,
 		Duration:  duration.Seconds(),
 		EndTime:   endTime,

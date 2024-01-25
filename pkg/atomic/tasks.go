@@ -2,24 +2,36 @@ package atomic
 
 import (
 	"context"
+	"runtime"
 	"time"
 
 	"github.com/google/uuid"
+	"golang.org/x/exp/slices"
 )
 
 type Task struct {
-	Id                 string   `json:"id"`
-	Aliases            []string `json:"aliases,omitempty"`
-	AttackTechniqueIds []string `json:"attack_technique_ids,omitempty"`
-	Name               string   `json:"name"`
-	Description        string   `json:"description"`
-	Steps              []Step   `json:"steps"`
-	Platforms          []string `json:"platforms"`
-	ElevationRequired  bool     `json:"elevation_required"`
+	Id                string   `json:"id"`
+	Name              string   `json:"name"`
+	Description       string   `json:"description"`
+	Platforms         []string `json:"platforms"`
+	ElevationRequired bool     `json:"elevation_required"`
+	Tags              []string `json:"tags"`
+	Steps             []Step   `json:"steps"`
+	Edges             []string `json:"edges"`
 }
 
 func NewTask(id string, steps []Step) *Task {
 	return &Task{Id: id, Steps: steps}
+}
+
+func (t *Task) IsRunnable() bool {
+	if t.ElevationRequired && !IsElevated() {
+		return false
+	}
+	if len(t.Platforms) > 0 && !slices.Contains(t.Platforms, runtime.GOOS) {
+		return false
+	}
+	return true
 }
 
 func (t *Task) Exec(ctx context.Context) ExecutedTask {
@@ -33,20 +45,23 @@ func (t *Task) Exec(ctx context.Context) ExecutedTask {
 	duration := endTime.Sub(startTime)
 
 	return ExecutedTask{
-		Id:            uuid.NewString(),
-		TaskId:        t.Id,
-		ExecutedSteps: stepResults,
-		StartTime:     startTime,
-		EndTime:       endTime,
-		Duration:      duration.Seconds(),
+		Id:        uuid.NewString(),
+		TaskId:    t.Id,
+		Steps:     stepResults,
+		StartTime: startTime,
+		EndTime:   endTime,
+		Duration:  duration.Seconds(),
 	}
 }
 
 type ExecutedTask struct {
-	Id            string       `json:"id"`
-	TaskId        string       `json:"task_id"`
-	ExecutedSteps []StepResult `json:"steps"`
-	StartTime     time.Time    `json:"start_time"`
-	EndTime       time.Time    `json:"end_time"`
-	Duration      float64      `json:"duration"`
+	Id        string       `json:"id"`
+	TaskId    string       `json:"task_id"`
+	HostId    string       `json:"host_id"`
+	UserId    string       `json:"user_id"`
+	Steps     []StepResult `json:"steps"`
+	StartTime time.Time    `json:"start_time"`
+	EndTime   time.Time    `json:"end_time"`
+	Duration  float64      `json:"duration"`
+	Process   Process      `json:"process"`
 }
