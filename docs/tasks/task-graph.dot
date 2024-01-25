@@ -1,0 +1,17 @@
+digraph G {
+    node [shape="rect"];
+
+    a;
+    b;
+    c;
+    d;
+    abort [shape="diamond"];
+
+    a -> b [label="on-failure"; color="red"];
+    a -> d [label="on-success"; color="green"];
+    b -> c [label="on-success"; color="green"];
+
+    b -> abort [label="on-failure"; color="red"];
+    c -> abort [label="on-failure"; color="red"];
+    d -> abort [label="on-failure"; color="red"];
+}
