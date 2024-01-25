@@ -33,9 +33,11 @@ require (
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/charmbracelet/lipgloss v0.9.1 // indirect
 	github.com/charmbracelet/log v0.3.1
+	github.com/denisbrodbeck/machineid v1.0.1
 	github.com/dominikbraun/graph v0.23.0
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
 	github.com/google/uuid v1.5.0
+	github.com/gowebpki/jcs v1.0.1
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
