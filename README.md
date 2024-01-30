@@ -1,8 +1,12 @@
 # go-atomic
 
-A Go client for the Atomic Red Team framework
+A Go library for executing tests from the [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team) framework.
 
 ⚠️ This project is under active development ⚠️
+
+## Features
+
+- JSONL output
 
 ## Usage
 
