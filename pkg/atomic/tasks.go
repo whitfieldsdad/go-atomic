@@ -2,22 +2,26 @@ package atomic
 
 import (
 	"context"
+	"os"
 	"runtime"
 	"time"
 
+	"github.com/charmbracelet/log"
 	"github.com/google/uuid"
 	"golang.org/x/exp/slices"
 )
 
 type Task struct {
-	Id                string   `json:"id"`
-	Name              string   `json:"name"`
-	Description       string   `json:"description"`
-	Platforms         []string `json:"platforms"`
-	ElevationRequired bool     `json:"elevation_required"`
-	Tags              []string `json:"tags"`
-	Steps             []Step   `json:"steps"`
-	Edges             []string `json:"edges"`
+	Id                 string   `json:"id"`
+	TemplateId         string   `json:"template_id"`
+	Name               string   `json:"name"`
+	Description        string   `json:"description"`
+	Platforms          []string `json:"platforms"`
+	ElevationRequired  bool     `json:"elevation_required"`
+	AttackTechniqueIds []string `json:"attack_technique_ids"`
+	Tags               []string `json:"tags"`
+	Steps              []Step   `json:"steps"`
+	Edges              []Edge   `json:"edges,omitempty"`
 }
 
 func NewTask(id string, steps []Step) *Task {
@@ -44,13 +48,24 @@ func (t *Task) Exec(ctx context.Context) ExecutedTask {
 	endTime := time.Now()
 	duration := endTime.Sub(startTime)
 
+	user, err := GetCurrentUser()
+	if err != nil {
+		log.Fatalf("Failed to lookup current user: %s", err)
+	}
+	process, err := GetProcess(os.Getpid())
+	if err != nil {
+		log.Fatalf("Failed to lookup current process: %s", err)
+	}
 	return ExecutedTask{
 		Id:        uuid.NewString(),
+		HostId:    GetHostId(),
+		UserId:    user.Id,
 		TaskId:    t.Id,
 		Steps:     stepResults,
 		StartTime: startTime,
 		EndTime:   endTime,
 		Duration:  duration.Seconds(),
+		Process:   *process,
 	}
 }
 

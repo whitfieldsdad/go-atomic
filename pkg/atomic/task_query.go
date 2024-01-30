@@ -2,8 +2,6 @@ package atomic
 
 import (
 	"regexp"
-
-	"golang.org/x/exp/slices"
 )
 
 var (
@@ -11,16 +9,10 @@ var (
 	UUIDRegex              = regexp.MustCompile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
 )
 
-var (
-	platforms = []string{
-		"windows",
-		"linux",
-		"darwin",
-	}
-)
-
 type TaskQuery struct {
 	TaskIds            []string `json:"ids"`
+	TaskTemplateIds    []string `json:"template_ids"`
+	AttackTacticIds    []string `json:"attack_tactic_ids"`
 	AttackTechniqueIds []string `json:"attack_technique_ids"`
 	Tags               []string `json:"tags"`
 	Platforms          []string `json:"platforms"`
@@ -28,14 +20,11 @@ type TaskQuery struct {
 }
 
 func (q TaskQuery) Matches(t Task) bool {
-	if len(q.TaskIds) > 0 {
-		aliases := []string{t.Id}
-		if len(t.Aliases) > 0 {
-			aliases = append(aliases, t.Aliases...)
-		}
-		if !AnyStringMatchesAnyCaseInsensitivePattern(aliases, q.TaskIds) {
-			return false
-		}
+	if len(q.TaskIds) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern([]string{t.Id}, q.TaskIds) {
+		return false
+	}
+	if len(q.TaskTemplateIds) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern([]string{t.TemplateId}, q.TaskTemplateIds) {
+		return false
 	}
 	if len(q.AttackTechniqueIds) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern(t.AttackTechniqueIds, q.AttackTechniqueIds) {
 		return false
@@ -50,16 +39,4 @@ func (q TaskQuery) Matches(t Task) bool {
 		}
 	}
 	return true
-}
-
-func isPlatform(value string) bool {
-	return slices.Contains(platforms, value)
-}
-
-func isAttackTechniqueId(value string) bool {
-	return AttackTechniqueIdRegex.MatchString(value)
-}
-
-func isUUID(value string) bool {
-	return UUIDRegex.MatchString(value)
 }

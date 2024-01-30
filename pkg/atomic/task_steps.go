@@ -63,7 +63,7 @@ type StepResult struct {
 type ExecStep struct {
 	CommandTemplate string                 `json:"command_template"`
 	CommandType     string                 `json:"command_type"`
-	Args            map[string]interface{} `json:"args"`
+	Args            map[string]interface{} `json:"args,omitempty"`
 }
 
 func (s ExecStep) Exec(ctx context.Context) (*ExecStepResult, error) {
@@ -82,17 +82,12 @@ type ExecStepResult struct {
 }
 
 func NewExecStep(commandTemplate, commandType string) (*Step, error) {
-	return NewExecStepWithArgs(commandTemplate, commandType, nil)
-}
-
-func NewExecStepWithArgs(commandTemplate, commandType string, args map[string]interface{}) (*Step, error) {
 	s := &Step{
 		Id:       uuid.NewString(),
 		StepType: StepTypeExec,
 		Data: ExecStep{
 			CommandTemplate: commandTemplate,
 			CommandType:     commandType,
-			Args:            args,
 		},
 	}
 	return s, nil

@@ -13,96 +13,44 @@ go run main.go tasks --atomics-path=~/src/atomic-red-team/atomics/ list --attack
 ```
 
 ```json
+...
 {
-  "id": "8a16a2aa-d976-4f8a-a6be-657db08a7242",
-  "aliases": [
-    "edff98ec-0f73-4f63-9890-6b117092aff6"
-  ],
-  "attack_technique_ids": [
-    "T1082"
-  ],
-  "name": "T1082: System Information Discovery",
-  "description": "Identify System Info\n",
-  "steps": [
-    {
-      "id": "77c5531f-5516-43a6-8a2f-3c2d387ec945",
-      "step_type": "exec",
-      "data": {
-        "command_template": "system_profiler\nls -al /Applications\n",
-        "command_type": "sh",
-        "args": {}
-      }
-    }
-  ],
+  "id": "a8cf05d6-6e5f-5e1e-a9b1-3ed8961ba4c0",
+  "template_id": "327cc050-9e99-4c8e-99b5-1d15f2fb6b96",
+  "name": "T1082: Show System Integrity Protection status (MacOS)",
+  "description": "Read and Display System Intergrety Protection status. csrutil is commonly used by malware and post-exploitation tools to determine whether certain files and directories on the system are writable or not.\n",
   "platforms": [
     "darwin"
   ],
-  "elevation_required": false
+  "elevation_required": false,
+  "attack_technique_ids": [
+    "T1082"
+  ],
+  "tags": [
+    "T1082"
+  ],
+  "steps": [
+    {
+      "id": "8e542973-150a-4d33-9d22-6bdb5c0515d9",
+      "step_type": "exec",
+      "data": {
+        "command_template": "csrutil status\n",
+        "command_type": "sh"
+      }
+    }
+  ]
 }
 ...
 ```
 
-To execute task `8a16a2aa-d976-4f8a-a6be-657db08a7242` and write the output to `edff98ec-0f73-4f63-9890-6b117092aff6.json`:
+To execute task `a8cf05d6-6e5f-5e1e-a9b1-3ed8961ba4c0` and write the output to `a8cf05d6-6e5f-5e1e-a9b1-3ed8961ba4c0.json`:
 
 ```bash
-go run main.go tasks --atomics-path=~/src/atomic-red-team/atomics/ exec --task-id edff98ec-0f73-4f63-9890-6b117092aff6 | jq '.' > 'edff98ec-0f73-4f63-9890-6b117092aff6.json' 
+go run main.go tasks --atomics-path=~/src/atomic-red-team/atomics/ exec --task-id a8cf05d6-6e5f-5e1e-a9b1-3ed8961ba4c0 | jq '.' > 'a8cf05d6-6e5f-5e1e-a9b1-3ed8961ba4c0.json' 
 ```
 
 ```json
-{
-  "id": "85123750-5015-46a4-8042-4feaf4f2e19a",
-  "task_id": "22ae3b79-be7e-4c32-8cd2-1c0f67d323f2",
-  "steps": [
-    {
-      "id": "2b70ee15-8551-4c6e-88b7-06b1b1ba1ac0",
-      "step_id": "21db320e-dcf5-4d17-90f7-be4036a07e44",
-      "step_type": "21db320e-dcf5-4d17-90f7-be4036a07e44",
-      "start_time": "2024-01-19T11:10:42.339962-05:00",
-      "end_time": "2024-01-19T11:11:18.047385-05:00",
-      "duration": 35.707410625,
-      "data": {
-        "subprocess": {
-          "id": "36c1a5d0-c922-4673-a332-92a13200c3a3",
-          "time": "2024-01-19T11:10:42.348986-05:00",
-          "pid": 86336,
-          "ppid": 86329,
-          "name": "sh",
-          "argv": [
-            "/bin/sh",
-            "-c",
-            "system_profiler\nls -al /Applications\n"
-          ],
-          "argc": 3,
-          "create_time": "2024-01-19T11:10:42.344-05:00",
-          "exit_code": 0,
-          "user": {
-            "id": "100",
-            "name": "Tyler",
-            "username": "tyler",
-            "home_dir": "/Users/tyler"
-          },
-          "user_ids": [
-            502
-          ],
-          "executable": {
-            "id": "64dfd57b-894b-49c6-925c-55c35dab4c38",
-            "time": "2024-01-19T11:10:42.345788-05:00",
-            "path": "/bin/sh",
-            "filename": "sh",
-            "hashes": {
-              "md5": "68a37d17986d5af3dc693748d56e9248",
-              "sha1": "f001efb6072783430686cff41d07a6c5d4e4972b",
-              "sha256": "192b7e21b34ce0de5abaf684347a0ed304a7819e74cd1017ec3a83d00f9969c6"
-            }
-          }
-        }
-      }
-    }
-  ],
-  "start_time": "2024-01-19T11:10:42.339962-05:00",
-  "end_time": "2024-01-19T11:11:18.047393-05:00",
-  "duration": 35.7074185
-}
+
 ```
 
 ##### Search for and run tests by ATT&CK ID

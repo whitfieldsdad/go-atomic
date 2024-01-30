@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/google/uuid"
 	"gopkg.in/yaml.v3"
 )
 
@@ -49,41 +48,60 @@ func (t AtomicRedTeamTest) GetArgs() map[string]interface{} {
 	return m
 }
 
-func (t AtomicRedTeamTest) GetTask() (*Task, error) {
-	return t.GetTaskWithArgs(nil)
-}
-
-func (t AtomicRedTeamTest) GetTaskWithArgs(args map[string]interface{}) (*Task, error) {
-	if args == nil {
-		args = t.GetArgs()
-	} else {
-		args = MergeInputArgs(t.GetArgs(), args)
+// TODO: add dependency check steps
+// TODO: add dependency resolution steps
+func (t AtomicRedTeamTest) GetTaskTemplate() (*TaskTemplate, error) {
+	var args []InputArgument
+	for k, argspec := range t.InputArguments {
+		arg := InputArgument{
+			Name:        k,
+			Type:        ArgumentType(argspec.Type),
+			Description: argspec.Description,
+			Value:       argspec.Default,
+		}
+		args = append(args, arg)
 	}
 
 	var steps []Step
-	testStep, err := NewExecStepWithArgs(t.Executor.Command, t.Executor.Name, args)
+	var edges []Edge
+
+	testStep, err := NewExecStep(t.Executor.Command, t.Executor.Name)
 	if err != nil {
 		return nil, err
 	}
 	steps = append(steps, *testStep)
 
+	// Always execute cleanup commands.
 	if t.Executor.CleanupCommand != "" {
-		cleanupStep, err := NewExecStepWithArgs(t.Executor.CleanupCommand, t.Executor.Name, args)
+		cleanupStep, err := NewExecStep(t.Executor.CleanupCommand, t.Executor.Name)
 		if err != nil {
 			return nil, err
 		}
 		steps = append(steps, *cleanupStep)
+
+		edges = append(edges, Edge{
+			Source:   testStep.Id,
+			Relation: EdgeTypeOnSuccess,
+			Target:   cleanupStep.Id,
+		})
+		edges = append(edges, Edge{
+			Source:   testStep.Id,
+			Relation: EdgeTypeOnFailure,
+			Target:   cleanupStep.Id,
+		})
 	}
 
-	task := &Task{
-		Id:                 uuid.NewString(),
-		Aliases:            []string{t.Id},
-		AttackTechniqueIds: []string{t.AttackTechniqueId},
+	task := &TaskTemplate{
+		Id:                 t.Id,
 		Name:               fmt.Sprintf("%s: %s", t.AttackTechniqueId, t.Name),
 		Description:        t.Description,
-		Steps:              steps,
 		Platforms:          t.Platforms,
 		ElevationRequired:  t.Executor.ElevationRequired,
+		InputArguments:     args,
+		Tags:               []string{t.AttackTechniqueId},
+		AttackTechniqueIds: []string{t.AttackTechniqueId},
+		Steps:              steps,
+		Edges:              edges,
 	}
 	return task, nil
 }
@@ -94,10 +112,26 @@ type AtomicRedTeamTestBundle struct {
 	Tests             []AtomicRedTeamTest `yaml:"atomic_tests"`
 }
 
+func (b AtomicRedTeamTestBundle) GetTaskTemplates() ([]TaskTemplate, error) {
+	var tasks []TaskTemplate
+	for _, test := range b.Tests {
+		task, err := test.GetTaskTemplate()
+		if err != nil {
+			continue
+		}
+		tasks = append(tasks, *task)
+	}
+	return tasks, nil
+}
+
 func (b AtomicRedTeamTestBundle) GetTasks() ([]Task, error) {
 	var tasks []Task
 	for _, test := range b.Tests {
-		task, err := test.GetTask()
+		template, err := test.GetTaskTemplate()
+		if err != nil {
+			continue
+		}
+		task, err := template.GetTask()
 		if err != nil {
 			continue
 		}
