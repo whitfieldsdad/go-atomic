@@ -8,6 +8,7 @@ import (
 type TaskTemplate struct {
 	Id                 string          `json:"id"`
 	Name               string          `json:"name"`
+	DisplayName        string          `json:"display_name"`
 	Description        string          `json:"description"`
 	Platforms          []string        `json:"platforms"`
 	ElevationRequired  bool            `json:"elevation_required"`
@@ -32,6 +33,7 @@ func (t TaskTemplate) GetTask() (*Task, error) {
 		Id:                 id,
 		TemplateId:         t.Id,
 		Name:               t.Name,
+		DisplayName:        t.DisplayName,
 		Description:        t.Description,
 		Platforms:          t.Platforms,
 		ElevationRequired:  t.ElevationRequired,

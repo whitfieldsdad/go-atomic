@@ -13,8 +13,9 @@ import (
 
 type Task struct {
 	Id                 string   `json:"id"`
-	TemplateId         string   `json:"template_id"`
 	Name               string   `json:"name"`
+	DisplayName        string   `json:"display_name"`
+	TemplateId         string   `json:"template_id"`
 	Description        string   `json:"description"`
 	Platforms          []string `json:"platforms"`
 	ElevationRequired  bool     `json:"elevation_required"`

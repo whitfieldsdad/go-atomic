@@ -93,7 +93,8 @@ func (t AtomicRedTeamTest) GetTaskTemplate() (*TaskTemplate, error) {
 
 	task := &TaskTemplate{
 		Id:                 t.Id,
-		Name:               fmt.Sprintf("%s: %s", t.AttackTechniqueId, t.Name),
+		Name:               t.Name,
+		DisplayName:        fmt.Sprintf("%s: %s", t.AttackTechniqueId, t.Name),
 		Description:        t.Description,
 		Platforms:          t.Platforms,
 		ElevationRequired:  t.Executor.ElevationRequired,
