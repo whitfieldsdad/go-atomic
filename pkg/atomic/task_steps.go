@@ -45,6 +45,9 @@ func (s Step) Run(ctx context.Context) StepResult {
 	case ExecuteCommandStep:
 		o := d.(ExecuteCommandStep)
 		result, err = o.Run(ctx)
+	case ListProcessesStep:
+		o := d.(ListProcessesStep)
+		result, err = o.Run(ctx)
 	default:
 		panic(fmt.Sprintf("Unresolved type: %s", s.Type))
 	}
@@ -84,6 +87,9 @@ func (s StepResult) OK() bool {
 	case ExecuteCommandStepResult:
 		o := d.(ExecuteCommandStepResult)
 		return o.Process.ExitCode != nil && *o.Process.ExitCode == 0
+	case ListProcessesStepResult:
+		o := d.(ListProcessesStepResult)
+		return len(o.Processes) > 0
 	default:
 		return true
 	}

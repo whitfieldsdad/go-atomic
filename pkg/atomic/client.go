@@ -8,6 +8,7 @@ import (
 
 	"github.com/charmbracelet/log"
 	"github.com/mitchellh/mapstructure"
+	"github.com/pkg/errors"
 )
 
 var (
@@ -82,22 +83,23 @@ func (c Client) ReadTask(path string) (*Task, error) {
 	if task.Id == "" {
 		task.Id = NewUUID4()
 	}
+	stepTypeToStruct := map[StepType]interface{}{
+		StepTypeExecuteCommand: ExecuteCommandStep{},
+		StepTypeListProcesses:  ListProcessesStep{},
+	}
 	for i, step := range task.Steps {
 		if step.Id == "" {
 			task.Steps[i].Id = NewUUID4()
 		}
-		// Case switch on step type
-		switch step.Type {
-		case StepTypeExecuteCommand:
-			var s ExecuteCommandStep
-			err = mapstructure.Decode(step.Data, &s)
-			if err != nil {
-				return nil, err
-			}
-			task.Steps[i].Data = s
-		default:
+		o, ok := stepTypeToStruct[step.Type]
+		if !ok {
 			return nil, fmt.Errorf("unknown step type: %s", step.Type)
 		}
+		err = mapstructure.Decode(step.Data, &o)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to decode step")
+		}
+		task.Steps[i].Data = o
 	}
 	return &task, nil
 }
