@@ -8,7 +8,6 @@ import (
 	"os/exec"
 	"runtime"
 	"strings"
-	"time"
 
 	"github.com/charmbracelet/log"
 	"github.com/hairyhenderson/go-which"
@@ -119,15 +118,6 @@ func InterpolateCommandArgs(command string, args map[string]interface{}) string 
 	return command
 }
 
-type ExecutedCommand struct {
-	StartTime  time.Time    `json:"start_time"`
-	EndTime    time.Time    `json:"end_time"`
-	Command    ShellCommand `json:"command"`
-	User       User         `json:"user"`
-	Subprocess *Process     `json:"subprocess,omitempty"`
-	Error      error        `json:"error,omitempty"`
-}
-
 func ExecArgv(ctx context.Context, argv []string) (*Process, error) {
 	command := strings.Join(argv, " ")
 	log.Infof("Executing command: %s", command)
@@ -154,13 +144,12 @@ func ExecArgv(ctx context.Context, argv []string) (*Process, error) {
 	pid := cmd.Process.Pid
 	process, err := GetProcess(pid)
 	if err != nil {
-		process, _ := NewProcess(pid)
-		process.PPID = os.Getpid()
+		process, _ := NewProcess(int32(pid))
+		process.PPID = int32(os.Getppid())
 		process.Argv = argv
-		process.Argc = len(argv)
+		process.Argc = int32(len(argv))
 		process.Executable, _ = GetFile(path)
 	}
-
 	log.Infof("Waiting for command to exit (PID: %d, PPID: %d)", process.PID, process.PPID)
 
 	err = cmd.Wait()

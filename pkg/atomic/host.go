@@ -2,6 +2,8 @@ package atomic
 
 import (
 	"os"
+	"runtime"
+	"time"
 
 	"github.com/charmbracelet/log"
 	"github.com/denisbrodbeck/machineid"
@@ -12,7 +14,7 @@ const (
 )
 
 type Host struct {
-	Id       string `json:"id"`
+	Artifact `json:",inline"`
 	Hostname string `json:"hostname"`
 	OS       OS     `json:"os"`
 }
@@ -24,7 +26,10 @@ func GetHost() Host {
 		log.Warnf("Failed to get hostname: %s", hostname)
 	}
 	return Host{
-		Id:       id,
+		Artifact: Artifact{
+			Id:   id,
+			Time: time.Now(),
+		},
 		Hostname: hostname,
 		OS:       GetOS(),
 	}
@@ -41,4 +46,20 @@ func GetHostId() string {
 		_hostId = NewUUID5(appId, []byte(id))
 	}
 	return _hostId
+}
+
+type OS struct {
+	Artifact `json:",inline"`
+	Type     string `json:"type"`
+	Arch     string `json:"arch"`
+	Version  string `json:"version"`
+}
+
+func GetOS() OS {
+	return OS{
+		Artifact: NewArtifact(),
+		Type:     runtime.GOOS,
+		Arch:     runtime.GOARCH,
+		Version:  getOSVersion(),
+	}
 }

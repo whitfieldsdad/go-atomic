@@ -6,19 +6,34 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"golang.org/x/exp/slices"
 )
 
+type StepType string
+
 const (
-	StepTypeExec = "exec"
+	StepTypeExecuteCommand StepType = "execute-command"
+	StepTypeListProcesses  StepType = "list-processes"
 )
 
 type Step struct {
-	Id       string      `json:"id"`
-	StepType string      `json:"step_type"`
-	Data     interface{} `json:"data"`
+	Id   string      `json:"id"`
+	Type StepType    `json:"type"`
+	Data interface{} `json:"data"`
+	Tags []string    `json:"tags,omitempty"`
 }
 
-func (s Step) Exec(ctx context.Context) StepResult {
+func (s Step) GetAttackTechniqueIds() []string {
+	ids := make([]string, 0)
+	for _, tag := range s.Tags {
+		if !slices.Contains(ids, tag) && isAttackTechniqueId(tag) {
+			ids = append(ids, tag)
+		}
+	}
+	return ids
+}
+
+func (s Step) Run(ctx context.Context) StepResult {
 	var (
 		result interface{}
 		err    error
@@ -27,11 +42,11 @@ func (s Step) Exec(ctx context.Context) StepResult {
 
 	d := s.Data
 	switch d.(type) {
-	case ExecStep:
-		o := d.(ExecStep)
-		result, err = o.Exec(ctx)
+	case ExecuteCommandStep:
+		o := d.(ExecuteCommandStep)
+		result, err = o.Run(ctx)
 	default:
-		panic(fmt.Sprintf("Unresolved type: %s", s.StepType))
+		panic(fmt.Sprintf("Unresolved type: %s", s.Type))
 	}
 
 	endTime := time.Now()
@@ -40,7 +55,7 @@ func (s Step) Exec(ctx context.Context) StepResult {
 	return StepResult{
 		Id:        uuid.NewString(),
 		StepId:    s.Id,
-		StepType:  s.StepType,
+		StepType:  s.Type,
 		StartTime: startTime,
 		Duration:  duration.Seconds(),
 		EndTime:   endTime,
@@ -52,7 +67,7 @@ func (s Step) Exec(ctx context.Context) StepResult {
 type StepResult struct {
 	Id        string      `json:"id"`
 	StepId    string      `json:"step_id"`
-	StepType  string      `json:"step_type"`
+	StepType  StepType    `json:"step_type"`
 	StartTime time.Time   `json:"start_time"`
 	EndTime   time.Time   `json:"end_time"`
 	Duration  float64     `json:"duration"`
@@ -60,35 +75,79 @@ type StepResult struct {
 	Error     error       `json:"error,omitempty"`
 }
 
-type ExecStep struct {
-	CommandTemplate string                 `json:"command_template"`
-	CommandType     string                 `json:"command_type"`
-	Args            map[string]interface{} `json:"args,omitempty"`
+func (s StepResult) OK() bool {
+	if s.Error != nil {
+		return false
+	}
+	d := s.Data
+	switch d.(type) {
+	case ExecuteCommandStepResult:
+		o := d.(ExecuteCommandStepResult)
+		return o.Process.ExitCode != nil && *o.Process.ExitCode == 0
+	default:
+		return true
+	}
 }
 
-func (s ExecStep) Exec(ctx context.Context) (*ExecStepResult, error) {
-	c := NewShellCommandWithArgs(s.CommandTemplate, s.CommandType, s.Args)
-	subprocess, err := c.Exec(ctx)
+type ListProcessesStep struct{}
+
+func NewListProcessesStep() (*Step, error) {
+	s := &Step{
+		Id:   uuid.NewString(),
+		Type: StepTypeListProcesses,
+		Data: ListProcessesStep{},
+		Tags: []string{"T1057"},
+	}
+	return s, nil
+}
+
+func (s ListProcessesStep) Run(ctx context.Context) (*ListProcessesStepResult, error) {
+	processes, err := ListProcesses()
 	if err != nil {
 		return nil, err
 	}
-	return &ExecStepResult{
-		Subprocess: *subprocess,
+	return &ListProcessesStepResult{
+		Processes: processes,
 	}, nil
 }
 
-type ExecStepResult struct {
-	Subprocess Process `json:"subprocess,omitempty"`
+type ListProcessesStepResult struct {
+	Processes []Process `json:"processes"`
 }
 
-func NewExecStep(commandTemplate, commandType string) (*Step, error) {
+type ExecuteCommandStep struct {
+	Command     string `json:"command"`
+	CommandType string `json:"command_type"`
+}
+
+func NewExecuteCommandStep(command, commandType string) (*Step, error) {
 	s := &Step{
-		Id:       uuid.NewString(),
-		StepType: StepTypeExec,
-		Data: ExecStep{
-			CommandTemplate: commandTemplate,
-			CommandType:     commandType,
+		Id:   uuid.NewString(),
+		Type: StepTypeExecuteCommand,
+		Data: ExecuteCommandStep{
+			Command:     command,
+			CommandType: commandType,
 		},
+		Tags: []string{"T1059"},
 	}
 	return s, nil
+}
+
+func (s ExecuteCommandStep) Run(ctx context.Context) (*ExecuteCommandStepResult, error) {
+	c := NewShellCommand(s.Command, s.CommandType)
+	process, err := c.Exec(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &ExecuteCommandStepResult{
+		Command:     c.Command,
+		CommandType: c.CommandType,
+		Process:     *process,
+	}, nil
+}
+
+type ExecuteCommandStepResult struct {
+	Command     string  `json:"command"`
+	CommandType string  `json:"command_type"`
+	Process     Process `json:"process"`
 }

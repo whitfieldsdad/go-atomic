@@ -9,10 +9,10 @@ type TaskBundle struct {
 	Tasks       []Task `json:"tasks"`
 }
 
-func (b TaskBundle) Exec(ctx context.Context) []ExecutedTask {
+func (b TaskBundle) Run(ctx context.Context) []ExecutedTask {
 	var results []ExecutedTask
 	for _, t := range b.Tasks {
-		result := t.Exec(ctx)
+		result := t.Run(ctx)
 		results = append(results, result)
 	}
 	return results

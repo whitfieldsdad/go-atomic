@@ -7,15 +7,15 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestExecStepWithoutArgs(t *testing.T) {
-	step, err := NewExecStep("whoami", "bash")
+func TestExecuteCommandStep(t *testing.T) {
+	step, err := NewExecuteCommandStep("whoami", "bash")
 	assert.Nil(t, err)
 
 	ctx := context.Background()
-	r := step.Exec(ctx)
+	r := step.Run(ctx)
 	assert.Nil(t, r.Error)
 	assert.NotNil(t, r.Data)
 
-	result := r.Data.(*ExecStepResult)
-	assert.Equal(t, *result.Subprocess.ExitCode, 0)
+	result := r.Data.(*ExecuteCommandStepResult)
+	assert.Equal(t, *result.Process.ExitCode, 0)
 }

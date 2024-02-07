@@ -3,34 +3,31 @@ package atomic
 import (
 	"time"
 
-	"github.com/google/uuid"
 	ps "github.com/shirou/gopsutil/v3/process"
 )
 
 type Process struct {
-	Id         string     `json:"id"`
-	Time       time.Time  `json:"time"`
-	PID        int        `json:"pid"`
-	PPID       int        `json:"ppid"`
+	Artifact   `json:",inline"`
+	PID        int32      `json:"pid"`
+	PPID       int32      `json:"ppid"`
 	Name       string     `json:"name,omitempty"`
 	CWD        string     `json:"cwd,omitempty"`
 	Argv       []string   `json:"argv,omitempty"`
-	Argc       int        `json:"argc,omitempty"`
+	Argc       int32      `json:"argc,omitempty"`
 	CreateTime *time.Time `json:"create_time,omitempty"`
 	ExitCode   *int       `json:"exit_code,omitempty"`
 	Stdout     string     `json:"stdout,omitempty"`
 	Stderr     string     `json:"stderr,omitempty"`
 	User       *User      `json:"user,omitempty"`
-	UserIds    []int      `json:"user_ids,omitempty"`
-	GroupIds   []int      `json:"group_ids,omitempty"`
+	UserIds    []int32    `json:"user_ids,omitempty"`
+	GroupIds   []int32    `json:"group_ids,omitempty"`
 	Executable *File      `json:"executable,omitempty"`
 }
 
-func NewProcess(pid int) (*Process, error) {
+func NewProcess(pid int32) (*Process, error) {
 	result := &Process{
-		Id:   uuid.NewString(),
-		Time: time.Now(),
-		PID:  pid,
+		Artifact: NewArtifact(),
+		PID:      pid,
 	}
 	return result, nil
 }
@@ -76,28 +73,15 @@ func parseProcess(p *ps.Process) Process {
 
 	var (
 		argv []string
-		argc int
+		argc int32
 	)
 	argv, err = p.CmdlineSlice()
 	if len(argv) != 0 {
-		argc = len(argv)
+		argc = int32(len(argv))
 	}
 
-	var uids []int
-	int32uids, _ := p.Uids()
-	if len(int32uids) > 0 {
-		for _, uid := range int32uids {
-			uids = append(uids, int(uid))
-		}
-	}
-
-	var gids []int
-	int32gids, _ := p.Groups()
-	if len(int32gids) > 0 {
-		for _, gid := range int32gids {
-			gids = append(gids, int(gid))
-		}
-	}
+	uids, _ := p.Uids()
+	gids, _ := p.Groups()
 
 	var createTime *time.Time
 	createTimeMs, err := p.CreateTime()
@@ -107,10 +91,9 @@ func parseProcess(p *ps.Process) Process {
 	}
 
 	process := Process{
-		Id:         uuid.NewString(),
-		Time:       time.Now(),
-		PID:        int(p.Pid),
-		PPID:       int(ppid),
+		Artifact:   NewArtifact(),
+		PID:        p.Pid,
+		PPID:       ppid,
 		Name:       name,
 		CWD:        cwd,
 		Argv:       argv,

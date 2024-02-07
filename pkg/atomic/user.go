@@ -2,13 +2,13 @@ package atomic
 
 import (
 	"os/user"
+	"time"
 
-	"github.com/charmbracelet/log"
 	"github.com/shirou/gopsutil/v3/host"
 )
 
 type User struct {
-	Id             string   `json:"id"`
+	Artifact       `json:",inline"`
 	UserId         string   `json:"user_id"`
 	Name           string   `json:"name"`
 	Username       string   `json:"username"`
@@ -27,7 +27,6 @@ func ListUsers() ([]User, error) {
 		username := u.User
 		user, err := GetUserByUsername(username)
 		if err != nil {
-			log.Warnf("Failed to lookup user: %s - %s", username, err)
 			continue
 		}
 		result = append(result, *user)
@@ -56,7 +55,10 @@ func GetUserByUsername(username string) (*User, error) {
 func getUser(u user.User) *User {
 	gids, _ := u.GroupIds()
 	return &User{
-		Id:             calculateUserId(u.Uid),
+		Artifact: Artifact{
+			Id:   calculateUserId(u.Uid),
+			Time: time.Now(),
+		},
 		UserId:         u.Uid,
 		Name:           u.Name,
 		Username:       u.Username,
