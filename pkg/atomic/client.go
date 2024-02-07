@@ -1,84 +1,66 @@
 package atomic
 
 import (
+	"archive/tar"
+	"compress/gzip"
 	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/charmbracelet/log"
+	"github.com/gobwas/glob"
 	"github.com/mitchellh/mapstructure"
 	"github.com/pkg/errors"
+	"github.com/spf13/afero"
+	"github.com/spf13/afero/tarfs"
 )
-
-var (
-	DefaultWorkdir = "./workdir"
-)
-
-type ClientConfig struct {
-	WorkdirConfig WorkdirConfig `json:"workdir_config"`
-}
-
-type WorkdirConfig struct {
-	TaskDir                 string `json:"task_dir"`
-	TaskTemplateDir         string `json:"task_template_dir"`
-	TaskInvocationDir       string `json:"task_invocation_dir"`
-	TaskInvocationStatusDir string `json:"task_invocation_status_dir"`
-	TaskInvocationResultDir string `json:"task_invocation_result_dir"`
-	ArtifactDir             string `json:"artifact_dir"`
-}
 
 type Client struct {
-	Config ClientConfig
+	TaskDir         string `json:"task_dir"`
+	TaskTemplateDir string `json:"task_template_dir"`
 }
 
-func NewClient(workdir string) (*Client, error) {
-	if workdir == "" {
-		workdir = DefaultWorkdir
-	}
-	client := &Client{
-		Config: ClientConfig{
-			WorkdirConfig: getWorkdirConfig(workdir),
-		},
-	}
+func NewClient() (*Client, error) {
+	client := &Client{}
 	return client, nil
 }
 
-func getWorkdirConfig(workdir string) WorkdirConfig {
-	workdir = getRealPath(workdir)
-	return WorkdirConfig{
-		TaskDir:                 filepath.Join(workdir, "tasks"),
-		TaskTemplateDir:         filepath.Join(workdir, "task_templates"),
-		TaskInvocationDir:       filepath.Join(workdir, "task_invocations"),
-		TaskInvocationStatusDir: filepath.Join(workdir, "task_invocation_status"),
-		TaskInvocationResultDir: filepath.Join(workdir, "task_invocation_results"),
-		ArtifactDir:             filepath.Join(workdir, "artifacts"),
-	}
-}
-
-func (c Client) ReadTasks(paths []string) ([]Task, error) {
+func (c Client) ReadTasks(paths []string, q *TaskQuery) ([]Task, error) {
 	var tasks []Task
-	for _, p := range paths {
-		task, err := c.ReadTask(p)
+	for _, path := range paths {
+		taskptr, err := c.ReadTask(path)
 		if err != nil {
-			return nil, err
+			log.Errorf("Failed to read task: %s", err)
+			continue
 		}
-		tasks = append(tasks, *task)
+		task := *taskptr
+		if q != nil && !q.MatchesTask(task) {
+			continue
+		}
+		tasks = append(tasks, task)
 	}
 	return tasks, nil
 }
 
 func (c Client) ReadTask(path string) (*Task, error) {
-	file, err := os.Open(path)
+	b, err := os.ReadFile(path)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to read task")
 	}
-	defer file.Close()
-
-	var task Task
-	err = json.NewDecoder(file).Decode(&task)
+	task, err := c.parseTask(b)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to parse task")
+	}
+	return task, nil
+}
+
+func (c Client) parseTask(b []byte) (*Task, error) {
+	var task Task
+	err := json.Unmarshal(b, &task)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to unmarshal task")
 	}
 	if task.Id == "" {
 		task.Id = NewUUID4()
@@ -94,7 +76,7 @@ func (c Client) ReadTask(path string) (*Task, error) {
 		}
 		o, ok := stepTypeToStruct[step.Type]
 		if !ok {
-			return nil, fmt.Errorf("unknown step type: %s", step.Type)
+			return nil, errors.New("unknown step type")
 		}
 		err = mapstructure.Decode(step.Data, &o)
 		if err != nil {
@@ -105,146 +87,115 @@ func (c Client) ReadTask(path string) (*Task, error) {
 	return &task, nil
 }
 
-func (c Client) ListTasks(q *TaskQuery) ([]Task, error) {
-	paths, err := findFiles(c.Config.WorkdirConfig.TaskDir, "*.json")
-	if err != nil {
-		return nil, err
-	}
-	var tasks []Task
-	for _, path := range paths {
-		file, err := os.Open(path)
-		if err != nil {
-			return nil, err
-		}
-		defer file.Close()
-
-		var task Task
-		err = json.NewDecoder(file).Decode(&task)
-		if err != nil {
-			return nil, err
-		}
-		tasks = append(tasks, task)
-	}
-	return tasks, nil
-}
-
-func (c Client) ListTaskTemplates(q *TaskQuery) ([]TaskTemplate, error) {
-	paths, err := findFiles(c.Config.WorkdirConfig.TaskTemplateDir, "*.json")
-	if err != nil {
-		return nil, err
-	}
-	var templates []TaskTemplate
-	for _, path := range paths {
-		file, err := os.Open(path)
-		if err != nil {
-			return nil, err
-		}
-		defer file.Close()
-
-		var template TaskTemplate
-		err = json.NewDecoder(file).Decode(&template)
-		if err != nil {
-			return nil, err
-		}
-		if q != nil {
-			panic("not implemented")
-		}
-		templates = append(templates, template)
-	}
-	return templates, nil
-}
-
-func (c Client) GenerateTasks() error {
-	log.Infof("Generating tasks from task templates in %s", c.Config.WorkdirConfig.TaskTemplateDir)
-	paths, err := findFiles(c.Config.WorkdirConfig.TaskTemplateDir, "*.json")
-	if err != nil {
-		return err
-	}
-	total := 0
-	for _, path := range paths {
-		file, err := os.Open(path)
-		if err != nil {
-			return err
-		}
-		defer file.Close()
-
-		var template TaskTemplate
-		err = json.NewDecoder(file).Decode(&template)
-		if err != nil {
-			return err
-		}
-		task, err := template.GetTask(nil)
-		if err != nil {
-			return err
-		}
-		path := filepath.Join(c.Config.WorkdirConfig.TaskDir, fmt.Sprintf("%s.json", task.Id))
-		file, err = os.Create(path)
-		if err != nil {
-			return err
-		}
-		defer file.Close()
-
-		blob, err := json.MarshalIndent(task, "", "  ")
-		if err != nil {
-			return err
-		}
-		_, err = file.Write(blob)
-		if err != nil {
-			return err
-		}
-		total++
-	}
-	log.Infof("Wrote %d tasks to %s", total, c.Config.WorkdirConfig.TaskDir)
-	return nil
-}
-
-func (c Client) GenerateTaskTemplates(atomicsPath string) error {
-	templates, err := c.generateTaskTemplatesFromAtomicRedTeam(atomicsPath)
-	if err != nil {
-		return err
-	}
-	err = os.MkdirAll(c.Config.WorkdirConfig.TaskTemplateDir, 0755)
+func (c Client) GenerateTaskTemplates(inputPath, outputDir string) error {
+	templates, err := c.generateTaskTemplates(inputPath)
 	if err != nil {
 		return err
 	}
 	for _, template := range templates {
-		path := filepath.Join(c.Config.WorkdirConfig.TaskTemplateDir, fmt.Sprintf("%s.json", template.Id))
-		file, err := os.Create(path)
+		filename := fmt.Sprintf("%s.json", template.Id)
+		path := filepath.Join(outputDir, filename)
+		err = writeJSONFile(path, template)
 		if err != nil {
-			return err
-		}
-		defer file.Close()
-
-		blob, err := json.MarshalIndent(template, "", "  ")
-		if err != nil {
-			return err
-		}
-		_, err = file.Write(blob)
-		if err != nil {
-			return err
+			return errors.Wrap(err, "failed to write task template")
 		}
 	}
 	return nil
 }
 
-func (c Client) generateTaskTemplatesFromAtomicRedTeam(atomicsPath string) ([]TaskTemplate, error) {
-	paths, err := findFiles(atomicsPath, "T*/T*.yaml")
+func (c Client) generateTaskTemplates(path string) ([]TaskTemplate, error) {
+	path = getRealPath(path)
+	st, err := os.Stat(path)
+	if err != nil {
+		return nil, err
+	}
+	if st.IsDir() {
+		return c.generateTaskTemplatesFromDir(path)
+	} else if strings.HasSuffix(path, ".tar.gz") {
+		return c.generateTaskTemplatesFromTarball(path)
+	} else if strings.HasSuffix(path, ".yaml") {
+		bundle, err := readAtomicRedTeamYAMLFile(path)
+		if err != nil {
+			return nil, err
+		}
+		return bundle.GetTaskTemplates()
+	}
+	return nil, errors.New("unsupported source")
+}
+
+func (c Client) generateTaskTemplatesFromDir(path string) ([]TaskTemplate, error) {
+	paths, err := findFiles(path, "T*/T*.yaml")
 	if err != nil {
 		return nil, err
 	}
 	var result []TaskTemplate
-	for _, path := range paths {
-		bundle, err := ReadAtomicRedTeamYAMLFile(path)
+	for _, p := range paths {
+		bundle, err := readAtomicRedTeamYAMLFile(p)
 		if err != nil {
-			log.Warnf("Failed to parse bundle: %s - %s", path, err)
+			log.Warnf("Failed to parse bundle: %s - %s", p, err)
 			continue
 		}
 		templates, err := bundle.GetTaskTemplates()
 		if err != nil {
-			log.Warnf("Failed to get task templates: %s - %s", path, err)
+			log.Warnf("Failed to get task templates: %s - %s", p, err)
 			continue
 		}
 		result = append(result, templates...)
 	}
 	return result, nil
+}
+
+func (c Client) generateTaskTemplatesFromTarball(path string) ([]TaskTemplate, error) {
+	tf, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer tf.Close()
+
+	gr, err := gzip.NewReader(tf)
+	if err != nil {
+		return nil, err
+	}
+	defer gr.Close()
+
+	tfs := tarfs.New(tar.NewReader(gr))
+	afs := &afero.Afero{Fs: tfs}
+
+	var paths []string
+	afs.Walk("/", func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.IsDir() {
+			return nil
+		}
+		g := glob.MustCompile("*/T*/T*.yaml")
+		if g.Match(path) {
+			paths = append(paths, path)
+		}
+		return nil
+	})
+	var allTemplates []TaskTemplate
+	for _, path := range paths {
+		f, err := afs.Open(path)
+		if err != nil {
+			return nil, err
+		}
+		defer f.Close()
+
+		b, err := afero.ReadAll(f)
+		if err != nil {
+			return nil, err
+		}
+		bundle, err := parseAtomicRedTeamYAML(b)
+		if err != nil {
+			log.Warnf("Failed to parse bundle: %s - %s", path, err)
+		}
+		templates, err := bundle.GetTaskTemplates()
+		if err != nil {
+			log.Warnf("Failed to get task templates: %s - %s", path, err)
+		}
+		allTemplates = append(allTemplates, templates...)
+	}
+	return allTemplates, nil
 }

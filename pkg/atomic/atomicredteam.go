@@ -107,13 +107,17 @@ func (b AtomicRedTeamTestBundle) GetTaskTemplates() ([]TaskTemplate, error) {
 	return tasks, nil
 }
 
-func ReadAtomicRedTeamYAMLFile(path string) (*AtomicRedTeamTestBundle, error) {
+func readAtomicRedTeamYAMLFile(path string) (*AtomicRedTeamTestBundle, error) {
 	b, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
+	return parseAtomicRedTeamYAML(b)
+}
+
+func parseAtomicRedTeamYAML(b []byte) (*AtomicRedTeamTestBundle, error) {
 	var bundle AtomicRedTeamTestBundle
-	err = yaml.Unmarshal(b, &bundle)
+	err := yaml.Unmarshal(b, &bundle)
 	if err != nil {
 		return nil, err
 	}

@@ -1,6 +1,7 @@
 package atomic
 
 import (
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"strings"
@@ -67,4 +68,12 @@ func findFiles(root, pathPattern string) ([]string, error) {
 		return nil
 	})
 	return paths, err
+}
+
+func writeJSONFile(path string, v interface{}) error {
+	b, err := json.MarshalIndent(v, "", "  ")
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(path, b, 0644)
 }

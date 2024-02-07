@@ -8,7 +8,7 @@ type TaskQuery struct {
 	ElevationRequired *bool    `json:"elevation_required"`
 }
 
-func (q TaskQuery) Matches(t Task) bool {
+func (q TaskQuery) MatchesTask(t Task) bool {
 	if len(q.TaskIds) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern([]string{t.Id}, q.TaskIds) {
 		return false
 	}
