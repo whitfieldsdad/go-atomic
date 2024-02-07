@@ -86,6 +86,7 @@ func (c Client) ReadTask(path string) (*Task, error) {
 	stepTypeToStruct := map[StepType]interface{}{
 		StepTypeExecuteCommand: ExecuteCommandStep{},
 		StepTypeListProcesses:  ListProcessesStep{},
+		StepTypeListUsers:      ListUsersStep{},
 	}
 	for i, step := range task.Steps {
 		if step.Id == "" {

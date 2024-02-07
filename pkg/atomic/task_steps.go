@@ -14,6 +14,7 @@ type StepType string
 const (
 	StepTypeExecuteCommand StepType = "execute-command"
 	StepTypeListProcesses  StepType = "list-processes"
+	StepTypeListUsers      StepType = "list-users"
 )
 
 type Step struct {
@@ -47,6 +48,9 @@ func (s Step) Run(ctx context.Context) StepResult {
 		result, err = o.Run(ctx)
 	case ListProcessesStep:
 		o := d.(ListProcessesStep)
+		result, err = o.Run(ctx)
+	case ListUsersStep:
+		o := d.(ListUsersStep)
 		result, err = o.Run(ctx)
 	default:
 		panic(fmt.Sprintf("Unresolved type: %s", s.Type))
@@ -90,6 +94,9 @@ func (s StepResult) OK() bool {
 	case ListProcessesStepResult:
 		o := d.(ListProcessesStepResult)
 		return len(o.Processes) > 0
+	case ListUsersStepResult:
+		o := d.(ListUsersStepResult)
+		return len(o.Users) > 0
 	default:
 		return true
 	}
@@ -156,4 +163,30 @@ type ExecuteCommandStepResult struct {
 	Command     string  `json:"command"`
 	CommandType string  `json:"command_type"`
 	Process     Process `json:"process"`
+}
+
+type ListUsersStep struct{}
+
+func NewListUsersStep() (*Step, error) {
+	s := &Step{
+		Id:   uuid.NewString(),
+		Type: StepTypeListUsers,
+		Data: ListUsersStep{},
+		Tags: []string{},
+	}
+	return s, nil
+}
+
+func (s ListUsersStep) Run(ctx context.Context) (*ListUsersStepResult, error) {
+	users, err := ListUsers()
+	if err != nil {
+		return nil, err
+	}
+	return &ListUsersStepResult{
+		Users: users,
+	}, nil
+}
+
+type ListUsersStepResult struct {
+	Users []User `json:"users"`
 }
