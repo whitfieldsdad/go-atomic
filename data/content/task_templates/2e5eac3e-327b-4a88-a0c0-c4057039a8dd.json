@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "eebe7b3b-b2a5-438c-8592-1994e831bb75",
+      "id": "4eb49ef3-935f-4396-9f6f-5457ecb596ee",
       "type": "execute-command",
       "data": {
         "command": "SCHTASKS /Create /S #{target} /RU #{user_name} /RP #{password} /TN \"Atomic task\" /TR \"#{task_command}\" /SC daily /ST #{time}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "07878ec0-d7b7-48f3-aeaf-5e9095645db1",
+      "id": "1b11063d-8200-424b-8c25-096b35a7f81f",
       "type": "execute-command",
       "data": {
         "command": "SCHTASKS /Delete /S #{target} /U #{user_name} /P #{password} /TN \"Atomic task\" /F \u003enul 2\u003e\u00261\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "eebe7b3b-b2a5-438c-8592-1994e831bb75",
+      "s": "4eb49ef3-935f-4396-9f6f-5457ecb596ee",
       "p": "on-success",
-      "o": "07878ec0-d7b7-48f3-aeaf-5e9095645db1"
+      "o": "1b11063d-8200-424b-8c25-096b35a7f81f"
     },
     {
-      "s": "eebe7b3b-b2a5-438c-8592-1994e831bb75",
+      "s": "4eb49ef3-935f-4396-9f6f-5457ecb596ee",
       "p": "on-failure",
-      "o": "07878ec0-d7b7-48f3-aeaf-5e9095645db1"
+      "o": "1b11063d-8200-424b-8c25-096b35a7f81f"
     }
   ],
   "tags": [
@@ -42,18 +42,6 @@
     "atomic-red-team"
   ],
   "input_arguments": [
-    {
-      "name": "user_name",
-      "type": "string",
-      "description": "Username to authenticate with, format: DOMAIN\\User",
-      "value": "DOMAIN\\user"
-    },
-    {
-      "name": "password",
-      "type": "string",
-      "description": "Password to authenticate with",
-      "value": "At0micStrong"
-    },
     {
       "name": "task_command",
       "type": "string",
@@ -71,6 +59,18 @@
       "type": "string",
       "description": "Target",
       "value": "localhost"
+    },
+    {
+      "name": "user_name",
+      "type": "string",
+      "description": "Username to authenticate with, format: DOMAIN\\User",
+      "value": "DOMAIN\\user"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password to authenticate with",
+      "value": "At0micStrong"
     }
   ]
 }

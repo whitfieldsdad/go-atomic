@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "2705c861-6f5b-4d4b-93d6-374d48eaf53a",
+      "id": "ec2aab7d-280b-42bf-ac60-df22bc22a9b5",
       "type": "execute-command",
       "data": {
         "command": "Add-Type -AssemblyName System.IdentityModel\n$ComputerFQDN=$env:LogonServer.trimStart('\\') + \".\" + $env:UserDnsDomain\nNew-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList \"HTTP/$ComputerFQDN\" \n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "d29fd7e3-a04c-48ff-835a-6ebf3e84dfc9",
+      "id": "af84719a-52b0-491f-9126-4b086d2a1ef0",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "7c865188-fbee-4bcf-8907-38a6ca8beba2",
+      "id": "6d88d640-25de-4321-887f-c109420213ba",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "48770288-9bd3-4ea3-b7e5-0ab07f031660",
+      "id": "9eeba9d3-78aa-4faa-8ada-f5f696f4ff13",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "d29fd7e3-a04c-48ff-835a-6ebf3e84dfc9",
+      "s": "af84719a-52b0-491f-9126-4b086d2a1ef0",
       "p": "on-success",
-      "o": "2705c861-6f5b-4d4b-93d6-374d48eaf53a"
+      "o": "ec2aab7d-280b-42bf-ac60-df22bc22a9b5"
     },
     {
-      "s": "d29fd7e3-a04c-48ff-835a-6ebf3e84dfc9",
+      "s": "af84719a-52b0-491f-9126-4b086d2a1ef0",
       "p": "on-failure",
-      "o": "7c865188-fbee-4bcf-8907-38a6ca8beba2"
+      "o": "6d88d640-25de-4321-887f-c109420213ba"
     },
     {
-      "s": "7c865188-fbee-4bcf-8907-38a6ca8beba2",
+      "s": "6d88d640-25de-4321-887f-c109420213ba",
       "p": "on-success",
-      "o": "48770288-9bd3-4ea3-b7e5-0ab07f031660"
+      "o": "9eeba9d3-78aa-4faa-8ada-f5f696f4ff13"
     },
     {
-      "s": "48770288-9bd3-4ea3-b7e5-0ab07f031660",
+      "s": "9eeba9d3-78aa-4faa-8ada-f5f696f4ff13",
       "p": "on-failure",
-      "o": "2705c861-6f5b-4d4b-93d6-374d48eaf53a"
+      "o": "ec2aab7d-280b-42bf-ac60-df22bc22a9b5"
     }
   ],
   "tags": [

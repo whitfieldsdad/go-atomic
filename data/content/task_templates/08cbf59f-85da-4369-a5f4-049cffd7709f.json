@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "7315e3dc-1a86-422a-a4b9-686d5d613288",
+      "id": "a44d8758-b4e3-4547-ae79-53bb02782151",
       "type": "execute-command",
       "data": {
         "command": "if [ $USER == \"root\" ]; then $which_ccencrypt #{root_input_file_path}; file #{root_input_file_path}.cpt; #{impact_command}; else $which_ccencrypt #{user_input_file_path}; file #{user_input_file_path}.cpt; #{impact_command}; fi\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "43ef164b-0f79-40e1-a2e4-22a0ce6209e3",
+      "id": "6a37f2a0-9106-4c58-85bb-897fad394afb",
       "type": "execute-command",
       "data": {
         "command": "if [ $USER == \"root\" ]; then mv #{cped_file_path} #{root_input_file_path}; else cp #{cped_file_path} #{user_input_file_path}; fi \n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "b7f7ca34-9ac2-4e7a-8f2c-04d63f9b9aff",
+      "id": "b83baedf-b470-4e77-ac97-7611d3d0c8c7",
       "name": "Check dependency 1/1",
       "description": "Finds where ccencrypt and ccdecrypt is located and copies input file\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "66cd2c51-f58e-4a98-b9b6-1a6fcb2f4222",
+      "id": "b12994df-af15-453a-b264-4aef53e0d867",
       "name": "Resolve dependency 1/1",
       "description": "Finds where ccencrypt and ccdecrypt is located and copies input file\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "b63d1801-388b-457e-b388-2de6ea01fab3",
+      "id": "333a6d94-39fa-46a9-a4e9-2a0d6858f332",
       "name": "Re-check dependency 1/1",
       "description": "Finds where ccencrypt and ccdecrypt is located and copies input file\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "7315e3dc-1a86-422a-a4b9-686d5d613288",
+      "s": "a44d8758-b4e3-4547-ae79-53bb02782151",
       "p": "on-success",
-      "o": "43ef164b-0f79-40e1-a2e4-22a0ce6209e3"
+      "o": "6a37f2a0-9106-4c58-85bb-897fad394afb"
     },
     {
-      "s": "7315e3dc-1a86-422a-a4b9-686d5d613288",
+      "s": "a44d8758-b4e3-4547-ae79-53bb02782151",
       "p": "on-failure",
-      "o": "43ef164b-0f79-40e1-a2e4-22a0ce6209e3"
+      "o": "6a37f2a0-9106-4c58-85bb-897fad394afb"
     },
     {
-      "s": "b7f7ca34-9ac2-4e7a-8f2c-04d63f9b9aff",
+      "s": "b83baedf-b470-4e77-ac97-7611d3d0c8c7",
       "p": "on-success",
-      "o": "7315e3dc-1a86-422a-a4b9-686d5d613288"
+      "o": "a44d8758-b4e3-4547-ae79-53bb02782151"
     },
     {
-      "s": "b7f7ca34-9ac2-4e7a-8f2c-04d63f9b9aff",
+      "s": "b83baedf-b470-4e77-ac97-7611d3d0c8c7",
       "p": "on-failure",
-      "o": "66cd2c51-f58e-4a98-b9b6-1a6fcb2f4222"
+      "o": "b12994df-af15-453a-b264-4aef53e0d867"
     },
     {
-      "s": "66cd2c51-f58e-4a98-b9b6-1a6fcb2f4222",
+      "s": "b12994df-af15-453a-b264-4aef53e0d867",
       "p": "on-success",
-      "o": "b63d1801-388b-457e-b388-2de6ea01fab3"
+      "o": "333a6d94-39fa-46a9-a4e9-2a0d6858f332"
     },
     {
-      "s": "b63d1801-388b-457e-b388-2de6ea01fab3",
+      "s": "333a6d94-39fa-46a9-a4e9-2a0d6858f332",
       "p": "on-failure",
-      "o": "7315e3dc-1a86-422a-a4b9-686d5d613288"
+      "o": "a44d8758-b4e3-4547-ae79-53bb02782151"
     }
   ],
   "tags": [

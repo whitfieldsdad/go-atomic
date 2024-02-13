@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "411df462-fb67-40e4-9a8d-00023923dc61",
+      "id": "ab1995d0-6e08-4d87-8f6e-29624edfcfba",
       "type": "execute-command",
       "data": {
         "command": "netsh interface portproxy add v4tov4 listenport=#{listenport} connectport=#{connectport} connectaddress=#{connectaddress}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "f31ff7d6-33b2-454f-a8f1-51159f73200f",
+      "id": "c4556e45-0a66-494f-89d5-54a29e06941d",
       "type": "execute-command",
       "data": {
         "command": "netsh interface portproxy delete v4tov4 listenport=#{listenport} -ErrorAction Ignore | Out-Null",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "411df462-fb67-40e4-9a8d-00023923dc61",
+      "s": "ab1995d0-6e08-4d87-8f6e-29624edfcfba",
       "p": "on-success",
-      "o": "f31ff7d6-33b2-454f-a8f1-51159f73200f"
+      "o": "c4556e45-0a66-494f-89d5-54a29e06941d"
     },
     {
-      "s": "411df462-fb67-40e4-9a8d-00023923dc61",
+      "s": "ab1995d0-6e08-4d87-8f6e-29624edfcfba",
       "p": "on-failure",
-      "o": "f31ff7d6-33b2-454f-a8f1-51159f73200f"
+      "o": "c4556e45-0a66-494f-89d5-54a29e06941d"
     }
   ],
   "tags": [
@@ -42,12 +42,6 @@
     "atomic-red-team"
   ],
   "input_arguments": [
-    {
-      "name": "connectaddress",
-      "type": "string",
-      "description": "Specifies the IPv4 address to which to connect. Acceptable values are IP address, computer NetBIOS name, or computer DNS name. If an address is not specified, the default is the local computer.",
-      "value": "127.0.0.1"
-    },
     {
       "name": "connectport",
       "type": "string",
@@ -59,6 +53,12 @@
       "type": "string",
       "description": "Specifies the IPv4 port, by port number or service name, on which to listen.",
       "value": "1337"
+    },
+    {
+      "name": "connectaddress",
+      "type": "string",
+      "description": "Specifies the IPv4 address to which to connect. Acceptable values are IP address, computer NetBIOS name, or computer DNS name. If an address is not specified, the default is the local computer.",
+      "value": "127.0.0.1"
     }
   ]
 }

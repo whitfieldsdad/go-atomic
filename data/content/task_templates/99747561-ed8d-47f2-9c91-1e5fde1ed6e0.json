@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "25625ff5-d7f1-460e-82db-3de12ff47ecd",
+      "id": "2f56475b-956a-4ae8-9a34-10f37bffcad9",
       "type": "execute-command",
       "data": {
         "command": "net user #{guest_user} /active:yes\nnet user #{guest_user} #{guest_password}\nnet localgroup #{local_admin_group} #{guest_user} /add\nnet localgroup \"#{remote_desktop_users_group_name}\" #{guest_user} /add\nreg add \"hklm\\system\\CurrentControlSet\\Control\\Terminal Server\" /v fDenyTSConnections /t REG_DWORD /d 0 /f\nreg add \"hklm\\system\\CurrentControlSet\\Control\\Terminal Server\" /v \"AllowTSConnections\" /t REG_DWORD /d 0x1 /f",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "7e21afa5-ce92-49ce-a636-599a49147986",
+      "id": "f0d48104-de40-4b2b-89fe-2e6a088bb4c8",
       "type": "execute-command",
       "data": {
         "command": "net user #{guest_user} /active:no \u003enul 2\u003e\u00261\nnet localgroup #{local_admin_group} #{guest_user} /delete \u003enul 2\u003e\u00261\nnet localgroup \"#{remote_desktop_users_group_name}\" #{guest_user} /delete \u003enul 2\u003e\u00261\nif #{remove_rdp_access_during_cleanup} NEQ 1 (echo Note: set remove_rdp_access_during_cleanup input argument to disable RDP access during cleanup)\nif #{remove_rdp_access_during_cleanup} EQU 1 (reg delete \"hklm\\system\\CurrentControlSet\\Control\\Terminal Server\" /v fDenyTSConnections /f \u003enul 2\u003e\u00261)\nif #{remove_rdp_access_during_cleanup} EQU 1 (reg delete \"hklm\\system\\CurrentControlSet\\Control\\Terminal Server\" /v \"AllowTSConnections\" /f \u003enul 2\u003e\u00261)",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "25625ff5-d7f1-460e-82db-3de12ff47ecd",
+      "s": "2f56475b-956a-4ae8-9a34-10f37bffcad9",
       "p": "on-success",
-      "o": "7e21afa5-ce92-49ce-a636-599a49147986"
+      "o": "f0d48104-de40-4b2b-89fe-2e6a088bb4c8"
     },
     {
-      "s": "25625ff5-d7f1-460e-82db-3de12ff47ecd",
+      "s": "2f56475b-956a-4ae8-9a34-10f37bffcad9",
       "p": "on-failure",
-      "o": "7e21afa5-ce92-49ce-a636-599a49147986"
+      "o": "f0d48104-de40-4b2b-89fe-2e6a088bb4c8"
     }
   ],
   "tags": [

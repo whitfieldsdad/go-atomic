@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "bf6fd84d-75e0-4fcb-9cc6-186ca826736f",
+      "id": "6a3f0eff-bf8b-4f0b-8bff-3e64712fc14c",
       "type": "execute-command",
       "data": {
         "command": "TEST=$(echo $HISTCONTROL)\nif [ \"$HISTCONTROL\" != \"ignoreboth\" ]; then export HISTCONTROL=\"ignoreboth\"; fi\nhistory -c \nls -la $HISTFILE # \" ls -la $HISTFILE\"\nif [ $(history |wc -l) -eq 1 ]; then echo \"ls -la is not in history cache\"; fi\n# -\u003e ls -la is not in history cache\nif [ \"$HISTCONTROL\" != \"erasedups\" ]; then export HISTCONTROL=\"erasedups\"; fi\nhistory -c \nls -la $HISTFILE\nls -la $HISTFILE\nls -la $HISTFILE\nif [ $(history |wc -l) -eq 2 ]; then echo \"Their is only one entry for ls -la $HISTFILE\"; fi\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "8aef08b8-a000-423a-971c-cb9e3e7bd113",
+      "id": "70e70624-5762-4759-a0a3-cc48c3dafd38",
       "type": "execute-command",
       "data": {
         "command": "export HISTCONTROL=$(echo $TEST)\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "bf6fd84d-75e0-4fcb-9cc6-186ca826736f",
+      "s": "6a3f0eff-bf8b-4f0b-8bff-3e64712fc14c",
       "p": "on-success",
-      "o": "8aef08b8-a000-423a-971c-cb9e3e7bd113"
+      "o": "70e70624-5762-4759-a0a3-cc48c3dafd38"
     },
     {
-      "s": "bf6fd84d-75e0-4fcb-9cc6-186ca826736f",
+      "s": "6a3f0eff-bf8b-4f0b-8bff-3e64712fc14c",
       "p": "on-failure",
-      "o": "8aef08b8-a000-423a-971c-cb9e3e7bd113"
+      "o": "70e70624-5762-4759-a0a3-cc48c3dafd38"
     }
   ],
   "tags": [

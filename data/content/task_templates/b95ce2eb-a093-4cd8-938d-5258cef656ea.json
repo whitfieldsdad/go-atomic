@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "4b09b235-0a56-4c5f-9638-29d0507d68c6",
+      "id": "a029959a-bfd9-4a63-85bb-45b562649905",
       "type": "execute-command",
       "data": {
         "command": "mkdir -p /tmp/atomic-test-T1036.006\ncd /tmp/atomic-test-T1036.006\nmkdir -p 'testdirwithspaceend '\n[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 /bin/echo \"#\\!/bin/sh\" \u003e \"testdirwithspaceend /init \" \u0026\u0026 echo 'echo \"print(\\\"running T1035.006 with space after filename to masquerade init\\\")\" | python3.9' \u003e\u003e \"testdirwithspaceend /init \" \u0026\u0026 echo \"exit\" \u003e\u003e \"testdirwithspaceend /init \" || /usr/bin/echo -e \"%d\\na\\n#!/usr/bin/perl\\nprint \\\"running T1035.006 with space after filename to masquerade init\\\\n\\\";\\nqx/cp \\/usr\\/bin\\/perl 'init  '/;\\nqx/'.\\/init  ' -e 'sleep 5'/;\\n.\\nwq\\n\" | ed 'testdirwithspaceend /init ' \u003e/dev/null\nchmod +x 'testdirwithspaceend /init '\n'./testdirwithspaceend /init '\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "3acc62bf-b54b-474b-ba23-730c0814748a",
+      "id": "3f33f3c7-c89c-4d96-be44-f6a59d4491f4",
       "type": "execute-command",
       "data": {
         "command": "rm -rf /tmp/atomic-test-T1036.006",
@@ -28,14 +28,14 @@
   ],
   "flows": [
     {
-      "s": "4b09b235-0a56-4c5f-9638-29d0507d68c6",
+      "s": "a029959a-bfd9-4a63-85bb-45b562649905",
       "p": "on-success",
-      "o": "3acc62bf-b54b-474b-ba23-730c0814748a"
+      "o": "3f33f3c7-c89c-4d96-be44-f6a59d4491f4"
     },
     {
-      "s": "4b09b235-0a56-4c5f-9638-29d0507d68c6",
+      "s": "a029959a-bfd9-4a63-85bb-45b562649905",
       "p": "on-failure",
-      "o": "3acc62bf-b54b-474b-ba23-730c0814748a"
+      "o": "3f33f3c7-c89c-4d96-be44-f6a59d4491f4"
     }
   ],
   "tags": [

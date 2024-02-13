@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "487ae925-71e2-46ea-a14e-a1d5628e6021",
+      "id": "66baee6f-c76d-4336-81f5-5917d9d8c4d7",
       "type": "execute-command",
       "data": {
         "command": "cmd.exe /C whoami\nwmic useraccount get /ALL\nquser /SERVER:\"#{computer_name}\"\nquser\nqwinsta.exe /server:#{computer_name}\nqwinsta.exe\nfor /F \"tokens=1,2\" %i in ('qwinsta /server:#{computer_name} ^| findstr \"Active Disc\"') do @echo %i | find /v \"#\" | find /v \"console\" || echo %j \u003e computers.txt\n@FOR /F %n in (computers.txt) DO @FOR /F \"tokens=1,2\" %i in ('qwinsta /server:%n ^| findstr \"Active Disc\"') do @echo %i | find /v \"#\" | find /v \"console\" || echo %j \u003e usernames.txt\n",

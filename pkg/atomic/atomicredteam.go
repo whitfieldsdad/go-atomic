@@ -3,7 +3,9 @@ package atomic
 import (
 	"fmt"
 	"os"
+	"strings"
 
+	"github.com/charmbracelet/log"
 	"gopkg.in/yaml.v3"
 )
 
@@ -37,6 +39,25 @@ type AtomicRedTeamTest struct {
 	Dependencies           []AtomicRedTeamDependency       `yaml:"dependencies,omitempty"`
 	DependencyExecutorName string                          `yaml:"dependency_exector_name,omitempty"`
 	AttackTechniqueId      string                          `yaml:"-"`
+}
+
+func (t AtomicRedTeamTest) ReferencesAtomicsFolder() bool {
+	haystack := []string{
+		t.Executor.Command,
+		t.Executor.CleanupCommand,
+	}
+	for _, d := range t.Dependencies {
+		haystack = append(haystack, d.PrereqCommand, d.GetPrereqCommand)
+	}
+	for _, arg := range t.InputArguments {
+		haystack = append(haystack, arg.Default)
+	}
+	for _, v := range haystack {
+		if strings.Contains(v, "PathToAtomicsFolder") {
+			return true
+		}
+	}
+	return false
 }
 
 func (t AtomicRedTeamTest) GetArgs() map[string]interface{} {
@@ -165,6 +186,10 @@ func parseAtomicRedTeamYAML(b []byte) (*AtomicRedTeamTestBundle, error) {
 	var tests []AtomicRedTeamTest
 	for _, test := range bundle.Tests {
 		if test.Executor.Name == "manual" {
+			continue
+		}
+		if test.ReferencesAtomicsFolder() {
+			log.Debugf("Skipping test %s because it references the atomics folder (not supported)", test.Id)
 			continue
 		}
 		test.AttackTechniqueId = bundle.AttackTechniqueId

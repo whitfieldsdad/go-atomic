@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "db65de61-90a8-41d7-8cba-f7d8778eed1d",
+      "id": "89e61394-3a6b-459c-9bac-bd8675f2e609",
       "type": "execute-command",
       "data": {
         "command": "$RemovableDrives=@()\n$RemovableDrives = Get-WmiObject -Class Win32_LogicalDisk -filter \"drivetype=2\" | select-object -expandproperty DeviceID\nForEach ($Drive in $RemovableDrives)\n{\nwrite-host \"Removable Drive Found:\" $Drive\nNew-Item -Path $Drive/T1091Test1.txt -ItemType \"file\" -Force -Value \"T1091 Test 1 has created this file to simulate malware spread to removable drives.\"\n}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "ef636052-09cf-467d-9d9e-65b162cb520a",
+      "id": "2a3050d7-f28a-4928-a2ea-15c53020c544",
       "type": "execute-command",
       "data": {
         "command": "$RemovableDrives = Get-WmiObject -Class Win32_LogicalDisk -filter \"drivetype=2\" | select-object -expandproperty DeviceID\nForEach ($Drive in $RemovableDrives)\n{\nRemove-Item -Path $Drive\\T1091Test1.txt -Force -ErrorAction Ignore\n}\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "db65de61-90a8-41d7-8cba-f7d8778eed1d",
+      "s": "89e61394-3a6b-459c-9bac-bd8675f2e609",
       "p": "on-success",
-      "o": "ef636052-09cf-467d-9d9e-65b162cb520a"
+      "o": "2a3050d7-f28a-4928-a2ea-15c53020c544"
     },
     {
-      "s": "db65de61-90a8-41d7-8cba-f7d8778eed1d",
+      "s": "89e61394-3a6b-459c-9bac-bd8675f2e609",
       "p": "on-failure",
-      "o": "ef636052-09cf-467d-9d9e-65b162cb520a"
+      "o": "2a3050d7-f28a-4928-a2ea-15c53020c544"
     }
   ],
   "tags": [

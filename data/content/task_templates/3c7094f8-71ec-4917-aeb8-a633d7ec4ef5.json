@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "a768fea2-66e3-45b0-8c18-0e5c410bdde8",
+      "id": "dece0fe6-5c2e-437a-b4f5-0c7a9ca16821",
       "type": "execute-command",
       "data": {
         "command": "for bucket in \"$(aws s3 ls | cut -d \" \" -f3)\"; do aws s3api list-objects-v2 --bucket $bucket --output text; done\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "07eb8168-1776-4dd6-8bb5-3b16c527e1a1",
+      "id": "593db04f-a841-47c0-ac6c-5d162dee6305",
       "name": "Check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "58f90298-fd2f-4ca9-a71f-66a263e33af6",
+      "id": "527c31d7-30bf-4354-88da-661f7f571325",
       "name": "Resolve dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "ec1b4d2d-443d-4fc8-8d35-87d667851c45",
+      "id": "d267bdfe-b396-4d01-adde-0a45ddd33b82",
       "name": "Re-check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "07eb8168-1776-4dd6-8bb5-3b16c527e1a1",
+      "s": "593db04f-a841-47c0-ac6c-5d162dee6305",
       "p": "on-success",
-      "o": "a768fea2-66e3-45b0-8c18-0e5c410bdde8"
+      "o": "dece0fe6-5c2e-437a-b4f5-0c7a9ca16821"
     },
     {
-      "s": "07eb8168-1776-4dd6-8bb5-3b16c527e1a1",
+      "s": "593db04f-a841-47c0-ac6c-5d162dee6305",
       "p": "on-failure",
-      "o": "58f90298-fd2f-4ca9-a71f-66a263e33af6"
+      "o": "527c31d7-30bf-4354-88da-661f7f571325"
     },
     {
-      "s": "58f90298-fd2f-4ca9-a71f-66a263e33af6",
+      "s": "527c31d7-30bf-4354-88da-661f7f571325",
       "p": "on-success",
-      "o": "ec1b4d2d-443d-4fc8-8d35-87d667851c45"
+      "o": "d267bdfe-b396-4d01-adde-0a45ddd33b82"
     },
     {
-      "s": "ec1b4d2d-443d-4fc8-8d35-87d667851c45",
+      "s": "d267bdfe-b396-4d01-adde-0a45ddd33b82",
       "p": "on-failure",
-      "o": "a768fea2-66e3-45b0-8c18-0e5c410bdde8"
+      "o": "dece0fe6-5c2e-437a-b4f5-0c7a9ca16821"
     }
   ],
   "tags": [

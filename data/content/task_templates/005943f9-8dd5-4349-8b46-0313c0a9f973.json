@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "cd18928b-9834-40f6-aa82-3235a9c038ca",
+      "id": "8c67eed3-4295-43cb-933d-4b183d0fe8ad",
       "type": "execute-command",
       "data": {
         "command": "ENCODED=$(echo '#{message}' | xxd -ps -c 256)\nprintf $ENCODED | xxd -r -p\necho $ENCODED | xxd -r -p\necho $(echo $ENCODED) | xxd -r -p\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 xxd -r -p #{encoded_file}\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 xxd -r -p \u003c #{encoded_file}\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 cat #{encoded_file} | xxd -r -p\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 cat \u003c #{encoded_file} | xxd -r -p\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "233cee4b-3f7e-487b-b829-64c7f782b78a",
+      "id": "38d103d3-8e76-499d-aa83-047ac6d31ab4",
       "name": "Check dependency 1/1",
       "description": "xxd must be present\n",
       "type": "execute-command",
@@ -28,7 +28,7 @@
       "elevation_required": false
     },
     {
-      "id": "36debd5d-b10f-4ddd-918c-305774c2e47a",
+      "id": "b75a6d90-91d9-4951-9b9e-35ea3e57c594",
       "name": "Resolve dependency 1/1",
       "description": "xxd must be present\n",
       "type": "execute-command",
@@ -39,7 +39,7 @@
       "elevation_required": false
     },
     {
-      "id": "0ca71d62-5a0d-41f0-9245-ae67817ee177",
+      "id": "17d94584-0d02-47b5-88fb-2b33d2421ba0",
       "name": "Re-check dependency 1/1",
       "description": "xxd must be present\n",
       "type": "execute-command",
@@ -52,24 +52,24 @@
   ],
   "flows": [
     {
-      "s": "233cee4b-3f7e-487b-b829-64c7f782b78a",
+      "s": "38d103d3-8e76-499d-aa83-047ac6d31ab4",
       "p": "on-success",
-      "o": "cd18928b-9834-40f6-aa82-3235a9c038ca"
+      "o": "8c67eed3-4295-43cb-933d-4b183d0fe8ad"
     },
     {
-      "s": "233cee4b-3f7e-487b-b829-64c7f782b78a",
+      "s": "38d103d3-8e76-499d-aa83-047ac6d31ab4",
       "p": "on-failure",
-      "o": "36debd5d-b10f-4ddd-918c-305774c2e47a"
+      "o": "b75a6d90-91d9-4951-9b9e-35ea3e57c594"
     },
     {
-      "s": "36debd5d-b10f-4ddd-918c-305774c2e47a",
+      "s": "b75a6d90-91d9-4951-9b9e-35ea3e57c594",
       "p": "on-success",
-      "o": "0ca71d62-5a0d-41f0-9245-ae67817ee177"
+      "o": "17d94584-0d02-47b5-88fb-2b33d2421ba0"
     },
     {
-      "s": "0ca71d62-5a0d-41f0-9245-ae67817ee177",
+      "s": "17d94584-0d02-47b5-88fb-2b33d2421ba0",
       "p": "on-failure",
-      "o": "cd18928b-9834-40f6-aa82-3235a9c038ca"
+      "o": "8c67eed3-4295-43cb-933d-4b183d0fe8ad"
     }
   ],
   "tags": [
@@ -78,16 +78,16 @@
   ],
   "input_arguments": [
     {
-      "name": "message",
-      "type": "string",
-      "description": "Message to print to the screen",
-      "value": "Hello from Atomic Red Team test T1140!"
-    },
-    {
       "name": "encoded_file",
       "type": "path",
       "description": "File to temporarily save encoded text",
       "value": "/tmp/T1140.encoded"
+    },
+    {
+      "name": "message",
+      "type": "string",
+      "description": "Message to print to the screen",
+      "value": "Hello from Atomic Red Team test T1140!"
     }
   ]
 }

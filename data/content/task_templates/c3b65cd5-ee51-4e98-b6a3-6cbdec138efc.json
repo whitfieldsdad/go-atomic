@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "a1b6c2d7-b59f-4e47-bb1f-a4a3a3728c22",
+      "id": "be7441f3-78f0-46f5-9a21-6004dd7ec5d1",
       "type": "execute-command",
       "data": {
         "command": "python3 -c 'import base64; import subprocess; xor_decrypt = lambda text, key: \"\".join([chr(c ^ ord(k)) for c, k in zip(base64.b64decode(text.encode()), key)]); command = \"#{encrypted_command}\"; key = \"#{xor_key}\"; exec = xor_decrypt(command, key); subprocess.call(exec, shell=True)'",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "ff26bc7e-eb9f-49b0-ad7b-58633b6c37b5",
+      "id": "49898acd-ca42-4bca-aba8-27b8490d4340",
       "name": "Check dependency 1/1",
       "description": "Python3 must be installed",
       "type": "execute-command",
@@ -28,7 +28,7 @@
       "elevation_required": false
     },
     {
-      "id": "bf5582e2-cb39-4ec0-bcd9-63e08ee91333",
+      "id": "7321fd30-fc1f-462e-bbd1-50e46cd385eb",
       "name": "Resolve dependency 1/1",
       "description": "Python3 must be installed",
       "type": "execute-command",
@@ -39,7 +39,7 @@
       "elevation_required": false
     },
     {
-      "id": "fb404006-2df8-445a-ad26-2029af9923f8",
+      "id": "795b5416-7533-48d3-ad32-1c94ae64fa51",
       "name": "Re-check dependency 1/1",
       "description": "Python3 must be installed",
       "type": "execute-command",
@@ -52,24 +52,24 @@
   ],
   "flows": [
     {
-      "s": "ff26bc7e-eb9f-49b0-ad7b-58633b6c37b5",
+      "s": "49898acd-ca42-4bca-aba8-27b8490d4340",
       "p": "on-success",
-      "o": "a1b6c2d7-b59f-4e47-bb1f-a4a3a3728c22"
+      "o": "be7441f3-78f0-46f5-9a21-6004dd7ec5d1"
     },
     {
-      "s": "ff26bc7e-eb9f-49b0-ad7b-58633b6c37b5",
+      "s": "49898acd-ca42-4bca-aba8-27b8490d4340",
       "p": "on-failure",
-      "o": "bf5582e2-cb39-4ec0-bcd9-63e08ee91333"
+      "o": "7321fd30-fc1f-462e-bbd1-50e46cd385eb"
     },
     {
-      "s": "bf5582e2-cb39-4ec0-bcd9-63e08ee91333",
+      "s": "7321fd30-fc1f-462e-bbd1-50e46cd385eb",
       "p": "on-success",
-      "o": "fb404006-2df8-445a-ad26-2029af9923f8"
+      "o": "795b5416-7533-48d3-ad32-1c94ae64fa51"
     },
     {
-      "s": "fb404006-2df8-445a-ad26-2029af9923f8",
+      "s": "795b5416-7533-48d3-ad32-1c94ae64fa51",
       "p": "on-failure",
-      "o": "a1b6c2d7-b59f-4e47-bb1f-a4a3a3728c22"
+      "o": "be7441f3-78f0-46f5-9a21-6004dd7ec5d1"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "a8a7984f-1ee3-4c7f-b1e5-5a206d022549",
+      "id": "559d2893-e5ec-4376-af43-16d35950b7dc",
       "type": "execute-command",
       "data": {
         "command": "$archive=\"$env:PUBLIC\\T1649\\atomic_certs.zip\"\n$exfilpath=\"$env:PUBLIC\\T1649\\certs\"\nAdd-Type -assembly \"system.io.compression.filesystem\"\nRemove-Item $(split-path $exfilpath) -Recurse -Force -ErrorAction Ignore\nmkdir $exfilpath | Out-Null\nforeach ($cert in (gci Cert:\\CurrentUser\\My)) { Export-Certificate -Cert $cert -FilePath $exfilpath\\$($cert.FriendlyName).cer}\n[io.compression.zipfile]::CreateFromDirectory($exfilpath, $archive)\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "47b608c7-1575-4c26-a5a6-77db4263626d",
+      "id": "77be3e71-bfc7-4437-90bf-28dad1eb9a08",
       "type": "execute-command",
       "data": {
         "command": "$exfilpath=\"$env:PUBLIC\\T1649\\certs\"\nRemove-Item $(split-path $exfilpath) -Recurse -Force -ErrorAction Ignore\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "a8a7984f-1ee3-4c7f-b1e5-5a206d022549",
+      "s": "559d2893-e5ec-4376-af43-16d35950b7dc",
       "p": "on-success",
-      "o": "47b608c7-1575-4c26-a5a6-77db4263626d"
+      "o": "77be3e71-bfc7-4437-90bf-28dad1eb9a08"
     },
     {
-      "s": "a8a7984f-1ee3-4c7f-b1e5-5a206d022549",
+      "s": "559d2893-e5ec-4376-af43-16d35950b7dc",
       "p": "on-failure",
-      "o": "47b608c7-1575-4c26-a5a6-77db4263626d"
+      "o": "77be3e71-bfc7-4437-90bf-28dad1eb9a08"
     }
   ],
   "tags": [

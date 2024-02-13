@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "cf70b8d8-a811-4014-a2bc-8361a83ecbf2",
+      "id": "9b304fc4-a3fc-4d5d-8a0a-4f618451676a",
       "type": "execute-command",
       "data": {
         "command": "$Server=#{logonserver}\n$User = Join-Path #{domain} #{username}\n$Password=\"#{password}\"\ncmdkey /generic:TERMSRV/$Server /user:$User /pass:$Password\nmstsc /v:$Server\necho \"RDP connection established\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "63ef6b50-9369-45bd-87e6-e3ae730b688f",
+      "id": "c95064b1-c4b3-4a91-b2e2-03268bb319fc",
       "type": "execute-command",
       "data": {
         "command": "$p=Tasklist /svc /fi \"IMAGENAME eq mstsc.exe\" /fo csv | convertfrom-csv\nif(-not ([string]::IsNullOrEmpty($p.PID))) { Stop-Process -Id $p.PID }\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "f77ea624-1b27-43ea-bf9c-41cdca71bae3",
+      "id": "71d89eda-b3ae-4f46-b2ef-c506d3122c65",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "351747c2-70df-4857-b6b0-530ea16d2e38",
+      "id": "9bd8afc8-99a5-4c8a-b7b0-450ed8068a2c",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "40311187-cf41-4a64-af72-aee37a5cd579",
+      "id": "c68592df-7b95-4deb-83af-9116d6c212e0",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "cf70b8d8-a811-4014-a2bc-8361a83ecbf2",
+      "s": "9b304fc4-a3fc-4d5d-8a0a-4f618451676a",
       "p": "on-success",
-      "o": "63ef6b50-9369-45bd-87e6-e3ae730b688f"
+      "o": "c95064b1-c4b3-4a91-b2e2-03268bb319fc"
     },
     {
-      "s": "cf70b8d8-a811-4014-a2bc-8361a83ecbf2",
+      "s": "9b304fc4-a3fc-4d5d-8a0a-4f618451676a",
       "p": "on-failure",
-      "o": "63ef6b50-9369-45bd-87e6-e3ae730b688f"
+      "o": "c95064b1-c4b3-4a91-b2e2-03268bb319fc"
     },
     {
-      "s": "f77ea624-1b27-43ea-bf9c-41cdca71bae3",
+      "s": "71d89eda-b3ae-4f46-b2ef-c506d3122c65",
       "p": "on-success",
-      "o": "cf70b8d8-a811-4014-a2bc-8361a83ecbf2"
+      "o": "9b304fc4-a3fc-4d5d-8a0a-4f618451676a"
     },
     {
-      "s": "f77ea624-1b27-43ea-bf9c-41cdca71bae3",
+      "s": "71d89eda-b3ae-4f46-b2ef-c506d3122c65",
       "p": "on-failure",
-      "o": "351747c2-70df-4857-b6b0-530ea16d2e38"
+      "o": "9bd8afc8-99a5-4c8a-b7b0-450ed8068a2c"
     },
     {
-      "s": "351747c2-70df-4857-b6b0-530ea16d2e38",
+      "s": "9bd8afc8-99a5-4c8a-b7b0-450ed8068a2c",
       "p": "on-success",
-      "o": "40311187-cf41-4a64-af72-aee37a5cd579"
+      "o": "c68592df-7b95-4deb-83af-9116d6c212e0"
     },
     {
-      "s": "40311187-cf41-4a64-af72-aee37a5cd579",
+      "s": "c68592df-7b95-4deb-83af-9116d6c212e0",
       "p": "on-failure",
-      "o": "cf70b8d8-a811-4014-a2bc-8361a83ecbf2"
+      "o": "9b304fc4-a3fc-4d5d-8a0a-4f618451676a"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "616cf05e-bac2-4d30-927b-c638d0be380e",
+      "id": "f05118a4-e5a3-41c4-ab68-4664e47736ea",
       "type": "execute-command",
       "data": {
         "command": "ENCODED=$(echo '#{message}' | b64encode -r -)\nprintf $ENCODED | b64decode -r\necho $ENCODED | b64decode -r\necho $(echo $ENCODED) | b64decode -r\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 b64encode -r #{encoded_file}\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 b64decode -r \u003c #{encoded_file}\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 cat #{encoded_file} | b64decode -r\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 cat \u003c #{encoded_file} | b64decode -r\n",
@@ -22,16 +22,16 @@
   ],
   "input_arguments": [
     {
-      "name": "encoded_file",
-      "type": "path",
-      "description": "File to temporarily save encoded text",
-      "value": "/tmp/T1140.encoded"
-    },
-    {
       "name": "message",
       "type": "string",
       "description": "Message to print to the screen",
       "value": "Hello from Atomic Red Team test T1140!"
+    },
+    {
+      "name": "encoded_file",
+      "type": "path",
+      "description": "File to temporarily save encoded text",
+      "value": "/tmp/T1140.encoded"
     }
   ]
 }

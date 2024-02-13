@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "316a1ed8-95f1-4942-9f8e-e4120acc62bf",
+      "id": "4f3c065e-6204-48ed-83b1-399874ad45c2",
       "type": "execute-command",
       "data": {
         "command": "psexec.py '#{domain}/#{username}:#{password}@#{remote_host}' '#{command}'\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "7ed29089-3511-4c52-8862-f316f097a912",
+      "id": "c94ddf79-7b6b-4a1e-add6-fec24d7d184a",
       "name": "Check dependency 1/1",
       "description": "psexec.py (Impacket)\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "ffcc9617-f8d1-4ece-8807-3181da4aa9f4",
+      "id": "74166283-f8e7-4bee-ab8e-579f4219b766",
       "name": "Resolve dependency 1/1",
       "description": "psexec.py (Impacket)\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "4b5394d3-7354-4fc7-9b9b-69524269eaa6",
+      "id": "68f6bd13-8696-49b9-9787-5cf0cd838bee",
       "name": "Re-check dependency 1/1",
       "description": "psexec.py (Impacket)\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "7ed29089-3511-4c52-8862-f316f097a912",
+      "s": "c94ddf79-7b6b-4a1e-add6-fec24d7d184a",
       "p": "on-success",
-      "o": "316a1ed8-95f1-4942-9f8e-e4120acc62bf"
+      "o": "4f3c065e-6204-48ed-83b1-399874ad45c2"
     },
     {
-      "s": "7ed29089-3511-4c52-8862-f316f097a912",
+      "s": "c94ddf79-7b6b-4a1e-add6-fec24d7d184a",
       "p": "on-failure",
-      "o": "ffcc9617-f8d1-4ece-8807-3181da4aa9f4"
+      "o": "74166283-f8e7-4bee-ab8e-579f4219b766"
     },
     {
-      "s": "ffcc9617-f8d1-4ece-8807-3181da4aa9f4",
+      "s": "74166283-f8e7-4bee-ab8e-579f4219b766",
       "p": "on-success",
-      "o": "4b5394d3-7354-4fc7-9b9b-69524269eaa6"
+      "o": "68f6bd13-8696-49b9-9787-5cf0cd838bee"
     },
     {
-      "s": "4b5394d3-7354-4fc7-9b9b-69524269eaa6",
+      "s": "68f6bd13-8696-49b9-9787-5cf0cd838bee",
       "p": "on-failure",
-      "o": "316a1ed8-95f1-4942-9f8e-e4120acc62bf"
+      "o": "4f3c065e-6204-48ed-83b1-399874ad45c2"
     }
   ],
   "tags": [
@@ -76,18 +76,6 @@
     "atomic-red-team"
   ],
   "input_arguments": [
-    {
-      "name": "remote_host",
-      "type": "string",
-      "description": "Remote hostname or IP address",
-      "value": "127.0.0.1"
-    },
-    {
-      "name": "username",
-      "type": "string",
-      "description": "Username",
-      "value": "Administrator"
-    },
     {
       "name": "domain",
       "type": "string",
@@ -105,6 +93,18 @@
       "type": "string",
       "description": "Command to execute in target computer",
       "value": "whoami"
+    },
+    {
+      "name": "remote_host",
+      "type": "string",
+      "description": "Remote hostname or IP address",
+      "value": "127.0.0.1"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username",
+      "value": "Administrator"
     }
   ]
 }

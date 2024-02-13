@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "92b807fc-e2eb-44b9-b8eb-7800ecd7c7a3",
+      "id": "409cc1ed-413c-409f-bb86-c337e58de987",
       "type": "execute-command",
       "data": {
         "command": "mv #{settings_json_def} #{settings_json_tmp}\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.015/src/settings.json?raw=true\" -OutFile \"#{settings_json_def}\"\nwt.exe\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "12d0db8c-8f96-4133-9aee-8acfba9ae1c9",
+      "id": "8ec59c74-ce4c-40a9-bed5-bb9f32f9c55f",
       "type": "execute-command",
       "data": {
         "command": "mv -Force #{settings_json_tmp} #{settings_json_def}\ntaskkill /F /IM \"#{calculator}\" \u003e $null\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "57b926b0-5eee-42d0-b2b4-96c80c5514d6",
+      "id": "0493f640-ccde-4c2d-b8b9-ac2afccb6d3a",
       "name": "Check dependency 1/1",
       "description": "Windows Terminal must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "fb7c021a-4677-4551-8832-f5680d08589b",
+      "id": "2a6e6adf-bb72-4241-8dfb-b7acec82b945",
       "name": "Resolve dependency 1/1",
       "description": "Windows Terminal must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "b92b2d31-bd31-42ad-a32b-50c2b69d6317",
+      "id": "4d220326-16ae-4e06-a3c2-dc6931d28bb7",
       "name": "Re-check dependency 1/1",
       "description": "Windows Terminal must be installed\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "92b807fc-e2eb-44b9-b8eb-7800ecd7c7a3",
+      "s": "409cc1ed-413c-409f-bb86-c337e58de987",
       "p": "on-success",
-      "o": "12d0db8c-8f96-4133-9aee-8acfba9ae1c9"
+      "o": "8ec59c74-ce4c-40a9-bed5-bb9f32f9c55f"
     },
     {
-      "s": "92b807fc-e2eb-44b9-b8eb-7800ecd7c7a3",
+      "s": "409cc1ed-413c-409f-bb86-c337e58de987",
       "p": "on-failure",
-      "o": "12d0db8c-8f96-4133-9aee-8acfba9ae1c9"
+      "o": "8ec59c74-ce4c-40a9-bed5-bb9f32f9c55f"
     },
     {
-      "s": "57b926b0-5eee-42d0-b2b4-96c80c5514d6",
+      "s": "0493f640-ccde-4c2d-b8b9-ac2afccb6d3a",
       "p": "on-success",
-      "o": "92b807fc-e2eb-44b9-b8eb-7800ecd7c7a3"
+      "o": "409cc1ed-413c-409f-bb86-c337e58de987"
     },
     {
-      "s": "57b926b0-5eee-42d0-b2b4-96c80c5514d6",
+      "s": "0493f640-ccde-4c2d-b8b9-ac2afccb6d3a",
       "p": "on-failure",
-      "o": "fb7c021a-4677-4551-8832-f5680d08589b"
+      "o": "2a6e6adf-bb72-4241-8dfb-b7acec82b945"
     },
     {
-      "s": "fb7c021a-4677-4551-8832-f5680d08589b",
+      "s": "2a6e6adf-bb72-4241-8dfb-b7acec82b945",
       "p": "on-success",
-      "o": "b92b2d31-bd31-42ad-a32b-50c2b69d6317"
+      "o": "4d220326-16ae-4e06-a3c2-dc6931d28bb7"
     },
     {
-      "s": "b92b2d31-bd31-42ad-a32b-50c2b69d6317",
+      "s": "4d220326-16ae-4e06-a3c2-dc6931d28bb7",
       "p": "on-failure",
-      "o": "92b807fc-e2eb-44b9-b8eb-7800ecd7c7a3"
+      "o": "409cc1ed-413c-409f-bb86-c337e58de987"
     }
   ],
   "tags": [

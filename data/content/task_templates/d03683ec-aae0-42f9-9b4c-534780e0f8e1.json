@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "bc8342cb-077f-4352-9f3c-3e2cef40ea5b",
+      "id": "9581560e-91bf-4f76-b48e-fbc613dc15d9",
       "type": "execute-command",
       "data": {
         "command": "Invoke-WebRequest -OutFile C:\\Users\\$env:username\\Desktop\\LogMeInIgnition.msi https://secure.logmein.com/LogMeInIgnition.msi\n$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\LogMeInIgnition.msi\"\nStart-Process -Wait $file1 /quiet;\nStart-Process 'C:\\Program Files (x86)\\LogMeIn Ignition\\LMIIgnition.exe' \"/S\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "3facdf60-68e3-44c5-bb74-2ff7db3835d4",
+      "id": "a5021d97-0151-461e-8fc5-0c8468e5ad21",
       "type": "execute-command",
       "data": {
         "command": "get-package *'LogMeIn Client'* -ErrorAction Ignore | uninstall-package \n$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\LogMeInIgnition.msi\"\nRemove-Item $file1 -ErrorAction Ignore",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "bc8342cb-077f-4352-9f3c-3e2cef40ea5b",
+      "s": "9581560e-91bf-4f76-b48e-fbc613dc15d9",
       "p": "on-success",
-      "o": "3facdf60-68e3-44c5-bb74-2ff7db3835d4"
+      "o": "a5021d97-0151-461e-8fc5-0c8468e5ad21"
     },
     {
-      "s": "bc8342cb-077f-4352-9f3c-3e2cef40ea5b",
+      "s": "9581560e-91bf-4f76-b48e-fbc613dc15d9",
       "p": "on-failure",
-      "o": "3facdf60-68e3-44c5-bb74-2ff7db3835d4"
+      "o": "a5021d97-0151-461e-8fc5-0c8468e5ad21"
     }
   ],
   "tags": [

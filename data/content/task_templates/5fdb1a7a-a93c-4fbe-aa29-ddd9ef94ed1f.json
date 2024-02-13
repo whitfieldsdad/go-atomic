@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "95432062-9e5b-479e-b5c8-858152728332",
+      "id": "86a53268-696e-4076-8d69-10b5a3d10aa0",
       "type": "execute-command",
       "data": {
         "command": "certutil -addstore my #{pfx_path}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "0807df1e-6441-40f7-8763-1fb258350390",
+      "id": "39f1a3ce-e336-4a51-b2c1-45cfea91ab11",
       "type": "execute-command",
       "data": {
         "command": "try {\n$cert = Import-Certificate -FilePath #{pfx_path} -CertStoreLocation Cert:\\LocalMachine\\My\nGet-ChildItem Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\nGet-ChildItem Cert:\\LocalMachine\\Root\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\n} catch { }\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "a115199a-b246-4ba1-88c8-45345d4050c7",
+      "id": "68ebb251-8d83-4314-aab0-7da508ed32dc",
       "name": "Check dependency 1/1",
       "description": "Certificate must exist at specified location (#{pfx_path})\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "78721e4a-90c2-447e-9c1b-d5a5073a6f99",
+      "id": "ecbab7b7-8515-4209-9719-9382028894e8",
       "name": "Resolve dependency 1/1",
       "description": "Certificate must exist at specified location (#{pfx_path})\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "c78460d6-f263-463c-a57e-899e13a5739e",
+      "id": "4570aa96-2a77-438c-87e8-ce5e82271494",
       "name": "Re-check dependency 1/1",
       "description": "Certificate must exist at specified location (#{pfx_path})\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "95432062-9e5b-479e-b5c8-858152728332",
+      "s": "86a53268-696e-4076-8d69-10b5a3d10aa0",
       "p": "on-success",
-      "o": "0807df1e-6441-40f7-8763-1fb258350390"
+      "o": "39f1a3ce-e336-4a51-b2c1-45cfea91ab11"
     },
     {
-      "s": "95432062-9e5b-479e-b5c8-858152728332",
+      "s": "86a53268-696e-4076-8d69-10b5a3d10aa0",
       "p": "on-failure",
-      "o": "0807df1e-6441-40f7-8763-1fb258350390"
+      "o": "39f1a3ce-e336-4a51-b2c1-45cfea91ab11"
     },
     {
-      "s": "a115199a-b246-4ba1-88c8-45345d4050c7",
+      "s": "68ebb251-8d83-4314-aab0-7da508ed32dc",
       "p": "on-success",
-      "o": "95432062-9e5b-479e-b5c8-858152728332"
+      "o": "86a53268-696e-4076-8d69-10b5a3d10aa0"
     },
     {
-      "s": "a115199a-b246-4ba1-88c8-45345d4050c7",
+      "s": "68ebb251-8d83-4314-aab0-7da508ed32dc",
       "p": "on-failure",
-      "o": "78721e4a-90c2-447e-9c1b-d5a5073a6f99"
+      "o": "ecbab7b7-8515-4209-9719-9382028894e8"
     },
     {
-      "s": "78721e4a-90c2-447e-9c1b-d5a5073a6f99",
+      "s": "ecbab7b7-8515-4209-9719-9382028894e8",
       "p": "on-success",
-      "o": "c78460d6-f263-463c-a57e-899e13a5739e"
+      "o": "4570aa96-2a77-438c-87e8-ce5e82271494"
     },
     {
-      "s": "c78460d6-f263-463c-a57e-899e13a5739e",
+      "s": "4570aa96-2a77-438c-87e8-ce5e82271494",
       "p": "on-failure",
-      "o": "95432062-9e5b-479e-b5c8-858152728332"
+      "o": "86a53268-696e-4076-8d69-10b5a3d10aa0"
     }
   ],
   "tags": [

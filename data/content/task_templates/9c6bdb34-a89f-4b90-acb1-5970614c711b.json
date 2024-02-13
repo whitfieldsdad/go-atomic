@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b2884e97-c479-448a-8a0e-3e5e943942e0",
+      "id": "31e6ed0e-1c3c-4c7d-8cf7-4abe7baa40f0",
       "type": "execute-command",
       "data": {
         "command": "if sudo test -f /etc/pam.d/password-auth; then sudo cp /etc/pam.d/password-auth /tmp/password-auth.bk; fi;\nif sudo test -f /etc/pam.d/system-auth; then sudo cp /etc/pam.d/system-auth /tmp/system-auth.bk; fi;\nsudo touch /tmp/password-auth.bk\nsudo touch /tmp/system-auth.bk sudo echo \"session    required    pam_tty_audit.so\nenable=* log_password\" \u003e\u003e /etc/pam.d/password-auth sudo echo \"session    required    pam_tty_audit.so\nenable=* log_password\" \u003e\u003e /etc/pam.d/system-auth\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "0c3a8ea5-0865-4e52-b0f3-9656ce369ee9",
+      "id": "3762f251-91b1-49b6-b523-2e26ff920262",
       "type": "execute-command",
       "data": {
         "command": "sudo cp -f /tmp/password-auth.bk /etc/pam.d/password-auth\nsudo cp -f /tmp/system-auth.bk /etc/pam.d/system-auth\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "955ad727-9633-4bdd-8a7b-e6ec3ad2d49f",
+      "id": "c28acced-96bf-4e0e-a852-53929baf0cdc",
       "name": "Check dependency 1/1",
       "description": "Checking if pam_tty_audit.so is installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "aedc9f99-b66f-45c2-b040-77108ead425a",
+      "id": "59dbdc03-885b-4949-86bc-d300db865475",
       "name": "Resolve dependency 1/1",
       "description": "Checking if pam_tty_audit.so is installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "10220ce3-e037-4a97-9c5b-4d21b23d1775",
+      "id": "26d570ee-1269-4760-91e0-efbfb661fa74",
       "name": "Re-check dependency 1/1",
       "description": "Checking if pam_tty_audit.so is installed\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "b2884e97-c479-448a-8a0e-3e5e943942e0",
+      "s": "31e6ed0e-1c3c-4c7d-8cf7-4abe7baa40f0",
       "p": "on-success",
-      "o": "0c3a8ea5-0865-4e52-b0f3-9656ce369ee9"
+      "o": "3762f251-91b1-49b6-b523-2e26ff920262"
     },
     {
-      "s": "b2884e97-c479-448a-8a0e-3e5e943942e0",
+      "s": "31e6ed0e-1c3c-4c7d-8cf7-4abe7baa40f0",
       "p": "on-failure",
-      "o": "0c3a8ea5-0865-4e52-b0f3-9656ce369ee9"
+      "o": "3762f251-91b1-49b6-b523-2e26ff920262"
     },
     {
-      "s": "955ad727-9633-4bdd-8a7b-e6ec3ad2d49f",
+      "s": "c28acced-96bf-4e0e-a852-53929baf0cdc",
       "p": "on-success",
-      "o": "b2884e97-c479-448a-8a0e-3e5e943942e0"
+      "o": "31e6ed0e-1c3c-4c7d-8cf7-4abe7baa40f0"
     },
     {
-      "s": "955ad727-9633-4bdd-8a7b-e6ec3ad2d49f",
+      "s": "c28acced-96bf-4e0e-a852-53929baf0cdc",
       "p": "on-failure",
-      "o": "aedc9f99-b66f-45c2-b040-77108ead425a"
+      "o": "59dbdc03-885b-4949-86bc-d300db865475"
     },
     {
-      "s": "aedc9f99-b66f-45c2-b040-77108ead425a",
+      "s": "59dbdc03-885b-4949-86bc-d300db865475",
       "p": "on-success",
-      "o": "10220ce3-e037-4a97-9c5b-4d21b23d1775"
+      "o": "26d570ee-1269-4760-91e0-efbfb661fa74"
     },
     {
-      "s": "10220ce3-e037-4a97-9c5b-4d21b23d1775",
+      "s": "26d570ee-1269-4760-91e0-efbfb661fa74",
       "p": "on-failure",
-      "o": "b2884e97-c479-448a-8a0e-3e5e943942e0"
+      "o": "31e6ed0e-1c3c-4c7d-8cf7-4abe7baa40f0"
     }
   ],
   "tags": [

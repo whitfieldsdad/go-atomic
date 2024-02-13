@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "9e6d9751-6131-4eb4-864f-b8eca25025c4",
+      "id": "e02e416a-59c3-489c-b06b-8217b05bd018",
       "type": "execute-command",
       "data": {
         "command": "docker build -t t1609  $PathtoAtomicsFolder/T1609/src/ \ndocker run --name t1609_container --rm -itd t1609 bash /tmp/script.sh\ndocker exec -i t1609_container bash -c \"cat /tmp/output.txt\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "fd4363e8-4e82-41f5-b121-ef4f33c06af7",
+      "id": "b07ba99e-80c0-46f8-90f4-590d942535db",
       "type": "execute-command",
       "data": {
         "command": "docker stop t1609_container\ndocker rmi -f t1609:latest \n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "021e4717-8f75-45c4-807b-684af55028a5",
+      "id": "18e70464-4964-4f02-8b35-4c22008e8863",
       "name": "Check dependency 1/1",
       "description": "docker must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "48ede9bf-1d66-46ba-8368-da310c5d2601",
+      "id": "1df0f053-be30-472b-b3f6-1e9b61c7c586",
       "name": "Resolve dependency 1/1",
       "description": "docker must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "83f4f48e-9dfd-47b7-a5a2-de8ed5b2f065",
+      "id": "e307cac4-d3fb-4c46-9bd1-924c9496dcce",
       "name": "Re-check dependency 1/1",
       "description": "docker must be installed\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "9e6d9751-6131-4eb4-864f-b8eca25025c4",
+      "s": "e02e416a-59c3-489c-b06b-8217b05bd018",
       "p": "on-success",
-      "o": "fd4363e8-4e82-41f5-b121-ef4f33c06af7"
+      "o": "b07ba99e-80c0-46f8-90f4-590d942535db"
     },
     {
-      "s": "9e6d9751-6131-4eb4-864f-b8eca25025c4",
+      "s": "e02e416a-59c3-489c-b06b-8217b05bd018",
       "p": "on-failure",
-      "o": "fd4363e8-4e82-41f5-b121-ef4f33c06af7"
+      "o": "b07ba99e-80c0-46f8-90f4-590d942535db"
     },
     {
-      "s": "021e4717-8f75-45c4-807b-684af55028a5",
+      "s": "18e70464-4964-4f02-8b35-4c22008e8863",
       "p": "on-success",
-      "o": "9e6d9751-6131-4eb4-864f-b8eca25025c4"
+      "o": "e02e416a-59c3-489c-b06b-8217b05bd018"
     },
     {
-      "s": "021e4717-8f75-45c4-807b-684af55028a5",
+      "s": "18e70464-4964-4f02-8b35-4c22008e8863",
       "p": "on-failure",
-      "o": "48ede9bf-1d66-46ba-8368-da310c5d2601"
+      "o": "1df0f053-be30-472b-b3f6-1e9b61c7c586"
     },
     {
-      "s": "48ede9bf-1d66-46ba-8368-da310c5d2601",
+      "s": "1df0f053-be30-472b-b3f6-1e9b61c7c586",
       "p": "on-success",
-      "o": "83f4f48e-9dfd-47b7-a5a2-de8ed5b2f065"
+      "o": "e307cac4-d3fb-4c46-9bd1-924c9496dcce"
     },
     {
-      "s": "83f4f48e-9dfd-47b7-a5a2-de8ed5b2f065",
+      "s": "e307cac4-d3fb-4c46-9bd1-924c9496dcce",
       "p": "on-failure",
-      "o": "9e6d9751-6131-4eb4-864f-b8eca25025c4"
+      "o": "e02e416a-59c3-489c-b06b-8217b05bd018"
     }
   ],
   "tags": [

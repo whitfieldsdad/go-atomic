@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "7033cca5-2392-4670-ab88-6ab03c029b8c",
+      "id": "1239d8d0-945b-4aee-8cc5-5d10f9ceb09a",
       "type": "execute-command",
       "data": {
         "command": "cat /etc/passwd |grep nobody \n# -\u003e nobody:x:65534:65534:Unprivileged user:/nonexistent:/usr/sbin/nologin\npw usermod nobody -s /bin/sh\necho $(openssl passwd -1 art) | pw mod user nobody -h 0\nsu nobody\nwhoami\nexit\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "1a94cff6-c23c-4b56-a93b-7b40ae4fdd70",
+      "id": "d3affdde-39f9-4d30-97cd-66019ee91f9f",
       "type": "execute-command",
       "data": {
         "command": "pw usermod nobody -s /usr/sbin/nologin\ncat /etc/passwd |grep nobody\n# -\u003e nobody:*:65534:65534:Unprivileged user:/nonexistent:/usr/sbin/nologin\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "7033cca5-2392-4670-ab88-6ab03c029b8c",
+      "s": "1239d8d0-945b-4aee-8cc5-5d10f9ceb09a",
       "p": "on-success",
-      "o": "1a94cff6-c23c-4b56-a93b-7b40ae4fdd70"
+      "o": "d3affdde-39f9-4d30-97cd-66019ee91f9f"
     },
     {
-      "s": "7033cca5-2392-4670-ab88-6ab03c029b8c",
+      "s": "1239d8d0-945b-4aee-8cc5-5d10f9ceb09a",
       "p": "on-failure",
-      "o": "1a94cff6-c23c-4b56-a93b-7b40ae4fdd70"
+      "o": "d3affdde-39f9-4d30-97cd-66019ee91f9f"
     }
   ],
   "tags": [

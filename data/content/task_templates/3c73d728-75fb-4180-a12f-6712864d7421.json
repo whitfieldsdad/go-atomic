@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "5d168c8b-c9c1-464f-9edd-20e0562edc1b",
+      "id": "17bd8a93-54b9-43dd-889f-0ef6b9759c8c",
       "type": "execute-command",
       "data": {
         "command": "bitsadmin.exe /transfer /Download /priority Foreground #{remote_file} #{local_file}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "7741aa1f-a95c-4bc3-b929-8a4540cfd05c",
+      "id": "51fe1f79-bc21-4e2f-9770-9950350d71b3",
       "type": "execute-command",
       "data": {
         "command": "del #{local_file} \u003enul 2\u003e\u00261\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "5d168c8b-c9c1-464f-9edd-20e0562edc1b",
+      "s": "17bd8a93-54b9-43dd-889f-0ef6b9759c8c",
       "p": "on-success",
-      "o": "7741aa1f-a95c-4bc3-b929-8a4540cfd05c"
+      "o": "51fe1f79-bc21-4e2f-9770-9950350d71b3"
     },
     {
-      "s": "5d168c8b-c9c1-464f-9edd-20e0562edc1b",
+      "s": "17bd8a93-54b9-43dd-889f-0ef6b9759c8c",
       "p": "on-failure",
-      "o": "7741aa1f-a95c-4bc3-b929-8a4540cfd05c"
+      "o": "51fe1f79-bc21-4e2f-9770-9950350d71b3"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "local_file",
-      "type": "path",
-      "description": "Local file path to save downloaded file",
-      "value": "%temp%\\bitsadmin1_flag.ps1"
-    },
-    {
       "name": "remote_file",
       "type": "url",
       "description": "Remote file to download",
       "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md"
+    },
+    {
+      "name": "local_file",
+      "type": "path",
+      "description": "Local file path to save downloaded file",
+      "value": "%temp%\\bitsadmin1_flag.ps1"
     }
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6fe4bbe8-5c1d-4a0f-8963-04ba462fb3c6",
+      "id": "765bda9d-b267-4f95-99e3-3dad9a5d0272",
       "type": "execute-command",
       "data": {
         "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\nGet-AdvancedSetting -Entity #{vm_host} -Name 'Security.AccountLockFailures' | Set-AdvancedSetting -Value '0' -Confirm:$false\nDisconnect-VIServer -Confirm:$false\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "f11c0743-a466-44a0-accc-00430ec6b4d3",
+      "id": "ab1bea52-f3a6-4d0b-8ded-17284dd2ea7e",
       "name": "Check dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "802968a9-ef1d-4774-a4be-1d1157c509d8",
+      "id": "1fe46f11-1efc-4dba-b6f0-5d30618ec7ad",
       "name": "Resolve dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "48313ffd-dd90-4290-8c46-2795a573830d",
+      "id": "fa271ae6-9bee-46d8-b6d2-9125fa298629",
       "name": "Re-check dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "f11c0743-a466-44a0-accc-00430ec6b4d3",
+      "s": "ab1bea52-f3a6-4d0b-8ded-17284dd2ea7e",
       "p": "on-success",
-      "o": "6fe4bbe8-5c1d-4a0f-8963-04ba462fb3c6"
+      "o": "765bda9d-b267-4f95-99e3-3dad9a5d0272"
     },
     {
-      "s": "f11c0743-a466-44a0-accc-00430ec6b4d3",
+      "s": "ab1bea52-f3a6-4d0b-8ded-17284dd2ea7e",
       "p": "on-failure",
-      "o": "802968a9-ef1d-4774-a4be-1d1157c509d8"
+      "o": "1fe46f11-1efc-4dba-b6f0-5d30618ec7ad"
     },
     {
-      "s": "802968a9-ef1d-4774-a4be-1d1157c509d8",
+      "s": "1fe46f11-1efc-4dba-b6f0-5d30618ec7ad",
       "p": "on-success",
-      "o": "48313ffd-dd90-4290-8c46-2795a573830d"
+      "o": "fa271ae6-9bee-46d8-b6d2-9125fa298629"
     },
     {
-      "s": "48313ffd-dd90-4290-8c46-2795a573830d",
+      "s": "fa271ae6-9bee-46d8-b6d2-9125fa298629",
       "p": "on-failure",
-      "o": "6fe4bbe8-5c1d-4a0f-8963-04ba462fb3c6"
+      "o": "765bda9d-b267-4f95-99e3-3dad9a5d0272"
     }
   ],
   "tags": [
@@ -76,6 +76,12 @@
     "atomic-red-team"
   ],
   "input_arguments": [
+    {
+      "name": "vm_pass",
+      "type": "string",
+      "description": "Specify the privilege user password on ESXi Server",
+      "value": "pass"
+    },
     {
       "name": "vm_host",
       "type": "string",
@@ -87,12 +93,6 @@
       "type": "string",
       "description": "Specify the privilege user account on ESXi Server",
       "value": "root"
-    },
-    {
-      "name": "vm_pass",
-      "type": "string",
-      "description": "Specify the privilege user password on ESXi Server",
-      "value": "pass"
     }
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "96ddd4df-4e41-4718-8a80-620265533a64",
+      "id": "509c310b-928e-4707-b19f-3366c41c2be4",
       "type": "execute-command",
       "data": {
         "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Userinit\");\nSet-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Userinit-backup\" -Value \"$oldvalue\";\n$newvalue = $oldvalue + \" #{payload}\";\nSet-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Userinit\" -Value \"$newvalue\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "9ee8bfcc-16ed-46b3-b8a2-ec33251031a7",
+      "id": "37227167-7709-4a3b-a100-82a9bcc65ce1",
       "type": "execute-command",
       "data": {
         "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name 'Userinit-backup');\nSet-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Userinit\" -Value \"$oldvalue\";\nRemove-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name 'Userinit-backup'",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "96ddd4df-4e41-4718-8a80-620265533a64",
+      "s": "509c310b-928e-4707-b19f-3366c41c2be4",
       "p": "on-success",
-      "o": "9ee8bfcc-16ed-46b3-b8a2-ec33251031a7"
+      "o": "37227167-7709-4a3b-a100-82a9bcc65ce1"
     },
     {
-      "s": "96ddd4df-4e41-4718-8a80-620265533a64",
+      "s": "509c310b-928e-4707-b19f-3366c41c2be4",
       "p": "on-failure",
-      "o": "9ee8bfcc-16ed-46b3-b8a2-ec33251031a7"
+      "o": "37227167-7709-4a3b-a100-82a9bcc65ce1"
     }
   ],
   "tags": [

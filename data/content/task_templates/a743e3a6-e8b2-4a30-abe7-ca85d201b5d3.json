@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "ecea4eb8-1388-4cb4-8db0-68237a9de4a2",
+      "id": "bc2d7f49-0dcf-49ae-849a-ace95e0ee4f3",
       "type": "execute-command",
       "data": {
         "command": "zip -r  #{input_folder}/#{input_file}.zip #{input_folder}\nopenssl enc -aes-256-cbc -pass pass:#{enc_pass} -p -in #{input_folder}/#{input_file}.zip -out #{input_folder}/#{input_file}.enc \ncat #{input_folder}/#{input_file}.enc | base64",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "62b7ff67-7b60-446d-b38f-41b2077a5754",
+      "id": "b8eacc98-305c-4ae1-b799-d90b715ffef6",
       "type": "execute-command",
       "data": {
         "command": "rm -rf #{input_folder}",
@@ -26,7 +26,7 @@
       "elevation_required": false
     },
     {
-      "id": "5f02305e-3b97-44c9-bbbb-159a53171250",
+      "id": "af3bd31d-f6a2-4edb-a66b-01bc9a5df7cf",
       "name": "Check dependency 1/1",
       "description": "The folder and test files must exist",
       "type": "execute-command",
@@ -37,7 +37,7 @@
       "elevation_required": false
     },
     {
-      "id": "b3e81bea-a407-41f8-a50d-e7d15345ab2f",
+      "id": "7a2ba564-2141-45be-9d4a-229fe71abcae",
       "name": "Resolve dependency 1/1",
       "description": "The folder and test files must exist",
       "type": "execute-command",
@@ -48,7 +48,7 @@
       "elevation_required": false
     },
     {
-      "id": "ff5c813d-3674-449e-8e74-983a4a1c3c80",
+      "id": "3c452f50-8370-4aac-8601-30caf59d01d4",
       "name": "Re-check dependency 1/1",
       "description": "The folder and test files must exist",
       "type": "execute-command",
@@ -61,34 +61,34 @@
   ],
   "flows": [
     {
-      "s": "ecea4eb8-1388-4cb4-8db0-68237a9de4a2",
+      "s": "bc2d7f49-0dcf-49ae-849a-ace95e0ee4f3",
       "p": "on-success",
-      "o": "62b7ff67-7b60-446d-b38f-41b2077a5754"
+      "o": "b8eacc98-305c-4ae1-b799-d90b715ffef6"
     },
     {
-      "s": "ecea4eb8-1388-4cb4-8db0-68237a9de4a2",
+      "s": "bc2d7f49-0dcf-49ae-849a-ace95e0ee4f3",
       "p": "on-failure",
-      "o": "62b7ff67-7b60-446d-b38f-41b2077a5754"
+      "o": "b8eacc98-305c-4ae1-b799-d90b715ffef6"
     },
     {
-      "s": "5f02305e-3b97-44c9-bbbb-159a53171250",
+      "s": "af3bd31d-f6a2-4edb-a66b-01bc9a5df7cf",
       "p": "on-success",
-      "o": "ecea4eb8-1388-4cb4-8db0-68237a9de4a2"
+      "o": "bc2d7f49-0dcf-49ae-849a-ace95e0ee4f3"
     },
     {
-      "s": "5f02305e-3b97-44c9-bbbb-159a53171250",
+      "s": "af3bd31d-f6a2-4edb-a66b-01bc9a5df7cf",
       "p": "on-failure",
-      "o": "b3e81bea-a407-41f8-a50d-e7d15345ab2f"
+      "o": "7a2ba564-2141-45be-9d4a-229fe71abcae"
     },
     {
-      "s": "b3e81bea-a407-41f8-a50d-e7d15345ab2f",
+      "s": "7a2ba564-2141-45be-9d4a-229fe71abcae",
       "p": "on-success",
-      "o": "ff5c813d-3674-449e-8e74-983a4a1c3c80"
+      "o": "3c452f50-8370-4aac-8601-30caf59d01d4"
     },
     {
-      "s": "ff5c813d-3674-449e-8e74-983a4a1c3c80",
+      "s": "3c452f50-8370-4aac-8601-30caf59d01d4",
       "p": "on-failure",
-      "o": "ecea4eb8-1388-4cb4-8db0-68237a9de4a2"
+      "o": "bc2d7f49-0dcf-49ae-849a-ace95e0ee4f3"
     }
   ],
   "tags": [

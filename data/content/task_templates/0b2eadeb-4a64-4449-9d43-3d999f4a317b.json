@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "46a44140-b428-4644-b5c9-141fc0d00042",
+      "id": "a468a6c8-c140-4c6f-8af5-0ce073b0752f",
       "type": "execute-command",
       "data": {
         "command": "$termsrvDll = \"C:\\Windows\\System32\\termsrv.dll\"\n\n$ACL = Get-Acl $termsrvDll\n$permission = \"Administrators\",\"FullControl\",\"Allow\"\n$accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule $permission\n$ACL.SetAccessRule($accessRule)\nSet-Acl -Path $termsrvDll -AclObject $ACL\n\nCopy-Item -Path \"C:\\Windows\\System32\\termsrv.dll\" -Destination \"C:\\Windows\\System32\\termsrv_backup.dll\" -ErrorAction Ignore\nAdd-Content -Path \"C:\\Windows\\System32\\termsrv.dll\" -Value \"`n\" -NoNewline -ErrorAction Ignore\nMove-Item -Path \"C:\\Windows\\System32\\termsrv_backup.dll\" -Destination \"C:\\Windows\\System32\\termsrv.dll\" -Force -ErrorAction Ignore\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "7be08de1-ffb5-4ea3-8b75-26bac54c92d5",
+      "id": "1253d217-80bf-4840-ba3f-8aeb69117b56",
       "type": "execute-command",
       "data": {
         "command": "Move-Item -Path \"C:\\Windows\\System32\\termsrv_backup.dll\" -Destination \"C:\\Windows\\System32\\termsrv.dll\" -Force -ErrorAction Ignore\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "46a44140-b428-4644-b5c9-141fc0d00042",
+      "s": "a468a6c8-c140-4c6f-8af5-0ce073b0752f",
       "p": "on-success",
-      "o": "7be08de1-ffb5-4ea3-8b75-26bac54c92d5"
+      "o": "1253d217-80bf-4840-ba3f-8aeb69117b56"
     },
     {
-      "s": "46a44140-b428-4644-b5c9-141fc0d00042",
+      "s": "a468a6c8-c140-4c6f-8af5-0ce073b0752f",
       "p": "on-failure",
-      "o": "7be08de1-ffb5-4ea3-8b75-26bac54c92d5"
+      "o": "1253d217-80bf-4840-ba3f-8aeb69117b56"
     }
   ],
   "tags": [

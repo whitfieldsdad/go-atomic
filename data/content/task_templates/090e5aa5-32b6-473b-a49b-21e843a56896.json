@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "5cdbe444-1b3c-4f01-ac03-05607830cb5c",
+      "id": "978ba7b7-9dbd-48ab-8ba1-9fae7f63ebba",
       "type": "execute-command",
       "data": {
         "command": "Add-Content #{ps_profile} -Value \"\"\nAdd-Content #{ps_profile} -Value \"Start-Process #{exe_path}\"\npowershell -Command exit\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "208c7827-2263-446c-98aa-d2e5247d79a2",
+      "id": "566f3f9b-bb6f-419e-93b3-c9d77499d524",
       "type": "execute-command",
       "data": {
         "command": "$oldprofile = cat $profile | Select-Object -skiplast 1\nSet-Content $profile -Value $oldprofile\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "ff871bea-a727-4209-a703-b38bf6e1b10a",
+      "id": "cb7bafe7-0d74-4e1c-9a55-a6744283d86d",
       "name": "Check dependency 1/1",
       "description": "Ensure a powershell profile exists for the current user\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "d4e9a4e0-b936-4a1a-b443-62fa8f8e01ec",
+      "id": "f232ab59-ae2b-4234-8226-8afa61735dea",
       "name": "Resolve dependency 1/1",
       "description": "Ensure a powershell profile exists for the current user\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "bd713aed-6cad-40e1-a22f-a1d1d37b7504",
+      "id": "4c2414c8-5014-4001-aadd-26f6807d28fb",
       "name": "Re-check dependency 1/1",
       "description": "Ensure a powershell profile exists for the current user\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "5cdbe444-1b3c-4f01-ac03-05607830cb5c",
+      "s": "978ba7b7-9dbd-48ab-8ba1-9fae7f63ebba",
       "p": "on-success",
-      "o": "208c7827-2263-446c-98aa-d2e5247d79a2"
+      "o": "566f3f9b-bb6f-419e-93b3-c9d77499d524"
     },
     {
-      "s": "5cdbe444-1b3c-4f01-ac03-05607830cb5c",
+      "s": "978ba7b7-9dbd-48ab-8ba1-9fae7f63ebba",
       "p": "on-failure",
-      "o": "208c7827-2263-446c-98aa-d2e5247d79a2"
+      "o": "566f3f9b-bb6f-419e-93b3-c9d77499d524"
     },
     {
-      "s": "ff871bea-a727-4209-a703-b38bf6e1b10a",
+      "s": "cb7bafe7-0d74-4e1c-9a55-a6744283d86d",
       "p": "on-success",
-      "o": "5cdbe444-1b3c-4f01-ac03-05607830cb5c"
+      "o": "978ba7b7-9dbd-48ab-8ba1-9fae7f63ebba"
     },
     {
-      "s": "ff871bea-a727-4209-a703-b38bf6e1b10a",
+      "s": "cb7bafe7-0d74-4e1c-9a55-a6744283d86d",
       "p": "on-failure",
-      "o": "d4e9a4e0-b936-4a1a-b443-62fa8f8e01ec"
+      "o": "f232ab59-ae2b-4234-8226-8afa61735dea"
     },
     {
-      "s": "d4e9a4e0-b936-4a1a-b443-62fa8f8e01ec",
+      "s": "f232ab59-ae2b-4234-8226-8afa61735dea",
       "p": "on-success",
-      "o": "bd713aed-6cad-40e1-a22f-a1d1d37b7504"
+      "o": "4c2414c8-5014-4001-aadd-26f6807d28fb"
     },
     {
-      "s": "bd713aed-6cad-40e1-a22f-a1d1d37b7504",
+      "s": "4c2414c8-5014-4001-aadd-26f6807d28fb",
       "p": "on-failure",
-      "o": "5cdbe444-1b3c-4f01-ac03-05607830cb5c"
+      "o": "978ba7b7-9dbd-48ab-8ba1-9fae7f63ebba"
     }
   ],
   "tags": [

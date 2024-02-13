@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "206d3ad6-57f1-4ba9-a7e2-69849f43ab49",
+      "id": "84ef87d9-6843-4496-a782-108e9d97aa8c",
       "type": "execute-command",
       "data": {
         "command": "Add-Type -AssemblyName System.Windows.Forms\n$screen = [Windows.Forms.SystemInformation]::VirtualScreen\n$bitmap = New-Object Drawing.Bitmap $screen.Width, $screen.Height\n$graphic = [Drawing.Graphics]::FromImage($bitmap)\n$graphic.CopyFromScreen($screen.Left, $screen.Top, 0, 0, $bitmap.Size)\n$bitmap.Save(\"#{output_file}\")\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "77447d2d-700b-4fb4-bc36-0a87cb2ca1b9",
+      "id": "61a6dd52-4664-4ae7-8f07-f17f9bf6e932",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item #{output_file} -ErrorAction Ignore\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "206d3ad6-57f1-4ba9-a7e2-69849f43ab49",
+      "s": "84ef87d9-6843-4496-a782-108e9d97aa8c",
       "p": "on-success",
-      "o": "77447d2d-700b-4fb4-bc36-0a87cb2ca1b9"
+      "o": "61a6dd52-4664-4ae7-8f07-f17f9bf6e932"
     },
     {
-      "s": "206d3ad6-57f1-4ba9-a7e2-69849f43ab49",
+      "s": "84ef87d9-6843-4496-a782-108e9d97aa8c",
       "p": "on-failure",
-      "o": "77447d2d-700b-4fb4-bc36-0a87cb2ca1b9"
+      "o": "61a6dd52-4664-4ae7-8f07-f17f9bf6e932"
     }
   ],
   "tags": [

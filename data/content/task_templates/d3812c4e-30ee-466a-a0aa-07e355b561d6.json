@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1d1a610e-b191-4ebd-bf11-5063f30a27ef",
+      "id": "68ccf8f9-9095-40ca-a8c2-f3cc954686d4",
       "type": "execute-command",
       "data": {
         "command": "sysadminctl -deleteUser #{user_account} #enter admin password\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "70d131a2-41d0-4be2-ac6c-d5d2f76f3093",
+      "id": "a6af4fad-4244-451c-8b7e-3afa9f883537",
       "type": "execute-command",
       "data": {
         "command": "sysadminctl -addUser #{user_account} -fullName \"#{user_name}\" -password #{user_password}\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "1d1a610e-b191-4ebd-bf11-5063f30a27ef",
+      "s": "68ccf8f9-9095-40ca-a8c2-f3cc954686d4",
       "p": "on-success",
-      "o": "70d131a2-41d0-4be2-ac6c-d5d2f76f3093"
+      "o": "a6af4fad-4244-451c-8b7e-3afa9f883537"
     },
     {
-      "s": "1d1a610e-b191-4ebd-bf11-5063f30a27ef",
+      "s": "68ccf8f9-9095-40ca-a8c2-f3cc954686d4",
       "p": "on-failure",
-      "o": "70d131a2-41d0-4be2-ac6c-d5d2f76f3093"
+      "o": "a6af4fad-4244-451c-8b7e-3afa9f883537"
     }
   ],
   "tags": [
@@ -42,12 +42,6 @@
     "atomic-red-team"
   ],
   "input_arguments": [
-    {
-      "name": "user_password",
-      "type": "string",
-      "description": "New user password.",
-      "value": "ARTPassword"
-    },
     {
       "name": "user_account",
       "type": "string",
@@ -59,6 +53,12 @@
       "type": "string",
       "description": "New user name.",
       "value": "ARTUser"
+    },
+    {
+      "name": "user_password",
+      "type": "string",
+      "description": "New user password.",
+      "value": "ARTPassword"
     }
   ]
 }

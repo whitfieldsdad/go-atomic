@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "318c7024-10e7-4a93-afe5-b864599670e5",
+      "id": "3abad989-024f-46de-8f55-245b2bb8d6a2",
       "type": "execute-command",
       "data": {
         "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\nGet-VMHostService -VMHost #{vm_host} | Where-Object {$_.Key -eq \"TSM-SSH\" } | Start-VMHostService -Confirm:$false\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "84a966bd-1a73-4f1e-a41b-f2137d053cf6",
+      "id": "f6dd2a4e-1e65-4309-a1d6-ff2a8c063529",
       "type": "execute-command",
       "data": {
         "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\nGet-VMHostService -VMHost #{vm_host} | Where-Object {$_.Key -eq \"TSM-SSH\" } | Stop-VMHostService -Confirm:$false\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "63e56845-2184-4778-adee-37fb42ebba95",
+      "id": "1c71032c-6f7a-4568-92c2-9e12f402a4b1",
       "name": "Check dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "60bca67e-2a14-4170-ad05-ad44d5d8f107",
+      "id": "28689694-b43c-437d-8d05-6114224c7076",
       "name": "Resolve dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "acfd1151-01a0-49b9-bad6-fc242a8b0bff",
+      "id": "b5ef3c11-a77d-4667-9b27-623f5cae33f6",
       "name": "Re-check dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "318c7024-10e7-4a93-afe5-b864599670e5",
+      "s": "3abad989-024f-46de-8f55-245b2bb8d6a2",
       "p": "on-success",
-      "o": "84a966bd-1a73-4f1e-a41b-f2137d053cf6"
+      "o": "f6dd2a4e-1e65-4309-a1d6-ff2a8c063529"
     },
     {
-      "s": "318c7024-10e7-4a93-afe5-b864599670e5",
+      "s": "3abad989-024f-46de-8f55-245b2bb8d6a2",
       "p": "on-failure",
-      "o": "84a966bd-1a73-4f1e-a41b-f2137d053cf6"
+      "o": "f6dd2a4e-1e65-4309-a1d6-ff2a8c063529"
     },
     {
-      "s": "63e56845-2184-4778-adee-37fb42ebba95",
+      "s": "1c71032c-6f7a-4568-92c2-9e12f402a4b1",
       "p": "on-success",
-      "o": "318c7024-10e7-4a93-afe5-b864599670e5"
+      "o": "3abad989-024f-46de-8f55-245b2bb8d6a2"
     },
     {
-      "s": "63e56845-2184-4778-adee-37fb42ebba95",
+      "s": "1c71032c-6f7a-4568-92c2-9e12f402a4b1",
       "p": "on-failure",
-      "o": "60bca67e-2a14-4170-ad05-ad44d5d8f107"
+      "o": "28689694-b43c-437d-8d05-6114224c7076"
     },
     {
-      "s": "60bca67e-2a14-4170-ad05-ad44d5d8f107",
+      "s": "28689694-b43c-437d-8d05-6114224c7076",
       "p": "on-success",
-      "o": "acfd1151-01a0-49b9-bad6-fc242a8b0bff"
+      "o": "b5ef3c11-a77d-4667-9b27-623f5cae33f6"
     },
     {
-      "s": "acfd1151-01a0-49b9-bad6-fc242a8b0bff",
+      "s": "b5ef3c11-a77d-4667-9b27-623f5cae33f6",
       "p": "on-failure",
-      "o": "318c7024-10e7-4a93-afe5-b864599670e5"
+      "o": "3abad989-024f-46de-8f55-245b2bb8d6a2"
     }
   ],
   "tags": [

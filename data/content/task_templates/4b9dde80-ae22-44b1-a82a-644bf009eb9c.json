@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "a45e2d1f-d79b-41f2-99b2-449f69dfe916",
+      "id": "d6a7f64e-f64a-453a-b699-7524b7bf044d",
       "type": "execute-command",
       "data": {
         "command": "sudo sed -i \"#{index}s,^,#{pam_rule}\\n,g\" #{path_to_pam_conf}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "50bba443-b380-4de9-bd5c-c28fb2439f9e",
+      "id": "da46c2d8-2cdb-4a14-b4a9-d7ba85949409",
       "type": "execute-command",
       "data": {
         "command": "sudo sed -i \"\\,#{pam_rule},d\" #{path_to_pam_conf}\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "a45e2d1f-d79b-41f2-99b2-449f69dfe916",
+      "s": "d6a7f64e-f64a-453a-b699-7524b7bf044d",
       "p": "on-success",
-      "o": "50bba443-b380-4de9-bd5c-c28fb2439f9e"
+      "o": "da46c2d8-2cdb-4a14-b4a9-d7ba85949409"
     },
     {
-      "s": "a45e2d1f-d79b-41f2-99b2-449f69dfe916",
+      "s": "d6a7f64e-f64a-453a-b699-7524b7bf044d",
       "p": "on-failure",
-      "o": "50bba443-b380-4de9-bd5c-c28fb2439f9e"
+      "o": "da46c2d8-2cdb-4a14-b4a9-d7ba85949409"
     }
   ],
   "tags": [
@@ -42,12 +42,6 @@
     "atomic-red-team"
   ],
   "input_arguments": [
-    {
-      "name": "index",
-      "type": "integer",
-      "description": "Index where the rule is inserted.",
-      "value": "1"
-    },
     {
       "name": "path_to_pam_conf",
       "type": "string",
@@ -59,6 +53,12 @@
       "type": "string",
       "description": "Rule to add to the PAM config.",
       "value": "auth sufficient pam_succeed_if.so uid \u003e= 0"
+    },
+    {
+      "name": "index",
+      "type": "integer",
+      "description": "Index where the rule is inserted.",
+      "value": "1"
     }
   ]
 }

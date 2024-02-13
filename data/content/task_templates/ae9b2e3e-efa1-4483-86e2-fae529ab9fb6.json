@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "8b44ba29-ffe6-4a46-965a-7a0626a31f18",
+      "id": "e47abb49-6020-4b6b-8206-a11f2a0176af",
       "type": "execute-command",
       "data": {
         "command": "import-module msonline\n$Password = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Password\nConnect-MsolService -Credential $Credential\n$users = Get-MsolUser -All;\nforeach($user in $users)\n{$props = @();$user | Get-Member | foreach-object{$props+=$_.Name}; \nforeach($prop in $props)\n{if($user.$prop -like \"*password*\")\n{(\"[*]\" + $user.UserPrincipalName + \"[\" + $prop + \"]\" + \" : \" + $user.$prop) | out-file -filepath $env:temp\\T1552.005Test1.txt -append -force}}}\nget-content -path $env:temp\\T1552.005Test1.txt -erroraction silentlycontinue\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "9a348228-1911-4a4b-b16c-77d3d8af4351",
+      "id": "0395e5d7-3172-4f0f-8669-bf94c2c3b332",
       "type": "execute-command",
       "data": {
         "command": "remove-item $env:temp\\T1552.005Test1.txt -force -erroraction silentlycontinue\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "5212e671-1704-4a7c-9e0f-07c2bcd04484",
+      "id": "32c7cfab-8322-4098-9f11-cf40284ef889",
       "name": "Check dependency 1/1",
       "description": "The MSOnline module must be installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "96e4f043-d14d-4275-80f2-0cb13272d8b7",
+      "id": "db04985c-965d-4304-a9c4-d5f37d873935",
       "name": "Resolve dependency 1/1",
       "description": "The MSOnline module must be installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "e63f5178-738e-4e82-a653-8e3134869fe3",
+      "id": "e3305128-d287-418f-9f3e-5ec2c52ef267",
       "name": "Re-check dependency 1/1",
       "description": "The MSOnline module must be installed.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "8b44ba29-ffe6-4a46-965a-7a0626a31f18",
+      "s": "e47abb49-6020-4b6b-8206-a11f2a0176af",
       "p": "on-success",
-      "o": "9a348228-1911-4a4b-b16c-77d3d8af4351"
+      "o": "0395e5d7-3172-4f0f-8669-bf94c2c3b332"
     },
     {
-      "s": "8b44ba29-ffe6-4a46-965a-7a0626a31f18",
+      "s": "e47abb49-6020-4b6b-8206-a11f2a0176af",
       "p": "on-failure",
-      "o": "9a348228-1911-4a4b-b16c-77d3d8af4351"
+      "o": "0395e5d7-3172-4f0f-8669-bf94c2c3b332"
     },
     {
-      "s": "5212e671-1704-4a7c-9e0f-07c2bcd04484",
+      "s": "32c7cfab-8322-4098-9f11-cf40284ef889",
       "p": "on-success",
-      "o": "8b44ba29-ffe6-4a46-965a-7a0626a31f18"
+      "o": "e47abb49-6020-4b6b-8206-a11f2a0176af"
     },
     {
-      "s": "5212e671-1704-4a7c-9e0f-07c2bcd04484",
+      "s": "32c7cfab-8322-4098-9f11-cf40284ef889",
       "p": "on-failure",
-      "o": "96e4f043-d14d-4275-80f2-0cb13272d8b7"
+      "o": "db04985c-965d-4304-a9c4-d5f37d873935"
     },
     {
-      "s": "96e4f043-d14d-4275-80f2-0cb13272d8b7",
+      "s": "db04985c-965d-4304-a9c4-d5f37d873935",
       "p": "on-success",
-      "o": "e63f5178-738e-4e82-a653-8e3134869fe3"
+      "o": "e3305128-d287-418f-9f3e-5ec2c52ef267"
     },
     {
-      "s": "e63f5178-738e-4e82-a653-8e3134869fe3",
+      "s": "e3305128-d287-418f-9f3e-5ec2c52ef267",
       "p": "on-failure",
-      "o": "8b44ba29-ffe6-4a46-965a-7a0626a31f18"
+      "o": "e47abb49-6020-4b6b-8206-a11f2a0176af"
     }
   ],
   "tags": [
@@ -96,16 +96,16 @@
   ],
   "input_arguments": [
     {
-      "name": "username",
-      "type": "string",
-      "description": "Azure AD username",
-      "value": ""
-    },
-    {
       "name": "password",
       "type": "string",
       "description": "Azure AD password",
       "value": "T1082Az"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Azure AD username",
+      "value": ""
     }
   ]
 }

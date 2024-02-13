@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "17125c73-2c0a-46f8-a4e4-98f959f081f7",
+      "id": "9aa60d0d-0a14-480f-b6b0-0962f671f45c",
       "type": "execute-command",
       "data": {
         "command": "useradd -g 0 -M -d /root -s /bin/bash #{username}\nif [ $(cat /etc/os-release | grep -i 'Name=\"ubuntu\"') ]; then echo \"#{username}:#{password}\" | sudo chpasswd; else echo \"#{password}\" | passwd --stdin #{username}; fi;\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "fba1e7f7-05c3-4a5e-a9ad-4c300757465e",
+      "id": "4f1808d6-b905-4c05-a4bc-b2aca2284f90",
       "type": "execute-command",
       "data": {
         "command": "userdel #{username}\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "17125c73-2c0a-46f8-a4e4-98f959f081f7",
+      "s": "9aa60d0d-0a14-480f-b6b0-0962f671f45c",
       "p": "on-success",
-      "o": "fba1e7f7-05c3-4a5e-a9ad-4c300757465e"
+      "o": "4f1808d6-b905-4c05-a4bc-b2aca2284f90"
     },
     {
-      "s": "17125c73-2c0a-46f8-a4e4-98f959f081f7",
+      "s": "9aa60d0d-0a14-480f-b6b0-0962f671f45c",
       "p": "on-failure",
-      "o": "fba1e7f7-05c3-4a5e-a9ad-4c300757465e"
+      "o": "4f1808d6-b905-4c05-a4bc-b2aca2284f90"
     }
   ],
   "tags": [

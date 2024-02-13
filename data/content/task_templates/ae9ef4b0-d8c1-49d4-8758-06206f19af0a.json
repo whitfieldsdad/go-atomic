@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e5ad8ec1-1d54-4f5a-9b75-9c7fd955e661",
+      "id": "6a94d215-6488-4dd1-af09-adea73d8625a",
       "type": "execute-command",
       "data": {
         "command": "for($i=0; $i -le #{query_volume}; $i++) { (Invoke-WebRequest \"#{doh_server}?name=#{subdomain}.$(Get-Random -Minimum 1 -Maximum 999999).#{domain}\u0026type=#{query_type}\" -UseBasicParsing).Content }\n",
@@ -21,12 +21,6 @@
     "atomic-red-team"
   ],
   "input_arguments": [
-    {
-      "name": "subdomain",
-      "type": "string",
-      "description": "Subdomain prepended to the domain name",
-      "value": "atomicredteam"
-    },
     {
       "name": "query_volume",
       "type": "integer",
@@ -50,6 +44,12 @@
       "type": "string",
       "description": "DNS query type",
       "value": "TXT"
+    },
+    {
+      "name": "subdomain",
+      "type": "string",
+      "description": "Subdomain prepended to the domain name",
+      "value": "atomicredteam"
     }
   ]
 }

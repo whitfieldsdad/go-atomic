@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "c67d1db0-06eb-452d-b87d-95ee75131bf3",
+      "id": "06d9b592-7fd1-4152-8c40-192bb49851c7",
       "type": "execute-command",
       "data": {
         "command": "sudo rm #{journal_folder}/* #physically deletes the journal files, and not just their content\nsudo journalctl --vacuum-time=0 #clears the journal while still keeping the journal files in place\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "f01bd022-9e26-4b67-b6c6-3ca585c3c4d8",
+      "id": "e625b5ac-0b76-4c5b-acf2-39d31a970f30",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "3d33bc08-bc04-494f-999c-9f14a6cc293c",
+      "id": "827f29ad-ba74-47df-8ff2-e79a30c8e732",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "c4b50f35-31ab-427c-a790-ba60f9270211",
+      "id": "4ae30cf0-2e4a-4349-86d9-a49e3221979f",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "f01bd022-9e26-4b67-b6c6-3ca585c3c4d8",
+      "s": "e625b5ac-0b76-4c5b-acf2-39d31a970f30",
       "p": "on-success",
-      "o": "c67d1db0-06eb-452d-b87d-95ee75131bf3"
+      "o": "06d9b592-7fd1-4152-8c40-192bb49851c7"
     },
     {
-      "s": "f01bd022-9e26-4b67-b6c6-3ca585c3c4d8",
+      "s": "e625b5ac-0b76-4c5b-acf2-39d31a970f30",
       "p": "on-failure",
-      "o": "3d33bc08-bc04-494f-999c-9f14a6cc293c"
+      "o": "827f29ad-ba74-47df-8ff2-e79a30c8e732"
     },
     {
-      "s": "3d33bc08-bc04-494f-999c-9f14a6cc293c",
+      "s": "827f29ad-ba74-47df-8ff2-e79a30c8e732",
       "p": "on-success",
-      "o": "c4b50f35-31ab-427c-a790-ba60f9270211"
+      "o": "4ae30cf0-2e4a-4349-86d9-a49e3221979f"
     },
     {
-      "s": "c4b50f35-31ab-427c-a790-ba60f9270211",
+      "s": "4ae30cf0-2e4a-4349-86d9-a49e3221979f",
       "p": "on-failure",
-      "o": "c67d1db0-06eb-452d-b87d-95ee75131bf3"
+      "o": "06d9b592-7fd1-4152-8c40-192bb49851c7"
     }
   ],
   "tags": [

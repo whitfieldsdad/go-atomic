@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "7b4a0ea8-7d1b-48e4-99bc-ee28eab131a0",
+      "id": "ce15ca35-1ba7-4f2c-8b39-c7ffdd0d1983",
       "type": "execute-command",
       "data": {
         "command": "$which_openssl genrsa -out #{private_key_path} #{encryption_bit_size}\n$which_openssl rsa -in #{private_key_path} -pubout -out #{public_key_path}\n$which_openssl rsautl -encrypt -inkey #{public_key_path} -pubin -in #{input_file_path} -out #{encrypted_file_path}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "bc27aef7-ff4c-4194-9312-cdc0cc60c713",
+      "id": "cbe12827-940b-416b-9ea6-cdf06a1ae1c6",
       "type": "execute-command",
       "data": {
         "command": "$which_openssl rsautl -decrypt -inkey #{private_key_path} -in #{encrypted_file_path}\nrm #{encrypted_file_path}\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "e365663f-cc00-459d-b2a1-8d86c4640ae0",
+      "id": "e3e9743d-cf56-47ff-a67f-1715e1655164",
       "name": "Check dependency 1/1",
       "description": "Finds where openssl is located\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "8ae7404a-b2ad-4354-8e51-a28350a0945b",
+      "id": "4c661534-a117-4d09-a058-a959c5e849f4",
       "name": "Resolve dependency 1/1",
       "description": "Finds where openssl is located\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "114db23a-bfc0-4062-98a5-2808d87e8ab1",
+      "id": "54d2dde1-25be-46d7-b987-c5f52246a680",
       "name": "Re-check dependency 1/1",
       "description": "Finds where openssl is located\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "7b4a0ea8-7d1b-48e4-99bc-ee28eab131a0",
+      "s": "ce15ca35-1ba7-4f2c-8b39-c7ffdd0d1983",
       "p": "on-success",
-      "o": "bc27aef7-ff4c-4194-9312-cdc0cc60c713"
+      "o": "cbe12827-940b-416b-9ea6-cdf06a1ae1c6"
     },
     {
-      "s": "7b4a0ea8-7d1b-48e4-99bc-ee28eab131a0",
+      "s": "ce15ca35-1ba7-4f2c-8b39-c7ffdd0d1983",
       "p": "on-failure",
-      "o": "bc27aef7-ff4c-4194-9312-cdc0cc60c713"
+      "o": "cbe12827-940b-416b-9ea6-cdf06a1ae1c6"
     },
     {
-      "s": "e365663f-cc00-459d-b2a1-8d86c4640ae0",
+      "s": "e3e9743d-cf56-47ff-a67f-1715e1655164",
       "p": "on-success",
-      "o": "7b4a0ea8-7d1b-48e4-99bc-ee28eab131a0"
+      "o": "ce15ca35-1ba7-4f2c-8b39-c7ffdd0d1983"
     },
     {
-      "s": "e365663f-cc00-459d-b2a1-8d86c4640ae0",
+      "s": "e3e9743d-cf56-47ff-a67f-1715e1655164",
       "p": "on-failure",
-      "o": "8ae7404a-b2ad-4354-8e51-a28350a0945b"
+      "o": "4c661534-a117-4d09-a058-a959c5e849f4"
     },
     {
-      "s": "8ae7404a-b2ad-4354-8e51-a28350a0945b",
+      "s": "4c661534-a117-4d09-a058-a959c5e849f4",
       "p": "on-success",
-      "o": "114db23a-bfc0-4062-98a5-2808d87e8ab1"
+      "o": "54d2dde1-25be-46d7-b987-c5f52246a680"
     },
     {
-      "s": "114db23a-bfc0-4062-98a5-2808d87e8ab1",
+      "s": "54d2dde1-25be-46d7-b987-c5f52246a680",
       "p": "on-failure",
-      "o": "7b4a0ea8-7d1b-48e4-99bc-ee28eab131a0"
+      "o": "ce15ca35-1ba7-4f2c-8b39-c7ffdd0d1983"
     }
   ],
   "tags": [

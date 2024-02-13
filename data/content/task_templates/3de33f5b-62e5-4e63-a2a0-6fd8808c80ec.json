@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "8261ead8-0551-417d-9b0a-5e96000aac94",
+      "id": "cf787c7a-99ff-4032-828c-f6fe611da7ba",
       "type": "execute-command",
       "data": {
         "command": "systemd-run --user --unit=Atomic-Red-Team --on-calendar '*:0/1' /bin/sh -c 'echo \"$(date) $(whoami)\" \u003e\u003e/tmp/log'\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "07f7058c-d139-466f-ad6a-f6fc050c03f7",
+      "id": "4b3b551c-44bd-4ef2-8578-61834fdd27c2",
       "type": "execute-command",
       "data": {
         "command": "systemctl --user stop Atomic-Red-Team.service\nsystemctl --user stop Atomic-Red-Team.timer\nrm /tmp/log\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "5bb38ce9-3f2a-4c95-95d6-c45778d4a083",
+      "id": "befe443d-2e36-4f32-9d84-8e7854a3c1f5",
       "name": "Check dependency 1/1",
       "description": "Check if systemd-run exists on the machine\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "6c903fba-667c-462b-8dbb-b6eb1f28b6ea",
+      "id": "2fc58403-4f2f-49f7-939d-f0de049753e4",
       "name": "Resolve dependency 1/1",
       "description": "Check if systemd-run exists on the machine\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "c0396377-6973-4347-a036-b9710c7cd38d",
+      "id": "15e6920e-4e62-4ccd-8ed3-7fcf896a1e1a",
       "name": "Re-check dependency 1/1",
       "description": "Check if systemd-run exists on the machine\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "8261ead8-0551-417d-9b0a-5e96000aac94",
+      "s": "cf787c7a-99ff-4032-828c-f6fe611da7ba",
       "p": "on-success",
-      "o": "07f7058c-d139-466f-ad6a-f6fc050c03f7"
+      "o": "4b3b551c-44bd-4ef2-8578-61834fdd27c2"
     },
     {
-      "s": "8261ead8-0551-417d-9b0a-5e96000aac94",
+      "s": "cf787c7a-99ff-4032-828c-f6fe611da7ba",
       "p": "on-failure",
-      "o": "07f7058c-d139-466f-ad6a-f6fc050c03f7"
+      "o": "4b3b551c-44bd-4ef2-8578-61834fdd27c2"
     },
     {
-      "s": "5bb38ce9-3f2a-4c95-95d6-c45778d4a083",
+      "s": "befe443d-2e36-4f32-9d84-8e7854a3c1f5",
       "p": "on-success",
-      "o": "8261ead8-0551-417d-9b0a-5e96000aac94"
+      "o": "cf787c7a-99ff-4032-828c-f6fe611da7ba"
     },
     {
-      "s": "5bb38ce9-3f2a-4c95-95d6-c45778d4a083",
+      "s": "befe443d-2e36-4f32-9d84-8e7854a3c1f5",
       "p": "on-failure",
-      "o": "6c903fba-667c-462b-8dbb-b6eb1f28b6ea"
+      "o": "2fc58403-4f2f-49f7-939d-f0de049753e4"
     },
     {
-      "s": "6c903fba-667c-462b-8dbb-b6eb1f28b6ea",
+      "s": "2fc58403-4f2f-49f7-939d-f0de049753e4",
       "p": "on-success",
-      "o": "c0396377-6973-4347-a036-b9710c7cd38d"
+      "o": "15e6920e-4e62-4ccd-8ed3-7fcf896a1e1a"
     },
     {
-      "s": "c0396377-6973-4347-a036-b9710c7cd38d",
+      "s": "15e6920e-4e62-4ccd-8ed3-7fcf896a1e1a",
       "p": "on-failure",
-      "o": "8261ead8-0551-417d-9b0a-5e96000aac94"
+      "o": "cf787c7a-99ff-4032-828c-f6fe611da7ba"
     }
   ],
   "tags": [

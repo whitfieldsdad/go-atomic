@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "149ae243-dc32-428a-ade9-134f55045071",
+      "id": "bee2929e-86e4-45b4-b9d7-8cc010648002",
       "type": "execute-command",
       "data": {
         "command": "reg  add HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\ModuleLogging /v EnableModuleLogging /t REG_DWORD /d 0 /f\nreg  add HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging /v EnableScriptBlockLogging /t REG_DWORD /d 0 /f\nreg  add HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription /v EnableTranscripting /t REG_DWORD /d 0 /f\nreg  add HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell /v EnableScripts /t REG_DWORD /d 0 /f\nREM do a little cleanup immediately to avoid execution issues with later tests\nreg delete HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell /v EnableScripts /f \u003enul 2\u003e\u00261\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "7e38264c-0d93-4973-8d95-57ab4e63eea0",
+      "id": "0c786ba5-1335-4a9f-be7f-ddf1d786f13c",
       "type": "execute-command",
       "data": {
         "command": "reg delete HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\ModuleLogging /v EnableModuleLogging /f \u003enul 2\u003e\u00261\nreg delete HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging /v EnableScriptBlockLogging /f \u003enul 2\u003e\u00261\nreg delete HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription /v EnableTranscripting /f \u003enul 2\u003e\u00261\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "149ae243-dc32-428a-ade9-134f55045071",
+      "s": "bee2929e-86e4-45b4-b9d7-8cc010648002",
       "p": "on-success",
-      "o": "7e38264c-0d93-4973-8d95-57ab4e63eea0"
+      "o": "0c786ba5-1335-4a9f-be7f-ddf1d786f13c"
     },
     {
-      "s": "149ae243-dc32-428a-ade9-134f55045071",
+      "s": "bee2929e-86e4-45b4-b9d7-8cc010648002",
       "p": "on-failure",
-      "o": "7e38264c-0d93-4973-8d95-57ab4e63eea0"
+      "o": "0c786ba5-1335-4a9f-be7f-ddf1d786f13c"
     }
   ],
   "tags": [

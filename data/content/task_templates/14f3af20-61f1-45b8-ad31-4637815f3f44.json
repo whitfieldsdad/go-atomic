@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "c35bc0eb-52a6-452b-9476-259d949a0d86",
+      "id": "572f1a33-6465-4884-8501-67dac8b79281",
       "type": "execute-command",
       "data": {
         "command": "Import-Module MSOnline\nImport-Module AzureAD\n$password = ConvertTo-SecureString -String \"#{auth_password}\" -AsPlainText -Force\n$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{auth_username}\", $password\n$targetsecurepw = ConvertTo-SecureString -String \"#{target_password}\" -AsPlainText -Force\nConnect-MsolService -Credential $credential -ErrorAction:SilentlyContinue\nConnect-AzureAD -Credential $credential -ErrorAction:SilentlyContinue\n\n#Saving the ObjectId of the target_user into a variable\n$target_objid = Get-AzureADUser -filter \"userPrincipalName eq '#{target_user}'\" | Select-Object -ExpandProperty ObjectId\n\n#Reset the password of the target_user\nSet-AzureADUserPassword -ObjectId  $target_objid -Password $targetsecurepw -ErrorAction:SilentlyContinue\n\n#Adding target_user\nAdd-MsolRoleMember -RoleName \"Company Administrator\" -RoleMemberEmailAddress \"#{target_user}\"\nAdd-MsolRoleMember -RoleName \"Global Reader\" -RoleMemberEmailAddress \"#{target_user}\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "8bdb7d92-4de9-4b77-aa60-b056884a45ad",
+      "id": "7d820eb9-2f68-4613-852e-61d4150cccb1",
       "type": "execute-command",
       "data": {
         "command": "Import-Module MSOnline\n$password = ConvertTo-SecureString -String \"#{auth_password}\" -AsPlainText -Force\n$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{auth_username}\", $password\nConnect-MsolService -Credential $credential\nRemove-MsolRoleMember -RoleName \"Company Administrator\" -RoleMemberType User -RoleMemberEmailAddress \"#{target_user}\"\nRemove-MsolRoleMember -RoleName \"Global Reader\" -RoleMemberType User -RoleMemberEmailAddress \"#{target_user}\"\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "a436f572-523a-47aa-8f68-8dfd5cd116af",
+      "id": "53918ec7-d756-4beb-a6c2-d7d2b0b956e4",
       "name": "Check dependency 1/1",
       "description": "MSOnline and AzureAD modules must be installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "f856def6-a569-497f-babe-8e0b42bf3f36",
+      "id": "1eb48d65-088d-4d31-9496-e1488583962e",
       "name": "Resolve dependency 1/1",
       "description": "MSOnline and AzureAD modules must be installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "5bc6e1f4-f372-4ed8-bbf2-7a2053d9a70e",
+      "id": "baf392d7-5c65-47c2-a523-a120e8ef42f6",
       "name": "Re-check dependency 1/1",
       "description": "MSOnline and AzureAD modules must be installed.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "c35bc0eb-52a6-452b-9476-259d949a0d86",
+      "s": "572f1a33-6465-4884-8501-67dac8b79281",
       "p": "on-success",
-      "o": "8bdb7d92-4de9-4b77-aa60-b056884a45ad"
+      "o": "7d820eb9-2f68-4613-852e-61d4150cccb1"
     },
     {
-      "s": "c35bc0eb-52a6-452b-9476-259d949a0d86",
+      "s": "572f1a33-6465-4884-8501-67dac8b79281",
       "p": "on-failure",
-      "o": "8bdb7d92-4de9-4b77-aa60-b056884a45ad"
+      "o": "7d820eb9-2f68-4613-852e-61d4150cccb1"
     },
     {
-      "s": "a436f572-523a-47aa-8f68-8dfd5cd116af",
+      "s": "53918ec7-d756-4beb-a6c2-d7d2b0b956e4",
       "p": "on-success",
-      "o": "c35bc0eb-52a6-452b-9476-259d949a0d86"
+      "o": "572f1a33-6465-4884-8501-67dac8b79281"
     },
     {
-      "s": "a436f572-523a-47aa-8f68-8dfd5cd116af",
+      "s": "53918ec7-d756-4beb-a6c2-d7d2b0b956e4",
       "p": "on-failure",
-      "o": "f856def6-a569-497f-babe-8e0b42bf3f36"
+      "o": "1eb48d65-088d-4d31-9496-e1488583962e"
     },
     {
-      "s": "f856def6-a569-497f-babe-8e0b42bf3f36",
+      "s": "1eb48d65-088d-4d31-9496-e1488583962e",
       "p": "on-success",
-      "o": "5bc6e1f4-f372-4ed8-bbf2-7a2053d9a70e"
+      "o": "baf392d7-5c65-47c2-a523-a120e8ef42f6"
     },
     {
-      "s": "5bc6e1f4-f372-4ed8-bbf2-7a2053d9a70e",
+      "s": "baf392d7-5c65-47c2-a523-a120e8ef42f6",
       "p": "on-failure",
-      "o": "c35bc0eb-52a6-452b-9476-259d949a0d86"
+      "o": "572f1a33-6465-4884-8501-67dac8b79281"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "0414a5f0-bd2b-4192-bb70-49146844bc07",
+      "id": "1e6bb988-28f2-4118-98ab-f377ceeb41f2",
       "type": "execute-command",
       "data": {
         "command": "openssl genrsa -out #{key_filename} 4096\nopenssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj \"/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com\" -out #{cert_filename}\ncp #{cert_filename} /etc/pki/ca-trust/source/anchors/\nupdate-ca-trust\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "aaa7c8d0-bbcc-4f5b-adfc-e5a99ea06288",
+      "id": "c1ca733f-ab4c-4732-b8df-a27b29250d54",
       "type": "execute-command",
       "data": {
         "command": "rm /etc/pki/ca-trust/source/anchors/#{cert_filename}\nupdate-ca-trust\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "0414a5f0-bd2b-4192-bb70-49146844bc07",
+      "s": "1e6bb988-28f2-4118-98ab-f377ceeb41f2",
       "p": "on-success",
-      "o": "aaa7c8d0-bbcc-4f5b-adfc-e5a99ea06288"
+      "o": "c1ca733f-ab4c-4732-b8df-a27b29250d54"
     },
     {
-      "s": "0414a5f0-bd2b-4192-bb70-49146844bc07",
+      "s": "1e6bb988-28f2-4118-98ab-f377ceeb41f2",
       "p": "on-failure",
-      "o": "aaa7c8d0-bbcc-4f5b-adfc-e5a99ea06288"
+      "o": "c1ca733f-ab4c-4732-b8df-a27b29250d54"
     }
   ],
   "tags": [

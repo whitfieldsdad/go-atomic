@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "846a1d18-9703-4d33-84b1-954d6524b863",
+      "id": "12e1e7d1-0b98-43bc-9c55-bd48ccf5bc83",
       "type": "execute-command",
       "data": {
         "command": "echo \"#{script_command}\" \u003e #{script_path}\nREG.exe ADD HKCU\\Environment /v UserInitMprLogonScript /t REG_SZ /d \"#{script_path}\" /f\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "60a2f6f9-1e05-4650-b3db-2f21cbee1d01",
+      "id": "4786854c-cf20-4e95-add9-9aae50b588fb",
       "type": "execute-command",
       "data": {
         "command": "REG.exe DELETE HKCU\\Environment /v UserInitMprLogonScript /f \u003enul 2\u003e\u00261\ndel #{script_path} \u003enul 2\u003e\u00261\ndel \"%USERPROFILE%\\desktop\\T1037.001-log.txt\" \u003enul 2\u003e\u00261\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "846a1d18-9703-4d33-84b1-954d6524b863",
+      "s": "12e1e7d1-0b98-43bc-9c55-bd48ccf5bc83",
       "p": "on-success",
-      "o": "60a2f6f9-1e05-4650-b3db-2f21cbee1d01"
+      "o": "4786854c-cf20-4e95-add9-9aae50b588fb"
     },
     {
-      "s": "846a1d18-9703-4d33-84b1-954d6524b863",
+      "s": "12e1e7d1-0b98-43bc-9c55-bd48ccf5bc83",
       "p": "on-failure",
-      "o": "60a2f6f9-1e05-4650-b3db-2f21cbee1d01"
+      "o": "4786854c-cf20-4e95-add9-9aae50b588fb"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "script_path",
-      "type": "string",
-      "description": "Path to .bat file",
-      "value": "%temp%\\art.bat"
-    },
-    {
       "name": "script_command",
       "type": "string",
       "description": "Command To Execute",
       "value": "echo Art \"Logon Script\" atomic test was successful. \u003e\u003e %USERPROFILE%\\desktop\\T1037.001-log.txt"
+    },
+    {
+      "name": "script_path",
+      "type": "string",
+      "description": "Path to .bat file",
+      "value": "%temp%\\art.bat"
     }
   ]
 }

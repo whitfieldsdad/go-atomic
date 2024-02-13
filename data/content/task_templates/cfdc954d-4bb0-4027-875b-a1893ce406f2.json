@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ceb5306b-a118-48e7-86a4-7948fd753c35",
+      "id": "910726cd-ebf1-4bbf-ad37-7d3cebf1f24b",
       "type": "execute-command",
       "data": {
         "command": "$Shell = New-Object -ComObject (\"WScript.Shell\")\n$ShortCut = $Shell.CreateShortcut(\"$env:APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\T1547.009.lnk\")\n$ShortCut.TargetPath=\"cmd.exe\"\n$ShortCut.WorkingDirectory = \"C:\\Windows\\System32\";\n$ShortCut.WindowStyle = 1;\n$ShortCut.Description = \"T1547.009.\";\n$ShortCut.Save()\n\n$Shell = New-Object -ComObject (\"WScript.Shell\")\n$ShortCut = $Shell.CreateShortcut(\"$env:ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\T1547.009.lnk\")\n$ShortCut.TargetPath=\"cmd.exe\"\n$ShortCut.WorkingDirectory = \"C:\\Windows\\System32\";\n$ShortCut.WindowStyle = 1;\n$ShortCut.Description = \"T1547.009.\";\n$ShortCut.Save()\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "fb09e4ec-215c-4720-9c32-9ac180cecb6e",
+      "id": "bce2fe29-c0d8-4d48-95c3-f50b658df9c7",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item \"$env:APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\T1547.009.lnk\" -ErrorAction Ignore\nRemove-Item \"$env:ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\T1547.009.lnk\" -ErrorAction Ignore\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "ceb5306b-a118-48e7-86a4-7948fd753c35",
+      "s": "910726cd-ebf1-4bbf-ad37-7d3cebf1f24b",
       "p": "on-success",
-      "o": "fb09e4ec-215c-4720-9c32-9ac180cecb6e"
+      "o": "bce2fe29-c0d8-4d48-95c3-f50b658df9c7"
     },
     {
-      "s": "ceb5306b-a118-48e7-86a4-7948fd753c35",
+      "s": "910726cd-ebf1-4bbf-ad37-7d3cebf1f24b",
       "p": "on-failure",
-      "o": "fb09e4ec-215c-4720-9c32-9ac180cecb6e"
+      "o": "bce2fe29-c0d8-4d48-95c3-f50b658df9c7"
     }
   ],
   "tags": [

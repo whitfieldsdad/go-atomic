@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "a1c631dd-2532-41de-9020-0099ec940d1e",
+      "id": "1770c74a-d922-4a58-a5ea-74973cba03eb",
       "type": "execute-command",
       "data": {
         "command": "echo \"[Unit]\" \u003e #{path_to_systemd_service}\necho \"Description=Atomic Red Team Systemd Timer Service\" \u003e\u003e #{path_to_systemd_service}\necho \"[Service]\" \u003e\u003e #{path_to_systemd_service}\necho \"Type=simple\" \u003e\u003e #{path_to_systemd_service}\necho \"ExecStart=/bin/touch /tmp/art-systemd-timer-marker\" \u003e\u003e #{path_to_systemd_service}\necho \"[Install]\" \u003e\u003e #{path_to_systemd_service}\necho \"WantedBy=multi-user.target\" \u003e\u003e #{path_to_systemd_service}\necho \"[Unit]\" \u003e #{path_to_systemd_timer}\necho \"Description=Executes Atomic Red Team Systemd Timer Service\" \u003e\u003e #{path_to_systemd_timer}\necho \"Requires=#{systemd_service_name}\" \u003e\u003e #{path_to_systemd_timer}\necho \"[Timer]\" \u003e\u003e #{path_to_systemd_timer}\necho \"Unit=#{systemd_service_name}\" \u003e\u003e #{path_to_systemd_timer}\necho \"OnCalendar=*-*-* *:*:00\" \u003e\u003e #{path_to_systemd_timer}\necho \"[Install]\" \u003e\u003e #{path_to_systemd_timer}\necho \"WantedBy=timers.target\" \u003e\u003e #{path_to_systemd_timer}\nsystemctl start #{systemd_timer_name}\nsystemctl enable #{systemd_timer_name}\nsystemctl daemon-reload\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "a5b88e2d-322e-4a9a-b50a-e444eb4a423d",
+      "id": "714abbf1-aadd-4035-823c-42880fd57b19",
       "type": "execute-command",
       "data": {
         "command": "systemctl stop #{systemd_timer_name}\nsystemctl disable #{systemd_timer_name}\nrm #{path_to_systemd_service}\nrm #{path_to_systemd_timer}\nsystemctl daemon-reload\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "a1c631dd-2532-41de-9020-0099ec940d1e",
+      "s": "1770c74a-d922-4a58-a5ea-74973cba03eb",
       "p": "on-success",
-      "o": "a5b88e2d-322e-4a9a-b50a-e444eb4a423d"
+      "o": "714abbf1-aadd-4035-823c-42880fd57b19"
     },
     {
-      "s": "a1c631dd-2532-41de-9020-0099ec940d1e",
+      "s": "1770c74a-d922-4a58-a5ea-74973cba03eb",
       "p": "on-failure",
-      "o": "a5b88e2d-322e-4a9a-b50a-e444eb4a423d"
+      "o": "714abbf1-aadd-4035-823c-42880fd57b19"
     }
   ],
   "tags": [
@@ -42,18 +42,6 @@
     "atomic-red-team"
   ],
   "input_arguments": [
-    {
-      "name": "systemd_service_name",
-      "type": "string",
-      "description": "Name of systemd service",
-      "value": "art-timer.service"
-    },
-    {
-      "name": "systemd_timer_name",
-      "type": "string",
-      "description": "Name of systemd service timer",
-      "value": "art-timer.timer"
-    },
     {
       "name": "path_to_systemd_service",
       "type": "path",
@@ -65,6 +53,18 @@
       "type": "path",
       "description": "Path to service timer file",
       "value": "/etc/systemd/system/art-timer.timer"
+    },
+    {
+      "name": "systemd_service_name",
+      "type": "string",
+      "description": "Name of systemd service",
+      "value": "art-timer.service"
+    },
+    {
+      "name": "systemd_timer_name",
+      "type": "string",
+      "description": "Name of systemd service timer",
+      "value": "art-timer.timer"
     }
   ]
 }

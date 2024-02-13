@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "d74a4bb2-a457-4559-b55f-a03f07ac77a5",
+      "id": "3e74ccaa-18c7-468d-b77d-d3bd87720652",
       "type": "execute-command",
       "data": {
         "command": "$orgLegalNoticeCaption = (Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeCaption).LegalNoticeCaption\n$orgLegalNoticeText = (Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeText).LegalNoticeText\n$newLegalNoticeCaption = \"#{legal_notice_caption}\"\n$newLegalNoticeText = \"#{legal_notice_text}\"\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeCaption -Value $newLegalNoticeCaption -Type String -Force\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeText -Value $newLegalNoticeText -Type String -Force      ",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "dfd411d4-ec0b-445f-ab16-16440bac4101",
+      "id": "cc1c317a-ec0a-4516-affa-7d1979387963",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeCaption -Value $orgLegalNoticeCaption -Type String -Force\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeText -Value $orgLegalNoticeText -Type String -Force\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "d74a4bb2-a457-4559-b55f-a03f07ac77a5",
+      "s": "3e74ccaa-18c7-468d-b77d-d3bd87720652",
       "p": "on-success",
-      "o": "dfd411d4-ec0b-445f-ab16-16440bac4101"
+      "o": "cc1c317a-ec0a-4516-affa-7d1979387963"
     },
     {
-      "s": "d74a4bb2-a457-4559-b55f-a03f07ac77a5",
+      "s": "3e74ccaa-18c7-468d-b77d-d3bd87720652",
       "p": "on-failure",
-      "o": "dfd411d4-ec0b-445f-ab16-16440bac4101"
+      "o": "cc1c317a-ec0a-4516-affa-7d1979387963"
     }
   ],
   "tags": [

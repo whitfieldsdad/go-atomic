@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f2e63335-b944-48b6-91ae-22289f2d09b5",
+      "id": "37f9d7cf-bfd3-4a32-954a-bcfa713027eb",
       "type": "execute-command",
       "data": {
         "command": "$datePath = \"certutil-$(Get-Date -format yyyy_MM_dd)\"\nNew-Item -Path $datePath -ItemType Directory\nSet-Location $datePath\ncertutil -verifyctl -split -f #{remote_file}\nGet-ChildItem | Where-Object {$_.Name -notlike \"*.txt\"} | Foreach-Object { Move-Item $_.Name -Destination #{local_path} }\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "4311d92a-34da-4ec2-9441-3749bc777358",
+      "id": "54c284af-733e-4420-b462-5b1a20af5b20",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item \"certutil-$(Get-Date -format yyyy_MM_dd)\" -Force -Recurse -ErrorAction Ignore\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "f2e63335-b944-48b6-91ae-22289f2d09b5",
+      "s": "37f9d7cf-bfd3-4a32-954a-bcfa713027eb",
       "p": "on-success",
-      "o": "4311d92a-34da-4ec2-9441-3749bc777358"
+      "o": "54c284af-733e-4420-b462-5b1a20af5b20"
     },
     {
-      "s": "f2e63335-b944-48b6-91ae-22289f2d09b5",
+      "s": "37f9d7cf-bfd3-4a32-954a-bcfa713027eb",
       "p": "on-failure",
-      "o": "4311d92a-34da-4ec2-9441-3749bc777358"
+      "o": "54c284af-733e-4420-b462-5b1a20af5b20"
     }
   ],
   "tags": [

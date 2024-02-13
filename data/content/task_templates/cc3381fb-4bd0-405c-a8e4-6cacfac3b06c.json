@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1f6bfa57-4ec2-4b8c-a574-44e02eb5d61c",
+      "id": "cd07d1e1-cc64-477b-8711-d4d65e22ab5c",
       "type": "execute-command",
       "data": {
         "command": "New-WebGlobalModule -Name #{module_name} -Image #{dll_path}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "baca3c5e-0b5d-4a9e-ba8f-52c4ee507284",
+      "id": "1a800fc8-bcf2-4ff6-9a9e-633b7665d1a8",
       "type": "execute-command",
       "data": {
         "command": "Remove-WebGlobalModule -Name #{module_name}\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "7129cbd8-9201-4e37-a6eb-d92ae9a3bc4e",
+      "id": "2112cc93-41bb-40ae-8fff-6207b6ef7508",
       "name": "Check dependency 1/1",
       "description": "IIS must be installed in order to add a module to IIS.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "bf4e3bf5-f6b7-4c86-b39f-c85142cfaf9f",
+      "id": "3efc7084-1791-4c6e-96a4-dd3b3d7f3cde",
       "name": "Resolve dependency 1/1",
       "description": "IIS must be installed in order to add a module to IIS.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "7fb2215f-2da4-4c5c-bb55-b79a16f2cdfb",
+      "id": "ff9295bf-0cd0-4135-88fd-1b7b948a594a",
       "name": "Re-check dependency 1/1",
       "description": "IIS must be installed in order to add a module to IIS.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "1f6bfa57-4ec2-4b8c-a574-44e02eb5d61c",
+      "s": "cd07d1e1-cc64-477b-8711-d4d65e22ab5c",
       "p": "on-success",
-      "o": "baca3c5e-0b5d-4a9e-ba8f-52c4ee507284"
+      "o": "1a800fc8-bcf2-4ff6-9a9e-633b7665d1a8"
     },
     {
-      "s": "1f6bfa57-4ec2-4b8c-a574-44e02eb5d61c",
+      "s": "cd07d1e1-cc64-477b-8711-d4d65e22ab5c",
       "p": "on-failure",
-      "o": "baca3c5e-0b5d-4a9e-ba8f-52c4ee507284"
+      "o": "1a800fc8-bcf2-4ff6-9a9e-633b7665d1a8"
     },
     {
-      "s": "7129cbd8-9201-4e37-a6eb-d92ae9a3bc4e",
+      "s": "2112cc93-41bb-40ae-8fff-6207b6ef7508",
       "p": "on-success",
-      "o": "1f6bfa57-4ec2-4b8c-a574-44e02eb5d61c"
+      "o": "cd07d1e1-cc64-477b-8711-d4d65e22ab5c"
     },
     {
-      "s": "7129cbd8-9201-4e37-a6eb-d92ae9a3bc4e",
+      "s": "2112cc93-41bb-40ae-8fff-6207b6ef7508",
       "p": "on-failure",
-      "o": "bf4e3bf5-f6b7-4c86-b39f-c85142cfaf9f"
+      "o": "3efc7084-1791-4c6e-96a4-dd3b3d7f3cde"
     },
     {
-      "s": "bf4e3bf5-f6b7-4c86-b39f-c85142cfaf9f",
+      "s": "3efc7084-1791-4c6e-96a4-dd3b3d7f3cde",
       "p": "on-success",
-      "o": "7fb2215f-2da4-4c5c-bb55-b79a16f2cdfb"
+      "o": "ff9295bf-0cd0-4135-88fd-1b7b948a594a"
     },
     {
-      "s": "7fb2215f-2da4-4c5c-bb55-b79a16f2cdfb",
+      "s": "ff9295bf-0cd0-4135-88fd-1b7b948a594a",
       "p": "on-failure",
-      "o": "1f6bfa57-4ec2-4b8c-a574-44e02eb5d61c"
+      "o": "cd07d1e1-cc64-477b-8711-d4d65e22ab5c"
     }
   ],
   "tags": [
@@ -96,16 +96,16 @@
   ],
   "input_arguments": [
     {
-      "name": "dll_path",
-      "type": "path",
-      "description": "The path to the DLL to be loaded",
-      "value": "%windir%\\system32\\inetsrv\\defdoc.dll"
-    },
-    {
       "name": "module_name",
       "type": "string",
       "description": "The name of the IIS module",
       "value": "DefaultDocumentModule_Atomic"
+    },
+    {
+      "name": "dll_path",
+      "type": "path",
+      "description": "The path to the DLL to be loaded",
+      "value": "%windir%\\system32\\inetsrv\\defdoc.dll"
     }
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b54b2066-75e5-4883-b2c6-1f1e737a1270",
+      "id": "6719684b-fdda-4d25-9b78-ecaaa2f456a4",
       "type": "execute-command",
       "data": {
         "command": "wmic /user:#{user_name} /password:#{password} /node:\"#{node}\" process call create #{process_to_execute}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "34ac1671-99fc-4abb-806d-467f03d62de7",
+      "id": "64db4262-3bed-4e7e-b191-380fd5ddf27b",
       "type": "execute-command",
       "data": {
         "command": "wmic /user:#{user_name} /password:#{password} /node:\"#{node}\" process where name='#{process_to_execute}' delete \u003enul 2\u003e\u00261\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "b54b2066-75e5-4883-b2c6-1f1e737a1270",
+      "s": "6719684b-fdda-4d25-9b78-ecaaa2f456a4",
       "p": "on-success",
-      "o": "34ac1671-99fc-4abb-806d-467f03d62de7"
+      "o": "64db4262-3bed-4e7e-b191-380fd5ddf27b"
     },
     {
-      "s": "b54b2066-75e5-4883-b2c6-1f1e737a1270",
+      "s": "6719684b-fdda-4d25-9b78-ecaaa2f456a4",
       "p": "on-failure",
-      "o": "34ac1671-99fc-4abb-806d-467f03d62de7"
+      "o": "64db4262-3bed-4e7e-b191-380fd5ddf27b"
     }
   ],
   "tags": [
@@ -42,6 +42,12 @@
     "atomic-red-team"
   ],
   "input_arguments": [
+    {
+      "name": "user_name",
+      "type": "string",
+      "description": "Username",
+      "value": "DOMAIN\\Administrator"
+    },
     {
       "name": "password",
       "type": "string",
@@ -59,12 +65,6 @@
       "type": "string",
       "description": "Ip Address",
       "value": "127.0.0.1"
-    },
-    {
-      "name": "user_name",
-      "type": "string",
-      "description": "Username",
-      "value": "DOMAIN\\Administrator"
     }
   ]
 }

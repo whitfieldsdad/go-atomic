@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "2809520e-b9e9-465f-a2d4-313989c03ffb",
+      "id": "5bba91d2-b429-4512-8bed-c50480dea368",
       "type": "execute-command",
       "data": {
         "command": "Import-Module ExchangeOnlineManagement\n$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nAdd-MailboxPermission -Identity \"#{delegate_target}\" -User \"#{operator_mailbox}\" -AccessRights FullAccess -InheritanceType All\nDisconnect-ExchangeOnline -Confirm:$false\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "dff5f920-ca3f-43b5-8e0e-3fbb510857d4",
+      "id": "a2bf8495-fbda-4d5b-907b-76477c5dba50",
       "type": "execute-command",
       "data": {
         "command": "Import-Module ExchangeOnlineManagement\n$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nRemove-MailboxPermission -Identity \"#{delegate_target}\" -User \"#{operator_mailbox}\" -AccessRights FullAccess -InheritanceType All -Confirm:$false\nDisconnect-ExchangeOnline -Confirm:$false\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "e1cc5c23-307c-4f81-a54d-382c0a19ca90",
+      "id": "0dafd341-c68c-4220-b4e1-ae4d95590294",
       "name": "Check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "ef8ebb1d-8986-4666-bcea-608070139fcc",
+      "id": "25c7a251-f239-486a-841b-14b5e51ebeb6",
       "name": "Resolve dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "2d9757f6-3917-43a2-b580-0291d16714b7",
+      "id": "9c82cf8c-e406-41c4-8b42-6dac2a15db3d",
       "name": "Re-check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "2809520e-b9e9-465f-a2d4-313989c03ffb",
+      "s": "5bba91d2-b429-4512-8bed-c50480dea368",
       "p": "on-success",
-      "o": "dff5f920-ca3f-43b5-8e0e-3fbb510857d4"
+      "o": "a2bf8495-fbda-4d5b-907b-76477c5dba50"
     },
     {
-      "s": "2809520e-b9e9-465f-a2d4-313989c03ffb",
+      "s": "5bba91d2-b429-4512-8bed-c50480dea368",
       "p": "on-failure",
-      "o": "dff5f920-ca3f-43b5-8e0e-3fbb510857d4"
+      "o": "a2bf8495-fbda-4d5b-907b-76477c5dba50"
     },
     {
-      "s": "e1cc5c23-307c-4f81-a54d-382c0a19ca90",
+      "s": "0dafd341-c68c-4220-b4e1-ae4d95590294",
       "p": "on-success",
-      "o": "2809520e-b9e9-465f-a2d4-313989c03ffb"
+      "o": "5bba91d2-b429-4512-8bed-c50480dea368"
     },
     {
-      "s": "e1cc5c23-307c-4f81-a54d-382c0a19ca90",
+      "s": "0dafd341-c68c-4220-b4e1-ae4d95590294",
       "p": "on-failure",
-      "o": "ef8ebb1d-8986-4666-bcea-608070139fcc"
+      "o": "25c7a251-f239-486a-841b-14b5e51ebeb6"
     },
     {
-      "s": "ef8ebb1d-8986-4666-bcea-608070139fcc",
+      "s": "25c7a251-f239-486a-841b-14b5e51ebeb6",
       "p": "on-success",
-      "o": "2d9757f6-3917-43a2-b580-0291d16714b7"
+      "o": "9c82cf8c-e406-41c4-8b42-6dac2a15db3d"
     },
     {
-      "s": "2d9757f6-3917-43a2-b580-0291d16714b7",
+      "s": "9c82cf8c-e406-41c4-8b42-6dac2a15db3d",
       "p": "on-failure",
-      "o": "2809520e-b9e9-465f-a2d4-313989c03ffb"
+      "o": "5bba91d2-b429-4512-8bed-c50480dea368"
     }
   ],
   "tags": [

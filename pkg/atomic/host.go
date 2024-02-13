@@ -5,6 +5,7 @@ import (
 	"runtime"
 	"time"
 
+	"github.com/NextronSystems/go-osversion"
 	"github.com/charmbracelet/log"
 	"github.com/denisbrodbeck/machineid"
 )
@@ -56,10 +57,14 @@ type OS struct {
 }
 
 func GetOS() OS {
+	version, err := osversion.Get()
+	if err != nil {
+		log.Fatalf("Failed to get OS version: %s", err)
+	}
 	return OS{
 		Artifact: NewArtifact(),
 		Type:     runtime.GOOS,
 		Arch:     runtime.GOARCH,
-		Version:  getOSVersion(),
+		Version:  version,
 	}
 }

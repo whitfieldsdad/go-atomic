@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "f2f8ff5f-42c4-4d96-aaba-6541f7e2b56a",
+      "id": "c3b523f4-335c-4d00-b5e3-a26d0f1696ea",
       "type": "execute-command",
       "data": {
         "command": "ENCODED=$(python3 -c 'import base64;enc=base64.b64encode(\"#{message}\".encode());print(enc.decode())')\npython3 -c \"import base64;dec=base64.b64decode(\\\"$ENCODED\\\");print(dec.decode())\"\npython3 -c \"import base64 as d;dec=d.b64decode(\\\"$ENCODED\\\");print(dec.decode())\"\npython3 -c \"from base64 import b64decode;dec=b64decode(\\\"$ENCODED\\\");print(dec.decode())\"\npython3 -c \"from base64 import b64decode as d;dec=d(\\\"$ENCODED\\\");print(dec.decode())\"\necho $ENCODED | python3 -c \"import base64,sys;dec=base64.b64decode(sys.stdin.read());print(dec.decode())\"\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 python3 -c \"import base64;dec=base64.b64decode(open('#{encoded_file}').read());print(dec.decode())\"\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "e4c757d1-faec-44b1-9518-1932bc0f1390",
+      "id": "06b0fa29-c606-4885-972b-1ca53cfe91f7",
       "name": "Check dependency 1/1",
       "description": "Python must be present\n",
       "type": "execute-command",
@@ -28,7 +28,7 @@
       "elevation_required": false
     },
     {
-      "id": "464f4c8b-7173-421d-8375-e6b819bfc3c4",
+      "id": "981774d7-2ffb-4bee-a7c7-cf40f7066160",
       "name": "Resolve dependency 1/1",
       "description": "Python must be present\n",
       "type": "execute-command",
@@ -39,7 +39,7 @@
       "elevation_required": false
     },
     {
-      "id": "b571f89e-4eff-4d07-a340-84f5f3bef26d",
+      "id": "0a147a88-f434-4161-9f80-258e18dee9d5",
       "name": "Re-check dependency 1/1",
       "description": "Python must be present\n",
       "type": "execute-command",
@@ -52,24 +52,24 @@
   ],
   "flows": [
     {
-      "s": "e4c757d1-faec-44b1-9518-1932bc0f1390",
+      "s": "06b0fa29-c606-4885-972b-1ca53cfe91f7",
       "p": "on-success",
-      "o": "f2f8ff5f-42c4-4d96-aaba-6541f7e2b56a"
+      "o": "c3b523f4-335c-4d00-b5e3-a26d0f1696ea"
     },
     {
-      "s": "e4c757d1-faec-44b1-9518-1932bc0f1390",
+      "s": "06b0fa29-c606-4885-972b-1ca53cfe91f7",
       "p": "on-failure",
-      "o": "464f4c8b-7173-421d-8375-e6b819bfc3c4"
+      "o": "981774d7-2ffb-4bee-a7c7-cf40f7066160"
     },
     {
-      "s": "464f4c8b-7173-421d-8375-e6b819bfc3c4",
+      "s": "981774d7-2ffb-4bee-a7c7-cf40f7066160",
       "p": "on-success",
-      "o": "b571f89e-4eff-4d07-a340-84f5f3bef26d"
+      "o": "0a147a88-f434-4161-9f80-258e18dee9d5"
     },
     {
-      "s": "b571f89e-4eff-4d07-a340-84f5f3bef26d",
+      "s": "0a147a88-f434-4161-9f80-258e18dee9d5",
       "p": "on-failure",
-      "o": "f2f8ff5f-42c4-4d96-aaba-6541f7e2b56a"
+      "o": "c3b523f4-335c-4d00-b5e3-a26d0f1696ea"
     }
   ],
   "tags": [
@@ -78,16 +78,16 @@
   ],
   "input_arguments": [
     {
-      "name": "encoded_file",
-      "type": "path",
-      "description": "File to temporarily save encoded text",
-      "value": "/tmp/T1140.encoded"
-    },
-    {
       "name": "message",
       "type": "string",
       "description": "Message to print to the screen",
       "value": "Hello from Atomic Red Team test T1140!"
+    },
+    {
+      "name": "encoded_file",
+      "type": "path",
+      "description": "File to temporarily save encoded text",
+      "value": "/tmp/T1140.encoded"
     }
   ]
 }

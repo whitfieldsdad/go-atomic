@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6dc47e3d-a543-4393-ad39-d269042ff289",
+      "id": "c781e4f0-e3c0-4b0e-b6e5-63557d3160d3",
       "type": "execute-command",
       "data": {
         "command": "sudo modprobe #{rootkit_name}\nping -c 10 localhost \u003e/dev/null \u0026 TARGETPID=\"$!\"\nps $TARGETPID\nkill -31 $TARGETPID\nps $TARGETPID || echo \"process ${TARGETPID} hidden\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "52eb6089-7079-4704-aac7-1a6de77e27e1",
+      "id": "098fabe4-03fa-4fd8-b2ae-a7d281c1be3c",
       "type": "execute-command",
       "data": {
         "command": "kill -63 1\nsudo modprobe -r #{rootkit_name}\nsudo rm -rf /lib/modules/$(uname -r)/#{rootkit_name}.ko /tmp/atomic\nsudo depmod -a\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "4f4d4663-578c-4a6b-800e-aed1a2298d40",
+      "id": "efb6b482-d4bb-41f0-98cc-52dab6333c9c",
       "name": "Check dependency 1/1",
       "description": "The kernel module must exist on disk at specified location (#{rootkit_name}.ko)\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "14212223-f805-4325-a0ef-251ea58a2266",
+      "id": "8bb78ba4-db48-4abc-b72d-5c06215a9b7e",
       "name": "Resolve dependency 1/1",
       "description": "The kernel module must exist on disk at specified location (#{rootkit_name}.ko)\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "88775105-7bab-4baf-8f38-28ac1ab223e8",
+      "id": "d67251df-493e-4b98-9437-9520e00e991d",
       "name": "Re-check dependency 1/1",
       "description": "The kernel module must exist on disk at specified location (#{rootkit_name}.ko)\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "6dc47e3d-a543-4393-ad39-d269042ff289",
+      "s": "c781e4f0-e3c0-4b0e-b6e5-63557d3160d3",
       "p": "on-success",
-      "o": "52eb6089-7079-4704-aac7-1a6de77e27e1"
+      "o": "098fabe4-03fa-4fd8-b2ae-a7d281c1be3c"
     },
     {
-      "s": "6dc47e3d-a543-4393-ad39-d269042ff289",
+      "s": "c781e4f0-e3c0-4b0e-b6e5-63557d3160d3",
       "p": "on-failure",
-      "o": "52eb6089-7079-4704-aac7-1a6de77e27e1"
+      "o": "098fabe4-03fa-4fd8-b2ae-a7d281c1be3c"
     },
     {
-      "s": "4f4d4663-578c-4a6b-800e-aed1a2298d40",
+      "s": "efb6b482-d4bb-41f0-98cc-52dab6333c9c",
       "p": "on-success",
-      "o": "6dc47e3d-a543-4393-ad39-d269042ff289"
+      "o": "c781e4f0-e3c0-4b0e-b6e5-63557d3160d3"
     },
     {
-      "s": "4f4d4663-578c-4a6b-800e-aed1a2298d40",
+      "s": "efb6b482-d4bb-41f0-98cc-52dab6333c9c",
       "p": "on-failure",
-      "o": "14212223-f805-4325-a0ef-251ea58a2266"
+      "o": "8bb78ba4-db48-4abc-b72d-5c06215a9b7e"
     },
     {
-      "s": "14212223-f805-4325-a0ef-251ea58a2266",
+      "s": "8bb78ba4-db48-4abc-b72d-5c06215a9b7e",
       "p": "on-success",
-      "o": "88775105-7bab-4baf-8f38-28ac1ab223e8"
+      "o": "d67251df-493e-4b98-9437-9520e00e991d"
     },
     {
-      "s": "88775105-7bab-4baf-8f38-28ac1ab223e8",
+      "s": "d67251df-493e-4b98-9437-9520e00e991d",
       "p": "on-failure",
-      "o": "6dc47e3d-a543-4393-ad39-d269042ff289"
+      "o": "c781e4f0-e3c0-4b0e-b6e5-63557d3160d3"
     }
   ],
   "tags": [

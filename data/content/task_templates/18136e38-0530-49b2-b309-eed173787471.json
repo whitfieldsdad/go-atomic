@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "9e3f30a2-e080-4dec-9876-6c2dc5070c0a",
+      "id": "a626d8f9-4089-4405-9c7e-444a81e7ba99",
       "type": "execute-command",
       "data": {
         "command": "$termsrvDll = \"C:\\Windows\\System32\\termsrv.dll\"\n\n$ACL = Get-Acl $termsrvDll\n$permission = \"Administrators\",\"FullControl\",\"Allow\"\n$accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule $permission\n$ACL.SetAccessRule($accessRule)\nSet-Acl -Path $termsrvDll -AclObject $ACL\n\nCopy-Item -Path $termsrvDll -Destination \"$HOME\\AtomicTest.dll\"\n\n$newServiceDll = \"$HOME\\AtomicTest.dll\"\n\n$registryPath = \"HKLM:\\System\\CurrentControlSet\\services\\TermService\\Parameters\"\n\n# Check if the registry key exists\nif (Test-Path -Path $registryPath) {\n    # Modify the ServiceDll value in the registry\n    Set-ItemProperty -Path $registryPath -Name \"ServiceDll\" -Value $newServiceDll\n    Write-Host \"ServiceDll value in the registry has been updated to: $newServiceDll\"\n} else {\n    Write-Host \"Registry key not found. Make sure the 'TermService\\Parameters' key exists.\"\n}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "4160d64e-bb54-4192-9de7-3d69c56bdf23",
+      "id": "99167d4e-cda1-4e15-86bd-fc9b77843e57",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty -Path \"HKLM:\\System\\CurrentControlSet\\services\\TermService\\Parameters\" -Name \"ServiceDll\" -Value \"C:\\Windows\\System32\\termsrv.dll\"",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "9e3f30a2-e080-4dec-9876-6c2dc5070c0a",
+      "s": "a626d8f9-4089-4405-9c7e-444a81e7ba99",
       "p": "on-success",
-      "o": "4160d64e-bb54-4192-9de7-3d69c56bdf23"
+      "o": "99167d4e-cda1-4e15-86bd-fc9b77843e57"
     },
     {
-      "s": "9e3f30a2-e080-4dec-9876-6c2dc5070c0a",
+      "s": "a626d8f9-4089-4405-9c7e-444a81e7ba99",
       "p": "on-failure",
-      "o": "4160d64e-bb54-4192-9de7-3d69c56bdf23"
+      "o": "99167d4e-cda1-4e15-86bd-fc9b77843e57"
     }
   ],
   "tags": [

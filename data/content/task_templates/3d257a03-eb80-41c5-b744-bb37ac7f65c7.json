@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "dc607fe2-18fc-4d01-83b8-8bf545a44da1",
+      "id": "1be0c93c-4782-4a65-b68e-5d4205348e75",
       "type": "execute-command",
       "data": {
         "command": "$TokenSet = @{\n  U = [Char[]]'ABCDEFGHIJKLMNOPQRSTUVWXYZ'\n  N = [Char[]]'0123456789'\n}\n$Upper = Get-Random -Count 5 -InputObject $TokenSet.U\n$Number = Get-Random -Count 5 -InputObject $TokenSet.N\n$StringSet = $Upper + $Number\n$rad = (Get-Random -Count 5 -InputObject $StringSet) -join ''\n$file = \"rad\" + $rad + \".tmp\"\n\nwhoami.exe /all \u003e\u003e #{output_path}\\$file\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "dbd8b921-b073-4b6f-9b49-33e6cda84305",
+      "id": "5fe338b0-d95c-4cad-a942-6920fae05366",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item -Path #{output_path}\\rad*.tmp -Force\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "dc607fe2-18fc-4d01-83b8-8bf545a44da1",
+      "s": "1be0c93c-4782-4a65-b68e-5d4205348e75",
       "p": "on-success",
-      "o": "dbd8b921-b073-4b6f-9b49-33e6cda84305"
+      "o": "5fe338b0-d95c-4cad-a942-6920fae05366"
     },
     {
-      "s": "dc607fe2-18fc-4d01-83b8-8bf545a44da1",
+      "s": "1be0c93c-4782-4a65-b68e-5d4205348e75",
       "p": "on-failure",
-      "o": "dbd8b921-b073-4b6f-9b49-33e6cda84305"
+      "o": "5fe338b0-d95c-4cad-a942-6920fae05366"
     }
   ],
   "tags": [

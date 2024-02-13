@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "d3d87674-05e2-4d55-be93-ceea0e114089",
+      "id": "8b644a60-af3f-4f5d-9211-00cfa72d2264",
       "type": "execute-command",
       "data": {
         "command": "SetFile -m #{target_date} #{target_filename}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "3e853342-dfa1-4c51-8f85-e9d51f5d29f9",
+      "id": "40cb983d-0888-49cb-9628-d4c5712396d3",
       "type": "execute-command",
       "data": {
         "command": "rm -f #{target_filename}\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "7d6bff1a-79a7-4a5d-a7ab-189145e2707c",
+      "id": "f76f4b0f-7447-40d9-a947-7e0a754e675d",
       "name": "Check dependency 1/1",
       "description": "The file must exist in order to be timestomped\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "208d3bc4-fd5e-4e10-a71d-1ffe3e3db483",
+      "id": "08d364ea-b024-41ef-8e8d-6e2732d97505",
       "name": "Resolve dependency 1/1",
       "description": "The file must exist in order to be timestomped\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "57842604-0e4b-46f0-b9ff-0470290ec922",
+      "id": "a419676f-66aa-4102-a6b5-96170e994964",
       "name": "Re-check dependency 1/1",
       "description": "The file must exist in order to be timestomped\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "d3d87674-05e2-4d55-be93-ceea0e114089",
+      "s": "8b644a60-af3f-4f5d-9211-00cfa72d2264",
       "p": "on-success",
-      "o": "3e853342-dfa1-4c51-8f85-e9d51f5d29f9"
+      "o": "40cb983d-0888-49cb-9628-d4c5712396d3"
     },
     {
-      "s": "d3d87674-05e2-4d55-be93-ceea0e114089",
+      "s": "8b644a60-af3f-4f5d-9211-00cfa72d2264",
       "p": "on-failure",
-      "o": "3e853342-dfa1-4c51-8f85-e9d51f5d29f9"
+      "o": "40cb983d-0888-49cb-9628-d4c5712396d3"
     },
     {
-      "s": "7d6bff1a-79a7-4a5d-a7ab-189145e2707c",
+      "s": "f76f4b0f-7447-40d9-a947-7e0a754e675d",
       "p": "on-success",
-      "o": "d3d87674-05e2-4d55-be93-ceea0e114089"
+      "o": "8b644a60-af3f-4f5d-9211-00cfa72d2264"
     },
     {
-      "s": "7d6bff1a-79a7-4a5d-a7ab-189145e2707c",
+      "s": "f76f4b0f-7447-40d9-a947-7e0a754e675d",
       "p": "on-failure",
-      "o": "208d3bc4-fd5e-4e10-a71d-1ffe3e3db483"
+      "o": "08d364ea-b024-41ef-8e8d-6e2732d97505"
     },
     {
-      "s": "208d3bc4-fd5e-4e10-a71d-1ffe3e3db483",
+      "s": "08d364ea-b024-41ef-8e8d-6e2732d97505",
       "p": "on-success",
-      "o": "57842604-0e4b-46f0-b9ff-0470290ec922"
+      "o": "a419676f-66aa-4102-a6b5-96170e994964"
     },
     {
-      "s": "57842604-0e4b-46f0-b9ff-0470290ec922",
+      "s": "a419676f-66aa-4102-a6b5-96170e994964",
       "p": "on-failure",
-      "o": "d3d87674-05e2-4d55-be93-ceea0e114089"
+      "o": "8b644a60-af3f-4f5d-9211-00cfa72d2264"
     }
   ],
   "tags": [
@@ -96,16 +96,16 @@
   ],
   "input_arguments": [
     {
-      "name": "target_filename",
-      "type": "path",
-      "description": "Path of file that we are going to stomp on last modified time\n",
-      "value": "/tmp/T1070.006-modified.txt"
-    },
-    {
       "name": "target_date",
       "type": "string",
       "description": "Date to replace original timestamps with",
       "value": "01/01/1970"
+    },
+    {
+      "name": "target_filename",
+      "type": "path",
+      "description": "Path of file that we are going to stomp on last modified time\n",
+      "value": "/tmp/T1070.006-modified.txt"
     }
   ]
 }

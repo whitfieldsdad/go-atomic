@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f788896a-db40-4d48-90f5-3b801eb1513f",
+      "id": "02a9df37-69af-4d77-9793-8bf2789d5025",
       "type": "execute-command",
       "data": {
         "command": "kubectl create -f #{path} -n #{namespace}\n# wait 3 seconds for the instance to come up\nsleep 3\nkubectl exec -n #{namespace} busybox -- #{command}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "61ca2416-5dc2-47ed-89da-f30e9b9990a5",
+      "id": "b0914595-e3d9-4371-a40f-76a88157f26b",
       "type": "execute-command",
       "data": {
         "command": "kubectl delete pod busybox -n #{namespace}\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "1ac59cd5-bb7e-4f38-acf7-63b2f20de98d",
+      "id": "0e1ca87d-ef62-40c8-ac64-24078e0eff8a",
       "name": "Check dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "86d41d80-49c8-48ec-b60c-05a3ffe2b845",
+      "id": "91d270f4-ab8f-446d-bcad-7a2de6bf4e92",
       "name": "Resolve dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "a6db1cc3-ff64-410f-80b4-ca1f703d9e4d",
+      "id": "8af7f1af-4b12-4e82-a9fa-3f7d5542e377",
       "name": "Re-check dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "f788896a-db40-4d48-90f5-3b801eb1513f",
+      "s": "02a9df37-69af-4d77-9793-8bf2789d5025",
       "p": "on-success",
-      "o": "61ca2416-5dc2-47ed-89da-f30e9b9990a5"
+      "o": "b0914595-e3d9-4371-a40f-76a88157f26b"
     },
     {
-      "s": "f788896a-db40-4d48-90f5-3b801eb1513f",
+      "s": "02a9df37-69af-4d77-9793-8bf2789d5025",
       "p": "on-failure",
-      "o": "61ca2416-5dc2-47ed-89da-f30e9b9990a5"
+      "o": "b0914595-e3d9-4371-a40f-76a88157f26b"
     },
     {
-      "s": "1ac59cd5-bb7e-4f38-acf7-63b2f20de98d",
+      "s": "0e1ca87d-ef62-40c8-ac64-24078e0eff8a",
       "p": "on-success",
-      "o": "f788896a-db40-4d48-90f5-3b801eb1513f"
+      "o": "02a9df37-69af-4d77-9793-8bf2789d5025"
     },
     {
-      "s": "1ac59cd5-bb7e-4f38-acf7-63b2f20de98d",
+      "s": "0e1ca87d-ef62-40c8-ac64-24078e0eff8a",
       "p": "on-failure",
-      "o": "86d41d80-49c8-48ec-b60c-05a3ffe2b845"
+      "o": "91d270f4-ab8f-446d-bcad-7a2de6bf4e92"
     },
     {
-      "s": "86d41d80-49c8-48ec-b60c-05a3ffe2b845",
+      "s": "91d270f4-ab8f-446d-bcad-7a2de6bf4e92",
       "p": "on-success",
-      "o": "a6db1cc3-ff64-410f-80b4-ca1f703d9e4d"
+      "o": "8af7f1af-4b12-4e82-a9fa-3f7d5542e377"
     },
     {
-      "s": "a6db1cc3-ff64-410f-80b4-ca1f703d9e4d",
+      "s": "8af7f1af-4b12-4e82-a9fa-3f7d5542e377",
       "p": "on-failure",
-      "o": "f788896a-db40-4d48-90f5-3b801eb1513f"
+      "o": "02a9df37-69af-4d77-9793-8bf2789d5025"
     }
   ],
   "tags": [

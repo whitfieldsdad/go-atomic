@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "823c7309-ad42-45a4-8340-dc7b4fdb33f0",
+      "id": "7d73474e-01e1-48b4-866e-dddf32a6ce9f",
       "type": "execute-command",
       "data": {
         "command": "Install-TransportAgent -Name #{transport_agent_identity} -TransportAgentFactory #{class_factory} -AssemblyPath #{dll_path}\nEnable-TransportAgent #{transport_agent_identity}\nGet-TransportAgent | Format-List Name,Enabled\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "23e4ce26-d586-4af7-a97e-1b046aa5549d",
+      "id": "f6d5b6ab-2f94-4c30-9131-f720c32d3fbc",
       "type": "execute-command",
       "data": {
         "command": "if(Get-Command \"Get-TransportAgent\" -ErrorAction Ignore){\n  Disable-TransportAgent #{transport_agent_identity}\n  Uninstall-TransportAgent #{transport_agent_identity}\n  Get-TransportAgent\n}\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "a2accaa3-be7d-4e47-8761-64729f8c5821",
+      "id": "af74d8b5-66ba-4564-a347-f6de6385619d",
       "name": "Check dependency 1/1",
       "description": "Microsoft Exchange SnapIn must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "0f8b2a36-397e-404b-8fda-689ae46389a7",
+      "id": "26aaf7c8-da23-49fe-883f-fa23452f458d",
       "name": "Resolve dependency 1/1",
       "description": "Microsoft Exchange SnapIn must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "11e4cbb7-5c87-431f-b69b-8cbc46d596ec",
+      "id": "ca315223-fdc0-446f-91ff-1de06c63d45a",
       "name": "Re-check dependency 1/1",
       "description": "Microsoft Exchange SnapIn must be installed\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "823c7309-ad42-45a4-8340-dc7b4fdb33f0",
+      "s": "7d73474e-01e1-48b4-866e-dddf32a6ce9f",
       "p": "on-success",
-      "o": "23e4ce26-d586-4af7-a97e-1b046aa5549d"
+      "o": "f6d5b6ab-2f94-4c30-9131-f720c32d3fbc"
     },
     {
-      "s": "823c7309-ad42-45a4-8340-dc7b4fdb33f0",
+      "s": "7d73474e-01e1-48b4-866e-dddf32a6ce9f",
       "p": "on-failure",
-      "o": "23e4ce26-d586-4af7-a97e-1b046aa5549d"
+      "o": "f6d5b6ab-2f94-4c30-9131-f720c32d3fbc"
     },
     {
-      "s": "a2accaa3-be7d-4e47-8761-64729f8c5821",
+      "s": "af74d8b5-66ba-4564-a347-f6de6385619d",
       "p": "on-success",
-      "o": "823c7309-ad42-45a4-8340-dc7b4fdb33f0"
+      "o": "7d73474e-01e1-48b4-866e-dddf32a6ce9f"
     },
     {
-      "s": "a2accaa3-be7d-4e47-8761-64729f8c5821",
+      "s": "af74d8b5-66ba-4564-a347-f6de6385619d",
       "p": "on-failure",
-      "o": "0f8b2a36-397e-404b-8fda-689ae46389a7"
+      "o": "26aaf7c8-da23-49fe-883f-fa23452f458d"
     },
     {
-      "s": "0f8b2a36-397e-404b-8fda-689ae46389a7",
+      "s": "26aaf7c8-da23-49fe-883f-fa23452f458d",
       "p": "on-success",
-      "o": "11e4cbb7-5c87-431f-b69b-8cbc46d596ec"
+      "o": "ca315223-fdc0-446f-91ff-1de06c63d45a"
     },
     {
-      "s": "11e4cbb7-5c87-431f-b69b-8cbc46d596ec",
+      "s": "ca315223-fdc0-446f-91ff-1de06c63d45a",
       "p": "on-failure",
-      "o": "823c7309-ad42-45a4-8340-dc7b4fdb33f0"
+      "o": "7d73474e-01e1-48b4-866e-dddf32a6ce9f"
     }
   ],
   "tags": [

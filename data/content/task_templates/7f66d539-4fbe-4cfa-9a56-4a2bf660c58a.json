@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e0e0a2da-fe98-40fc-af00-00486901fcee",
+      "id": "8d60613a-37d3-4b39-977b-bcb70b96af20",
       "type": "execute-command",
       "data": {
         "command": "$file = Get-Item $env:temp\\T1564.001-9.txt -Force\n$file.attributes='Hidden'\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "1cdcf6c4-6092-443a-8228-750790d18c9a",
+      "id": "d9347850-1a42-4cca-bd11-946ce68935ba",
       "type": "execute-command",
       "data": {
         "command": "cmd /c 'del /A:H #{file_to_modify} \u003enul 2\u003e\u00261'\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "6778e890-5cb7-473f-97f9-2db0d24623cf",
+      "id": "9a11d39b-57a1-4e8b-9104-8c5ca1358168",
       "name": "Check dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "22f0dcf4-7873-445d-8865-ac833b525f28",
+      "id": "a0f5e4bb-b748-47be-9d77-c973a1b0b5bb",
       "name": "Resolve dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "a136136d-2052-4184-a753-76b67ba3b706",
+      "id": "e57d4162-e6a7-4b74-aeae-6d814d45525b",
       "name": "Re-check dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "e0e0a2da-fe98-40fc-af00-00486901fcee",
+      "s": "8d60613a-37d3-4b39-977b-bcb70b96af20",
       "p": "on-success",
-      "o": "1cdcf6c4-6092-443a-8228-750790d18c9a"
+      "o": "d9347850-1a42-4cca-bd11-946ce68935ba"
     },
     {
-      "s": "e0e0a2da-fe98-40fc-af00-00486901fcee",
+      "s": "8d60613a-37d3-4b39-977b-bcb70b96af20",
       "p": "on-failure",
-      "o": "1cdcf6c4-6092-443a-8228-750790d18c9a"
+      "o": "d9347850-1a42-4cca-bd11-946ce68935ba"
     },
     {
-      "s": "6778e890-5cb7-473f-97f9-2db0d24623cf",
+      "s": "9a11d39b-57a1-4e8b-9104-8c5ca1358168",
       "p": "on-success",
-      "o": "e0e0a2da-fe98-40fc-af00-00486901fcee"
+      "o": "8d60613a-37d3-4b39-977b-bcb70b96af20"
     },
     {
-      "s": "6778e890-5cb7-473f-97f9-2db0d24623cf",
+      "s": "9a11d39b-57a1-4e8b-9104-8c5ca1358168",
       "p": "on-failure",
-      "o": "22f0dcf4-7873-445d-8865-ac833b525f28"
+      "o": "a0f5e4bb-b748-47be-9d77-c973a1b0b5bb"
     },
     {
-      "s": "22f0dcf4-7873-445d-8865-ac833b525f28",
+      "s": "a0f5e4bb-b748-47be-9d77-c973a1b0b5bb",
       "p": "on-success",
-      "o": "a136136d-2052-4184-a753-76b67ba3b706"
+      "o": "e57d4162-e6a7-4b74-aeae-6d814d45525b"
     },
     {
-      "s": "a136136d-2052-4184-a753-76b67ba3b706",
+      "s": "e57d4162-e6a7-4b74-aeae-6d814d45525b",
       "p": "on-failure",
-      "o": "e0e0a2da-fe98-40fc-af00-00486901fcee"
+      "o": "8d60613a-37d3-4b39-977b-bcb70b96af20"
     }
   ],
   "tags": [

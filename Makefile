@@ -2,6 +2,8 @@ BUILD_DIRECTORY=bin
 FILENAME_PREFIX=go-atomic-red-team
 LDFLAGS = "-s -w"
 
+ATOMIC_RED_TEAM_PATH=~/src/atomic-red-team
+
 all: help
 
 help:
@@ -16,14 +18,10 @@ help:
 	@echo "amd64 - Build amd64 binaries"
 	@echo "arm64 - Build arm64 binaries"
 
-docs:
-	@echo "Compiling Diagrams..."
-	$(MAKE) -C docs
-	for subdirectory in docs/guides/*; do \
-		$(MAKE) -C $$subdirectory; \
-	done
-
 bin: build
+
+docs:
+	make -C docs
 
 build: windows linux darwin
 	chmod +x bin/*

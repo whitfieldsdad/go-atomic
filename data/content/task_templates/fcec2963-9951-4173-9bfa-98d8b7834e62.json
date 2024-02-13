@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ab524e78-83c5-4582-9296-ccdffa880da8",
+      "id": "d7480bb2-5298-4474-bf2f-0cac729ed554",
       "type": "execute-command",
       "data": {
         "command": "net user \"#{username}\" \"#{password}\" /add /domain\nnet group \"#{group}\" \"#{username}\" /add /domain\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "851a4f9b-91b1-45c9-bb13-9138d6a39b58",
+      "id": "7691f400-0de8-47c6-b570-6116df25de79",
       "type": "execute-command",
       "data": {
         "command": "net user \"#{username}\" \u003enul 2\u003e\u00261 /del /domain\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "ab524e78-83c5-4582-9296-ccdffa880da8",
+      "s": "d7480bb2-5298-4474-bf2f-0cac729ed554",
       "p": "on-success",
-      "o": "851a4f9b-91b1-45c9-bb13-9138d6a39b58"
+      "o": "7691f400-0de8-47c6-b570-6116df25de79"
     },
     {
-      "s": "ab524e78-83c5-4582-9296-ccdffa880da8",
+      "s": "d7480bb2-5298-4474-bf2f-0cac729ed554",
       "p": "on-failure",
-      "o": "851a4f9b-91b1-45c9-bb13-9138d6a39b58"
+      "o": "7691f400-0de8-47c6-b570-6116df25de79"
     }
   ],
   "tags": [
@@ -42,6 +42,12 @@
     "atomic-red-team"
   ],
   "input_arguments": [
+    {
+      "name": "group",
+      "type": "string",
+      "description": "Domain administrator group to which add the user to",
+      "value": "Domain Admins"
+    },
     {
       "name": "username",
       "type": "string",
@@ -53,12 +59,6 @@
       "type": "string",
       "description": "Password of the user to create",
       "value": "T1136_pass123!"
-    },
-    {
-      "name": "group",
-      "type": "string",
-      "description": "Domain administrator group to which add the user to",
-      "value": "Domain Admins"
     }
   ]
 }

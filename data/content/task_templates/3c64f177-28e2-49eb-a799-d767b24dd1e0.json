@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "8bea26ea-465f-4bc0-a995-9acfe8412669",
+      "id": "63dd1d14-ffa6-4674-a57f-aadad8c6e738",
       "type": "execute-command",
       "data": {
         "command": "$FilterArgs = @{name='AtomicRedTeam-WMIPersistence-CommandLineEventConsumer-Example';\n                EventNameSpace='root\\CimV2';\n                QueryLanguage=\"WQL\";\n                Query=\"SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System' AND TargetInstance.SystemUpTime \u003e= 240 AND TargetInstance.SystemUpTime \u003c 325\"};\n$Filter=New-CimInstance -Namespace root/subscription -ClassName __EventFilter -Property $FilterArgs\n\n$ConsumerArgs = @{name='AtomicRedTeam-WMIPersistence-CommandLineEventConsumer-Example';\n                CommandLineTemplate=\"$($Env:SystemRoot)\\System32\\notepad.exe\";}\n$Consumer=New-CimInstance -Namespace root/subscription -ClassName CommandLineEventConsumer -Property $ConsumerArgs\n\n$FilterToConsumerArgs = @{\nFilter = [Ref] $Filter;\nConsumer = [Ref] $Consumer;\n}\n$FilterToConsumerBinding = New-CimInstance -Namespace root/subscription -ClassName __FilterToConsumerBinding -Property $FilterToConsumerArgs\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "8acfa7eb-19a5-4297-8ef2-a048aac5bad5",
+      "id": "2f82007d-997e-4d8c-86a4-5a312adba7a9",
       "type": "execute-command",
       "data": {
         "command": "$EventConsumerToCleanup = Get-WmiObject -Namespace root/subscription -Class CommandLineEventConsumer -Filter \"Name = 'AtomicRedTeam-WMIPersistence-CommandLineEventConsumer-Example'\"\n$EventFilterToCleanup = Get-WmiObject -Namespace root/subscription -Class __EventFilter -Filter \"Name = 'AtomicRedTeam-WMIPersistence-CommandLineEventConsumer-Example'\"\n$FilterConsumerBindingToCleanup = Get-WmiObject -Namespace root/subscription -Query \"REFERENCES OF {$($EventConsumerToCleanup.__RELPATH)} WHERE ResultClass = __FilterToConsumerBinding\" -ErrorAction SilentlyContinue\n$FilterConsumerBindingToCleanup | Remove-WmiObject\n$EventConsumerToCleanup | Remove-WmiObject\n$EventFilterToCleanup | Remove-WmiObject\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "8bea26ea-465f-4bc0-a995-9acfe8412669",
+      "s": "63dd1d14-ffa6-4674-a57f-aadad8c6e738",
       "p": "on-success",
-      "o": "8acfa7eb-19a5-4297-8ef2-a048aac5bad5"
+      "o": "2f82007d-997e-4d8c-86a4-5a312adba7a9"
     },
     {
-      "s": "8bea26ea-465f-4bc0-a995-9acfe8412669",
+      "s": "63dd1d14-ffa6-4674-a57f-aadad8c6e738",
       "p": "on-failure",
-      "o": "8acfa7eb-19a5-4297-8ef2-a048aac5bad5"
+      "o": "2f82007d-997e-4d8c-86a4-5a312adba7a9"
     }
   ],
   "tags": [

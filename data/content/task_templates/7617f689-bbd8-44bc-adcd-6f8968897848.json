@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f7c881fa-b928-4af8-b4e3-5022a8240b98",
+      "id": "43bc5ee3-16ab-43a8-846b-7a7dbd46071e",
       "type": "execute-command",
       "data": {
         "command": "$mypwd = ConvertTo-SecureString -String \"AtomicRedTeam\" -Force -AsPlainText\n$cert = New-SelfSignedCertificate -DnsName atomicredteam.com -CertStoreLocation cert:\\LocalMachine\\My\nSet-Location Cert:\\LocalMachine\\My\nGet-ChildItem -Path $cert.Thumbprint | Export-PfxCertificate -FilePath #{pfx_path} -Password $mypwd\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "d707a910-94cb-4387-924e-55f9f6858ae4",
+      "id": "570dfb6e-aa71-4909-b414-2c5786e48aa3",
       "type": "execute-command",
       "data": {
         "command": "try {\n$cert = Import-Certificate -FilePath #{pfx_path} -CertStoreLocation Cert:\\LocalMachine\\My\nGet-ChildItem Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\nGet-ChildItem Cert:\\LocalMachine\\Root\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\n} catch { }\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "f7c881fa-b928-4af8-b4e3-5022a8240b98",
+      "s": "43bc5ee3-16ab-43a8-846b-7a7dbd46071e",
       "p": "on-success",
-      "o": "d707a910-94cb-4387-924e-55f9f6858ae4"
+      "o": "570dfb6e-aa71-4909-b414-2c5786e48aa3"
     },
     {
-      "s": "f7c881fa-b928-4af8-b4e3-5022a8240b98",
+      "s": "43bc5ee3-16ab-43a8-846b-7a7dbd46071e",
       "p": "on-failure",
-      "o": "d707a910-94cb-4387-924e-55f9f6858ae4"
+      "o": "570dfb6e-aa71-4909-b414-2c5786e48aa3"
     }
   ],
   "tags": [

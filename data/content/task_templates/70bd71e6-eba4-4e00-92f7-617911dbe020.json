@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "25ed554d-99dd-4430-ba19-95b005999056",
+      "id": "6387ff42-aaf5-4d12-a82d-c8854a811b64",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity\" /v \"Enabled\" /t REG_DWORD /d 0 /f\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "717b1ea3-92ba-4d7f-bb4d-461310034ee4",
+      "id": "1dda716b-56a8-4ebb-b697-6d50e3b7ba5f",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\" /v \"EnableVirtualizationBasedSecurity\" /f\nreg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\" /v \"RequirePlatformSecurityFeatures\" /f\nreg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\" /v \"Locked\" /f\nreg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity\" /v \"Enabled\" /f\nreg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity\" /v \"Locked\" /f\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "260bb035-8a05-4e70-8ddc-d71582718b33",
+      "id": "bcb8a58a-04c4-4401-b195-abc9266388c8",
       "name": "Check dependency 1/1",
       "description": "HVCI must be enabled\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "8bc3effe-38a0-4977-9389-198d0d59e214",
+      "id": "fc57a240-d89d-44f7-9834-89c74455fd15",
       "name": "Resolve dependency 1/1",
       "description": "HVCI must be enabled\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "e8b51d1f-47f5-4902-97ae-c732de67d8c0",
+      "id": "b833b9ed-843e-4181-bfed-a7f09a8fdf13",
       "name": "Re-check dependency 1/1",
       "description": "HVCI must be enabled\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "25ed554d-99dd-4430-ba19-95b005999056",
+      "s": "6387ff42-aaf5-4d12-a82d-c8854a811b64",
       "p": "on-success",
-      "o": "717b1ea3-92ba-4d7f-bb4d-461310034ee4"
+      "o": "1dda716b-56a8-4ebb-b697-6d50e3b7ba5f"
     },
     {
-      "s": "25ed554d-99dd-4430-ba19-95b005999056",
+      "s": "6387ff42-aaf5-4d12-a82d-c8854a811b64",
       "p": "on-failure",
-      "o": "717b1ea3-92ba-4d7f-bb4d-461310034ee4"
+      "o": "1dda716b-56a8-4ebb-b697-6d50e3b7ba5f"
     },
     {
-      "s": "260bb035-8a05-4e70-8ddc-d71582718b33",
+      "s": "bcb8a58a-04c4-4401-b195-abc9266388c8",
       "p": "on-success",
-      "o": "25ed554d-99dd-4430-ba19-95b005999056"
+      "o": "6387ff42-aaf5-4d12-a82d-c8854a811b64"
     },
     {
-      "s": "260bb035-8a05-4e70-8ddc-d71582718b33",
+      "s": "bcb8a58a-04c4-4401-b195-abc9266388c8",
       "p": "on-failure",
-      "o": "8bc3effe-38a0-4977-9389-198d0d59e214"
+      "o": "fc57a240-d89d-44f7-9834-89c74455fd15"
     },
     {
-      "s": "8bc3effe-38a0-4977-9389-198d0d59e214",
+      "s": "fc57a240-d89d-44f7-9834-89c74455fd15",
       "p": "on-success",
-      "o": "e8b51d1f-47f5-4902-97ae-c732de67d8c0"
+      "o": "b833b9ed-843e-4181-bfed-a7f09a8fdf13"
     },
     {
-      "s": "e8b51d1f-47f5-4902-97ae-c732de67d8c0",
+      "s": "b833b9ed-843e-4181-bfed-a7f09a8fdf13",
       "p": "on-failure",
-      "o": "25ed554d-99dd-4430-ba19-95b005999056"
+      "o": "6387ff42-aaf5-4d12-a82d-c8854a811b64"
     }
   ],
   "tags": [

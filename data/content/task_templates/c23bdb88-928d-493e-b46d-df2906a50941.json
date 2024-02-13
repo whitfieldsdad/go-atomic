@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1a9d89dc-d6b4-4e01-af13-18bed63e69be",
+      "id": "9f2d59f0-d2d2-47a1-8706-068275c7953f",
       "type": "execute-command",
       "data": {
         "command": "sudo cat /dev/null \u003e #{system_log_path} #truncating the file to zero bytes\nsudo dd if=/dev/zero bs=1000 count=5 of=#{system_log_path} #log file filled with null bytes(zeros)\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "8e90107e-40cf-4381-aa6c-4b571e0b188b",
+      "id": "58630fa5-015e-4001-a6c4-66f7680936f3",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "9e13a75d-6180-4e54-bcc8-85d90a05d997",
+      "id": "e42a4951-e9c0-4c07-b5cb-f1c3be960032",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "dac19e8f-e042-44b4-b24a-f4f962dde9d8",
+      "id": "12d17030-652f-4a7a-94f7-e411ba5e4948",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "8e90107e-40cf-4381-aa6c-4b571e0b188b",
+      "s": "58630fa5-015e-4001-a6c4-66f7680936f3",
       "p": "on-success",
-      "o": "1a9d89dc-d6b4-4e01-af13-18bed63e69be"
+      "o": "9f2d59f0-d2d2-47a1-8706-068275c7953f"
     },
     {
-      "s": "8e90107e-40cf-4381-aa6c-4b571e0b188b",
+      "s": "58630fa5-015e-4001-a6c4-66f7680936f3",
       "p": "on-failure",
-      "o": "9e13a75d-6180-4e54-bcc8-85d90a05d997"
+      "o": "e42a4951-e9c0-4c07-b5cb-f1c3be960032"
     },
     {
-      "s": "9e13a75d-6180-4e54-bcc8-85d90a05d997",
+      "s": "e42a4951-e9c0-4c07-b5cb-f1c3be960032",
       "p": "on-success",
-      "o": "dac19e8f-e042-44b4-b24a-f4f962dde9d8"
+      "o": "12d17030-652f-4a7a-94f7-e411ba5e4948"
     },
     {
-      "s": "dac19e8f-e042-44b4-b24a-f4f962dde9d8",
+      "s": "12d17030-652f-4a7a-94f7-e411ba5e4948",
       "p": "on-failure",
-      "o": "1a9d89dc-d6b4-4e01-af13-18bed63e69be"
+      "o": "9f2d59f0-d2d2-47a1-8706-068275c7953f"
     }
   ],
   "tags": [

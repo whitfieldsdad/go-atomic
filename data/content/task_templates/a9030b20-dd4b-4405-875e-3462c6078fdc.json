@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "4f55252c-5004-4c8b-b2fd-9514f3fdd67f",
+      "id": "c9b7ef35-eb2d-40df-9385-8ef04e793ae5",
       "type": "execute-command",
       "data": {
         "command": "powershell -c \"get-eventlog 'Security' | where {$_.Message -like '*SYSTEM*'} | export-csv $env:temp\\T1654_events.txt\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "05e893b5-e0b2-41aa-9538-7ddc7bc9bf19",
+      "id": "5b060a58-b995-4cf8-8d5e-2d8c2dd8324e",
       "type": "execute-command",
       "data": {
         "command": "powershell -c \"remove-item $env:temp\\T1654_events.txt -ErrorAction Ignore\"",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "4f55252c-5004-4c8b-b2fd-9514f3fdd67f",
+      "s": "c9b7ef35-eb2d-40df-9385-8ef04e793ae5",
       "p": "on-success",
-      "o": "05e893b5-e0b2-41aa-9538-7ddc7bc9bf19"
+      "o": "5b060a58-b995-4cf8-8d5e-2d8c2dd8324e"
     },
     {
-      "s": "4f55252c-5004-4c8b-b2fd-9514f3fdd67f",
+      "s": "c9b7ef35-eb2d-40df-9385-8ef04e793ae5",
       "p": "on-failure",
-      "o": "05e893b5-e0b2-41aa-9538-7ddc7bc9bf19"
+      "o": "5b060a58-b995-4cf8-8d5e-2d8c2dd8324e"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "074c6af7-e7b8-4d9f-a543-a9f670588534",
+      "id": "a47c90f0-78d3-42c5-a5fa-e91c1a274446",
       "type": "execute-command",
       "data": {
         "command": "icacls \"#{path}\" /grant Everyone:F /T /C /Q",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "209cc684-3cd3-4bd4-bf3f-c0c5963744a7",
+      "id": "d7a39313-f3f3-450e-932e-c366a81db395",
       "type": "execute-command",
       "data": {
         "command": "icacls '#{path}' /restore #{file_path} /q \u003enul 2\u003e\u00261\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "91c76ac8-6f29-431c-8ea5-2df5637f5000",
+      "id": "4fb461e9-e1b0-4b27-80bf-938f0d047212",
       "name": "Check dependency 1/1",
       "description": "Backup of original folder permissions should exist (for use in cleanup commands)\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "c6998dfc-bf6e-4d0f-a1c3-be63d155ec6a",
+      "id": "56676140-f248-4d93-aa85-589007a0f8fc",
       "name": "Resolve dependency 1/1",
       "description": "Backup of original folder permissions should exist (for use in cleanup commands)\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "c8103d4e-1335-434c-aa10-7af9170c973e",
+      "id": "bd4f629d-bf2f-4a55-b9b8-0ea87c52553a",
       "name": "Re-check dependency 1/1",
       "description": "Backup of original folder permissions should exist (for use in cleanup commands)\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "074c6af7-e7b8-4d9f-a543-a9f670588534",
+      "s": "a47c90f0-78d3-42c5-a5fa-e91c1a274446",
       "p": "on-success",
-      "o": "209cc684-3cd3-4bd4-bf3f-c0c5963744a7"
+      "o": "d7a39313-f3f3-450e-932e-c366a81db395"
     },
     {
-      "s": "074c6af7-e7b8-4d9f-a543-a9f670588534",
+      "s": "a47c90f0-78d3-42c5-a5fa-e91c1a274446",
       "p": "on-failure",
-      "o": "209cc684-3cd3-4bd4-bf3f-c0c5963744a7"
+      "o": "d7a39313-f3f3-450e-932e-c366a81db395"
     },
     {
-      "s": "91c76ac8-6f29-431c-8ea5-2df5637f5000",
+      "s": "4fb461e9-e1b0-4b27-80bf-938f0d047212",
       "p": "on-success",
-      "o": "074c6af7-e7b8-4d9f-a543-a9f670588534"
+      "o": "a47c90f0-78d3-42c5-a5fa-e91c1a274446"
     },
     {
-      "s": "91c76ac8-6f29-431c-8ea5-2df5637f5000",
+      "s": "4fb461e9-e1b0-4b27-80bf-938f0d047212",
       "p": "on-failure",
-      "o": "c6998dfc-bf6e-4d0f-a1c3-be63d155ec6a"
+      "o": "56676140-f248-4d93-aa85-589007a0f8fc"
     },
     {
-      "s": "c6998dfc-bf6e-4d0f-a1c3-be63d155ec6a",
+      "s": "56676140-f248-4d93-aa85-589007a0f8fc",
       "p": "on-success",
-      "o": "c8103d4e-1335-434c-aa10-7af9170c973e"
+      "o": "bd4f629d-bf2f-4a55-b9b8-0ea87c52553a"
     },
     {
-      "s": "c8103d4e-1335-434c-aa10-7af9170c973e",
+      "s": "bd4f629d-bf2f-4a55-b9b8-0ea87c52553a",
       "p": "on-failure",
-      "o": "074c6af7-e7b8-4d9f-a543-a9f670588534"
+      "o": "a47c90f0-78d3-42c5-a5fa-e91c1a274446"
     }
   ],
   "tags": [

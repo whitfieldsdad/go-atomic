@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "022d5879-46c7-423f-97cd-25a41111772e",
+      "id": "46aab749-3184-4bd0-bcca-fdb18058362d",
       "type": "execute-command",
       "data": {
         "command": "ENCODED=$(perl -e \"use MIME::Base64;print(encode_base64('#{message}'));\")\nperl -le \"use MIME::Base64;print(decode_base64('$ENCODED'));\"\necho $ENCODED | perl -le 'use MIME::Base64;print(decode_base64(\u003cSTDIN\u003e));'\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 perl -le 'use MIME::Base64;open($f,\"\u003c\",\"#{encoded_file}\");print(decode_base64(\u003c$f\u003e));'\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "e67e639d-20d0-423a-9944-f1a7f3d10b73",
+      "id": "4055c316-acf9-4097-8e8f-d897e6e2215a",
       "name": "Check dependency 1/1",
       "description": "Perl must be present\n",
       "type": "execute-command",
@@ -28,7 +28,7 @@
       "elevation_required": false
     },
     {
-      "id": "3b0848da-75bf-47bc-bf0e-b2749d013b88",
+      "id": "e9385304-cbba-49f4-a6da-502060f6c27e",
       "name": "Resolve dependency 1/1",
       "description": "Perl must be present\n",
       "type": "execute-command",
@@ -39,7 +39,7 @@
       "elevation_required": false
     },
     {
-      "id": "500f9835-64c6-4ba2-a6b8-9a3699d0d05f",
+      "id": "8da44b6b-febb-4099-874d-64b3ba18f5cb",
       "name": "Re-check dependency 1/1",
       "description": "Perl must be present\n",
       "type": "execute-command",
@@ -52,24 +52,24 @@
   ],
   "flows": [
     {
-      "s": "e67e639d-20d0-423a-9944-f1a7f3d10b73",
+      "s": "4055c316-acf9-4097-8e8f-d897e6e2215a",
       "p": "on-success",
-      "o": "022d5879-46c7-423f-97cd-25a41111772e"
+      "o": "46aab749-3184-4bd0-bcca-fdb18058362d"
     },
     {
-      "s": "e67e639d-20d0-423a-9944-f1a7f3d10b73",
+      "s": "4055c316-acf9-4097-8e8f-d897e6e2215a",
       "p": "on-failure",
-      "o": "3b0848da-75bf-47bc-bf0e-b2749d013b88"
+      "o": "e9385304-cbba-49f4-a6da-502060f6c27e"
     },
     {
-      "s": "3b0848da-75bf-47bc-bf0e-b2749d013b88",
+      "s": "e9385304-cbba-49f4-a6da-502060f6c27e",
       "p": "on-success",
-      "o": "500f9835-64c6-4ba2-a6b8-9a3699d0d05f"
+      "o": "8da44b6b-febb-4099-874d-64b3ba18f5cb"
     },
     {
-      "s": "500f9835-64c6-4ba2-a6b8-9a3699d0d05f",
+      "s": "8da44b6b-febb-4099-874d-64b3ba18f5cb",
       "p": "on-failure",
-      "o": "022d5879-46c7-423f-97cd-25a41111772e"
+      "o": "46aab749-3184-4bd0-bcca-fdb18058362d"
     }
   ],
   "tags": [

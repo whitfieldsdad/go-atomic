@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "c9f62974-b0ff-4a87-a433-40ba963f1264",
+      "id": "c7cc0e11-db7f-49e7-a639-939df15e67f9",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp' -name \"PortNumber\" -Value #{NEW_Remote_Port}\nNew-NetFirewallRule -DisplayName 'RDPPORTLatest-TCP-In' -Profile 'Public' -Direction Inbound -Action Allow -Protocol TCP -LocalPort #{NEW_Remote_Port}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "894035e7-5585-407c-87ab-7515b726eaea",
+      "id": "966b0d6d-d93a-4d90-933d-50c5fc0dfee9",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp' -name \"PortNumber\" -Value #{OLD_Remote_Port}\nRemove-NetFirewallRule -DisplayName \"RDPPORTLatest-TCP-In\" -ErrorAction Ignore \nGet-Service TermService | Restart-Service -Force -ErrorAction Ignore \n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "c9f62974-b0ff-4a87-a433-40ba963f1264",
+      "s": "c7cc0e11-db7f-49e7-a639-939df15e67f9",
       "p": "on-success",
-      "o": "894035e7-5585-407c-87ab-7515b726eaea"
+      "o": "966b0d6d-d93a-4d90-933d-50c5fc0dfee9"
     },
     {
-      "s": "c9f62974-b0ff-4a87-a433-40ba963f1264",
+      "s": "c7cc0e11-db7f-49e7-a639-939df15e67f9",
       "p": "on-failure",
-      "o": "894035e7-5585-407c-87ab-7515b726eaea"
+      "o": "966b0d6d-d93a-4d90-933d-50c5fc0dfee9"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "d7c06b5f-0c58-4cba-9ca7-0a509d9cf409",
+      "id": "f363c6f7-4c19-4eb7-85e0-e85237bead79",
       "type": "execute-command",
       "data": {
         "command": "Invoke-ATHHTMLApplication -ScriptEngine #{script_engine} -InlineProtocolHandler #{protocol_handler} -MSHTAFilePath #{mshta_file_path}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "8c0cdba7-eea1-4525-a4dd-135cad034fb9",
+      "id": "5eba15fc-beae-40c2-bf85-8c8ace38635a",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "564fb1b8-5987-415b-84dc-c7a87a3af14b",
+      "id": "5d5519dd-cefa-419e-886b-1afe55ee99b0",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "0e357af8-4230-40c0-bd3a-730724761366",
+      "id": "862752b4-5f52-4609-a27f-974ba8b28c87",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "8c0cdba7-eea1-4525-a4dd-135cad034fb9",
+      "s": "5eba15fc-beae-40c2-bf85-8c8ace38635a",
       "p": "on-success",
-      "o": "d7c06b5f-0c58-4cba-9ca7-0a509d9cf409"
+      "o": "f363c6f7-4c19-4eb7-85e0-e85237bead79"
     },
     {
-      "s": "8c0cdba7-eea1-4525-a4dd-135cad034fb9",
+      "s": "5eba15fc-beae-40c2-bf85-8c8ace38635a",
       "p": "on-failure",
-      "o": "564fb1b8-5987-415b-84dc-c7a87a3af14b"
+      "o": "5d5519dd-cefa-419e-886b-1afe55ee99b0"
     },
     {
-      "s": "564fb1b8-5987-415b-84dc-c7a87a3af14b",
+      "s": "5d5519dd-cefa-419e-886b-1afe55ee99b0",
       "p": "on-success",
-      "o": "0e357af8-4230-40c0-bd3a-730724761366"
+      "o": "862752b4-5f52-4609-a27f-974ba8b28c87"
     },
     {
-      "s": "0e357af8-4230-40c0-bd3a-730724761366",
+      "s": "862752b4-5f52-4609-a27f-974ba8b28c87",
       "p": "on-failure",
-      "o": "d7c06b5f-0c58-4cba-9ca7-0a509d9cf409"
+      "o": "f363c6f7-4c19-4eb7-85e0-e85237bead79"
     }
   ],
   "tags": [
@@ -76,12 +76,6 @@
     "atomic-red-team"
   ],
   "input_arguments": [
-    {
-      "name": "script_engine",
-      "type": "string",
-      "description": "Script Engine to use",
-      "value": "JScript"
-    },
     {
       "name": "protocol_handler",
       "type": "string",
@@ -93,6 +87,12 @@
       "type": "path",
       "description": "Location of mshta.exe",
       "value": "$env:windir\\system32\\mshta.exe"
+    },
+    {
+      "name": "script_engine",
+      "type": "string",
+      "description": "Script Engine to use",
+      "value": "JScript"
     }
   ]
 }

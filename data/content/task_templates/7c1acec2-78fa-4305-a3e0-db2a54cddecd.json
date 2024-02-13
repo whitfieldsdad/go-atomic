@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1f80d1ab-205e-4694-bc7a-a40f34711622",
+      "id": "5a54b161-0271-4e66-b677-0ae14af2bcbe",
       "type": "execute-command",
       "data": {
         "command": "New-PSSession -ComputerName #{hostname_to_connect}\nTest-Connection $env:COMPUTERNAME\nSet-Content -Path $env:TEMP\\T1086_PowerShell_Session_Creation_and_Use -Value \"T1086 PowerShell Session Creation and Use\"\nGet-Content -Path $env:TEMP\\T1086_PowerShell_Session_Creation_and_Use\nRemove-Item -Force $env:TEMP\\T1086_PowerShell_Session_Creation_and_Use\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "ba636d43-cc8e-4e49-ab64-fc0f5d6a1e62",
+      "id": "6733f29a-faa8-4e36-a529-aede67361671",
       "name": "Check dependency 1/1",
       "description": "PSRemoting must be enabled\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "c34e90c8-8f94-4e01-b7d6-e8468f53fc6a",
+      "id": "e1f8edb5-7204-4662-af6c-045969362f00",
       "name": "Resolve dependency 1/1",
       "description": "PSRemoting must be enabled\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "5dce6caf-702d-437a-b262-e255b96111fb",
+      "id": "a0c9f897-983e-472a-9594-2db93de38193",
       "name": "Re-check dependency 1/1",
       "description": "PSRemoting must be enabled\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "ba636d43-cc8e-4e49-ab64-fc0f5d6a1e62",
+      "s": "6733f29a-faa8-4e36-a529-aede67361671",
       "p": "on-success",
-      "o": "1f80d1ab-205e-4694-bc7a-a40f34711622"
+      "o": "5a54b161-0271-4e66-b677-0ae14af2bcbe"
     },
     {
-      "s": "ba636d43-cc8e-4e49-ab64-fc0f5d6a1e62",
+      "s": "6733f29a-faa8-4e36-a529-aede67361671",
       "p": "on-failure",
-      "o": "c34e90c8-8f94-4e01-b7d6-e8468f53fc6a"
+      "o": "e1f8edb5-7204-4662-af6c-045969362f00"
     },
     {
-      "s": "c34e90c8-8f94-4e01-b7d6-e8468f53fc6a",
+      "s": "e1f8edb5-7204-4662-af6c-045969362f00",
       "p": "on-success",
-      "o": "5dce6caf-702d-437a-b262-e255b96111fb"
+      "o": "a0c9f897-983e-472a-9594-2db93de38193"
     },
     {
-      "s": "5dce6caf-702d-437a-b262-e255b96111fb",
+      "s": "a0c9f897-983e-472a-9594-2db93de38193",
       "p": "on-failure",
-      "o": "1f80d1ab-205e-4694-bc7a-a40f34711622"
+      "o": "5a54b161-0271-4e66-b677-0ae14af2bcbe"
     }
   ],
   "tags": [

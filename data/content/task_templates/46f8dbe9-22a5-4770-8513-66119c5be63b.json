@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "9bff960c-e197-4066-857d-1eb6f13a3e23",
+      "id": "b6300863-cb13-41f0-904a-d4272acc0104",
       "type": "execute-command",
       "data": {
         "command": "Get-ADObject -LDAPFilter '(UserAccountControl:1.2.840.113556.1.4.803:=#{uac_prop})' -Server #{domain}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "0919eb29-885c-4b8b-90f1-15323e0e82cf",
+      "id": "e16af9f6-a0bf-47f4-a443-f4748c892604",
       "name": "Check dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "301ed829-d45e-439a-817c-5ac1f69ee78f",
+      "id": "3d91d4db-eaa2-4b8c-aa38-91df709a1cac",
       "name": "Resolve dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "5a4eb3d0-b485-4123-a4c5-1dd59738eb8d",
+      "id": "fa12ac32-e5c5-486b-aa55-7d5c8799a24d",
       "name": "Re-check dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "0919eb29-885c-4b8b-90f1-15323e0e82cf",
+      "s": "e16af9f6-a0bf-47f4-a443-f4748c892604",
       "p": "on-success",
-      "o": "9bff960c-e197-4066-857d-1eb6f13a3e23"
+      "o": "b6300863-cb13-41f0-904a-d4272acc0104"
     },
     {
-      "s": "0919eb29-885c-4b8b-90f1-15323e0e82cf",
+      "s": "e16af9f6-a0bf-47f4-a443-f4748c892604",
       "p": "on-failure",
-      "o": "301ed829-d45e-439a-817c-5ac1f69ee78f"
+      "o": "3d91d4db-eaa2-4b8c-aa38-91df709a1cac"
     },
     {
-      "s": "301ed829-d45e-439a-817c-5ac1f69ee78f",
+      "s": "3d91d4db-eaa2-4b8c-aa38-91df709a1cac",
       "p": "on-success",
-      "o": "5a4eb3d0-b485-4123-a4c5-1dd59738eb8d"
+      "o": "fa12ac32-e5c5-486b-aa55-7d5c8799a24d"
     },
     {
-      "s": "5a4eb3d0-b485-4123-a4c5-1dd59738eb8d",
+      "s": "fa12ac32-e5c5-486b-aa55-7d5c8799a24d",
       "p": "on-failure",
-      "o": "9bff960c-e197-4066-857d-1eb6f13a3e23"
+      "o": "b6300863-cb13-41f0-904a-d4272acc0104"
     }
   ],
   "tags": [
@@ -77,16 +77,16 @@
   ],
   "input_arguments": [
     {
-      "name": "uac_prop",
-      "type": "integer",
-      "description": "UAC Property to search",
-      "value": "524288"
-    },
-    {
       "name": "domain",
       "type": "string",
       "description": "Domain FQDN",
       "value": "$env:UserDnsDomain"
+    },
+    {
+      "name": "uac_prop",
+      "type": "integer",
+      "description": "UAC Property to search",
+      "value": "524288"
     }
   ]
 }

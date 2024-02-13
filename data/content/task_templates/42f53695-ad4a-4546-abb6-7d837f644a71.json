@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "50cd054b-124f-4833-9522-5b9e3e73730b",
+      "id": "f318c33c-3811-47df-9522-d2bb14477b8c",
       "type": "execute-command",
       "data": {
         "command": "SCHTASKS /Create /SC ONCE /TN spawn /TR #{task_command} /ST #{time}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "9d157599-ca76-41f0-89fa-4d9dd9fced31",
+      "id": "9379bd93-f863-4468-b13f-7fe0a4626a76",
       "type": "execute-command",
       "data": {
         "command": "SCHTASKS /Delete /TN spawn /F \u003enul 2\u003e\u00261\n",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "50cd054b-124f-4833-9522-5b9e3e73730b",
+      "s": "f318c33c-3811-47df-9522-d2bb14477b8c",
       "p": "on-success",
-      "o": "9d157599-ca76-41f0-89fa-4d9dd9fced31"
+      "o": "9379bd93-f863-4468-b13f-7fe0a4626a76"
     },
     {
-      "s": "50cd054b-124f-4833-9522-5b9e3e73730b",
+      "s": "f318c33c-3811-47df-9522-d2bb14477b8c",
       "p": "on-failure",
-      "o": "9d157599-ca76-41f0-89fa-4d9dd9fced31"
+      "o": "9379bd93-f863-4468-b13f-7fe0a4626a76"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "task_command",
-      "type": "string",
-      "description": "What you want to execute",
-      "value": "C:\\windows\\system32\\cmd.exe"
-    },
-    {
       "name": "time",
       "type": "string",
       "description": "What time 24 Hour",
       "value": "20:10"
+    },
+    {
+      "name": "task_command",
+      "type": "string",
+      "description": "What you want to execute",
+      "value": "C:\\windows\\system32\\cmd.exe"
     }
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f74990dc-bafb-4963-89e2-291f09568c21",
+      "id": "72a994de-1e18-4ccd-9798-04717861f7e1",
       "type": "execute-command",
       "data": {
         "command": "smbstatus --shares\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "adc4263a-08de-4c48-9f11-af57e4a6a5f0",
+      "id": "bf1cacef-b78a-4a1d-ac67-b8e73465f2ef",
       "name": "Check dependency 1/1",
       "description": "Package with smbstatus (samba) must exist on device\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "2e73d67b-f4ac-4e1a-b7e9-c8a5e2d4f4d9",
+      "id": "e9b6cb11-82e6-4aa9-a7e2-2c9c35dfa2fd",
       "name": "Resolve dependency 1/1",
       "description": "Package with smbstatus (samba) must exist on device\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "3880a488-2cf3-4c0f-bcca-9361de6eaaf8",
+      "id": "a3cce470-f3c2-4381-87b7-439075f5a30b",
       "name": "Re-check dependency 1/1",
       "description": "Package with smbstatus (samba) must exist on device\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "adc4263a-08de-4c48-9f11-af57e4a6a5f0",
+      "s": "bf1cacef-b78a-4a1d-ac67-b8e73465f2ef",
       "p": "on-success",
-      "o": "f74990dc-bafb-4963-89e2-291f09568c21"
+      "o": "72a994de-1e18-4ccd-9798-04717861f7e1"
     },
     {
-      "s": "adc4263a-08de-4c48-9f11-af57e4a6a5f0",
+      "s": "bf1cacef-b78a-4a1d-ac67-b8e73465f2ef",
       "p": "on-failure",
-      "o": "2e73d67b-f4ac-4e1a-b7e9-c8a5e2d4f4d9"
+      "o": "e9b6cb11-82e6-4aa9-a7e2-2c9c35dfa2fd"
     },
     {
-      "s": "2e73d67b-f4ac-4e1a-b7e9-c8a5e2d4f4d9",
+      "s": "e9b6cb11-82e6-4aa9-a7e2-2c9c35dfa2fd",
       "p": "on-success",
-      "o": "3880a488-2cf3-4c0f-bcca-9361de6eaaf8"
+      "o": "a3cce470-f3c2-4381-87b7-439075f5a30b"
     },
     {
-      "s": "3880a488-2cf3-4c0f-bcca-9361de6eaaf8",
+      "s": "a3cce470-f3c2-4381-87b7-439075f5a30b",
       "p": "on-failure",
-      "o": "f74990dc-bafb-4963-89e2-291f09568c21"
+      "o": "72a994de-1e18-4ccd-9798-04717861f7e1"
     }
   ],
   "tags": [
@@ -77,16 +77,16 @@
   ],
   "input_arguments": [
     {
-      "name": "package_installer",
-      "type": "string",
-      "description": "Package installer command. pkg install -y samba413",
-      "value": "(which pkg \u0026\u0026 pkg install -y samba413)"
-    },
-    {
       "name": "package_checker",
       "type": "string",
       "description": "Package checking command. pkg info -x samba",
       "value": "(pkg info -x samba \u0026\u003e/dev/null)"
+    },
+    {
+      "name": "package_installer",
+      "type": "string",
+      "description": "Package installer command. pkg install -y samba413",
+      "value": "(which pkg \u0026\u0026 pkg install -y samba413)"
     }
   ]
 }

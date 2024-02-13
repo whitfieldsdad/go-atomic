@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1a664dff-e470-4181-88e2-69deeed2f8db",
+      "id": "7aaa0a0d-b2cb-4d78-9f59-1b93ac11037e",
       "type": "execute-command",
       "data": {
         "command": "Connect-AzureAD\n$userprincipalname = \"#{userprincipalname}\"\n$username = \"#{username}\"      \n$password = \"#{password}\"\n$PasswordProfile = New-Object -TypeName Microsoft.Open.AzureAD.Model.PasswordProfile\n$PasswordProfile.Password = $password\nNew-AzureADUser -DisplayName $username -PasswordProfile $PasswordProfile -UserPrincipalName $userprincipalname -AccountEnabled $true -MailNickName $username      ",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "562800df-8603-4af4-ba6c-a1f6594a601e",
+      "id": "fa8d956e-7c0e-47bd-bd82-410d52d99ff0",
       "type": "execute-command",
       "data": {
         "command": "Remove-AzureADUser -ObjectId \"#{userprincipalname}\"",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "cffbd430-96cd-4913-b457-03138d645195",
+      "id": "fe4a2ab3-79c3-4cd1-9645-ad2471bfc6c1",
       "name": "Check dependency 1/2",
       "description": "Check if AzureAD PowerShell module is installed",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "234cf1c5-9b52-433e-8b93-e0e71d026932",
+      "id": "008d3a6e-3377-42e9-ac7e-5b863edbb0bc",
       "name": "Resolve dependency 1/2",
       "description": "Check if AzureAD PowerShell module is installed",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "5aee7c1b-4483-4042-853f-2bb9a8a0e89f",
+      "id": "c827b735-c580-40df-afdf-2514ad40a3eb",
       "name": "Re-check dependency 1/2",
       "description": "Check if AzureAD PowerShell module is installed",
       "type": "execute-command",
@@ -58,7 +58,7 @@
       "elevation_required": false
     },
     {
-      "id": "4e91a4ea-c369-4433-aac4-3c5d34b4e0d6",
+      "id": "c862c94d-2201-420d-bce8-719dd12eaca7",
       "name": "Check dependency 2/2",
       "description": "Check if AzureAD PowerShell module is installed",
       "type": "execute-command",
@@ -69,7 +69,7 @@
       "elevation_required": false
     },
     {
-      "id": "522735f3-a2a0-4a8c-86dd-44f64e298f17",
+      "id": "f739f83d-e5b8-455d-94f4-56a6db1def7e",
       "name": "Resolve dependency 2/2",
       "description": "Check if AzureAD PowerShell module is installed",
       "type": "execute-command",
@@ -80,7 +80,7 @@
       "elevation_required": false
     },
     {
-      "id": "b6131538-ccbc-404d-9ad2-e22b44c4dfe8",
+      "id": "f58cc6a3-339b-4d76-bd9e-9c6049ce4ee4",
       "name": "Re-check dependency 2/2",
       "description": "Check if AzureAD PowerShell module is installed",
       "type": "execute-command",
@@ -93,54 +93,54 @@
   ],
   "flows": [
     {
-      "s": "1a664dff-e470-4181-88e2-69deeed2f8db",
+      "s": "7aaa0a0d-b2cb-4d78-9f59-1b93ac11037e",
       "p": "on-success",
-      "o": "562800df-8603-4af4-ba6c-a1f6594a601e"
+      "o": "fa8d956e-7c0e-47bd-bd82-410d52d99ff0"
     },
     {
-      "s": "1a664dff-e470-4181-88e2-69deeed2f8db",
+      "s": "7aaa0a0d-b2cb-4d78-9f59-1b93ac11037e",
       "p": "on-failure",
-      "o": "562800df-8603-4af4-ba6c-a1f6594a601e"
+      "o": "fa8d956e-7c0e-47bd-bd82-410d52d99ff0"
     },
     {
-      "s": "cffbd430-96cd-4913-b457-03138d645195",
+      "s": "fe4a2ab3-79c3-4cd1-9645-ad2471bfc6c1",
       "p": "on-success",
-      "o": "1a664dff-e470-4181-88e2-69deeed2f8db"
+      "o": "7aaa0a0d-b2cb-4d78-9f59-1b93ac11037e"
     },
     {
-      "s": "cffbd430-96cd-4913-b457-03138d645195",
+      "s": "fe4a2ab3-79c3-4cd1-9645-ad2471bfc6c1",
       "p": "on-failure",
-      "o": "234cf1c5-9b52-433e-8b93-e0e71d026932"
+      "o": "008d3a6e-3377-42e9-ac7e-5b863edbb0bc"
     },
     {
-      "s": "234cf1c5-9b52-433e-8b93-e0e71d026932",
+      "s": "008d3a6e-3377-42e9-ac7e-5b863edbb0bc",
       "p": "on-success",
-      "o": "5aee7c1b-4483-4042-853f-2bb9a8a0e89f"
+      "o": "c827b735-c580-40df-afdf-2514ad40a3eb"
     },
     {
-      "s": "5aee7c1b-4483-4042-853f-2bb9a8a0e89f",
+      "s": "c827b735-c580-40df-afdf-2514ad40a3eb",
       "p": "on-failure",
-      "o": "1a664dff-e470-4181-88e2-69deeed2f8db"
+      "o": "7aaa0a0d-b2cb-4d78-9f59-1b93ac11037e"
     },
     {
-      "s": "4e91a4ea-c369-4433-aac4-3c5d34b4e0d6",
+      "s": "c862c94d-2201-420d-bce8-719dd12eaca7",
       "p": "on-success",
-      "o": "1a664dff-e470-4181-88e2-69deeed2f8db"
+      "o": "7aaa0a0d-b2cb-4d78-9f59-1b93ac11037e"
     },
     {
-      "s": "4e91a4ea-c369-4433-aac4-3c5d34b4e0d6",
+      "s": "c862c94d-2201-420d-bce8-719dd12eaca7",
       "p": "on-failure",
-      "o": "522735f3-a2a0-4a8c-86dd-44f64e298f17"
+      "o": "f739f83d-e5b8-455d-94f4-56a6db1def7e"
     },
     {
-      "s": "522735f3-a2a0-4a8c-86dd-44f64e298f17",
+      "s": "f739f83d-e5b8-455d-94f4-56a6db1def7e",
       "p": "on-success",
-      "o": "b6131538-ccbc-404d-9ad2-e22b44c4dfe8"
+      "o": "f58cc6a3-339b-4d76-bd9e-9c6049ce4ee4"
     },
     {
-      "s": "b6131538-ccbc-404d-9ad2-e22b44c4dfe8",
+      "s": "f58cc6a3-339b-4d76-bd9e-9c6049ce4ee4",
       "p": "on-failure",
-      "o": "1a664dff-e470-4181-88e2-69deeed2f8db"
+      "o": "7aaa0a0d-b2cb-4d78-9f59-1b93ac11037e"
     }
   ],
   "tags": [
@@ -148,12 +148,6 @@
     "atomic-red-team"
   ],
   "input_arguments": [
-    {
-      "name": "password",
-      "type": "string",
-      "description": "Password for the new Azure AD user being created",
-      "value": "reallylongcredential12345ART-ydsfghsdgfhsdgfhgsdhfg"
-    },
     {
       "name": "username",
       "type": "string",
@@ -165,6 +159,12 @@
       "type": "string",
       "description": "User principal name (UPN) for the new Azure user being created format email address",
       "value": "atomicredteam@yourdomain.com"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password for the new Azure AD user being created",
+      "value": "reallylongcredential12345ART-ydsfghsdgfhsdgfhgsdhfg"
     }
   ]
 }

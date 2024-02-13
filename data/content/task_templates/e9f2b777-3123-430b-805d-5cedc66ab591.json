@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "a688a2ce-d523-4848-bbcc-6b18047e2393",
+      "id": "9cfc97e4-7338-4bff-b6f9-cddaab54777d",
       "type": "execute-command",
       "data": {
         "command": "Get-CimInstance -ClassName Win32_Process -Property Name, CommandLine, ProcessId -Filter \"Name = 'svchost.exe' AND CommandLine LIKE '%'\" | Select-Object -First 1 | Start-ATHProcessUnderSpecificParent -FilePath #{file_path} -CommandLine '#{command_line}'",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "e2059d10-1687-439e-9a65-ba6d1dfa64f9",
+      "id": "2d3106b0-1c6f-4845-b0ec-f51314532f0d",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "4f081347-b91a-4aa5-a574-32673ce01393",
+      "id": "e3f2a3eb-0b80-4eb9-bd66-8b28831de588",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "66172646-f4cb-4dbc-82ec-2b17602d231c",
+      "id": "661f505b-06e3-40f8-9855-65d4d398330c",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "e2059d10-1687-439e-9a65-ba6d1dfa64f9",
+      "s": "2d3106b0-1c6f-4845-b0ec-f51314532f0d",
       "p": "on-success",
-      "o": "a688a2ce-d523-4848-bbcc-6b18047e2393"
+      "o": "9cfc97e4-7338-4bff-b6f9-cddaab54777d"
     },
     {
-      "s": "e2059d10-1687-439e-9a65-ba6d1dfa64f9",
+      "s": "2d3106b0-1c6f-4845-b0ec-f51314532f0d",
       "p": "on-failure",
-      "o": "4f081347-b91a-4aa5-a574-32673ce01393"
+      "o": "e3f2a3eb-0b80-4eb9-bd66-8b28831de588"
     },
     {
-      "s": "4f081347-b91a-4aa5-a574-32673ce01393",
+      "s": "e3f2a3eb-0b80-4eb9-bd66-8b28831de588",
       "p": "on-success",
-      "o": "66172646-f4cb-4dbc-82ec-2b17602d231c"
+      "o": "661f505b-06e3-40f8-9855-65d4d398330c"
     },
     {
-      "s": "66172646-f4cb-4dbc-82ec-2b17602d231c",
+      "s": "661f505b-06e3-40f8-9855-65d4d398330c",
       "p": "on-failure",
-      "o": "a688a2ce-d523-4848-bbcc-6b18047e2393"
+      "o": "9cfc97e4-7338-4bff-b6f9-cddaab54777d"
     }
   ],
   "tags": [

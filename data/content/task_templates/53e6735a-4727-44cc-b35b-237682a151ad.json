@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "77818731-5b23-4333-b44e-90845e53ccaa",
+      "id": "f5effae8-e84e-443a-869c-dc7c5a764b98",
       "type": "execute-command",
       "data": {
         "command": "$which_7z a -p#{pwd_for_encrypted_file} #{encrypted_file_path} #{input_file_path}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "a51eb0ee-1249-4fa4-9a61-1445dc383f5a",
+      "id": "abed054e-f1e2-4b35-94f5-1b5baeb1308f",
       "type": "execute-command",
       "data": {
         "command": "$which_7z e #{encrypted_file_path}\nrm #{encrypted_file_path}\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "608b5dd1-cf00-4e5a-91ce-a5bcac75fa6a",
+      "id": "ae92fde8-63f3-4373-bac0-9d1ca9fc2ba6",
       "name": "Check dependency 1/1",
       "description": "Finds where 7z is located\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "d1caf74e-30bb-4b0e-b5af-c071108e6f96",
+      "id": "4ec90be0-890a-4617-abf3-275b23890e2b",
       "name": "Resolve dependency 1/1",
       "description": "Finds where 7z is located\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "7c9ca555-c667-438c-b460-70fdc79fbff4",
+      "id": "ef7a9e4f-fc4c-40fa-ad40-39a9466415ff",
       "name": "Re-check dependency 1/1",
       "description": "Finds where 7z is located\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "77818731-5b23-4333-b44e-90845e53ccaa",
+      "s": "f5effae8-e84e-443a-869c-dc7c5a764b98",
       "p": "on-success",
-      "o": "a51eb0ee-1249-4fa4-9a61-1445dc383f5a"
+      "o": "abed054e-f1e2-4b35-94f5-1b5baeb1308f"
     },
     {
-      "s": "77818731-5b23-4333-b44e-90845e53ccaa",
+      "s": "f5effae8-e84e-443a-869c-dc7c5a764b98",
       "p": "on-failure",
-      "o": "a51eb0ee-1249-4fa4-9a61-1445dc383f5a"
+      "o": "abed054e-f1e2-4b35-94f5-1b5baeb1308f"
     },
     {
-      "s": "608b5dd1-cf00-4e5a-91ce-a5bcac75fa6a",
+      "s": "ae92fde8-63f3-4373-bac0-9d1ca9fc2ba6",
       "p": "on-success",
-      "o": "77818731-5b23-4333-b44e-90845e53ccaa"
+      "o": "f5effae8-e84e-443a-869c-dc7c5a764b98"
     },
     {
-      "s": "608b5dd1-cf00-4e5a-91ce-a5bcac75fa6a",
+      "s": "ae92fde8-63f3-4373-bac0-9d1ca9fc2ba6",
       "p": "on-failure",
-      "o": "d1caf74e-30bb-4b0e-b5af-c071108e6f96"
+      "o": "4ec90be0-890a-4617-abf3-275b23890e2b"
     },
     {
-      "s": "d1caf74e-30bb-4b0e-b5af-c071108e6f96",
+      "s": "4ec90be0-890a-4617-abf3-275b23890e2b",
       "p": "on-success",
-      "o": "7c9ca555-c667-438c-b460-70fdc79fbff4"
+      "o": "ef7a9e4f-fc4c-40fa-ad40-39a9466415ff"
     },
     {
-      "s": "7c9ca555-c667-438c-b460-70fdc79fbff4",
+      "s": "ef7a9e4f-fc4c-40fa-ad40-39a9466415ff",
       "p": "on-failure",
-      "o": "77818731-5b23-4333-b44e-90845e53ccaa"
+      "o": "f5effae8-e84e-443a-869c-dc7c5a764b98"
     }
   ],
   "tags": [
@@ -95,6 +95,12 @@
     "atomic-red-team"
   ],
   "input_arguments": [
+    {
+      "name": "input_file_path",
+      "type": "path",
+      "description": "path to the file that you want to encrypt",
+      "value": "/etc/passwd"
+    },
     {
       "name": "pwd_for_encrypted_file",
       "type": "string",
@@ -106,12 +112,6 @@
       "type": "path",
       "description": "path to the encrypted file",
       "value": "/tmp/passwd.zip"
-    },
-    {
-      "name": "input_file_path",
-      "type": "path",
-      "description": "path to the file that you want to encrypt",
-      "value": "/etc/passwd"
     }
   ]
 }
