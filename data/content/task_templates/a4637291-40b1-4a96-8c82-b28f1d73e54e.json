@@ -1,0 +1,44 @@
+{
+  "id": "a4637291-40b1-4a96-8c82-b28f1d73e54e",
+  "name": "Windows HideSCAHealth Group Policy Feature",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to remove security and maintenance icon Group Policy. \nTake note that some Group Policy changes might require a restart to take effect.\nSee how ransomware abuses this technique- https://www.virustotal.com/gui/file/2d7855bf6470aa323edf2949b54ce2a04d9e38770f1322c3d0420c2303178d91/details\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "74b958d7-27ae-4b94-a59a-6b192c47f2aa",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v HideSCAHealth /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6f5235f3-46d7-460b-b0b6-9f739cf21efa",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v HideSCAHealth /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "74b958d7-27ae-4b94-a59a-6b192c47f2aa",
+      "p": "on-success",
+      "o": "6f5235f3-46d7-460b-b0b6-9f739cf21efa"
+    },
+    {
+      "s": "74b958d7-27ae-4b94-a59a-6b192c47f2aa",
+      "p": "on-failure",
+      "o": "6f5235f3-46d7-460b-b0b6-9f739cf21efa"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

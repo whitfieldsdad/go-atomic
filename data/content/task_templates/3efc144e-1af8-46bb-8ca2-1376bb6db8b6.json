@@ -1,0 +1,61 @@
+{
+  "id": "3efc144e-1af8-46bb-8ca2-1376bb6db8b6",
+  "name": "DNS Regular Beaconing",
+  "description": "This test simulates an infected host beaconing via DNS queries to a command and control server at regular intervals over time.\nThis behaviour is typical of implants either in an idle state waiting for instructions or configured to use a low query volume over time to evade threshold based detection.\nA custom domain and sub-domain will need to be passed as input parameters for this test to work. Upon execution, DNS information about the domain will be displayed for each callout.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "62fefdd2-b6ec-4f9c-ae0d-0de6c731fc30",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-Location \"PathToAtomicsFolder\"\n.\\T1071.004\\src\\T1071-dns-beacon.ps1 -Domain #{domain} -Subdomain #{subdomain} -QueryType #{query_type} -C2Interval #{c2_interval} -C2Jitter #{c2_jitter} -RunTime #{runtime}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1071.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "subdomain",
+      "type": "string",
+      "description": "Subdomain prepended to the domain name",
+      "value": "atomicredteam"
+    },
+    {
+      "name": "query_type",
+      "type": "string",
+      "description": "DNS query type",
+      "value": "TXT"
+    },
+    {
+      "name": "c2_interval",
+      "type": "integer",
+      "description": "Seconds between C2 requests to the command and control server",
+      "value": "30"
+    },
+    {
+      "name": "c2_jitter",
+      "type": "integer",
+      "description": "Percentage of jitter to add to the C2 interval to create variance in the times between C2 requests",
+      "value": "20"
+    },
+    {
+      "name": "runtime",
+      "type": "integer",
+      "description": "Time in minutes to run the simulation",
+      "value": "30"
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "Default domain to simulate against",
+      "value": "127.0.0.1.nip.io"
+    }
+  ]
+}

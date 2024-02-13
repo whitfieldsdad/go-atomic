@@ -1,0 +1,52 @@
+{
+  "id": "f9b8daff-8fa7-4e6a-a1a7-7c14675a545b",
+  "name": "Winlogon HKLM Userinit Key Persistence - PowerShell",
+  "description": "PowerShell code to set Winlogon userinit key to execute a binary at logon along with userinit.exe.\n\nUpon successful execution, PowerShell will modify a registry value to execute cmd.exe upon logon/logoff.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e47eded7-a6c8-446f-92c6-75f580f3b24d",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-ItemProperty \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" \"Userinit\" \"Userinit.exe, #{binary_to_execute}\" -Force\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a50bb5b5-e4ff-4e63-835c-3fa55bb46250",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" -Name \"Userinit\" -Force -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e47eded7-a6c8-446f-92c6-75f580f3b24d",
+      "p": "on-success",
+      "o": "a50bb5b5-e4ff-4e63-835c-3fa55bb46250"
+    },
+    {
+      "s": "e47eded7-a6c8-446f-92c6-75f580f3b24d",
+      "p": "on-failure",
+      "o": "a50bb5b5-e4ff-4e63-835c-3fa55bb46250"
+    }
+  ],
+  "tags": [
+    "T1547.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "binary_to_execute",
+      "type": "path",
+      "description": "Path of binary to execute",
+      "value": "C:\\Windows\\System32\\cmd.exe"
+    }
+  ]
+}

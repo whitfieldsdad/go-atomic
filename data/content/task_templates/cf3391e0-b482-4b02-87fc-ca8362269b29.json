@@ -1,0 +1,31 @@
+{
+  "id": "cf3391e0-b482-4b02-87fc-ca8362269b29",
+  "name": "Indirect Command Execution - conhost.exe",
+  "description": "conhost.exe refers to a host process for the console window. It provide an interface between command prompt and Windows explorer.\nExecuting it through command line can create process ancestry anomalies\n[Reference] (http://www.hexacorn.com/blog/2020/05/25/how-to-con-your-host/)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "3f691931-e126-42ea-b055-3155cbc1ed50",
+      "type": "execute-command",
+      "data": {
+        "command": "conhost.exe \"#{process}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1202",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "process",
+      "type": "string",
+      "description": "Process to execute",
+      "value": "notepad.exe"
+    }
+  ]
+}

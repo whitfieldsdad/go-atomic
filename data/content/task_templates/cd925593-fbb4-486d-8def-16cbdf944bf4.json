@@ -1,0 +1,105 @@
+{
+  "id": "cd925593-fbb4-486d-8def-16cbdf944bf4",
+  "name": "Import XML Schedule Task with Hidden Attribute",
+  "description": "Create an scheduled task that executes calc.exe after user login from XML that contains hidden setting attribute. \nThis technique was seen several times in tricbot malware and also with the targetted attack campaigne the industroyer2.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "2a63a1be-6524-4ecf-bae9-9e088cd0699c",
+      "type": "execute-command",
+      "data": {
+        "command": "$xml = [System.IO.File]::ReadAllText(\"#{xml_path}\")\nInvoke-CimMethod -ClassName PS_ScheduledTask -NameSpace \"Root\\Microsoft\\Windows\\TaskScheduler\" -MethodName \"RegisterByXml\" -Arguments @{ Force = $true; Xml =$xml; }\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b016c329-ff62-4de1-babd-977483234a2c",
+      "type": "execute-command",
+      "data": {
+        "command": "Unregister-ScheduledTask -TaskName \"atomic red team\" -confirm:$false \u003e$null 2\u003e\u00261\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a2de08c9-ad73-436c-95bb-11ec072837d9",
+      "name": "Check dependency 1/1",
+      "description": "File to copy must exist on disk at specified location (#{xml_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{xml_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "685b67d0-c48d-47e9-877e-15862f5cecf4",
+      "name": "Resolve dependency 1/1",
+      "description": "File to copy must exist on disk at specified location (#{xml_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{xml_path}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1053.005/src/T1053_05_SCTASK_HIDDEN_ATTRIB.xml\" -OutFile \"#{xml_path}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "25b5cefa-67d1-4097-acd7-a50d40264890",
+      "name": "Re-check dependency 1/1",
+      "description": "File to copy must exist on disk at specified location (#{xml_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{xml_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "2a63a1be-6524-4ecf-bae9-9e088cd0699c",
+      "p": "on-success",
+      "o": "b016c329-ff62-4de1-babd-977483234a2c"
+    },
+    {
+      "s": "2a63a1be-6524-4ecf-bae9-9e088cd0699c",
+      "p": "on-failure",
+      "o": "b016c329-ff62-4de1-babd-977483234a2c"
+    },
+    {
+      "s": "a2de08c9-ad73-436c-95bb-11ec072837d9",
+      "p": "on-success",
+      "o": "2a63a1be-6524-4ecf-bae9-9e088cd0699c"
+    },
+    {
+      "s": "a2de08c9-ad73-436c-95bb-11ec072837d9",
+      "p": "on-failure",
+      "o": "685b67d0-c48d-47e9-877e-15862f5cecf4"
+    },
+    {
+      "s": "685b67d0-c48d-47e9-877e-15862f5cecf4",
+      "p": "on-success",
+      "o": "25b5cefa-67d1-4097-acd7-a50d40264890"
+    },
+    {
+      "s": "25b5cefa-67d1-4097-acd7-a50d40264890",
+      "p": "on-failure",
+      "o": "2a63a1be-6524-4ecf-bae9-9e088cd0699c"
+    }
+  ],
+  "tags": [
+    "T1053.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "xml_path",
+      "type": "path",
+      "description": "path of vbs to use when creating masquerading files",
+      "value": "PathToAtomicsFolder\\T1053.005\\src\\T1053_05_SCTASK_HIDDEN_ATTRIB.xml"
+    }
+  ]
+}

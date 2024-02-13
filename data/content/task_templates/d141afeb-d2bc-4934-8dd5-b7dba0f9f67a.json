@@ -1,0 +1,58 @@
+{
+  "id": "d141afeb-d2bc-4934-8dd5-b7dba0f9f67a",
+  "name": "Create a new user in FreeBSD with `root` GID.",
+  "description": "Creates a new user in FreeBSD and adds the user to the `root` group. This technique was used by adversaries during the Butter attack campaign.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "e4a1f8b4-b70d-45f0-9b9d-9ba7d8f7708d",
+      "type": "execute-command",
+      "data": {
+        "command": "pw useradd #{username} -g 0 -d /root -s /bin/sh\necho \"#{password}\" | pw usermod #{username} -h 0\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ac09e1e3-f3ac-4630-aeca-bd77ba43ec7c",
+      "type": "execute-command",
+      "data": {
+        "command": "pw userdel #{username}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e4a1f8b4-b70d-45f0-9b9d-9ba7d8f7708d",
+      "p": "on-success",
+      "o": "ac09e1e3-f3ac-4630-aeca-bd77ba43ec7c"
+    },
+    {
+      "s": "e4a1f8b4-b70d-45f0-9b9d-9ba7d8f7708d",
+      "p": "on-failure",
+      "o": "ac09e1e3-f3ac-4630-aeca-bd77ba43ec7c"
+    }
+  ],
+  "tags": [
+    "T1136.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username of the user to create",
+      "value": "butter"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password of the user to create",
+      "value": "BetterWithButter"
+    }
+  ]
+}

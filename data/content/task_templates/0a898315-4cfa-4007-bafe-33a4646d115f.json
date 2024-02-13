@@ -1,0 +1,53 @@
+{
+  "id": "0a898315-4cfa-4007-bafe-33a4646d115f",
+  "name": "Add command to .bashrc",
+  "description": "Adds a command to the .bashrc file of the current user\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "c0b908c8-e49f-4ba0-b5b7-2520879bb3cb",
+      "type": "execute-command",
+      "data": {
+        "command": "echo '#{command_to_add}' \u003e\u003e ~/.bashrc\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8a659e42-19ab-4949-be61-2150a5ab3148",
+      "type": "execute-command",
+      "data": {
+        "command": "head -n '-2' ~/.bashrc \u003e /tmp/T1546.004\nmv /tmp/T1546.004 ~/.bashrc\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c0b908c8-e49f-4ba0-b5b7-2520879bb3cb",
+      "p": "on-success",
+      "o": "8a659e42-19ab-4949-be61-2150a5ab3148"
+    },
+    {
+      "s": "c0b908c8-e49f-4ba0-b5b7-2520879bb3cb",
+      "p": "on-failure",
+      "o": "8a659e42-19ab-4949-be61-2150a5ab3148"
+    }
+  ],
+  "tags": [
+    "T1546.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "command_to_add",
+      "type": "string",
+      "description": "Command to add to the .bashrc file",
+      "value": "echo \"Hello from Atomic Red Team T1546.004\" \u003e /tmp/T1546.004"
+    }
+  ]
+}

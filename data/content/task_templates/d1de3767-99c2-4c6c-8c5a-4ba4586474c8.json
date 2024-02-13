@@ -1,0 +1,44 @@
+{
+  "id": "d1de3767-99c2-4c6c-8c5a-4ba4586474c8",
+  "name": "Do Not Connect To Win Update",
+  "description": "Do Not Connect To Win Update. Redline is using this as part of its defense evasion.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "29da10cf-627e-4497-a492-e7c11be5d29e",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\" /v \"DoNotConnectToWindowsUpdateInternetLocations\" /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "abcd03dd-971f-43f9-aeb2-2695f637f987",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\" /v \"DoNotConnectToWindowsUpdateInternetLocations\" /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "29da10cf-627e-4497-a492-e7c11be5d29e",
+      "p": "on-success",
+      "o": "abcd03dd-971f-43f9-aeb2-2695f637f987"
+    },
+    {
+      "s": "29da10cf-627e-4497-a492-e7c11be5d29e",
+      "p": "on-failure",
+      "o": "abcd03dd-971f-43f9-aeb2-2695f637f987"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

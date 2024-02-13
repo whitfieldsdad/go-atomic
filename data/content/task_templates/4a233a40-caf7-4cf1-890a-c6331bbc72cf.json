@@ -1,0 +1,110 @@
+{
+  "id": "4a233a40-caf7-4cf1-890a-c6331bbc72cf",
+  "name": "ESXi - Enumerate VMDKs available on an ESXi Host",
+  "description": "An adversary uses the find command to enumerate vmdks on an ESXi host.\n[Reference](https://www.crowdstrike.com/blog/hypervisor-jackpotting-ecrime-actors-increase-targeting-of-esxi-servers/)\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "bd49971e-bb42-4460-9691-f4b024a8341e",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"\" | \"#{plink_file}\" \"#{vm_host}\" -ssh  -l \"#{vm_user}\" -pw \"#{vm_pass}\" -m \"#{cli_script}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4b26a9fb-a0b2-4363-8eef-bb259455c9eb",
+      "name": "Check dependency 1/1",
+      "description": "Check if plink is available.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{plink_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4669021f-05a2-456b-8308-a0d49be9943e",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if plink is available.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://the.earth.li/~sgtatham/putty/latest/w64/plink.exe\" -OutFile \"#{plink_file}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c08e1d45-e5f6-4b63-8827-769e1e9348b1",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if plink is available.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{plink_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4b26a9fb-a0b2-4363-8eef-bb259455c9eb",
+      "p": "on-success",
+      "o": "bd49971e-bb42-4460-9691-f4b024a8341e"
+    },
+    {
+      "s": "4b26a9fb-a0b2-4363-8eef-bb259455c9eb",
+      "p": "on-failure",
+      "o": "4669021f-05a2-456b-8308-a0d49be9943e"
+    },
+    {
+      "s": "4669021f-05a2-456b-8308-a0d49be9943e",
+      "p": "on-success",
+      "o": "c08e1d45-e5f6-4b63-8827-769e1e9348b1"
+    },
+    {
+      "s": "c08e1d45-e5f6-4b63-8827-769e1e9348b1",
+      "p": "on-failure",
+      "o": "bd49971e-bb42-4460-9691-f4b024a8341e"
+    }
+  ],
+  "tags": [
+    "T1083",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "vm_host",
+      "type": "string",
+      "description": "Specify the host name of the ESXi Server",
+      "value": "atomic.local"
+    },
+    {
+      "name": "vm_user",
+      "type": "string",
+      "description": "Specify the privilege user account on ESXi Server",
+      "value": "root"
+    },
+    {
+      "name": "vm_pass",
+      "type": "string",
+      "description": "Specify the privilege user password on ESXi Server",
+      "value": "pass"
+    },
+    {
+      "name": "plink_file",
+      "type": "path",
+      "description": "Path to Plink",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\plink.exe"
+    },
+    {
+      "name": "cli_script",
+      "type": "path",
+      "description": "Path to script with file discovery commands",
+      "value": "PathToAtomicsFolder\\T1083\\src\\esxi_file_discovery.txt"
+    }
+  ]
+}

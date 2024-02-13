@@ -1,0 +1,106 @@
+{
+  "id": "e22a9e89-69c7-410f-a473-e6c212cd2292",
+  "name": "Pad Binary to Change Hash using truncate command - Linux/macOS",
+  "description": "Uses truncate to add a byte to the binary to change the hash.\n\nUpon successful execution, truncate will modify `/tmp/evil-binary`, therefore the expected hash will change.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "015b7244-a6b7-4b7a-aa6a-116b1cb218b8",
+      "type": "execute-command",
+      "data": {
+        "command": "truncate -s +1 #{file_to_pad} #adds a byte to the file size\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5c093c60-76c4-48f2-a879-94f7e7f927c3",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{file_to_pad}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c8b54f42-b446-4400-b6aa-46a3dadee03f",
+      "name": "Check dependency 1/1",
+      "description": "The binary must exist on disk at specified location (#{file_to_pad})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f #{file_to_pad} ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "61c956e6-daa3-4145-a00b-3b43f62d6a2b",
+      "name": "Resolve dependency 1/1",
+      "description": "The binary must exist on disk at specified location (#{file_to_pad})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cp /bin/ls #{file_to_pad}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "87ea1d3c-d9f2-4e34-8cd0-c35671ba6154",
+      "name": "Re-check dependency 1/1",
+      "description": "The binary must exist on disk at specified location (#{file_to_pad})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f #{file_to_pad} ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "015b7244-a6b7-4b7a-aa6a-116b1cb218b8",
+      "p": "on-success",
+      "o": "5c093c60-76c4-48f2-a879-94f7e7f927c3"
+    },
+    {
+      "s": "015b7244-a6b7-4b7a-aa6a-116b1cb218b8",
+      "p": "on-failure",
+      "o": "5c093c60-76c4-48f2-a879-94f7e7f927c3"
+    },
+    {
+      "s": "c8b54f42-b446-4400-b6aa-46a3dadee03f",
+      "p": "on-success",
+      "o": "015b7244-a6b7-4b7a-aa6a-116b1cb218b8"
+    },
+    {
+      "s": "c8b54f42-b446-4400-b6aa-46a3dadee03f",
+      "p": "on-failure",
+      "o": "61c956e6-daa3-4145-a00b-3b43f62d6a2b"
+    },
+    {
+      "s": "61c956e6-daa3-4145-a00b-3b43f62d6a2b",
+      "p": "on-success",
+      "o": "87ea1d3c-d9f2-4e34-8cd0-c35671ba6154"
+    },
+    {
+      "s": "87ea1d3c-d9f2-4e34-8cd0-c35671ba6154",
+      "p": "on-failure",
+      "o": "015b7244-a6b7-4b7a-aa6a-116b1cb218b8"
+    }
+  ],
+  "tags": [
+    "T1027.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_to_pad",
+      "type": "path",
+      "description": "Path of binary to be padded",
+      "value": "/tmp/evil-binary"
+    }
+  ]
+}

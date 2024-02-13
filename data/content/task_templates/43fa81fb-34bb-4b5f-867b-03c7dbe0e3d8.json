@@ -1,0 +1,131 @@
+{
+  "id": "43fa81fb-34bb-4b5f-867b-03c7dbe0e3d8",
+  "name": "Get-ADUser Enumeration using UserAccountControl flags (AS-REP Roasting)",
+  "description": "When successful, accounts that do not require kerberos pre-auth will be returned.\nReference: https://m0chan.github.io/2019/07/31/How-To-Attack-Kerberos-101.html\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "2b626935-d5d0-4bf8-9a62-05610dd94d84",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-ADUser -Filter 'useraccountcontrol -band 4194304' -Properties useraccountcontrol | Format-Table name\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d18b6aee-9e5f-4d7b-885a-92ccf4196db5",
+      "name": "Check dependency 1/2",
+      "description": "Computer must be domain joined.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "17abf2f4-3937-425e-96ff-ecab6b232fe3",
+      "name": "Resolve dependency 1/2",
+      "description": "Computer must be domain joined.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host Joining this computer to a domain must be done manually.\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "56972f4f-50e5-4066-87b2-b67b27de0142",
+      "name": "Re-check dependency 1/2",
+      "description": "Computer must be domain joined.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d2a47e0f-7762-46de-9548-4b6d7289e16c",
+      "name": "Check dependency 2/2",
+      "description": "Requires the Active Directory module for powershell to be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7115ceba-c22d-4fa5-9b69-676ca176fb88",
+      "name": "Resolve dependency 2/2",
+      "description": "Requires the Active Directory module for powershell to be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Add-WindowsCapability -Online -Name \"Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "aac7aaa8-c4b9-4038-8722-089aff9bd972",
+      "name": "Re-check dependency 2/2",
+      "description": "Requires the Active Directory module for powershell to be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d18b6aee-9e5f-4d7b-885a-92ccf4196db5",
+      "p": "on-success",
+      "o": "2b626935-d5d0-4bf8-9a62-05610dd94d84"
+    },
+    {
+      "s": "d18b6aee-9e5f-4d7b-885a-92ccf4196db5",
+      "p": "on-failure",
+      "o": "17abf2f4-3937-425e-96ff-ecab6b232fe3"
+    },
+    {
+      "s": "17abf2f4-3937-425e-96ff-ecab6b232fe3",
+      "p": "on-success",
+      "o": "56972f4f-50e5-4066-87b2-b67b27de0142"
+    },
+    {
+      "s": "56972f4f-50e5-4066-87b2-b67b27de0142",
+      "p": "on-failure",
+      "o": "2b626935-d5d0-4bf8-9a62-05610dd94d84"
+    },
+    {
+      "s": "d2a47e0f-7762-46de-9548-4b6d7289e16c",
+      "p": "on-success",
+      "o": "2b626935-d5d0-4bf8-9a62-05610dd94d84"
+    },
+    {
+      "s": "d2a47e0f-7762-46de-9548-4b6d7289e16c",
+      "p": "on-failure",
+      "o": "7115ceba-c22d-4fa5-9b69-676ca176fb88"
+    },
+    {
+      "s": "7115ceba-c22d-4fa5-9b69-676ca176fb88",
+      "p": "on-success",
+      "o": "aac7aaa8-c4b9-4038-8722-089aff9bd972"
+    },
+    {
+      "s": "aac7aaa8-c4b9-4038-8722-089aff9bd972",
+      "p": "on-failure",
+      "o": "2b626935-d5d0-4bf8-9a62-05610dd94d84"
+    }
+  ],
+  "tags": [
+    "T1069.002",
+    "atomic-red-team"
+  ]
+}

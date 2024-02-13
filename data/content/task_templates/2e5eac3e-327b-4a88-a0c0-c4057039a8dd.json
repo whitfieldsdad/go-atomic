@@ -1,0 +1,76 @@
+{
+  "id": "2e5eac3e-327b-4a88-a0c0-c4057039a8dd",
+  "name": "Scheduled task Remote",
+  "description": "Create a task on a remote system.\nUpon successful execution, cmd.exe will create a scheduled task to spawn cmd.exe at 20:10 on a remote endpoint.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "eebe7b3b-b2a5-438c-8592-1994e831bb75",
+      "type": "execute-command",
+      "data": {
+        "command": "SCHTASKS /Create /S #{target} /RU #{user_name} /RP #{password} /TN \"Atomic task\" /TR \"#{task_command}\" /SC daily /ST #{time}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "07878ec0-d7b7-48f3-aeaf-5e9095645db1",
+      "type": "execute-command",
+      "data": {
+        "command": "SCHTASKS /Delete /S #{target} /U #{user_name} /P #{password} /TN \"Atomic task\" /F \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "eebe7b3b-b2a5-438c-8592-1994e831bb75",
+      "p": "on-success",
+      "o": "07878ec0-d7b7-48f3-aeaf-5e9095645db1"
+    },
+    {
+      "s": "eebe7b3b-b2a5-438c-8592-1994e831bb75",
+      "p": "on-failure",
+      "o": "07878ec0-d7b7-48f3-aeaf-5e9095645db1"
+    }
+  ],
+  "tags": [
+    "T1053.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "user_name",
+      "type": "string",
+      "description": "Username to authenticate with, format: DOMAIN\\User",
+      "value": "DOMAIN\\user"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password to authenticate with",
+      "value": "At0micStrong"
+    },
+    {
+      "name": "task_command",
+      "type": "string",
+      "description": "What you want to execute",
+      "value": "C:\\windows\\system32\\cmd.exe"
+    },
+    {
+      "name": "time",
+      "type": "string",
+      "description": "What time 24 Hour",
+      "value": "20:10"
+    },
+    {
+      "name": "target",
+      "type": "string",
+      "description": "Target",
+      "value": "localhost"
+    }
+  ]
+}

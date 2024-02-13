@@ -1,0 +1,97 @@
+{
+  "id": "b2563a4e-c4b8-429c-8d47-d5bcb227ba7a",
+  "name": "Add and delete UFW firewall rules",
+  "description": "Add and delete a rule on the Uncomplicated Firewall (UFW) if installed and enabled. \n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "c01f3d18-9f46-417f-a6dc-bdf9f395980a",
+      "type": "execute-command",
+      "data": {
+        "command": "ufw prepend deny from 1.2.3.4\nufw status numbered\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "98606fc6-3da7-497f-bfa4-fdb0877c9b09",
+      "type": "execute-command",
+      "data": {
+        "command": "{ echo y; echo response; } | ufw delete 1\nufw status numbered\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "744a04e1-17a5-406c-a027-351db91d125d",
+      "name": "Check dependency 1/1",
+      "description": "Check if ufw is installed on the machine and enabled.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "eb6ff80e-121c-41ff-993b-8d5d05a716a9",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if ufw is installed on the machine and enabled.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7974d1d3-8cde-453d-81e7-b130b2687192",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if ufw is installed on the machine and enabled.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c01f3d18-9f46-417f-a6dc-bdf9f395980a",
+      "p": "on-success",
+      "o": "98606fc6-3da7-497f-bfa4-fdb0877c9b09"
+    },
+    {
+      "s": "c01f3d18-9f46-417f-a6dc-bdf9f395980a",
+      "p": "on-failure",
+      "o": "98606fc6-3da7-497f-bfa4-fdb0877c9b09"
+    },
+    {
+      "s": "744a04e1-17a5-406c-a027-351db91d125d",
+      "p": "on-success",
+      "o": "c01f3d18-9f46-417f-a6dc-bdf9f395980a"
+    },
+    {
+      "s": "744a04e1-17a5-406c-a027-351db91d125d",
+      "p": "on-failure",
+      "o": "eb6ff80e-121c-41ff-993b-8d5d05a716a9"
+    },
+    {
+      "s": "eb6ff80e-121c-41ff-993b-8d5d05a716a9",
+      "p": "on-success",
+      "o": "7974d1d3-8cde-453d-81e7-b130b2687192"
+    },
+    {
+      "s": "7974d1d3-8cde-453d-81e7-b130b2687192",
+      "p": "on-failure",
+      "o": "c01f3d18-9f46-417f-a6dc-bdf9f395980a"
+    }
+  ],
+  "tags": [
+    "T1562.004",
+    "atomic-red-team"
+  ]
+}

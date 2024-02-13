@@ -1,0 +1,44 @@
+{
+  "id": "96db2632-8417-4dbb-b8bb-a8b92ba391de",
+  "name": "Remote System Discovery - sweep",
+  "description": "Identify remote systems via ping sweep.\n\nUpon successful execution, sh will perform a ping sweep on the 192.168.1.1/24 and echo via stdout if an IP is active.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "639b2a0a-a592-4ec2-96a8-8a35145ac7cc",
+      "type": "execute-command",
+      "data": {
+        "command": "for ip in $(seq #{start_host} #{stop_host}); do ping -c 1 #{subnet}.$ip; [ $? -eq 0 ] \u0026\u0026 echo \"#{subnet}.$ip UP\" || : ; done\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1018",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "subnet",
+      "type": "string",
+      "description": "Subnet used for ping sweep.",
+      "value": "192.168.1"
+    },
+    {
+      "name": "start_host",
+      "type": "string",
+      "description": "Subnet used for ping sweep.",
+      "value": "1"
+    },
+    {
+      "name": "stop_host",
+      "type": "string",
+      "description": "Subnet used for ping sweep.",
+      "value": "254"
+    }
+  ]
+}

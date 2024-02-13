@@ -1,0 +1,31 @@
+{
+  "id": "09210ad5-1ef2-4077-9ad3-7351e13e9222",
+  "name": "Remove Network Share",
+  "description": "Removes a Network Share utilizing the command_prompt\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c643cffc-17b9-46bc-92d8-97cb2a9869f8",
+      "type": "execute-command",
+      "data": {
+        "command": "net share #{share_name} /delete\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1070.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "share_name",
+      "type": "string",
+      "description": "Share to remove.",
+      "value": "\\\\test\\share"
+    }
+  ]
+}

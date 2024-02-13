@@ -1,0 +1,44 @@
+{
+  "id": "878794f7-c511-4199-a950-8c28b3ed8e5b",
+  "name": "Clear bash history",
+  "description": "An attacker may clear the bash history cache and the history file as their last act before logging off to remove the record of their command line activities. \n\nIn this test we use the $HISTFILE variable throughout to 1. confirms the $HISTFILE variable is set 2. echo \"\" into it 3..5 confirm the file is empty 6 clear the history cache 7. confirm the history cache is empty. This is when the attacker would logoff.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "4153c42b-11b1-4cfa-8b46-9554bb902f34",
+      "type": "execute-command",
+      "data": {
+        "command": "cp $HISTFILE $HISTFILE.OLD\nif ((${#HISTFILE[@]})); then echo $HISTFILE; fi\necho \"\" \u003e $HISTFILE\nif [ $(wc -c \u003c$HISTFILE) -gt 1 ]; then echo \"$HISTFILE is larger than 1k\"; fi\nls -la $HISTFILE \ncat $HISTFILE\nhistory -c \nif [ $(history |wc -l) -eq 1 ]; then echo \"History cache cleared\"; fi\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a26dbc5c-6b58-4fa8-bf31-63b9aa823309",
+      "type": "execute-command",
+      "data": {
+        "command": "mv -f $HISTFILE.OLD $HISTFILE \n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4153c42b-11b1-4cfa-8b46-9554bb902f34",
+      "p": "on-success",
+      "o": "a26dbc5c-6b58-4fa8-bf31-63b9aa823309"
+    },
+    {
+      "s": "4153c42b-11b1-4cfa-8b46-9554bb902f34",
+      "p": "on-failure",
+      "o": "a26dbc5c-6b58-4fa8-bf31-63b9aa823309"
+    }
+  ],
+  "tags": [
+    "T1562.003",
+    "atomic-red-team"
+  ]
+}

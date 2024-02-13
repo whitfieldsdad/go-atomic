@@ -1,0 +1,44 @@
+{
+  "id": "386d3850-2ce7-4508-b56b-c0558922c814",
+  "name": "Setting the HISTSIZE environment variable",
+  "description": "An Adversary may set the sh history files size environment variable (HISTSIZE) to zero to prevent the logging of commands to the history file after they log out of the system.\n\nNote: we don't wish to log out, so we are just confirming the value of HISTSIZE. In this test we 1. echo HISTSIZE 2. set it to zero 3. confirm that HISTSIZE is set to zero.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "7b98f630-65cd-4545-856e-2cd88210cde4",
+      "type": "execute-command",
+      "data": {
+        "command": "echo $HISTSIZE\nexport HISTSIZE=0\nif [ $(echo $HISTSIZE) -eq 0 ]; then echo \"\\$HISTSIZE is zero\"; fi\n# -\u003e $HISTSIZE is zero\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d496401c-61d5-44e8-9fd9-4a976a972bba",
+      "type": "execute-command",
+      "data": {
+        "command": "export HISTSIZE=100\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7b98f630-65cd-4545-856e-2cd88210cde4",
+      "p": "on-success",
+      "o": "d496401c-61d5-44e8-9fd9-4a976a972bba"
+    },
+    {
+      "s": "7b98f630-65cd-4545-856e-2cd88210cde4",
+      "p": "on-failure",
+      "o": "d496401c-61d5-44e8-9fd9-4a976a972bba"
+    }
+  ],
+  "tags": [
+    "T1562.003",
+    "atomic-red-team"
+  ]
+}

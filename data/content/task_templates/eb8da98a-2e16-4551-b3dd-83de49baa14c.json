@@ -1,0 +1,150 @@
+{
+  "id": "eb8da98a-2e16-4551-b3dd-83de49baa14c",
+  "name": "Simulating access to Windows Firefox Login Data",
+  "description": "Simulates an adversary accessing encrypted credentials from firefox web browser's login database.\nmore info in https://support.mozilla.org/en-US/kb/profiles-where-firefox-stores-user-data\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ea9fefb8-0560-4926-a3fb-05e85dcb3de5",
+      "type": "execute-command",
+      "data": {
+        "command": "Copy-Item \"$env:APPDATA\\Mozilla\\Firefox\\Profiles\\\" -Destination \"PathToAtomicsFolder\\..\\ExternalPayloads\" -Force -Recurse\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c41096be-2c99-4d4d-bbc5-c56053ddec3f",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\Profiles\" -Force -ErrorAction Ignore -Recurse\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ce25e041-9bf7-4b69-894d-2f37bf8e2712",
+      "name": "Check dependency 1/2",
+      "description": "Firefox must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Test-Path \"C:\\Program Files\\Mozilla Firefox\\firefox.exe\") -Or (Test-Path \"C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe\")) {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "366d52e1-c15f-44f7-9b3d-21de112621b8",
+      "name": "Resolve dependency 1/2",
+      "description": "Firefox must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nif ($env:PROCESSOR_ARCHITECTURE -eq 'AMD64') {$url=\"https://download.mozilla.org/?product=firefox-latest-ssl\u0026os=win64\u0026lang=en-US\"}else {$url=\"https://download.mozilla.org/?product=firefox-latest-ssl\u0026os=win\u0026lang=en-US\"}\n$installer = \"PathToAtomicsFolder\\..\\ExternalPayloads\\firefoxsetup.exe\"\n(New-Object Net.WebClient).DownloadFile($url,$installer)\nStart-Process $installer -ArgumentList '/S' -Wait\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e85cd734-2490-4f9b-b803-4a4d29b62330",
+      "name": "Re-check dependency 1/2",
+      "description": "Firefox must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Test-Path \"C:\\Program Files\\Mozilla Firefox\\firefox.exe\") -Or (Test-Path \"C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe\")) {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1f080e64-b83c-4a93-a5ea-c72abe2b3811",
+      "name": "Check dependency 2/2",
+      "description": "Firefox login data file must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"$env:APPDATA\\Mozilla\\Firefox\\Profiles\\\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8d3fdcf3-7c1b-477f-8fe8-9c970a7e3a3e",
+      "name": "Resolve dependency 2/2",
+      "description": "Firefox login data file must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ($env:PROCESSOR_ARCHITECTURE -eq 'AMD64') {$firefox=\"C:\\Program Files\\Mozilla Firefox\\firefox.exe\"}else {$firefox=\"C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe\"}\nStart-Process $firefox -ArgumentList '-CreateProfile Atomic' -Wait\nStart-Process $firefox -NoNewWindow\nStart-Sleep -s 20\nStop-Process -Name firefox\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bc5ab067-4dab-4448-85e3-ac348ec0e96a",
+      "name": "Re-check dependency 2/2",
+      "description": "Firefox login data file must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"$env:APPDATA\\Mozilla\\Firefox\\Profiles\\\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ea9fefb8-0560-4926-a3fb-05e85dcb3de5",
+      "p": "on-success",
+      "o": "c41096be-2c99-4d4d-bbc5-c56053ddec3f"
+    },
+    {
+      "s": "ea9fefb8-0560-4926-a3fb-05e85dcb3de5",
+      "p": "on-failure",
+      "o": "c41096be-2c99-4d4d-bbc5-c56053ddec3f"
+    },
+    {
+      "s": "ce25e041-9bf7-4b69-894d-2f37bf8e2712",
+      "p": "on-success",
+      "o": "ea9fefb8-0560-4926-a3fb-05e85dcb3de5"
+    },
+    {
+      "s": "ce25e041-9bf7-4b69-894d-2f37bf8e2712",
+      "p": "on-failure",
+      "o": "366d52e1-c15f-44f7-9b3d-21de112621b8"
+    },
+    {
+      "s": "366d52e1-c15f-44f7-9b3d-21de112621b8",
+      "p": "on-success",
+      "o": "e85cd734-2490-4f9b-b803-4a4d29b62330"
+    },
+    {
+      "s": "e85cd734-2490-4f9b-b803-4a4d29b62330",
+      "p": "on-failure",
+      "o": "ea9fefb8-0560-4926-a3fb-05e85dcb3de5"
+    },
+    {
+      "s": "1f080e64-b83c-4a93-a5ea-c72abe2b3811",
+      "p": "on-success",
+      "o": "ea9fefb8-0560-4926-a3fb-05e85dcb3de5"
+    },
+    {
+      "s": "1f080e64-b83c-4a93-a5ea-c72abe2b3811",
+      "p": "on-failure",
+      "o": "8d3fdcf3-7c1b-477f-8fe8-9c970a7e3a3e"
+    },
+    {
+      "s": "8d3fdcf3-7c1b-477f-8fe8-9c970a7e3a3e",
+      "p": "on-success",
+      "o": "bc5ab067-4dab-4448-85e3-ac348ec0e96a"
+    },
+    {
+      "s": "bc5ab067-4dab-4448-85e3-ac348ec0e96a",
+      "p": "on-failure",
+      "o": "ea9fefb8-0560-4926-a3fb-05e85dcb3de5"
+    }
+  ],
+  "tags": [
+    "T1555.003",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "id": "83a95136-a496-423c-81d3-1c6750133917",
+  "name": "Rundll32 with desk.cpl",
+  "description": "Rundll32.exe loading an executable renamed as .scr using desk.cpl \nReference: \n  - [LOLBAS - Libraries/Desk](https://lolbas-project.github.io/lolbas/Libraries/Desk/)\nSIGMA rules:\n  - [SCR File Write Event](https://github.com/SigmaHQ/sigma/blob/b53f08b081e0a50099be9b9e8eced82097fdbaf2/rules/windows/file_event/file_event_win_new_src_file.yml)\n  - [Rundll32 InstallScreenSaver Execution](https://github.com/SigmaHQ/sigma/blob/b53f08b081e0a50099be9b9e8eced82097fdbaf2/rules/windows/process_creation/proc_creation_win_lolbin_rundll32_installscreensaver.yml)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "a5a4d4d1-c54a-412b-b2c3-3dc72bcde7f6",
+      "type": "execute-command",
+      "data": {
+        "command": "copy #{exe_to_launch} not_an_scr.scr\nrundll32.exe desk.cpl,InstallScreenSaver not_an_scr.scr\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "49348aba-03b3-438b-9813-6f3a4404a3d2",
+      "type": "execute-command",
+      "data": {
+        "command": "del not_an_scr.scr",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a5a4d4d1-c54a-412b-b2c3-3dc72bcde7f6",
+      "p": "on-success",
+      "o": "49348aba-03b3-438b-9813-6f3a4404a3d2"
+    },
+    {
+      "s": "a5a4d4d1-c54a-412b-b2c3-3dc72bcde7f6",
+      "p": "on-failure",
+      "o": "49348aba-03b3-438b-9813-6f3a4404a3d2"
+    }
+  ],
+  "tags": [
+    "T1218.011",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "exe_to_launch",
+      "type": "path",
+      "description": "Path of the executable to launch",
+      "value": "%windir%\\System32\\calc.exe"
+    }
+  ]
+}

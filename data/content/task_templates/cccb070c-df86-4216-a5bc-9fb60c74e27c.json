@@ -1,0 +1,53 @@
+{
+  "id": "cccb070c-df86-4216-a5bc-9fb60c74e27c",
+  "name": "List OS Information",
+  "description": "Identify System Info\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "b853ed0f-2c97-41a3-bc7c-d79ecabef434",
+      "type": "execute-command",
+      "data": {
+        "command": "uname -a \u003e\u003e #{output_file}\nif [ -f /etc/lsb-release ]; then cat /etc/lsb-release \u003e\u003e #{output_file}; fi\nif [ -f /etc/redhat-release ]; then cat /etc/redhat-release \u003e\u003e #{output_file}; fi   \nif [ -f /etc/issue ]; then cat /etc/issue \u003e\u003e #{output_file}; fi\nif [ -f /etc/os-release ]; then cat /etc/os-release \u003e\u003e #{output_file}; fi\nuptime \u003e\u003e #{output_file}\ncat #{output_file} 2\u003e/dev/null\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "21d0bd4d-dec0-4244-833f-2eb0feebeb41",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{output_file} 2\u003e/dev/null\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b853ed0f-2c97-41a3-bc7c-d79ecabef434",
+      "p": "on-success",
+      "o": "21d0bd4d-dec0-4244-833f-2eb0feebeb41"
+    },
+    {
+      "s": "b853ed0f-2c97-41a3-bc7c-d79ecabef434",
+      "p": "on-failure",
+      "o": "21d0bd4d-dec0-4244-833f-2eb0feebeb41"
+    }
+  ],
+  "tags": [
+    "T1082",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Output file used to store the results.",
+      "value": "/tmp/T1082.txt"
+    }
+  ]
+}

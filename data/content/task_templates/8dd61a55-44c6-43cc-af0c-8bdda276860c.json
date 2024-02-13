@@ -1,0 +1,92 @@
+{
+  "id": "8dd61a55-44c6-43cc-af0c-8bdda276860c",
+  "name": "Compress Data and lock with password for Exfiltration with winrar",
+  "description": "Note: Requires winrar installation\nrar a -p\"blue\" hello.rar (VARIANT)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "b0e9348d-ca5d-4465-b4c4-625b1cab4271",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir .\\tmp\\victim-files\ncd .\\tmp\\victim-files\necho \"This file will be encrypted\" \u003e .\\encrypted_file.txt\n\"#{rar_exe}\" a -hp\"blue\" hello.rar\ndir\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "177c7f75-dc20-43e4-bc78-6ce12e513000",
+      "name": "Check dependency 1/1",
+      "description": "Rar tool must be installed at specified location (#{rar_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if not exist \"#{rar_exe}\" (exit /b 1)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6f6f7802-de2b-4bfc-a570-234c91d2a984",
+      "name": "Resolve dependency 1/1",
+      "description": "Rar tool must be installed at specified location (#{rar_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Downloading Winrar installer\nbitsadmin /transfer myDownloadJob /download /priority normal \"https://www.win-rar.com/fileadmin/winrar-versions/winrar/th/winrar-x64-580.exe\" #{rar_installer}\n#{rar_installer} /S\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "73c590c2-4c92-4910-b9a3-c2218e76dc98",
+      "name": "Re-check dependency 1/1",
+      "description": "Rar tool must be installed at specified location (#{rar_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if not exist \"#{rar_exe}\" (exit /b 1)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "177c7f75-dc20-43e4-bc78-6ce12e513000",
+      "p": "on-success",
+      "o": "b0e9348d-ca5d-4465-b4c4-625b1cab4271"
+    },
+    {
+      "s": "177c7f75-dc20-43e4-bc78-6ce12e513000",
+      "p": "on-failure",
+      "o": "6f6f7802-de2b-4bfc-a570-234c91d2a984"
+    },
+    {
+      "s": "6f6f7802-de2b-4bfc-a570-234c91d2a984",
+      "p": "on-success",
+      "o": "73c590c2-4c92-4910-b9a3-c2218e76dc98"
+    },
+    {
+      "s": "73c590c2-4c92-4910-b9a3-c2218e76dc98",
+      "p": "on-failure",
+      "o": "b0e9348d-ca5d-4465-b4c4-625b1cab4271"
+    }
+  ],
+  "tags": [
+    "T1560.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "rar_installer",
+      "type": "path",
+      "description": "Winrar installer",
+      "value": "%TEMP%\\winrar.exe"
+    },
+    {
+      "name": "rar_exe",
+      "type": "path",
+      "description": "The RAR executable from Winrar",
+      "value": "%programfiles%/WinRAR/Rar.exe"
+    }
+  ]
+}

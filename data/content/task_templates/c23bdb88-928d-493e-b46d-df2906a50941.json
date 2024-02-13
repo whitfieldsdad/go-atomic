@@ -1,0 +1,86 @@
+{
+  "id": "c23bdb88-928d-493e-b46d-df2906a50941",
+  "name": "Delete log files via cat utility by appending /dev/null or /dev/zero",
+  "description": "The first sub-test truncates the log file to zero bytes via /dev/null and the second sub-test fills the log file with null bytes(zeroes) via /dev/zero, using cat utility\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "1a9d89dc-d6b4-4e01-af13-18bed63e69be",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo cat /dev/null \u003e #{system_log_path} #truncating the file to zero bytes\nsudo dd if=/dev/zero bs=1000 count=5 of=#{system_log_path} #log file filled with null bytes(zeros)\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8e90107e-40cf-4381-aa6c-4b571e0b188b",
+      "name": "Check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9e13a75d-6180-4e54-bcc8-85d90a05d997",
+      "name": "Resolve dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "touch #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "dac19e8f-e042-44b4-b24a-f4f962dde9d8",
+      "name": "Re-check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8e90107e-40cf-4381-aa6c-4b571e0b188b",
+      "p": "on-success",
+      "o": "1a9d89dc-d6b4-4e01-af13-18bed63e69be"
+    },
+    {
+      "s": "8e90107e-40cf-4381-aa6c-4b571e0b188b",
+      "p": "on-failure",
+      "o": "9e13a75d-6180-4e54-bcc8-85d90a05d997"
+    },
+    {
+      "s": "9e13a75d-6180-4e54-bcc8-85d90a05d997",
+      "p": "on-success",
+      "o": "dac19e8f-e042-44b4-b24a-f4f962dde9d8"
+    },
+    {
+      "s": "dac19e8f-e042-44b4-b24a-f4f962dde9d8",
+      "p": "on-failure",
+      "o": "1a9d89dc-d6b4-4e01-af13-18bed63e69be"
+    }
+  ],
+  "tags": [
+    "T1070.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "system_log_path",
+      "type": "string",
+      "description": "path of system log to delete.",
+      "value": "/var/log/system.log"
+    }
+  ]
+}

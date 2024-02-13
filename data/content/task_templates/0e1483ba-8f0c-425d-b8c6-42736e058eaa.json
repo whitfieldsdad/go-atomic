@@ -1,0 +1,145 @@
+{
+  "id": "0e1483ba-8f0c-425d-b8c6-42736e058eaa",
+  "name": "DiskShadow Command Execution",
+  "description": "Emulates attack with a DiskShadow.exe (LOLBIN installed by default on Windows) being used to execute arbitrary commands Reference: https://bohops.com/2018/03/26/diskshadow-the-return-of-vss-evasion-persistence-and-active-directory-database-extraction/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "6b17c458-a376-4c00-91b1-32cc89898469",
+      "type": "execute-command",
+      "data": {
+        "command": "#{dspath} -S #{txt_payload} \n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "61b0221d-23b3-43ca-88df-62b6b81f3693",
+      "name": "Check dependency 1/2",
+      "description": "txt file must exist on disk at specified location (#{txt_payload})",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{txt_payload}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b8a97187-95d0-466d-abe2-da390ef427f0",
+      "name": "Resolve dependency 1/2",
+      "description": "txt file must exist on disk at specified location (#{txt_payload})",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{txt_payload}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218/src/T1218.txt\" -OutFile \"#{txt_payload}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "53654908-bd1d-4209-be74-836961182482",
+      "name": "Re-check dependency 1/2",
+      "description": "txt file must exist on disk at specified location (#{txt_payload})",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{txt_payload}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f0b0a8d4-044c-41de-8d77-db81a6d6a3e7",
+      "name": "Check dependency 2/2",
+      "description": "DiskShadow.exe must exist on disk at specified location (#{dspath})",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{dspath}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e3a9af12-f995-4059-9d5e-692a39b6ee18",
+      "name": "Resolve dependency 2/2",
+      "description": "DiskShadow.exe must exist on disk at specified location (#{dspath})",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"DiskShadow.exe not found on disk at expected location\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "437ce57a-d449-49ad-a213-3909af7ceaed",
+      "name": "Re-check dependency 2/2",
+      "description": "DiskShadow.exe must exist on disk at specified location (#{dspath})",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{dspath}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "61b0221d-23b3-43ca-88df-62b6b81f3693",
+      "p": "on-success",
+      "o": "6b17c458-a376-4c00-91b1-32cc89898469"
+    },
+    {
+      "s": "61b0221d-23b3-43ca-88df-62b6b81f3693",
+      "p": "on-failure",
+      "o": "b8a97187-95d0-466d-abe2-da390ef427f0"
+    },
+    {
+      "s": "b8a97187-95d0-466d-abe2-da390ef427f0",
+      "p": "on-success",
+      "o": "53654908-bd1d-4209-be74-836961182482"
+    },
+    {
+      "s": "53654908-bd1d-4209-be74-836961182482",
+      "p": "on-failure",
+      "o": "6b17c458-a376-4c00-91b1-32cc89898469"
+    },
+    {
+      "s": "f0b0a8d4-044c-41de-8d77-db81a6d6a3e7",
+      "p": "on-success",
+      "o": "6b17c458-a376-4c00-91b1-32cc89898469"
+    },
+    {
+      "s": "f0b0a8d4-044c-41de-8d77-db81a6d6a3e7",
+      "p": "on-failure",
+      "o": "e3a9af12-f995-4059-9d5e-692a39b6ee18"
+    },
+    {
+      "s": "e3a9af12-f995-4059-9d5e-692a39b6ee18",
+      "p": "on-success",
+      "o": "437ce57a-d449-49ad-a213-3909af7ceaed"
+    },
+    {
+      "s": "437ce57a-d449-49ad-a213-3909af7ceaed",
+      "p": "on-failure",
+      "o": "6b17c458-a376-4c00-91b1-32cc89898469"
+    }
+  ],
+  "tags": [
+    "T1218",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "dspath",
+      "type": "path",
+      "description": "Default location of DiskShadow.exe",
+      "value": "C:\\Windows\\System32\\diskshadow.exe"
+    },
+    {
+      "name": "txt_payload",
+      "type": "path",
+      "description": "txt to execute",
+      "value": "PathToAtomicsFolder\\T1218\\src\\T1218.txt"
+    }
+  ]
+}

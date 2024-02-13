@@ -1,0 +1,97 @@
+{
+  "id": "fe135572-edcd-49a2-afe6-1d39521c5a9a",
+  "name": "Stop/Start UFW firewall",
+  "description": "Stop the Uncomplicated Firewall (UFW) if installed.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "42c2aea6-4485-4f1d-8387-d056ce8b5a48",
+      "type": "execute-command",
+      "data": {
+        "command": "ufw disable\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "96906c9f-f9da-4101-9c0c-2e31625f115d",
+      "type": "execute-command",
+      "data": {
+        "command": "ufw enable\nufw status verbose\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e0ca5335-39d0-45de-9b5f-ca4da38be019",
+      "name": "Check dependency 1/1",
+      "description": "Check if ufw is installed on the machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "120a877e-7e0e-49f4-84f0-1458da754b03",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if ufw is installed on the machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2cae2b5f-f333-4204-affa-871cc703061e",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if ufw is installed on the machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "42c2aea6-4485-4f1d-8387-d056ce8b5a48",
+      "p": "on-success",
+      "o": "96906c9f-f9da-4101-9c0c-2e31625f115d"
+    },
+    {
+      "s": "42c2aea6-4485-4f1d-8387-d056ce8b5a48",
+      "p": "on-failure",
+      "o": "96906c9f-f9da-4101-9c0c-2e31625f115d"
+    },
+    {
+      "s": "e0ca5335-39d0-45de-9b5f-ca4da38be019",
+      "p": "on-success",
+      "o": "42c2aea6-4485-4f1d-8387-d056ce8b5a48"
+    },
+    {
+      "s": "e0ca5335-39d0-45de-9b5f-ca4da38be019",
+      "p": "on-failure",
+      "o": "120a877e-7e0e-49f4-84f0-1458da754b03"
+    },
+    {
+      "s": "120a877e-7e0e-49f4-84f0-1458da754b03",
+      "p": "on-success",
+      "o": "2cae2b5f-f333-4204-affa-871cc703061e"
+    },
+    {
+      "s": "2cae2b5f-f333-4204-affa-871cc703061e",
+      "p": "on-failure",
+      "o": "42c2aea6-4485-4f1d-8387-d056ce8b5a48"
+    }
+  ],
+  "tags": [
+    "T1562.004",
+    "atomic-red-team"
+  ]
+}

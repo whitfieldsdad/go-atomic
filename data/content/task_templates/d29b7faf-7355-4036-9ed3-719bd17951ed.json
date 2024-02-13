@@ -1,0 +1,44 @@
+{
+  "id": "d29b7faf-7355-4036-9ed3-719bd17951ed",
+  "name": "Activate Windows NoSetTaskbar Group Policy Feature",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to Disable changes to Taskbar and Start Menu Settings Group Policy. \nTake note that some Group Policy changes might require a restart to take effect.\nSee how ransomware abuses this technique- https://www.virustotal.com/gui/file/2d7855bf6470aa323edf2949b54ce2a04d9e38770f1322c3d0420c2303178d91/details\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "b27cb10a-6fd7-4fd1-8f9e-bfb5dcf5a2c1",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoSetTaskbar /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b2f671b7-820d-4cee-902a-898fdb8716d0",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoSetTaskbar /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b27cb10a-6fd7-4fd1-8f9e-bfb5dcf5a2c1",
+      "p": "on-success",
+      "o": "b2f671b7-820d-4cee-902a-898fdb8716d0"
+    },
+    {
+      "s": "b27cb10a-6fd7-4fd1-8f9e-bfb5dcf5a2c1",
+      "p": "on-failure",
+      "o": "b2f671b7-820d-4cee-902a-898fdb8716d0"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

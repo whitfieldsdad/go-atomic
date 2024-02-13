@@ -1,0 +1,86 @@
+{
+  "id": "6290f8a8-8ee9-4661-b9cf-390031bf6973",
+  "name": "Truncate system log files via truncate utility",
+  "description": "This test truncates the system log files using the truncate utility with (-s 0 or --size=0) parameter which sets file size to zero, thus emptying the file content\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "de10a06a-7c25-4db4-9d19-c76d373a4ca9",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo truncate -s 0 #{system_log_path} #size parameter shorthand\nsudo truncate --size=0 #{system_log_path} #size parameter \n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "00cebe9f-256b-45c1-a2c3-eb378ca0ced7",
+      "name": "Check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9aa5f21b-fbe9-4e3d-b911-1ec83445da51",
+      "name": "Resolve dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "touch #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4ac97574-5ffa-4f02-819b-9a84ada6cb8d",
+      "name": "Re-check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "00cebe9f-256b-45c1-a2c3-eb378ca0ced7",
+      "p": "on-success",
+      "o": "de10a06a-7c25-4db4-9d19-c76d373a4ca9"
+    },
+    {
+      "s": "00cebe9f-256b-45c1-a2c3-eb378ca0ced7",
+      "p": "on-failure",
+      "o": "9aa5f21b-fbe9-4e3d-b911-1ec83445da51"
+    },
+    {
+      "s": "9aa5f21b-fbe9-4e3d-b911-1ec83445da51",
+      "p": "on-success",
+      "o": "4ac97574-5ffa-4f02-819b-9a84ada6cb8d"
+    },
+    {
+      "s": "4ac97574-5ffa-4f02-819b-9a84ada6cb8d",
+      "p": "on-failure",
+      "o": "de10a06a-7c25-4db4-9d19-c76d373a4ca9"
+    }
+  ],
+  "tags": [
+    "T1070.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "system_log_path",
+      "type": "string",
+      "description": "path of system log to delete.",
+      "value": "/var/log/system.log"
+    }
+  ]
+}

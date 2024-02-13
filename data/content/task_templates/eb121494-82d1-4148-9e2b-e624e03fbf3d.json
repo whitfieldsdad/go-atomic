@@ -1,0 +1,44 @@
+{
+  "id": "eb121494-82d1-4148-9e2b-e624e03fbf3d",
+  "name": "Staging Local Certificates via Export-Certificate",
+  "description": "Export all user certificates and add to a compressed archive.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "a8a7984f-1ee3-4c7f-b1e5-5a206d022549",
+      "type": "execute-command",
+      "data": {
+        "command": "$archive=\"$env:PUBLIC\\T1649\\atomic_certs.zip\"\n$exfilpath=\"$env:PUBLIC\\T1649\\certs\"\nAdd-Type -assembly \"system.io.compression.filesystem\"\nRemove-Item $(split-path $exfilpath) -Recurse -Force -ErrorAction Ignore\nmkdir $exfilpath | Out-Null\nforeach ($cert in (gci Cert:\\CurrentUser\\My)) { Export-Certificate -Cert $cert -FilePath $exfilpath\\$($cert.FriendlyName).cer}\n[io.compression.zipfile]::CreateFromDirectory($exfilpath, $archive)\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "47b608c7-1575-4c26-a5a6-77db4263626d",
+      "type": "execute-command",
+      "data": {
+        "command": "$exfilpath=\"$env:PUBLIC\\T1649\\certs\"\nRemove-Item $(split-path $exfilpath) -Recurse -Force -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a8a7984f-1ee3-4c7f-b1e5-5a206d022549",
+      "p": "on-success",
+      "o": "47b608c7-1575-4c26-a5a6-77db4263626d"
+    },
+    {
+      "s": "a8a7984f-1ee3-4c7f-b1e5-5a206d022549",
+      "p": "on-failure",
+      "o": "47b608c7-1575-4c26-a5a6-77db4263626d"
+    }
+  ],
+  "tags": [
+    "T1649",
+    "atomic-red-team"
+  ]
+}

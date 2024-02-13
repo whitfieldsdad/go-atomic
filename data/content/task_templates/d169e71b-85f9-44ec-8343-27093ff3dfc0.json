@@ -1,0 +1,44 @@
+{
+  "id": "d169e71b-85f9-44ec-8343-27093ff3dfc0",
+  "name": "chown - Change file or folder ownership and group",
+  "description": "Changes a file or folder's ownership and group information using chown.\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "831e0024-b699-4b3a-b8cf-3d2e653c2158",
+      "type": "execute-command",
+      "data": {
+        "command": "chown #{owner}:#{group} #{file_or_folder}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1222.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_or_folder",
+      "type": "path",
+      "description": "Path of the file or folder",
+      "value": "/tmp/AtomicRedTeam/atomics/T1222.002/T1222.002.yaml"
+    },
+    {
+      "name": "group",
+      "type": "string",
+      "description": "Group name of desired group",
+      "value": "root"
+    },
+    {
+      "name": "owner",
+      "type": "string",
+      "description": "Username of desired owner",
+      "value": "root"
+    }
+  ]
+}

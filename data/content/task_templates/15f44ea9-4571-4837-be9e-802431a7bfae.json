@@ -1,0 +1,44 @@
+{
+  "id": "15f44ea9-4571-4837-be9e-802431a7bfae",
+  "name": "Javascript in registry",
+  "description": "Upon execution, a javascript block will be placed in the registry for persistence.\nAdditionally, open Registry Editor to view the modified entry in HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c4616b05-c508-462d-ba8e-58cc787b7192",
+      "type": "execute-command",
+      "data": {
+        "command": "New-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\" -Name T1112 -Value \"\u003cscript\u003e\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "492f3eb8-d23d-42f5-b8c4-a45d2fd3b3be",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\" -Name T1112 -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c4616b05-c508-462d-ba8e-58cc787b7192",
+      "p": "on-success",
+      "o": "492f3eb8-d23d-42f5-b8c4-a45d2fd3b3be"
+    },
+    {
+      "s": "c4616b05-c508-462d-ba8e-58cc787b7192",
+      "p": "on-failure",
+      "o": "492f3eb8-d23d-42f5-b8c4-a45d2fd3b3be"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

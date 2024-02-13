@@ -1,0 +1,79 @@
+{
+  "id": "9ae28d3f-190f-4fa0-b023-c7bd3e0eabf2",
+  "name": "System Network Connections Discovery FreeBSD, Linux \u0026 MacOS",
+  "description": "Get a listing of network connections.\n\nUpon successful execution, sh will execute `netstat` and `who -a`. Results will output via stdout.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "1ff1d60f-1508-4cd2-ad5c-d239a56d049b",
+      "type": "execute-command",
+      "data": {
+        "command": "netstat\nwho -a\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bd08a278-9ab4-4d67-b642-3d871b20673f",
+      "name": "Check dependency 1/1",
+      "description": "Check if netstat command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v netstat)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fdd64807-ef87-4368-abdf-c35695b87298",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if netstat command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"Install netstat on the machine.\"; exit 1;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a28d56a8-3746-4f5a-af92-4fbb79ac842e",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if netstat command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v netstat)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "bd08a278-9ab4-4d67-b642-3d871b20673f",
+      "p": "on-success",
+      "o": "1ff1d60f-1508-4cd2-ad5c-d239a56d049b"
+    },
+    {
+      "s": "bd08a278-9ab4-4d67-b642-3d871b20673f",
+      "p": "on-failure",
+      "o": "fdd64807-ef87-4368-abdf-c35695b87298"
+    },
+    {
+      "s": "fdd64807-ef87-4368-abdf-c35695b87298",
+      "p": "on-success",
+      "o": "a28d56a8-3746-4f5a-af92-4fbb79ac842e"
+    },
+    {
+      "s": "a28d56a8-3746-4f5a-af92-4fbb79ac842e",
+      "p": "on-failure",
+      "o": "1ff1d60f-1508-4cd2-ad5c-d239a56d049b"
+    }
+  ],
+  "tags": [
+    "T1049",
+    "atomic-red-team"
+  ]
+}

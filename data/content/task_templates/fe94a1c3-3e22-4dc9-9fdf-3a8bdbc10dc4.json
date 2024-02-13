@@ -1,0 +1,111 @@
+{
+  "id": "fe94a1c3-3e22-4dc9-9fdf-3a8bdbc10dc4",
+  "name": "List Process Main Windows - C# .NET",
+  "description": "Compiles and executes C# code to list main window titles associated with each process.\n\nUpon successful execution, powershell will download the .cs from the Atomic Red Team repo, and cmd.exe will compile and execute T1010.exe. Upon T1010.exe execution, expected output will be via stdout.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "cbd2499d-4cf6-414a-bfb9-fcf27aafb2c3",
+      "type": "execute-command",
+      "data": {
+        "command": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe -out:#{output_file_name} \"#{input_source_code}\"\n#{output_file_name}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1547c771-dc76-4a77-98cb-9f9962f51074",
+      "type": "execute-command",
+      "data": {
+        "command": "del /f /q /s #{output_file_name} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0f1d3b70-a1ed-47f2-9151-c67ec47129c8",
+      "name": "Check dependency 1/1",
+      "description": "T1010.cs must exist on disk at specified location (#{input_source_code})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{input_source_code}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0a68d11e-2272-43c4-8444-129a995f8439",
+      "name": "Resolve dependency 1/1",
+      "description": "T1010.cs must exist on disk at specified location (#{input_source_code})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{input_source_code}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1010/src/T1010.cs -OutFile \"#{input_source_code}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9ba00ade-b17d-487d-b46b-26660994e08b",
+      "name": "Re-check dependency 1/1",
+      "description": "T1010.cs must exist on disk at specified location (#{input_source_code})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{input_source_code}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "cbd2499d-4cf6-414a-bfb9-fcf27aafb2c3",
+      "p": "on-success",
+      "o": "1547c771-dc76-4a77-98cb-9f9962f51074"
+    },
+    {
+      "s": "cbd2499d-4cf6-414a-bfb9-fcf27aafb2c3",
+      "p": "on-failure",
+      "o": "1547c771-dc76-4a77-98cb-9f9962f51074"
+    },
+    {
+      "s": "0f1d3b70-a1ed-47f2-9151-c67ec47129c8",
+      "p": "on-success",
+      "o": "cbd2499d-4cf6-414a-bfb9-fcf27aafb2c3"
+    },
+    {
+      "s": "0f1d3b70-a1ed-47f2-9151-c67ec47129c8",
+      "p": "on-failure",
+      "o": "0a68d11e-2272-43c4-8444-129a995f8439"
+    },
+    {
+      "s": "0a68d11e-2272-43c4-8444-129a995f8439",
+      "p": "on-success",
+      "o": "9ba00ade-b17d-487d-b46b-26660994e08b"
+    },
+    {
+      "s": "9ba00ade-b17d-487d-b46b-26660994e08b",
+      "p": "on-failure",
+      "o": "cbd2499d-4cf6-414a-bfb9-fcf27aafb2c3"
+    }
+  ],
+  "tags": [
+    "T1010",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "input_source_code",
+      "type": "path",
+      "description": "Path to source of C# code",
+      "value": "PathToAtomicsFolder\\T1010\\src\\T1010.cs"
+    },
+    {
+      "name": "output_file_name",
+      "type": "string",
+      "description": "Name of output binary",
+      "value": "%TEMP%\\T1010.exe"
+    }
+  ]
+}

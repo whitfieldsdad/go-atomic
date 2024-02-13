@@ -1,0 +1,44 @@
+{
+  "id": "fa050f5e-bc75-4230-af73-b6fd7852cd73",
+  "name": "PowerShell Fileless Script Execution",
+  "description": "Execution of a PowerShell payload from the Windows Registry similar to that seen in fileless malware infections. Upon exection, open \"C:\\Windows\\Temp\" and verify that\nart-marker.txt is in the folder.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "d10fd304-53e8-490a-9235-7580caee28cc",
+      "type": "execute-command",
+      "data": {
+        "command": "# Encoded payload in next command is the following \"Set-Content -path \"$env:SystemRoot/Temp/art-marker.txt\" -value \"Hello from the Atomic Red Team\"\"\nreg.exe add \"HKEY_CURRENT_USER\\Software\\Classes\\AtomicRedTeam\" /v ART /t REG_SZ /d \"U2V0LUNvbnRlbnQgLXBhdGggIiRlbnY6U3lzdGVtUm9vdC9UZW1wL2FydC1tYXJrZXIudHh0IiAtdmFsdWUgIkhlbGxvIGZyb20gdGhlIEF0b21pYyBSZWQgVGVhbSI=\" /f\niex ([Text.Encoding]::ASCII.GetString([Convert]::FromBase64String((gp 'HKCU:\\Software\\Classes\\AtomicRedTeam').ART)))\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7ead9162-4018-4ee9-a098-d2cc13ffb8c6",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -path C:\\Windows\\Temp\\art-marker.txt -Force -ErrorAction Ignore\nRemove-Item HKCU:\\Software\\Classes\\AtomicRedTeam -Force -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d10fd304-53e8-490a-9235-7580caee28cc",
+      "p": "on-success",
+      "o": "7ead9162-4018-4ee9-a098-d2cc13ffb8c6"
+    },
+    {
+      "s": "d10fd304-53e8-490a-9235-7580caee28cc",
+      "p": "on-failure",
+      "o": "7ead9162-4018-4ee9-a098-d2cc13ffb8c6"
+    }
+  ],
+  "tags": [
+    "T1059.001",
+    "atomic-red-team"
+  ]
+}

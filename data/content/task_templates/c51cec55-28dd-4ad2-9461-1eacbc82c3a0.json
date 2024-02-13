@@ -1,0 +1,112 @@
+{
+  "id": "c51cec55-28dd-4ad2-9461-1eacbc82c3a0",
+  "name": "Data Compressed - nix - zip",
+  "description": "An adversary may compress data (e.g., sensitive documents) that is collected prior to exfiltration. This test uses standard zip compression.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "fa09055e-65f4-461e-a83e-1df245b35e50",
+      "type": "execute-command",
+      "data": {
+        "command": "zip #{output_file} #{input_files}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1928391d-6bfe-4448-bb14-85c80b7b2f49",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "60c4d8c2-6e26-424e-a6d1-623537ee4120",
+      "name": "Check dependency 1/1",
+      "description": "Files to zip must exist (#{input_files})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ $(ls #{input_files} | wc -l) \u003e 0 ] \u0026\u0026 [ -x $(which zip) ] ; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4b21105f-dda4-497f-a553-6753d96a7d5c",
+      "name": "Resolve dependency 1/1",
+      "description": "Files to zip must exist (#{input_files})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which yum \u0026\u0026 yum -y install epel-release zip)||(which apt-get \u0026\u0026 apt-get install -y zip)\necho Please set input_files argument to include files that exist\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b12d3d79-dff9-4e8c-9a8f-28d440964a0d",
+      "name": "Re-check dependency 1/1",
+      "description": "Files to zip must exist (#{input_files})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ $(ls #{input_files} | wc -l) \u003e 0 ] \u0026\u0026 [ -x $(which zip) ] ; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "fa09055e-65f4-461e-a83e-1df245b35e50",
+      "p": "on-success",
+      "o": "1928391d-6bfe-4448-bb14-85c80b7b2f49"
+    },
+    {
+      "s": "fa09055e-65f4-461e-a83e-1df245b35e50",
+      "p": "on-failure",
+      "o": "1928391d-6bfe-4448-bb14-85c80b7b2f49"
+    },
+    {
+      "s": "60c4d8c2-6e26-424e-a6d1-623537ee4120",
+      "p": "on-success",
+      "o": "fa09055e-65f4-461e-a83e-1df245b35e50"
+    },
+    {
+      "s": "60c4d8c2-6e26-424e-a6d1-623537ee4120",
+      "p": "on-failure",
+      "o": "4b21105f-dda4-497f-a553-6753d96a7d5c"
+    },
+    {
+      "s": "4b21105f-dda4-497f-a553-6753d96a7d5c",
+      "p": "on-success",
+      "o": "b12d3d79-dff9-4e8c-9a8f-28d440964a0d"
+    },
+    {
+      "s": "b12d3d79-dff9-4e8c-9a8f-28d440964a0d",
+      "p": "on-failure",
+      "o": "fa09055e-65f4-461e-a83e-1df245b35e50"
+    }
+  ],
+  "tags": [
+    "T1560.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "input_files",
+      "type": "path",
+      "description": "Path that should be compressed into our output file, may include wildcards",
+      "value": "/var/log/{w,b}tmp"
+    },
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path that should be output as a zip archive",
+      "value": "$HOME/data.zip"
+    }
+  ]
+}

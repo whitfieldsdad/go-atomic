@@ -1,0 +1,52 @@
+{
+  "id": "41502021-591a-4649-8b6e-83c9192aff53",
+  "name": "Add command to .shrc",
+  "description": "Adds a command to the .shrc file of the current user\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "1e2d91bf-d1b0-46a4-9da5-95c1ab1f9d04",
+      "type": "execute-command",
+      "data": {
+        "command": "echo '#{command_to_add}' \u003e\u003e ~/.shrc\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b5d646bf-a77d-4798-880c-bff846f47a5d",
+      "type": "execute-command",
+      "data": {
+        "command": "head -n '-2' ~/.shrc \u003e /tmp/T1546.004\nmv /tmp/T1546.004 ~/.shrc\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1e2d91bf-d1b0-46a4-9da5-95c1ab1f9d04",
+      "p": "on-success",
+      "o": "b5d646bf-a77d-4798-880c-bff846f47a5d"
+    },
+    {
+      "s": "1e2d91bf-d1b0-46a4-9da5-95c1ab1f9d04",
+      "p": "on-failure",
+      "o": "b5d646bf-a77d-4798-880c-bff846f47a5d"
+    }
+  ],
+  "tags": [
+    "T1546.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "command_to_add",
+      "type": "string",
+      "description": "Command to add to the .shrc file",
+      "value": "echo \"Hello from Atomic Red Team T1546.004\" \u003e /tmp/T1546.004"
+    }
+  ]
+}

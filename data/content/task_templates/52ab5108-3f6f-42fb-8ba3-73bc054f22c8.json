@@ -1,0 +1,31 @@
+{
+  "id": "52ab5108-3f6f-42fb-8ba3-73bc054f22c8",
+  "name": "Remote System Discovery - nltest",
+  "description": "Identify domain controllers for specified domain.\n\nUpon successful execution, cmd.exe will execute nltest.exe against a target domain to retrieve a list of domain controllers. Output will be via stdout.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "252ffff5-0221-4f6e-aee2-39ce2cb17781",
+      "type": "execute-command",
+      "data": {
+        "command": "nltest.exe /dclist:#{target_domain}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1018",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "target_domain",
+      "type": "string",
+      "description": "Domain to query for domain controllers",
+      "value": "%userdnsdomain%"
+    }
+  ]
+}

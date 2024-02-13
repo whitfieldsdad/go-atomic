@@ -1,0 +1,117 @@
+{
+  "id": "645f0f5a-ef09-48d8-b9bc-f0e24c642d72",
+  "name": "Encrypt files using 7z utility - macOS",
+  "description": "This test encrypts the file(s) using the 7z utility\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "34d35a5c-c188-41ea-9eea-98dd89b51b4d",
+      "type": "execute-command",
+      "data": {
+        "command": "7z a -p #{file_password} -mhe=on #{encrypted_file_name} #{input_file_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f754a974-8ff2-4097-b52a-16b6a915fc95",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{encrypted_file_name}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "82a3435c-b9f8-4462-a446-e17e340c75d2",
+      "name": "Check dependency 1/1",
+      "description": "Check if 7z command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which 7z\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6617abdb-2b21-4eb8-a9a9-f57d938c98d0",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if 7z command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Installing 7z, using brew\n/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"\nbrew install p7zip\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b447f883-0684-42b8-867e-9ac120ea09b0",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if 7z command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which 7z\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "34d35a5c-c188-41ea-9eea-98dd89b51b4d",
+      "p": "on-success",
+      "o": "f754a974-8ff2-4097-b52a-16b6a915fc95"
+    },
+    {
+      "s": "34d35a5c-c188-41ea-9eea-98dd89b51b4d",
+      "p": "on-failure",
+      "o": "f754a974-8ff2-4097-b52a-16b6a915fc95"
+    },
+    {
+      "s": "82a3435c-b9f8-4462-a446-e17e340c75d2",
+      "p": "on-success",
+      "o": "34d35a5c-c188-41ea-9eea-98dd89b51b4d"
+    },
+    {
+      "s": "82a3435c-b9f8-4462-a446-e17e340c75d2",
+      "p": "on-failure",
+      "o": "6617abdb-2b21-4eb8-a9a9-f57d938c98d0"
+    },
+    {
+      "s": "6617abdb-2b21-4eb8-a9a9-f57d938c98d0",
+      "p": "on-success",
+      "o": "b447f883-0684-42b8-867e-9ac120ea09b0"
+    },
+    {
+      "s": "b447f883-0684-42b8-867e-9ac120ea09b0",
+      "p": "on-failure",
+      "o": "34d35a5c-c188-41ea-9eea-98dd89b51b4d"
+    }
+  ],
+  "tags": [
+    "T1486",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_password",
+      "type": "string",
+      "description": "Password to be provided for archiving the file",
+      "value": "ARTPass"
+    },
+    {
+      "name": "encrypted_file_name",
+      "type": "string",
+      "description": "Name of the archive to be created",
+      "value": "ARTArchive.7z"
+    },
+    {
+      "name": "input_file_path",
+      "type": "path",
+      "description": "Path to the file that you want to encrypt",
+      "value": "~/test.txt"
+    }
+  ]
+}

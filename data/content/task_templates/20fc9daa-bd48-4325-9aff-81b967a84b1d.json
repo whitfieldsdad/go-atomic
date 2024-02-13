@@ -1,0 +1,44 @@
+{
+  "id": "20fc9daa-bd48-4325-9aff-81b967a84b1d",
+  "name": "Activate Windows NoPropertiesMyDocuments Group Policy Feature",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to hide Properties from \"My Documents icon\" Group Policy. \nTake note that some Group Policy changes might require a restart to take effect.\nSee how ransomware abuses this technique- https://www.virustotal.com/gui/file/2d7855bf6470aa323edf2949b54ce2a04d9e38770f1322c3d0420c2303178d91/details\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "f6f39a97-5d99-4ac4-94ab-1e9f7601ec57",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoPropertiesMyDocuments /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "40ebed6a-1a48-47c0-a3ea-28bf4b750643",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoPropertiesMyDocuments /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f6f39a97-5d99-4ac4-94ab-1e9f7601ec57",
+      "p": "on-success",
+      "o": "40ebed6a-1a48-47c0-a3ea-28bf4b750643"
+    },
+    {
+      "s": "f6f39a97-5d99-4ac4-94ab-1e9f7601ec57",
+      "p": "on-failure",
+      "o": "40ebed6a-1a48-47c0-a3ea-28bf4b750643"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

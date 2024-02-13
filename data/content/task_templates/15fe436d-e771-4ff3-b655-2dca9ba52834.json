@@ -1,0 +1,86 @@
+{
+  "id": "15fe436d-e771-4ff3-b655-2dca9ba52834",
+  "name": "Adfind - Enumerate Active Directory Trusts",
+  "description": "Adfind tool can be used for reconnaissance in an Active directory environment. This example has been documented by ransomware actors enumerating Active Directory Trusts\nreference- http://www.joeware.net/freetools/tools/adfind/, https://www.fireeye.com/blog/threat-research/2019/04/pick-six-intercepting-a-fin6-intrusion.html\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c9355ea7-3dfc-4b91-8dbd-10907439ecfb",
+      "type": "execute-command",
+      "data": {
+        "command": "\"PathToAtomicsFolder\\..\\ExternalPayloads\\AdFind.exe\" #{optional_args} -gcb -sc trustdmp\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c737d2cf-c579-4728-b54f-6d346ced18de",
+      "name": "Check dependency 1/1",
+      "description": "AdFind.exe must exist on disk at specified location (PathToAtomicsFolder\\..\\ExternalPayloads\\AdFind.exe)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\AdFind.exe\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b2073d7b-fb0f-4a3b-8cc1-57edff9694e5",
+      "name": "Resolve dependency 1/1",
+      "description": "AdFind.exe must exist on disk at specified location (PathToAtomicsFolder\\..\\ExternalPayloads\\AdFind.exe)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"PathToAtomicsFolder\\..\\ExternalPayloads\\AdFind.exe\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest -Uri \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1087.002/bin/AdFind.exe\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\AdFind.exe\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6b0c7709-310a-446e-b609-75e64b59e885",
+      "name": "Re-check dependency 1/1",
+      "description": "AdFind.exe must exist on disk at specified location (PathToAtomicsFolder\\..\\ExternalPayloads\\AdFind.exe)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\AdFind.exe\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c737d2cf-c579-4728-b54f-6d346ced18de",
+      "p": "on-success",
+      "o": "c9355ea7-3dfc-4b91-8dbd-10907439ecfb"
+    },
+    {
+      "s": "c737d2cf-c579-4728-b54f-6d346ced18de",
+      "p": "on-failure",
+      "o": "b2073d7b-fb0f-4a3b-8cc1-57edff9694e5"
+    },
+    {
+      "s": "b2073d7b-fb0f-4a3b-8cc1-57edff9694e5",
+      "p": "on-success",
+      "o": "6b0c7709-310a-446e-b609-75e64b59e885"
+    },
+    {
+      "s": "6b0c7709-310a-446e-b609-75e64b59e885",
+      "p": "on-failure",
+      "o": "c9355ea7-3dfc-4b91-8dbd-10907439ecfb"
+    }
+  ],
+  "tags": [
+    "T1482",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "optional_args",
+      "type": "string",
+      "description": "Allows defining arguments to add to the adfind command to tailor it to the specific needs of the environment. Use \"-arg\" notation to add arguments separated by spaces.",
+      "value": ""
+    }
+  ]
+}

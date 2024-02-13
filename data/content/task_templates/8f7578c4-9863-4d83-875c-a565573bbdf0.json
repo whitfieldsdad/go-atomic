@@ -1,0 +1,23 @@
+{
+  "id": "8f7578c4-9863-4d83-875c-a565573bbdf0",
+  "name": "Query Registry",
+  "description": "Query Windows Registry.\nUpon successful execution, cmd.exe will perform multiple reg queries. Some will succeed and others will fail (dependent upon OS).\nReferences:\nhttps://blog.cylance.com/windows-registry-persistence-part-2-the-run-keys-and-search-order\nhttps://blog.cylance.com/windows-registry-persistence-part-1-introduction-attack-phases-and-windows-services\nhttp://www.handgrep.se/repository/cheatsheets/postexploitation/WindowsPost-Exploitation.pdf\nhttps://www.offensive-security.com/wp-content/uploads/2015/04/wp.Registry_Quick_Find_Chart.en_us.pdf\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5c8722d8-e7e0-4b71-8dcd-78534876e217",
+      "type": "execute-command",
+      "data": {
+        "command": "reg query \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows\"\nreg query HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce\nreg query HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce\nreg query HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices\nreg query HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices\nreg query \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\"\nreg query \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit\"\nreg query \"HKCU\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\\Shell\"\nreg query \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\\Shell\"\nreg query HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ShellServiceObjectDelayLoad\nreg query HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\nreg query HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\nreg query HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\nreg query HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\nreg query HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\nreg query HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\nreg query HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\nreg query HKLM\\system\\currentcontrolset\\services /s | findstr ImagePath 2\u003enul | findstr /Ri \".*\\.sys$\"\nreg query HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\nreg query HKLM\\SYSTEM\\CurrentControlSet\\Control\\SafeBoot\nreg query \"HKLM\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components\"\nreg query \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\Scripts\\Startup\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1012",
+    "atomic-red-team"
+  ]
+}

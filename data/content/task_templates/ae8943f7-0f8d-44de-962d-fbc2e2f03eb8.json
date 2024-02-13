@@ -1,0 +1,23 @@
+{
+  "id": "ae8943f7-0f8d-44de-962d-fbc2e2f03eb8",
+  "name": "Disable Cb Response",
+  "description": "Disable the Cb Response service\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "86e9108c-c110-4a2e-b843-e8c1717df0ee",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ $(rpm -q --queryformat '%{VERSION}' centos-release) -eq \"6\" ];\nthen\n  service cbdaemon stop\n  chkconfig off cbdaemon\nelse if [ $(rpm -q --queryformat '%{VERSION}' centos-release) -eq \"7\" ];\n  systemctl stop cbdaemon\n  systemctl disable cbdaemon\nfi\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ]
+}

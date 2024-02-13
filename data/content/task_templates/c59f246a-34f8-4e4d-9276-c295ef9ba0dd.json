@@ -1,0 +1,217 @@
+{
+  "id": "c59f246a-34f8-4e4d-9276-c295ef9ba0dd",
+  "name": "Register Portable Virtualbox",
+  "description": "ransomware payloads via virtual machines (VM). \n[Maze ransomware](https://threatpost.com/maze-ransomware-ragnar-locker-virtual-machine/159350/)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "3c3870fe-2478-4da3-8d7f-11944cb15bd3",
+      "type": "execute-command",
+      "data": {
+        "command": "\"C:\\Program Files\\Oracle\\VirtualBox\\VBoxSVC.exe\" /reregserver\nregsvr32 /S \"C:\\Program Files\\Oracle\\VirtualBox\\VboxC.dll\"\nrundll32 \"C:\\Program Files\\Oracle\\VirtualBox\\VBoxRT.dll,RTR3Init\"\nsc create VBoxDRV binpath= \"C:\\Program Files\\Oracle\\VirtualBox\\drivers\\VboxDrv.sys\" type= kernel start= auto error= normal displayname= PortableVBoxDRV\nsc start VBoxDRV\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c4b572ef-8737-40b7-bdf4-7f90bc09d0bb",
+      "type": "execute-command",
+      "data": {
+        "command": "sc stop VBoxDRV\nsc delete VBoxDRV\nregsvr32 /u /S \"C:\\Program Files\\Oracle\\VirtualBox\\VboxC.dll\"\nmsiexec /x \"#{msi_file_path}\" /qn\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c23d64ca-57bf-4a5f-b49f-6f3eb59ea2c3",
+      "name": "Check dependency 1/3",
+      "description": "MSI file must exist on disk at specified location (#{msi_file_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{msi_file_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3a42e76c-c354-4525-8a5e-3027ee539036",
+      "name": "Resolve dependency 1/3",
+      "description": "MSI file must exist on disk at specified location (#{msi_file_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{msi_file_path}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1564.006/bin/Virtualbox_52.msi\" -OutFile \"#{msi_file_path}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a5c6ebe3-ceeb-4a33-93f1-257a1a4e9dd3",
+      "name": "Re-check dependency 1/3",
+      "description": "MSI file must exist on disk at specified location (#{msi_file_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{msi_file_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "cef326c5-29e2-427b-8801-ff2cba3b4cf8",
+      "name": "Check dependency 2/3",
+      "description": "CAB file must exist on disk at specified location (#{cab_file_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{cab_file_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "731d48b5-082b-4949-8bd6-3d78e1dee848",
+      "name": "Resolve dependency 2/3",
+      "description": "CAB file must exist on disk at specified location (#{cab_file_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{cab_file_path}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1564.006/bin/common.cab\" -OutFile \"#{cab_file_path}\" \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1998d053-caa9-4d60-b470-49ec60eb7411",
+      "name": "Re-check dependency 2/3",
+      "description": "CAB file must exist on disk at specified location (#{cab_file_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{cab_file_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b87d78a7-afe3-43de-8347-be6cf2e1d9a3",
+      "name": "Check dependency 3/3",
+      "description": "Old version of Virtualbox must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"C:\\Program Files\\Oracle\\VirtualBox\\VboxC.dll\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a5a552ed-2d92-4084-9df2-f0d4a93a7dc1",
+      "name": "Resolve dependency 3/3",
+      "description": "Old version of Virtualbox must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "msiexec /i \"#{msi_file_path}\" /qn\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f897896f-1820-4e6b-b220-ff989fb84438",
+      "name": "Re-check dependency 3/3",
+      "description": "Old version of Virtualbox must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"C:\\Program Files\\Oracle\\VirtualBox\\VboxC.dll\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3c3870fe-2478-4da3-8d7f-11944cb15bd3",
+      "p": "on-success",
+      "o": "c4b572ef-8737-40b7-bdf4-7f90bc09d0bb"
+    },
+    {
+      "s": "3c3870fe-2478-4da3-8d7f-11944cb15bd3",
+      "p": "on-failure",
+      "o": "c4b572ef-8737-40b7-bdf4-7f90bc09d0bb"
+    },
+    {
+      "s": "c23d64ca-57bf-4a5f-b49f-6f3eb59ea2c3",
+      "p": "on-success",
+      "o": "3c3870fe-2478-4da3-8d7f-11944cb15bd3"
+    },
+    {
+      "s": "c23d64ca-57bf-4a5f-b49f-6f3eb59ea2c3",
+      "p": "on-failure",
+      "o": "3a42e76c-c354-4525-8a5e-3027ee539036"
+    },
+    {
+      "s": "3a42e76c-c354-4525-8a5e-3027ee539036",
+      "p": "on-success",
+      "o": "a5c6ebe3-ceeb-4a33-93f1-257a1a4e9dd3"
+    },
+    {
+      "s": "a5c6ebe3-ceeb-4a33-93f1-257a1a4e9dd3",
+      "p": "on-failure",
+      "o": "3c3870fe-2478-4da3-8d7f-11944cb15bd3"
+    },
+    {
+      "s": "cef326c5-29e2-427b-8801-ff2cba3b4cf8",
+      "p": "on-success",
+      "o": "3c3870fe-2478-4da3-8d7f-11944cb15bd3"
+    },
+    {
+      "s": "cef326c5-29e2-427b-8801-ff2cba3b4cf8",
+      "p": "on-failure",
+      "o": "731d48b5-082b-4949-8bd6-3d78e1dee848"
+    },
+    {
+      "s": "731d48b5-082b-4949-8bd6-3d78e1dee848",
+      "p": "on-success",
+      "o": "1998d053-caa9-4d60-b470-49ec60eb7411"
+    },
+    {
+      "s": "1998d053-caa9-4d60-b470-49ec60eb7411",
+      "p": "on-failure",
+      "o": "3c3870fe-2478-4da3-8d7f-11944cb15bd3"
+    },
+    {
+      "s": "b87d78a7-afe3-43de-8347-be6cf2e1d9a3",
+      "p": "on-success",
+      "o": "3c3870fe-2478-4da3-8d7f-11944cb15bd3"
+    },
+    {
+      "s": "b87d78a7-afe3-43de-8347-be6cf2e1d9a3",
+      "p": "on-failure",
+      "o": "a5a552ed-2d92-4084-9df2-f0d4a93a7dc1"
+    },
+    {
+      "s": "a5a552ed-2d92-4084-9df2-f0d4a93a7dc1",
+      "p": "on-success",
+      "o": "f897896f-1820-4e6b-b220-ff989fb84438"
+    },
+    {
+      "s": "f897896f-1820-4e6b-b220-ff989fb84438",
+      "p": "on-failure",
+      "o": "3c3870fe-2478-4da3-8d7f-11944cb15bd3"
+    }
+  ],
+  "tags": [
+    "T1564.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "msi_file_path",
+      "type": "path",
+      "description": "Path to the MSI file",
+      "value": "PathToAtomicsFolder\\T1564.006\\bin\\Virtualbox_52.msi"
+    },
+    {
+      "name": "cab_file_path",
+      "type": "path",
+      "description": "Path to the CAB file",
+      "value": "PathToAtomicsFolder\\T1564.006\\bin\\common.cab"
+    }
+  ]
+}

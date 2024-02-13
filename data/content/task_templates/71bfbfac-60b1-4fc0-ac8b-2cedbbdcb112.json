@@ -1,0 +1,111 @@
+{
+  "id": "71bfbfac-60b1-4fc0-ac8b-2cedbbdcb112",
+  "name": "Regasm Uninstall Method Call Test",
+  "description": "Executes the Uninstall Method, No Admin Rights Required. Upon execution, \"I shouldn't really execute either.\" will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "832352d3-7655-46dc-96a6-1bf2309304d0",
+      "type": "execute-command",
+      "data": {
+        "command": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /r:System.EnterpriseServices.dll /out:\"#{output_file}\" /target:library \"#{source_file}\"\nC:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\regasm.exe /U #{output_file}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5fa0d358-4ade-4ff2-8020-4b3484b9763e",
+      "type": "execute-command",
+      "data": {
+        "command": "del #{output_file} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "318ea259-f960-4433-8e19-9fb53fb44f58",
+      "name": "Check dependency 1/1",
+      "description": "The CSharp source file must exist on disk at specified location (#{source_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{source_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e0709634-7a07-4ddd-a345-2492b008e7c0",
+      "name": "Resolve dependency 1/1",
+      "description": "The CSharp source file must exist on disk at specified location (#{source_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{source_file}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.009/src/T1218.009.cs\" -OutFile \"#{source_file}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f26fe2f1-3726-40c1-b93a-a4faf5a10a43",
+      "name": "Re-check dependency 1/1",
+      "description": "The CSharp source file must exist on disk at specified location (#{source_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{source_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "832352d3-7655-46dc-96a6-1bf2309304d0",
+      "p": "on-success",
+      "o": "5fa0d358-4ade-4ff2-8020-4b3484b9763e"
+    },
+    {
+      "s": "832352d3-7655-46dc-96a6-1bf2309304d0",
+      "p": "on-failure",
+      "o": "5fa0d358-4ade-4ff2-8020-4b3484b9763e"
+    },
+    {
+      "s": "318ea259-f960-4433-8e19-9fb53fb44f58",
+      "p": "on-success",
+      "o": "832352d3-7655-46dc-96a6-1bf2309304d0"
+    },
+    {
+      "s": "318ea259-f960-4433-8e19-9fb53fb44f58",
+      "p": "on-failure",
+      "o": "e0709634-7a07-4ddd-a345-2492b008e7c0"
+    },
+    {
+      "s": "e0709634-7a07-4ddd-a345-2492b008e7c0",
+      "p": "on-success",
+      "o": "f26fe2f1-3726-40c1-b93a-a4faf5a10a43"
+    },
+    {
+      "s": "f26fe2f1-3726-40c1-b93a-a4faf5a10a43",
+      "p": "on-failure",
+      "o": "832352d3-7655-46dc-96a6-1bf2309304d0"
+    }
+  ],
+  "tags": [
+    "T1218.009",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Location of the payload",
+      "value": "%tmp%\\T1218.009.dll"
+    },
+    {
+      "name": "source_file",
+      "type": "path",
+      "description": "Location of the CSharp source_file",
+      "value": "PathToAtomicsFolder\\T1218.009\\src\\T1218.009.cs"
+    }
+  ]
+}

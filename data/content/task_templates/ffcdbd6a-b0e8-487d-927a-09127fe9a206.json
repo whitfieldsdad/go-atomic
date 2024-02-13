@@ -1,0 +1,111 @@
+{
+  "id": "ffcdbd6a-b0e8-487d-927a-09127fe9a206",
+  "name": "Compile After Delivery using csc.exe",
+  "description": "Compile C# code using csc.exe binary used by .NET\nUpon execution an exe named T1027.004.exe will be placed in the temp folder\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "3c328232-dc33-449e-8c78-06bc89335a07",
+      "type": "execute-command",
+      "data": {
+        "command": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe /out:#{output_file} \"#{input_file}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6c66ca79-e471-4146-b48e-2e79ded0d137",
+      "type": "execute-command",
+      "data": {
+        "command": "del #{output_file} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7cb7def3-ece1-4f08-982e-87b297cf8ef0",
+      "name": "Check dependency 1/1",
+      "description": "C# file must exist on disk at specified location (#{input_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{input_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "dc7301a4-bd20-41cd-86bb-e89660b17bdc",
+      "name": "Resolve dependency 1/1",
+      "description": "C# file must exist on disk at specified location (#{input_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{input_file}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1027.004/src/calc.cs\" -OutFile \"#{input_file}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d3d63836-b7e4-423a-92fe-5fc3df4bd584",
+      "name": "Re-check dependency 1/1",
+      "description": "C# file must exist on disk at specified location (#{input_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{input_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3c328232-dc33-449e-8c78-06bc89335a07",
+      "p": "on-success",
+      "o": "6c66ca79-e471-4146-b48e-2e79ded0d137"
+    },
+    {
+      "s": "3c328232-dc33-449e-8c78-06bc89335a07",
+      "p": "on-failure",
+      "o": "6c66ca79-e471-4146-b48e-2e79ded0d137"
+    },
+    {
+      "s": "7cb7def3-ece1-4f08-982e-87b297cf8ef0",
+      "p": "on-success",
+      "o": "3c328232-dc33-449e-8c78-06bc89335a07"
+    },
+    {
+      "s": "7cb7def3-ece1-4f08-982e-87b297cf8ef0",
+      "p": "on-failure",
+      "o": "dc7301a4-bd20-41cd-86bb-e89660b17bdc"
+    },
+    {
+      "s": "dc7301a4-bd20-41cd-86bb-e89660b17bdc",
+      "p": "on-success",
+      "o": "d3d63836-b7e4-423a-92fe-5fc3df4bd584"
+    },
+    {
+      "s": "d3d63836-b7e4-423a-92fe-5fc3df4bd584",
+      "p": "on-failure",
+      "o": "3c328232-dc33-449e-8c78-06bc89335a07"
+    }
+  ],
+  "tags": [
+    "T1027.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Output compiled binary",
+      "value": "C:\\Windows\\Temp\\T1027.004.exe"
+    },
+    {
+      "name": "input_file",
+      "type": "path",
+      "description": "C# code that launches calc.exe from a hidden cmd.exe Window",
+      "value": "PathToAtomicsFolder\\T1027.004\\src\\calc.cs"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "id": "13c5e1ae-605b-46c4-a79f-db28c77ff24e",
+  "name": "Nix File and Directory Discovery 2",
+  "description": "Find or discover files on the file system\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "d3c1222e-f091-4023-b119-ae44d2c9300c",
+      "type": "execute-command",
+      "data": {
+        "command": "cd $HOME \u0026\u0026 find . -print | sed -e 's;[^/]*/;|__;g;s;__|; |;g' \u003e #{output_file}\nif [ -f /etc/mtab ]; then cat /etc/mtab \u003e\u003e #{output_file}; fi;\nfind . -type f -iname *.pdf \u003e\u003e #{output_file}\ncat #{output_file}\nfind . -type f -name \".*\"\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2156b4ea-2c08-4304-9247-f0cfaae05640",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{output_file}",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d3c1222e-f091-4023-b119-ae44d2c9300c",
+      "p": "on-success",
+      "o": "2156b4ea-2c08-4304-9247-f0cfaae05640"
+    },
+    {
+      "s": "d3c1222e-f091-4023-b119-ae44d2c9300c",
+      "p": "on-failure",
+      "o": "2156b4ea-2c08-4304-9247-f0cfaae05640"
+    }
+  ],
+  "tags": [
+    "T1083",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Output file used to store the results.",
+      "value": "/tmp/T1083.txt"
+    }
+  ]
+}

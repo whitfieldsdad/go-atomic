@@ -1,0 +1,117 @@
+{
+  "id": "1ae5ea1f-0a4e-4e54-b2f5-4ac328a7f421",
+  "name": "Regsvr32 Registering Non DLL",
+  "description": "Replicating observed Gozi maldoc behavior registering a dll with an altered extension\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "8923eb36-29bb-4302-89d2-326d902cbbd5",
+      "type": "execute-command",
+      "data": {
+        "command": "#{regsvr32path}\\#{regsvr32name} /s #{dll_file}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "38660f21-1577-4f1f-aa82-cb7307890157",
+      "type": "execute-command",
+      "data": {
+        "command": "#{regsvr32path}\\#{regsvr32name} /U /s #{dll_file}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8362a316-1b11-4604-b4a4-c48124533de5",
+      "name": "Check dependency 1/1",
+      "description": "Test requires a renamed dll file\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if exist #{dll_file} ( exit 0 ) else ( exit 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "df9a6cb6-94d7-4f2c-ba8a-a5ac2d4ae383",
+      "name": "Resolve dependency 1/1",
+      "description": "Test requires a renamed dll file\n",
+      "type": "execute-command",
+      "data": {
+        "command": "copy \"C:\\Windows\\System32\\shell32.dll\" \"#{dll_file}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fdad4143-d2a2-4791-9aa7-21cab56c2407",
+      "name": "Re-check dependency 1/1",
+      "description": "Test requires a renamed dll file\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if exist #{dll_file} ( exit 0 ) else ( exit 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8923eb36-29bb-4302-89d2-326d902cbbd5",
+      "p": "on-success",
+      "o": "38660f21-1577-4f1f-aa82-cb7307890157"
+    },
+    {
+      "s": "8923eb36-29bb-4302-89d2-326d902cbbd5",
+      "p": "on-failure",
+      "o": "38660f21-1577-4f1f-aa82-cb7307890157"
+    },
+    {
+      "s": "8362a316-1b11-4604-b4a4-c48124533de5",
+      "p": "on-success",
+      "o": "8923eb36-29bb-4302-89d2-326d902cbbd5"
+    },
+    {
+      "s": "8362a316-1b11-4604-b4a4-c48124533de5",
+      "p": "on-failure",
+      "o": "df9a6cb6-94d7-4f2c-ba8a-a5ac2d4ae383"
+    },
+    {
+      "s": "df9a6cb6-94d7-4f2c-ba8a-a5ac2d4ae383",
+      "p": "on-success",
+      "o": "fdad4143-d2a2-4791-9aa7-21cab56c2407"
+    },
+    {
+      "s": "fdad4143-d2a2-4791-9aa7-21cab56c2407",
+      "p": "on-failure",
+      "o": "8923eb36-29bb-4302-89d2-326d902cbbd5"
+    }
+  ],
+  "tags": [
+    "T1218.010",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "dll_file",
+      "type": "path",
+      "description": "Path to renamed dll file to be registered",
+      "value": "%temp%\\shell32.jpg"
+    },
+    {
+      "name": "regsvr32path",
+      "type": "path",
+      "description": "Default location of Regsvr32.exe",
+      "value": "C:\\Windows\\system32"
+    },
+    {
+      "name": "regsvr32name",
+      "type": "string",
+      "description": "Default name of Regsvr32.exe",
+      "value": "regsvr32.exe"
+    }
+  ]
+}

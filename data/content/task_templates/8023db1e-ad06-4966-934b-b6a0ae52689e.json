@@ -1,0 +1,44 @@
+{
+  "id": "8023db1e-ad06-4966-934b-b6a0ae52689e",
+  "name": "Hide Windows Clock Group Policy Feature",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to Hide Clock Group Policy. \nTake note that some Group Policy changes might require a restart to take effect.\nSee how ransomware abuses this technique- https://www.virustotal.com/gui/file/2d7855bf6470aa323edf2949b54ce2a04d9e38770f1322c3d0420c2303178d91/details\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "f8eb9d98-f6c6-4cb4-b1a2-8e7291fa328c",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v HideClock /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "cdbe8ea4-5b2f-40b2-8e22-44b6d60ff022",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v HideClock /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f8eb9d98-f6c6-4cb4-b1a2-8e7291fa328c",
+      "p": "on-success",
+      "o": "cdbe8ea4-5b2f-40b2-8e22-44b6d60ff022"
+    },
+    {
+      "s": "f8eb9d98-f6c6-4cb4-b1a2-8e7291fa328c",
+      "p": "on-failure",
+      "o": "cdbe8ea4-5b2f-40b2-8e22-44b6d60ff022"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

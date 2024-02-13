@@ -1,0 +1,23 @@
+{
+  "id": "321fd25e-0007-417f-adec-33232252be19",
+  "name": "Overwrite deleted data on C drive",
+  "description": "RansomEXX malware removes all deleted files using windows built-in cipher.exe to prevent forensic recover.\nThis process is very slow and test execution may timeout. \nhttps://www.cybereason.com/blog/cybereason-vs.-ransomexx-ransomware\nhttps://support.microsoft.com/en-us/topic/cipher-exe-security-tool-for-the-encrypting-file-system-56c85edd-85cf-ac07-f2f7-ca2d35dab7e4\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "b4f42330-2d8f-4ae9-8579-f7c7c94a8dde",
+      "type": "execute-command",
+      "data": {
+        "command": "cipher.exe /w:C:\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1485",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "id": "12631354-fdbc-4164-92be-402527e748da",
+  "name": "Tor Proxy Usage - MacOS",
+  "description": "This test is designed to launch the tor proxy service, which is what is utilized in the background by the Tor Browser and other applications with add-ons in order to provide onion routing functionality.\nUpon successful execution, the tor proxy service will be launched. \n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "4178c0ed-5561-45ba-a1d6-475b72f9c5a9",
+      "type": "execute-command",
+      "data": {
+        "command": "osascript -e 'tell application \"Terminal\" to do script \"tor\"'\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e94e07fb-360c-4365-b27c-cee0caed34a3",
+      "type": "execute-command",
+      "data": {
+        "command": "killall tor \u003e /dev/null 2\u003e\u00261\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "68f11a1c-74a6-41ff-9e25-26bbdefc09c9",
+      "name": "Check dependency 1/1",
+      "description": "Tor must be installed on the machine \n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v tor --version)\" ]; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b597f918-399e-4cf8-b80c-2a0000fd539a",
+      "name": "Resolve dependency 1/1",
+      "description": "Tor must be installed on the machine \n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v brew --version)\" ]; then /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh keystroke return)\"; fi\nbrew install tor\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0d03af44-7bcb-4b79-a3de-928acc8cada2",
+      "name": "Re-check dependency 1/1",
+      "description": "Tor must be installed on the machine \n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v tor --version)\" ]; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4178c0ed-5561-45ba-a1d6-475b72f9c5a9",
+      "p": "on-success",
+      "o": "e94e07fb-360c-4365-b27c-cee0caed34a3"
+    },
+    {
+      "s": "4178c0ed-5561-45ba-a1d6-475b72f9c5a9",
+      "p": "on-failure",
+      "o": "e94e07fb-360c-4365-b27c-cee0caed34a3"
+    },
+    {
+      "s": "68f11a1c-74a6-41ff-9e25-26bbdefc09c9",
+      "p": "on-success",
+      "o": "4178c0ed-5561-45ba-a1d6-475b72f9c5a9"
+    },
+    {
+      "s": "68f11a1c-74a6-41ff-9e25-26bbdefc09c9",
+      "p": "on-failure",
+      "o": "b597f918-399e-4cf8-b80c-2a0000fd539a"
+    },
+    {
+      "s": "b597f918-399e-4cf8-b80c-2a0000fd539a",
+      "p": "on-success",
+      "o": "0d03af44-7bcb-4b79-a3de-928acc8cada2"
+    },
+    {
+      "s": "0d03af44-7bcb-4b79-a3de-928acc8cada2",
+      "p": "on-failure",
+      "o": "4178c0ed-5561-45ba-a1d6-475b72f9c5a9"
+    }
+  ],
+  "tags": [
+    "T1090.003",
+    "atomic-red-team"
+  ]
+}

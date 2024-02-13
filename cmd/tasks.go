@@ -3,18 +3,44 @@ package cmd
 import (
 	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
-	"github.com/spf13/pflag"
-	"github.com/whitfieldsdad/go-atomic-red-team/pkg/atomic"
 )
 
-var taskTemplatesCmd = &cobra.Command{
-	Use:   "task-templates",
-	Short: "Task templates",
+var tasksCmd = &cobra.Command{
+	Use:   "tasks",
+	Short: "Tasks",
 }
 
-var generateTaskTemplatesCmd = &cobra.Command{
+var listTasksCmd = &cobra.Command{
+	Use:   "list",
+	Short: "List tasks",
+	Args:  cobra.NoArgs,
+	Run: func(cmd *cobra.Command, args []string) {
+		flags := cmd.Flags()
+		client, err := getClient(flags)
+		if err != nil {
+			log.Fatalf("Failed to create client: %s", err)
+		}
+		i, _ := flags.GetString("input-path")
+		tasks, err := client.ReadTasks(i)
+		if err != nil {
+			log.Fatalf("Failed to read tasks: %s", err)
+		}
+		printJson(tasks)
+	},
+}
+
+var countTasksCmd = &cobra.Command{
+	Use:   "count",
+	Short: "Count tasks",
+	Args:  cobra.NoArgs,
+	Run: func(cmd *cobra.Command, args []string) {
+
+	},
+}
+
+var generateTasksCmd = &cobra.Command{
 	Use:   "generate",
-	Short: "Generate task templates",
+	Short: "Generate tasks",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		flags := cmd.Flags()
@@ -24,27 +50,22 @@ var generateTaskTemplatesCmd = &cobra.Command{
 		}
 		i, _ := flags.GetString("input-path")
 		o, _ := flags.GetString("output-path")
-		err = client.GenerateTaskTemplates(i, o)
+		err = client.GenerateTasks(i, o)
 		if err != nil {
-			log.Fatalf("Failed to generate task templates: %s", err)
+			log.Fatalf("Failed to generate tasks: %s", err)
 		}
 	},
 }
 
-func getClient(flags *pflag.FlagSet) (*atomic.Client, error) {
-	client, err := atomic.NewClient()
-	if err != nil {
-		return nil, err
-	}
-	return client, nil
-}
-
 func init() {
-	rootCmd.AddCommand(taskTemplatesCmd)
-	taskTemplatesCmd.AddCommand(generateTaskTemplatesCmd)
+	rootCmd.AddCommand(tasksCmd)
+	tasksCmd.AddCommand(listTasksCmd, countTasksCmd, generateTasksCmd)
 
-	generateTaskTemplatesCmd.Flags().StringP("input-path", "i", "", "Input file/directory")
-	generateTaskTemplatesCmd.Flags().StringP("output-path", "o", "", "Output directory")
-	generateTaskTemplatesCmd.MarkFlagRequired("input-path")
-	generateTaskTemplatesCmd.MarkFlagRequired("output-path")
+	listTasksCmd.Flags().StringP("input-path", "i", "", "Input file/directory")
+	listTasksCmd.MarkFlagRequired("input-path")
+
+	generateTasksCmd.Flags().StringP("input-path", "i", "", "Input file/directory")
+	generateTasksCmd.Flags().StringP("output-path", "o", "", "Output directory")
+	generateTasksCmd.MarkFlagRequired("input-path")
+	generateTasksCmd.MarkFlagRequired("output-path")
 }

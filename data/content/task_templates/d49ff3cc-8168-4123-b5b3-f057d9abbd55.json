@@ -1,0 +1,44 @@
+{
+  "id": "d49ff3cc-8168-4123-b5b3-f057d9abbd55",
+  "name": "Activate Windows NoRun Group Policy Feature",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to Remove Run menu from Start Menu Group Policy.\nTake note that some Group Policy changes might require a restart to take effect.\nSee how Trojan abuses this technique- https://www.sophos.com/de-de/threat-center/threat-analyses/viruses-and-spyware/Troj~Krotten-N/detailed-analysis\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "72331264-a02c-4462-ba50-a6aadf2108ae",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoRun /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "65425532-f8c2-4790-90d5-67c2c0920d6c",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoRun /f \n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "72331264-a02c-4462-ba50-a6aadf2108ae",
+      "p": "on-success",
+      "o": "65425532-f8c2-4790-90d5-67c2c0920d6c"
+    },
+    {
+      "s": "72331264-a02c-4462-ba50-a6aadf2108ae",
+      "p": "on-failure",
+      "o": "65425532-f8c2-4790-90d5-67c2c0920d6c"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

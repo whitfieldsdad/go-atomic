@@ -1,0 +1,58 @@
+{
+  "id": "c3d24a39-2bfe-4c6a-b064-90cd73896cb0",
+  "name": "Masquerading - windows exe running as different windows exe",
+  "description": "Copies a windows exe, renames it as another windows exe, and launches it to masquerade as second windows exe\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "12c5f515-b2d3-4984-8c32-13f9d175fa3f",
+      "type": "execute-command",
+      "data": {
+        "command": "copy \"#{inputfile}\" #{outputfile}\n$myT1036_003 = (Start-Process -PassThru -FilePath #{outputfile}).Id\nStop-Process -ID $myT1036_003\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0a6b7073-ebd5-4ff5-b980-083df0de0da8",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item #{outputfile} -Force -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "12c5f515-b2d3-4984-8c32-13f9d175fa3f",
+      "p": "on-success",
+      "o": "0a6b7073-ebd5-4ff5-b980-083df0de0da8"
+    },
+    {
+      "s": "12c5f515-b2d3-4984-8c32-13f9d175fa3f",
+      "p": "on-failure",
+      "o": "0a6b7073-ebd5-4ff5-b980-083df0de0da8"
+    }
+  ],
+  "tags": [
+    "T1036.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "outputfile",
+      "type": "path",
+      "description": "path of file to execute",
+      "value": "($env:TEMP + \"\\svchost.exe\")"
+    },
+    {
+      "name": "inputfile",
+      "type": "path",
+      "description": "path of file to copy",
+      "value": "$env:ComSpec"
+    }
+  ]
+}

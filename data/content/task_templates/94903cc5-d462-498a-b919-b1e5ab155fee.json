@@ -1,0 +1,58 @@
+{
+  "id": "94903cc5-d462-498a-b919-b1e5ab155fee",
+  "name": "Process Hollowing in Go using CreateProcessW and CreatePipe WinAPIs (T1055.012)",
+  "description": "Create a process in a suspended state, execute shellcode to spawn calc.exe in a child process, and then resume the original process.\nThis test uses the CreatePipe function to create an anonymous pipe that parent and child processes can communicate over. This anonymous pipe\nallows for the retrieval of output generated from executed shellcode.\n- PoC Credit: (https://github.com/Ne0nd0g/go-shellcode#createprocesswithpipe)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "9dcbc352-935c-41ec-93ea-82413ecd9ff7",
+      "type": "execute-command",
+      "data": {
+        "command": "$PathToAtomicsFolder\\T1055.012\\bin\\x64\\CreateProcessWithPipe.exe -program \"#{hollow_binary_path}\" -debug\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3bf024d4-28e0-4082-97eb-2b9c8a0d726d",
+      "type": "execute-command",
+      "data": {
+        "command": "Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue\nStop-Process -Name \"#{hollow_process_name}\" -ErrorAction SilentlyContinue",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "9dcbc352-935c-41ec-93ea-82413ecd9ff7",
+      "p": "on-success",
+      "o": "3bf024d4-28e0-4082-97eb-2b9c8a0d726d"
+    },
+    {
+      "s": "9dcbc352-935c-41ec-93ea-82413ecd9ff7",
+      "p": "on-failure",
+      "o": "3bf024d4-28e0-4082-97eb-2b9c8a0d726d"
+    }
+  ],
+  "tags": [
+    "T1055.012",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "hollow_binary_path",
+      "type": "string",
+      "description": "Path of the binary to hollow",
+      "value": "C:\\Windows\\System32\\werfault.exe"
+    },
+    {
+      "name": "hollow_process_name",
+      "type": "string",
+      "description": "Name of the process to hollow",
+      "value": "werfault"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "id": "962a6017-1c09-45a6-880b-adc9c57cb22e",
+  "name": "Enumerate domain computers within Active Directory using DirectorySearcher",
+  "description": "This test is a Powershell script that enumerates Active Directory to determine computers that are joined to the domain. \nThis test is designed to mimic how SessionGopher can determine the additional systems within a domain, which has been used before by threat actors to aid in lateral movement. \nReference: [Head Fake: Tackling Disruptive Ransomware Attacks](https://www.mandiant.com/resources/head-fake-tackling-disruptive-ransomware-attacks). \nUpon successful execution, this test will output the names of the computers that reside on the domain to the console window. \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "7f72d72c-b2d8-48f7-b0e2-cd011e693511",
+      "type": "execute-command",
+      "data": {
+        "command": "$DirectorySearcher = New-Object System.DirectoryServices.DirectorySearcher(\"(ObjectCategory=Computer)\")\n$DirectorySearcher.PropertiesToLoad.Add(\"Name\")\n$Computers = $DirectorySearcher.findall()\nforeach ($Computer in $Computers) {\n  $Computer = $Computer.Properties.name\n  if (!$Computer) { Continue }\n  Write-Host $Computer}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c41b5d43-5af6-4941-97fd-246e36457776",
+      "name": "Check dependency 1/1",
+      "description": "This PC must be joined to a domain.",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Get-WmiObject -Class Win32_ComputerSystem).partofdomain -eq $true) {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9024dbf6-ec9e-4f7d-ae4e-5cf646a7fd57",
+      "name": "Resolve dependency 1/1",
+      "description": "This PC must be joined to a domain.",
+      "type": "execute-command",
+      "data": {
+        "command": "write-host \"This PC must be manually added to a domain.\" ",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2fad54df-bdb7-47cf-b654-543a7d67eb4a",
+      "name": "Re-check dependency 1/1",
+      "description": "This PC must be joined to a domain.",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Get-WmiObject -Class Win32_ComputerSystem).partofdomain -eq $true) {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c41b5d43-5af6-4941-97fd-246e36457776",
+      "p": "on-success",
+      "o": "7f72d72c-b2d8-48f7-b0e2-cd011e693511"
+    },
+    {
+      "s": "c41b5d43-5af6-4941-97fd-246e36457776",
+      "p": "on-failure",
+      "o": "9024dbf6-ec9e-4f7d-ae4e-5cf646a7fd57"
+    },
+    {
+      "s": "9024dbf6-ec9e-4f7d-ae4e-5cf646a7fd57",
+      "p": "on-success",
+      "o": "2fad54df-bdb7-47cf-b654-543a7d67eb4a"
+    },
+    {
+      "s": "2fad54df-bdb7-47cf-b654-543a7d67eb4a",
+      "p": "on-failure",
+      "o": "7f72d72c-b2d8-48f7-b0e2-cd011e693511"
+    }
+  ],
+  "tags": [
+    "T1018",
+    "atomic-red-team"
+  ]
+}

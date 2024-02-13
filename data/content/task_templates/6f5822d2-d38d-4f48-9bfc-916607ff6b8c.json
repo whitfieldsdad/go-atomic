@@ -1,0 +1,52 @@
+{
+  "id": "6f5822d2-d38d-4f48-9bfc-916607ff6b8c",
+  "name": "Allow Executable Through Firewall Located in Non-Standard Location",
+  "description": "This test will attempt to allow an executable through the system firewall located in the Users directory",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c660dd52-bcbe-4168-a1d6-1a396cdd2156",
+      "type": "execute-command",
+      "data": {
+        "command": "Copy-Item \"#{exe_file_path}\" -Destination \"C:\\Users\\$env:UserName\" -Force\nnetsh advfirewall firewall add rule name=\"Atomic Test\" dir=in action=allow program=\"C:\\Users\\$env:UserName\\AtomicTest.exe\" enable=yes\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "752bc1d6-f48c-4d40-9808-a82df5d4abf4",
+      "type": "execute-command",
+      "data": {
+        "command": "netsh advfirewall firewall delete rule name=\"Atomic Test\" | Out-Null\nRemove-Item C:\\Users\\$env:UserName\\AtomicTest.exe -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c660dd52-bcbe-4168-a1d6-1a396cdd2156",
+      "p": "on-success",
+      "o": "752bc1d6-f48c-4d40-9808-a82df5d4abf4"
+    },
+    {
+      "s": "c660dd52-bcbe-4168-a1d6-1a396cdd2156",
+      "p": "on-failure",
+      "o": "752bc1d6-f48c-4d40-9808-a82df5d4abf4"
+    }
+  ],
+  "tags": [
+    "T1562.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "exe_file_path",
+      "type": "path",
+      "description": "path to exe file",
+      "value": "PathToAtomicsFolder\\T1562.004\\bin\\AtomicTest.exe"
+    }
+  ]
+}

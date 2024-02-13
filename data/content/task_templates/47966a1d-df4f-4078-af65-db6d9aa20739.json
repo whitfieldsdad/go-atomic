@@ -1,0 +1,31 @@
+{
+  "id": "47966a1d-df4f-4078-af65-db6d9aa20739",
+  "name": "Clear Bash history (truncate)",
+  "description": "Clears bash history via truncate\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "8770064e-55a6-49dc-a79f-a97c754a900c",
+      "type": "execute-command",
+      "data": {
+        "command": "truncate -s0 #{history_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1070.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "history_path",
+      "type": "path",
+      "description": "Bash history path",
+      "value": "~/.bash_history"
+    }
+  ]
+}

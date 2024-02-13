@@ -1,0 +1,97 @@
+{
+  "id": "d3eda496-1fc0-49e9-aff5-3bec5da9fa22",
+  "name": "Create a system level transient systemd service and timer",
+  "description": "Schedule a system level transient task (will not survive a reboot) without having to create the .timer or .service files by using the systemd-run command. \n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "e833549b-4e64-489a-8ace-19756ef77215",
+      "type": "execute-command",
+      "data": {
+        "command": "systemd-run --unit=Atomic-Red-Team --on-calendar '*:0/1' /bin/sh -c 'echo \"$(date) $(whoami)\" \u003e\u003e/tmp/log'\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "653ee858-2672-46ed-9da6-87ebaa52dbbb",
+      "type": "execute-command",
+      "data": {
+        "command": "systemctl stop Atomic-Red-Team.service\nsystemctl stop Atomic-Red-Team.timer\nrm /tmp/log\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "322302aa-f057-4a9d-86d9-b5524ef3fb1c",
+      "name": "Check dependency 1/1",
+      "description": "Check if systemd-run exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v systemd-run)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ad3258e7-dd6d-46de-89d5-92850ad74415",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if systemd-run exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"Install systemd on the machine.\"; exit 1;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e34362bd-728b-41b0-b3e7-df444f61bc20",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if systemd-run exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v systemd-run)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e833549b-4e64-489a-8ace-19756ef77215",
+      "p": "on-success",
+      "o": "653ee858-2672-46ed-9da6-87ebaa52dbbb"
+    },
+    {
+      "s": "e833549b-4e64-489a-8ace-19756ef77215",
+      "p": "on-failure",
+      "o": "653ee858-2672-46ed-9da6-87ebaa52dbbb"
+    },
+    {
+      "s": "322302aa-f057-4a9d-86d9-b5524ef3fb1c",
+      "p": "on-success",
+      "o": "e833549b-4e64-489a-8ace-19756ef77215"
+    },
+    {
+      "s": "322302aa-f057-4a9d-86d9-b5524ef3fb1c",
+      "p": "on-failure",
+      "o": "ad3258e7-dd6d-46de-89d5-92850ad74415"
+    },
+    {
+      "s": "ad3258e7-dd6d-46de-89d5-92850ad74415",
+      "p": "on-success",
+      "o": "e34362bd-728b-41b0-b3e7-df444f61bc20"
+    },
+    {
+      "s": "e34362bd-728b-41b0-b3e7-df444f61bc20",
+      "p": "on-failure",
+      "o": "e833549b-4e64-489a-8ace-19756ef77215"
+    }
+  ],
+  "tags": [
+    "T1053.006",
+    "atomic-red-team"
+  ]
+}

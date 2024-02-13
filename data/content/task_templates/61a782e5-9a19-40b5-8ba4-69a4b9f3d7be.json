@@ -1,0 +1,45 @@
+{
+  "id": "61a782e5-9a19-40b5-8ba4-69a4b9f3d7be",
+  "name": "Create a hidden file in a hidden directory",
+  "description": "Creates a hidden file inside a hidden directory\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "fa52cc66-706f-43c7-a5b4-1649e939c70b",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir /var/tmp/.hidden-directory\necho \"T1564.001\" \u003e /var/tmp/.hidden-directory/.hidden-file\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8f6c5bbc-fa06-4846-94bf-b2a73515f47a",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -rf /var/tmp/.hidden-directory/\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "fa52cc66-706f-43c7-a5b4-1649e939c70b",
+      "p": "on-success",
+      "o": "8f6c5bbc-fa06-4846-94bf-b2a73515f47a"
+    },
+    {
+      "s": "fa52cc66-706f-43c7-a5b4-1649e939c70b",
+      "p": "on-failure",
+      "o": "8f6c5bbc-fa06-4846-94bf-b2a73515f47a"
+    }
+  ],
+  "tags": [
+    "T1564.001",
+    "atomic-red-team"
+  ]
+}

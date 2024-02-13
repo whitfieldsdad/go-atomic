@@ -1,0 +1,86 @@
+{
+  "id": "b8a8bdb2-7eae-490d-8251-d5e0295b2362",
+  "name": "Invoke HTML Application - Simulate Lateral Movement over UNC Path",
+  "description": "Executes an HTA Application with Simulate lateral movement over UNC Path.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "83bf64e9-b1a6-4f5f-89f2-bc10a993ef0b",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-ATHHTMLApplication -TemplatePE -AsLocalUNCPath -MSHTAFilePath #{mshta_file_path}",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e260bd7e-f0cc-422a-b67a-4dc2651c294a",
+      "name": "Check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHHTMLApplication']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "de0dc514-c7b3-4e72-a1c6-806a50052926",
+      "name": "Resolve dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a54dd17c-9aad-4a23-92dd-7eb908213068",
+      "name": "Re-check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHHTMLApplication']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e260bd7e-f0cc-422a-b67a-4dc2651c294a",
+      "p": "on-success",
+      "o": "83bf64e9-b1a6-4f5f-89f2-bc10a993ef0b"
+    },
+    {
+      "s": "e260bd7e-f0cc-422a-b67a-4dc2651c294a",
+      "p": "on-failure",
+      "o": "de0dc514-c7b3-4e72-a1c6-806a50052926"
+    },
+    {
+      "s": "de0dc514-c7b3-4e72-a1c6-806a50052926",
+      "p": "on-success",
+      "o": "a54dd17c-9aad-4a23-92dd-7eb908213068"
+    },
+    {
+      "s": "a54dd17c-9aad-4a23-92dd-7eb908213068",
+      "p": "on-failure",
+      "o": "83bf64e9-b1a6-4f5f-89f2-bc10a993ef0b"
+    }
+  ],
+  "tags": [
+    "T1218.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "mshta_file_path",
+      "type": "string",
+      "description": "Location of mshta.exe",
+      "value": "$env:windir\\system32\\mshta.exe"
+    }
+  ]
+}

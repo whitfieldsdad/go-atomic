@@ -1,0 +1,92 @@
+{
+  "id": "ea1b4f2d-5b82-4006-b64f-f2845608a3bf",
+  "name": "TruffleSnout - Listing AD Infrastructure",
+  "description": "Iterative AD discovery toolkit for offensive operators. Situational awareness and targeted low noise enumeration. Preference for OpSec.- https://github.com/dsnezhkov/TruffleSnout\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "149c95dc-d8db-42cc-90bd-dd715f5d2f16",
+      "type": "execute-command",
+      "data": {
+        "command": "\"#{trufflesnout_path}\" forest -n #{domain}\n\"#{trufflesnout_path}\" domain -n #{domain}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d5f26d18-516b-4c49-a588-4bd02bfb0787",
+      "name": "Check dependency 1/1",
+      "description": "TruffleSnout.exe must exist on disk at specified location (#{trufflesnout_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{trufflesnout_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b593e747-5539-4cb7-9825-f2f68f649b4c",
+      "name": "Resolve dependency 1/1",
+      "description": "TruffleSnout.exe must exist on disk at specified location (#{trufflesnout_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -ItemType Directory (Split-Path \"#{trufflesnout_path}\") -Force | Out-Null\nInvoke-WebRequest -Uri \"https://github.com/dsnezhkov/TruffleSnout/releases/download/0.5/TruffleSnout.exe\" -OutFile \"#{trufflesnout_path}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f04ddba2-4c8f-40b8-a010-39af41177f15",
+      "name": "Re-check dependency 1/1",
+      "description": "TruffleSnout.exe must exist on disk at specified location (#{trufflesnout_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{trufflesnout_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d5f26d18-516b-4c49-a588-4bd02bfb0787",
+      "p": "on-success",
+      "o": "149c95dc-d8db-42cc-90bd-dd715f5d2f16"
+    },
+    {
+      "s": "d5f26d18-516b-4c49-a588-4bd02bfb0787",
+      "p": "on-failure",
+      "o": "b593e747-5539-4cb7-9825-f2f68f649b4c"
+    },
+    {
+      "s": "b593e747-5539-4cb7-9825-f2f68f649b4c",
+      "p": "on-success",
+      "o": "f04ddba2-4c8f-40b8-a010-39af41177f15"
+    },
+    {
+      "s": "f04ddba2-4c8f-40b8-a010-39af41177f15",
+      "p": "on-failure",
+      "o": "149c95dc-d8db-42cc-90bd-dd715f5d2f16"
+    }
+  ],
+  "tags": [
+    "T1482",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "trufflesnout_path",
+      "type": "path",
+      "description": "Path to the TruffleSnout executable",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\TruffleSnout.exe"
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "Domain name to search on",
+      "value": "%userdomain%"
+    }
+  ]
+}

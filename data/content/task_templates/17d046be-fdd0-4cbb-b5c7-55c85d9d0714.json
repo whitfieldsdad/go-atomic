@@ -1,0 +1,123 @@
+{
+  "id": "17d046be-fdd0-4cbb-b5c7-55c85d9d0714",
+  "name": "EXO - Full access mailbox permission granted to a user",
+  "description": "Give a nominated user, full mailbox delegation access of another user.\nThis can be used by an adversary to maintain persistent access to a target's mailbox in M365.\n",
+  "platforms": [
+    "office-365"
+  ],
+  "steps": [
+    {
+      "id": "2809520e-b9e9-465f-a2d4-313989c03ffb",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module ExchangeOnlineManagement\n$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nAdd-MailboxPermission -Identity \"#{delegate_target}\" -User \"#{operator_mailbox}\" -AccessRights FullAccess -InheritanceType All\nDisconnect-ExchangeOnline -Confirm:$false\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "dff5f920-ca3f-43b5-8e0e-3fbb510857d4",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module ExchangeOnlineManagement\n$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nRemove-MailboxPermission -Identity \"#{delegate_target}\" -User \"#{operator_mailbox}\" -AccessRights FullAccess -InheritanceType All -Confirm:$false\nDisconnect-ExchangeOnline -Confirm:$false\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e1cc5c23-307c-4f81-a54d-382c0a19ca90",
+      "name": "Check dependency 1/1",
+      "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ef8ebb1d-8986-4666-bcea-608070139fcc",
+      "name": "Resolve dependency 1/1",
+      "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name ExchangeOnlineManagement         \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2d9757f6-3917-43a2-b580-0291d16714b7",
+      "name": "Re-check dependency 1/1",
+      "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "2809520e-b9e9-465f-a2d4-313989c03ffb",
+      "p": "on-success",
+      "o": "dff5f920-ca3f-43b5-8e0e-3fbb510857d4"
+    },
+    {
+      "s": "2809520e-b9e9-465f-a2d4-313989c03ffb",
+      "p": "on-failure",
+      "o": "dff5f920-ca3f-43b5-8e0e-3fbb510857d4"
+    },
+    {
+      "s": "e1cc5c23-307c-4f81-a54d-382c0a19ca90",
+      "p": "on-success",
+      "o": "2809520e-b9e9-465f-a2d4-313989c03ffb"
+    },
+    {
+      "s": "e1cc5c23-307c-4f81-a54d-382c0a19ca90",
+      "p": "on-failure",
+      "o": "ef8ebb1d-8986-4666-bcea-608070139fcc"
+    },
+    {
+      "s": "ef8ebb1d-8986-4666-bcea-608070139fcc",
+      "p": "on-success",
+      "o": "2d9757f6-3917-43a2-b580-0291d16714b7"
+    },
+    {
+      "s": "2d9757f6-3917-43a2-b580-0291d16714b7",
+      "p": "on-failure",
+      "o": "2809520e-b9e9-465f-a2d4-313989c03ffb"
+    }
+  ],
+  "tags": [
+    "T1098.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "office-365 username",
+      "value": "o365_user_test@contoso.com"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "office-365 password",
+      "value": "o365_password_test"
+    },
+    {
+      "name": "delegate_target",
+      "type": "string",
+      "description": "office-365 target_email",
+      "value": "delegate@contoso.com"
+    },
+    {
+      "name": "operator_mailbox",
+      "type": "string",
+      "description": "office-365 target_email",
+      "value": "operator@contoso.com"
+    }
+  ]
+}

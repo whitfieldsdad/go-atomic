@@ -1,0 +1,58 @@
+{
+  "id": "2382dee2-a75f-49aa-9378-f52df6ed3fb1",
+  "name": "Execute a Command as a Service",
+  "description": "Creates a service specifying an arbitrary command and executes it. When executing commands such as PowerShell, the service will report that it did not start correctly even when code executes properly.\n\nUpon successful execution, cmd.exe creates a new service using sc.exe that will start powershell.exe to create a new file `art-marker.txt`\n\n[BlackCat Ransomware (ALPHV)](https://www.varonis.com/blog/blackcat-ransomware)  \n[Cybereason vs. BlackCat Ransomware](https://www.cybereason.com/blog/cybereason-vs.-blackcat-ransomware)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ee17afa9-9aa1-49d2-880c-95fae5c82f96",
+      "type": "execute-command",
+      "data": {
+        "command": "sc.exe create #{service_name} binPath= \"#{executable_command}\"\nsc.exe start #{service_name}\nsc.exe delete #{service_name}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4105b1b4-496e-43dd-b727-e72a5c8408a1",
+      "type": "execute-command",
+      "data": {
+        "command": "del C:\\art-marker.txt \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ee17afa9-9aa1-49d2-880c-95fae5c82f96",
+      "p": "on-success",
+      "o": "4105b1b4-496e-43dd-b727-e72a5c8408a1"
+    },
+    {
+      "s": "ee17afa9-9aa1-49d2-880c-95fae5c82f96",
+      "p": "on-failure",
+      "o": "4105b1b4-496e-43dd-b727-e72a5c8408a1"
+    }
+  ],
+  "tags": [
+    "T1569.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "service_name",
+      "type": "string",
+      "description": "Name of service to create",
+      "value": "ARTService"
+    },
+    {
+      "name": "executable_command",
+      "type": "string",
+      "description": "Command to execute as a service",
+      "value": "%COMSPEC% /c powershell.exe -nop -w hidden -command New-Item -ItemType File C:\\art-marker.txt"
+    }
+  ]
+}

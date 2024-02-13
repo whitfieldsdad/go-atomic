@@ -1,0 +1,86 @@
+{
+  "id": "dcebead7-6c28-4b4b-bf3c-79deb1b1fc7f",
+  "name": "Create Volume Shadow Copy with vssadmin",
+  "description": "This test is intended to be run on a domain Controller.\n\nThe Active Directory database NTDS.dit may be dumped by copying it from a Volume Shadow Copy.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "6bf3b7a0-0211-4d9a-ac71-e9cce4666cf8",
+      "type": "execute-command",
+      "data": {
+        "command": "vssadmin.exe create shadow /for=#{drive_letter}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0f8a403d-214b-40f5-8dca-fd8eec807fbc",
+      "name": "Check dependency 1/1",
+      "description": "Target must be a Domain Controller\n",
+      "type": "execute-command",
+      "data": {
+        "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d7555ef8-8182-4abe-951f-acafe04e73f9",
+      "name": "Resolve dependency 1/1",
+      "description": "Target must be a Domain Controller\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Sorry, Promoting this machine to a Domain Controller must be done manually\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "81a50a68-32c3-491b-af09-8a96df0db139",
+      "name": "Re-check dependency 1/1",
+      "description": "Target must be a Domain Controller\n",
+      "type": "execute-command",
+      "data": {
+        "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0f8a403d-214b-40f5-8dca-fd8eec807fbc",
+      "p": "on-success",
+      "o": "6bf3b7a0-0211-4d9a-ac71-e9cce4666cf8"
+    },
+    {
+      "s": "0f8a403d-214b-40f5-8dca-fd8eec807fbc",
+      "p": "on-failure",
+      "o": "d7555ef8-8182-4abe-951f-acafe04e73f9"
+    },
+    {
+      "s": "d7555ef8-8182-4abe-951f-acafe04e73f9",
+      "p": "on-success",
+      "o": "81a50a68-32c3-491b-af09-8a96df0db139"
+    },
+    {
+      "s": "81a50a68-32c3-491b-af09-8a96df0db139",
+      "p": "on-failure",
+      "o": "6bf3b7a0-0211-4d9a-ac71-e9cce4666cf8"
+    }
+  ],
+  "tags": [
+    "T1003.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "drive_letter",
+      "type": "string",
+      "description": "Drive letter to source VSC (including colon)",
+      "value": "C:"
+    }
+  ]
+}

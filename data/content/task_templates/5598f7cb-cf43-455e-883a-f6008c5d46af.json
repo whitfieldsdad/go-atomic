@@ -1,0 +1,44 @@
+{
+  "id": "5598f7cb-cf43-455e-883a-f6008c5d46af",
+  "name": "Admin Account Manipulate",
+  "description": "Manipulate Admin Account Name\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "dc54ed31-6180-4096-aedc-be2c29dde12d",
+      "type": "execute-command",
+      "data": {
+        "command": "$x = Get-Random -Minimum 2 -Maximum 9999\n$y = Get-Random -Minimum 2 -Maximum 9999\n$z = Get-Random -Minimum 2 -Maximum 9999\n$w = Get-Random -Minimum 2 -Maximum 9999\nWrite-Host HaHa_$x$y$z\n\n$fmm = Get-LocalGroupMember -Group Administrators |?{ $_.ObjectClass -match \"User\" -and $_.PrincipalSource -match \"Local\"} | Select Name\n\nforeach($member in $fmm) {\n    if($member -like \"*Administrator*\") {\n        $account = $member.Name.Split(\"\\\")[-1] # strip computername\\\n        $originalDescription = (Get-LocalUser -Name $account).Description\n        Set-LocalUser -Name $account -Description \"atr:$account;$originalDescription\".Substring(0,48) # Keep original name in description\n        Rename-LocalUser -Name $account -NewName \"HaHa_$x$y$z\" # Required due to length limitation\n        Write-Host \"Successfully Renamed $account Account on \" $Env:COMPUTERNAME\n        }\n    }\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7b4ce978-a065-40aa-b62c-557725302d1e",
+      "type": "execute-command",
+      "data": {
+        "command": "$list = Get-LocalUser |?{$_.Description -like \"atr:*\"}\nforeach($u in $list) {\n  $u.Description -match \"atr:(?\u003cName\u003e[^;]+);(?\u003cDescription\u003e.*)\"\n  Set-LocalUser -Name $u.Name -Description $Matches.Description\n  Rename-LocalUser -Name $u.Name -NewName $Matches.Name\n  Write-Host \"Successfully Reverted Account $($u.Name) to $($Matches.Name) on \" $Env:COMPUTERNAME\n}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "dc54ed31-6180-4096-aedc-be2c29dde12d",
+      "p": "on-success",
+      "o": "7b4ce978-a065-40aa-b62c-557725302d1e"
+    },
+    {
+      "s": "dc54ed31-6180-4096-aedc-be2c29dde12d",
+      "p": "on-failure",
+      "o": "7b4ce978-a065-40aa-b62c-557725302d1e"
+    }
+  ],
+  "tags": [
+    "T1098",
+    "atomic-red-team"
+  ]
+}

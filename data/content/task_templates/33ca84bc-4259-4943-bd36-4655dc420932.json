@@ -1,0 +1,98 @@
+{
+  "id": "33ca84bc-4259-4943-bd36-4655dc420932",
+  "name": "AWS CloudWatch Log Stream Deletes",
+  "description": "Creates a new cloudWatch log stream in AWS, Upon successful creation it will Delete the stream. Attackers can use this technique to evade defenses by \ndeleting the log stream. Once it is deleted, the logs created by the attackers will not be logged. https://www.elastic.co/guide/en/security/current/aws-cloudwatch-log-stream-deletion.html\n",
+  "platforms": [
+    "iaas:aws"
+  ],
+  "steps": [
+    {
+      "id": "0159f261-c858-4418-add0-f8b0a84cbd93",
+      "type": "execute-command",
+      "data": {
+        "command": "aws logs create-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Created ***\"\naws logs create-log-stream --log-group-name #{cloudwatch_log_group_name} --log-stream-name #{cloudwatch_log_stream_name}\necho \"*** Log Stream Created ***\"\naws logs delete-log-stream --log-group-name #{cloudwatch_log_group_name} --log-stream-name #{cloudwatch_log_stream_name}\necho \"*** Log Stream Deleted ***\"\naws logs delete-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Deleted ***\"\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6b70e337-e451-47c3-af2b-4c32aa927b1d",
+      "name": "Check dependency 1/1",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cat ~/.aws/credentials | grep \"default\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "83b9c94d-d081-4f1b-a7e4-760cdf929df0",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Please install the aws-cli and configure your AWS defult profile using: aws configure\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "59fa3e53-54dc-4f78-8aa9-e248fd4bdd4b",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cat ~/.aws/credentials | grep \"default\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "6b70e337-e451-47c3-af2b-4c32aa927b1d",
+      "p": "on-success",
+      "o": "0159f261-c858-4418-add0-f8b0a84cbd93"
+    },
+    {
+      "s": "6b70e337-e451-47c3-af2b-4c32aa927b1d",
+      "p": "on-failure",
+      "o": "83b9c94d-d081-4f1b-a7e4-760cdf929df0"
+    },
+    {
+      "s": "83b9c94d-d081-4f1b-a7e4-760cdf929df0",
+      "p": "on-success",
+      "o": "59fa3e53-54dc-4f78-8aa9-e248fd4bdd4b"
+    },
+    {
+      "s": "59fa3e53-54dc-4f78-8aa9-e248fd4bdd4b",
+      "p": "on-failure",
+      "o": "0159f261-c858-4418-add0-f8b0a84cbd93"
+    }
+  ],
+  "tags": [
+    "T1562.008",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "cloudwatch_log_group_name",
+      "type": "string",
+      "description": "Name of the cloudWatch log group",
+      "value": "test-logs"
+    },
+    {
+      "name": "cloudwatch_log_stream_name",
+      "type": "string",
+      "description": "Name of the cloudWatch log stream",
+      "value": "20150601"
+    },
+    {
+      "name": "region",
+      "type": "string",
+      "description": "Name of the region",
+      "value": "us-west-2"
+    }
+  ]
+}

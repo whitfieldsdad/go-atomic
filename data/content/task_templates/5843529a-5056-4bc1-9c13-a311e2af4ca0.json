@@ -1,0 +1,23 @@
+{
+  "id": "5843529a-5056-4bc1-9c13-a311e2af4ca0",
+  "name": "Remote System Discovery - net group Domain Controller",
+  "description": "Identify remote systems with net.exe querying the Active Directory Domain Controller.\nUpon successful execution, cmd.exe will execute cmd.exe against Active Directory to list the \"Domain Controller\" in the domain. Output will be via stdout.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "70072657-2c92-43a6-85f5-6373b3dbdfba",
+      "type": "execute-command",
+      "data": {
+        "command": "net group /domain \"Domain controllers\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1018",
+    "atomic-red-team"
+  ]
+}

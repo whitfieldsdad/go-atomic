@@ -1,0 +1,158 @@
+{
+  "id": "4f577511-dc1c-4045-bcb8-75d2457f01f4",
+  "name": "Azure AD - Delete user via Azure AD PowerShell",
+  "description": "Deletes a user in Azure AD. Adversaries may interrupt availability of system and network resources by inhibiting access to accounts utilized by legitimate users. Accounts may be deleted, locked, or manipulated (excluding changed credentials) to remove access to accounts.",
+  "platforms": [
+    "azure-ad"
+  ],
+  "steps": [
+    {
+      "id": "9e4ef6cd-f0f5-4513-a7a8-8bca1e17e008",
+      "type": "execute-command",
+      "data": {
+        "command": "Connect-AzureAD\n$userprincipalname = \"#{userprincipalname}\"\nRemove-AzureADUser -ObjectId $userprincipalname",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e92554ee-09e5-4d20-8b68-d6163d92be54",
+      "type": "execute-command",
+      "data": {
+        "command": "N/A",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b6752522-6137-4db8-87a3-554c01ee50f6",
+      "name": "Check dependency 1/2",
+      "description": "Check if AzureAD PowerShell module is installed",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-InstalledModule -Name AzureAD",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7007790f-fdb7-4758-bd87-f23b7af33003",
+      "name": "Resolve dependency 1/2",
+      "description": "Check if AzureAD PowerShell module is installed",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"use the following to install AzureAD PowerShell module - Install-Module -Name AzureAD -Scope CurrentUser -Repository PSGallery -Force\"",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "24ae8b30-0158-40a7-ab9c-6da9e089c5bb",
+      "name": "Re-check dependency 1/2",
+      "description": "Check if AzureAD PowerShell module is installed",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-InstalledModule -Name AzureAD",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8d006102-225f-4750-bc84-8690794aeb97",
+      "name": "Check dependency 2/2",
+      "description": "Check if AzureAD PowerShell module is installed",
+      "type": "execute-command",
+      "data": {
+        "command": "Update the input arguments so the userprincipalname value is accurate for your environment",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9adc9ff1-80fe-4eb9-b015-d3d744f4672c",
+      "name": "Resolve dependency 2/2",
+      "description": "Check if AzureAD PowerShell module is installed",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"Update the input arguments in the .yaml file so that the userprincipalname value is accurate for your environment\"",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e1173d8a-a028-421c-a5a1-79b3c5d601e5",
+      "name": "Re-check dependency 2/2",
+      "description": "Check if AzureAD PowerShell module is installed",
+      "type": "execute-command",
+      "data": {
+        "command": "Update the input arguments so the userprincipalname value is accurate for your environment",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "9e4ef6cd-f0f5-4513-a7a8-8bca1e17e008",
+      "p": "on-success",
+      "o": "e92554ee-09e5-4d20-8b68-d6163d92be54"
+    },
+    {
+      "s": "9e4ef6cd-f0f5-4513-a7a8-8bca1e17e008",
+      "p": "on-failure",
+      "o": "e92554ee-09e5-4d20-8b68-d6163d92be54"
+    },
+    {
+      "s": "b6752522-6137-4db8-87a3-554c01ee50f6",
+      "p": "on-success",
+      "o": "9e4ef6cd-f0f5-4513-a7a8-8bca1e17e008"
+    },
+    {
+      "s": "b6752522-6137-4db8-87a3-554c01ee50f6",
+      "p": "on-failure",
+      "o": "7007790f-fdb7-4758-bd87-f23b7af33003"
+    },
+    {
+      "s": "7007790f-fdb7-4758-bd87-f23b7af33003",
+      "p": "on-success",
+      "o": "24ae8b30-0158-40a7-ab9c-6da9e089c5bb"
+    },
+    {
+      "s": "24ae8b30-0158-40a7-ab9c-6da9e089c5bb",
+      "p": "on-failure",
+      "o": "9e4ef6cd-f0f5-4513-a7a8-8bca1e17e008"
+    },
+    {
+      "s": "8d006102-225f-4750-bc84-8690794aeb97",
+      "p": "on-success",
+      "o": "9e4ef6cd-f0f5-4513-a7a8-8bca1e17e008"
+    },
+    {
+      "s": "8d006102-225f-4750-bc84-8690794aeb97",
+      "p": "on-failure",
+      "o": "9adc9ff1-80fe-4eb9-b015-d3d744f4672c"
+    },
+    {
+      "s": "9adc9ff1-80fe-4eb9-b015-d3d744f4672c",
+      "p": "on-success",
+      "o": "e1173d8a-a028-421c-a5a1-79b3c5d601e5"
+    },
+    {
+      "s": "e1173d8a-a028-421c-a5a1-79b3c5d601e5",
+      "p": "on-failure",
+      "o": "9e4ef6cd-f0f5-4513-a7a8-8bca1e17e008"
+    }
+  ],
+  "tags": [
+    "T1531",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "userprincipalname",
+      "type": "string",
+      "description": "User principal name (UPN) for the Azure user being deleted",
+      "value": "atomicredteam@yourdomain.com"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "f94b5ad9-911c-4eff-9718-fd21899db4f7",
+  "name": "Network Share Discovery",
+  "description": "Network Share Discovery\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "ff3bb8f3-55f4-480f-b58a-007f843822fe",
+      "type": "execute-command",
+      "data": {
+        "command": "df -aH\nsmbutil view -g //#{computer_name}\nshowmount #{computer_name}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1135",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "computer_name",
+      "type": "string",
+      "description": "Computer name to find a mount on.",
+      "value": "computer1"
+    }
+  ]
+}

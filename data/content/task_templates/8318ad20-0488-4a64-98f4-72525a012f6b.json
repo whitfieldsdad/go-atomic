@@ -1,0 +1,44 @@
+{
+  "id": "8318ad20-0488-4a64-98f4-72525a012f6b",
+  "name": "Snake Malware Registry Blob",
+  "description": "The following Atomic Test creates a registry blob in HKLM:\\SOFTWARE\\Classes\\.wav\\OpenWithProgIds, which is related to Snake Malware. Per the report, upon execution, Snake's WerFault.exe will attempt to decrypt an encrypted blob within the Windows\nregistry that is typically found at HKLM:\\SOFTWARE\\Classes\\.wav\\OpenWithProgIds. The encrypted data includes the AES key, IV, and path that is used to find and decrypt the file containing Snake's kernel driver and kernel driver loader.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "6f1017fc-3f21-43c5-8624-f709e6e72fab",
+      "type": "execute-command",
+      "data": {
+        "command": "$typicalPath = \"HKLM:\\SOFTWARE\\Classes\\.wav\\OpenWithProgIds\"; $randomBytes = New-Object Byte[] 0x1000; (New-Object Random).NextBytes($randomBytes); New-ItemProperty -Path $typicalPath -Name \"AtomicSnake\" -Value $randomBytes -PropertyType Binary -Force | Out-Null\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "295c7e38-f9b8-4465-b447-2ff3705d37fa",
+      "type": "execute-command",
+      "data": {
+        "command": "$typicalPath = \"HKLM:\\SOFTWARE\\Classes\\.wav\\OpenWithProgIds\"; Remove-ItemProperty -Path $typicalPath -Name \"AtomicSnake\" -ErrorAction SilentlyContinue | Out-Null\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "6f1017fc-3f21-43c5-8624-f709e6e72fab",
+      "p": "on-success",
+      "o": "295c7e38-f9b8-4465-b447-2ff3705d37fa"
+    },
+    {
+      "s": "6f1017fc-3f21-43c5-8624-f709e6e72fab",
+      "p": "on-failure",
+      "o": "295c7e38-f9b8-4465-b447-2ff3705d37fa"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

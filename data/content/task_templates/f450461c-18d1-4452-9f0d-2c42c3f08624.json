@@ -1,0 +1,145 @@
+{
+  "id": "f450461c-18d1-4452-9f0d-2c42c3f08624",
+  "name": "Kerbrute - userenum",
+  "description": "Enumerates active directory usernames using the userenum function of Kerbrute",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "4e447773-b46a-421e-a840-24b8e314ec28",
+      "type": "execute-command",
+      "data": {
+        "command": "cd \"PathToAtomicsFolder\\..\\ExternalPayloads\"\n.\\kerbrute.exe userenum -d #{Domain} --dc #{DomainController} \"PathToAtomicsFolder\\..\\ExternalPayloads\\username.txt\"",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "852d3c2b-8d2d-4210-af1b-8df4646cc956",
+      "name": "Check dependency 1/2",
+      "description": "kerbrute.exe must exist in PathToAtomicsFolder\\..\\ExternalPayloads.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (test-path \"PathToAtomicsFolder\\..\\ExternalPayloads\\kerbrute.exe\"){exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "98b09616-974f-4356-8696-7de963c68ad7",
+      "name": "Resolve dependency 1/2",
+      "description": "kerbrute.exe must exist in PathToAtomicsFolder\\..\\ExternalPayloads.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction ignore -Force | Out-Null\ninvoke-webrequest \"https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_386.exe\" -outfile \"PathToAtomicsFolder\\..\\ExternalPayloads\\kerbrute.exe\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bd0f035c-3f10-4c35-ba10-e0c245b82e95",
+      "name": "Re-check dependency 1/2",
+      "description": "kerbrute.exe must exist in PathToAtomicsFolder\\..\\ExternalPayloads.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (test-path \"PathToAtomicsFolder\\..\\ExternalPayloads\\kerbrute.exe\"){exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "eb9aafe3-49fb-46ec-8946-6073fc55b91c",
+      "name": "Check dependency 2/2",
+      "description": "username text file must exist in PathToAtomicsFolder\\..\\ExternalPayloads.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (test-path \"PathToAtomicsFolder\\..\\ExternalPayloads\\username.txt\"){exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bccf96e0-b84a-414c-9d69-71a2c01aba3a",
+      "name": "Resolve dependency 2/2",
+      "description": "username text file must exist in PathToAtomicsFolder\\..\\ExternalPayloads.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction ignore -Force | Out-Null\ninvoke-webrequest \"https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.002/src/username.txt?raw=true\" -outfile \"PathToAtomicsFolder\\..\\ExternalPayloads\\username.txt\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bf953329-a972-47fd-a155-8bd0456fdba5",
+      "name": "Re-check dependency 2/2",
+      "description": "username text file must exist in PathToAtomicsFolder\\..\\ExternalPayloads.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (test-path \"PathToAtomicsFolder\\..\\ExternalPayloads\\username.txt\"){exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "852d3c2b-8d2d-4210-af1b-8df4646cc956",
+      "p": "on-success",
+      "o": "4e447773-b46a-421e-a840-24b8e314ec28"
+    },
+    {
+      "s": "852d3c2b-8d2d-4210-af1b-8df4646cc956",
+      "p": "on-failure",
+      "o": "98b09616-974f-4356-8696-7de963c68ad7"
+    },
+    {
+      "s": "98b09616-974f-4356-8696-7de963c68ad7",
+      "p": "on-success",
+      "o": "bd0f035c-3f10-4c35-ba10-e0c245b82e95"
+    },
+    {
+      "s": "bd0f035c-3f10-4c35-ba10-e0c245b82e95",
+      "p": "on-failure",
+      "o": "4e447773-b46a-421e-a840-24b8e314ec28"
+    },
+    {
+      "s": "eb9aafe3-49fb-46ec-8946-6073fc55b91c",
+      "p": "on-success",
+      "o": "4e447773-b46a-421e-a840-24b8e314ec28"
+    },
+    {
+      "s": "eb9aafe3-49fb-46ec-8946-6073fc55b91c",
+      "p": "on-failure",
+      "o": "bccf96e0-b84a-414c-9d69-71a2c01aba3a"
+    },
+    {
+      "s": "bccf96e0-b84a-414c-9d69-71a2c01aba3a",
+      "p": "on-success",
+      "o": "bf953329-a972-47fd-a155-8bd0456fdba5"
+    },
+    {
+      "s": "bf953329-a972-47fd-a155-8bd0456fdba5",
+      "p": "on-failure",
+      "o": "4e447773-b46a-421e-a840-24b8e314ec28"
+    }
+  ],
+  "tags": [
+    "T1087.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "Domain",
+      "type": "string",
+      "description": "Domain that is being tested against",
+      "value": "$env:USERDOMAIN"
+    },
+    {
+      "name": "DomainController",
+      "type": "string",
+      "description": "Domain Controller that is being tested against",
+      "value": "$env:UserDnsDomain"
+    }
+  ]
+}

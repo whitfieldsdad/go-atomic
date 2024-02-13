@@ -1,0 +1,44 @@
+{
+  "id": "45914594-8df6-4ea9-b3cc-7eb9321a807e",
+  "name": "Disable Windows Security Center Notifications",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to disable the windows security center notification.\nSee how azorult malware abuses this technique- https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ba61bd6c-c85f-44f2-8498-66345b220f5f",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\ImmersiveShell /v UseActionCenterExperience /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "17e17b58-dbe6-43b4-a862-33495d87da04",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\ImmersiveShell /v UseActionCenterExperience /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ba61bd6c-c85f-44f2-8498-66345b220f5f",
+      "p": "on-success",
+      "o": "17e17b58-dbe6-43b4-a862-33495d87da04"
+    },
+    {
+      "s": "ba61bd6c-c85f-44f2-8498-66345b220f5f",
+      "p": "on-failure",
+      "o": "17e17b58-dbe6-43b4-a862-33495d87da04"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "id": "24136435-c91a-4ede-9da1-8b284a1c1a23",
+  "name": "Masquerading - wscript.exe running as svchost.exe",
+  "description": "Copies wscript.exe, renames it, and launches it to masquerade as an instance of svchost.exe.\n\nUpon execution, no windows will remain open but wscript will have been renamed to svchost and ran out of the temp folder\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "eb5e7569-3439-4e8c-b76a-f8f02dba9ebb",
+      "type": "execute-command",
+      "data": {
+        "command": "copy %SystemRoot%\\System32\\wscript.exe %APPDATA%\\svchost.exe /Y\ncmd.exe /c %APPDATA%\\svchost.exe \"PathToAtomicsFolder\\..\\ExternalPayloads\\T1036.003\\src\\T1036.003_masquerading.vbs\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "882bac59-e124-4600-a68f-406b73bb9bb4",
+      "type": "execute-command",
+      "data": {
+        "command": "del /Q /F %APPDATA%\\svchost.exe \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0e4ae9e6-889e-47b5-a3d7-fb87b6e9c986",
+      "name": "Check dependency 1/1",
+      "description": "Wscript file to execute must exist on disk\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\T1036.003\\src\\T1036.003_masquerading.vbs\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "802e0661-6f33-4803-b893-0b3a6b9124f9",
+      "name": "Resolve dependency 1/1",
+      "description": "Wscript file to execute must exist on disk\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"PathToAtomicsFolder\\..\\ExternalPayloads\\T1036.003\\src\\T1036.003_masquerading.vbs\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1036.003/src/T1036.003_masquerading.vbs\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\T1036.003\\src\\T1036.003_masquerading.vbs\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "49599ef8-f952-4993-9e01-e2025350e65f",
+      "name": "Re-check dependency 1/1",
+      "description": "Wscript file to execute must exist on disk\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\T1036.003\\src\\T1036.003_masquerading.vbs\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "eb5e7569-3439-4e8c-b76a-f8f02dba9ebb",
+      "p": "on-success",
+      "o": "882bac59-e124-4600-a68f-406b73bb9bb4"
+    },
+    {
+      "s": "eb5e7569-3439-4e8c-b76a-f8f02dba9ebb",
+      "p": "on-failure",
+      "o": "882bac59-e124-4600-a68f-406b73bb9bb4"
+    },
+    {
+      "s": "0e4ae9e6-889e-47b5-a3d7-fb87b6e9c986",
+      "p": "on-success",
+      "o": "eb5e7569-3439-4e8c-b76a-f8f02dba9ebb"
+    },
+    {
+      "s": "0e4ae9e6-889e-47b5-a3d7-fb87b6e9c986",
+      "p": "on-failure",
+      "o": "802e0661-6f33-4803-b893-0b3a6b9124f9"
+    },
+    {
+      "s": "802e0661-6f33-4803-b893-0b3a6b9124f9",
+      "p": "on-success",
+      "o": "49599ef8-f952-4993-9e01-e2025350e65f"
+    },
+    {
+      "s": "49599ef8-f952-4993-9e01-e2025350e65f",
+      "p": "on-failure",
+      "o": "eb5e7569-3439-4e8c-b76a-f8f02dba9ebb"
+    }
+  ],
+  "tags": [
+    "T1036.003",
+    "atomic-red-team"
+  ]
+}

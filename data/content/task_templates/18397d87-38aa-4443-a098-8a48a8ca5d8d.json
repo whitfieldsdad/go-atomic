@@ -1,0 +1,105 @@
+{
+  "id": "18397d87-38aa-4443-a098-8a48a8ca5d8d",
+  "name": "Capture Linux Desktop using Import Tool (freebsd)",
+  "description": "Use import command from ImageMagick to collect a full desktop screenshot\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "358d82af-f1ea-42ed-a114-59240dd73158",
+      "type": "execute-command",
+      "data": {
+        "command": "import -window root #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f0c8ea38-b8ec-41dd-936a-e2df64221d2b",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "38e794cf-541b-4e25-9d25-7b66dda4e77f",
+      "name": "Check dependency 1/1",
+      "description": "ImageMagick must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if import -help \u003e /dev/null 2\u003e\u00261; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a4e73862-a995-4e97-92fd-e218bc85a89d",
+      "name": "Resolve dependency 1/1",
+      "description": "ImageMagick must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "pkg install -y ImageMagick7\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "10cd97a1-7e0a-4486-81d6-0343d302358a",
+      "name": "Re-check dependency 1/1",
+      "description": "ImageMagick must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if import -help \u003e /dev/null 2\u003e\u00261; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "358d82af-f1ea-42ed-a114-59240dd73158",
+      "p": "on-success",
+      "o": "f0c8ea38-b8ec-41dd-936a-e2df64221d2b"
+    },
+    {
+      "s": "358d82af-f1ea-42ed-a114-59240dd73158",
+      "p": "on-failure",
+      "o": "f0c8ea38-b8ec-41dd-936a-e2df64221d2b"
+    },
+    {
+      "s": "38e794cf-541b-4e25-9d25-7b66dda4e77f",
+      "p": "on-success",
+      "o": "358d82af-f1ea-42ed-a114-59240dd73158"
+    },
+    {
+      "s": "38e794cf-541b-4e25-9d25-7b66dda4e77f",
+      "p": "on-failure",
+      "o": "a4e73862-a995-4e97-92fd-e218bc85a89d"
+    },
+    {
+      "s": "a4e73862-a995-4e97-92fd-e218bc85a89d",
+      "p": "on-success",
+      "o": "10cd97a1-7e0a-4486-81d6-0343d302358a"
+    },
+    {
+      "s": "10cd97a1-7e0a-4486-81d6-0343d302358a",
+      "p": "on-failure",
+      "o": "358d82af-f1ea-42ed-a114-59240dd73158"
+    }
+  ],
+  "tags": [
+    "T1113",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Output file path",
+      "value": "/tmp/T1113_desktop.png"
+    }
+  ]
+}

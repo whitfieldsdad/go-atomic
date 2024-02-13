@@ -1,0 +1,288 @@
+{
+  "id": "348f4d14-4bd3-4f6b-bd8a-61237f78b3ac",
+  "name": "Azure Persistence Automation Runbook Created or Modified",
+  "description": "Identifies when an Azure Automation runbook is created or modified. An adversary may create or modify an Azure\nAutomation runbook to execute malicious code and maintain persistence in their target's environment.\n",
+  "platforms": [
+    "iaas:azure"
+  ],
+  "steps": [
+    {
+      "id": "705f7dab-b8c5-424d-8e69-e3e1bb66a674",
+      "type": "execute-command",
+      "data": {
+        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-AzAccount -Credential $creds\nNew-AzAutomationRunbook -Name #{runbook_name} -Type PowerShell -ResourceGroupName #{resource_group} -Description 'my-test-runbook' -AutomationAccountName #{automation_account_name}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0b47f395-890e-402e-8e23-660379083fad",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-AzAutomationRunbook -AutomationAccountName #{automation_account_name} -Name #{runbook_name} -ResourceGroupName #{resource_group} -Force\ncd \"$PathToAtomicsFolder/T1078.004/src/T1078.004-2/\"\nterraform destroy -auto-approve\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1fb8e335-c5d4-4a27-84c0-deaae5499258",
+      "name": "Check dependency 1/4",
+      "description": "Check if terraform is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "terraform version\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bceaf70e-8b59-4942-b6c0-1ff482a1d402",
+      "name": "Resolve dependency 1/4",
+      "description": "Check if terraform is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Please install terraform.\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "28db3201-ab12-4bf1-8c6e-13d11d4b4995",
+      "name": "Re-check dependency 1/4",
+      "description": "Check if terraform is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "terraform version\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ad468104-cdbd-4333-a20a-f081bde25c24",
+      "name": "Check dependency 2/4",
+      "description": "Install-Module -Name Az\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {if (Get-InstalledModule -Name Az -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "24d01661-6c73-4677-b980-8cefb7fcbe17",
+      "name": "Resolve dependency 2/4",
+      "description": "Install-Module -Name Az\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name Az -Scope CurrentUser -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "af9ad313-74ac-4f26-aa55-53d600833025",
+      "name": "Re-check dependency 2/4",
+      "description": "Install-Module -Name Az\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {if (Get-InstalledModule -Name Az -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c763523d-2692-4ea1-9669-fbfe0656344e",
+      "name": "Check dependency 3/4",
+      "description": "Check if the user is logged into Azure.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "az account show\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7175025a-def7-4c33-a6da-fbe301f289cc",
+      "name": "Resolve dependency 3/4",
+      "description": "Check if the user is logged into Azure.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Configure your Azure account using: az login. \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8e0a59a7-6d38-470d-96f4-fe9e7eb6ebad",
+      "name": "Re-check dependency 3/4",
+      "description": "Check if the user is logged into Azure.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "az account show\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0921df0d-e097-434c-a8c4-8133e3e31bca",
+      "name": "Check dependency 4/4",
+      "description": "Create dependency resources using terraform\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {if (Test-Path \"$PathToAtomicsFolder/T1078.004/src/T1078.004-2/terraform.tfstate\" ){ exit 0 } else {exit 1}} catch {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "27793134-31a5-49e3-aec0-1371f3612bbd",
+      "name": "Resolve dependency 4/4",
+      "description": "Create dependency resources using terraform\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cd \"$PathToAtomicsFolder/T1078.004/src/T1078.004-2/\"\nterraform init\nterraform apply -auto-approve\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ec59c851-4af4-42c0-ad0b-d47a41fd23fa",
+      "name": "Re-check dependency 4/4",
+      "description": "Create dependency resources using terraform\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {if (Test-Path \"$PathToAtomicsFolder/T1078.004/src/T1078.004-2/terraform.tfstate\" ){ exit 0 } else {exit 1}} catch {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "705f7dab-b8c5-424d-8e69-e3e1bb66a674",
+      "p": "on-success",
+      "o": "0b47f395-890e-402e-8e23-660379083fad"
+    },
+    {
+      "s": "705f7dab-b8c5-424d-8e69-e3e1bb66a674",
+      "p": "on-failure",
+      "o": "0b47f395-890e-402e-8e23-660379083fad"
+    },
+    {
+      "s": "1fb8e335-c5d4-4a27-84c0-deaae5499258",
+      "p": "on-success",
+      "o": "705f7dab-b8c5-424d-8e69-e3e1bb66a674"
+    },
+    {
+      "s": "1fb8e335-c5d4-4a27-84c0-deaae5499258",
+      "p": "on-failure",
+      "o": "bceaf70e-8b59-4942-b6c0-1ff482a1d402"
+    },
+    {
+      "s": "bceaf70e-8b59-4942-b6c0-1ff482a1d402",
+      "p": "on-success",
+      "o": "28db3201-ab12-4bf1-8c6e-13d11d4b4995"
+    },
+    {
+      "s": "28db3201-ab12-4bf1-8c6e-13d11d4b4995",
+      "p": "on-failure",
+      "o": "705f7dab-b8c5-424d-8e69-e3e1bb66a674"
+    },
+    {
+      "s": "ad468104-cdbd-4333-a20a-f081bde25c24",
+      "p": "on-success",
+      "o": "705f7dab-b8c5-424d-8e69-e3e1bb66a674"
+    },
+    {
+      "s": "ad468104-cdbd-4333-a20a-f081bde25c24",
+      "p": "on-failure",
+      "o": "24d01661-6c73-4677-b980-8cefb7fcbe17"
+    },
+    {
+      "s": "24d01661-6c73-4677-b980-8cefb7fcbe17",
+      "p": "on-success",
+      "o": "af9ad313-74ac-4f26-aa55-53d600833025"
+    },
+    {
+      "s": "af9ad313-74ac-4f26-aa55-53d600833025",
+      "p": "on-failure",
+      "o": "705f7dab-b8c5-424d-8e69-e3e1bb66a674"
+    },
+    {
+      "s": "c763523d-2692-4ea1-9669-fbfe0656344e",
+      "p": "on-success",
+      "o": "705f7dab-b8c5-424d-8e69-e3e1bb66a674"
+    },
+    {
+      "s": "c763523d-2692-4ea1-9669-fbfe0656344e",
+      "p": "on-failure",
+      "o": "7175025a-def7-4c33-a6da-fbe301f289cc"
+    },
+    {
+      "s": "7175025a-def7-4c33-a6da-fbe301f289cc",
+      "p": "on-success",
+      "o": "8e0a59a7-6d38-470d-96f4-fe9e7eb6ebad"
+    },
+    {
+      "s": "8e0a59a7-6d38-470d-96f4-fe9e7eb6ebad",
+      "p": "on-failure",
+      "o": "705f7dab-b8c5-424d-8e69-e3e1bb66a674"
+    },
+    {
+      "s": "0921df0d-e097-434c-a8c4-8133e3e31bca",
+      "p": "on-success",
+      "o": "705f7dab-b8c5-424d-8e69-e3e1bb66a674"
+    },
+    {
+      "s": "0921df0d-e097-434c-a8c4-8133e3e31bca",
+      "p": "on-failure",
+      "o": "27793134-31a5-49e3-aec0-1371f3612bbd"
+    },
+    {
+      "s": "27793134-31a5-49e3-aec0-1371f3612bbd",
+      "p": "on-success",
+      "o": "ec59c851-4af4-42c0-ad0b-d47a41fd23fa"
+    },
+    {
+      "s": "ec59c851-4af4-42c0-ad0b-d47a41fd23fa",
+      "p": "on-failure",
+      "o": "705f7dab-b8c5-424d-8e69-e3e1bb66a674"
+    }
+  ],
+  "tags": [
+    "T1078.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Azure username",
+      "value": ""
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Azure password",
+      "value": ""
+    },
+    {
+      "name": "resource_group",
+      "type": "string",
+      "description": "Name of the resource group",
+      "value": ""
+    },
+    {
+      "name": "runbook_name",
+      "type": "string",
+      "description": "Name of the runbook name",
+      "value": ""
+    },
+    {
+      "name": "automation_account_name",
+      "type": "string",
+      "description": "Name of the automation account name",
+      "value": ""
+    }
+  ]
+}

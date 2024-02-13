@@ -1,0 +1,31 @@
+{
+  "id": "f4648f0d-bf78-483c-bafc-3ec99cd1c302",
+  "name": "Restart System - Windows",
+  "description": "This test restarts a Windows system.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "9cc84168-1c5e-4c71-aa60-0d43bf729d91",
+      "type": "execute-command",
+      "data": {
+        "command": "shutdown /r /t #{timeout}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1529",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "timeout",
+      "type": "integer",
+      "description": "Timeout period before restart (seconds)",
+      "value": "1"
+    }
+  ]
+}

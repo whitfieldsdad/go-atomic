@@ -1,0 +1,97 @@
+{
+  "id": "be1a5d70-6865-44aa-ab50-42244c9fd16f",
+  "name": "Trap EXIT (freebsd)",
+  "description": "Launch bash shell with command arg to create TRAP on EXIT.\nThe trap executes script that writes to /tmp/art-fish.txt\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "9fa30d14-790f-4f2b-92ca-99c292f4c209",
+      "type": "execute-command",
+      "data": {
+        "command": "bash -c 'trap \"nohup sh $PathToAtomicsFolder/T1546.005/src/echo-art-fish.sh\" EXIT'\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "36aa57f3-a73e-43db-b48b-a766e9268f21",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f /tmp/art-fish.txt\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "36f2eed5-e63b-4525-87d1-fb2fcf84e490",
+      "name": "Check dependency 1/1",
+      "description": "Check if bash is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v bash)\" ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "931d2951-0a81-4f23-92ce-26901bb99c72",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if bash is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which pkg \u0026\u0026 pkg install -y bash)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5920c2a6-2619-4461-8ecf-f5614ed5c008",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if bash is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v bash)\" ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "9fa30d14-790f-4f2b-92ca-99c292f4c209",
+      "p": "on-success",
+      "o": "36aa57f3-a73e-43db-b48b-a766e9268f21"
+    },
+    {
+      "s": "9fa30d14-790f-4f2b-92ca-99c292f4c209",
+      "p": "on-failure",
+      "o": "36aa57f3-a73e-43db-b48b-a766e9268f21"
+    },
+    {
+      "s": "36f2eed5-e63b-4525-87d1-fb2fcf84e490",
+      "p": "on-success",
+      "o": "9fa30d14-790f-4f2b-92ca-99c292f4c209"
+    },
+    {
+      "s": "36f2eed5-e63b-4525-87d1-fb2fcf84e490",
+      "p": "on-failure",
+      "o": "931d2951-0a81-4f23-92ce-26901bb99c72"
+    },
+    {
+      "s": "931d2951-0a81-4f23-92ce-26901bb99c72",
+      "p": "on-success",
+      "o": "5920c2a6-2619-4461-8ecf-f5614ed5c008"
+    },
+    {
+      "s": "5920c2a6-2619-4461-8ecf-f5614ed5c008",
+      "p": "on-failure",
+      "o": "9fa30d14-790f-4f2b-92ca-99c292f4c209"
+    }
+  ],
+  "tags": [
+    "T1546.005",
+    "atomic-red-team"
+  ]
+}

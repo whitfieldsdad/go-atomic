@@ -1,0 +1,24 @@
+{
+  "id": "a7b17659-dd5e-46f7-b7d1-e6792c91d0bc",
+  "name": "Unlimited sudo cache timeout",
+  "description": "Sets sudo caching timestamp_timeout to a value for unlimited. This is dangerous to modify without using 'visudo', do not do this on a production system.\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "073090c0-e6d5-48fc-a02f-13d59906730a",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo sed -i 's/env_reset.*$/env_reset,timestamp_timeout=-1/' /etc/sudoers\nsudo visudo -c -f /etc/sudoers\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1548.003",
+    "atomic-red-team"
+  ]
+}

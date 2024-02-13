@@ -1,0 +1,204 @@
+{
+  "id": "95e19466-469e-4316-86d2-1dc401b5a959",
+  "name": "Remote System Discovery - adidnsdump",
+  "description": "This tool enables enumeration and exporting of all DNS records in the zone for recon purposes of internal networks\nPython 3 and adidnsdump must be installed, use the get_prereq_command's to meet the prerequisites for this test.\nSuccessful execution of this test will list dns zones in the terminal.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "747b3be5-d2a0-4464-b0a5-d87c097db343",
+      "type": "execute-command",
+      "data": {
+        "command": "adidnsdump -u #{user_name} -p #{acct_pass} --print-zones #{host_name}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "30ee0390-8413-4d70-808a-2ef055e13149",
+      "name": "Check dependency 1/3",
+      "description": "Computer must have python 3 installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (python --version) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "168b13de-f226-401b-9bac-24c9626e82d0",
+      "name": "Resolve dependency 1/3",
+      "description": "Computer must have python 3 installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"Python 3 must be installed manually\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8d0108a3-7458-4b12-930c-278cd3ab91fa",
+      "name": "Re-check dependency 1/3",
+      "description": "Computer must have python 3 installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (python --version) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "69eadf30-5385-44d5-b311-4bf70e01b470",
+      "name": "Check dependency 2/3",
+      "description": "Computer must have pip installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (pip3 -V) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a70e4e8a-3c73-426f-90fd-945f5e63818b",
+      "name": "Resolve dependency 2/3",
+      "description": "Computer must have pip installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"PIP must be installed manually\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a134f799-6815-454d-b1de-95d0234e2f32",
+      "name": "Re-check dependency 2/3",
+      "description": "Computer must have pip installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (pip3 -V) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a110cda0-abfb-4cb9-a3fc-e552dcf7a6a7",
+      "name": "Check dependency 3/3",
+      "description": "adidnsdump must be installed and part of PATH\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (cmd /c adidnsdump -h) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f84a9527-341e-4fa0-b89e-2fcd1a3e42d0",
+      "name": "Resolve dependency 3/3",
+      "description": "adidnsdump must be installed and part of PATH\n",
+      "type": "execute-command",
+      "data": {
+        "command": "pip3 install adidnsdump\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "07ee048f-3f14-4c60-bfdb-ffc4eac766a0",
+      "name": "Re-check dependency 3/3",
+      "description": "adidnsdump must be installed and part of PATH\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (cmd /c adidnsdump -h) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "30ee0390-8413-4d70-808a-2ef055e13149",
+      "p": "on-success",
+      "o": "747b3be5-d2a0-4464-b0a5-d87c097db343"
+    },
+    {
+      "s": "30ee0390-8413-4d70-808a-2ef055e13149",
+      "p": "on-failure",
+      "o": "168b13de-f226-401b-9bac-24c9626e82d0"
+    },
+    {
+      "s": "168b13de-f226-401b-9bac-24c9626e82d0",
+      "p": "on-success",
+      "o": "8d0108a3-7458-4b12-930c-278cd3ab91fa"
+    },
+    {
+      "s": "8d0108a3-7458-4b12-930c-278cd3ab91fa",
+      "p": "on-failure",
+      "o": "747b3be5-d2a0-4464-b0a5-d87c097db343"
+    },
+    {
+      "s": "69eadf30-5385-44d5-b311-4bf70e01b470",
+      "p": "on-success",
+      "o": "747b3be5-d2a0-4464-b0a5-d87c097db343"
+    },
+    {
+      "s": "69eadf30-5385-44d5-b311-4bf70e01b470",
+      "p": "on-failure",
+      "o": "a70e4e8a-3c73-426f-90fd-945f5e63818b"
+    },
+    {
+      "s": "a70e4e8a-3c73-426f-90fd-945f5e63818b",
+      "p": "on-success",
+      "o": "a134f799-6815-454d-b1de-95d0234e2f32"
+    },
+    {
+      "s": "a134f799-6815-454d-b1de-95d0234e2f32",
+      "p": "on-failure",
+      "o": "747b3be5-d2a0-4464-b0a5-d87c097db343"
+    },
+    {
+      "s": "a110cda0-abfb-4cb9-a3fc-e552dcf7a6a7",
+      "p": "on-success",
+      "o": "747b3be5-d2a0-4464-b0a5-d87c097db343"
+    },
+    {
+      "s": "a110cda0-abfb-4cb9-a3fc-e552dcf7a6a7",
+      "p": "on-failure",
+      "o": "f84a9527-341e-4fa0-b89e-2fcd1a3e42d0"
+    },
+    {
+      "s": "f84a9527-341e-4fa0-b89e-2fcd1a3e42d0",
+      "p": "on-success",
+      "o": "07ee048f-3f14-4c60-bfdb-ffc4eac766a0"
+    },
+    {
+      "s": "07ee048f-3f14-4c60-bfdb-ffc4eac766a0",
+      "p": "on-failure",
+      "o": "747b3be5-d2a0-4464-b0a5-d87c097db343"
+    }
+  ],
+  "tags": [
+    "T1018",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "user_name",
+      "type": "string",
+      "description": "username including domain.",
+      "value": "domain\\user"
+    },
+    {
+      "name": "acct_pass",
+      "type": "string",
+      "description": "Account password.",
+      "value": "password"
+    },
+    {
+      "name": "host_name",
+      "type": "string",
+      "description": "hostname or ip address to connect to.",
+      "value": "192.168.1.1"
+    }
+  ]
+}

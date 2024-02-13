@@ -1,0 +1,111 @@
+{
+  "id": "12e4a260-a7fd-4ed8-bf18-1a28c1395775",
+  "name": "Copy Private SSH Keys with CP (freebsd)",
+  "description": "Copy private SSH keys on a FreeBSD system to a staging folder using the `cp` command.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "d4d75f37-f91d-4228-9f5e-a8fec38a664f",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir #{output_folder}\nfind #{search_path} -name id_rsa 2\u003e/dev/null -exec gcp --parents {} #{output_folder} \\;\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5d1fbcc4-7e7f-41cf-ae5d-d90613710d78",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -rf #{output_folder}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0d77245f-de24-46ef-9f77-05428851a9b7",
+      "name": "Check dependency 1/1",
+      "description": "Install GNU cp from coreutils package.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v gcp)\" ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2dc15d54-3e23-45f3-a94a-e40bdedee0b5",
+      "name": "Resolve dependency 1/1",
+      "description": "Install GNU cp from coreutils package.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which pkg \u0026\u0026 pkg install -y coreutils)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c8e18d31-3d1a-4e93-8183-b7d8e4bad102",
+      "name": "Re-check dependency 1/1",
+      "description": "Install GNU cp from coreutils package.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v gcp)\" ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d4d75f37-f91d-4228-9f5e-a8fec38a664f",
+      "p": "on-success",
+      "o": "5d1fbcc4-7e7f-41cf-ae5d-d90613710d78"
+    },
+    {
+      "s": "d4d75f37-f91d-4228-9f5e-a8fec38a664f",
+      "p": "on-failure",
+      "o": "5d1fbcc4-7e7f-41cf-ae5d-d90613710d78"
+    },
+    {
+      "s": "0d77245f-de24-46ef-9f77-05428851a9b7",
+      "p": "on-success",
+      "o": "d4d75f37-f91d-4228-9f5e-a8fec38a664f"
+    },
+    {
+      "s": "0d77245f-de24-46ef-9f77-05428851a9b7",
+      "p": "on-failure",
+      "o": "2dc15d54-3e23-45f3-a94a-e40bdedee0b5"
+    },
+    {
+      "s": "2dc15d54-3e23-45f3-a94a-e40bdedee0b5",
+      "p": "on-success",
+      "o": "c8e18d31-3d1a-4e93-8183-b7d8e4bad102"
+    },
+    {
+      "s": "c8e18d31-3d1a-4e93-8183-b7d8e4bad102",
+      "p": "on-failure",
+      "o": "d4d75f37-f91d-4228-9f5e-a8fec38a664f"
+    }
+  ],
+  "tags": [
+    "T1552.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "search_path",
+      "type": "path",
+      "description": "Path where to start searching from.",
+      "value": "/"
+    },
+    {
+      "name": "output_folder",
+      "type": "path",
+      "description": "Output folder containing copies of SSH private key files",
+      "value": "/tmp/art-staging"
+    }
+  ]
+}

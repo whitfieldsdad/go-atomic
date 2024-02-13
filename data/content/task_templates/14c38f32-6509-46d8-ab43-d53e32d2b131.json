@@ -1,0 +1,31 @@
+{
+  "id": "14c38f32-6509-46d8-ab43-d53e32d2b131",
+  "name": "Add Network Share",
+  "description": "Add a Network Share utilizing the command_prompt\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "6c1d3114-5754-4536-9c24-c8c076d3b634",
+      "type": "execute-command",
+      "data": {
+        "command": "net use c: #{share_name}\nnet share test=#{share_name} /REMARK:\"test share\" /CACHE:No\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1070.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "share_name",
+      "type": "string",
+      "description": "Share to add.",
+      "value": "\\\\test\\share"
+    }
+  ]
+}

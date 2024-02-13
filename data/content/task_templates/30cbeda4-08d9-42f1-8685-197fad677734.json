@@ -1,0 +1,97 @@
+{
+  "id": "30cbeda4-08d9-42f1-8685-197fad677734",
+  "name": "HTML Smuggling Remote Payload",
+  "description": "The HTML file will download an ISO file from [T1553.005](https://github.com/redcanaryco/atomic-red-team/blob/d0dad62dbcae9c60c519368e82c196a3db577055/atomics/T1553.005/bin/FeelTheBurn.iso) without user interaction. \nThe HTML file is based off of the work from [Stan Hegt](https://outflank.nl/blog/2018/08/14/html-smuggling-explained/)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5cf990a1-e1d8-44d2-9352-481b877c544a",
+      "type": "execute-command",
+      "data": {
+        "command": "\u0026 \"PathToAtomicsFolder\\T1027.006\\bin\\T1027_006_remote.html\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e8f5b9a4-d580-4a32-bada-184f0418e2d9",
+      "type": "execute-command",
+      "data": {
+        "command": "$user = [System.Environment]::UserName; Remove-Item -Path C:\\Users\\$user\\Downloads\\FeelTheBurn.iso -ErrorAction Ignore",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0649d5dd-7e73-4447-bd0e-74e00af99567",
+      "name": "Check dependency 1/1",
+      "description": "T1027_006_remote.html must exist on disk at specified at PathToAtomicsFolder\\T1027.006\\bin\\T1027_006_Remote.html\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\T1027.006\\bin\\T1027_006_Remote.html\") { exit 0} else { exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "99c50ee6-3808-466d-bcb2-0c05dfd7834f",
+      "name": "Resolve dependency 1/1",
+      "description": "T1027_006_remote.html must exist on disk at specified at PathToAtomicsFolder\\T1027.006\\bin\\T1027_006_Remote.html\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\T1027.006\\bin\\\" -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1027.006/bin/T1027_006_Remote.html\" -OutFile \"PathToAtomicsFolder\\T1027.006\\bin\\T1027_006_Remote.html\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2bcf4560-713a-4023-be0c-da815531fb14",
+      "name": "Re-check dependency 1/1",
+      "description": "T1027_006_remote.html must exist on disk at specified at PathToAtomicsFolder\\T1027.006\\bin\\T1027_006_Remote.html\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\T1027.006\\bin\\T1027_006_Remote.html\") { exit 0} else { exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "5cf990a1-e1d8-44d2-9352-481b877c544a",
+      "p": "on-success",
+      "o": "e8f5b9a4-d580-4a32-bada-184f0418e2d9"
+    },
+    {
+      "s": "5cf990a1-e1d8-44d2-9352-481b877c544a",
+      "p": "on-failure",
+      "o": "e8f5b9a4-d580-4a32-bada-184f0418e2d9"
+    },
+    {
+      "s": "0649d5dd-7e73-4447-bd0e-74e00af99567",
+      "p": "on-success",
+      "o": "5cf990a1-e1d8-44d2-9352-481b877c544a"
+    },
+    {
+      "s": "0649d5dd-7e73-4447-bd0e-74e00af99567",
+      "p": "on-failure",
+      "o": "99c50ee6-3808-466d-bcb2-0c05dfd7834f"
+    },
+    {
+      "s": "99c50ee6-3808-466d-bcb2-0c05dfd7834f",
+      "p": "on-success",
+      "o": "2bcf4560-713a-4023-be0c-da815531fb14"
+    },
+    {
+      "s": "2bcf4560-713a-4023-be0c-da815531fb14",
+      "p": "on-failure",
+      "o": "5cf990a1-e1d8-44d2-9352-481b877c544a"
+    }
+  ],
+  "tags": [
+    "T1027.006",
+    "atomic-red-team"
+  ]
+}

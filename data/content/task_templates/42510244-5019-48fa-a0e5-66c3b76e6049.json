@@ -1,0 +1,78 @@
+{
+  "id": "42510244-5019-48fa-a0e5-66c3b76e6049",
+  "name": "Retrieve Microsoft IIS Service Account Credentials Using AppCmd (using config)",
+  "description": "AppCmd.exe is a command line utility which is used for managing an IIS web server. The config command within the tool reveals the service account credentials configured for the webserver. An adversary may use these credentials for other malicious purposes.\n[Reference](https://twitter.com/0gtweet/status/1588815661085917186?cxt=HHwWhIDUyaDbzYwsAAAA)",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "b79d75fd-b93c-45b9-b905-51b9c23df876",
+      "type": "execute-command",
+      "data": {
+        "command": "C:\\Windows\\System32\\inetsrv\\appcmd.exe list apppool /config",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c57f89d1-d2fa-4935-a8f1-6b576a86b4f7",
+      "name": "Check dependency 1/1",
+      "description": "IIS must be installed prior to running the test",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Get-WindowsFeature Web-Server).InstallState -eq \"Installed\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c4f5a9c6-eba5-4524-b6cc-c44f9ca73d8a",
+      "name": "Resolve dependency 1/1",
+      "description": "IIS must be installed prior to running the test",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-WindowsFeature -name Web-Server -IncludeManagementTools",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "cb4620e5-7d3b-47b0-9cdd-026c1320cb93",
+      "name": "Re-check dependency 1/1",
+      "description": "IIS must be installed prior to running the test",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Get-WindowsFeature Web-Server).InstallState -eq \"Installed\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c57f89d1-d2fa-4935-a8f1-6b576a86b4f7",
+      "p": "on-success",
+      "o": "b79d75fd-b93c-45b9-b905-51b9c23df876"
+    },
+    {
+      "s": "c57f89d1-d2fa-4935-a8f1-6b576a86b4f7",
+      "p": "on-failure",
+      "o": "c4f5a9c6-eba5-4524-b6cc-c44f9ca73d8a"
+    },
+    {
+      "s": "c4f5a9c6-eba5-4524-b6cc-c44f9ca73d8a",
+      "p": "on-success",
+      "o": "cb4620e5-7d3b-47b0-9cdd-026c1320cb93"
+    },
+    {
+      "s": "cb4620e5-7d3b-47b0-9cdd-026c1320cb93",
+      "p": "on-failure",
+      "o": "b79d75fd-b93c-45b9-b905-51b9c23df876"
+    }
+  ],
+  "tags": [
+    "T1003",
+    "atomic-red-team"
+  ]
+}

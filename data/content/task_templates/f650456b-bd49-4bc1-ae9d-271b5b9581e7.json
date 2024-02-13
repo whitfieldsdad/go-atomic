@@ -1,0 +1,44 @@
+{
+  "id": "f650456b-bd49-4bc1-ae9d-271b5b9581e7",
+  "name": "Hide Files Through Registry",
+  "description": "Disable Show Hidden files switch in registry. This technique was abused by several malware to hide their files from normal user.\nSee how this trojan abuses this technique - https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/W32~Tiotua-P/detailed-analysis.aspx \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "7b720b0d-8420-4db5-a1cd-c61fd92b4dbd",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced /v ShowSuperHidden /t REG_DWORD /d 0 /f\nreg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced /v Hidden /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "dce4d36e-f20d-417f-bd83-ba00f35c4941",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\" /v ShowSuperHidden /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\" /v Hidden /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7b720b0d-8420-4db5-a1cd-c61fd92b4dbd",
+      "p": "on-success",
+      "o": "dce4d36e-f20d-417f-bd83-ba00f35c4941"
+    },
+    {
+      "s": "7b720b0d-8420-4db5-a1cd-c61fd92b4dbd",
+      "p": "on-failure",
+      "o": "dce4d36e-f20d-417f-bd83-ba00f35c4941"
+    }
+  ],
+  "tags": [
+    "T1564.001",
+    "atomic-red-team"
+  ]
+}

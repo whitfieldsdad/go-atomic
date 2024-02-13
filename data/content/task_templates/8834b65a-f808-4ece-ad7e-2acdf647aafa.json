@@ -1,0 +1,58 @@
+{
+  "id": "8834b65a-f808-4ece-ad7e-2acdf647aafa",
+  "name": "Change Startup Folder - HKCU Modify User Shell Folders Startup Value",
+  "description": "This test will modify the HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders  -V \"Startup\" value \nto point to a new startup folder where a payload could be stored to launch at boot.  *successful execution requires system restart\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "fd4bcb4c-5097-4aa3-8358-2d6ae48c71ea",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -ItemType Directory -path \"#{new_startup_folder}\"\nCopy-Item -path \"#{payload}\" -destination \"#{new_startup_folder}\"\nSet-ItemProperty -Path  \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\" -Name \"Startup\" -Value \"#{new_startup_folder}\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4d2b0d3f-3a50-462f-b8ce-6f7a2401bc6f",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-ItemProperty -Path  \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\" -Name \"Startup\" -Value \"$env:APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\"\nRemove-Item \"#{new_startup_folder}\" -Recurse -Force\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "fd4bcb4c-5097-4aa3-8358-2d6ae48c71ea",
+      "p": "on-success",
+      "o": "4d2b0d3f-3a50-462f-b8ce-6f7a2401bc6f"
+    },
+    {
+      "s": "fd4bcb4c-5097-4aa3-8358-2d6ae48c71ea",
+      "p": "on-failure",
+      "o": "4d2b0d3f-3a50-462f-b8ce-6f7a2401bc6f"
+    }
+  ],
+  "tags": [
+    "T1547.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "payload",
+      "type": "string",
+      "description": "executable to be placed in new startup location ",
+      "value": "C:\\Windows\\System32\\calc.exe"
+    },
+    {
+      "name": "new_startup_folder",
+      "type": "string",
+      "description": "new startup folder to replace standard one",
+      "value": "$env:TMP\\atomictest\\"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "id": "989cc1b1-3642-4260-a809-54f9dd559683",
+  "name": "rm -rf",
+  "description": "Delete system and audit logs\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "4670cf57-2e37-4f8f-ada6-e483ed91f0a9",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo rm -rf #{syslog_path}\nif [ -d /var/audit ] ; then sudo rm -rf #{macos_audit_path} ; fi\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "20fbb0fa-7f59-4194-a6c7-a752ede77589",
+      "name": "Check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -d /var/audit ] ; then stat #{macos_audit_path} ; fi \u0026\u0026 stat #{syslog_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "11799757-a96f-48b1-9e8e-ec5c5f7e8508",
+      "name": "Resolve dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "touch #{syslog_path}\nif [ -d /var/audit ] ; then touch #{macos_audit_path} ; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "cc4c975a-9232-4250-8ce8-2f7328bfbd1a",
+      "name": "Re-check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -d /var/audit ] ; then stat #{macos_audit_path} ; fi \u0026\u0026 stat #{syslog_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "20fbb0fa-7f59-4194-a6c7-a752ede77589",
+      "p": "on-success",
+      "o": "4670cf57-2e37-4f8f-ada6-e483ed91f0a9"
+    },
+    {
+      "s": "20fbb0fa-7f59-4194-a6c7-a752ede77589",
+      "p": "on-failure",
+      "o": "11799757-a96f-48b1-9e8e-ec5c5f7e8508"
+    },
+    {
+      "s": "11799757-a96f-48b1-9e8e-ec5c5f7e8508",
+      "p": "on-success",
+      "o": "cc4c975a-9232-4250-8ce8-2f7328bfbd1a"
+    },
+    {
+      "s": "cc4c975a-9232-4250-8ce8-2f7328bfbd1a",
+      "p": "on-failure",
+      "o": "4670cf57-2e37-4f8f-ada6-e483ed91f0a9"
+    }
+  ],
+  "tags": [
+    "T1070.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "syslog_path",
+      "type": "string",
+      "description": "path of syslog file to delete. On macos it's /var/log/system.log*, on linux, it's /var/log/syslog*. Also note for File events, that on macos, /var/ is a link to /private/var/.",
+      "value": "/var/log/system.log"
+    },
+    {
+      "name": "macos_audit_path",
+      "type": "string",
+      "description": "path of audit file to delete",
+      "value": "/var/audit/20220725213300.202208110700021"
+    }
+  ]
+}

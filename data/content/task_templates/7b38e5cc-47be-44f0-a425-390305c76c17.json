@@ -1,0 +1,23 @@
+{
+  "id": "7b38e5cc-47be-44f0-a425-390305c76c17",
+  "name": "What shell is running",
+  "description": "An adversary will want to discover what shell is running so that they can tailor their attacks accordingly. The following commands will discover what shell is running.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "14da0eb4-36e2-40ba-8972-0746823ff3e0",
+      "type": "execute-command",
+      "data": {
+        "command": "echo $0\nif $(env |grep \"SHELL\" \u003e/dev/null); then env |grep \"SHELL\"; fi\nif $(printenv SHELL \u003e/dev/null); then printenv SHELL; fi\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1059.004",
+    "atomic-red-team"
+  ]
+}

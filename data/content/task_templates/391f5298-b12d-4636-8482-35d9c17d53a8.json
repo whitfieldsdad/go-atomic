@@ -1,0 +1,111 @@
+{
+  "id": "391f5298-b12d-4636-8482-35d9c17d53a8",
+  "name": "Compressing data using GZip in Python (FreeBSD/Linux)",
+  "description": "Uses GZip from Python to compress files\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "75c41cc4-6503-4e1a-a9cb-b35691686840",
+      "type": "execute-command",
+      "data": {
+        "command": "which_python=`which python || which python3`\n$which_python -c \"import gzip;input_file=open('#{path_to_input_file}', 'rb');content=input_file.read();input_file.close();output_file=gzip.GzipFile('#{path_to_output_file}','wb',compresslevel=6);output_file.write(content);output_file.close();\"\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "305fddad-1fa9-473d-acb3-a5c5759a5e78",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{path_to_output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5bca3d7b-bac1-452b-9b8d-c91c6345cddf",
+      "name": "Check dependency 1/1",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which python || which python3\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "25373b7b-ce6c-40f4-a6bb-47485c4c43be",
+      "name": "Resolve dependency 1/1",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"please install python to run this test\"; exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "aff4aed9-1b52-49ec-a0e9-fc124ca703cf",
+      "name": "Re-check dependency 1/1",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which python || which python3\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "75c41cc4-6503-4e1a-a9cb-b35691686840",
+      "p": "on-success",
+      "o": "305fddad-1fa9-473d-acb3-a5c5759a5e78"
+    },
+    {
+      "s": "75c41cc4-6503-4e1a-a9cb-b35691686840",
+      "p": "on-failure",
+      "o": "305fddad-1fa9-473d-acb3-a5c5759a5e78"
+    },
+    {
+      "s": "5bca3d7b-bac1-452b-9b8d-c91c6345cddf",
+      "p": "on-success",
+      "o": "75c41cc4-6503-4e1a-a9cb-b35691686840"
+    },
+    {
+      "s": "5bca3d7b-bac1-452b-9b8d-c91c6345cddf",
+      "p": "on-failure",
+      "o": "25373b7b-ce6c-40f4-a6bb-47485c4c43be"
+    },
+    {
+      "s": "25373b7b-ce6c-40f4-a6bb-47485c4c43be",
+      "p": "on-success",
+      "o": "aff4aed9-1b52-49ec-a0e9-fc124ca703cf"
+    },
+    {
+      "s": "aff4aed9-1b52-49ec-a0e9-fc124ca703cf",
+      "p": "on-failure",
+      "o": "75c41cc4-6503-4e1a-a9cb-b35691686840"
+    }
+  ],
+  "tags": [
+    "T1560.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "path_to_input_file",
+      "type": "path",
+      "description": "Path to the file that you want to compress",
+      "value": "/etc/passwd"
+    },
+    {
+      "name": "path_to_output_file",
+      "type": "path",
+      "description": "Path of the file that you want your .gz file to be",
+      "value": "/tmp/passwd.gz"
+    }
+  ]
+}

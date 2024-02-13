@@ -1,0 +1,58 @@
+{
+  "id": "73785dd2-323b-4205-ab16-bb6f06677e14",
+  "name": "EarlyBird APC Queue Injection in Go",
+  "description": "Creates a process in a suspended state and calls QueueUserAPC WinAPI to add a UserAPC to the child process that points to allocated shellcode. \nResumeThread is called which then calls NtTestAlert to execute the created UserAPC which then executes the shellcode.\nThis technique allows for the early execution of shellcode and potentially before AV/EDR can hook functions to support detection.\n- PoC Credit: (https://github.com/Ne0nd0g/go-shellcode#createprocesswithpipe)\n- References: \n  - https://www.bleepingcomputer.com/news/security/early-bird-code-injection-technique-helps-malware-stay-undetected/\n  - https://www.ired.team/offensive-security/code-injection-process-injection/early-bird-apc-queue-code-injection\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "4a76047e-e395-4e95-8568-f5d6c2b66a89",
+      "type": "execute-command",
+      "data": {
+        "command": "$PathToAtomicsFolder\\T1055.004\\bin\\x64\\EarlyBird.exe -program \"#{spawn_process_path}\" -debug\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "def68b0c-636b-4233-8b9b-ae5f0da174ed",
+      "type": "execute-command",
+      "data": {
+        "command": "Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue\nStop-Process -Name \"#{spawn_process_name}\" -ErrorAction SilentlyContinue\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4a76047e-e395-4e95-8568-f5d6c2b66a89",
+      "p": "on-success",
+      "o": "def68b0c-636b-4233-8b9b-ae5f0da174ed"
+    },
+    {
+      "s": "4a76047e-e395-4e95-8568-f5d6c2b66a89",
+      "p": "on-failure",
+      "o": "def68b0c-636b-4233-8b9b-ae5f0da174ed"
+    }
+  ],
+  "tags": [
+    "T1055.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "spawn_process_path",
+      "type": "string",
+      "description": "Path of the binary to spawn",
+      "value": "C:\\Windows\\System32\\werfault.exe"
+    },
+    {
+      "name": "spawn_process_name",
+      "type": "string",
+      "description": "Name of the process to spawn",
+      "value": "werfault"
+    }
+  ]
+}

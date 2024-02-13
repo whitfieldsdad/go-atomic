@@ -1,0 +1,44 @@
+{
+  "id": "9ab80952-74ee-43da-a98c-1e740a985f28",
+  "name": "LockBit Black - Modify Group policy settings -cmd",
+  "description": "An adversary can modify the group policy settings.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "f723a0ef-d5f4-43a0-95ad-912b4597ca75",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" /v GroupPolicyRefreshTimeDC /t REG_DWORD /d 0 /f\nreg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" /v GroupPolicyRefreshTimeOffsetDC /t REG_DWORD /d 0 /f\nreg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" /v GroupPolicyRefreshTime /t REG_DWORD /d 0 /f\nreg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" /v GroupPolicyRefreshTimeOffset /t REG_DWORD /d 0 /f\nreg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" /v EnableSmartScreen /t REG_DWORD /d 0 /f\nreg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" /v ShellSmartScreenLevel /t REG_SZ /d Block /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b9c9668a-33c3-4fdb-8539-a8ae5890d85c",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" /v GroupPolicyRefreshTimeDC /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" /v GroupPolicyRefreshTimeOffsetDC /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" /v GroupPolicyRefreshTime /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" /v GroupPolicyRefreshTimeOffset /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" /v EnableSmartScreen /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" /v ShellSmartScreenLevel /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f723a0ef-d5f4-43a0-95ad-912b4597ca75",
+      "p": "on-success",
+      "o": "b9c9668a-33c3-4fdb-8539-a8ae5890d85c"
+    },
+    {
+      "s": "f723a0ef-d5f4-43a0-95ad-912b4597ca75",
+      "p": "on-failure",
+      "o": "b9c9668a-33c3-4fdb-8539-a8ae5890d85c"
+    }
+  ],
+  "tags": [
+    "T1484.001",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "2f898b81-3e97-4abb-bc3f-a95138988370",
+  "name": "Prevent Powershell History Logging",
+  "description": "Prevents Powershell history\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "41197f6b-6664-415b-ba4a-7ae8391d182d",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-PSReadlineOption -HistorySaveStyle SaveNothing\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "78f9a49d-afc0-4153-ab4b-be2b7fe4209c",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-PSReadLineOption -HistorySaveStyle SaveIncrementally",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "41197f6b-6664-415b-ba4a-7ae8391d182d",
+      "p": "on-success",
+      "o": "78f9a49d-afc0-4153-ab4b-be2b7fe4209c"
+    },
+    {
+      "s": "41197f6b-6664-415b-ba4a-7ae8391d182d",
+      "p": "on-failure",
+      "o": "78f9a49d-afc0-4153-ab4b-be2b7fe4209c"
+    }
+  ],
+  "tags": [
+    "T1070.003",
+    "atomic-red-team"
+  ]
+}

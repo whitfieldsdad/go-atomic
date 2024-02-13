@@ -1,0 +1,44 @@
+{
+  "id": "4d72d4b1-fa7b-4374-b423-0fe326da49d2",
+  "name": "Activate Windows NoTrayContextMenu Group Policy Feature",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to Disable context menu for taskbar Group Policy. \nTake note that some Group Policy changes might require a restart to take effect.\nSee how ransomware abuses this technique- https://www.virustotal.com/gui/file/2d7855bf6470aa323edf2949b54ce2a04d9e38770f1322c3d0420c2303178d91/details\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "55189d9f-d303-4d9e-8a91-669ca89af90c",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoTrayContextMenu /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d2f08d9d-5ffd-4546-bc15-bbef53a623d4",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoTrayContextMenu /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "55189d9f-d303-4d9e-8a91-669ca89af90c",
+      "p": "on-success",
+      "o": "d2f08d9d-5ffd-4546-bc15-bbef53a623d4"
+    },
+    {
+      "s": "55189d9f-d303-4d9e-8a91-669ca89af90c",
+      "p": "on-failure",
+      "o": "d2f08d9d-5ffd-4546-bc15-bbef53a623d4"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

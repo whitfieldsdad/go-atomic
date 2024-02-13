@@ -1,0 +1,23 @@
+{
+  "id": "e129d73b-3e03-4ae9-bf1e-67fc8921e0fd",
+  "name": "Detect Virtualization Environment (FreeBSD)",
+  "description": "Detects execution in a virtualized environment.\nAt boot, dmesg stores a log if a hypervisor is detected.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "2d4b7939-72cd-4178-83b7-6aefe0714359",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ \"$(sysctl -n hw.hv_vendor)\" != \"\" ]; then echo \"Virtualization Environment detected\"; fi\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1497.001",
+    "atomic-red-team"
+  ]
+}

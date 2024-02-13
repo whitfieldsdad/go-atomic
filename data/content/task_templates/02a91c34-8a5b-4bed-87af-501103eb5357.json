@@ -1,0 +1,44 @@
+{
+  "id": "02a91c34-8a5b-4bed-87af-501103eb5357",
+  "name": "Create local account (Linux)",
+  "description": "An adversary may wish to create an account with admin privileges to work with. In this test we create a \"art\" user with the password art, switch to art, execute whoami, exit and delete the art user.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "d1b74d4f-87a0-4d46-a4a2-8ffc200bd789",
+      "type": "execute-command",
+      "data": {
+        "command": "password=$(openssl passwd -1 art)\n([ \"$(uname)\" = 'Linux' ] \u0026\u0026 useradd --shell /bin/bash --create-home --password $password art) || (pw useradd art -g wheel -s /bin/sh \u0026\u0026 (echo $password | pw mod user testuser1 -h 0))\nsu art -c \"whoami; exit\"\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4f20cfa2-6c67-42b8-9fd9-b2fc0cff2f88",
+      "type": "execute-command",
+      "data": {
+        "command": "[ \"$(uname)\" = 'Linux' ] \u0026\u0026 userdel art -rf || rmuser -y art\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d1b74d4f-87a0-4d46-a4a2-8ffc200bd789",
+      "p": "on-success",
+      "o": "4f20cfa2-6c67-42b8-9fd9-b2fc0cff2f88"
+    },
+    {
+      "s": "d1b74d4f-87a0-4d46-a4a2-8ffc200bd789",
+      "p": "on-failure",
+      "o": "4f20cfa2-6c67-42b8-9fd9-b2fc0cff2f88"
+    }
+  ],
+  "tags": [
+    "T1078.003",
+    "atomic-red-team"
+  ]
+}

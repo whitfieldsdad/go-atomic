@@ -1,0 +1,203 @@
+{
+  "id": "14d55ca0-920e-4b44-8425-37eedd72b173",
+  "name": "Psiphon",
+  "description": "Psiphon 3 is a circumvention tool from Psiphon Inc. that utilizes VPN, SSH and HTTP Proxy technology to provide you\nwith uncensored access to Internet.\nThis process will launch Psiphon 3 and establish a connection. Shortly after it will be shut down via process kill commands.\nMore information can be found about Psiphon using the following urls\nhttp://s3.amazonaws.com/0ubz-2q11-gi9y/en.html\nhttps://psiphon.ca/faq.html\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "297971fd-b0ab-4e19-8df7-c5554a712989",
+      "type": "execute-command",
+      "data": {
+        "command": "\u0026 \"PathToAtomicsFolder\\T1090.003\\src\\Psiphon.bat\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7d40554c-61cd-4ccf-b01b-78b58f277e13",
+      "type": "execute-command",
+      "data": {
+        "command": "$Proxy = Get-Content $env:Temp\\proxy-backup.txt -ErrorAction Ignore\nif($null -ne $Proxy) \n{Set-ItemProperty -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings' -Name \"ProxyServer\" -Value $Proxy}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "961630ae-c542-426e-ac86-30116be084be",
+      "name": "Check dependency 1/3",
+      "description": "The proxy settings backup file must exist on disk at $env:Temp\\proxy-backup.txt\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path $env:Temp\\proxy-backup.txt) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e5c459a1-cd6e-4421-a6cf-723851531967",
+      "name": "Resolve dependency 1/3",
+      "description": "The proxy settings backup file must exist on disk at $env:Temp\\proxy-backup.txt\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if(-not (test-path $env:Temp\\proxy-backup.txt)){\n$Proxy = (Get-ItemProperty -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings' -Name \"ProxyServer\" -ErrorAction Ignore).ProxyServer\nSet-Content $env:Temp\\proxy-backup.txt $Proxy}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "deef8f88-dfc5-40be-a919-f2a81f3dc4d9",
+      "name": "Re-check dependency 1/3",
+      "description": "The proxy settings backup file must exist on disk at $env:Temp\\proxy-backup.txt\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path $env:Temp\\proxy-backup.txt) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c8c18ac7-ce13-4947-a6e0-bd0996b6b04a",
+      "name": "Check dependency 2/3",
+      "description": "The Psiphon executable must exist in the Downloads folder\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\psiphon3.exe\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "51a53fb5-2aea-4884-a653-715ffb2f70fb",
+      "name": "Resolve dependency 2/3",
+      "description": "The Psiphon executable must exist in the Downloads folder\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction ignore -Force | Out-Null\nInvoke-WebRequest \"https://s3.amazonaws.com/0ubz-2q11-gi9y/psiphon3.exe\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\psiphon3.exe\" \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8a3c0cb3-fd21-4773-bbad-7a930fcf6422",
+      "name": "Re-check dependency 2/3",
+      "description": "The Psiphon executable must exist in the Downloads folder\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\psiphon3.exe\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3adbfca8-6480-4d5d-b414-625e965ac7d9",
+      "name": "Check dependency 3/3",
+      "description": "Batch file containing commands to run must be in src directory \n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\T1090.003\\src\\Psiphon.bat\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0b201597-ad50-45a0-b523-e14f7c2e47e1",
+      "name": "Resolve dependency 3/3",
+      "description": "Batch file containing commands to run must be in src directory \n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\T1090.003\\src\\\" -ErrorAction ignore -Force | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1090.003/src/Psiphon.bat\" -OutFile \"PathToAtomicsFolder\\T1090.003\\src\\Psiphon.bat\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fb90734c-ae6f-4ebb-abcf-48ee29c59476",
+      "name": "Re-check dependency 3/3",
+      "description": "Batch file containing commands to run must be in src directory \n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\T1090.003\\src\\Psiphon.bat\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "297971fd-b0ab-4e19-8df7-c5554a712989",
+      "p": "on-success",
+      "o": "7d40554c-61cd-4ccf-b01b-78b58f277e13"
+    },
+    {
+      "s": "297971fd-b0ab-4e19-8df7-c5554a712989",
+      "p": "on-failure",
+      "o": "7d40554c-61cd-4ccf-b01b-78b58f277e13"
+    },
+    {
+      "s": "961630ae-c542-426e-ac86-30116be084be",
+      "p": "on-success",
+      "o": "297971fd-b0ab-4e19-8df7-c5554a712989"
+    },
+    {
+      "s": "961630ae-c542-426e-ac86-30116be084be",
+      "p": "on-failure",
+      "o": "e5c459a1-cd6e-4421-a6cf-723851531967"
+    },
+    {
+      "s": "e5c459a1-cd6e-4421-a6cf-723851531967",
+      "p": "on-success",
+      "o": "deef8f88-dfc5-40be-a919-f2a81f3dc4d9"
+    },
+    {
+      "s": "deef8f88-dfc5-40be-a919-f2a81f3dc4d9",
+      "p": "on-failure",
+      "o": "297971fd-b0ab-4e19-8df7-c5554a712989"
+    },
+    {
+      "s": "c8c18ac7-ce13-4947-a6e0-bd0996b6b04a",
+      "p": "on-success",
+      "o": "297971fd-b0ab-4e19-8df7-c5554a712989"
+    },
+    {
+      "s": "c8c18ac7-ce13-4947-a6e0-bd0996b6b04a",
+      "p": "on-failure",
+      "o": "51a53fb5-2aea-4884-a653-715ffb2f70fb"
+    },
+    {
+      "s": "51a53fb5-2aea-4884-a653-715ffb2f70fb",
+      "p": "on-success",
+      "o": "8a3c0cb3-fd21-4773-bbad-7a930fcf6422"
+    },
+    {
+      "s": "8a3c0cb3-fd21-4773-bbad-7a930fcf6422",
+      "p": "on-failure",
+      "o": "297971fd-b0ab-4e19-8df7-c5554a712989"
+    },
+    {
+      "s": "3adbfca8-6480-4d5d-b414-625e965ac7d9",
+      "p": "on-success",
+      "o": "297971fd-b0ab-4e19-8df7-c5554a712989"
+    },
+    {
+      "s": "3adbfca8-6480-4d5d-b414-625e965ac7d9",
+      "p": "on-failure",
+      "o": "0b201597-ad50-45a0-b523-e14f7c2e47e1"
+    },
+    {
+      "s": "0b201597-ad50-45a0-b523-e14f7c2e47e1",
+      "p": "on-success",
+      "o": "fb90734c-ae6f-4ebb-abcf-48ee29c59476"
+    },
+    {
+      "s": "fb90734c-ae6f-4ebb-abcf-48ee29c59476",
+      "p": "on-failure",
+      "o": "297971fd-b0ab-4e19-8df7-c5554a712989"
+    }
+  ],
+  "tags": [
+    "T1090.003",
+    "atomic-red-team"
+  ]
+}

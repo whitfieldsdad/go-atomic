@@ -1,0 +1,111 @@
+{
+  "id": "22cf8cb9-adb1-4e8c-80ca-7c723dfc8784",
+  "name": "Active Directory Enumeration with LDIFDE",
+  "description": "Output information from Active Directory to a specified file. [Ldifde](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc731033(v=ws.11)) is a CLI tool for creating, modifying and deleting directory objects.\nThe test is derived from the CISA Report on Voly Typhoon. Reference: https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "590a65ee-84ff-48a9-98ad-f759346b47f8",
+      "type": "execute-command",
+      "data": {
+        "command": "ldifde.exe -f #{output_path}\\#{output_file} -p subtree\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "95f7e0f1-8100-4361-9bc5-d146d23b0d38",
+      "type": "execute-command",
+      "data": {
+        "command": "del #{output_path}\\#{output_file}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9ea2f54b-5d2b-4abf-b11d-bd88c22fed1f",
+      "name": "Check dependency 1/1",
+      "description": "PowerShell ActiveDirectory Module must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Try {\n    Import-Module ActiveDirectory -ErrorAction Stop | Out-Null\n    exit 0\n}\nCatch {\n    exit 1\n}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "35379f33-7f59-40eb-8673-ba834cc5f383",
+      "name": "Resolve dependency 1/1",
+      "description": "PowerShell ActiveDirectory Module must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CimInstance -ClassName Win32_OperatingSystem).ProductType -eq 1) {\n  Add-WindowsCapability -Name (Get-WindowsCapability -Name RSAT.ActiveDirectory.DS* -Online).Name -Online\n} else {\n  Install-WindowsFeature RSAT-AD-PowerShell\n}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "573950b1-a1c8-4b35-a4ec-1669df69824c",
+      "name": "Re-check dependency 1/1",
+      "description": "PowerShell ActiveDirectory Module must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Try {\n    Import-Module ActiveDirectory -ErrorAction Stop | Out-Null\n    exit 0\n}\nCatch {\n    exit 1\n}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "590a65ee-84ff-48a9-98ad-f759346b47f8",
+      "p": "on-success",
+      "o": "95f7e0f1-8100-4361-9bc5-d146d23b0d38"
+    },
+    {
+      "s": "590a65ee-84ff-48a9-98ad-f759346b47f8",
+      "p": "on-failure",
+      "o": "95f7e0f1-8100-4361-9bc5-d146d23b0d38"
+    },
+    {
+      "s": "9ea2f54b-5d2b-4abf-b11d-bd88c22fed1f",
+      "p": "on-success",
+      "o": "590a65ee-84ff-48a9-98ad-f759346b47f8"
+    },
+    {
+      "s": "9ea2f54b-5d2b-4abf-b11d-bd88c22fed1f",
+      "p": "on-failure",
+      "o": "35379f33-7f59-40eb-8673-ba834cc5f383"
+    },
+    {
+      "s": "35379f33-7f59-40eb-8673-ba834cc5f383",
+      "p": "on-success",
+      "o": "573950b1-a1c8-4b35-a4ec-1669df69824c"
+    },
+    {
+      "s": "573950b1-a1c8-4b35-a4ec-1669df69824c",
+      "p": "on-failure",
+      "o": "590a65ee-84ff-48a9-98ad-f759346b47f8"
+    }
+  ],
+  "tags": [
+    "T1069.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_path",
+      "type": "path",
+      "description": "Path to the file that ldifde will output",
+      "value": "C:\\Windows\\temp"
+    },
+    {
+      "name": "output_file",
+      "type": "string",
+      "description": "The filename to be created by ldifde",
+      "value": "atomic_ldifde.txt"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "id": "1a01f6b8-b1e8-418e-bbe3-78a6f822759e",
+  "name": "Encrypt files using openssl utility - macOS",
+  "description": "This test encrypts the file(s) using the openssl utility\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "cebd2cab-91a3-4b7a-a4eb-b7e664d64da1",
+      "type": "execute-command",
+      "data": {
+        "command": "openssl enc #{encryption_option} -in #{input_file_path} -out #{output_file_name}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "90d86c8f-a123-4492-9e9a-1166a6ebaa2d",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{output_file_name}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "cebd2cab-91a3-4b7a-a4eb-b7e664d64da1",
+      "p": "on-success",
+      "o": "90d86c8f-a123-4492-9e9a-1166a6ebaa2d"
+    },
+    {
+      "s": "cebd2cab-91a3-4b7a-a4eb-b7e664d64da1",
+      "p": "on-failure",
+      "o": "90d86c8f-a123-4492-9e9a-1166a6ebaa2d"
+    }
+  ],
+  "tags": [
+    "T1486",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file_name",
+      "type": "string",
+      "description": "Path to the file that you want to encrypt",
+      "value": "ARTFile"
+    },
+    {
+      "name": "encryption_option",
+      "type": "string",
+      "description": "Specifiy the required encryption option",
+      "value": "-pbkdf2"
+    },
+    {
+      "name": "input_file_path",
+      "type": "path",
+      "description": "Path to the file that you want to encrypt",
+      "value": "~/test.txt"
+    }
+  ]
+}

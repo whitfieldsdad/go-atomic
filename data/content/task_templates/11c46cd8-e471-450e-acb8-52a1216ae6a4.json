@@ -1,0 +1,52 @@
+{
+  "id": "11c46cd8-e471-450e-acb8-52a1216ae6a4",
+  "name": "Binary simply packed by UPX (linux)",
+  "description": "Copies and then runs a simple binary (just outputting \"the cake is a lie\"), that was packed by UPX.\nNo other protection/compression were applied.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "6e7bdbf2-dba8-472e-833e-fa69b9cc6ba1",
+      "type": "execute-command",
+      "data": {
+        "command": "cp #{bin_path} /tmp/packed_bin \u0026\u0026 /tmp/packed_bin\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0afc9875-5145-4b06-a386-2cc770e2afc1",
+      "type": "execute-command",
+      "data": {
+        "command": "rm /tmp/packed_bin\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "6e7bdbf2-dba8-472e-833e-fa69b9cc6ba1",
+      "p": "on-success",
+      "o": "0afc9875-5145-4b06-a386-2cc770e2afc1"
+    },
+    {
+      "s": "6e7bdbf2-dba8-472e-833e-fa69b9cc6ba1",
+      "p": "on-failure",
+      "o": "0afc9875-5145-4b06-a386-2cc770e2afc1"
+    }
+  ],
+  "tags": [
+    "T1027.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "bin_path",
+      "type": "path",
+      "description": "Packed binary",
+      "value": "PathToAtomicsFolder/T1027.002/bin/linux/test_upx"
+    }
+  ]
+}

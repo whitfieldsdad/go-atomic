@@ -1,0 +1,55 @@
+{
+  "id": "ae9ef4b0-d8c1-49d4-8758-06206f19af0a",
+  "name": "DNS over HTTPS Large Query Volume",
+  "description": "This test simulates an infected host sending a large volume of DoH queries to a command and control server.\nThe intent of this test is to trigger threshold based detection on the number of DoH queries either from a single source system or to a single targe domain.\nA custom domain and sub-domain will need to be passed as input parameters for this test to work. Upon execution, DNS information about the domain will be displayed for each callout in a JSON format.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e5ad8ec1-1d54-4f5a-9b75-9c7fd955e661",
+      "type": "execute-command",
+      "data": {
+        "command": "for($i=0; $i -le #{query_volume}; $i++) { (Invoke-WebRequest \"#{doh_server}?name=#{subdomain}.$(Get-Random -Minimum 1 -Maximum 999999).#{domain}\u0026type=#{query_type}\" -UseBasicParsing).Content }\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1572",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "subdomain",
+      "type": "string",
+      "description": "Subdomain prepended to the domain name",
+      "value": "atomicredteam"
+    },
+    {
+      "name": "query_volume",
+      "type": "integer",
+      "description": "Number of DNS queries to send",
+      "value": "1000"
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "Default domain to simulate against",
+      "value": "127.0.0.1.xip.io"
+    },
+    {
+      "name": "doh_server",
+      "type": "string",
+      "description": "Default DoH resolver",
+      "value": "https://8.8.8.8/resolve"
+    },
+    {
+      "name": "query_type",
+      "type": "string",
+      "description": "DNS query type",
+      "value": "TXT"
+    }
+  ]
+}

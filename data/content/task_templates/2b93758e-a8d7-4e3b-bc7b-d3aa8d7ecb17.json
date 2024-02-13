@@ -1,0 +1,32 @@
+{
+  "id": "2b93758e-a8d7-4e3b-bc7b-d3aa8d7ecb17",
+  "name": "Find AWS credentials",
+  "description": "Find local AWS credentials from file, defaults to using / as the look path.\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "4a02145e-d470-4092-a00d-598a708e2756",
+      "type": "execute-command",
+      "data": {
+        "command": "find #{file_path} -name \"credentials\" -type f -path \"*/.aws/*\" 2\u003e/dev/null\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1552.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_path",
+      "type": "string",
+      "description": "Path to search",
+      "value": "/"
+    }
+  ]
+}

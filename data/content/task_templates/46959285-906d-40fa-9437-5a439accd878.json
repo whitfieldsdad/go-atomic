@@ -1,0 +1,59 @@
+{
+  "id": "46959285-906d-40fa-9437-5a439accd878",
+  "name": "Discover Private SSH Keys",
+  "description": "Discover private SSH keys on a FreeBSD, macOS or Linux system.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "7ffa248d-aee7-4b0b-9c49-3fc588671540",
+      "type": "execute-command",
+      "data": {
+        "command": "find #{search_path} -name id_rsa 2\u003e/dev/null \u003e\u003e #{output_file}\nexit 0\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "caeb3637-c61a-4f41-804e-095a74065fb8",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7ffa248d-aee7-4b0b-9c49-3fc588671540",
+      "p": "on-success",
+      "o": "caeb3637-c61a-4f41-804e-095a74065fb8"
+    },
+    {
+      "s": "7ffa248d-aee7-4b0b-9c49-3fc588671540",
+      "p": "on-failure",
+      "o": "caeb3637-c61a-4f41-804e-095a74065fb8"
+    }
+  ],
+  "tags": [
+    "T1552.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "search_path",
+      "type": "path",
+      "description": "Path where to start searching from.",
+      "value": "/"
+    },
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Output file containing locations of SSH key files",
+      "value": "/tmp/keyfile_locations.txt"
+    }
+  ]
+}

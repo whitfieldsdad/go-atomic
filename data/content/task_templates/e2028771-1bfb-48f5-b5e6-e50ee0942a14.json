@@ -1,0 +1,117 @@
+{
+  "id": "e2028771-1bfb-48f5-b5e6-e50ee0942a14",
+  "name": "Packet Capture FreeBSD using /dev/bpfN with sudo",
+  "description": "Opens a /dev/bpf file (O_RDONLY) and captures packets for a few seconds.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "b515cecc-58b4-48f5-9ba9-94bb902fb969",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo #{program_path} -i #{ifname} -t 3\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3dbdeabc-b29e-4726-ae41-ea5c3947788f",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{program_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9a72762c-eca1-4dc3-adc0-8b2ff885e107",
+      "name": "Check dependency 1/1",
+      "description": "compile C program\n",
+      "type": "execute-command",
+      "data": {
+        "command": "exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d0aac29b-67d8-4109-b95b-b3d70a9dcc09",
+      "name": "Resolve dependency 1/1",
+      "description": "compile C program\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cc #{csource_path} -o #{program_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "60a3ec28-c142-4bc9-a129-747bf52bb177",
+      "name": "Re-check dependency 1/1",
+      "description": "compile C program\n",
+      "type": "execute-command",
+      "data": {
+        "command": "exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b515cecc-58b4-48f5-9ba9-94bb902fb969",
+      "p": "on-success",
+      "o": "3dbdeabc-b29e-4726-ae41-ea5c3947788f"
+    },
+    {
+      "s": "b515cecc-58b4-48f5-9ba9-94bb902fb969",
+      "p": "on-failure",
+      "o": "3dbdeabc-b29e-4726-ae41-ea5c3947788f"
+    },
+    {
+      "s": "9a72762c-eca1-4dc3-adc0-8b2ff885e107",
+      "p": "on-success",
+      "o": "b515cecc-58b4-48f5-9ba9-94bb902fb969"
+    },
+    {
+      "s": "9a72762c-eca1-4dc3-adc0-8b2ff885e107",
+      "p": "on-failure",
+      "o": "d0aac29b-67d8-4109-b95b-b3d70a9dcc09"
+    },
+    {
+      "s": "d0aac29b-67d8-4109-b95b-b3d70a9dcc09",
+      "p": "on-success",
+      "o": "60a3ec28-c142-4bc9-a129-747bf52bb177"
+    },
+    {
+      "s": "60a3ec28-c142-4bc9-a129-747bf52bb177",
+      "p": "on-failure",
+      "o": "b515cecc-58b4-48f5-9ba9-94bb902fb969"
+    }
+  ],
+  "tags": [
+    "T1040",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "ifname",
+      "type": "string",
+      "description": "Specify interface to perform PCAP on.",
+      "value": "em0"
+    },
+    {
+      "name": "csource_path",
+      "type": "string",
+      "description": "Path to C program source",
+      "value": "PathToAtomicsFolder/T1040/src/freebsd_pcapdemo.c"
+    },
+    {
+      "name": "program_path",
+      "type": "string",
+      "description": "Path to compiled C program",
+      "value": "/tmp/t1040_freebsd_pcapdemo"
+    }
+  ]
+}

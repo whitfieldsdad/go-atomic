@@ -1,0 +1,58 @@
+{
+  "id": "7c247dc7-5128-4643-907b-73a76d9135c3",
+  "name": "Copy Private SSH Keys with CP",
+  "description": "Copy private SSH keys on a Linux system to a staging folder using the `cp` command.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "38b93235-9453-47f2-ad21-9a04ccef47f5",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir #{output_folder}\nfind #{search_path} -name id_rsa 2\u003e/dev/null -exec cp --parents {} #{output_folder} \\;\nexit 0\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8a9bc256-a60e-4d6f-90ac-6c1059acd55f",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -rf #{output_folder}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "38b93235-9453-47f2-ad21-9a04ccef47f5",
+      "p": "on-success",
+      "o": "8a9bc256-a60e-4d6f-90ac-6c1059acd55f"
+    },
+    {
+      "s": "38b93235-9453-47f2-ad21-9a04ccef47f5",
+      "p": "on-failure",
+      "o": "8a9bc256-a60e-4d6f-90ac-6c1059acd55f"
+    }
+  ],
+  "tags": [
+    "T1552.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "search_path",
+      "type": "path",
+      "description": "Path where to start searching from.",
+      "value": "/"
+    },
+    {
+      "name": "output_folder",
+      "type": "path",
+      "description": "Output folder containing copies of SSH private key files",
+      "value": "/tmp/art-staging"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "id": "1a4ebe70-31d0-417b-ade2-ef4cb3e7d0e1",
+  "name": "Remote System Discovery - ip route",
+  "description": "Use the ip route command to display the kernels routing tables. \n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "280e615d-b573-4963-9d1f-a8571770f12a",
+      "type": "execute-command",
+      "data": {
+        "command": "ip route show\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1ca3f167-bbe1-4e15-8548-b02992a2789b",
+      "name": "Check dependency 1/1",
+      "description": "Check if ip command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v ip)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "faf17567-aa59-4419-8107-09680d94f8f0",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if ip command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "apt-get install iproute2 -y\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bc5f8374-a7b3-46ef-af14-2a4ce56918ab",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if ip command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v ip)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1ca3f167-bbe1-4e15-8548-b02992a2789b",
+      "p": "on-success",
+      "o": "280e615d-b573-4963-9d1f-a8571770f12a"
+    },
+    {
+      "s": "1ca3f167-bbe1-4e15-8548-b02992a2789b",
+      "p": "on-failure",
+      "o": "faf17567-aa59-4419-8107-09680d94f8f0"
+    },
+    {
+      "s": "faf17567-aa59-4419-8107-09680d94f8f0",
+      "p": "on-success",
+      "o": "bc5f8374-a7b3-46ef-af14-2a4ce56918ab"
+    },
+    {
+      "s": "bc5f8374-a7b3-46ef-af14-2a4ce56918ab",
+      "p": "on-failure",
+      "o": "280e615d-b573-4963-9d1f-a8571770f12a"
+    }
+  ],
+  "tags": [
+    "T1018",
+    "atomic-red-team"
+  ]
+}

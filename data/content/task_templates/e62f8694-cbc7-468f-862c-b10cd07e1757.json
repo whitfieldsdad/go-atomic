@@ -1,0 +1,86 @@
+{
+  "id": "e62f8694-cbc7-468f-862c-b10cd07e1757",
+  "name": "Delete system log files using Applescript",
+  "description": "This test deletes the system log file using applescript using osascript via Finder application\nNote: The user may be prompted to grant access to the Finder application before the command can be executed successfully as part of TCC(Transparency, Consent, and Control) Framework.\nRefer: https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "e61818de-955a-4e7f-b99a-05d3a75d13ad",
+      "type": "execute-command",
+      "data": {
+        "command": "osascript -e 'tell application \"Finder\" to delete POSIX file \"#{system_log_path}\"'\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a9cefa92-20b0-4029-9c36-3ef2b260d306",
+      "name": "Check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3b118c8b-2be2-4955-8da4-708df205ef72",
+      "name": "Resolve dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "touch #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b86948e8-736d-4295-8df6-0133bba58bcd",
+      "name": "Re-check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a9cefa92-20b0-4029-9c36-3ef2b260d306",
+      "p": "on-success",
+      "o": "e61818de-955a-4e7f-b99a-05d3a75d13ad"
+    },
+    {
+      "s": "a9cefa92-20b0-4029-9c36-3ef2b260d306",
+      "p": "on-failure",
+      "o": "3b118c8b-2be2-4955-8da4-708df205ef72"
+    },
+    {
+      "s": "3b118c8b-2be2-4955-8da4-708df205ef72",
+      "p": "on-success",
+      "o": "b86948e8-736d-4295-8df6-0133bba58bcd"
+    },
+    {
+      "s": "b86948e8-736d-4295-8df6-0133bba58bcd",
+      "p": "on-failure",
+      "o": "e61818de-955a-4e7f-b99a-05d3a75d13ad"
+    }
+  ],
+  "tags": [
+    "T1070.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "system_log_path",
+      "type": "string",
+      "description": "path to system.log",
+      "value": "/var/log/system.log"
+    }
+  ]
+}

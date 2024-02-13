@@ -1,0 +1,23 @@
+{
+  "id": "dd66d77d-8998-48c0-8024-df263dc2ce5d",
+  "name": "Basic Permission Groups Discovery Windows (Domain)",
+  "description": "Basic Permission Groups Discovery for Windows. This test will display some errors if run on a computer not connected to a domain. Upon execution, domain\ninformation will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "092df71e-253b-4cc4-886c-5d6130487fc9",
+      "type": "execute-command",
+      "data": {
+        "command": "net localgroup\nnet group /domain\nnet group \"enterprise admins\" /domain\nnet group \"domain admins\" /domain\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1069.002",
+    "atomic-red-team"
+  ]
+}

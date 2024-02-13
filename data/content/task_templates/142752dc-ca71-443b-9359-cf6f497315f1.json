@@ -1,0 +1,129 @@
+{
+  "id": "142752dc-ca71-443b-9359-cf6f497315f1",
+  "name": "Encrypt files using openssl (FreeBSD/Linux)",
+  "description": "Uses openssl to encrypt a file\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "7b4a0ea8-7d1b-48e4-99bc-ee28eab131a0",
+      "type": "execute-command",
+      "data": {
+        "command": "$which_openssl genrsa -out #{private_key_path} #{encryption_bit_size}\n$which_openssl rsa -in #{private_key_path} -pubout -out #{public_key_path}\n$which_openssl rsautl -encrypt -inkey #{public_key_path} -pubin -in #{input_file_path} -out #{encrypted_file_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bc27aef7-ff4c-4194-9312-cdc0cc60c713",
+      "type": "execute-command",
+      "data": {
+        "command": "$which_openssl rsautl -decrypt -inkey #{private_key_path} -in #{encrypted_file_path}\nrm #{encrypted_file_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e365663f-cc00-459d-b2a1-8d86c4640ae0",
+      "name": "Check dependency 1/1",
+      "description": "Finds where openssl is located\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which_openssl=`which openssl`\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8ae7404a-b2ad-4354-8e51-a28350a0945b",
+      "name": "Resolve dependency 1/1",
+      "description": "Finds where openssl is located\n",
+      "type": "execute-command",
+      "data": {
+        "command": "",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "114db23a-bfc0-4062-98a5-2808d87e8ab1",
+      "name": "Re-check dependency 1/1",
+      "description": "Finds where openssl is located\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which_openssl=`which openssl`\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7b4a0ea8-7d1b-48e4-99bc-ee28eab131a0",
+      "p": "on-success",
+      "o": "bc27aef7-ff4c-4194-9312-cdc0cc60c713"
+    },
+    {
+      "s": "7b4a0ea8-7d1b-48e4-99bc-ee28eab131a0",
+      "p": "on-failure",
+      "o": "bc27aef7-ff4c-4194-9312-cdc0cc60c713"
+    },
+    {
+      "s": "e365663f-cc00-459d-b2a1-8d86c4640ae0",
+      "p": "on-success",
+      "o": "7b4a0ea8-7d1b-48e4-99bc-ee28eab131a0"
+    },
+    {
+      "s": "e365663f-cc00-459d-b2a1-8d86c4640ae0",
+      "p": "on-failure",
+      "o": "8ae7404a-b2ad-4354-8e51-a28350a0945b"
+    },
+    {
+      "s": "8ae7404a-b2ad-4354-8e51-a28350a0945b",
+      "p": "on-success",
+      "o": "114db23a-bfc0-4062-98a5-2808d87e8ab1"
+    },
+    {
+      "s": "114db23a-bfc0-4062-98a5-2808d87e8ab1",
+      "p": "on-failure",
+      "o": "7b4a0ea8-7d1b-48e4-99bc-ee28eab131a0"
+    }
+  ],
+  "tags": [
+    "T1486",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "private_key_path",
+      "type": "path",
+      "description": "path to the private key",
+      "value": "/tmp/key.pem"
+    },
+    {
+      "name": "public_key_path",
+      "type": "path",
+      "description": "path to the public key",
+      "value": "/tmp/pub.pem"
+    },
+    {
+      "name": "encryption_bit_size",
+      "type": "integer",
+      "description": "size of the bit of encryption",
+      "value": "2048"
+    },
+    {
+      "name": "encrypted_file_path",
+      "type": "path",
+      "description": "path to the encrypted file",
+      "value": "/tmp/passwd.zip"
+    },
+    {
+      "name": "input_file_path",
+      "type": "path",
+      "description": "path to the file that you want to encrypt",
+      "value": "/etc/passwd"
+    }
+  ]
+}

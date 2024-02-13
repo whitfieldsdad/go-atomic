@@ -1,0 +1,58 @@
+{
+  "id": "74ace21e-a31c-4f7d-b540-53e4eb6d1f73",
+  "name": "Changing RDP Port to Non Standard Port via Command_Prompt",
+  "description": "Changing RDP Port to Non Standard Port via Command_Prompt\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "cdd5b499-2074-4695-a837-feee88d76d50",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp\" /v PortNumber /t REG_DWORD /d #{NEW_Remote_Port} /f\nnetsh advfirewall firewall add rule name=\"RDPPORTLatest-TCP-In\" dir=in action=allow protocol=TCP localport=#{NEW_Remote_Port}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "936f8354-523d-4c17-adce-9c729e51957d",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp\" /v PortNumber /t REG_DWORD /d #{OLD_Remote_Port} /f \u003enul 2\u003e\u00261\nnetsh advfirewall firewall delete rule name=\"RDPPORTLatest-TCP-In\" \u003enul 2\u003e\u00261\nnet stop TermService /y \u003enul 2\u003e\u00261\nnet start TermService \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "cdd5b499-2074-4695-a837-feee88d76d50",
+      "p": "on-success",
+      "o": "936f8354-523d-4c17-adce-9c729e51957d"
+    },
+    {
+      "s": "cdd5b499-2074-4695-a837-feee88d76d50",
+      "p": "on-failure",
+      "o": "936f8354-523d-4c17-adce-9c729e51957d"
+    }
+  ],
+  "tags": [
+    "T1021.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "NEW_Remote_Port",
+      "type": "string",
+      "description": "New RDP Listening Port",
+      "value": "4489"
+    },
+    {
+      "name": "OLD_Remote_Port",
+      "type": "string",
+      "description": "Default RDP Listening Port",
+      "value": "3389"
+    }
+  ]
+}

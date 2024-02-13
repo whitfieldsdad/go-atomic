@@ -1,0 +1,37 @@
+{
+  "id": "f21a1d7d-a62f-442a-8c3a-2440d43b19e5",
+  "name": "Delete User - Windows",
+  "description": "Deletes a user account to prevent access. Upon execution, run the command \"net user\" to verify that the new \"AtomicUser\" account was deleted.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "032949f3-617f-45f8-8c4b-8c21a61629fe",
+      "type": "execute-command",
+      "data": {
+        "command": "net user #{user_account} #{new_user_password} /add\nnet.exe user #{user_account} /delete\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1531",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "new_user_password",
+      "type": "string",
+      "description": "Password to use if user account must be created first",
+      "value": "User2DeletePW!"
+    },
+    {
+      "name": "user_account",
+      "type": "string",
+      "description": "User account to be deleted.",
+      "value": "AtomicUser"
+    }
+  ]
+}

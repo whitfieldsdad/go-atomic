@@ -1,0 +1,31 @@
+{
+  "id": "0208ea60-98f1-4e8c-8052-930dce8f742c",
+  "name": "Overwrite macOS system log via echo utility",
+  "description": "This test overwrites the contents of system log file with an empty string using echo utility\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "130bdfaa-44a7-4f8d-b95a-03e0dc8860d7",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo echo '' \u003e #{system_log_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1070.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "system_log_path",
+      "type": "string",
+      "description": "path to system.log",
+      "value": "/var/log/system.log"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "id": "35eb8d16-9820-4423-a2a1-90c4f5edd9ca",
+  "name": "Masquerade as a built-in system executable",
+  "description": "Launch an executable that attempts to masquerade as a legitimate executable.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "cf56943b-1746-4888-a247-ce65622cfc8a",
+      "type": "execute-command",
+      "data": {
+        "command": "Add-Type -TypeDefinition @'\npublic class Test {\n    public static void Main(string[] args) {\n        System.Console.WriteLine(\"tweet, tweet\");\n    }\n}\n'@ -OutputAssembly \"#{executable_filepath}\"\n\nStart-Process -FilePath \"#{executable_filepath}\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bd8cb535-f484-46f0-9636-48ef35683ac3",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -Path \"#{executable_filepath}\" -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "cf56943b-1746-4888-a247-ce65622cfc8a",
+      "p": "on-success",
+      "o": "bd8cb535-f484-46f0-9636-48ef35683ac3"
+    },
+    {
+      "s": "cf56943b-1746-4888-a247-ce65622cfc8a",
+      "p": "on-failure",
+      "o": "bd8cb535-f484-46f0-9636-48ef35683ac3"
+    }
+  ],
+  "tags": [
+    "T1036.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "executable_filepath",
+      "type": "string",
+      "description": "File path where the generated executable will be dropped and executed from. The filename should be the name of a built-in system utility.",
+      "value": "$Env:windir\\Temp\\svchost.exe"
+    }
+  ]
+}

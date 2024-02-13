@@ -1,0 +1,44 @@
+{
+  "id": "d03683ec-aae0-42f9-9b4c-534780e0f8e1",
+  "name": "LogMeIn Files Detected Test on Windows",
+  "description": "An adversary may attempt to trick the user into downloading LogMeIn and use to establish C2. Download of LogMeIn installer will be at the destination location and ran when sucessfully executed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "bc8342cb-077f-4352-9f3c-3e2cef40ea5b",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest -OutFile C:\\Users\\$env:username\\Desktop\\LogMeInIgnition.msi https://secure.logmein.com/LogMeInIgnition.msi\n$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\LogMeInIgnition.msi\"\nStart-Process -Wait $file1 /quiet;\nStart-Process 'C:\\Program Files (x86)\\LogMeIn Ignition\\LMIIgnition.exe' \"/S\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3facdf60-68e3-44c5-bb74-2ff7db3835d4",
+      "type": "execute-command",
+      "data": {
+        "command": "get-package *'LogMeIn Client'* -ErrorAction Ignore | uninstall-package \n$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\LogMeInIgnition.msi\"\nRemove-Item $file1 -ErrorAction Ignore",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "bc8342cb-077f-4352-9f3c-3e2cef40ea5b",
+      "p": "on-success",
+      "o": "3facdf60-68e3-44c5-bb74-2ff7db3835d4"
+    },
+    {
+      "s": "bc8342cb-077f-4352-9f3c-3e2cef40ea5b",
+      "p": "on-failure",
+      "o": "3facdf60-68e3-44c5-bb74-2ff7db3835d4"
+    }
+  ],
+  "tags": [
+    "T1219",
+    "atomic-red-team"
+  ]
+}

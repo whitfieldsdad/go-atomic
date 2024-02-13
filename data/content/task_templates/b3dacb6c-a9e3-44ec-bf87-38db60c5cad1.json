@@ -1,0 +1,44 @@
+{
+  "id": "b3dacb6c-a9e3-44ec-bf87-38db60c5cad1",
+  "name": "Setting the HISTFILE environment variable",
+  "description": "An Adversary may clear, unset or redirect the history environment variable HISTFILE to prevent logging of commands to the history file after they log out of the system.\n\nNote: we don't wish to log out, so we are just confirming the value of HISTFILE. In this test we 1. echo HISTFILE 2. set it to /dev/null 3. confirm that HISTFILE is set to /dev/null.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "ba3b27a4-b1c4-40ab-8cc7-aa6c6241b6c6",
+      "type": "execute-command",
+      "data": {
+        "command": "TEST=$(echo $HISTFILE)\necho $HISTFILE\nexport HISTFILE=\"/dev/null\"\nif [ $(echo $HISTFILE) == \"/dev/null\" ]; then echo \"\\$HISTFILE is /dev/null\"; fi\n# -\u003e $HISTFILE is /dev/null\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "59fb4ec8-64a8-45d5-9e66-6a15be889ef5",
+      "type": "execute-command",
+      "data": {
+        "command": "export HISTFILE=$(echo $TEST)\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ba3b27a4-b1c4-40ab-8cc7-aa6c6241b6c6",
+      "p": "on-success",
+      "o": "59fb4ec8-64a8-45d5-9e66-6a15be889ef5"
+    },
+    {
+      "s": "ba3b27a4-b1c4-40ab-8cc7-aa6c6241b6c6",
+      "p": "on-failure",
+      "o": "59fb4ec8-64a8-45d5-9e66-6a15be889ef5"
+    }
+  ],
+  "tags": [
+    "T1562.003",
+    "atomic-red-team"
+  ]
+}

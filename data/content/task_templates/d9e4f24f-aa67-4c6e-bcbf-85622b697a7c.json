@@ -1,0 +1,94 @@
+{
+  "id": "d9e4f24f-aa67-4c6e-bcbf-85622b697a7c",
+  "name": "Create Systemd Service",
+  "description": "This test creates a Systemd service unit file and enables it as a service.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "c588dfd9-b5fb-491b-8bed-86e8222802d4",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"[Unit]\" \u003e #{systemd_service_path}/#{systemd_service_file}\necho \"Description=Atomic Red Team Systemd Service\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"[Service]\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"Type=simple\"\necho \"ExecStart=#{execstart_action}\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"ExecStartPre=#{execstartpre_action}\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"ExecStartPost=#{execstartpost_action}\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"ExecReload=#{execreload_action}\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"ExecStop=#{execstop_action}\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"ExecStopPost=#{execstoppost_action}\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"[Install]\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"WantedBy=default.target\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\nsystemctl daemon-reload\nsystemctl enable #{systemd_service_file}\nsystemctl start #{systemd_service_file}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "329aba8b-8d95-4395-bfc9-e3fb2f6b5eb1",
+      "type": "execute-command",
+      "data": {
+        "command": "systemctl stop #{systemd_service_file}\nsystemctl disable #{systemd_service_file}\nrm -rf #{systemd_service_path}/#{systemd_service_file}\nsystemctl daemon-reload\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c588dfd9-b5fb-491b-8bed-86e8222802d4",
+      "p": "on-success",
+      "o": "329aba8b-8d95-4395-bfc9-e3fb2f6b5eb1"
+    },
+    {
+      "s": "c588dfd9-b5fb-491b-8bed-86e8222802d4",
+      "p": "on-failure",
+      "o": "329aba8b-8d95-4395-bfc9-e3fb2f6b5eb1"
+    }
+  ],
+  "tags": [
+    "T1543.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "execstart_action",
+      "type": "string",
+      "description": "ExecStart action for Systemd service",
+      "value": "/bin/touch /tmp/art-systemd-execstart-marker"
+    },
+    {
+      "name": "execstop_action",
+      "type": "string",
+      "description": "ExecStop action for Systemd service",
+      "value": "/bin/touch /tmp/art-systemd-execstop-marker"
+    },
+    {
+      "name": "execstartpre_action",
+      "type": "string",
+      "description": "ExecStartPre action for Systemd service",
+      "value": "/bin/touch /tmp/art-systemd-execstartpre-marker"
+    },
+    {
+      "name": "execstartpost_action",
+      "type": "string",
+      "description": "ExecStartPost action for Systemd service",
+      "value": "/bin/touch /tmp/art-systemd-execstartpost-marker"
+    },
+    {
+      "name": "systemd_service_path",
+      "type": "path",
+      "description": "Path to systemd service unit file",
+      "value": "/etc/systemd/system"
+    },
+    {
+      "name": "systemd_service_file",
+      "type": "string",
+      "description": "File name of systemd service unit file",
+      "value": "art-systemd-service.service"
+    },
+    {
+      "name": "execstoppost_action",
+      "type": "string",
+      "description": "ExecStopPost action for Systemd service",
+      "value": "/bin/touch /tmp/art-systemd-execstoppost-marker"
+    },
+    {
+      "name": "execreload_action",
+      "type": "string",
+      "description": "ExecReload action for Systemd service",
+      "value": "/bin/touch /tmp/art-systemd-execreload-marker"
+    }
+  ]
+}

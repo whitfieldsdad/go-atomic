@@ -1,0 +1,44 @@
+{
+  "id": "fe7974e5-5813-477b-a7bd-311d4f535e83",
+  "name": "Enabling Restricted Admin Mode via Command_Prompt",
+  "description": "Enabling Restricted Admin Mode via Command_Prompt,enables an attacker to perform a pass-the-hash attack using RDP.\n\nSee [Passing the Hash with Remote Desktop](https://www.kali.org/blog/passing-hash-remote-desktop/)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "7b34b9ca-da26-4a86-b7e5-af379a516c16",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"hklm\\system\\currentcontrolset\\control\\lsa\" /f /v DisableRestrictedAdmin /t REG_DWORD /d 0\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6674a45b-96c2-4fb6-9fd0-5d928c7e7b6b",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"hklm\\system\\currentcontrolset\\control\\lsa\" /f /v DisableRestrictedAdmin \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7b34b9ca-da26-4a86-b7e5-af379a516c16",
+      "p": "on-success",
+      "o": "6674a45b-96c2-4fb6-9fd0-5d928c7e7b6b"
+    },
+    {
+      "s": "7b34b9ca-da26-4a86-b7e5-af379a516c16",
+      "p": "on-failure",
+      "o": "6674a45b-96c2-4fb6-9fd0-5d928c7e7b6b"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

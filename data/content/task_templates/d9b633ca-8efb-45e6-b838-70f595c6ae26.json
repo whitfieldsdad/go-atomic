@@ -1,0 +1,105 @@
+{
+  "id": "d9b633ca-8efb-45e6-b838-70f595c6ae26",
+  "name": "Input Capture",
+  "description": "Utilize PowerShell and external resource to capture keystrokes\n[Payload](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1056.001/src/Get-Keystrokes.ps1)\nProvided by [PowerSploit](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Get-Keystrokes.ps1)\n\nUpon successful execution, Powershell will execute `Get-Keystrokes.ps1` and output to key.log.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e33c7497-8fc3-41e1-a49b-da45892fa863",
+      "type": "execute-command",
+      "data": {
+        "command": "\u0026\"$PathToAtomicsFolder\\T1056.001\\src\\Get-Keystrokes.ps1\" -LogPath #{filepath}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e0323cad-32bf-4b04-94f0-2c9c95354d5f",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item $env:TEMP\\key.log -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5a1fc75f-eee5-4327-8d5f-32eb9c18c891",
+      "name": "Check dependency 1/1",
+      "description": "Get-Keystrokes PowerShell script must exist on disk at PathToAtomicsFolder\\T1056.001\\src\\Get-Keystrokes.ps1\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\T1056.001\\src\\Get-Keystrokes.ps1\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0d9f78c8-8f14-40dd-bf3a-d179ecef1911",
+      "name": "Resolve dependency 1/1",
+      "description": "Get-Keystrokes PowerShell script must exist on disk at PathToAtomicsFolder\\T1056.001\\src\\Get-Keystrokes.ps1\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -ItemType Directory (Split-Path \"PathToAtomicsFolder\\T1056.001\\src\\Get-Keystrokes.ps1\") -Force | Out-Null\nInvoke-WebRequest https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1056.001/src/Get-Keystrokes.ps1 -OutFile \"PathToAtomicsFolder\\T1056.001\\src\\Get-Keystrokes.ps1\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2a3dc837-41ef-4dc6-9e0c-d4997eca4508",
+      "name": "Re-check dependency 1/1",
+      "description": "Get-Keystrokes PowerShell script must exist on disk at PathToAtomicsFolder\\T1056.001\\src\\Get-Keystrokes.ps1\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\T1056.001\\src\\Get-Keystrokes.ps1\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e33c7497-8fc3-41e1-a49b-da45892fa863",
+      "p": "on-success",
+      "o": "e0323cad-32bf-4b04-94f0-2c9c95354d5f"
+    },
+    {
+      "s": "e33c7497-8fc3-41e1-a49b-da45892fa863",
+      "p": "on-failure",
+      "o": "e0323cad-32bf-4b04-94f0-2c9c95354d5f"
+    },
+    {
+      "s": "5a1fc75f-eee5-4327-8d5f-32eb9c18c891",
+      "p": "on-success",
+      "o": "e33c7497-8fc3-41e1-a49b-da45892fa863"
+    },
+    {
+      "s": "5a1fc75f-eee5-4327-8d5f-32eb9c18c891",
+      "p": "on-failure",
+      "o": "0d9f78c8-8f14-40dd-bf3a-d179ecef1911"
+    },
+    {
+      "s": "0d9f78c8-8f14-40dd-bf3a-d179ecef1911",
+      "p": "on-success",
+      "o": "2a3dc837-41ef-4dc6-9e0c-d4997eca4508"
+    },
+    {
+      "s": "2a3dc837-41ef-4dc6-9e0c-d4997eca4508",
+      "p": "on-failure",
+      "o": "e33c7497-8fc3-41e1-a49b-da45892fa863"
+    }
+  ],
+  "tags": [
+    "T1056.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "filepath",
+      "type": "path",
+      "description": "Name of the local file, include path.",
+      "value": "$env:TEMP\\key.log"
+    }
+  ]
+}

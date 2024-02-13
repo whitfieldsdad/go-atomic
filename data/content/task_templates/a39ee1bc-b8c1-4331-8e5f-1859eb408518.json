@@ -1,0 +1,52 @@
+{
+  "id": "a39ee1bc-b8c1-4331-8e5f-1859eb408518",
+  "name": "Create a user account on a FreeBSD system",
+  "description": "Create a user via pw\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "85591843-1293-4025-8941-2d127566fcb5",
+      "type": "execute-command",
+      "data": {
+        "command": "pw useradd #{username} -s /usr/sbin/nologin -d /nonexistent -c evil_account\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9f55b286-2ea9-42a1-bf0d-596a9c6225b6",
+      "type": "execute-command",
+      "data": {
+        "command": "rmuser -y #{username}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "85591843-1293-4025-8941-2d127566fcb5",
+      "p": "on-success",
+      "o": "9f55b286-2ea9-42a1-bf0d-596a9c6225b6"
+    },
+    {
+      "s": "85591843-1293-4025-8941-2d127566fcb5",
+      "p": "on-failure",
+      "o": "9f55b286-2ea9-42a1-bf0d-596a9c6225b6"
+    }
+  ],
+  "tags": [
+    "T1136.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username of the user to create",
+      "value": "evil_user"
+    }
+  ]
+}

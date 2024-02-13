@@ -1,0 +1,58 @@
+{
+  "id": "c01cad7f-7a4c-49df-985e-b190dcf6a279",
+  "name": "iwr or Invoke Web-Request download",
+  "description": "Use 'iwr' or \"Invoke-WebRequest\" -URI argument to download a file from the web. Note: without -URI also works in some versions.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c9bc80b6-58a2-4b40-a7fb-a1c23041b8aa",
+      "type": "execute-command",
+      "data": {
+        "command": "powershell.exe iwr -URI #{remote_file} -Outfile #{local_path}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "21629805-4c8e-4e33-ba7b-e3e87b2a8e71",
+      "type": "execute-command",
+      "data": {
+        "command": "del %temp%\\Atomic-license.txt \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c9bc80b6-58a2-4b40-a7fb-a1c23041b8aa",
+      "p": "on-success",
+      "o": "21629805-4c8e-4e33-ba7b-e3e87b2a8e71"
+    },
+    {
+      "s": "c9bc80b6-58a2-4b40-a7fb-a1c23041b8aa",
+      "p": "on-failure",
+      "o": "21629805-4c8e-4e33-ba7b-e3e87b2a8e71"
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_file",
+      "type": "url",
+      "description": "URL of file to copy",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt"
+    },
+    {
+      "name": "local_path",
+      "type": "path",
+      "description": "Local path to place file",
+      "value": "%temp%\\Atomic-license.txt"
+    }
+  ]
+}

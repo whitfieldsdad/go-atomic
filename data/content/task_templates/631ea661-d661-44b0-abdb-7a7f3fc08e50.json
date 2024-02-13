@@ -1,0 +1,112 @@
+{
+  "id": "631ea661-d661-44b0-abdb-7a7f3fc08e50",
+  "name": "Modify file timestamps using reference file",
+  "description": "Modifies the `modify` and `access` timestamps using the timestamps of a specified reference file.\n\nThis technique was used by the threat actor Rocke during the compromise of Linux web servers.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "b2a6cc85-f57c-48a3-81be-4c18347c604b",
+      "type": "execute-command",
+      "data": {
+        "command": "touch -acmr #{reference_file_path} #{target_file_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "842ba587-bcc7-4271-ab78-9d4ddaa617cd",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{target_file_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "277b2f6a-3a78-4475-b00e-6e8ab2e75e29",
+      "name": "Check dependency 1/1",
+      "description": "The file must exist in order to be timestomped\n",
+      "type": "execute-command",
+      "data": {
+        "command": "test -e #{target_file_path} \u0026\u0026 exit 0 || exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f08fc7b2-6b2e-47a3-aa55-cc5b56748b15",
+      "name": "Resolve dependency 1/1",
+      "description": "The file must exist in order to be timestomped\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo 'T1070.006 reference file timestomp test' \u003e #{target_file_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1baab4be-2fa7-47ac-9e1e-75f4ac6eb564",
+      "name": "Re-check dependency 1/1",
+      "description": "The file must exist in order to be timestomped\n",
+      "type": "execute-command",
+      "data": {
+        "command": "test -e #{target_file_path} \u0026\u0026 exit 0 || exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b2a6cc85-f57c-48a3-81be-4c18347c604b",
+      "p": "on-success",
+      "o": "842ba587-bcc7-4271-ab78-9d4ddaa617cd"
+    },
+    {
+      "s": "b2a6cc85-f57c-48a3-81be-4c18347c604b",
+      "p": "on-failure",
+      "o": "842ba587-bcc7-4271-ab78-9d4ddaa617cd"
+    },
+    {
+      "s": "277b2f6a-3a78-4475-b00e-6e8ab2e75e29",
+      "p": "on-success",
+      "o": "b2a6cc85-f57c-48a3-81be-4c18347c604b"
+    },
+    {
+      "s": "277b2f6a-3a78-4475-b00e-6e8ab2e75e29",
+      "p": "on-failure",
+      "o": "f08fc7b2-6b2e-47a3-aa55-cc5b56748b15"
+    },
+    {
+      "s": "f08fc7b2-6b2e-47a3-aa55-cc5b56748b15",
+      "p": "on-success",
+      "o": "1baab4be-2fa7-47ac-9e1e-75f4ac6eb564"
+    },
+    {
+      "s": "1baab4be-2fa7-47ac-9e1e-75f4ac6eb564",
+      "p": "on-failure",
+      "o": "b2a6cc85-f57c-48a3-81be-4c18347c604b"
+    }
+  ],
+  "tags": [
+    "T1070.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "target_file_path",
+      "type": "path",
+      "description": "Path of file to modify timestamps of",
+      "value": "/tmp/T1070.006-reference.txt"
+    },
+    {
+      "name": "reference_file_path",
+      "type": "path",
+      "description": "Path of reference file to read timestamps from",
+      "value": "/bin/sh"
+    }
+  ]
+}

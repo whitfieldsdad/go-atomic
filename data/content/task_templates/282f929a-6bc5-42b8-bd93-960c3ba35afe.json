@@ -1,0 +1,52 @@
+{
+  "id": "282f929a-6bc5-42b8-bd93-960c3ba35afe",
+  "name": "Modify Registry of Local Machine - cmd",
+  "description": "Modify the Local Machine registry RUN key to change Windows Defender executable that should be ran on startup.  This should only be possible when\nCMD is ran as Administrative rights. Upon execution, the message \"The operation completed successfully.\"\nwill be displayed. Additionally, open Registry Editor to view the modified entry in HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "1606d5b9-cad1-49de-9a40-d1c8ef3a30f6",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /t REG_EXPAND_SZ /v SecurityHealth /d #{new_executable} /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6acf6855-ffbf-402a-b0fa-62c7a9a6ab9a",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v SecurityHealth /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1606d5b9-cad1-49de-9a40-d1c8ef3a30f6",
+      "p": "on-success",
+      "o": "6acf6855-ffbf-402a-b0fa-62c7a9a6ab9a"
+    },
+    {
+      "s": "1606d5b9-cad1-49de-9a40-d1c8ef3a30f6",
+      "p": "on-failure",
+      "o": "6acf6855-ffbf-402a-b0fa-62c7a9a6ab9a"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "new_executable",
+      "type": "string",
+      "description": "New executable to run on startup instead of Windows Defender",
+      "value": "calc.exe"
+    }
+  ]
+}

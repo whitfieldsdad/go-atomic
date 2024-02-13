@@ -1,0 +1,105 @@
+{
+  "id": "0f0b6a29-08c3-44ad-a30b-47fd996b2110",
+  "name": "Show if a user account has ever logged in remotely",
+  "description": "Show if a user account has ever logged in remotely\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "f77a421e-52e3-4ce4-b729-069bb324f8cc",
+      "type": "execute-command",
+      "data": {
+        "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 cmd=\"lastlogin\" || cmd=\"lastlog\" \n$cmd \u003e #{output_file}\ncat #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c1cd66c9-ebd4-4133-83c0-93c084873ae1",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "83cd6ab1-507d-4568-81b3-106f93e634ff",
+      "name": "Check dependency 1/1",
+      "description": "Check if lastlog command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v lastlog)\" ]; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5da82e88-ebd9-404a-bf93-59b2b482093c",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if lastlog command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo apt-get install login; exit 1;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "914c076f-411a-46a5-975e-ea5069640f0f",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if lastlog command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v lastlog)\" ]; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f77a421e-52e3-4ce4-b729-069bb324f8cc",
+      "p": "on-success",
+      "o": "c1cd66c9-ebd4-4133-83c0-93c084873ae1"
+    },
+    {
+      "s": "f77a421e-52e3-4ce4-b729-069bb324f8cc",
+      "p": "on-failure",
+      "o": "c1cd66c9-ebd4-4133-83c0-93c084873ae1"
+    },
+    {
+      "s": "83cd6ab1-507d-4568-81b3-106f93e634ff",
+      "p": "on-success",
+      "o": "f77a421e-52e3-4ce4-b729-069bb324f8cc"
+    },
+    {
+      "s": "83cd6ab1-507d-4568-81b3-106f93e634ff",
+      "p": "on-failure",
+      "o": "5da82e88-ebd9-404a-bf93-59b2b482093c"
+    },
+    {
+      "s": "5da82e88-ebd9-404a-bf93-59b2b482093c",
+      "p": "on-success",
+      "o": "914c076f-411a-46a5-975e-ea5069640f0f"
+    },
+    {
+      "s": "914c076f-411a-46a5-975e-ea5069640f0f",
+      "p": "on-failure",
+      "o": "f77a421e-52e3-4ce4-b729-069bb324f8cc"
+    }
+  ],
+  "tags": [
+    "T1087.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path where captured results will be placed",
+      "value": "/tmp/T1087.001.txt"
+    }
+  ]
+}

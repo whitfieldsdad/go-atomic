@@ -1,0 +1,78 @@
+{
+  "id": "9148e7c4-9356-420e-a416-e896e9c0f73e",
+  "name": "PowerShell Downgrade Attack",
+  "description": "This test requires the manual installation of PowerShell V2.\n\nAttempts to run powershell commands in version 2.0 https://www.leeholmes.com/blog/2017/03/17/detecting-and-preventing-powershell-downgrade-attacks/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "2c96ea23-141a-4aba-8d77-40e1b1030877",
+      "type": "execute-command",
+      "data": {
+        "command": "powershell.exe -version 2 -Command Write-Host $PSVersion\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ecb490ee-71a1-45fe-868b-d6215a9d0923",
+      "name": "Check dependency 1/1",
+      "description": "PowerShell version 2 must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if(2 -in $PSVersionTable.PSCompatibleVersions.Major) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2dfd65b9-e16c-4dd6-a8f0-659dd86a7515",
+      "name": "Resolve dependency 1/1",
+      "description": "PowerShell version 2 must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host  Automated installer not implemented yet, please install PowerShell v2 manually\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "826d698d-32a6-4396-bd0a-a0cf16efcdb0",
+      "name": "Re-check dependency 1/1",
+      "description": "PowerShell version 2 must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if(2 -in $PSVersionTable.PSCompatibleVersions.Major) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ecb490ee-71a1-45fe-868b-d6215a9d0923",
+      "p": "on-success",
+      "o": "2c96ea23-141a-4aba-8d77-40e1b1030877"
+    },
+    {
+      "s": "ecb490ee-71a1-45fe-868b-d6215a9d0923",
+      "p": "on-failure",
+      "o": "2dfd65b9-e16c-4dd6-a8f0-659dd86a7515"
+    },
+    {
+      "s": "2dfd65b9-e16c-4dd6-a8f0-659dd86a7515",
+      "p": "on-success",
+      "o": "826d698d-32a6-4396-bd0a-a0cf16efcdb0"
+    },
+    {
+      "s": "826d698d-32a6-4396-bd0a-a0cf16efcdb0",
+      "p": "on-failure",
+      "o": "2c96ea23-141a-4aba-8d77-40e1b1030877"
+    }
+  ],
+  "tags": [
+    "T1059.001",
+    "atomic-red-team"
+  ]
+}

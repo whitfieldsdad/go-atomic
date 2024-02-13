@@ -1,0 +1,44 @@
+{
+  "id": "83810c46-f45e-4485-9ab6-8ed0e9e6ed7f",
+  "name": "Malicious process Masquerading as LSM.exe",
+  "description": "Detect LSM running from an incorrect directory and an incorrect service account\nThis works by copying cmd.exe to a file, naming it lsm.exe, then copying a file to the C:\\ folder.\n\nUpon successful execution, cmd.exe will be renamed as lsm.exe and executed from non-standard path.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "6ba9020e-556d-4be8-9582-b9591ef3a4ee",
+      "type": "execute-command",
+      "data": {
+        "command": "copy C:\\Windows\\System32\\cmd.exe C:\\lsm.exe\nC:\\lsm.exe /c echo T1036.003 \u003e C:\\T1036.003.txt\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f268eadc-5bd5-4810-9092-c4f7d4ece578",
+      "type": "execute-command",
+      "data": {
+        "command": "del C:\\T1036.003.txt \u003enul 2\u003e\u00261\ndel C:\\lsm.exe \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "6ba9020e-556d-4be8-9582-b9591ef3a4ee",
+      "p": "on-success",
+      "o": "f268eadc-5bd5-4810-9092-c4f7d4ece578"
+    },
+    {
+      "s": "6ba9020e-556d-4be8-9582-b9591ef3a4ee",
+      "p": "on-failure",
+      "o": "f268eadc-5bd5-4810-9092-c4f7d4ece578"
+    }
+  ],
+  "tags": [
+    "T1036.003",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "id": "9c096ec4-fd42-419d-a762-d64cc950627e",
+  "name": "Install root CA on CentOS/RHEL",
+  "description": "Creates a root CA with openssl\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "0414a5f0-bd2b-4192-bb70-49146844bc07",
+      "type": "execute-command",
+      "data": {
+        "command": "openssl genrsa -out #{key_filename} 4096\nopenssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj \"/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com\" -out #{cert_filename}\ncp #{cert_filename} /etc/pki/ca-trust/source/anchors/\nupdate-ca-trust\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "aaa7c8d0-bbcc-4f5b-adfc-e5a99ea06288",
+      "type": "execute-command",
+      "data": {
+        "command": "rm /etc/pki/ca-trust/source/anchors/#{cert_filename}\nupdate-ca-trust\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0414a5f0-bd2b-4192-bb70-49146844bc07",
+      "p": "on-success",
+      "o": "aaa7c8d0-bbcc-4f5b-adfc-e5a99ea06288"
+    },
+    {
+      "s": "0414a5f0-bd2b-4192-bb70-49146844bc07",
+      "p": "on-failure",
+      "o": "aaa7c8d0-bbcc-4f5b-adfc-e5a99ea06288"
+    }
+  ],
+  "tags": [
+    "T1553.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "cert_filename",
+      "type": "path",
+      "description": "Path of the CA certificate we create",
+      "value": "rootCA.crt"
+    },
+    {
+      "name": "key_filename",
+      "type": "path",
+      "description": "Key we create that is used to create the CA certificate",
+      "value": "rootCA.key"
+    }
+  ]
+}

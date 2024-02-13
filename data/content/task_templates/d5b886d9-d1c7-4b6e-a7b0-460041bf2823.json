@@ -1,0 +1,31 @@
+{
+  "id": "d5b886d9-d1c7-4b6e-a7b0-460041bf2823",
+  "name": "Password Change on Directory Service Restore Mode (DSRM) Account",
+  "description": "Change the password on the Directory Service Restore Mode (DSRM) account using ntdsutil by syncing to existing account\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "8630692b-113a-43ef-9308-d20d9180a313",
+      "type": "execute-command",
+      "data": {
+        "command": "ntdsutil \"set dsrm password\" \"sync from domain account #{sync_account}\" \"q\" \"q\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1098",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "sync_account",
+      "type": "string",
+      "description": "Account to sync password from",
+      "value": "%username%"
+    }
+  ]
+}

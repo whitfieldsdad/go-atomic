@@ -1,0 +1,32 @@
+{
+  "id": "b1251c35-dcd3-4ea1-86da-36d27b54f31f",
+  "name": "Clear Bash history (cat dev/null)",
+  "description": "Clears bash history via cat /dev/null\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "a970e814-caaa-4def-9155-2c658c9a15e3",
+      "type": "execute-command",
+      "data": {
+        "command": "cat /dev/null \u003e #{history_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1070.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "history_path",
+      "type": "path",
+      "description": "Bash history path",
+      "value": "~/.bash_history"
+    }
+  ]
+}

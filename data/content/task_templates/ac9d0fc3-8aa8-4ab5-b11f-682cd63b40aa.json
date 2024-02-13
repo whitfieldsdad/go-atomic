@@ -1,0 +1,44 @@
+{
+  "id": "ac9d0fc3-8aa8-4ab5-b11f-682cd63b40aa",
+  "name": "Masquerading - powershell.exe running as taskhostw.exe",
+  "description": "Copies powershell.exe, renames it, and launches it to masquerade as an instance of taskhostw.exe.\n\nUpon successful execution, powershell.exe is renamed as taskhostw.exe and executed from non-standard path.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "2262791a-90a0-46d0-a0f3-ed99ebe215e4",
+      "type": "execute-command",
+      "data": {
+        "command": "copy %windir%\\System32\\windowspowershell\\v1.0\\powershell.exe %APPDATA%\\taskhostw.exe /Y\ncmd.exe /K %APPDATA%\\taskhostw.exe\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "cacfbc7b-1dad-4986-8611-e18c23101d04",
+      "type": "execute-command",
+      "data": {
+        "command": "del /Q /F %APPDATA%\\taskhostw.exe \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "2262791a-90a0-46d0-a0f3-ed99ebe215e4",
+      "p": "on-success",
+      "o": "cacfbc7b-1dad-4986-8611-e18c23101d04"
+    },
+    {
+      "s": "2262791a-90a0-46d0-a0f3-ed99ebe215e4",
+      "p": "on-failure",
+      "o": "cacfbc7b-1dad-4986-8611-e18c23101d04"
+    }
+  ],
+  "tags": [
+    "T1036.003",
+    "atomic-red-team"
+  ]
+}

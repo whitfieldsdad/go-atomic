@@ -1,0 +1,117 @@
+{
+  "id": "43e92449-ff60-46e9-83a3-1a38089df94d",
+  "name": "Install MS Exchange Transport Agent Persistence",
+  "description": "Install a Microsoft Exchange Transport Agent for persistence. This requires execution from an Exchange Client Access Server and the creation of a DLL with specific exports. Seen in use by Turla.\nMore details- https://docs.microsoft.com/en-us/exchange/transport-agents-exchange-2013-help\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "823c7309-ad42-45a4-8340-dc7b4fdb33f0",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-TransportAgent -Name #{transport_agent_identity} -TransportAgentFactory #{class_factory} -AssemblyPath #{dll_path}\nEnable-TransportAgent #{transport_agent_identity}\nGet-TransportAgent | Format-List Name,Enabled\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "23e4ce26-d586-4af7-a97e-1b046aa5549d",
+      "type": "execute-command",
+      "data": {
+        "command": "if(Get-Command \"Get-TransportAgent\" -ErrorAction Ignore){\n  Disable-TransportAgent #{transport_agent_identity}\n  Uninstall-TransportAgent #{transport_agent_identity}\n  Get-TransportAgent\n}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a2accaa3-be7d-4e47-8761-64729f8c5821",
+      "name": "Check dependency 1/1",
+      "description": "Microsoft Exchange SnapIn must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-TransportAgent -TransportService FrontEnd\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0f8b2a36-397e-404b-8fda-689ae46389a7",
+      "name": "Resolve dependency 1/1",
+      "description": "Microsoft Exchange SnapIn must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "11e4cbb7-5c87-431f-b69b-8cbc46d596ec",
+      "name": "Re-check dependency 1/1",
+      "description": "Microsoft Exchange SnapIn must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-TransportAgent -TransportService FrontEnd\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "823c7309-ad42-45a4-8340-dc7b4fdb33f0",
+      "p": "on-success",
+      "o": "23e4ce26-d586-4af7-a97e-1b046aa5549d"
+    },
+    {
+      "s": "823c7309-ad42-45a4-8340-dc7b4fdb33f0",
+      "p": "on-failure",
+      "o": "23e4ce26-d586-4af7-a97e-1b046aa5549d"
+    },
+    {
+      "s": "a2accaa3-be7d-4e47-8761-64729f8c5821",
+      "p": "on-success",
+      "o": "823c7309-ad42-45a4-8340-dc7b4fdb33f0"
+    },
+    {
+      "s": "a2accaa3-be7d-4e47-8761-64729f8c5821",
+      "p": "on-failure",
+      "o": "0f8b2a36-397e-404b-8fda-689ae46389a7"
+    },
+    {
+      "s": "0f8b2a36-397e-404b-8fda-689ae46389a7",
+      "p": "on-success",
+      "o": "11e4cbb7-5c87-431f-b69b-8cbc46d596ec"
+    },
+    {
+      "s": "11e4cbb7-5c87-431f-b69b-8cbc46d596ec",
+      "p": "on-failure",
+      "o": "823c7309-ad42-45a4-8340-dc7b4fdb33f0"
+    }
+  ],
+  "tags": [
+    "T1505.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "class_factory",
+      "type": "string",
+      "description": "Class factory of transport agent.",
+      "value": "Microsoft.Exchange.Security.Interop.SecurityInteropAgentFactory"
+    },
+    {
+      "name": "dll_path",
+      "type": "path",
+      "description": "Path of DLL to use as transport agent.",
+      "value": "c:\\program files\\microsoft\\Exchange Server\\v15\\bin\\Microsoft.Exchange.Security.Interop.dll"
+    },
+    {
+      "name": "transport_agent_identity",
+      "type": "string",
+      "description": "Friendly name of transport agent once installed.",
+      "value": "Security Interop Agent"
+    }
+  ]
+}

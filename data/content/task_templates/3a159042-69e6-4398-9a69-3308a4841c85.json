@@ -1,0 +1,176 @@
+{
+  "id": "3a159042-69e6-4398-9a69-3308a4841c85",
+  "name": "GCP - Create Custom IAM Role",
+  "description": "This atomic will create a new IAM role. The default role permissions are: *IAM Service Account Get*. The idea for this Atomic came from a Rule published by the Elastic team.\n\nIdentifies an Identity and Access Management (IAM) custom role creation in Google Cloud Platform (GCP). \nCustom roles are user-defined, and allow for the bundling of one or more supported permissions to meet specific needs. \nCustom roles will not be updated automatically and could lead to privilege creep if not carefully scrutinized.\n\nThis atomic will create a new IAM role. The default role permissions are: *IAM Service Account Get*\n\nReference: https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/initial_access_gcp_iam_custom_role_creation.toml\n",
+  "platforms": [
+    "iaas:gcp"
+  ],
+  "steps": [
+    {
+      "id": "e7415cc5-72c7-4053-8f5e-fbae27e8e43b",
+      "type": "execute-command",
+      "data": {
+        "command": "gcloud config set project #{project-id}\ngcloud iam roles create #{role-name} --description=\"#{role-description}\" --permissions=#{roles} --project=#{project-id}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e5bb02f1-afdb-4994-9113-0fbeb6aa2701",
+      "type": "execute-command",
+      "data": {
+        "command": "gcloud iam roles delete #{role-name} --project=#{project-id}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8a93e504-aa4e-4ca7-b73c-5b06e88d26aa",
+      "name": "Check dependency 1/2",
+      "description": "Requires gcloud\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v gcloud)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3b65d73b-332d-4003-87bc-ff871f0d116f",
+      "name": "Resolve dependency 1/2",
+      "description": "Requires gcloud\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"Please Install Google Cloud SDK before running this atomic test : https://cloud.google.com/sdk/docs/install\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "03b19f53-8676-4232-974f-70e0ebcde201",
+      "name": "Re-check dependency 1/2",
+      "description": "Requires gcloud\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v gcloud)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "67bc8d27-a5b8-4855-a885-fa4e4a8e86d7",
+      "name": "Check dependency 2/2",
+      "description": "Check if user is logged in \n",
+      "type": "execute-command",
+      "data": {
+        "command": "gcloud config get-value account\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8c87ab83-83ee-4529-bda0-ddb697f2879a",
+      "name": "Resolve dependency 2/2",
+      "description": "Check if user is logged in \n",
+      "type": "execute-command",
+      "data": {
+        "command": "gcloud auth login --no-launch-browser\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "54444d0d-a4fc-4875-a982-8e87a94205c7",
+      "name": "Re-check dependency 2/2",
+      "description": "Check if user is logged in \n",
+      "type": "execute-command",
+      "data": {
+        "command": "gcloud config get-value account\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e7415cc5-72c7-4053-8f5e-fbae27e8e43b",
+      "p": "on-success",
+      "o": "e5bb02f1-afdb-4994-9113-0fbeb6aa2701"
+    },
+    {
+      "s": "e7415cc5-72c7-4053-8f5e-fbae27e8e43b",
+      "p": "on-failure",
+      "o": "e5bb02f1-afdb-4994-9113-0fbeb6aa2701"
+    },
+    {
+      "s": "8a93e504-aa4e-4ca7-b73c-5b06e88d26aa",
+      "p": "on-success",
+      "o": "e7415cc5-72c7-4053-8f5e-fbae27e8e43b"
+    },
+    {
+      "s": "8a93e504-aa4e-4ca7-b73c-5b06e88d26aa",
+      "p": "on-failure",
+      "o": "3b65d73b-332d-4003-87bc-ff871f0d116f"
+    },
+    {
+      "s": "3b65d73b-332d-4003-87bc-ff871f0d116f",
+      "p": "on-success",
+      "o": "03b19f53-8676-4232-974f-70e0ebcde201"
+    },
+    {
+      "s": "03b19f53-8676-4232-974f-70e0ebcde201",
+      "p": "on-failure",
+      "o": "e7415cc5-72c7-4053-8f5e-fbae27e8e43b"
+    },
+    {
+      "s": "67bc8d27-a5b8-4855-a885-fa4e4a8e86d7",
+      "p": "on-success",
+      "o": "e7415cc5-72c7-4053-8f5e-fbae27e8e43b"
+    },
+    {
+      "s": "67bc8d27-a5b8-4855-a885-fa4e4a8e86d7",
+      "p": "on-failure",
+      "o": "8c87ab83-83ee-4529-bda0-ddb697f2879a"
+    },
+    {
+      "s": "8c87ab83-83ee-4529-bda0-ddb697f2879a",
+      "p": "on-success",
+      "o": "54444d0d-a4fc-4875-a982-8e87a94205c7"
+    },
+    {
+      "s": "54444d0d-a4fc-4875-a982-8e87a94205c7",
+      "p": "on-failure",
+      "o": "e7415cc5-72c7-4053-8f5e-fbae27e8e43b"
+    }
+  ],
+  "tags": [
+    "T1078.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "role-description",
+      "type": "string",
+      "description": "The description of the role to be created.",
+      "value": "Atomic Red Team Custom IAM Role"
+    },
+    {
+      "name": "roles",
+      "type": "string",
+      "description": "List of roles to be applied",
+      "value": "iam.serviceAccounts.get"
+    },
+    {
+      "name": "project-id",
+      "type": "string",
+      "description": "ID of the GCP Project you to execute the command against.",
+      "value": "atomic-test-1"
+    },
+    {
+      "name": "role-name",
+      "type": "string",
+      "description": "The name of the role to be created.",
+      "value": "AtomicRedTeamRole"
+    }
+  ]
+}

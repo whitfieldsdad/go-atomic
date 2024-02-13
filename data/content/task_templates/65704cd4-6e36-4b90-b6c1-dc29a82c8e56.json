@@ -1,0 +1,44 @@
+{
+  "id": "65704cd4-6e36-4b90-b6c1-dc29a82c8e56",
+  "name": "NetWire RAT Registry Key Creation",
+  "description": "NetWire continues to create its home key (HKCU\\SOFTWARE\\NetWire) as well as adding it into the auto-run group in the victim’s registry.\nSee how NetWire malware - https://app.any.run/tasks/41ecdbde-4997-4301-a350-0270448b4c8f/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "8cc52c59-4182-4f2f-9fd2-17cdf97ee935",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v NetWire /t REG_SZ  /d \"C:\\Users\\admin\\AppData\\Roaming\\Install\\Host.exe\" /f\nreg add HKCU\\SOFTWARE\\NetWire /v HostId /t REG_SZ /d HostId-kai6Ci /f\nreg add HKCU\\SOFTWARE\\NetWire /v \"Install Date\" /t REG_SZ /d \"2021-08-30 07:17:27\" /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "784da402-ce17-4abf-9071-225c59170ed8",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v NetWire /f \u003enul 2\u003e\u00261\nreg delete HKCU\\SOFTWARE\\NetWire /va /f \u003enul 2\u003e\u00261\nreg delete HKCU\\SOFTWARE\\NetWire /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8cc52c59-4182-4f2f-9fd2-17cdf97ee935",
+      "p": "on-success",
+      "o": "784da402-ce17-4abf-9071-225c59170ed8"
+    },
+    {
+      "s": "8cc52c59-4182-4f2f-9fd2-17cdf97ee935",
+      "p": "on-failure",
+      "o": "784da402-ce17-4abf-9071-225c59170ed8"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

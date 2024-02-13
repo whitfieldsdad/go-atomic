@@ -1,0 +1,117 @@
+{
+  "id": "c9a2f6fe-7197-488c-af6d-10c782121ca6",
+  "name": "Office 365 - Set Audit Bypass For a Mailbox",
+  "description": "Use Exchange Management Shell to Mailbox auditing to bypass. It will prevent any mailbox audit logging entries being generated for the target e-mail box.\nhttps://learn.microsoft.com/en-us/powershell/module/exchange/set-mailboxauditbypassassociation?view=exchange-ps\n",
+  "platforms": [
+    "office-365"
+  ],
+  "steps": [
+    {
+      "id": "2f8eea42-e03c-4ddb-a019-2b22ff70f76e",
+      "type": "execute-command",
+      "data": {
+        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nSet-MailboxAuditBypassAssociation -Identity \"#{target_email}\" -AuditBypassEnabled $true\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "143d3e80-6fca-4d79-917b-94f4034e553b",
+      "type": "execute-command",
+      "data": {
+        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nSet-MailboxAuditBypassAssociation -Identity \"#{target_email}\" -AuditBypassEnabled $false\nDisconnect-ExchangeOnline -Confirm:$false\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "dd3b9a9b-88d9-4b19-b253-cf73581607c1",
+      "name": "Check dependency 1/1",
+      "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "69c2ad85-4a7c-4417-8258-c7cbbdacebab",
+      "name": "Resolve dependency 1/1",
+      "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name ExchangeOnlineManagement         \nImport-Module ExchangeOnlineManagement\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1788c9d8-0f43-4d78-b58a-f7656cb74073",
+      "name": "Re-check dependency 1/1",
+      "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "2f8eea42-e03c-4ddb-a019-2b22ff70f76e",
+      "p": "on-success",
+      "o": "143d3e80-6fca-4d79-917b-94f4034e553b"
+    },
+    {
+      "s": "2f8eea42-e03c-4ddb-a019-2b22ff70f76e",
+      "p": "on-failure",
+      "o": "143d3e80-6fca-4d79-917b-94f4034e553b"
+    },
+    {
+      "s": "dd3b9a9b-88d9-4b19-b253-cf73581607c1",
+      "p": "on-success",
+      "o": "2f8eea42-e03c-4ddb-a019-2b22ff70f76e"
+    },
+    {
+      "s": "dd3b9a9b-88d9-4b19-b253-cf73581607c1",
+      "p": "on-failure",
+      "o": "69c2ad85-4a7c-4417-8258-c7cbbdacebab"
+    },
+    {
+      "s": "69c2ad85-4a7c-4417-8258-c7cbbdacebab",
+      "p": "on-success",
+      "o": "1788c9d8-0f43-4d78-b58a-f7656cb74073"
+    },
+    {
+      "s": "1788c9d8-0f43-4d78-b58a-f7656cb74073",
+      "p": "on-failure",
+      "o": "2f8eea42-e03c-4ddb-a019-2b22ff70f76e"
+    }
+  ],
+  "tags": [
+    "T1562.008",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "office-365 username",
+      "value": "o365_user_test"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "office-365 password",
+      "value": "o365_password_test"
+    },
+    {
+      "name": "target_email",
+      "type": "string",
+      "description": "office-365 target_email",
+      "value": "o365_email_test"
+    }
+  ]
+}

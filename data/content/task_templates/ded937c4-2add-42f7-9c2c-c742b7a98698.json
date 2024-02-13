@@ -1,0 +1,86 @@
+{
+  "id": "ded937c4-2add-42f7-9c2c-c742b7a98698",
+  "name": "Delete an entire folder - Windows cmd",
+  "description": "Recursively delete a folder in the temporary directory using cmd.exe.\nUpon execution, no output will be displayed. Use File Explorer to verify the folder was deleted.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "4259fab7-9664-4105-969b-2c476aed1e4c",
+      "type": "execute-command",
+      "data": {
+        "command": "rmdir /s /q #{folder_to_delete}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "20c7aca4-539a-4b7e-a5b5-01882a0afe55",
+      "name": "Check dependency 1/1",
+      "description": "The file to delete must exist on disk at specified location (#{folder_to_delete})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST \"#{folder_to_delete}\" ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6dab80b4-f9ce-427f-8611-27d6db5de17e",
+      "name": "Resolve dependency 1/1",
+      "description": "The file to delete must exist on disk at specified location (#{folder_to_delete})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir #{folder_to_delete}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5be7a27c-1b39-4722-8ed2-534b6a0d9326",
+      "name": "Re-check dependency 1/1",
+      "description": "The file to delete must exist on disk at specified location (#{folder_to_delete})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST \"#{folder_to_delete}\" ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "20c7aca4-539a-4b7e-a5b5-01882a0afe55",
+      "p": "on-success",
+      "o": "4259fab7-9664-4105-969b-2c476aed1e4c"
+    },
+    {
+      "s": "20c7aca4-539a-4b7e-a5b5-01882a0afe55",
+      "p": "on-failure",
+      "o": "6dab80b4-f9ce-427f-8611-27d6db5de17e"
+    },
+    {
+      "s": "6dab80b4-f9ce-427f-8611-27d6db5de17e",
+      "p": "on-success",
+      "o": "5be7a27c-1b39-4722-8ed2-534b6a0d9326"
+    },
+    {
+      "s": "5be7a27c-1b39-4722-8ed2-534b6a0d9326",
+      "p": "on-failure",
+      "o": "4259fab7-9664-4105-969b-2c476aed1e4c"
+    }
+  ],
+  "tags": [
+    "T1070.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "folder_to_delete",
+      "type": "string",
+      "description": "Folder to delete. Run the prereq command to create it if it does not exist.",
+      "value": "%temp%\\deleteme_T1551.004"
+    }
+  ]
+}

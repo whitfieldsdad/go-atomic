@@ -1,0 +1,59 @@
+{
+  "id": "0ac21132-4485-4212-a681-349e8a6637cd",
+  "name": "Connection Proxy",
+  "description": "Enable traffic redirection.\n\nNote that this test may conflict with pre-existing system configuration.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "e45950f3-dce6-4889-9fe4-bb8f1905387e",
+      "type": "execute-command",
+      "data": {
+        "command": "export #{proxy_scheme}_proxy=#{proxy_server}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c1db06e0-8787-4d45-8b88-90243923aff5",
+      "type": "execute-command",
+      "data": {
+        "command": "unset http_proxy\nunset https_proxy\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e45950f3-dce6-4889-9fe4-bb8f1905387e",
+      "p": "on-success",
+      "o": "c1db06e0-8787-4d45-8b88-90243923aff5"
+    },
+    {
+      "s": "e45950f3-dce6-4889-9fe4-bb8f1905387e",
+      "p": "on-failure",
+      "o": "c1db06e0-8787-4d45-8b88-90243923aff5"
+    }
+  ],
+  "tags": [
+    "T1090.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "proxy_scheme",
+      "type": "string",
+      "description": "Protocol to proxy (http or https)",
+      "value": "http"
+    },
+    {
+      "name": "proxy_server",
+      "type": "url",
+      "description": "Proxy server URL (host:port)",
+      "value": "127.0.0.1:8080"
+    }
+  ]
+}

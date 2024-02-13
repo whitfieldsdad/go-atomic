@@ -1,0 +1,52 @@
+{
+  "id": "36b8dbf9-59b1-4e9b-a3bb-36e80563ef01",
+  "name": "HKCU - Persistence using CommandProcessor AutoRun key (Without Elevation)",
+  "description": "An adversary may abuse the CommandProcessor AutoRun registry key to persist. Every time cmd.exe is executed, the command defined in the AutoRun key also gets executed.\n[reference](https://devblogs.microsoft.com/oldnewthing/20071121-00/?p=24433)",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "1b90e76d-60ab-4d9f-8236-debc5fca3d88",
+      "type": "execute-command",
+      "data": {
+        "command": "$path = \"HKCU:\\Software\\Microsoft\\Command Processor\"\nif (!(Test-Path -path $path)){\n  New-Item -ItemType Key -Path $path\n}\nNew-ItemProperty -Path $path -Name \"AutoRun\" -Value \"#{command}\" -PropertyType \"String\"",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f01a00b3-d7ac-4f43-a292-d48ed41339cf",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Command Processor\" -Name \"AutoRun\" -ErrorAction Ignore",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1b90e76d-60ab-4d9f-8236-debc5fca3d88",
+      "p": "on-success",
+      "o": "f01a00b3-d7ac-4f43-a292-d48ed41339cf"
+    },
+    {
+      "s": "1b90e76d-60ab-4d9f-8236-debc5fca3d88",
+      "p": "on-failure",
+      "o": "f01a00b3-d7ac-4f43-a292-d48ed41339cf"
+    }
+  ],
+  "tags": [
+    "T1546",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "command",
+      "type": "string",
+      "description": "Command to Execute",
+      "value": "notepad.exe"
+    }
+  ]
+}

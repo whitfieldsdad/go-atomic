@@ -11,94 +11,182 @@ import (
 
 	"github.com/charmbracelet/log"
 	"github.com/gobwas/glob"
-	"github.com/mitchellh/mapstructure"
 	"github.com/pkg/errors"
 	"github.com/spf13/afero"
 	"github.com/spf13/afero/tarfs"
 )
 
 type Client struct {
-	TaskDir         string `json:"task_dir"`
-	TaskTemplateDir string `json:"task_template_dir"`
+	Config ClientConfig
 }
 
-func NewClient() (*Client, error) {
-	client := &Client{}
+type ClientConfig struct {
+	Workdir string `json:"workdir"`
+}
+
+func (c ClientConfig) GetTaskTemplateDir() string {
+	return filepath.Join(c.Workdir, "task_templates")
+}
+
+func (c ClientConfig) GetTaskTemplatePath(taskTemplateId string) string {
+	filename := fmt.Sprintf("%s.json", taskTemplateId)
+	return filepath.Join(c.GetTaskTemplateDir(), filename)
+}
+
+func (c ClientConfig) GetTaskDir() string {
+	return filepath.Join(c.Workdir, "tasks")
+}
+
+func (c ClientConfig) GetTaskPath(taskId string) string {
+	filename := fmt.Sprintf("%s.json", taskId)
+	return filepath.Join(c.GetTaskDir(), filename)
+}
+
+func (c ClientConfig) GetTaskInvocationDir() string {
+	return filepath.Join(c.Workdir, "task_invocations")
+}
+
+func (c ClientConfig) GetTaskInvocationPath(taskId string) string {
+	filename := fmt.Sprintf("%s.json", taskId)
+	return filepath.Join(c.GetTaskInvocationDir(), filename)
+}
+
+func (c ClientConfig) GetTaskInvocationStatusDir() string {
+	return filepath.Join(c.Workdir, "task_invocation_statuses")
+}
+
+func (c ClientConfig) GetTaskInvocationStatusPath(taskInvocationId string) string {
+	filename := fmt.Sprintf("%s.json", taskInvocationId)
+	return filepath.Join(c.GetTaskInvocationStatusDir(), filename)
+}
+
+func (c ClientConfig) GetTaskInvocationResultDir() string {
+	return filepath.Join(c.Workdir, "task_invocation_results")
+}
+
+func (c ClientConfig) GetTaskInvocationResultPath(taskInvocationId string) string {
+	filename := fmt.Sprintf("%s.json", taskInvocationId)
+	return filepath.Join(c.GetTaskInvocationResultDir(), filename)
+}
+
+func (c ClientConfig) GetArtifactDir(artifactType string) string {
+	return filepath.Join(c.Workdir, "artifacts", artifactType)
+}
+
+func (c ClientConfig) GetArtifactPath(artifactType, artifactId string) string {
+	filename := fmt.Sprintf("%s.json", artifactId)
+	return filepath.Join(c.GetArtifactDir(artifactType), filename)
+}
+
+func NewClient(workdir string) (*Client, error) {
+	client := &Client{
+		Config: NewClientConfig(workdir),
+	}
 	return client, nil
 }
 
-func (c Client) ReadTasks(paths []string, q *TaskQuery) ([]Task, error) {
+func NewClientConfig(workdir string) ClientConfig {
+	return ClientConfig{
+		Workdir: workdir,
+	}
+}
+
+func (c Client) ReadTasks(path string) ([]Task, error) {
 	var tasks []Task
+	paths, err := findFiles(path, "*.json")
+	if err != nil {
+		return nil, err
+	}
 	for _, path := range paths {
-		taskptr, err := c.ReadTask(path)
+		task, err := c.readTask(path)
 		if err != nil {
 			log.Errorf("Failed to read task: %s", err)
 			continue
 		}
-		task := *taskptr
-		if q != nil && !q.MatchesTask(task) {
-			continue
-		}
-		tasks = append(tasks, task)
+		tasks = append(tasks, *task)
 	}
 	return tasks, nil
 }
 
-func (c Client) ReadTask(path string) (*Task, error) {
-	b, err := os.ReadFile(path)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to read task")
-	}
-	task, err := c.parseTask(b)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to parse task")
-	}
-	return task, nil
+// TODO: implement
+func (c Client) readTask(path string) (*Task, error) {
+	panic("not implemented")
 }
 
-func (c Client) parseTask(b []byte) (*Task, error) {
-	var task Task
-	err := json.Unmarshal(b, &task)
+func (c Client) ReadTaskTemplates(path string) ([]TaskTemplate, error) {
+	var templates []TaskTemplate
+	paths, err := findFiles(path, "*.json")
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to unmarshal task")
+		return nil, err
 	}
-	if task.Id == "" {
-		task.Id = NewUUID4()
-	}
-	stepTypeToStruct := map[StepType]interface{}{
-		StepTypeExecuteCommand: ExecuteCommandStep{},
-		StepTypeListProcesses:  ListProcessesStep{},
-		StepTypeListUsers:      ListUsersStep{},
-	}
-	for i, step := range task.Steps {
-		if step.Id == "" {
-			task.Steps[i].Id = NewUUID4()
-		}
-		o, ok := stepTypeToStruct[step.Type]
-		if !ok {
-			return nil, errors.New("unknown step type")
-		}
-		err = mapstructure.Decode(step.Data, &o)
+	for _, path := range paths {
+		template, err := c.readTaskTemplate(path)
 		if err != nil {
-			return nil, errors.Wrap(err, "failed to decode step")
+			log.Errorf("Failed to read task template: %s", err)
+			continue
 		}
-		task.Steps[i].Data = o
+		templates = append(templates, *template)
 	}
-	return &task, nil
+	return templates, nil
 }
 
-func (c Client) GenerateTaskTemplates(inputPath, outputDir string) error {
-	templates, err := c.generateTaskTemplates(inputPath)
+// TODO: implement
+func (c Client) readTaskTemplate(path string) (*TaskTemplate, error) {
+	os.Exit(1)
+	return nil, nil
+}
+
+func (c Client) GenerateTasks(inputPath, outputDir string) error {
+	inputPaths, err := findFiles(inputPath, "*.json")
 	if err != nil {
 		return err
 	}
-	for _, template := range templates {
-		filename := fmt.Sprintf("%s.json", template.Id)
-		path := filepath.Join(outputDir, filename)
-		err = writeJSONFile(path, template)
+	for _, inputPath := range inputPaths {
+		template, err := c.readTaskTemplate(inputPath)
 		if err != nil {
-			return errors.Wrap(err, "failed to write task template")
+			return err
 		}
+		task, err := template.GetTask(template.getDefaultArgumentMap())
+		if err != nil {
+			return err
+		}
+		filename := fmt.Sprintf("%s.json", task.Id)
+		path := filepath.Join(outputDir, filename)
+		f, err := os.Create(path)
+		if err != nil {
+			return err
+		}
+		defer f.Close()
+
+		b, err := json.MarshalIndent(task, "", "  ")
+		if err != nil {
+			return err
+		}
+		_, err = f.Write(b)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (c Client) ImportTaskTemplates(paths ...string) error {
+	templateDir := c.Config.GetTaskTemplateDir()
+	for _, root := range paths {
+		templates, err := c.generateTaskTemplates(root)
+		if err != nil {
+			return err
+		}
+		log.Infof("Importing %d task templates from %s to %s", len(templates), root, templateDir)
+		for _, template := range templates {
+			filename := fmt.Sprintf("%s.json", template.Id)
+			path := filepath.Join(templateDir, filename)
+			err = writeJSONFile(path, template)
+			if err != nil {
+				return err
+			}
+		}
+		log.Infof("Imported %d task templates from %s to %s", len(templates), root, templateDir)
 	}
 	return nil
 }
@@ -123,46 +211,9 @@ func (c Client) generateTaskTemplates(path string) ([]TaskTemplate, error) {
 	return nil, errors.New("unsupported source")
 }
 
-func (c Client) generateTaskTemplatesFromDir(path string) ([]TaskTemplate, error) {
-	paths, err := findFiles(path, "T*/T*.yaml")
-	if err != nil {
-		return nil, err
-	}
-	var result []TaskTemplate
-	for _, p := range paths {
-		bundle, err := readAtomicRedTeamYAMLFile(p)
-		if err != nil {
-			log.Warnf("Failed to parse bundle: %s - %s", p, err)
-			continue
-		}
-		templates, err := bundle.GetTaskTemplates()
-		if err != nil {
-			log.Warnf("Failed to get task templates: %s - %s", p, err)
-			continue
-		}
-		result = append(result, templates...)
-	}
-	return result, nil
-}
-
-func (c Client) generateTaskTemplatesFromTarball(path string) ([]TaskTemplate, error) {
-	tf, err := os.Open(path)
-	if err != nil {
-		return nil, err
-	}
-	defer tf.Close()
-
-	gr, err := gzip.NewReader(tf)
-	if err != nil {
-		return nil, err
-	}
-	defer gr.Close()
-
-	tfs := tarfs.New(tar.NewReader(gr))
-	afs := &afero.Afero{Fs: tfs}
-
+func (c Client) generateTaskTemplatesFromAFS(afs afero.Afero, root string) ([]TaskTemplate, error) {
 	var paths []string
-	afs.Walk("/", func(path string, info os.FileInfo, err error) error {
+	afs.Walk(root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -198,4 +249,27 @@ func (c Client) generateTaskTemplatesFromTarball(path string) ([]TaskTemplate, e
 		allTemplates = append(allTemplates, templates...)
 	}
 	return allTemplates, nil
+}
+
+func (c Client) generateTaskTemplatesFromDir(path string) ([]TaskTemplate, error) {
+	afs := &afero.Afero{Fs: afero.NewOsFs()}
+	return c.generateTaskTemplatesFromAFS(*afs, path)
+}
+
+func (c Client) generateTaskTemplatesFromTarball(path string) ([]TaskTemplate, error) {
+	tf, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer tf.Close()
+
+	gr, err := gzip.NewReader(tf)
+	if err != nil {
+		return nil, err
+	}
+	defer gr.Close()
+
+	tfs := tarfs.New(tar.NewReader(gr))
+	afs := &afero.Afero{Fs: tfs}
+	return c.generateTaskTemplatesFromAFS(*afs, "/")
 }

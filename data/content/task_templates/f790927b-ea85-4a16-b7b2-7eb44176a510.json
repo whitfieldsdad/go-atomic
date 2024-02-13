@@ -1,0 +1,23 @@
+{
+  "id": "f790927b-ea85-4a16-b7b2-7eb44176a510",
+  "name": "Clear Pagging Cache",
+  "description": "clear pagging cache via system request. This is a temporary change in the system to clear paging cache. This technique seen in Awfulshred wiper as part\nof its malicious payload on the compromised host. added reference link for this technique: https://www.tecmint.com/clear-ram-memory-cache-buffer-and-swap-space-on-linux/\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "19b2f6c0-f12f-4c83-b3ac-bddc7ad82da7",
+      "type": "execute-command",
+      "data": {
+        "command": "free \u0026\u0026 echo 3 \u003e /proc/sys/vm/drop_caches \u0026\u0026 free\necho 3\u003e /proc/sys/vm/drop_caches \n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ]
+}

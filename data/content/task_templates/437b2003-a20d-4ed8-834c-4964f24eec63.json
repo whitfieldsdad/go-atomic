@@ -1,0 +1,176 @@
+{
+  "id": "437b2003-a20d-4ed8-834c-4964f24eec63",
+  "name": "Dump individual process memory with Python (Local)",
+  "description": "Using `/proc/$PID/mem`, where $PID is the target process ID, use a Python script to\ncopy a process's heap memory to an external file so it can be searched or exfiltrated later.\nOn FreeBSD procfs must be mounted.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "26d1e206-628a-4440-a49a-085d28fea68b",
+      "type": "execute-command",
+      "data": {
+        "command": "sh #{script_path}\nPID=$(pgrep -n -f \"#{pid_term}\")\nPYTHON=$(which python || which python3 || which python2)\n$PYTHON #{python_script} $PID #{output_file}\ngrep -i \"PASS\" \"#{output_file}\"\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "67a70522-2c65-4c43-9c58-9312039c9126",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f \"#{output_file}\"\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "63674c4f-bdb0-4801-b152-7497d0a066a7",
+      "name": "Check dependency 1/2",
+      "description": "Script to launch target process must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "test -f #{script_path}\ngrep \"#{pid_term}\" #{script_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d9cf75d5-36a8-4908-aba2-1d2eb4f3b671",
+      "name": "Resolve dependency 1/2",
+      "description": "Script to launch target process must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo '#!/bin/sh' \u003e #{script_path}\necho \"sh -c 'echo \\\"The password is #{pid_term}\\\" \u0026\u0026 sleep 30' \u0026\" \u003e\u003e #{script_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "783f9680-5da0-4959-86a8-9bf306ead47a",
+      "name": "Re-check dependency 1/2",
+      "description": "Script to launch target process must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "test -f #{script_path}\ngrep \"#{pid_term}\" #{script_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d3b38950-1a46-4ba1-97fd-ba91c9239b80",
+      "name": "Check dependency 2/2",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which python || which python3 || which python2)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "410d7ab0-2fb7-4b1b-8a78-c0b0e07c9029",
+      "name": "Resolve dependency 2/2",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"Python 2.7+ or 3.4+ must be installed\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4e7226ff-d263-4ddb-a739-b099094bf399",
+      "name": "Re-check dependency 2/2",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which python || which python3 || which python2)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "26d1e206-628a-4440-a49a-085d28fea68b",
+      "p": "on-success",
+      "o": "67a70522-2c65-4c43-9c58-9312039c9126"
+    },
+    {
+      "s": "26d1e206-628a-4440-a49a-085d28fea68b",
+      "p": "on-failure",
+      "o": "67a70522-2c65-4c43-9c58-9312039c9126"
+    },
+    {
+      "s": "63674c4f-bdb0-4801-b152-7497d0a066a7",
+      "p": "on-success",
+      "o": "26d1e206-628a-4440-a49a-085d28fea68b"
+    },
+    {
+      "s": "63674c4f-bdb0-4801-b152-7497d0a066a7",
+      "p": "on-failure",
+      "o": "d9cf75d5-36a8-4908-aba2-1d2eb4f3b671"
+    },
+    {
+      "s": "d9cf75d5-36a8-4908-aba2-1d2eb4f3b671",
+      "p": "on-success",
+      "o": "783f9680-5da0-4959-86a8-9bf306ead47a"
+    },
+    {
+      "s": "783f9680-5da0-4959-86a8-9bf306ead47a",
+      "p": "on-failure",
+      "o": "26d1e206-628a-4440-a49a-085d28fea68b"
+    },
+    {
+      "s": "d3b38950-1a46-4ba1-97fd-ba91c9239b80",
+      "p": "on-success",
+      "o": "26d1e206-628a-4440-a49a-085d28fea68b"
+    },
+    {
+      "s": "d3b38950-1a46-4ba1-97fd-ba91c9239b80",
+      "p": "on-failure",
+      "o": "410d7ab0-2fb7-4b1b-8a78-c0b0e07c9029"
+    },
+    {
+      "s": "410d7ab0-2fb7-4b1b-8a78-c0b0e07c9029",
+      "p": "on-success",
+      "o": "4e7226ff-d263-4ddb-a739-b099094bf399"
+    },
+    {
+      "s": "4e7226ff-d263-4ddb-a739-b099094bf399",
+      "p": "on-failure",
+      "o": "26d1e206-628a-4440-a49a-085d28fea68b"
+    }
+  ],
+  "tags": [
+    "T1003.007",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path where captured results will be placed",
+      "value": "/tmp/T1003.007.bin"
+    },
+    {
+      "name": "script_path",
+      "type": "path",
+      "description": "Path to script generating the target process",
+      "value": "/tmp/T1003.007.sh"
+    },
+    {
+      "name": "python_script",
+      "type": "path",
+      "description": "Path to script generating the target process",
+      "value": "PathToAtomicsFolder/T1003.007/src/dump_heap.py"
+    },
+    {
+      "name": "pid_term",
+      "type": "string",
+      "description": "Unique string to use to identify target process",
+      "value": "T1003.007"
+    }
+  ]
+}

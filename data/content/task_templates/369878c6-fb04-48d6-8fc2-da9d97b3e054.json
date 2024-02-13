@@ -1,0 +1,23 @@
+{
+  "id": "369878c6-fb04-48d6-8fc2-da9d97b3e054",
+  "name": "Delete log files via cat utility by appending /dev/null or /dev/zero (freebsd)",
+  "description": "The first sub-test truncates the log file to zero bytes via /dev/null and the second sub-test fills the log file with null bytes(zeroes) via /dev/zero, using cat utility\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "45a00612-f186-4db8-aed6-cd05be5c9374",
+      "type": "execute-command",
+      "data": {
+        "command": "cat /dev/null \u003e /var/log/messages #truncating the file to zero bytes\ncat /dev/zero \u003e /var/lol/messages #log file filled with null bytes(zeros)\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1070.002",
+    "atomic-red-team"
+  ]
+}

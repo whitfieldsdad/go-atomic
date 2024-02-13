@@ -1,0 +1,52 @@
+{
+  "id": "b26a3340-dad7-4360-9176-706269c74103",
+  "name": "Disable Event Logging with wevtutil",
+  "description": "Wevtutil can be used to disable logs. \nNOTE: RansomEXX ransomware uses this to disable Security logs post-encryption.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "6b3b9c83-29cb-4983-a650-f039c957798c",
+      "type": "execute-command",
+      "data": {
+        "command": "wevtutil sl \"#{log_name}\" /e:false\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "233fb26c-af1c-4a75-a10c-5fb0b9ee1d38",
+      "type": "execute-command",
+      "data": {
+        "command": "wevtutil sl \"#{log_name}\" /e:true\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "6b3b9c83-29cb-4983-a650-f039c957798c",
+      "p": "on-success",
+      "o": "233fb26c-af1c-4a75-a10c-5fb0b9ee1d38"
+    },
+    {
+      "s": "6b3b9c83-29cb-4983-a650-f039c957798c",
+      "p": "on-failure",
+      "o": "233fb26c-af1c-4a75-a10c-5fb0b9ee1d38"
+    }
+  ],
+  "tags": [
+    "T1562.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "log_name",
+      "type": "string",
+      "description": "Name of the log to be disabled",
+      "value": "Microsoft-Windows-IKE/Operational"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "id": "bf9f9d65-ee4d-4c3e-a843-777d04f19c38",
+  "name": "Winlogon Shell Key Persistence - PowerShell",
+  "description": "PowerShell code to set Winlogon shell key to execute a binary at logon along with explorer.exe.\n\nUpon successful execution, PowerShell will modify a registry value to execute cmd.exe upon logon/logoff.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "42a07cd4-56a6-401e-9a35-0a60dc54ea9e",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" \"Shell\" \"explorer.exe, #{binary_to_execute}\" -Force\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fd4a4ad5-5b02-4b4c-8fcc-369e7e2fa77f",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" -Name \"Shell\" -Force -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "42a07cd4-56a6-401e-9a35-0a60dc54ea9e",
+      "p": "on-success",
+      "o": "fd4a4ad5-5b02-4b4c-8fcc-369e7e2fa77f"
+    },
+    {
+      "s": "42a07cd4-56a6-401e-9a35-0a60dc54ea9e",
+      "p": "on-failure",
+      "o": "fd4a4ad5-5b02-4b4c-8fcc-369e7e2fa77f"
+    }
+  ],
+  "tags": [
+    "T1547.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "binary_to_execute",
+      "type": "path",
+      "description": "Path of binary to execute",
+      "value": "C:\\Windows\\System32\\cmd.exe"
+    }
+  ]
+}

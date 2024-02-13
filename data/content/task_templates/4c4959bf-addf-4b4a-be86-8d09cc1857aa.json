@@ -1,0 +1,31 @@
+{
+  "id": "4c4959bf-addf-4b4a-be86-8d09cc1857aa",
+  "name": "System Owner/User Discovery",
+  "description": "Identify System owner or users on an endpoint.\n\nUpon successful execution, cmd.exe will spawn multiple commands against a target host to identify usernames. Output will be via stdout. \nAdditionally, two files will be written to disk - computers.txt and usernames.txt.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "487ae925-71e2-46ea-a14e-a1d5628e6021",
+      "type": "execute-command",
+      "data": {
+        "command": "cmd.exe /C whoami\nwmic useraccount get /ALL\nquser /SERVER:\"#{computer_name}\"\nquser\nqwinsta.exe /server:#{computer_name}\nqwinsta.exe\nfor /F \"tokens=1,2\" %i in ('qwinsta /server:#{computer_name} ^| findstr \"Active Disc\"') do @echo %i | find /v \"#\" | find /v \"console\" || echo %j \u003e computers.txt\n@FOR /F %n in (computers.txt) DO @FOR /F \"tokens=1,2\" %i in ('qwinsta /server:%n ^| findstr \"Active Disc\"') do @echo %i | find /v \"#\" | find /v \"console\" || echo %j \u003e usernames.txt\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1033",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "computer_name",
+      "type": "string",
+      "description": "Name of remote computer",
+      "value": "localhost"
+    }
+  ]
+}

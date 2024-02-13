@@ -1,0 +1,97 @@
+{
+  "id": "900e2c49-221b-42ec-ae3c-4717e41e6219",
+  "name": "Docker Exec Into Container",
+  "description": "Attackers who have permissions, can run malicious commands in containers in the cluster using exec command (“docker exec”). In this method, attackers can use legitimate images, such as an OS image (e.g., Ubuntu) as a backdoor container, and run their malicious code remotely by using “docker exec”. Kinsing (Golang-based malware) was executed with an Ubuntu container entry point that runs shell scripts.\n",
+  "platforms": [
+    "containers"
+  ],
+  "steps": [
+    {
+      "id": "9e6d9751-6131-4eb4-864f-b8eca25025c4",
+      "type": "execute-command",
+      "data": {
+        "command": "docker build -t t1609  $PathtoAtomicsFolder/T1609/src/ \ndocker run --name t1609_container --rm -itd t1609 bash /tmp/script.sh\ndocker exec -i t1609_container bash -c \"cat /tmp/output.txt\"\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fd4363e8-4e82-41f5-b121-ef4f33c06af7",
+      "type": "execute-command",
+      "data": {
+        "command": "docker stop t1609_container\ndocker rmi -f t1609:latest \n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "021e4717-8f75-45c4-807b-684af55028a5",
+      "name": "Check dependency 1/1",
+      "description": "docker must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which docker\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "48ede9bf-1d66-46ba-8368-da310c5d2601",
+      "name": "Resolve dependency 1/1",
+      "description": "docker must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ \"\" == \"`which docker`\" ]; then echo \"Docker Not Found\"; if [ -n \"`which apt-get`\" ]; then sudo apt-get -y install docker ; elif [ -n \"`which yum`\" ]; then sudo yum -y install docker ; fi ; else echo \"Docker installed\"; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "83f4f48e-9dfd-47b7-a5a2-de8ed5b2f065",
+      "name": "Re-check dependency 1/1",
+      "description": "docker must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which docker\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "9e6d9751-6131-4eb4-864f-b8eca25025c4",
+      "p": "on-success",
+      "o": "fd4363e8-4e82-41f5-b121-ef4f33c06af7"
+    },
+    {
+      "s": "9e6d9751-6131-4eb4-864f-b8eca25025c4",
+      "p": "on-failure",
+      "o": "fd4363e8-4e82-41f5-b121-ef4f33c06af7"
+    },
+    {
+      "s": "021e4717-8f75-45c4-807b-684af55028a5",
+      "p": "on-success",
+      "o": "9e6d9751-6131-4eb4-864f-b8eca25025c4"
+    },
+    {
+      "s": "021e4717-8f75-45c4-807b-684af55028a5",
+      "p": "on-failure",
+      "o": "48ede9bf-1d66-46ba-8368-da310c5d2601"
+    },
+    {
+      "s": "48ede9bf-1d66-46ba-8368-da310c5d2601",
+      "p": "on-success",
+      "o": "83f4f48e-9dfd-47b7-a5a2-de8ed5b2f065"
+    },
+    {
+      "s": "83f4f48e-9dfd-47b7-a5a2-de8ed5b2f065",
+      "p": "on-failure",
+      "o": "9e6d9751-6131-4eb4-864f-b8eca25025c4"
+    }
+  ],
+  "tags": [
+    "T1609",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "9f5d081a-ee5a-42f9-a04e-b7bdc487e676",
+  "name": "Launches an executable using Rundll32 and pcwutl.dll",
+  "description": "Executes the LaunchApplication function in pcwutl.dll to proxy execution of an executable.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "8bf1eddc-6c35-4a3b-ab9d-34d674601112",
+      "type": "execute-command",
+      "data": {
+        "command": "rundll32.exe pcwutl.dll,LaunchApplication #{exe_to_launch}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1218.011",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "exe_to_launch",
+      "type": "path",
+      "description": "Path of the executable to launch",
+      "value": "%windir%\\System32\\notepad.exe"
+    }
+  ]
+}

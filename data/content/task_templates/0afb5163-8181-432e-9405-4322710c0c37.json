@@ -1,0 +1,23 @@
+{
+  "id": "0afb5163-8181-432e-9405-4322710c0c37",
+  "name": "Elevated group enumeration using net group (Domain)",
+  "description": "Runs \"net group\" command including command aliases and loose typing to simulate enumeration/discovery of high value domain groups. This\ntest will display some errors if run on a computer not connected to a domain. Upon execution, domain information will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e05c346c-52a4-47ce-80a7-29e76580d985",
+      "type": "execute-command",
+      "data": {
+        "command": "net groups \"Account Operators\" /doma\nnet groups \"Exchange Organization Management\" /doma\nnet group \"BUILTIN\\Backup Operators\" /doma\nnet group /domai \"Domain Admins\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1069.002",
+    "atomic-red-team"
+  ]
+}

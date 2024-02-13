@@ -1,0 +1,23 @@
+{
+  "id": "96be6002-9200-47db-94cb-c3e27de1cb36",
+  "name": "Check computer location",
+  "description": "Looks up country code configured in the registry, likely geofence. Upon execution, country code info will be displayed.\n- https://tria.ge/210111-eaz8mqhgh6/behavioral1\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "600e1596-b38e-4319-8188-65a95464df82",
+      "type": "execute-command",
+      "data": {
+        "command": "reg query \"HKEY_CURRENT_USER\\Control Panel\\International\\Geo\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1082",
+    "atomic-red-team"
+  ]
+}

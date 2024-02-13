@@ -1,0 +1,166 @@
+{
+  "id": "a27418de-bdce-4ebd-b655-38f11142bf0c",
+  "name": "AWS - Disable CloudTrail Logging Through Event Selectors using Stratus",
+  "description": "Update event selectors in AWS CloudTrail to disable the logging of certain management events to evade defense. This Atomic test leverages a tool called Stratus-Red-Team built by DataDog (https://github.com/DataDog/stratus-red-team). Stratus Red Team is a self-contained binary. You can use it to easily detonate offensive attack techniques against a live cloud environment. Ref: https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.cloudtrail-event-selectors/\n",
+  "platforms": [
+    "linux",
+    "darwin",
+    "iaas:aws"
+  ],
+  "steps": [
+    {
+      "id": "93a5af51-ac73-4011-8539-369a610cc13e",
+      "type": "execute-command",
+      "data": {
+        "command": "export AWS_REGION=#{aws_region} \ncd #{stratus_path}\necho \"starting warmup\"\n./stratus warmup aws.defense-evasion.cloudtrail-event-selectors\necho \"starting detonate\"\n./stratus detonate aws.defense-evasion.cloudtrail-event-selectors --force\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "790bcaeb-e055-4482-81c0-d6e51b05bda2",
+      "type": "execute-command",
+      "data": {
+        "command": "export AWS_REGION=#{aws_region}\necho \"Cleanup detonation\"\ncd #{stratus_path}\n./stratus cleanup --all\nrm -rf stratus*\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fed5ea22-a8f7-477a-807a-7871e81acf25",
+      "name": "Check dependency 1/2",
+      "description": "Stratus binary must be present at the (#{stratus_path}/stratus)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f #{stratus_path}/stratus ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0720d6a5-1523-42a0-8500-e68c236ad0d9",
+      "name": "Resolve dependency 1/2",
+      "description": "Stratus binary must be present at the (#{stratus_path}/stratus)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ \"$(uname)\" == \"Darwin\" ]\nthen DOWNLOAD_URL=$(curl -s https://api.github.com/repos/DataDog/stratus-red-team/releases/latest | grep browser_download_url | grep Darwin_x86_64 | cut -d '\"' -f 4); wget -q -O #{stratus_path}/stratus-red-team-latest.tar.gz $DOWNLOAD_URL\n  tar -xzvf #{stratus_path}/stratus-red-team-latest.tar.gz --directory #{stratus_path}/\nelif [ \"$(expr substr $(uname) 1 5)\" == \"Linux\" ]\nthen DOWNLOAD_URL=$(curl -s https://api.github.com/repos/DataDog/stratus-red-team/releases/latest | grep browser_download_url | grep linux_x86_64 | cut -d '\"' -f 4) \n  wget -q -O #{stratus_path}/stratus-red-team-latest.tar.gz $DOWNLOAD_URL\n  tar -xzvf #{stratus_path}/stratus-red-team-latest.tar.gz --directory #{stratus_path}/\nfi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0b4bb0b7-0405-4ee3-8f65-7bd446eeaea2",
+      "name": "Re-check dependency 1/2",
+      "description": "Stratus binary must be present at the (#{stratus_path}/stratus)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f #{stratus_path}/stratus ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "75491c50-d1fc-44de-a776-e6c1992e15bb",
+      "name": "Check dependency 2/2",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cat ~/.aws/credentials | grep \"default\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f5934ea0-22b4-41bc-8dd2-79ffa33c600c",
+      "name": "Resolve dependency 2/2",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Please install the aws-cli and configure your AWS defult profile using: aws configure\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "84c9f48d-ad52-49ae-894b-31283e480550",
+      "name": "Re-check dependency 2/2",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cat ~/.aws/credentials | grep \"default\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "93a5af51-ac73-4011-8539-369a610cc13e",
+      "p": "on-success",
+      "o": "790bcaeb-e055-4482-81c0-d6e51b05bda2"
+    },
+    {
+      "s": "93a5af51-ac73-4011-8539-369a610cc13e",
+      "p": "on-failure",
+      "o": "790bcaeb-e055-4482-81c0-d6e51b05bda2"
+    },
+    {
+      "s": "fed5ea22-a8f7-477a-807a-7871e81acf25",
+      "p": "on-success",
+      "o": "93a5af51-ac73-4011-8539-369a610cc13e"
+    },
+    {
+      "s": "fed5ea22-a8f7-477a-807a-7871e81acf25",
+      "p": "on-failure",
+      "o": "0720d6a5-1523-42a0-8500-e68c236ad0d9"
+    },
+    {
+      "s": "0720d6a5-1523-42a0-8500-e68c236ad0d9",
+      "p": "on-success",
+      "o": "0b4bb0b7-0405-4ee3-8f65-7bd446eeaea2"
+    },
+    {
+      "s": "0b4bb0b7-0405-4ee3-8f65-7bd446eeaea2",
+      "p": "on-failure",
+      "o": "93a5af51-ac73-4011-8539-369a610cc13e"
+    },
+    {
+      "s": "75491c50-d1fc-44de-a776-e6c1992e15bb",
+      "p": "on-success",
+      "o": "93a5af51-ac73-4011-8539-369a610cc13e"
+    },
+    {
+      "s": "75491c50-d1fc-44de-a776-e6c1992e15bb",
+      "p": "on-failure",
+      "o": "f5934ea0-22b4-41bc-8dd2-79ffa33c600c"
+    },
+    {
+      "s": "f5934ea0-22b4-41bc-8dd2-79ffa33c600c",
+      "p": "on-success",
+      "o": "84c9f48d-ad52-49ae-894b-31283e480550"
+    },
+    {
+      "s": "84c9f48d-ad52-49ae-894b-31283e480550",
+      "p": "on-failure",
+      "o": "93a5af51-ac73-4011-8539-369a610cc13e"
+    }
+  ],
+  "tags": [
+    "T1562.008",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "aws_region",
+      "type": "string",
+      "description": "AWS region to detonate",
+      "value": "us-west-2"
+    },
+    {
+      "name": "stratus_path",
+      "type": "path",
+      "description": "Path of stratus binary",
+      "value": "$PathToAtomicsFolder/T1562.008/src"
+    }
+  ]
+}

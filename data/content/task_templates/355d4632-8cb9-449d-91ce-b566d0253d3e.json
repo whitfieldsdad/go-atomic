@@ -1,0 +1,123 @@
+{
+  "id": "355d4632-8cb9-449d-91ce-b566d0253d3e",
+  "name": "RDP to DomainController",
+  "description": "Attempt an RDP session via Remote Desktop Application to a DomainController.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "cf70b8d8-a811-4014-a2bc-8361a83ecbf2",
+      "type": "execute-command",
+      "data": {
+        "command": "$Server=#{logonserver}\n$User = Join-Path #{domain} #{username}\n$Password=\"#{password}\"\ncmdkey /generic:TERMSRV/$Server /user:$User /pass:$Password\nmstsc /v:$Server\necho \"RDP connection established\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "63ef6b50-9369-45bd-87e6-e3ae730b688f",
+      "type": "execute-command",
+      "data": {
+        "command": "$p=Tasklist /svc /fi \"IMAGENAME eq mstsc.exe\" /fo csv | convertfrom-csv\nif(-not ([string]::IsNullOrEmpty($p.PID))) { Stop-Process -Id $p.PID }\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f77ea624-1b27-43ea-bf9c-41cdca71bae3",
+      "name": "Check dependency 1/1",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) { exit 0} else { exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "351747c2-70df-4857-b6b0-530ea16d2e38",
+      "name": "Resolve dependency 1/1",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host Joining this computer to a domain must be done manually\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "40311187-cf41-4a64-af72-aee37a5cd579",
+      "name": "Re-check dependency 1/1",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) { exit 0} else { exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "cf70b8d8-a811-4014-a2bc-8361a83ecbf2",
+      "p": "on-success",
+      "o": "63ef6b50-9369-45bd-87e6-e3ae730b688f"
+    },
+    {
+      "s": "cf70b8d8-a811-4014-a2bc-8361a83ecbf2",
+      "p": "on-failure",
+      "o": "63ef6b50-9369-45bd-87e6-e3ae730b688f"
+    },
+    {
+      "s": "f77ea624-1b27-43ea-bf9c-41cdca71bae3",
+      "p": "on-success",
+      "o": "cf70b8d8-a811-4014-a2bc-8361a83ecbf2"
+    },
+    {
+      "s": "f77ea624-1b27-43ea-bf9c-41cdca71bae3",
+      "p": "on-failure",
+      "o": "351747c2-70df-4857-b6b0-530ea16d2e38"
+    },
+    {
+      "s": "351747c2-70df-4857-b6b0-530ea16d2e38",
+      "p": "on-success",
+      "o": "40311187-cf41-4a64-af72-aee37a5cd579"
+    },
+    {
+      "s": "40311187-cf41-4a64-af72-aee37a5cd579",
+      "p": "on-failure",
+      "o": "cf70b8d8-a811-4014-a2bc-8361a83ecbf2"
+    }
+  ],
+  "tags": [
+    "T1021.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "logonserver",
+      "type": "string",
+      "description": "ComputerName argument default %logonserver%",
+      "value": "$ENV:logonserver.TrimStart(\"\\\")"
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "domain argument default %USERDOMAIN%",
+      "value": "$Env:USERDOMAIN"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username argument default %username%",
+      "value": "$ENV:USERNAME"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password",
+      "value": "1password2!"
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "id": "c75612b2-9de0-4d7c-879c-10d7b077072d",
+  "name": "Compressing data using bz2 in Python (FreeBSD/Linux)",
+  "description": "Uses bz2 from Python to compress files\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "d135c90b-9dc8-4846-9ef0-cd6dd9c892d7",
+      "type": "execute-command",
+      "data": {
+        "command": "which_python=`which python || which python3`\n$which_python -c \"import bz2;input_file=open('#{path_to_input_file}','rb');content=input_file.read();input_file.close();bz2content=bz2.compress(content,compresslevel=9);output_file=open('#{path_to_output_file}','w+');output_file.write(str(bz2content));output_file.close();\"\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b26a5842-f071-4b7c-8cbb-9ed760eb2c2e",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{path_to_output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "29cabddb-e83e-441e-a9cc-29b337e8644e",
+      "name": "Check dependency 1/1",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which python || which python3\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4457d1a0-1f90-4ef1-a181-5b1958caa822",
+      "name": "Resolve dependency 1/1",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"please install python to run this test\"; exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3ed26571-2517-4fbe-b843-b25a3a6d8c09",
+      "name": "Re-check dependency 1/1",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which python || which python3\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d135c90b-9dc8-4846-9ef0-cd6dd9c892d7",
+      "p": "on-success",
+      "o": "b26a5842-f071-4b7c-8cbb-9ed760eb2c2e"
+    },
+    {
+      "s": "d135c90b-9dc8-4846-9ef0-cd6dd9c892d7",
+      "p": "on-failure",
+      "o": "b26a5842-f071-4b7c-8cbb-9ed760eb2c2e"
+    },
+    {
+      "s": "29cabddb-e83e-441e-a9cc-29b337e8644e",
+      "p": "on-success",
+      "o": "d135c90b-9dc8-4846-9ef0-cd6dd9c892d7"
+    },
+    {
+      "s": "29cabddb-e83e-441e-a9cc-29b337e8644e",
+      "p": "on-failure",
+      "o": "4457d1a0-1f90-4ef1-a181-5b1958caa822"
+    },
+    {
+      "s": "4457d1a0-1f90-4ef1-a181-5b1958caa822",
+      "p": "on-success",
+      "o": "3ed26571-2517-4fbe-b843-b25a3a6d8c09"
+    },
+    {
+      "s": "3ed26571-2517-4fbe-b843-b25a3a6d8c09",
+      "p": "on-failure",
+      "o": "d135c90b-9dc8-4846-9ef0-cd6dd9c892d7"
+    }
+  ],
+  "tags": [
+    "T1560.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "path_to_input_file",
+      "type": "path",
+      "description": "Path to the file that you want to compress",
+      "value": "/etc/passwd"
+    },
+    {
+      "name": "path_to_output_file",
+      "type": "path",
+      "description": "Path of the file that you want your .bz2 file to be",
+      "value": "/tmp/passwd.bz2"
+    }
+  ]
+}

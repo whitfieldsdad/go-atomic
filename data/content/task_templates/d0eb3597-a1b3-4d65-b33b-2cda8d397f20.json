@@ -1,0 +1,37 @@
+{
+  "id": "d0eb3597-a1b3-4d65-b33b-2cda8d397f20",
+  "name": "Suspicious Execution via Windows Command Shell",
+  "description": "Command line executed via suspicious invocation. Example is from the 2021 Threat Detection Report by Red Canary.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "8442cab0-e958-46a4-8d3f-0bdb21f5dbb7",
+      "type": "execute-command",
+      "data": {
+        "command": "%LOCALAPPDATA:~-3,1%md /c echo #{input_message} \u003e #{output_file} \u0026 type #{output_file}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1059.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "string",
+      "description": "File to output to",
+      "value": "hello.txt"
+    },
+    {
+      "name": "input_message",
+      "type": "string",
+      "description": "Message to write to file",
+      "value": "Hello, from CMD!"
+    }
+  ]
+}

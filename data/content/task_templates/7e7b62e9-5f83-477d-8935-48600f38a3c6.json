@@ -1,0 +1,44 @@
+{
+  "id": "7e7b62e9-5f83-477d-8935-48600f38a3c6",
+  "name": "RDP Authentication Level Override",
+  "description": "A modification registry to override RDP Authentication Level. This technique was seen in DarkGate malware as part of its installation.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "615a85ec-7a14-4b61-92f0-c0d5131fb2ea",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKCU\\Software\\Microsoft\\Terminal Server Client\" /v AuthenticationLevelOverride /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c5c0a1c7-e400-4689-b51e-f142b2f4f910",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKCU\\Software\\Microsoft\\Terminal Server Client\" /v AuthenticationLevelOverride\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "615a85ec-7a14-4b61-92f0-c0d5131fb2ea",
+      "p": "on-success",
+      "o": "c5c0a1c7-e400-4689-b51e-f142b2f4f910"
+    },
+    {
+      "s": "615a85ec-7a14-4b61-92f0-c0d5131fb2ea",
+      "p": "on-failure",
+      "o": "c5c0a1c7-e400-4689-b51e-f142b2f4f910"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

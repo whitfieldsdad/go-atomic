@@ -1,0 +1,52 @@
+{
+  "id": "b1eeb683-90bb-4365-bbc2-2689015782fe",
+  "name": "LOLBAS CustomShellHost to Spawn Process",
+  "description": "This test simulates an adversary copying `customshellhost.exe` and `calc.exe` from `C:\\windows\\system32\\` to `C:\\temp\\`, renaming `calc.exe` to `explorer.exe`.\nUpon execution, customshellhost.exe will spawn calc.exe.\nNote this will only work on Windows 10 or 11.\n[LOLBAS](https://lolbas-project.github.io/lolbas/Binaries/CustomShellHost/)\n[BishopFox](https://bishopfox.com/blog/edr-bypass-with-lolbins)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "1b6b0936-6380-4f32-8179-bd45f8e90440",
+      "type": "execute-command",
+      "data": {
+        "command": "if (-not (Test-Path #{dest_path})) {\nNew-Item -Path #{dest_path} -ItemType Directory\n} else {\nWrite-Host \"Directory #{dest_path} already exists.\" }\nCopy-Item -Path \"C:\\windows\\system32\\customshellhost.exe\" -Destination \"#{dest_path}\\customshellhost.exe\" -Force\nCopy-Item -Path \"C:\\windows\\system32\\calc.exe\" -Destination \"#{dest_path}\\explorer.exe\" -Force\n#{dest_path}\\customshellhost.exe\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "572b43af-72f1-4a35-ad91-6ec4553e1afc",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -Path #{dest_path} -Recurse -Force\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1b6b0936-6380-4f32-8179-bd45f8e90440",
+      "p": "on-success",
+      "o": "572b43af-72f1-4a35-ad91-6ec4553e1afc"
+    },
+    {
+      "s": "1b6b0936-6380-4f32-8179-bd45f8e90440",
+      "p": "on-failure",
+      "o": "572b43af-72f1-4a35-ad91-6ec4553e1afc"
+    }
+  ],
+  "tags": [
+    "T1218",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "dest_path",
+      "type": "path",
+      "description": "Directory to copy files into",
+      "value": "C:\\test"
+    }
+  ]
+}

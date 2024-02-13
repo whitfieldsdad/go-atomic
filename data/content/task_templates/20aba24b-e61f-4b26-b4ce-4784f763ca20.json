@@ -1,0 +1,31 @@
+{
+  "id": "20aba24b-e61f-4b26-b4ce-4784f763ca20",
+  "name": "System Time Discovery",
+  "description": "Identify the system time. Upon execution, the local computer system time and timezone will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "73ff7e22-a54b-48af-98d5-74994f34ec62",
+      "type": "execute-command",
+      "data": {
+        "command": "net time \\\\#{computer_name}\nw32tm /tz\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1124",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "computer_name",
+      "type": "string",
+      "description": "computer name to query",
+      "value": "localhost"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "id": "78b274f8-acb0-428b-b1f7-7b0d0e73330a",
+  "name": "Export Root Certificate with Export-Certificate",
+  "description": "Creates a Root certificate and exports it with Export-Certificate PowerShell Cmdlet.\nUpon a successful attempt, this will write a pfx to disk and utilize the Cmdlet Export-Certificate.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "fc1e755c-bdfb-4570-8776-c1b4e8ba2311",
+      "type": "execute-command",
+      "data": {
+        "command": "$cert = New-SelfSignedCertificate -DnsName atomicredteam.com -CertStoreLocation cert:\\LocalMachine\\My\nSet-Location Cert:\\LocalMachine\\My\nExport-Certificate -Type CERT -Cert  Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -FilePath #{pfx_path}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "82602008-264e-4365-8873-478180e4177c",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n   $cert = Import-Certificate -FilePath #{pfx_path} -CertStoreLocation Cert:\\LocalMachine\\My -ErrorAction Ignore\n   Get-ChildItem Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\n   Get-ChildItem Cert:\\LocalMachine\\Root\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\n}\ncatch { }\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "fc1e755c-bdfb-4570-8776-c1b4e8ba2311",
+      "p": "on-success",
+      "o": "82602008-264e-4365-8873-478180e4177c"
+    },
+    {
+      "s": "fc1e755c-bdfb-4570-8776-c1b4e8ba2311",
+      "p": "on-failure",
+      "o": "82602008-264e-4365-8873-478180e4177c"
+    }
+  ],
+  "tags": [
+    "T1552.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "pfx_path",
+      "type": "path",
+      "description": "Path of the certificate",
+      "value": "$env:Temp\\AtomicRedTeam.cer"
+    }
+  ]
+}

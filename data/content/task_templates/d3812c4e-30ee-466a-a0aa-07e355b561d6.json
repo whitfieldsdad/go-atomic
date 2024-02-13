@@ -1,0 +1,64 @@
+{
+  "id": "d3812c4e-30ee-466a-a0aa-07e355b561d6",
+  "name": "Delete User via sysadminctl utility",
+  "description": "This test deletes the user account using the sysadminctl utility.\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "1d1a610e-b191-4ebd-bf11-5063f30a27ef",
+      "type": "execute-command",
+      "data": {
+        "command": "sysadminctl -deleteUser #{user_account} #enter admin password\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "70d131a2-41d0-4be2-ac6c-d5d2f76f3093",
+      "type": "execute-command",
+      "data": {
+        "command": "sysadminctl -addUser #{user_account} -fullName \"#{user_name}\" -password #{user_password}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1d1a610e-b191-4ebd-bf11-5063f30a27ef",
+      "p": "on-success",
+      "o": "70d131a2-41d0-4be2-ac6c-d5d2f76f3093"
+    },
+    {
+      "s": "1d1a610e-b191-4ebd-bf11-5063f30a27ef",
+      "p": "on-failure",
+      "o": "70d131a2-41d0-4be2-ac6c-d5d2f76f3093"
+    }
+  ],
+  "tags": [
+    "T1531",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "user_password",
+      "type": "string",
+      "description": "New user password.",
+      "value": "ARTPassword"
+    },
+    {
+      "name": "user_account",
+      "type": "string",
+      "description": "User account which will be deleted.",
+      "value": "ARTUserAccount"
+    },
+    {
+      "name": "user_name",
+      "type": "string",
+      "description": "New user name.",
+      "value": "ARTUser"
+    }
+  ]
+}

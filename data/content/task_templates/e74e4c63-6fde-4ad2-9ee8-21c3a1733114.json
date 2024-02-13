@@ -1,0 +1,44 @@
+{
+  "id": "e74e4c63-6fde-4ad2-9ee8-21c3a1733114",
+  "name": "Disable Memory Swap",
+  "description": "disable swapping of device paging that impaire the compromised host to swap data if the RAM is full. Awfulshred wiper used this technique as an additional \npayload to the compromised host and to make sure that there will be no recoverable data due to swap feature of FreeBSD/linux.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "7463a38f-bafd-42b2-b67e-9f92c17d9fb9",
+      "type": "execute-command",
+      "data": {
+        "command": "swapon -a \nsleep 2\nswapoff -a\nsync\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8feeb21b-c4a7-405d-bd8f-71260c7c54d8",
+      "type": "execute-command",
+      "data": {
+        "command": "swapon -a\nsleep 2\nsync\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7463a38f-bafd-42b2-b67e-9f92c17d9fb9",
+      "p": "on-success",
+      "o": "8feeb21b-c4a7-405d-bd8f-71260c7c54d8"
+    },
+    {
+      "s": "7463a38f-bafd-42b2-b67e-9f92c17d9fb9",
+      "p": "on-failure",
+      "o": "8feeb21b-c4a7-405d-bd8f-71260c7c54d8"
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ]
+}

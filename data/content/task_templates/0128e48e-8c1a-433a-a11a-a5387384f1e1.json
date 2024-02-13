@@ -1,0 +1,105 @@
+{
+  "id": "0128e48e-8c1a-433a-a11a-a5387384f1e1",
+  "name": "Read-Write-Execute process Injection",
+  "description": "This test exploited the vulnerability in legitimate PE formats where sections have RWX permission and enough space for shellcode.\nThe RWX injection avoided the use of VirtualAlloc, WriteVirtualMemory, and ProtectVirtualMemory, thus evading detection mechanisms \nthat relied on API call sequences and heuristics. The RWX injection utilises API call sequences: LoadLibrary --\u003e GetModuleInformation --\u003e GetModuleHandleA --\u003e RtlCopyMemory --\u003e CreateThread.\nThe injected shellcode will open a message box and a notepad.\nRWX Process Injection, also known as MockingJay, was introduced to the security community by SecurityJoes.\nMore details can be found at https://www.securityjoes.com/post/process-mockingjay-echoing-rwx-in-userland-to-achieve-code-execution.\nThe original injector and idea were developed for game cheats, as visible at https://github.com/M-r-J-o-h-n/SWH-Injector.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "6381063b-1ebf-4f59-8d0f-0093708174e4",
+      "type": "execute-command",
+      "data": {
+        "command": "$address = (\u0026 \"$PathToAtomicsFolder\\T1055\\bin\\x64\\searchVuln.exe\" \"$PathToAtomicsFolder\\T1055\\bin\\x64\\vuln_dll\\\" | Out-String | Select-String -Pattern \"VirtualAddress: (\\w+)\").Matches.Groups[1].Value\n\u0026 \"PathToAtomicsFolder\\T1055\\bin\\x64\\RWXinjectionLocal.exe\" \"#{vuln_dll}\" $address\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "50dbf249-083f-4d69-89e7-28f9e40f3f97",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-Process -Name Notepad -ErrorAction SilentlyContinue | Stop-Process -Force",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d64024b2-0d5e-4337-a6ab-b115eb85832e",
+      "name": "Check dependency 1/1",
+      "description": "Utility to inject must exist on disk at specified location (#{vuln_dll})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{vuln_dll}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "44303a99-03d4-46b6-9e90-c1413d570986",
+      "name": "Resolve dependency 1/1",
+      "description": "Utility to inject must exist on disk at specified location (#{vuln_dll})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{vuln_dll}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1055/bin/x64/vuln_dll/msys-2.0.dll\" -OutFile \"#{vuln_dll}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bb51156e-da1f-4554-b849-6a0369067ad4",
+      "name": "Re-check dependency 1/1",
+      "description": "Utility to inject must exist on disk at specified location (#{vuln_dll})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{vuln_dll}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "6381063b-1ebf-4f59-8d0f-0093708174e4",
+      "p": "on-success",
+      "o": "50dbf249-083f-4d69-89e7-28f9e40f3f97"
+    },
+    {
+      "s": "6381063b-1ebf-4f59-8d0f-0093708174e4",
+      "p": "on-failure",
+      "o": "50dbf249-083f-4d69-89e7-28f9e40f3f97"
+    },
+    {
+      "s": "d64024b2-0d5e-4337-a6ab-b115eb85832e",
+      "p": "on-success",
+      "o": "6381063b-1ebf-4f59-8d0f-0093708174e4"
+    },
+    {
+      "s": "d64024b2-0d5e-4337-a6ab-b115eb85832e",
+      "p": "on-failure",
+      "o": "44303a99-03d4-46b6-9e90-c1413d570986"
+    },
+    {
+      "s": "44303a99-03d4-46b6-9e90-c1413d570986",
+      "p": "on-success",
+      "o": "bb51156e-da1f-4554-b849-6a0369067ad4"
+    },
+    {
+      "s": "bb51156e-da1f-4554-b849-6a0369067ad4",
+      "p": "on-failure",
+      "o": "6381063b-1ebf-4f59-8d0f-0093708174e4"
+    }
+  ],
+  "tags": [
+    "T1055",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "vuln_dll",
+      "type": "path",
+      "description": "vulnerable DLL",
+      "value": "PathToAtomicsFolder\\T1055\\bin\\x64\\vuln_dll\\msys-2.0.dll"
+    }
+  ]
+}

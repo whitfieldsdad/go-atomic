@@ -1,0 +1,44 @@
+{
+  "id": "86677d0e-0b5e-4a2b-b302-454175f9aa9e",
+  "name": "Allow RDP Remote Assistance Feature",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to allow rdp remote assistance feature. This feature allow specific\nuser to rdp connect on the targeted machine.\nSee how azorult malware abuses this technique- https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "43d4a854-18e6-41a4-a6f6-d3354cf5843d",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\" /v fAllowToGetHelp /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5544e1c5-e3af-4330-9c4d-4a68119b6cd3",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\" /v fAllowToGetHelp /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "43d4a854-18e6-41a4-a6f6-d3354cf5843d",
+      "p": "on-success",
+      "o": "5544e1c5-e3af-4330-9c4d-4a68119b6cd3"
+    },
+    {
+      "s": "43d4a854-18e6-41a4-a6f6-d3354cf5843d",
+      "p": "on-failure",
+      "o": "5544e1c5-e3af-4330-9c4d-4a68119b6cd3"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

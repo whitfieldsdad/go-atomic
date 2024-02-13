@@ -1,0 +1,97 @@
+{
+  "id": "c4ae0701-88d3-4cd8-8bce-4801ed9f97e4",
+  "name": "Edit UFW firewall sysctl.conf file",
+  "description": "Edit the Uncomplicated Firewall (UFW) configuration file for setting network \nvariables /etc/ufw/sysctl.conf.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "f62be34b-5add-48a4-a4db-e49df4ae10cd",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"# THIS IS A COMMENT\" \u003e\u003e /etc/ufw/sysctl.conf\ngrep \"# THIS IS A COMMENT\" /etc/ufw/sysctl.conf\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2fdde7e7-edf5-4548-add2-f6908baa589f",
+      "type": "execute-command",
+      "data": {
+        "command": "sed -i 's/# THIS IS A COMMENT//g' /etc/ufw/sysctl.conf\ncat /etc/ufw/sysctl.conf\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ff46fa3f-a0ee-4ec8-b11e-1e698678c23c",
+      "name": "Check dependency 1/1",
+      "description": "Check if /etc/ufw/sysctl.conf exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -f \"/etc/ufw/sysctl.conf\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b201a3c8-94e1-46ed-b6e4-a4dce92d1596",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if /etc/ufw/sysctl.conf exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "cf84c181-026a-4f1a-8087-99bc18c3e71b",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if /etc/ufw/sysctl.conf exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -f \"/etc/ufw/sysctl.conf\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f62be34b-5add-48a4-a4db-e49df4ae10cd",
+      "p": "on-success",
+      "o": "2fdde7e7-edf5-4548-add2-f6908baa589f"
+    },
+    {
+      "s": "f62be34b-5add-48a4-a4db-e49df4ae10cd",
+      "p": "on-failure",
+      "o": "2fdde7e7-edf5-4548-add2-f6908baa589f"
+    },
+    {
+      "s": "ff46fa3f-a0ee-4ec8-b11e-1e698678c23c",
+      "p": "on-success",
+      "o": "f62be34b-5add-48a4-a4db-e49df4ae10cd"
+    },
+    {
+      "s": "ff46fa3f-a0ee-4ec8-b11e-1e698678c23c",
+      "p": "on-failure",
+      "o": "b201a3c8-94e1-46ed-b6e4-a4dce92d1596"
+    },
+    {
+      "s": "b201a3c8-94e1-46ed-b6e4-a4dce92d1596",
+      "p": "on-success",
+      "o": "cf84c181-026a-4f1a-8087-99bc18c3e71b"
+    },
+    {
+      "s": "cf84c181-026a-4f1a-8087-99bc18c3e71b",
+      "p": "on-failure",
+      "o": "f62be34b-5add-48a4-a4db-e49df4ae10cd"
+    }
+  ],
+  "tags": [
+    "T1562.004",
+    "atomic-red-team"
+  ]
+}

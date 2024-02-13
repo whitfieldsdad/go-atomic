@@ -1,0 +1,43 @@
+{
+  "id": "05df2a79-dba6-4088-a804-9ca0802ca8e4",
+  "name": "Port-Scanning /24 Subnet with PowerShell",
+  "description": "Scanning common ports in a /24 subnet. If no IP address for the target subnet is specified the test tries to determine the attacking machine's \"primary\" IPv4 address first and then scans that address with a /24 netmask.\nThe connection attempts to use a timeout parameter in milliseconds to speed up the scan. Please note the atomic might not print any output until the scans are completed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "fafaad39-61ba-44e0-bba5-ebf183ba8c85",
+      "type": "execute-command",
+      "data": {
+        "command": "$ipAddr = \"#{ip_address}\"\nif ($ipAddr -eq \"\") {\n    # Assumes the \"primary\" interface is shown at the top\n    $interface = Get-NetIPInterface -AddressFamily IPv4 -ConnectionState Connected | Select-Object -ExpandProperty InterfaceAlias -First 1\n    Write-Host \"[i] Using Interface $interface\"\n    $ipAddr = Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias $interface | Select-Object -ExpandProperty IPAddress\n}\nWrite-Host \"[i] Base IP-Address for Subnet: $ipAddr\"\n$subnetSubstring = $ipAddr.Substring(0, $ipAddr.LastIndexOf('.') + 1)\n# Always assumes /24 subnet\nWrite-Host \"[i] Assuming /24 subnet. scanning $subnetSubstring'1' to $subnetSubstring'254'\"\n\n$ports = #{port_list}\n$subnetIPs = 1..254 | ForEach-Object { \"$subnetSubstring$_\" }\n\nforeach ($ip in $subnetIPs) {\n    foreach ($port in $ports) {\n      try {\n          $tcp = New-Object Net.Sockets.TcpClient\n          $tcp.ConnectAsync($ip, $port).Wait(#{timeout_ms}) | Out-Null\n      } catch {}\n      if ($tcp.Connected) {\n          $tcp.Close()\n          Write-Host \"Port $port is open on $ip\"\n      }\n    }\n}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1046",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "ip_address",
+      "type": "string",
+      "description": "IP-Address within the target subnet. Default is empty and script tries to determine local IP address of attacking machine.",
+      "value": ""
+    },
+    {
+      "name": "port_list",
+      "type": "string",
+      "description": "Comma separated list of ports to scan",
+      "value": "445, 3389"
+    },
+    {
+      "name": "timeout_ms",
+      "type": "string",
+      "description": "Connection timeout in milliseconds",
+      "value": "200"
+    }
+  ]
+}

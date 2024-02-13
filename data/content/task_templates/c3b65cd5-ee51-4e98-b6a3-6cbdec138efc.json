@@ -1,0 +1,93 @@
+{
+  "id": "c3b65cd5-ee51-4e98-b6a3-6cbdec138efc",
+  "name": "XOR decoding and command execution using Python",
+  "description": "An adversary can obfuscate malicious commands or payloads using XOR and execute them on the victim's machine. This test uses Python to decode and execute commands on the machine.",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "a1b6c2d7-b59f-4e47-bb1f-a4a3a3728c22",
+      "type": "execute-command",
+      "data": {
+        "command": "python3 -c 'import base64; import subprocess; xor_decrypt = lambda text, key: \"\".join([chr(c ^ ord(k)) for c, k in zip(base64.b64decode(text.encode()), key)]); command = \"#{encrypted_command}\"; key = \"#{xor_key}\"; exec = xor_decrypt(command, key); subprocess.call(exec, shell=True)'",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ff26bc7e-eb9f-49b0-ad7b-58633b6c37b5",
+      "name": "Check dependency 1/1",
+      "description": "Python3 must be installed",
+      "type": "execute-command",
+      "data": {
+        "command": "which python3",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bf5582e2-cb39-4ec0-bcd9-63e08ee91333",
+      "name": "Resolve dependency 1/1",
+      "description": "Python3 must be installed",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"Install Python3\"",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fb404006-2df8-445a-ad26-2029af9923f8",
+      "name": "Re-check dependency 1/1",
+      "description": "Python3 must be installed",
+      "type": "execute-command",
+      "data": {
+        "command": "which python3",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ff26bc7e-eb9f-49b0-ad7b-58633b6c37b5",
+      "p": "on-success",
+      "o": "a1b6c2d7-b59f-4e47-bb1f-a4a3a3728c22"
+    },
+    {
+      "s": "ff26bc7e-eb9f-49b0-ad7b-58633b6c37b5",
+      "p": "on-failure",
+      "o": "bf5582e2-cb39-4ec0-bcd9-63e08ee91333"
+    },
+    {
+      "s": "bf5582e2-cb39-4ec0-bcd9-63e08ee91333",
+      "p": "on-success",
+      "o": "fb404006-2df8-445a-ad26-2029af9923f8"
+    },
+    {
+      "s": "fb404006-2df8-445a-ad26-2029af9923f8",
+      "p": "on-failure",
+      "o": "a1b6c2d7-b59f-4e47-bb1f-a4a3a3728c22"
+    }
+  ],
+  "tags": [
+    "T1140",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "xor_key",
+      "type": "string",
+      "description": "Key used to decrypt the command ",
+      "value": "waEHleblxiQjoxFJQaIMLdHKz"
+    },
+    {
+      "name": "encrypted_command",
+      "type": "string",
+      "description": "Encrypted command that will be executed",
+      "value": "AAkqKQEM"
+    }
+  ]
+}

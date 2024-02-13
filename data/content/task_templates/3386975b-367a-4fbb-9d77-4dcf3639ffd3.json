@@ -1,0 +1,49 @@
+{
+  "id": "3386975b-367a-4fbb-9d77-4dcf3639ffd3",
+  "name": "Map admin share",
+  "description": "Connecting To Remote Shares\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "6c1c2b65-f736-487c-91b9-b519fa996c50",
+      "type": "execute-command",
+      "data": {
+        "command": "cmd.exe /c \"net use \\\\#{computer_name}\\#{share_name} #{password} /u:#{user_name}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1021.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "user_name",
+      "type": "string",
+      "description": "Username",
+      "value": "DOMAIN\\Administrator"
+    },
+    {
+      "name": "share_name",
+      "type": "string",
+      "description": "Examples C$, IPC$, Admin$",
+      "value": "C$"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password",
+      "value": "P@ssw0rd1"
+    },
+    {
+      "name": "computer_name",
+      "type": "string",
+      "description": "Target Computer Name",
+      "value": "Target"
+    }
+  ]
+}

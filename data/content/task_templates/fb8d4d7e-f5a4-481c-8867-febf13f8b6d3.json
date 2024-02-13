@@ -1,0 +1,105 @@
+{
+  "id": "fb8d4d7e-f5a4-481c-8867-febf13f8b6d3",
+  "name": "Create and start Hyper-V virtual machine",
+  "description": "Create a simple Hyper-V VM (Windows native hypervisor) and start up the machine\nCleanup command stops and deletes the newly created VM\nhttps://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v\nhttps://embracethered.com/blog/posts/2020/shadowbunny-virtual-machine-red-teaming-technique/\nhttps://attack.mitre.org/techniques/T1564/006/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "bcb48016-bf50-4376-908a-4a74ef7c3da9",
+      "type": "execute-command",
+      "data": {
+        "command": "$VM = \"#{vm_name}\"\nNew-VM -Name $VM -Generation 2\nSet-VMFirmware $VM -EnableSecureBoot Off\nStart-VM $VM",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "93275bdf-c108-4329-b269-80e138ee4708",
+      "type": "execute-command",
+      "data": {
+        "command": "Stop-VM $VM -Force\nRemove-VM $VM -Force",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "84af979e-bd16-4257-a5f4-0e5bb8b3dca6",
+      "name": "Check dependency 1/1",
+      "description": "Hyper-V must be enabled on the system\nChecks whether Hyper-V is enabled. If not, enables Hyper-V and forces a required restart\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).State = \"Enabled\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "92d1c2ea-6873-40f6-b9aa-4894435093bc",
+      "name": "Resolve dependency 1/1",
+      "description": "Hyper-V must be enabled on the system\nChecks whether Hyper-V is enabled. If not, enables Hyper-V and forces a required restart\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c815e282-8d28-4474-86af-4c41709086b1",
+      "name": "Re-check dependency 1/1",
+      "description": "Hyper-V must be enabled on the system\nChecks whether Hyper-V is enabled. If not, enables Hyper-V and forces a required restart\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).State = \"Enabled\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "bcb48016-bf50-4376-908a-4a74ef7c3da9",
+      "p": "on-success",
+      "o": "93275bdf-c108-4329-b269-80e138ee4708"
+    },
+    {
+      "s": "bcb48016-bf50-4376-908a-4a74ef7c3da9",
+      "p": "on-failure",
+      "o": "93275bdf-c108-4329-b269-80e138ee4708"
+    },
+    {
+      "s": "84af979e-bd16-4257-a5f4-0e5bb8b3dca6",
+      "p": "on-success",
+      "o": "bcb48016-bf50-4376-908a-4a74ef7c3da9"
+    },
+    {
+      "s": "84af979e-bd16-4257-a5f4-0e5bb8b3dca6",
+      "p": "on-failure",
+      "o": "92d1c2ea-6873-40f6-b9aa-4894435093bc"
+    },
+    {
+      "s": "92d1c2ea-6873-40f6-b9aa-4894435093bc",
+      "p": "on-success",
+      "o": "c815e282-8d28-4474-86af-4c41709086b1"
+    },
+    {
+      "s": "c815e282-8d28-4474-86af-4c41709086b1",
+      "p": "on-failure",
+      "o": "bcb48016-bf50-4376-908a-4a74ef7c3da9"
+    }
+  ],
+  "tags": [
+    "T1564.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "vm_name",
+      "type": "string",
+      "description": "Name of the new virtual machine",
+      "value": "Atomic VM"
+    }
+  ]
+}

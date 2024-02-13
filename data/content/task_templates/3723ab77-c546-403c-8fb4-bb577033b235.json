@@ -1,0 +1,52 @@
+{
+  "id": "3723ab77-c546-403c-8fb4-bb577033b235",
+  "name": "Access /etc/shadow (Local)",
+  "description": "/etc/shadow file is accessed in Linux environments\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "d5ec1689-08c8-4c3a-91ce-5d589ee05a3a",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo cat /etc/shadow \u003e #{output_file}\ncat #{output_file}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "663b92fa-ccb4-4843-b6cc-997b2120656e",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{output_file}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d5ec1689-08c8-4c3a-91ce-5d589ee05a3a",
+      "p": "on-success",
+      "o": "663b92fa-ccb4-4843-b6cc-997b2120656e"
+    },
+    {
+      "s": "d5ec1689-08c8-4c3a-91ce-5d589ee05a3a",
+      "p": "on-failure",
+      "o": "663b92fa-ccb4-4843-b6cc-997b2120656e"
+    }
+  ],
+  "tags": [
+    "T1003.008",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path where captured results will be placed",
+      "value": "/tmp/T1003.008.txt"
+    }
+  ]
+}

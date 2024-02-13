@@ -1,0 +1,44 @@
+{
+  "id": "251c5936-569f-42f4-9ac2-87a173b9e9b8",
+  "name": "Disable UAC admin consent prompt via ConsentPromptBehaviorAdmin registry key",
+  "description": "Disable User Account Conrol (UAC) for admin by setting the registry key \nHKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\ConsentPromptBehaviorAdmin to 0.\n\n[MedusaLocker Ransomware](https://cloudsek.com/technical-analysis-of-medusalocker-ransomware/), \n[Purple Fox Rootkit](https://blogs.blackberry.com/en/2022/01/threat-thursday-purple-fox-rootkit), \n[Avaddon Ransomware](https://blogs.blackberry.com/en/2021/06/threat-thursday-avaddon-ransomware-uses-ddos-attacks-as-triple-threat)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "86ed3e1f-c36b-4ec6-8e29-05a9cd6cd96f",
+      "type": "execute-command",
+      "data": {
+        "command": "$orgValue =(Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name ConsentPromptBehaviorAdmin).ConsentPromptBehaviorAdmin\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name ConsentPromptBehaviorAdmin -Value 0 -Type Dword -Force",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c4c4b87d-9a52-4f07-843a-fab5a1f2ca65",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name ConsentPromptBehaviorAdmin -Value $orgValue -Type Dword -Force\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "86ed3e1f-c36b-4ec6-8e29-05a9cd6cd96f",
+      "p": "on-success",
+      "o": "c4c4b87d-9a52-4f07-843a-fab5a1f2ca65"
+    },
+    {
+      "s": "86ed3e1f-c36b-4ec6-8e29-05a9cd6cd96f",
+      "p": "on-failure",
+      "o": "c4c4b87d-9a52-4f07-843a-fab5a1f2ca65"
+    }
+  ],
+  "tags": [
+    "T1548.002",
+    "atomic-red-team"
+  ]
+}

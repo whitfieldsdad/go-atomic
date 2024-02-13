@@ -1,0 +1,38 @@
+{
+  "id": "b4f6a567-a27a-41e5-b8ef-ac4b4008bb7e",
+  "name": "Base64 decoding with shell utilities",
+  "description": "Use common shell utilities to decode a base64-encoded text string and echo it to the console\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "205265f7-bc24-476e-804c-fa292f20abdd",
+      "type": "execute-command",
+      "data": {
+        "command": "ENCODED=$(echo '#{message}' | base64)\nprintf $ENCODED | base64 -d\necho $ENCODED | base64 -d\necho $(echo $ENCODED) | base64 -d\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 base64 -d #{encoded_file}\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 base64 -d \u003c #{encoded_file}\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 cat #{encoded_file} | base64 -d\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 cat \u003c #{encoded_file} | base64 -d\nbash -c \"{echo,\\\"$(echo $ENCODED)\\\"}|{base64,-d}\"\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1140",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "message",
+      "type": "string",
+      "description": "Message to print to the screen",
+      "value": "Hello from Atomic Red Team test T1140!"
+    },
+    {
+      "name": "encoded_file",
+      "type": "path",
+      "description": "File to temporarily save encoded text",
+      "value": "/tmp/T1140.encoded"
+    }
+  ]
+}

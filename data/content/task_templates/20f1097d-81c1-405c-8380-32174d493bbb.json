@@ -1,0 +1,31 @@
+{
+  "id": "20f1097d-81c1-405c-8380-32174d493bbb",
+  "name": "Network Share Discovery command prompt",
+  "description": "Network Share Discovery utilizing the command prompt. The computer name variable may need to be modified to point to a different host\nUpon execution avalaible network shares will be displayed in the powershell session\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "6e1c297d-9686-44f2-bff0-3ed292a6cddb",
+      "type": "execute-command",
+      "data": {
+        "command": "net view \\\\#{computer_name}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1135",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "computer_name",
+      "type": "string",
+      "description": "Computer name to find a mount on.",
+      "value": "localhost"
+    }
+  ]
+}

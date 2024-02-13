@@ -1,0 +1,64 @@
+{
+  "id": "450e7218-7915-4be4-8b9b-464a49eafcec",
+  "name": "Execute base64-encoded PowerShell from Windows Registry",
+  "description": "Stores base64-encoded PowerShell code in the Windows Registry and deobfuscates it for execution. This is used by numerous adversaries and malicious tools.\n\nUpon successful execution, powershell will execute encoded command and read/write from the registry.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "3a3ce6f7-b7ab-4e73-b3be-92db8337bad4",
+      "type": "execute-command",
+      "data": {
+        "command": "$OriginalCommand = '#{powershell_command}'\n$Bytes = [System.Text.Encoding]::Unicode.GetBytes($OriginalCommand)\n$EncodedCommand =[Convert]::ToBase64String($Bytes)\n$EncodedCommand\n\nSet-ItemProperty -Force -Path #{registry_key_storage} -Name #{registry_entry_storage} -Value $EncodedCommand\npowershell.exe -Command \"IEX ([Text.Encoding]::UNICODE.GetString([Convert]::FromBase64String((gp #{registry_key_storage} #{registry_entry_storage}).#{registry_entry_storage})))\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c5f6c481-d391-4092-bdd6-43699b97a667",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-ItemProperty -Force -ErrorAction Ignore -Path #{registry_key_storage} -Name #{registry_entry_storage}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3a3ce6f7-b7ab-4e73-b3be-92db8337bad4",
+      "p": "on-success",
+      "o": "c5f6c481-d391-4092-bdd6-43699b97a667"
+    },
+    {
+      "s": "3a3ce6f7-b7ab-4e73-b3be-92db8337bad4",
+      "p": "on-failure",
+      "o": "c5f6c481-d391-4092-bdd6-43699b97a667"
+    }
+  ],
+  "tags": [
+    "T1027",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "registry_key_storage",
+      "type": "string",
+      "description": "Windows Registry Key to store code",
+      "value": "HKCU:Software\\Microsoft\\Windows\\CurrentVersion"
+    },
+    {
+      "name": "powershell_command",
+      "type": "string",
+      "description": "PowerShell command to encode",
+      "value": "Write-Host \"Hey, Atomic!\""
+    },
+    {
+      "name": "registry_entry_storage",
+      "type": "string",
+      "description": "Windows Registry entry to store code under key",
+      "value": "Debug"
+    }
+  ]
+}

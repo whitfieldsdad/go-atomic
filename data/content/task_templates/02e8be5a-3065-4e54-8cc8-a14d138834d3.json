@@ -1,0 +1,23 @@
+{
+  "id": "02e8be5a-3065-4e54-8cc8-a14d138834d3",
+  "name": "Enumerate Active Directory Users with ADSISearcher",
+  "description": "The following Atomic test will utilize ADSISearcher to enumerate users within Active Directory.\nUpon successful execution a listing of users will output with their paths in AD.\nReference: https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "46dea7ae-8b9a-491a-b20c-b5aaa3765584",
+      "type": "execute-command",
+      "data": {
+        "command": "([adsisearcher]\"objectcategory=user\").FindAll(); ([adsisearcher]\"objectcategory=user\").FindOne()\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1087.002",
+    "atomic-red-team"
+  ]
+}

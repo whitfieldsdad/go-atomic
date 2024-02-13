@@ -1,0 +1,44 @@
+{
+  "id": "1dd59fb3-1cb3-4828-805d-cf80b4c3bbb5",
+  "name": "Windows Add Registry Value to Load Service in Safe Mode without Network",
+  "description": "Modify the registry to allow a driver, service, to persist in Safe Mode.\nsee https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/ and https://blog.didierstevens.com/2007/03/26/playing-with-safe-mode/ for further details.\nAdding a subkey to Minimal with the name of your service and a default value set to Service, makes that your service will be started when you boot into Safe Mode without networking. The same applies for the Network subkey.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "664f6dc2-3a6e-4734-ab6b-5f5bb4236f4f",
+      "type": "execute-command",
+      "data": {
+        "command": "REG ADD \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Minimal\\AtomicSafeMode\" /VE /T REG_SZ /F /D \"Service\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "895eb95b-62bc-49f6-b52a-ac4392ac27ca",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Minimal\\AtomicSafeMode\" /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "664f6dc2-3a6e-4734-ab6b-5f5bb4236f4f",
+      "p": "on-success",
+      "o": "895eb95b-62bc-49f6-b52a-ac4392ac27ca"
+    },
+    {
+      "s": "664f6dc2-3a6e-4734-ab6b-5f5bb4236f4f",
+      "p": "on-failure",
+      "o": "895eb95b-62bc-49f6-b52a-ac4392ac27ca"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

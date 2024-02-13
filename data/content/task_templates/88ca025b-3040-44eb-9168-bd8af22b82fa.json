@@ -1,0 +1,52 @@
+{
+  "id": "88ca025b-3040-44eb-9168-bd8af22b82fa",
+  "name": "List Google Chromium Bookmark JSON Files on FreeBSD",
+  "description": "Searches for Google Chromium's Bookmark file (on FreeBSD) that contains bookmarks in JSON format and lists any found instances to a text file.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "1de06ac4-a6d2-46e6-896b-9e04e7834fd3",
+      "type": "execute-command",
+      "data": {
+        "command": "find / -path \"*/.config/chromium/*/Bookmarks\" -exec echo {} \u003e\u003e #{output_file} \\;\ncat #{output_file} 2\u003e/dev/null\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ee468f24-0ebd-4289-ae50-ff00091864ee",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{output_file} 2\u003e/dev/null\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1de06ac4-a6d2-46e6-896b-9e04e7834fd3",
+      "p": "on-success",
+      "o": "ee468f24-0ebd-4289-ae50-ff00091864ee"
+    },
+    {
+      "s": "1de06ac4-a6d2-46e6-896b-9e04e7834fd3",
+      "p": "on-failure",
+      "o": "ee468f24-0ebd-4289-ae50-ff00091864ee"
+    }
+  ],
+  "tags": [
+    "T1217",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path where captured results will be placed.",
+      "value": "/tmp/T1217-Chrome.txt"
+    }
+  ]
+}

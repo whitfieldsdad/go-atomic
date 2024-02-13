@@ -1,0 +1,92 @@
+{
+  "id": "945da11e-977e-4dab-85d2-f394d03c5887",
+  "name": "Domain Password Policy Check: No Lowercase Character in Password",
+  "description": "Attempt to change the password of the current domain user in order to check password policy. Ideally, you would only run this atomic test to verify that your password policy is blocking the use of the new password.\nIf the password is succesfully changed to the new password, the credential file will be updated to reflect the new password. You can then run the atomic manually and specify a new password of your choosing, however the\npassword policy will likely prevent you from setting the password back to what it was. \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "098822ed-ec5d-4836-b9c6-5d25870b44f2",
+      "type": "execute-command",
+      "data": {
+        "command": "$credFile = \"#{cred_file}\"\nif (Test-Path $credFile) {\n    $cred = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $env:USERNAME, (Get-Content $credFile | ConvertTo-SecureString)\n    if($cred.GetNetworkCredential().Password -eq \"#{new_password}\"){\n      Write-Host -ForegroundColor Yellow \"The new password is the same as the password stored in the credential file. Please specify a different new password.\"; exit -1\n    }\n    try {\n        $newPassword = ConvertTo-SecureString #{new_password} -AsPlainText -Force\n        Set-ADAccountPassword -Identity $env:USERNAME -OldPassword $cred.password -NewPassword $newPassword\n    }\n    catch { \n        $_.Exception\n        $errCode = $_.Exception.ErrorCode\n        Write-Host \"Error code: $errCode\"\n        if ($errCode -eq 86) {\n            Write-Host -ForegroundColor Yellow \"The stored password for the current user is incorrect. Please run the prereq commands to set the correct credentials\"\n            Remove-Item $credFile\n        }\n        exit $errCode\n    }\n    Write-Host -ForegroundColor Cyan \"Successfully changed the password to #{new_password}\"\n    $newCred = New-Object System.Management.Automation.PSCredential ($env:USERNAME, $(ConvertTo-SecureString \"#{new_password}\" -AsPlainText -Force))\n    $newCred.Password | ConvertFrom-SecureString | Out-File $credFile\n}\nelse {\n    Write-Host -ForegroundColor Yellow \"You must store the password of the current user by running the prerequisite commands first\"\n}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "dcca913e-b9d2-42d9-9a7a-50b594109c3a",
+      "name": "Check dependency 1/1",
+      "description": "Password for current user must be stored in a credential file\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{cred_file}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4608a5b7-3d79-486d-9087-8124dde0a929",
+      "name": "Resolve dependency 1/1",
+      "description": "Password for current user must be stored in a credential file\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{cred_file}\") -ErrorAction Ignore | Out-Null\n$cred = Get-Credential -UserName  $env:USERNAME -message \"Enter password for $env:USERNAME to use during password change attempt\"\n$cred.Password | ConvertFrom-SecureString | Out-File \"#{cred_file}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5bcc16d9-2e1f-4032-a390-9ea7fcd37175",
+      "name": "Re-check dependency 1/1",
+      "description": "Password for current user must be stored in a credential file\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{cred_file}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "dcca913e-b9d2-42d9-9a7a-50b594109c3a",
+      "p": "on-success",
+      "o": "098822ed-ec5d-4836-b9c6-5d25870b44f2"
+    },
+    {
+      "s": "dcca913e-b9d2-42d9-9a7a-50b594109c3a",
+      "p": "on-failure",
+      "o": "4608a5b7-3d79-486d-9087-8124dde0a929"
+    },
+    {
+      "s": "4608a5b7-3d79-486d-9087-8124dde0a929",
+      "p": "on-success",
+      "o": "5bcc16d9-2e1f-4032-a390-9ea7fcd37175"
+    },
+    {
+      "s": "5bcc16d9-2e1f-4032-a390-9ea7fcd37175",
+      "p": "on-failure",
+      "o": "098822ed-ec5d-4836-b9c6-5d25870b44f2"
+    }
+  ],
+  "tags": [
+    "T1098",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "new_password",
+      "type": "string",
+      "description": "The password to set for the current domain user (default is long and has and upper case and special character and number but no lowercase)",
+      "value": "UPPER-LONG-SPECIAL-333"
+    },
+    {
+      "name": "cred_file",
+      "type": "path",
+      "description": "A file containing the password of the current user",
+      "value": "$env:LOCALAPPDATA\\AtomicRedTeam\\$env:USERNAME.txt"
+    }
+  ]
+}

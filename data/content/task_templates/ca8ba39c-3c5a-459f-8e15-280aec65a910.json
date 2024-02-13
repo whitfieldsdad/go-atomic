@@ -1,0 +1,44 @@
+{
+  "id": "ca8ba39c-3c5a-459f-8e15-280aec65a910",
+  "name": "Scarab Ransomware Defense Evasion Activities",
+  "description": "Scarab Ransomware defense evasion activities that can abuse the registry values to modify the settings of the Credential Security Support Provider to overcome potential RDP connection issues.\n[Scarab Ransomware Article](https://www.welivesecurity.com/en/eset-research/scarabs-colon-izing-vulnerable-servers/)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "3581992a-0750-4415-b9f3-2c3de891afc8",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\CredSSP\\Parameters\" /v AllowEncryptionOracle /t REG_DWORD /d 2 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7603096c-0a69-4aa4-8236-75efb0f7562d",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\CredSSP\\Parameters\" /v AllowEncryptionOracle /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3581992a-0750-4415-b9f3-2c3de891afc8",
+      "p": "on-success",
+      "o": "7603096c-0a69-4aa4-8236-75efb0f7562d"
+    },
+    {
+      "s": "3581992a-0750-4415-b9f3-2c3de891afc8",
+      "p": "on-failure",
+      "o": "7603096c-0a69-4aa4-8236-75efb0f7562d"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

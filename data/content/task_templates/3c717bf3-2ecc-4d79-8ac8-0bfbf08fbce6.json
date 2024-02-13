@@ -1,0 +1,32 @@
+{
+  "id": "3c717bf3-2ecc-4d79-8ac8-0bfbf08fbce6",
+  "name": "Change User Password via passwd",
+  "description": "This test changes the user password to hinder access to the account using passwd utility.\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "17b02363-a807-4a33-918d-8290b1f98cc3",
+      "type": "execute-command",
+      "data": {
+        "command": "passwd #{user_account} #enter admin password \u003e enter new password \u003e confirm new password\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1531",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "user_account",
+      "type": "string",
+      "description": "User account whose password will be changed.",
+      "value": "ARTUser"
+    }
+  ]
+}

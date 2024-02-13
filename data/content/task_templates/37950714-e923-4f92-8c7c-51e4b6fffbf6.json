@@ -1,0 +1,44 @@
+{
+  "id": "37950714-e923-4f92-8c7c-51e4b6fffbf6",
+  "name": "Allow Simultaneous Download Registry",
+  "description": "A registry modification to allow Simultaneous download in the system.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "8c4f1a79-68d6-497c-aaff-2854899d1a33",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\" /v \"MaxConnectionsPerServer\" /t REG_DWORD /d 10 /f\nreg add \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\" /v \"MaxConnectionsPer1_0Server\" /t REG_DWORD /d 10 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3942a6fb-30d9-4665-aac2-33e032c05a3a",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\" /v \"MaxConnectionsPerServer\" /f\nreg delete \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\" /v \"MaxConnectionsPer1_0Server\" /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8c4f1a79-68d6-497c-aaff-2854899d1a33",
+      "p": "on-success",
+      "o": "3942a6fb-30d9-4665-aac2-33e032c05a3a"
+    },
+    {
+      "s": "8c4f1a79-68d6-497c-aaff-2854899d1a33",
+      "p": "on-failure",
+      "o": "3942a6fb-30d9-4665-aac2-33e032c05a3a"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "id": "cbbff285-9051-444a-9d17-c07cd2d230eb",
+  "name": "Parent PID Spoofing - Spawn from Specified Process",
+  "description": "Spawns a notepad.exe process as a child of the current process.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "75d3874e-bdd9-4c42-b2ae-5099f9be1bf9",
+      "type": "execute-command",
+      "data": {
+        "command": "Start-ATHProcessUnderSpecificParent  -ParentId #{parent_pid} -TestGuid #{test_guid}",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1caeddb4-78c2-4a94-85fa-7778fa27f272",
+      "name": "Check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Start-ATHProcessUnderSpecificParent']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7bdd0c3e-a7b1-4d6f-b375-980e927bce29",
+      "name": "Resolve dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "403c55b2-84f1-475a-9f9a-66d22d85f01d",
+      "name": "Re-check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Start-ATHProcessUnderSpecificParent']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1caeddb4-78c2-4a94-85fa-7778fa27f272",
+      "p": "on-success",
+      "o": "75d3874e-bdd9-4c42-b2ae-5099f9be1bf9"
+    },
+    {
+      "s": "1caeddb4-78c2-4a94-85fa-7778fa27f272",
+      "p": "on-failure",
+      "o": "7bdd0c3e-a7b1-4d6f-b375-980e927bce29"
+    },
+    {
+      "s": "7bdd0c3e-a7b1-4d6f-b375-980e927bce29",
+      "p": "on-success",
+      "o": "403c55b2-84f1-475a-9f9a-66d22d85f01d"
+    },
+    {
+      "s": "403c55b2-84f1-475a-9f9a-66d22d85f01d",
+      "p": "on-failure",
+      "o": "75d3874e-bdd9-4c42-b2ae-5099f9be1bf9"
+    }
+  ],
+  "tags": [
+    "T1134.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "parent_pid",
+      "type": "string",
+      "description": "PID of process to spawn from",
+      "value": "$PID"
+    },
+    {
+      "name": "test_guid",
+      "type": "string",
+      "description": "Defined test GUID",
+      "value": "12345678-1234-1234-1234-123456789123"
+    }
+  ]
+}

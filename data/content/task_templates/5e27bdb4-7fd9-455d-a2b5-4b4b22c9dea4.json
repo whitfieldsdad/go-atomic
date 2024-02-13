@@ -1,0 +1,44 @@
+{
+  "id": "5e27bdb4-7fd9-455d-a2b5-4b4b22c9dea4",
+  "name": "Activate Windows NoFileMenu Group Policy Feature",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to Remove File menu from Windows Explorer Group Policy. \nTake note that some Group Policy changes might require a restart to take effect.\nSee how Trojan abuses this technique- https://www.sophos.com/de-de/threat-center/threat-analyses/viruses-and-spyware/Troj~Krotten-N/detailed-analysis\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "da38cdd2-551b-4ca1-b59c-8d796406e9dc",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoFileMenu /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "914dd144-37b1-4b3c-8961-11ceab37982d",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoFileMenu /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "da38cdd2-551b-4ca1-b59c-8d796406e9dc",
+      "p": "on-success",
+      "o": "914dd144-37b1-4b3c-8961-11ceab37982d"
+    },
+    {
+      "s": "da38cdd2-551b-4ca1-b59c-8d796406e9dc",
+      "p": "on-failure",
+      "o": "914dd144-37b1-4b3c-8961-11ceab37982d"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

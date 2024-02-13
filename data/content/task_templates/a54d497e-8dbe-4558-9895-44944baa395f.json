@@ -1,0 +1,276 @@
+{
+  "id": "a54d497e-8dbe-4558-9895-44944baa395f",
+  "name": "Account Enumeration with LDAPDomainDump",
+  "description": "This test uses LDAPDomainDump to perform account enumeration on a domain.\n[Reference](https://securityonline.info/ldapdomaindump-active-directory-information-dumper-via-ldap/)\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "f6b34456-9d6d-4e82-8291-389b2d49cfdc",
+      "type": "execute-command",
+      "data": {
+        "command": "ldapdomaindump -u #{username} -p #{password} #{target_ip} -o /tmp/T1087",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bdefce1e-1d99-4993-b14d-0bd5cc2d665a",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -rf /tmp/T1087/ 2\u003e/dev/null \n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ee65ddfa-e9cb-4194-af88-00c8c4f25af0",
+      "name": "Check dependency 1/4",
+      "description": "Python3 must be installed",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v python3 --version)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ae5b9b2c-a00c-41f6-ab41-3b180fcfe8fa",
+      "name": "Resolve dependency 1/4",
+      "description": "Python3 must be installed",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo apt-get -y install python3",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "76357bf4-458d-4368-9fbc-ce909168c785",
+      "name": "Re-check dependency 1/4",
+      "description": "Python3 must be installed",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v python3 --version)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "91132796-d04d-4198-9f68-60555fc80a85",
+      "name": "Check dependency 2/4",
+      "description": "Pip must be installed",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v pip --version)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a96a60e4-ec9a-4dc3-b873-8d7bad1b5a4c",
+      "name": "Resolve dependency 2/4",
+      "description": "Pip must be installed",
+      "type": "execute-command",
+      "data": {
+        "command": "wget -O /tmp/get-pip.py https://bootstrap.pypa.io/pip/3.6/get-pip.py\npython3 /tmp/get-pip.py",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f81c0c1f-bdb9-4768-932e-7c721d3b93c8",
+      "name": "Re-check dependency 2/4",
+      "description": "Pip must be installed",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v pip --version)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3ed68e26-eeaf-4ae2-9ac3-803accc8117f",
+      "name": "Check dependency 3/4",
+      "description": "The ldapdomaindump module must be installed",
+      "type": "execute-command",
+      "data": {
+        "command": "python3 -c 'import ldapdomaindump' 2\u003e/dev/null",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8dcdd512-b4d2-48e0-86b3-c6f65281a62b",
+      "name": "Resolve dependency 3/4",
+      "description": "The ldapdomaindump module must be installed",
+      "type": "execute-command",
+      "data": {
+        "command": "pip install ldapdomaindump",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4c6f35e3-4486-4b7b-b492-cbb3fc4d8595",
+      "name": "Re-check dependency 3/4",
+      "description": "The ldapdomaindump module must be installed",
+      "type": "execute-command",
+      "data": {
+        "command": "python3 -c 'import ldapdomaindump' 2\u003e/dev/null",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0775398b-6a05-49c5-8d07-bb956de01057",
+      "name": "Check dependency 4/4",
+      "description": "The future module must be installed",
+      "type": "execute-command",
+      "data": {
+        "command": "python3 -c 'import future' 2\u003e/dev/null",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "42ec9389-42e5-4899-92a9-053bd38747a5",
+      "name": "Resolve dependency 4/4",
+      "description": "The future module must be installed",
+      "type": "execute-command",
+      "data": {
+        "command": "pip install future",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7f0a8cbc-002f-4be6-b5b5-d4dbda3a8ff7",
+      "name": "Re-check dependency 4/4",
+      "description": "The future module must be installed",
+      "type": "execute-command",
+      "data": {
+        "command": "python3 -c 'import future' 2\u003e/dev/null",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f6b34456-9d6d-4e82-8291-389b2d49cfdc",
+      "p": "on-success",
+      "o": "bdefce1e-1d99-4993-b14d-0bd5cc2d665a"
+    },
+    {
+      "s": "f6b34456-9d6d-4e82-8291-389b2d49cfdc",
+      "p": "on-failure",
+      "o": "bdefce1e-1d99-4993-b14d-0bd5cc2d665a"
+    },
+    {
+      "s": "ee65ddfa-e9cb-4194-af88-00c8c4f25af0",
+      "p": "on-success",
+      "o": "f6b34456-9d6d-4e82-8291-389b2d49cfdc"
+    },
+    {
+      "s": "ee65ddfa-e9cb-4194-af88-00c8c4f25af0",
+      "p": "on-failure",
+      "o": "ae5b9b2c-a00c-41f6-ab41-3b180fcfe8fa"
+    },
+    {
+      "s": "ae5b9b2c-a00c-41f6-ab41-3b180fcfe8fa",
+      "p": "on-success",
+      "o": "76357bf4-458d-4368-9fbc-ce909168c785"
+    },
+    {
+      "s": "76357bf4-458d-4368-9fbc-ce909168c785",
+      "p": "on-failure",
+      "o": "f6b34456-9d6d-4e82-8291-389b2d49cfdc"
+    },
+    {
+      "s": "91132796-d04d-4198-9f68-60555fc80a85",
+      "p": "on-success",
+      "o": "f6b34456-9d6d-4e82-8291-389b2d49cfdc"
+    },
+    {
+      "s": "91132796-d04d-4198-9f68-60555fc80a85",
+      "p": "on-failure",
+      "o": "a96a60e4-ec9a-4dc3-b873-8d7bad1b5a4c"
+    },
+    {
+      "s": "a96a60e4-ec9a-4dc3-b873-8d7bad1b5a4c",
+      "p": "on-success",
+      "o": "f81c0c1f-bdb9-4768-932e-7c721d3b93c8"
+    },
+    {
+      "s": "f81c0c1f-bdb9-4768-932e-7c721d3b93c8",
+      "p": "on-failure",
+      "o": "f6b34456-9d6d-4e82-8291-389b2d49cfdc"
+    },
+    {
+      "s": "3ed68e26-eeaf-4ae2-9ac3-803accc8117f",
+      "p": "on-success",
+      "o": "f6b34456-9d6d-4e82-8291-389b2d49cfdc"
+    },
+    {
+      "s": "3ed68e26-eeaf-4ae2-9ac3-803accc8117f",
+      "p": "on-failure",
+      "o": "8dcdd512-b4d2-48e0-86b3-c6f65281a62b"
+    },
+    {
+      "s": "8dcdd512-b4d2-48e0-86b3-c6f65281a62b",
+      "p": "on-success",
+      "o": "4c6f35e3-4486-4b7b-b492-cbb3fc4d8595"
+    },
+    {
+      "s": "4c6f35e3-4486-4b7b-b492-cbb3fc4d8595",
+      "p": "on-failure",
+      "o": "f6b34456-9d6d-4e82-8291-389b2d49cfdc"
+    },
+    {
+      "s": "0775398b-6a05-49c5-8d07-bb956de01057",
+      "p": "on-success",
+      "o": "f6b34456-9d6d-4e82-8291-389b2d49cfdc"
+    },
+    {
+      "s": "0775398b-6a05-49c5-8d07-bb956de01057",
+      "p": "on-failure",
+      "o": "42ec9389-42e5-4899-92a9-053bd38747a5"
+    },
+    {
+      "s": "42ec9389-42e5-4899-92a9-053bd38747a5",
+      "p": "on-success",
+      "o": "7f0a8cbc-002f-4be6-b5b5-d4dbda3a8ff7"
+    },
+    {
+      "s": "7f0a8cbc-002f-4be6-b5b5-d4dbda3a8ff7",
+      "p": "on-failure",
+      "o": "f6b34456-9d6d-4e82-8291-389b2d49cfdc"
+    }
+  ],
+  "tags": [
+    "T1087.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username and domain to authenticate with",
+      "value": "domain\\user"
+    },
+    {
+      "name": "target_ip",
+      "type": "string",
+      "description": "IP to connect to",
+      "value": "127.0.0.1"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password to authenticate with",
+      "value": "password"
+    }
+  ]
+}

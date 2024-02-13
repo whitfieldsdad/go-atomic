@@ -1,0 +1,53 @@
+{
+  "id": "8164a4a6-f99c-4661-ac4f-80f5e4e78d2b",
+  "name": "Set a file's creation timestamp",
+  "description": "Stomps on the create timestamp of a file\n\nSetting the creation timestamp requires changing the system clock and reverting.\nSudo or root privileges are required to change date. Use with caution.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "9d33ff1e-c4ac-4fe7-ac50-89f8a90860f6",
+      "type": "execute-command",
+      "data": {
+        "command": "NOW=$(date +%m%d%H%M%Y)\ndate 010100001971\ntouch #{target_filename}\ndate \"$NOW\"\nstat #{target_filename}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "20ed5dc9-6a24-46d0-96a6-9a0a4efbb2b6",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{target_filename}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "9d33ff1e-c4ac-4fe7-ac50-89f8a90860f6",
+      "p": "on-success",
+      "o": "20ed5dc9-6a24-46d0-96a6-9a0a4efbb2b6"
+    },
+    {
+      "s": "9d33ff1e-c4ac-4fe7-ac50-89f8a90860f6",
+      "p": "on-failure",
+      "o": "20ed5dc9-6a24-46d0-96a6-9a0a4efbb2b6"
+    }
+  ],
+  "tags": [
+    "T1070.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "target_filename",
+      "type": "path",
+      "description": "Path of file that we are going to stomp on last access time",
+      "value": "/tmp/T1070.006-creation.txt"
+    }
+  ]
+}

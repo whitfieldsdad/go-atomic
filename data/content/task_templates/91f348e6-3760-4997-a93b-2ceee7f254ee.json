@@ -1,0 +1,44 @@
+{
+  "id": "91f348e6-3760-4997-a93b-2ceee7f254ee",
+  "name": "Blackbit - Disable Windows Firewall using netsh firewall",
+  "description": "An adversary tries to modify the windows firewall configuration using the deprecated netsh firewall command (command still works).     \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "f9cd2ba0-f70b-4a69-9995-2b32226263e6",
+      "type": "execute-command",
+      "data": {
+        "command": "netsh firewall set opmode mode=disable\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "58152679-32e3-4a16-b2a2-69851d811e74",
+      "type": "execute-command",
+      "data": {
+        "command": "netsh firewall set opmode mode=enable \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f9cd2ba0-f70b-4a69-9995-2b32226263e6",
+      "p": "on-success",
+      "o": "58152679-32e3-4a16-b2a2-69851d811e74"
+    },
+    {
+      "s": "f9cd2ba0-f70b-4a69-9995-2b32226263e6",
+      "p": "on-failure",
+      "o": "58152679-32e3-4a16-b2a2-69851d811e74"
+    }
+  ],
+  "tags": [
+    "T1562.004",
+    "atomic-red-team"
+  ]
+}

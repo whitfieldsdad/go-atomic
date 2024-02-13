@@ -1,0 +1,52 @@
+{
+  "id": "a574dafe-a903-4cce-9701-14040f4f3532",
+  "name": "HKLM - Persistence using CommandProcessor AutoRun key (With Elevation)",
+  "description": "An adversary may abuse the CommandProcessor AutoRun registry key to persist. Every time cmd.exe is executed, the command defined in the AutoRun key also gets executed.\n[reference](https://devblogs.microsoft.com/oldnewthing/20071121-00/?p=24433)",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "8f87b772-1db0-42c6-93bb-594f323b2a9e",
+      "type": "execute-command",
+      "data": {
+        "command": "New-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Command Processor\" -Name \"AutoRun\" -Value \"#{command}\" -PropertyType \"String\"",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d6b719ed-d434-4a9c-bf35-b41ec4741fff",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Command Processor\" -Name \"AutoRun\" -ErrorAction Ignore",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8f87b772-1db0-42c6-93bb-594f323b2a9e",
+      "p": "on-success",
+      "o": "d6b719ed-d434-4a9c-bf35-b41ec4741fff"
+    },
+    {
+      "s": "8f87b772-1db0-42c6-93bb-594f323b2a9e",
+      "p": "on-failure",
+      "o": "d6b719ed-d434-4a9c-bf35-b41ec4741fff"
+    }
+  ],
+  "tags": [
+    "T1546",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "command",
+      "type": "string",
+      "description": "Command to Execute",
+      "value": "notepad.exe"
+    }
+  ]
+}

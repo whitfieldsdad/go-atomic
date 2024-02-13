@@ -1,0 +1,52 @@
+{
+  "id": "6b8ca3ab-5980-4321-80c3-bcd77c8daed8",
+  "name": "Logging Configuration Changes on FreeBSD Host",
+  "description": "Emulates modification of syslog configuration.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "3958a603-47c3-4f2a-bc17-7839240d88cc",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f \"/etc/#{syslog_config_file_name}\" ];\nthen echo '#art_test_1562_006_2' \u003e\u003e /etc/#{syslog_config_file_name}\nfi\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "18388184-592a-4476-bfa7-6e3cea15117b",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f \"/etc/#{syslog_config_file_name}\" ];\nthen sed -i \"\" '/#art_test_1562_006_2/d' /etc/#{syslog_config_file_name}\nfi\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3958a603-47c3-4f2a-bc17-7839240d88cc",
+      "p": "on-success",
+      "o": "18388184-592a-4476-bfa7-6e3cea15117b"
+    },
+    {
+      "s": "3958a603-47c3-4f2a-bc17-7839240d88cc",
+      "p": "on-failure",
+      "o": "18388184-592a-4476-bfa7-6e3cea15117b"
+    }
+  ],
+  "tags": [
+    "T1562.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "syslog_config_file_name",
+      "type": "string",
+      "description": "The name of the syslog configuration file to be changed",
+      "value": "syslog.conf"
+    }
+  ]
+}

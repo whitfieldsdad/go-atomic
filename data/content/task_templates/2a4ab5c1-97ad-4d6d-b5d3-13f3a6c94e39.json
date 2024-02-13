@@ -1,0 +1,58 @@
+{
+  "id": "2a4ab5c1-97ad-4d6d-b5d3-13f3a6c94e39",
+  "name": "Remote Process Injection with Go using CreateRemoteThread WinAPI (Natively)",
+  "description": "Leverages the Windows CreateRemoteThread function from Kernel32.dll to execute shellcode in a remote process.\n\nThis program loads the DLLs and gets a handle to the used procedures itself instead of using the windows package directly.\n\n1. Get a handle to the target process\n2. Allocate memory for the shellcode with VirtualAllocEx setting the page permissions to Read/Write\n3. Use the WriteProcessMemory to copy the shellcode to the allocated memory space in the remote process\n4. Change the memory page permissions to Execute/Read with VirtualProtectEx\n5. Execute the entrypoint of the shellcode in the remote process with CreateRemoteThread\n6. Close the handle to the remote process\n\n- PoC Credit: (https://github.com/Ne0nd0g/go-shellcode#createremotethreadnative)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "fff84c0a-784d-40e3-ac29-f1999df82d87",
+      "type": "execute-command",
+      "data": {
+        "command": "$process = Start-Process #{spawn_process_path} -passthru\n$PathToAtomicsFolder\\T1055\\bin\\x64\\CreateRemoteThreadNative.exe -pid $process.Id -debug\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "800f0629-4071-4c82-8aca-9d436e7a2e69",
+      "type": "execute-command",
+      "data": {
+        "command": "Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue\nStop-Process -Name #{spawn_process_name} -ErrorAction SilentlyContinue\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "fff84c0a-784d-40e3-ac29-f1999df82d87",
+      "p": "on-success",
+      "o": "800f0629-4071-4c82-8aca-9d436e7a2e69"
+    },
+    {
+      "s": "fff84c0a-784d-40e3-ac29-f1999df82d87",
+      "p": "on-failure",
+      "o": "800f0629-4071-4c82-8aca-9d436e7a2e69"
+    }
+  ],
+  "tags": [
+    "T1055",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "spawn_process_path",
+      "type": "string",
+      "description": "Path of the binary to spawn",
+      "value": "C:\\Windows\\System32\\werfault.exe"
+    },
+    {
+      "name": "spawn_process_name",
+      "type": "string",
+      "description": "Name of the process spawned",
+      "value": "werfault"
+    }
+  ]
+}

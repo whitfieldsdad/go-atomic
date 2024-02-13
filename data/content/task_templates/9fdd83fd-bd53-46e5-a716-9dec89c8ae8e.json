@@ -1,0 +1,177 @@
+{
+  "id": "9fdd83fd-bd53-46e5-a716-9dec89c8ae8e",
+  "name": "Creating GCP Service Account and Service Account Key",
+  "description": "GCP Service Accounts can be used to gain intial access as well as maintain persistence inside Google Cloud.\n",
+  "platforms": [
+    "google-workspace",
+    "iaas:gcp"
+  ],
+  "steps": [
+    {
+      "id": "4e3fc277-122a-470a-b558-559a9007fe5a",
+      "type": "execute-command",
+      "data": {
+        "command": "gcloud config set project #{project-id}\ngcloud iam service-accounts create #{service-account-name}\ngcloud iam service-accounts keys create #{output-key-file} --iam-account=#{service-account-email}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ca3b5ffc-d017-427c-83cb-bd28a6ad982b",
+      "type": "execute-command",
+      "data": {
+        "command": "gcloud iam service-accounts delete #{service-account-email} --quiet\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2597be54-c007-405e-8984-c5e4e1a07c59",
+      "name": "Check dependency 1/2",
+      "description": "Requires gcloud\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v gcloud)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8fb306d7-76b5-440b-ba1b-62c29976b218",
+      "name": "Resolve dependency 1/2",
+      "description": "Requires gcloud\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"Please Install Google Cloud SDK before running this atomic test : https://cloud.google.com/sdk/docs/install\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "16ba8e0a-1ef8-4df8-a81c-b39ed39b10ef",
+      "name": "Re-check dependency 1/2",
+      "description": "Requires gcloud\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v gcloud)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8f968389-4218-47fc-a111-920da31bff36",
+      "name": "Check dependency 2/2",
+      "description": "Check if user is logged in \n",
+      "type": "execute-command",
+      "data": {
+        "command": "gcloud config get-value account\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0aff0128-7264-421e-bd80-c2e93b55fbb2",
+      "name": "Resolve dependency 2/2",
+      "description": "Check if user is logged in \n",
+      "type": "execute-command",
+      "data": {
+        "command": "gcloud auth login --no-launch-browser\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c72187b1-e93a-47a0-a43f-b8e24340231e",
+      "name": "Re-check dependency 2/2",
+      "description": "Check if user is logged in \n",
+      "type": "execute-command",
+      "data": {
+        "command": "gcloud config get-value account\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4e3fc277-122a-470a-b558-559a9007fe5a",
+      "p": "on-success",
+      "o": "ca3b5ffc-d017-427c-83cb-bd28a6ad982b"
+    },
+    {
+      "s": "4e3fc277-122a-470a-b558-559a9007fe5a",
+      "p": "on-failure",
+      "o": "ca3b5ffc-d017-427c-83cb-bd28a6ad982b"
+    },
+    {
+      "s": "2597be54-c007-405e-8984-c5e4e1a07c59",
+      "p": "on-success",
+      "o": "4e3fc277-122a-470a-b558-559a9007fe5a"
+    },
+    {
+      "s": "2597be54-c007-405e-8984-c5e4e1a07c59",
+      "p": "on-failure",
+      "o": "8fb306d7-76b5-440b-ba1b-62c29976b218"
+    },
+    {
+      "s": "8fb306d7-76b5-440b-ba1b-62c29976b218",
+      "p": "on-success",
+      "o": "16ba8e0a-1ef8-4df8-a81c-b39ed39b10ef"
+    },
+    {
+      "s": "16ba8e0a-1ef8-4df8-a81c-b39ed39b10ef",
+      "p": "on-failure",
+      "o": "4e3fc277-122a-470a-b558-559a9007fe5a"
+    },
+    {
+      "s": "8f968389-4218-47fc-a111-920da31bff36",
+      "p": "on-success",
+      "o": "4e3fc277-122a-470a-b558-559a9007fe5a"
+    },
+    {
+      "s": "8f968389-4218-47fc-a111-920da31bff36",
+      "p": "on-failure",
+      "o": "0aff0128-7264-421e-bd80-c2e93b55fbb2"
+    },
+    {
+      "s": "0aff0128-7264-421e-bd80-c2e93b55fbb2",
+      "p": "on-success",
+      "o": "c72187b1-e93a-47a0-a43f-b8e24340231e"
+    },
+    {
+      "s": "c72187b1-e93a-47a0-a43f-b8e24340231e",
+      "p": "on-failure",
+      "o": "4e3fc277-122a-470a-b558-559a9007fe5a"
+    }
+  ],
+  "tags": [
+    "T1078.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "project-id",
+      "type": "string",
+      "description": "ID of the project, you want to create service account as well as service account key for",
+      "value": "art-project-1"
+    },
+    {
+      "name": "service-account-name",
+      "type": "string",
+      "description": "Name of the service account",
+      "value": "gcp-art-service-account-1"
+    },
+    {
+      "name": "service-account-email",
+      "type": "string",
+      "description": "Email of the service account",
+      "value": "gcp-art-service-account-1@art-project-1.iam.gserviceaccount.com"
+    },
+    {
+      "name": "output-key-file",
+      "type": "string",
+      "description": "Email of the service account",
+      "value": "gcp-art-service-account-1.json"
+    }
+  ]
+}

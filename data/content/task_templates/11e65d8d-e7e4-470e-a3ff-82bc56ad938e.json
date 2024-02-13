@@ -1,0 +1,105 @@
+{
+  "id": "11e65d8d-e7e4-470e-a3ff-82bc56ad938e",
+  "name": "AWS - GuardDuty Suspension or Deletion",
+  "description": "Enables GuardDuty in AWS, upon successful creation this test will suspend and then delete the GuardDuty configuration.\n",
+  "platforms": [
+    "iaas:aws"
+  ],
+  "steps": [
+    {
+      "id": "c51ed23b-488c-4acd-a2dc-5608afc7850f",
+      "type": "execute-command",
+      "data": {
+        "command": "detectorId=$(aws guardduty create-detector --enable --region \"#{region}\" | grep -oP '(?\u003c=\"DetectorId\": \")[^\"]*')\naws guardduty update-detector --no-enable --detector-id $detectorId\naws guardduty delete-detector --detector-id $detectorId\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "36258868-a523-4890-862e-04d84dd4e316",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"If test successfully ran, no cleanup required.\"\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6b68f31b-aaee-429b-b280-7f0ec6878d87",
+      "name": "Check dependency 1/1",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cat ~/.aws/credentials | grep \"default\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "92ecb724-f007-482a-95ad-63090489f81a",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"Please install the aws-cli and configure your AWS default profile using: aws configure\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6f076e52-aaf3-4bda-a056-31128808f665",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cat ~/.aws/credentials | grep \"default\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c51ed23b-488c-4acd-a2dc-5608afc7850f",
+      "p": "on-success",
+      "o": "36258868-a523-4890-862e-04d84dd4e316"
+    },
+    {
+      "s": "c51ed23b-488c-4acd-a2dc-5608afc7850f",
+      "p": "on-failure",
+      "o": "36258868-a523-4890-862e-04d84dd4e316"
+    },
+    {
+      "s": "6b68f31b-aaee-429b-b280-7f0ec6878d87",
+      "p": "on-success",
+      "o": "c51ed23b-488c-4acd-a2dc-5608afc7850f"
+    },
+    {
+      "s": "6b68f31b-aaee-429b-b280-7f0ec6878d87",
+      "p": "on-failure",
+      "o": "92ecb724-f007-482a-95ad-63090489f81a"
+    },
+    {
+      "s": "92ecb724-f007-482a-95ad-63090489f81a",
+      "p": "on-success",
+      "o": "6f076e52-aaf3-4bda-a056-31128808f665"
+    },
+    {
+      "s": "6f076e52-aaf3-4bda-a056-31128808f665",
+      "p": "on-failure",
+      "o": "c51ed23b-488c-4acd-a2dc-5608afc7850f"
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "region",
+      "type": "string",
+      "description": "Name of the specified region",
+      "value": "us-east-1"
+    }
+  ]
+}

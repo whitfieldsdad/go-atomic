@@ -1,0 +1,44 @@
+{
+  "id": "d6d22332-d07d-498f-aea0-6139ecb7850e",
+  "name": "LockBit Black - Disable Privacy Settings Experience Using Registry -cmd",
+  "description": "LockBit Black - Disable Privacy Settings Experience Using Registry\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "650bd5ee-13ca-43ea-a5e9-c9e370107799",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKCU\\Software\\Policies\\Microsoft\\Windows\\OOBE\" /v DisablePrivacyExperience /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4b2d2129-2c1b-481f-8f00-9e1f16ee509a",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKCU\\Software\\Policies\\Microsoft\\Windows\\OOBE\" /v DisablePrivacyExperience /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "650bd5ee-13ca-43ea-a5e9-c9e370107799",
+      "p": "on-success",
+      "o": "4b2d2129-2c1b-481f-8f00-9e1f16ee509a"
+    },
+    {
+      "s": "650bd5ee-13ca-43ea-a5e9-c9e370107799",
+      "p": "on-failure",
+      "o": "4b2d2129-2c1b-481f-8f00-9e1f16ee509a"
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ]
+}

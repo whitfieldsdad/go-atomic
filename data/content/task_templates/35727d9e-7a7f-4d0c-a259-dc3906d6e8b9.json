@@ -1,0 +1,44 @@
+{
+  "id": "35727d9e-7a7f-4d0c-a259-dc3906d6e8b9",
+  "name": "Mimic Ransomware - Allow Multiple RDP Sessions per User",
+  "description": "This test emulates Mimic ransomware's ability to enable multiple RDP sessions per user by modifying the fSingleSessionPerUser value within the Terminal Server registry key. \nSee [Mimic Ransomware Overview] (https://www.trendmicro.com/en_us/research/23/a/new-mimic-ransomware-abuses-everything-apis-for-its-encryption-p.html)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c45646d5-25c6-48cd-8601-85bd231b65e4",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\" /v fSingleSessionPerUser /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bec67887-8966-4e86-a3fa-9beb672b5bf4",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\" /v fSingleSessionPerUser /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c45646d5-25c6-48cd-8601-85bd231b65e4",
+      "p": "on-success",
+      "o": "bec67887-8966-4e86-a3fa-9beb672b5bf4"
+    },
+    {
+      "s": "c45646d5-25c6-48cd-8601-85bd231b65e4",
+      "p": "on-failure",
+      "o": "bec67887-8966-4e86-a3fa-9beb672b5bf4"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

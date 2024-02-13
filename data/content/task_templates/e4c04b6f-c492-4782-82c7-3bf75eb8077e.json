@@ -1,0 +1,92 @@
+{
+  "id": "e4c04b6f-c492-4782-82c7-3bf75eb8077e",
+  "name": "Rundll32 with Control_RunDLL",
+  "description": "Rundll32.exe loading dll with 'control_rundll' within the command-line, loading a .cpl or another file type related to CVE-2021-40444. \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e0dd79af-f025-49bf-b441-e53630342271",
+      "type": "execute-command",
+      "data": {
+        "command": "rundll32.exe shell32.dll,Control_RunDLL \"#{input_file}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bd391bbe-13af-4b82-98c6-ffe7d1b5a08f",
+      "name": "Check dependency 1/1",
+      "description": "DLL file must exist on disk at specified location\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{input_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ccf229ee-17ef-419d-bcc8-9df90d6de13e",
+      "name": "Resolve dependency 1/1",
+      "description": "DLL file must exist on disk at specified location\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest \"#{input_url}\" -OutFile \"#{input_file}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d3479b03-4820-4ba3-a00a-5a25f2446155",
+      "name": "Re-check dependency 1/1",
+      "description": "DLL file must exist on disk at specified location\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{input_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "bd391bbe-13af-4b82-98c6-ffe7d1b5a08f",
+      "p": "on-success",
+      "o": "e0dd79af-f025-49bf-b441-e53630342271"
+    },
+    {
+      "s": "bd391bbe-13af-4b82-98c6-ffe7d1b5a08f",
+      "p": "on-failure",
+      "o": "ccf229ee-17ef-419d-bcc8-9df90d6de13e"
+    },
+    {
+      "s": "ccf229ee-17ef-419d-bcc8-9df90d6de13e",
+      "p": "on-success",
+      "o": "d3479b03-4820-4ba3-a00a-5a25f2446155"
+    },
+    {
+      "s": "d3479b03-4820-4ba3-a00a-5a25f2446155",
+      "p": "on-failure",
+      "o": "e0dd79af-f025-49bf-b441-e53630342271"
+    }
+  ],
+  "tags": [
+    "T1218.011",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "input_url",
+      "type": "url",
+      "description": "Url to download the DLL",
+      "value": "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1047/bin/calc.dll"
+    },
+    {
+      "name": "input_file",
+      "type": "string",
+      "description": "DLL File",
+      "value": "PathToAtomicsFolder\\T1047\\bin\\calc.dll"
+    }
+  ]
+}

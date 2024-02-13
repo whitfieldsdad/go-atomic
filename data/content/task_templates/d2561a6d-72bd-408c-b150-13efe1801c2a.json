@@ -1,0 +1,44 @@
+{
+  "id": "d2561a6d-72bd-408c-b150-13efe1801c2a",
+  "name": "Disable Windows CMD application",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to disable the windows CMD application.\nSee example how Agent Tesla malware abuses this technique: https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "cd1416d6-5bd0-4968-b8e5-6c3f4aede930",
+      "type": "execute-command",
+      "data": {
+        "command": "New-ItemProperty -Path \"HKCU:\\Software\\Policies\\Microsoft\\Windows\\System\" -Name DisableCMD -Value 1\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0407877c-acd5-47f7-9c04-a80b8f6644b2",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-ItemProperty -Path \"HKCU:\\Software\\Policies\\Microsoft\\Windows\\System\" -Name DisableCMD -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "cd1416d6-5bd0-4968-b8e5-6c3f4aede930",
+      "p": "on-success",
+      "o": "0407877c-acd5-47f7-9c04-a80b8f6644b2"
+    },
+    {
+      "s": "cd1416d6-5bd0-4968-b8e5-6c3f4aede930",
+      "p": "on-failure",
+      "o": "0407877c-acd5-47f7-9c04-a80b8f6644b2"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

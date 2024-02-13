@@ -1,0 +1,44 @@
+{
+  "id": "7362ecef-6461-402e-8716-7410e1566400",
+  "name": "Process Injection with Go using EtwpCreateEtwThread WinAPI",
+  "description": "Uses EtwpCreateEtwThread function from ntdll.dll to execute shellcode within the application's process.\nThis program loads the DLLs and gets a handle to the used procedures itself instead of using the windows package directly.\n\nSteps taken with this technique\n1. Allocate memory for the shellcode with VirtualAlloc setting the page permissions to Read/Write\n2. Use the RtlCopyMemory macro to copy the shellcode to the allocated memory space\n3. Change the memory page permissions to Execute/Read with VirtualProtect\n4. Call EtwpCreateEtwThread on shellcode address\n5. Call WaitForSingleObject so the program does not end before the shellcode is executed\n\n- PoC Credit: (https://github.com/Ne0nd0g/go-shellcode/tree/master#EtwpCreateEtwThread)\n- References: \n  - https://gist.github.com/TheWover/b2b2e427d3a81659942f4e8b9a978dc3\n  - https://www.geoffchappell.com/studies/windows/win32/ntdll/api/etw/index.htm\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "4d07faf1-1bbc-4686-b687-a5c10bd72c0b",
+      "type": "execute-command",
+      "data": {
+        "command": "$PathToAtomicsFolder\\T1055\\bin\\x64\\EtwpCreateEtwThread.exe -debug\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e1f71878-a758-4ae1-8f5d-13a2e796672c",
+      "type": "execute-command",
+      "data": {
+        "command": "Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4d07faf1-1bbc-4686-b687-a5c10bd72c0b",
+      "p": "on-success",
+      "o": "e1f71878-a758-4ae1-8f5d-13a2e796672c"
+    },
+    {
+      "s": "4d07faf1-1bbc-4686-b687-a5c10bd72c0b",
+      "p": "on-failure",
+      "o": "e1f71878-a758-4ae1-8f5d-13a2e796672c"
+    }
+  ],
+  "tags": [
+    "T1055",
+    "atomic-red-team"
+  ]
+}

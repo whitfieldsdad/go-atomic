@@ -1,0 +1,97 @@
+{
+  "id": "5f8abd62-f615-43c5-b6be-f780f25790a1",
+  "name": "Disable Bash History Logging with SSH -T",
+  "description": "Keeps history clear and stays out of lastlog,wtmp,btmp ssh -T keeps the ssh client from catching a proper TTY, which is what usually gets logged on lastlog\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "00bdf011-a0af-4464-985d-13fd0413849a",
+      "type": "execute-command",
+      "data": {
+        "command": "sshpass -p 'pwd101!' ssh testuser1@localhost -T hostname\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "51e11caf-20ca-4683-9d4d-f1ffe77c60a5",
+      "type": "execute-command",
+      "data": {
+        "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 rmuser -y testuser1 || userdel -f testuser1\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0a5165b3-87ca-4e0f-9222-0b2ee1881a9c",
+      "name": "Check dependency 1/1",
+      "description": "Install sshpass and create user account used for excuting\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$(getent passwd testuser1 \u003e/dev/null) \u0026\u0026 $(which sshpass \u003e/dev/null)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a32c95bb-02fd-4ac5-910f-b49c5c481dc4",
+      "name": "Resolve dependency 1/1",
+      "description": "Install sshpass and create user account used for excuting\n",
+      "type": "execute-command",
+      "data": {
+        "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 pw useradd testuser1 -g wheel -s /bin/sh || /usr/sbin/useradd testuser1\n[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 echo 'pwd101!' | pw mod user testuser1 -h 0 || echo -e 'pwd101!\\npwd101!' | passwd testuser1\n(which yum \u0026\u0026 yum -y install epel-release sshpass)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y sshpass)||(which pkg \u0026\u0026 pkg install -y sshpass)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0a148f64-f0e6-4a04-8591-b1c45668af0a",
+      "name": "Re-check dependency 1/1",
+      "description": "Install sshpass and create user account used for excuting\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$(getent passwd testuser1 \u003e/dev/null) \u0026\u0026 $(which sshpass \u003e/dev/null)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "00bdf011-a0af-4464-985d-13fd0413849a",
+      "p": "on-success",
+      "o": "51e11caf-20ca-4683-9d4d-f1ffe77c60a5"
+    },
+    {
+      "s": "00bdf011-a0af-4464-985d-13fd0413849a",
+      "p": "on-failure",
+      "o": "51e11caf-20ca-4683-9d4d-f1ffe77c60a5"
+    },
+    {
+      "s": "0a5165b3-87ca-4e0f-9222-0b2ee1881a9c",
+      "p": "on-success",
+      "o": "00bdf011-a0af-4464-985d-13fd0413849a"
+    },
+    {
+      "s": "0a5165b3-87ca-4e0f-9222-0b2ee1881a9c",
+      "p": "on-failure",
+      "o": "a32c95bb-02fd-4ac5-910f-b49c5c481dc4"
+    },
+    {
+      "s": "a32c95bb-02fd-4ac5-910f-b49c5c481dc4",
+      "p": "on-success",
+      "o": "0a148f64-f0e6-4a04-8591-b1c45668af0a"
+    },
+    {
+      "s": "0a148f64-f0e6-4a04-8591-b1c45668af0a",
+      "p": "on-failure",
+      "o": "00bdf011-a0af-4464-985d-13fd0413849a"
+    }
+  ],
+  "tags": [
+    "T1070.003",
+    "atomic-red-team"
+  ]
+}

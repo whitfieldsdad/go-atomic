@@ -1,0 +1,44 @@
+{
+  "id": "b721c6ef-472c-4263-a0d9-37f1f4ecff66",
+  "name": "Creating W32Time similar named service using sc",
+  "description": "Creating W32Time similar named service (win32times) using sc just like threat actor dubbed \"Operation Wocao\"",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ad27b7ec-8ae8-4913-9564-19f753dc5e67",
+      "type": "execute-command",
+      "data": {
+        "command": "sc create win32times binPath= \"cmd /c start c:\\T1036.004_NonExistingScript.ps1\"\nsc qc win32times\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6c5e89c9-ef66-4fa6-94de-8ffdb104028a",
+      "type": "execute-command",
+      "data": {
+        "command": "sc delete win32times\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ad27b7ec-8ae8-4913-9564-19f753dc5e67",
+      "p": "on-success",
+      "o": "6c5e89c9-ef66-4fa6-94de-8ffdb104028a"
+    },
+    {
+      "s": "ad27b7ec-8ae8-4913-9564-19f753dc5e67",
+      "p": "on-failure",
+      "o": "6c5e89c9-ef66-4fa6-94de-8ffdb104028a"
+    }
+  ],
+  "tags": [
+    "T1036.004",
+    "atomic-red-team"
+  ]
+}

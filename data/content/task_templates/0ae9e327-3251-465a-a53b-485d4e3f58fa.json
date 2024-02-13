@@ -1,0 +1,105 @@
+{
+  "id": "0ae9e327-3251-465a-a53b-485d4e3f58fa",
+  "name": "Ammyy Admin Software Execution",
+  "description": "An adversary may attempt to trick the user into downloading Ammyy Admin Remote Desktop Software for use as a C2 channel. \nUpon successful execution, Ammyy Admin will be executed. \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "d9cef5a6-f3f0-4d41-9b83-8ff603c4a575",
+      "type": "execute-command",
+      "data": {
+        "command": "Start-Process \"#{Ammyy_Admin_Path}\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "69f00c8a-3d47-4760-a43e-587d52773435",
+      "type": "execute-command",
+      "data": {
+        "command": "Stop-Process -Name \"Ammyy\" -force -erroraction silentlycontinue\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3953472f-943f-4899-99c3-5a35e0c5d537",
+      "name": "Check dependency 1/1",
+      "description": "Ammyy Admin must exist on disk at the specified location (#{Ammyy_Admin_Path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{Ammyy_Admin_Path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "70e56e2c-3a5a-4a58-9622-2cc8e4c0e927",
+      "name": "Resolve dependency 1/1",
+      "description": "Ammyy Admin must exist on disk at the specified location (#{Ammyy_Admin_Path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://web.archive.org/web/20140625232737/http://www.ammyy.com/AA_v3.exe\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\ammyy.exe\" -UseBasicParsing\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a243c828-3961-4d52-85ed-5a9b4a5e2993",
+      "name": "Re-check dependency 1/1",
+      "description": "Ammyy Admin must exist on disk at the specified location (#{Ammyy_Admin_Path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{Ammyy_Admin_Path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d9cef5a6-f3f0-4d41-9b83-8ff603c4a575",
+      "p": "on-success",
+      "o": "69f00c8a-3d47-4760-a43e-587d52773435"
+    },
+    {
+      "s": "d9cef5a6-f3f0-4d41-9b83-8ff603c4a575",
+      "p": "on-failure",
+      "o": "69f00c8a-3d47-4760-a43e-587d52773435"
+    },
+    {
+      "s": "3953472f-943f-4899-99c3-5a35e0c5d537",
+      "p": "on-success",
+      "o": "d9cef5a6-f3f0-4d41-9b83-8ff603c4a575"
+    },
+    {
+      "s": "3953472f-943f-4899-99c3-5a35e0c5d537",
+      "p": "on-failure",
+      "o": "70e56e2c-3a5a-4a58-9622-2cc8e4c0e927"
+    },
+    {
+      "s": "70e56e2c-3a5a-4a58-9622-2cc8e4c0e927",
+      "p": "on-success",
+      "o": "a243c828-3961-4d52-85ed-5a9b4a5e2993"
+    },
+    {
+      "s": "a243c828-3961-4d52-85ed-5a9b4a5e2993",
+      "p": "on-failure",
+      "o": "d9cef5a6-f3f0-4d41-9b83-8ff603c4a575"
+    }
+  ],
+  "tags": [
+    "T1219",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "Ammyy_Admin_Path",
+      "type": "path",
+      "description": "Path of Ammyy Admin executable",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\ammyy.exe"
+    }
+  ]
+}

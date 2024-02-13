@@ -1,0 +1,23 @@
+{
+  "id": "3d47daaa-2f56-43e0-94cc-caf5d8d52a68",
+  "name": "Remove Windows Defender Definition Files",
+  "description": "Removing definition files would cause ATP to not fire for AntiMalware. Check MpCmdRun.exe man page for info on all arguments.\nOn later viersions of windows (1909+) this command fails even with admin due to inusfficient privelages. On older versions of windows the\ncommand will say completed.\n\nhttps://unit42.paloaltonetworks.com/unit42-gorgon-group-slithering-nation-state-cybercrime/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "350b14b5-dbaa-4cfb-9b27-336fc85c8965",
+      "type": "execute-command",
+      "data": {
+        "command": "\"C:\\Program Files\\Windows Defender\\MpCmdRun.exe\" -RemoveDefinitions -All\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ]
+}

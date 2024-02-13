@@ -1,0 +1,53 @@
+{
+  "id": "7e7ac3ed-f795-4fa5-b711-09d6fbe9b873",
+  "name": "Create and Execute Bash Shell Script",
+  "description": "Creates and executes a simple sh script.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "3e712909-01b4-4170-b392-6ec8d9ff712b",
+      "type": "execute-command",
+      "data": {
+        "command": "sh -c \"echo 'echo Hello from the Atomic Red Team' \u003e #{script_path}\"\nsh -c \"echo 'ping -c 4 8.8.8.8' \u003e\u003e #{script_path}\"\nchmod +x #{script_path}\nsh #{script_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1f7d7eef-7300-40f2-adbd-c11ec69235ec",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{script_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3e712909-01b4-4170-b392-6ec8d9ff712b",
+      "p": "on-success",
+      "o": "1f7d7eef-7300-40f2-adbd-c11ec69235ec"
+    },
+    {
+      "s": "3e712909-01b4-4170-b392-6ec8d9ff712b",
+      "p": "on-failure",
+      "o": "1f7d7eef-7300-40f2-adbd-c11ec69235ec"
+    }
+  ],
+  "tags": [
+    "T1059.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "script_path",
+      "type": "path",
+      "description": "Script path",
+      "value": "/tmp/art.sh"
+    }
+  ]
+}

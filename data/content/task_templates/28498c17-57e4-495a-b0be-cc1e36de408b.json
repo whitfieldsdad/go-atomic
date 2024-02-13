@@ -1,0 +1,150 @@
+{
+  "id": "28498c17-57e4-495a-b0be-cc1e36de408b",
+  "name": "Simulating access to Opera Login Data",
+  "description": "Simulates an adversary accessing encrypted credentials from Opera web browser's login database. \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "83a63c37-9af6-48db-b422-8431b2d895e0",
+      "type": "execute-command",
+      "data": {
+        "command": "Copy-Item \"$env:APPDATA\\Opera Software\\Opera Stable\\Login Data\" -Destination \"PathToAtomicsFolder\\..\\ExternalPayloads\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "866539fa-f11e-416e-a41a-4bb914668904",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\Login Data\" -Force -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "91c623ba-136c-4efc-864a-3955ce930d67",
+      "name": "Check dependency 1/2",
+      "description": "Opera must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (((Test-Path \"$env:LOCALAPPDATA\\Programs\\Opera\\launcher.exe\") -Or (Test-Path \"C:\\Program Files\\Opera\\launcher.exe\") -Or (Test-Path \"C:\\Program Files (x86)\\Opera\\launcher.exe\"))) {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "04a72721-a8f7-4602-aa5b-7dd2dd1c9f03",
+      "name": "Resolve dependency 1/2",
+      "description": "Opera must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\n$installer = \"PathToAtomicsFolder\\..\\ExternalPayloads\\OperaStandaloneInstaller.exe\"\nInvoke-WebRequest -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\OperaStandaloneInstaller.exe\" https://get.geo.opera.com/pub/opera/desktop/82.0.4227.43/win/Opera_82.0.4227.43_Setup.exe\nStart-Process $installer -ArgumentList '/install /silent /launchopera=1 /setdefaultbrowser=0'\nStart-Sleep -s 180\nStop-Process -Name \"opera\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9098c9b2-08bf-4efe-87d4-76f5295411e7",
+      "name": "Re-check dependency 1/2",
+      "description": "Opera must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (((Test-Path \"$env:LOCALAPPDATA\\Programs\\Opera\\launcher.exe\") -Or (Test-Path \"C:\\Program Files\\Opera\\launcher.exe\") -Or (Test-Path \"C:\\Program Files (x86)\\Opera\\launcher.exe\"))) {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3fae2935-8900-4f31-a5f8-65b5e70779a5",
+      "name": "Check dependency 2/2",
+      "description": "Opera login data file must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"$env:APPDATA\\Opera Software\\Opera Stable\\Login Data\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0e886b08-70ad-4db9-98a1-a2d45a682b30",
+      "name": "Resolve dependency 2/2",
+      "description": "Opera login data file must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Path \"$env:APPDATA\\Opera Software\\Opera Stable\\Login Data\" -ItemType File\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e5655115-6b71-4747-bf5b-dcc4c89059c0",
+      "name": "Re-check dependency 2/2",
+      "description": "Opera login data file must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"$env:APPDATA\\Opera Software\\Opera Stable\\Login Data\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "83a63c37-9af6-48db-b422-8431b2d895e0",
+      "p": "on-success",
+      "o": "866539fa-f11e-416e-a41a-4bb914668904"
+    },
+    {
+      "s": "83a63c37-9af6-48db-b422-8431b2d895e0",
+      "p": "on-failure",
+      "o": "866539fa-f11e-416e-a41a-4bb914668904"
+    },
+    {
+      "s": "91c623ba-136c-4efc-864a-3955ce930d67",
+      "p": "on-success",
+      "o": "83a63c37-9af6-48db-b422-8431b2d895e0"
+    },
+    {
+      "s": "91c623ba-136c-4efc-864a-3955ce930d67",
+      "p": "on-failure",
+      "o": "04a72721-a8f7-4602-aa5b-7dd2dd1c9f03"
+    },
+    {
+      "s": "04a72721-a8f7-4602-aa5b-7dd2dd1c9f03",
+      "p": "on-success",
+      "o": "9098c9b2-08bf-4efe-87d4-76f5295411e7"
+    },
+    {
+      "s": "9098c9b2-08bf-4efe-87d4-76f5295411e7",
+      "p": "on-failure",
+      "o": "83a63c37-9af6-48db-b422-8431b2d895e0"
+    },
+    {
+      "s": "3fae2935-8900-4f31-a5f8-65b5e70779a5",
+      "p": "on-success",
+      "o": "83a63c37-9af6-48db-b422-8431b2d895e0"
+    },
+    {
+      "s": "3fae2935-8900-4f31-a5f8-65b5e70779a5",
+      "p": "on-failure",
+      "o": "0e886b08-70ad-4db9-98a1-a2d45a682b30"
+    },
+    {
+      "s": "0e886b08-70ad-4db9-98a1-a2d45a682b30",
+      "p": "on-success",
+      "o": "e5655115-6b71-4747-bf5b-dcc4c89059c0"
+    },
+    {
+      "s": "e5655115-6b71-4747-bf5b-dcc4c89059c0",
+      "p": "on-failure",
+      "o": "83a63c37-9af6-48db-b422-8431b2d895e0"
+    }
+  ],
+  "tags": [
+    "T1555.003",
+    "atomic-red-team"
+  ]
+}

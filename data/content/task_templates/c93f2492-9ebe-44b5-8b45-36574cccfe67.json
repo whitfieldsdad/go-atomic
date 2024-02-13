@@ -1,0 +1,86 @@
+{
+  "id": "c93f2492-9ebe-44b5-8b45-36574cccfe67",
+  "name": "Packet Capture FreeBSD using tshark or tcpdump",
+  "description": "Perform a PCAP. Wireshark will be required for tshark. TCPdump may already be installed.\n\nUpon successful execution, tshark or tcpdump will execute and capture 5 packets on interface ens33.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "602c582c-68ff-4011-820c-392ba08e1be2",
+      "type": "execute-command",
+      "data": {
+        "command": "tcpdump -c 5 -nnni #{interface}\ntshark -c 5 -i #{interface}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c7b69bd0-77c1-4dd6-9530-e760b0fef070",
+      "name": "Check dependency 1/1",
+      "description": "Check if at least one of tcpdump or tshark is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v tcpdump)\" ] \u0026\u0026 [ ! -x \"$(command -v tshark)\" ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6b3ae368-7fda-49ec-8896-2eafb24722ca",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if at least one of tcpdump or tshark is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which pkg \u0026\u0026 pkg install -y wireshark-nox11)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "39c2aa70-8e96-4263-9abe-e5ccdf4bf9d1",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if at least one of tcpdump or tshark is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v tcpdump)\" ] \u0026\u0026 [ ! -x \"$(command -v tshark)\" ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c7b69bd0-77c1-4dd6-9530-e760b0fef070",
+      "p": "on-success",
+      "o": "602c582c-68ff-4011-820c-392ba08e1be2"
+    },
+    {
+      "s": "c7b69bd0-77c1-4dd6-9530-e760b0fef070",
+      "p": "on-failure",
+      "o": "6b3ae368-7fda-49ec-8896-2eafb24722ca"
+    },
+    {
+      "s": "6b3ae368-7fda-49ec-8896-2eafb24722ca",
+      "p": "on-success",
+      "o": "39c2aa70-8e96-4263-9abe-e5ccdf4bf9d1"
+    },
+    {
+      "s": "39c2aa70-8e96-4263-9abe-e5ccdf4bf9d1",
+      "p": "on-failure",
+      "o": "602c582c-68ff-4011-820c-392ba08e1be2"
+    }
+  ],
+  "tags": [
+    "T1040",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "interface",
+      "type": "string",
+      "description": "Specify interface to perform PCAP on.",
+      "value": "em0"
+    }
+  ]
+}

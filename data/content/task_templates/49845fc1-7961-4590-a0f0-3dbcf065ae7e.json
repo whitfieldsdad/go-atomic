@@ -1,0 +1,58 @@
+{
+  "id": "49845fc1-7961-4590-a0f0-3dbcf065ae7e",
+  "name": "Printer Migration Command-Line Tool UNC share folder into a zip file",
+  "description": "Create a ZIP file from a folder in a remote drive\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "3df70621-4d94-45f7-b3e1-02a2ee640480",
+      "type": "execute-command",
+      "data": {
+        "command": "del %TEMP%\\PrintBrm.zip \u003enul 2\u003e\u00261 \n#{Path_PrintBrm} -b -d #{Path_unc}  -f %TEMP%\\PrintBrm.zip -O FORCE\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2226375f-b39e-4634-ad80-aa0962c983f7",
+      "type": "execute-command",
+      "data": {
+        "command": "del %TEMP%\\PrintBrm.zip \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3df70621-4d94-45f7-b3e1-02a2ee640480",
+      "p": "on-success",
+      "o": "2226375f-b39e-4634-ad80-aa0962c983f7"
+    },
+    {
+      "s": "3df70621-4d94-45f7-b3e1-02a2ee640480",
+      "p": "on-failure",
+      "o": "2226375f-b39e-4634-ad80-aa0962c983f7"
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "Path_unc",
+      "type": "path",
+      "description": "Path to the UNC folder",
+      "value": "\\\\127.0.0.1\\c$\\AtomicRedTeam\\atomics\\T1105\\src\\"
+    },
+    {
+      "name": "Path_PrintBrm",
+      "type": "path",
+      "description": "Path to PrintBrm.exe",
+      "value": "C:\\Windows\\System32\\spool\\tools\\PrintBrm.exe"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "id": "9c8ef159-c666-472f-9874-90c8d60d136b",
+  "name": "WMI Execute Remote Process",
+  "description": "This test uses wmic.exe to execute a process on a remote host. Specify a valid value for remote IP using the node parameter.\nTo clean up, provide the same node input as the one provided to run the test\nA common error message is \"Node - (provided IP or default)  ERROR Description =The RPC server is unavailable\" if the default or provided IP is unreachable\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "b54b2066-75e5-4883-b2c6-1f1e737a1270",
+      "type": "execute-command",
+      "data": {
+        "command": "wmic /user:#{user_name} /password:#{password} /node:\"#{node}\" process call create #{process_to_execute}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "34ac1671-99fc-4abb-806d-467f03d62de7",
+      "type": "execute-command",
+      "data": {
+        "command": "wmic /user:#{user_name} /password:#{password} /node:\"#{node}\" process where name='#{process_to_execute}' delete \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b54b2066-75e5-4883-b2c6-1f1e737a1270",
+      "p": "on-success",
+      "o": "34ac1671-99fc-4abb-806d-467f03d62de7"
+    },
+    {
+      "s": "b54b2066-75e5-4883-b2c6-1f1e737a1270",
+      "p": "on-failure",
+      "o": "34ac1671-99fc-4abb-806d-467f03d62de7"
+    }
+  ],
+  "tags": [
+    "T1047",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password",
+      "value": "P@ssw0rd1"
+    },
+    {
+      "name": "process_to_execute",
+      "type": "string",
+      "description": "Name or path of process to execute.",
+      "value": "notepad.exe"
+    },
+    {
+      "name": "node",
+      "type": "string",
+      "description": "Ip Address",
+      "value": "127.0.0.1"
+    },
+    {
+      "name": "user_name",
+      "type": "string",
+      "description": "Username",
+      "value": "DOMAIN\\Administrator"
+    }
+  ]
+}

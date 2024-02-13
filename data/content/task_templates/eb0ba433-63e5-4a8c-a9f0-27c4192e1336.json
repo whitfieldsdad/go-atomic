@@ -1,0 +1,44 @@
+{
+  "id": "eb0ba433-63e5-4a8c-a9f0-27c4192e1336",
+  "name": "Enable Proxy Settings",
+  "description": "A modification registry to enable proxy settings. This technique was seen in DarkGate malware as part of its installation.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "0dd77584-ac1f-4b9c-9089-34164d2f8410",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\" /v ProxyEnable /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "10ddd685-4de5-4972-bc14-2ed990bf293d",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\" /v ProxyEnable /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0dd77584-ac1f-4b9c-9089-34164d2f8410",
+      "p": "on-success",
+      "o": "10ddd685-4de5-4972-bc14-2ed990bf293d"
+    },
+    {
+      "s": "0dd77584-ac1f-4b9c-9089-34164d2f8410",
+      "p": "on-failure",
+      "o": "10ddd685-4de5-4972-bc14-2ed990bf293d"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

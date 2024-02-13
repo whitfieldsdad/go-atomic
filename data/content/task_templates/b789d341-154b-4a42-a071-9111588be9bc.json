@@ -1,0 +1,52 @@
+{
+  "id": "b789d341-154b-4a42-a071-9111588be9bc",
+  "name": "List Google Chrome Bookmark JSON Files on macOS",
+  "description": "Searches for Google Chrome's Bookmark file (on macOS) that contains bookmarks in JSON format and lists any found instances to a text file.\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "458a7f0d-2412-4af7-b005-6c7931071b94",
+      "type": "execute-command",
+      "data": {
+        "command": "find / -path \"*/Google/Chrome/*/Bookmarks\" -exec echo {} \u003e\u003e #{output_file} \\;\ncat #{output_file} 2\u003e/dev/null\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "46940013-ff85-4f05-bfb7-d17a7fe4db51",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{output_file} 2\u003e/dev/null\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "458a7f0d-2412-4af7-b005-6c7931071b94",
+      "p": "on-success",
+      "o": "46940013-ff85-4f05-bfb7-d17a7fe4db51"
+    },
+    {
+      "s": "458a7f0d-2412-4af7-b005-6c7931071b94",
+      "p": "on-failure",
+      "o": "46940013-ff85-4f05-bfb7-d17a7fe4db51"
+    }
+  ],
+  "tags": [
+    "T1217",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path where captured results will be placed.",
+      "value": "/tmp/T1217-Chrome.txt"
+    }
+  ]
+}

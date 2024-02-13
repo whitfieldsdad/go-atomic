@@ -1,0 +1,111 @@
+{
+  "id": "cc3381fb-4bd0-405c-a8e4-6cacfac3b06c",
+  "name": "Install IIS Module using PowerShell Cmdlet New-WebGlobalModule",
+  "description": "The following Atomic will utilize PowerShell Cmdlet New-WebGlobalModule to install a new IIS Module. IIS must be installed.\nThis atomic utilizes a DLL on disk, but to test further suspiciousness, compile and load [IIS-Raid](https://www.mdsec.co.uk/2020/02/iis-raid-backdooring-iis-using-native-modules/).\nA successful execution will install a module into IIS using New-WebGlobalModule.\n[Managing IIS Modules with PowerShell](https://learn.microsoft.com/en-us/powershell/module/webadministration/set-webglobalmodule?view=windowsserver2022-ps)\n[IIS Modules](https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "1f6bfa57-4ec2-4b8c-a574-44e02eb5d61c",
+      "type": "execute-command",
+      "data": {
+        "command": "New-WebGlobalModule -Name #{module_name} -Image #{dll_path}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "baca3c5e-0b5d-4a9e-ba8f-52c4ee507284",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-WebGlobalModule -Name #{module_name}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7129cbd8-9201-4e37-a6eb-d92ae9a3bc4e",
+      "name": "Check dependency 1/1",
+      "description": "IIS must be installed in order to add a module to IIS.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$service = get-service w3svc -ErrorAction SilentlyContinue\nif($service){ Write-Host \"IIS installed on $env:computername\" } else { Write-Host \"IIS is not installed on $env:computername\" } \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bf4e3bf5-f6b7-4c86-b39f-c85142cfaf9f",
+      "name": "Resolve dependency 1/1",
+      "description": "IIS must be installed in order to add a module to IIS.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install IIS to continue.\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7fb2215f-2da4-4c5c-bb55-b79a16f2cdfb",
+      "name": "Re-check dependency 1/1",
+      "description": "IIS must be installed in order to add a module to IIS.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$service = get-service w3svc -ErrorAction SilentlyContinue\nif($service){ Write-Host \"IIS installed on $env:computername\" } else { Write-Host \"IIS is not installed on $env:computername\" } \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1f6bfa57-4ec2-4b8c-a574-44e02eb5d61c",
+      "p": "on-success",
+      "o": "baca3c5e-0b5d-4a9e-ba8f-52c4ee507284"
+    },
+    {
+      "s": "1f6bfa57-4ec2-4b8c-a574-44e02eb5d61c",
+      "p": "on-failure",
+      "o": "baca3c5e-0b5d-4a9e-ba8f-52c4ee507284"
+    },
+    {
+      "s": "7129cbd8-9201-4e37-a6eb-d92ae9a3bc4e",
+      "p": "on-success",
+      "o": "1f6bfa57-4ec2-4b8c-a574-44e02eb5d61c"
+    },
+    {
+      "s": "7129cbd8-9201-4e37-a6eb-d92ae9a3bc4e",
+      "p": "on-failure",
+      "o": "bf4e3bf5-f6b7-4c86-b39f-c85142cfaf9f"
+    },
+    {
+      "s": "bf4e3bf5-f6b7-4c86-b39f-c85142cfaf9f",
+      "p": "on-success",
+      "o": "7fb2215f-2da4-4c5c-bb55-b79a16f2cdfb"
+    },
+    {
+      "s": "7fb2215f-2da4-4c5c-bb55-b79a16f2cdfb",
+      "p": "on-failure",
+      "o": "1f6bfa57-4ec2-4b8c-a574-44e02eb5d61c"
+    }
+  ],
+  "tags": [
+    "T1505.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "dll_path",
+      "type": "path",
+      "description": "The path to the DLL to be loaded",
+      "value": "%windir%\\system32\\inetsrv\\defdoc.dll"
+    },
+    {
+      "name": "module_name",
+      "type": "string",
+      "description": "The name of the IIS module",
+      "value": "DefaultDocumentModule_Atomic"
+    }
+  ]
+}

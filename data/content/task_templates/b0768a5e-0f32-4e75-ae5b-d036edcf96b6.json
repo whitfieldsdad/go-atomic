@@ -1,0 +1,92 @@
+{
+  "id": "b0768a5e-0f32-4e75-ae5b-d036edcf96b6",
+  "name": "Delete system log files using srm utility",
+  "description": "This test securely deletes the system log files individually and recursively using the srm utility.\nInstall srm using Homebrew with the command: brew install khell/homebrew-srm/srm\nRefer: https://github.com/khell/homebrew-srm/issues/1 for installation\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "8d739969-1304-4fe8-8ca1-1d8f9607f53b",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo srm #{system_log_path} #system log file deletion\nsudo srm -r #{system_log_folder} #recursive deletion of log files\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8e581d40-7ce9-4d16-a0a9-7d31e79799d5",
+      "name": "Check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat #{system_log_path} #{system_log_folder}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4cff0cb7-eee0-42a8-9d2a-40b24ff53f70",
+      "name": "Resolve dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir -p #{system_log_folder} \u0026\u0026 touch #{system_log_path} #{system_log_folder}/system.log\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6af02027-0345-4140-9ddf-dcb143d4a958",
+      "name": "Re-check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat #{system_log_path} #{system_log_folder}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8e581d40-7ce9-4d16-a0a9-7d31e79799d5",
+      "p": "on-success",
+      "o": "8d739969-1304-4fe8-8ca1-1d8f9607f53b"
+    },
+    {
+      "s": "8e581d40-7ce9-4d16-a0a9-7d31e79799d5",
+      "p": "on-failure",
+      "o": "4cff0cb7-eee0-42a8-9d2a-40b24ff53f70"
+    },
+    {
+      "s": "4cff0cb7-eee0-42a8-9d2a-40b24ff53f70",
+      "p": "on-success",
+      "o": "6af02027-0345-4140-9ddf-dcb143d4a958"
+    },
+    {
+      "s": "6af02027-0345-4140-9ddf-dcb143d4a958",
+      "p": "on-failure",
+      "o": "8d739969-1304-4fe8-8ca1-1d8f9607f53b"
+    }
+  ],
+  "tags": [
+    "T1070.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "system_log_path",
+      "type": "string",
+      "description": "path to system.log",
+      "value": "/var/log/system.log"
+    },
+    {
+      "name": "system_log_folder",
+      "type": "string",
+      "description": "path to log parent folder",
+      "value": "/var/log/"
+    }
+  ]
+}

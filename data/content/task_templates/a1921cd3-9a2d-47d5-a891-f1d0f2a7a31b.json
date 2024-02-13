@@ -1,0 +1,43 @@
+{
+  "id": "a1921cd3-9a2d-47d5-a891-f1d0f2a7a31b",
+  "name": "Windows - BITSAdmin BITS Download",
+  "description": "This test uses BITSAdmin.exe to schedule a BITS job for the download of a file.\nThis technique is used by Qbot malware to download payloads.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "aa0fa6f1-2016-4ddd-a3c4-dc0da0be9b49",
+      "type": "execute-command",
+      "data": {
+        "command": "C:\\Windows\\System32\\bitsadmin.exe /transfer #{bits_job_name} /Priority HIGH #{remote_file} #{local_path}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "bits_job_name",
+      "type": "string",
+      "description": "Name of the created BITS job",
+      "value": "qcxjb7"
+    },
+    {
+      "name": "local_path",
+      "type": "path",
+      "description": "Local path to place file",
+      "value": "%temp%\\Atomic-license.txt"
+    },
+    {
+      "name": "remote_file",
+      "type": "url",
+      "description": "URL of file to copy",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt"
+    }
+  ]
+}

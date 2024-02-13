@@ -1,0 +1,44 @@
+{
+  "id": "2ec63cc2-4975-41a6-bf09-dffdfb610778",
+  "name": "Create a Hidden User Called \"$\"",
+  "description": "Creating a user with a username containing \"$\"",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "efd5bfb9-2931-4d45-be2e-38ffe81d0924",
+      "type": "execute-command",
+      "data": {
+        "command": "net user $ ATOMIC123! /add /active:yes",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a8f8deb1-5a08-4945-aaef-d07d79fd8b57",
+      "type": "execute-command",
+      "data": {
+        "command": "net user $ /DELETE 2\u003e\u00261",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "efd5bfb9-2931-4d45-be2e-38ffe81d0924",
+      "p": "on-success",
+      "o": "a8f8deb1-5a08-4945-aaef-d07d79fd8b57"
+    },
+    {
+      "s": "efd5bfb9-2931-4d45-be2e-38ffe81d0924",
+      "p": "on-failure",
+      "o": "a8f8deb1-5a08-4945-aaef-d07d79fd8b57"
+    }
+  ],
+  "tags": [
+    "T1564",
+    "atomic-red-team"
+  ]
+}

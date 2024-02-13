@@ -1,0 +1,52 @@
+{
+  "id": "49543237-25db-497b-90df-d0a0a6e8fe2c",
+  "name": "Dirty Vanity process Injection",
+  "description": "This test used the Windows undocumented remote-fork API RtlCreateProcessReflection to create a cloned process of the parent process\nwith shellcode written in its memory. The shellcode is executed after being forked to the child process. The technique was first presented at \nBlackHat Europe 2022. Shellcode will open a messsage box and a notepad.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "9c1c7b8a-fd9a-462e-b138-b8034e0fe1ad",
+      "type": "execute-command",
+      "data": {
+        "command": "Start-Process \"$PathToAtomicsFolder\\T1055\\bin\\x64\\redVanity.exe\" #{pid}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "737b63cd-6926-4d68-b569-b7e712ba2dcf",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-Process -Name calc, CalculatorApp -ErrorAction SilentlyContinue | Stop-Process -Force",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "9c1c7b8a-fd9a-462e-b138-b8034e0fe1ad",
+      "p": "on-success",
+      "o": "737b63cd-6926-4d68-b569-b7e712ba2dcf"
+    },
+    {
+      "s": "9c1c7b8a-fd9a-462e-b138-b8034e0fe1ad",
+      "p": "on-failure",
+      "o": "737b63cd-6926-4d68-b569-b7e712ba2dcf"
+    }
+  ],
+  "tags": [
+    "T1055",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "pid",
+      "type": "string",
+      "description": "Parent process ID",
+      "value": "(Start-Process calc.exe -PassThru).Id"
+    }
+  ]
+}

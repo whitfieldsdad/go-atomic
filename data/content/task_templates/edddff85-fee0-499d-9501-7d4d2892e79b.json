@@ -1,0 +1,44 @@
+{
+  "id": "edddff85-fee0-499d-9501-7d4d2892e79b",
+  "name": "Copy and Modify Mailbox Data on Windows",
+  "description": "Copies and modifies mail data on Windows\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "21f55c03-db84-417e-969b-17d906941cbb",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -ItemType Directory -ErrorAction Ignore\nGet-ChildItem -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\" -Exclude copy | ForEach-Object { Copy-Item -Path $_.FullName -Destination \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -Recurse -Force -ErrorAction Ignore }\nGet-ChildItem -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -File | ForEach-Object { Add-Content -Path $_.FullName -Value \"Modification for Atomic Red Test\" -ErrorAction Ignore }\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e34c91d9-6c12-4cba-bdff-f27eeb55c8a4",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -Recurse -Force -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "21f55c03-db84-417e-969b-17d906941cbb",
+      "p": "on-success",
+      "o": "e34c91d9-6c12-4cba-bdff-f27eeb55c8a4"
+    },
+    {
+      "s": "21f55c03-db84-417e-969b-17d906941cbb",
+      "p": "on-failure",
+      "o": "e34c91d9-6c12-4cba-bdff-f27eeb55c8a4"
+    }
+  ],
+  "tags": [
+    "T1070.008",
+    "atomic-red-team"
+  ]
+}

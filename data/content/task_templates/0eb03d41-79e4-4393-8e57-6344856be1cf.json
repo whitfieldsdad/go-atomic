@@ -1,0 +1,98 @@
+{
+  "id": "0eb03d41-79e4-4393-8e57-6344856be1cf",
+  "name": "Copy and Execute File with PsExec",
+  "description": "Copies a file to a remote host and executes it using PsExec. Requires the download of PsExec from [https://docs.microsoft.com/en-us/sysinternals/downloads/psexec](https://docs.microsoft.com/en-us/sysinternals/downloads/psexec).\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "a62390fe-6b93-436a-b5c4-f0ab4938f4ba",
+      "type": "execute-command",
+      "data": {
+        "command": "\"#{psexec_exe}\" #{remote_host} -accepteula -c #{command_path}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "41e36130-5964-46c5-88f9-826536f6e917",
+      "name": "Check dependency 1/1",
+      "description": "PsExec tool from Sysinternals must exist on disk at specified location (#{psexec_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{psexec_exe}\") { exit 0} else { exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4a5ca656-dd75-40dd-a976-3581a52f475e",
+      "name": "Resolve dependency 1/1",
+      "description": "PsExec tool from Sysinternals must exist on disk at specified location (#{psexec_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://download.sysinternals.com/files/PSTools.zip\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsTools.zip\"\nExpand-Archive \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsTools.zip\" \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsTools\" -Force\nNew-Item -ItemType Directory (Split-Path \"#{psexec_exe}\") -Force | Out-Null\nCopy-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsTools\\PsExec.exe\" \"#{psexec_exe}\" -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6d2fd79b-0d12-40e2-b601-ac2a0c6bf598",
+      "name": "Re-check dependency 1/1",
+      "description": "PsExec tool from Sysinternals must exist on disk at specified location (#{psexec_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{psexec_exe}\") { exit 0} else { exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "41e36130-5964-46c5-88f9-826536f6e917",
+      "p": "on-success",
+      "o": "a62390fe-6b93-436a-b5c4-f0ab4938f4ba"
+    },
+    {
+      "s": "41e36130-5964-46c5-88f9-826536f6e917",
+      "p": "on-failure",
+      "o": "4a5ca656-dd75-40dd-a976-3581a52f475e"
+    },
+    {
+      "s": "4a5ca656-dd75-40dd-a976-3581a52f475e",
+      "p": "on-success",
+      "o": "6d2fd79b-0d12-40e2-b601-ac2a0c6bf598"
+    },
+    {
+      "s": "6d2fd79b-0d12-40e2-b601-ac2a0c6bf598",
+      "p": "on-failure",
+      "o": "a62390fe-6b93-436a-b5c4-f0ab4938f4ba"
+    }
+  ],
+  "tags": [
+    "T1021.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "command_path",
+      "type": "path",
+      "description": "File to copy and execute",
+      "value": "C:\\Windows\\System32\\cmd.exe"
+    },
+    {
+      "name": "remote_host",
+      "type": "string",
+      "description": "Remote computer to receive the copy and execute the file",
+      "value": "\\\\localhost"
+    },
+    {
+      "name": "psexec_exe",
+      "type": "string",
+      "description": "Path to PsExec",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\PsExec.exe"
+    }
+  ]
+}

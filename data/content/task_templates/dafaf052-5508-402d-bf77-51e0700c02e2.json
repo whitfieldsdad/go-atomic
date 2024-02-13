@@ -1,0 +1,23 @@
+{
+  "id": "dafaf052-5508-402d-bf77-51e0700c02e2",
+  "name": "System Network Configuration Discovery (TrickBot Style)",
+  "description": "Identify network configuration information as seen by Trickbot and described here https://www.sneakymonkey.net/2019/10/29/trickbot-analysis-part-ii/\n\nUpon successful execution, cmd.exe will spawn `ipconfig /all`, `net config workstation`, `net view /all /domain`, `nltest /domain_trusts`. Output will be via stdout.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "a935eea9-9aa7-47f8-8a04-b9f043e20eba",
+      "type": "execute-command",
+      "data": {
+        "command": "ipconfig /all\nnet config workstation\nnet view /all /domain\nnltest /domain_trusts\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1016",
+    "atomic-red-team"
+  ]
+}

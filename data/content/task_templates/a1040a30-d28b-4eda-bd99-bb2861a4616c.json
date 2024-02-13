@@ -1,0 +1,58 @@
+{
+  "id": "a1040a30-d28b-4eda-bd99-bb2861a4616c",
+  "name": "Create a new user in Linux with `root` UID and GID.",
+  "description": "Creates a new user in Linux and adds the user to the `root` group. This technique was used by adversaries during the Butter attack campaign.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "17125c73-2c0a-46f8-a4e4-98f959f081f7",
+      "type": "execute-command",
+      "data": {
+        "command": "useradd -g 0 -M -d /root -s /bin/bash #{username}\nif [ $(cat /etc/os-release | grep -i 'Name=\"ubuntu\"') ]; then echo \"#{username}:#{password}\" | sudo chpasswd; else echo \"#{password}\" | passwd --stdin #{username}; fi;\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fba1e7f7-05c3-4a5e-a9ad-4c300757465e",
+      "type": "execute-command",
+      "data": {
+        "command": "userdel #{username}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "17125c73-2c0a-46f8-a4e4-98f959f081f7",
+      "p": "on-success",
+      "o": "fba1e7f7-05c3-4a5e-a9ad-4c300757465e"
+    },
+    {
+      "s": "17125c73-2c0a-46f8-a4e4-98f959f081f7",
+      "p": "on-failure",
+      "o": "fba1e7f7-05c3-4a5e-a9ad-4c300757465e"
+    }
+  ],
+  "tags": [
+    "T1136.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username of the user to create",
+      "value": "butter"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password of the user to create",
+      "value": "BetterWithButter"
+    }
+  ]
+}

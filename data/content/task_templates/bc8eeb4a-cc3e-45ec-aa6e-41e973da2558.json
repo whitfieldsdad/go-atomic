@@ -1,0 +1,98 @@
+{
+  "id": "bc8eeb4a-cc3e-45ec-aa6e-41e973da2558",
+  "name": "System log file deletion via find utility",
+  "description": "This test finds and deletes the system log files within /var/log/ directory using various executions(rm, shred, unlink)\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "5ac5eab7-11d3-4e0d-a4bf-76651cbfecc2",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo find /var/log -name '#{system_log_name1}.*' -exec rm {} \\; #using \"rm\" execution\nsudo find /var/log/ -name \"#{system_log_name2}.*\" -exec shred -u -z -n 3 {} \\; #using \"shred\" execution\nsudo find /var/log/ -name \"#{system_log_name3}.*\" -exec unlink {} \\; #using \"unlink\" execution\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0766f3c6-4560-40ad-b794-f3a779f2778a",
+      "name": "Check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat /var/log/#{system_log_name1} /var/log/#{system_log_name2} /var/log/#{system_log_name3}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "577dbc8f-03f0-4a1b-85ad-8e4123faf191",
+      "name": "Resolve dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "touch /var/log/#{system_log_name1} /var/log/#{system_log_name2} /var/log/#{system_log_name3}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a91710f3-24a4-4ba8-932f-872f31e77a41",
+      "name": "Re-check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat /var/log/#{system_log_name1} /var/log/#{system_log_name2} /var/log/#{system_log_name3}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0766f3c6-4560-40ad-b794-f3a779f2778a",
+      "p": "on-success",
+      "o": "5ac5eab7-11d3-4e0d-a4bf-76651cbfecc2"
+    },
+    {
+      "s": "0766f3c6-4560-40ad-b794-f3a779f2778a",
+      "p": "on-failure",
+      "o": "577dbc8f-03f0-4a1b-85ad-8e4123faf191"
+    },
+    {
+      "s": "577dbc8f-03f0-4a1b-85ad-8e4123faf191",
+      "p": "on-success",
+      "o": "a91710f3-24a4-4ba8-932f-872f31e77a41"
+    },
+    {
+      "s": "a91710f3-24a4-4ba8-932f-872f31e77a41",
+      "p": "on-failure",
+      "o": "5ac5eab7-11d3-4e0d-a4bf-76651cbfecc2"
+    }
+  ],
+  "tags": [
+    "T1070.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "system_log_name1",
+      "type": "string",
+      "description": "name or prefix of system log to delete.",
+      "value": "system.log"
+    },
+    {
+      "name": "system_log_name2",
+      "type": "string",
+      "description": "name or prefix of system log to delete.",
+      "value": "system.log.97.gz"
+    },
+    {
+      "name": "system_log_name3",
+      "type": "string",
+      "description": "name or prefix of system log to delete.",
+      "value": "system.log.98.gz"
+    }
+  ]
+}

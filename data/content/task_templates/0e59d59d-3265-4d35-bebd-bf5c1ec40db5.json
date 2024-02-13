@@ -1,0 +1,97 @@
+{
+  "id": "0e59d59d-3265-4d35-bebd-bf5c1ec40db5",
+  "name": "Logging bash history to syslog",
+  "description": "There are several variables that can be set to control the appearance of the bash command prompt: PS1, PS2, PS3, PS4 and PROMPT_COMMAND. The contents of these variables are executed as if they had been typed on the command line. The PROMPT_COMMAND variable \"if set\" will be executed before the PS1 variable and can be configured to write the latest \"bash history\" entries to the syslog.\n\nTo gain persistence the command could be added to the users .bashrc or .bash_aliases or the systems default .bashrc in /etc/skel/ \n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "ac83dbde-d29c-4ac3-846d-cfccf640cb9e",
+      "type": "execute-command",
+      "data": {
+        "command": "PROMPT_COMMAND='history -a \u003e(tee -a ~/.bash_history |logger -t \"$USER[$$] $SSH_CONNECTION \")'\necho \"\\$PROMPT_COMMAND=$PROMPT_COMMAND\"\ntail /var/log/syslog\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6385f21b-835d-4035-96c7-1fb4b387e20a",
+      "type": "execute-command",
+      "data": {
+        "command": "unset PROMPT_COMMAND\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b4c25746-c068-4bda-9eb6-a9ce0022ef9c",
+      "name": "Check dependency 1/1",
+      "description": "This test requires to be run in a bash shell and that logger and tee are installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ \"$(echo $SHELL)\" != \"/bin/bash\" ]; then echo -e \"\\n***** Bash not running! *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v logger)\" ]; then echo -e \"\\n***** logger NOT installed *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v tee)\" ]; then echo -e \"\\n***** tee NOT installed *****\\n\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "dd0fb955-4c47-49ae-b82d-d191d4d0bef6",
+      "name": "Resolve dependency 1/1",
+      "description": "This test requires to be run in a bash shell and that logger and tee are installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0ebb2c46-dfc3-4be4-919d-0a59aaa9465e",
+      "name": "Re-check dependency 1/1",
+      "description": "This test requires to be run in a bash shell and that logger and tee are installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ \"$(echo $SHELL)\" != \"/bin/bash\" ]; then echo -e \"\\n***** Bash not running! *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v logger)\" ]; then echo -e \"\\n***** logger NOT installed *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v tee)\" ]; then echo -e \"\\n***** tee NOT installed *****\\n\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ac83dbde-d29c-4ac3-846d-cfccf640cb9e",
+      "p": "on-success",
+      "o": "6385f21b-835d-4035-96c7-1fb4b387e20a"
+    },
+    {
+      "s": "ac83dbde-d29c-4ac3-846d-cfccf640cb9e",
+      "p": "on-failure",
+      "o": "6385f21b-835d-4035-96c7-1fb4b387e20a"
+    },
+    {
+      "s": "b4c25746-c068-4bda-9eb6-a9ce0022ef9c",
+      "p": "on-success",
+      "o": "ac83dbde-d29c-4ac3-846d-cfccf640cb9e"
+    },
+    {
+      "s": "b4c25746-c068-4bda-9eb6-a9ce0022ef9c",
+      "p": "on-failure",
+      "o": "dd0fb955-4c47-49ae-b82d-d191d4d0bef6"
+    },
+    {
+      "s": "dd0fb955-4c47-49ae-b82d-d191d4d0bef6",
+      "p": "on-success",
+      "o": "0ebb2c46-dfc3-4be4-919d-0a59aaa9465e"
+    },
+    {
+      "s": "0ebb2c46-dfc3-4be4-919d-0a59aaa9465e",
+      "p": "on-failure",
+      "o": "ac83dbde-d29c-4ac3-846d-cfccf640cb9e"
+    }
+  ],
+  "tags": [
+    "T1056.001",
+    "atomic-red-team"
+  ]
+}

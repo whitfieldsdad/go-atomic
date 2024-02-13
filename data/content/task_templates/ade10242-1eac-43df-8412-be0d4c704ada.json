@@ -1,0 +1,97 @@
+{
+  "id": "ade10242-1eac-43df-8412-be0d4c704ada",
+  "name": "Trap SIGINT (freebsd)",
+  "description": "Launch bash shell with command arg to create TRAP on SIGINT (CTRL+C), then send SIGINT signal.\nThe trap executes script that writes to /tmp/art-fish.txt\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "97bb1c9e-5a67-400d-a832-b70fa2924f79",
+      "type": "execute-command",
+      "data": {
+        "command": "bash -c 'trap \"nohup sh $PathToAtomicsFolder/T1546.005/src/echo-art-fish.sh\" SIGINT \u0026\u0026 kill -SIGINT $$'\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4b6e708d-6e56-4502-bcd1-4a5d90937e2f",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f /tmp/art-fish.txt\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f5edafa4-e0f6-4696-8027-3f8d9add08f4",
+      "name": "Check dependency 1/1",
+      "description": "Check if bash is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v bash)\" ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bba5bb63-3351-4229-bf15-6e8d8c22e6b9",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if bash is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which pkg \u0026\u0026 pkg install -y bash)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5816ca51-0bac-4aa4-9d20-fee83d25eaba",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if bash is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v bash)\" ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "97bb1c9e-5a67-400d-a832-b70fa2924f79",
+      "p": "on-success",
+      "o": "4b6e708d-6e56-4502-bcd1-4a5d90937e2f"
+    },
+    {
+      "s": "97bb1c9e-5a67-400d-a832-b70fa2924f79",
+      "p": "on-failure",
+      "o": "4b6e708d-6e56-4502-bcd1-4a5d90937e2f"
+    },
+    {
+      "s": "f5edafa4-e0f6-4696-8027-3f8d9add08f4",
+      "p": "on-success",
+      "o": "97bb1c9e-5a67-400d-a832-b70fa2924f79"
+    },
+    {
+      "s": "f5edafa4-e0f6-4696-8027-3f8d9add08f4",
+      "p": "on-failure",
+      "o": "bba5bb63-3351-4229-bf15-6e8d8c22e6b9"
+    },
+    {
+      "s": "bba5bb63-3351-4229-bf15-6e8d8c22e6b9",
+      "p": "on-success",
+      "o": "5816ca51-0bac-4aa4-9d20-fee83d25eaba"
+    },
+    {
+      "s": "5816ca51-0bac-4aa4-9d20-fee83d25eaba",
+      "p": "on-failure",
+      "o": "97bb1c9e-5a67-400d-a832-b70fa2924f79"
+    }
+  ],
+  "tags": [
+    "T1546.005",
+    "atomic-red-team"
+  ]
+}

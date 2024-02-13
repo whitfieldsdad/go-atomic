@@ -1,0 +1,44 @@
+{
+  "id": "20b40ea9-0e17-4155-b8e6-244911a678ac",
+  "name": "Enable root account using dsenableroot utility - MacOS",
+  "description": "After execution the current/new user will have root access",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "1d806b38-0854-4528-b4ee-d863a91bdf7e",
+      "type": "execute-command",
+      "data": {
+        "command": "dsenableroot #current user\ndsenableroot -u art-tester -p art-tester -r art-root #new user",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "59d11a55-0468-40d9-978d-6b9b9ebaec87",
+      "type": "execute-command",
+      "data": {
+        "command": "dsenableroot -d #current user\ndsenableroot -d -u art-tester -p art-tester #new user",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1d806b38-0854-4528-b4ee-d863a91bdf7e",
+      "p": "on-success",
+      "o": "59d11a55-0468-40d9-978d-6b9b9ebaec87"
+    },
+    {
+      "s": "1d806b38-0854-4528-b4ee-d863a91bdf7e",
+      "p": "on-failure",
+      "o": "59d11a55-0468-40d9-978d-6b9b9ebaec87"
+    }
+  ],
+  "tags": [
+    "T1078.003",
+    "atomic-red-team"
+  ]
+}

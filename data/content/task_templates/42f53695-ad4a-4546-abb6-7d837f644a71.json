@@ -1,0 +1,58 @@
+{
+  "id": "42f53695-ad4a-4546-abb6-7d837f644a71",
+  "name": "Scheduled task Local",
+  "description": "Upon successful execution, cmd.exe will create a scheduled task to spawn cmd.exe at 20:10.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "50cd054b-124f-4833-9522-5b9e3e73730b",
+      "type": "execute-command",
+      "data": {
+        "command": "SCHTASKS /Create /SC ONCE /TN spawn /TR #{task_command} /ST #{time}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9d157599-ca76-41f0-89fa-4d9dd9fced31",
+      "type": "execute-command",
+      "data": {
+        "command": "SCHTASKS /Delete /TN spawn /F \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "50cd054b-124f-4833-9522-5b9e3e73730b",
+      "p": "on-success",
+      "o": "9d157599-ca76-41f0-89fa-4d9dd9fced31"
+    },
+    {
+      "s": "50cd054b-124f-4833-9522-5b9e3e73730b",
+      "p": "on-failure",
+      "o": "9d157599-ca76-41f0-89fa-4d9dd9fced31"
+    }
+  ],
+  "tags": [
+    "T1053.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "task_command",
+      "type": "string",
+      "description": "What you want to execute",
+      "value": "C:\\windows\\system32\\cmd.exe"
+    },
+    {
+      "name": "time",
+      "type": "string",
+      "description": "What time 24 Hour",
+      "value": "20:10"
+    }
+  ]
+}

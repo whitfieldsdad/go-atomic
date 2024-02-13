@@ -1,0 +1,78 @@
+{
+  "id": "3c7094f8-71ec-4917-aeb8-a633d7ec4ef5",
+  "name": "AWS S3 Enumeration",
+  "description": "This test will enumerate all the S3 buckets in the user account and lists all the files in each bucket. \n",
+  "platforms": [
+    "iaas:aws"
+  ],
+  "steps": [
+    {
+      "id": "a768fea2-66e3-45b0-8c18-0e5c410bdde8",
+      "type": "execute-command",
+      "data": {
+        "command": "for bucket in \"$(aws s3 ls | cut -d \" \" -f3)\"; do aws s3api list-objects-v2 --bucket $bucket --output text; done\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "07eb8168-1776-4dd6-8bb5-3b16c527e1a1",
+      "name": "Check dependency 1/1",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cat ~/.aws/credentials | grep \"default\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "58f90298-fd2f-4ca9-a71f-66a263e33af6",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Please install the aws-cli and configure your AWS default profile using: aws configure\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ec1b4d2d-443d-4fc8-8d35-87d667851c45",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cat ~/.aws/credentials | grep \"default\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "07eb8168-1776-4dd6-8bb5-3b16c527e1a1",
+      "p": "on-success",
+      "o": "a768fea2-66e3-45b0-8c18-0e5c410bdde8"
+    },
+    {
+      "s": "07eb8168-1776-4dd6-8bb5-3b16c527e1a1",
+      "p": "on-failure",
+      "o": "58f90298-fd2f-4ca9-a71f-66a263e33af6"
+    },
+    {
+      "s": "58f90298-fd2f-4ca9-a71f-66a263e33af6",
+      "p": "on-success",
+      "o": "ec1b4d2d-443d-4fc8-8d35-87d667851c45"
+    },
+    {
+      "s": "ec1b4d2d-443d-4fc8-8d35-87d667851c45",
+      "p": "on-failure",
+      "o": "a768fea2-66e3-45b0-8c18-0e5c410bdde8"
+    }
+  ],
+  "tags": [
+    "T1619",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "id": "a8206bcc-f282-40a9-a389-05d9c0263485",
+  "name": "cacls - Grant permission to specified user or group recursively",
+  "description": "Modifies the filesystem permissions of the specified folder and contents to allow the specified user or group Full Control. If \"Access is denied\"\nis displayed it may be because the file or folder doesn't exit. Run the prereq command to create it. Upon successfull execution, \"Successfully processed 3 files\"\nwill be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ee99910d-536a-4305-bb40-4579620669f1",
+      "type": "execute-command",
+      "data": {
+        "command": "icacls.exe #{file_or_folder} /grant #{user_or_group}:F\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5adc0b45-4c80-4c38-877b-5bff4421c22c",
+      "name": "Check dependency 1/1",
+      "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST #{file_or_folder} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "49f12a0f-c52a-4cb0-9767-a0fd1efd1129",
+      "name": "Resolve dependency 1/1",
+      "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir #{file_or_folder}\necho T1222.001_cacls1 \u003e\u003e #{file_or_folder}\\T1222.001_cacls1.txt\necho T1222.001_cacls2 \u003e\u003e #{file_or_folder}\\T1222.001_cacls2.txt\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6a4d9e7b-241d-4ce2-9883-00b8ef953082",
+      "name": "Re-check dependency 1/1",
+      "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST #{file_or_folder} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "5adc0b45-4c80-4c38-877b-5bff4421c22c",
+      "p": "on-success",
+      "o": "ee99910d-536a-4305-bb40-4579620669f1"
+    },
+    {
+      "s": "5adc0b45-4c80-4c38-877b-5bff4421c22c",
+      "p": "on-failure",
+      "o": "49f12a0f-c52a-4cb0-9767-a0fd1efd1129"
+    },
+    {
+      "s": "49f12a0f-c52a-4cb0-9767-a0fd1efd1129",
+      "p": "on-success",
+      "o": "6a4d9e7b-241d-4ce2-9883-00b8ef953082"
+    },
+    {
+      "s": "6a4d9e7b-241d-4ce2-9883-00b8ef953082",
+      "p": "on-failure",
+      "o": "ee99910d-536a-4305-bb40-4579620669f1"
+    }
+  ],
+  "tags": [
+    "T1222.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_or_folder",
+      "type": "path",
+      "description": "Path of the file or folder to change permissions.",
+      "value": "%temp%\\T1222.001_cacls"
+    },
+    {
+      "name": "user_or_group",
+      "type": "string",
+      "description": "User or group to allow full control",
+      "value": "Everyone"
+    }
+  ]
+}

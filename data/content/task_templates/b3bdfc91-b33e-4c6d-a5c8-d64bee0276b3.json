@@ -1,0 +1,52 @@
+{
+  "id": "b3bdfc91-b33e-4c6d-a5c8-d64bee0276b3",
+  "name": "WMI Execute Local Process",
+  "description": "This test uses wmic.exe to execute a process on the local host.\nWhen the test completes , a new process will be started locally .A notepad application will be started when input is left on default.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c445197e-204f-4a7c-87ad-ac2fd4c9dd55",
+      "type": "execute-command",
+      "data": {
+        "command": "wmic process call create #{process_to_execute}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a63c86b6-0072-452c-bf04-cd50500badbf",
+      "type": "execute-command",
+      "data": {
+        "command": "wmic process where name='#{process_to_execute}' delete \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c445197e-204f-4a7c-87ad-ac2fd4c9dd55",
+      "p": "on-success",
+      "o": "a63c86b6-0072-452c-bf04-cd50500badbf"
+    },
+    {
+      "s": "c445197e-204f-4a7c-87ad-ac2fd4c9dd55",
+      "p": "on-failure",
+      "o": "a63c86b6-0072-452c-bf04-cd50500badbf"
+    }
+  ],
+  "tags": [
+    "T1047",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "process_to_execute",
+      "type": "string",
+      "description": "Name or path of process to execute.",
+      "value": "notepad.exe"
+    }
+  ]
+}

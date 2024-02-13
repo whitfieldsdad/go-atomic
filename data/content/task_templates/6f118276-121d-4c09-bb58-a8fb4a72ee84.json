@@ -1,0 +1,117 @@
+{
+  "id": "6f118276-121d-4c09-bb58-a8fb4a72ee84",
+  "name": "Disable Powershell ETW Provider - Windows",
+  "description": "This test was created to disable the Microsoft Powershell ETW provider by using the built-in Windows tool, logman.exe. This provider is used as a common source of telemetry in AV/EDR solutions.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "3c0a4612-09a6-4b4b-b611-db7a9cf09867",
+      "type": "execute-command",
+      "data": {
+        "command": "cmd /c \"#{ps_exec_location}\" -accepteula -i -s cmd.exe /c logman update trace \"#{session}\" --p \"#{provider}\" -ets",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8b39196f-82d8-417a-bdf9-5de1e44f95ac",
+      "type": "execute-command",
+      "data": {
+        "command": "cmd /c \"#{ps_exec_location}\" -i -s cmd.exe /c logman update trace \"#{session}\" -p \"#{provider}\" -ets",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d757ae27-56cc-4782-b4ed-a309fdb0057a",
+      "name": "Check dependency 1/1",
+      "description": "PSExec must be installed on the machine.",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{ps_exec_location}\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3367d2a9-3364-45f6-adb1-28194eb73239",
+      "name": "Resolve dependency 1/1",
+      "description": "PSExec must be installed on the machine.",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://download.sysinternals.com/files/PSTools.zip\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\PStools.zip\"\nexpand-archive -literalpath \"PathToAtomicsFolder\\..\\ExternalPayloads\\PStools.zip\" -destinationpath \"PathToAtomicsFolder\\..\\ExternalPayloads\\pstools\" -force",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ee597a86-e16f-4dd5-9748-ad997913054a",
+      "name": "Re-check dependency 1/1",
+      "description": "PSExec must be installed on the machine.",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{ps_exec_location}\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3c0a4612-09a6-4b4b-b611-db7a9cf09867",
+      "p": "on-success",
+      "o": "8b39196f-82d8-417a-bdf9-5de1e44f95ac"
+    },
+    {
+      "s": "3c0a4612-09a6-4b4b-b611-db7a9cf09867",
+      "p": "on-failure",
+      "o": "8b39196f-82d8-417a-bdf9-5de1e44f95ac"
+    },
+    {
+      "s": "d757ae27-56cc-4782-b4ed-a309fdb0057a",
+      "p": "on-success",
+      "o": "3c0a4612-09a6-4b4b-b611-db7a9cf09867"
+    },
+    {
+      "s": "d757ae27-56cc-4782-b4ed-a309fdb0057a",
+      "p": "on-failure",
+      "o": "3367d2a9-3364-45f6-adb1-28194eb73239"
+    },
+    {
+      "s": "3367d2a9-3364-45f6-adb1-28194eb73239",
+      "p": "on-success",
+      "o": "ee597a86-e16f-4dd5-9748-ad997913054a"
+    },
+    {
+      "s": "ee597a86-e16f-4dd5-9748-ad997913054a",
+      "p": "on-failure",
+      "o": "3c0a4612-09a6-4b4b-b611-db7a9cf09867"
+    }
+  ],
+  "tags": [
+    "T1562.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "ps_exec_location",
+      "type": "string",
+      "description": "Location of PSExec.",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\pstools\\PsExec.exe"
+    },
+    {
+      "name": "session",
+      "type": "string",
+      "description": "The session to disable.",
+      "value": "EventLog-Application"
+    },
+    {
+      "name": "provider",
+      "type": "string",
+      "description": "The provider to disable.",
+      "value": "Microsoft-Windows-Powershell"
+    }
+  ]
+}

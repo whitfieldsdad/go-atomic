@@ -1,0 +1,97 @@
+{
+  "id": "c7ac59cb-13cc-4622-81dc-6d2fee9bfac7",
+  "name": "Change login shell",
+  "description": "An adversary may want to use a different login shell. The chsh command changes the user login shell. The following test, creates an art user with a /bin/bash shell, changes the users shell to sh, then deletes the art user. \n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "4b591a19-d408-4e3d-b6c4-ec62ca79a632",
+      "type": "execute-command",
+      "data": {
+        "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 pw useradd art -g wheel -s /bin/csh || useradd -s /bin/bash art\ncat /etc/passwd |grep ^art\nchsh -s /bin/sh art\ncat /etc/passwd |grep ^art\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b46b957b-ea46-4386-ab49-977ef8c6b1c7",
+      "type": "execute-command",
+      "data": {
+        "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 rmuser -y art || userdel art\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "52554462-e083-43d9-89b1-fc61649ee9b8",
+      "name": "Check dependency 1/1",
+      "description": "chsh - change login shell, must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f /usr/bin/chsh ]; then echo \"exit 0\"; else echo \"exit 1\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bbd84528-2c40-400f-827f-29cee23661d1",
+      "name": "Resolve dependency 1/1",
+      "description": "chsh - change login shell, must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"Automated installer not implemented yet, please install chsh manually\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f8fda7d4-40b2-4ea0-8064-cec913dc5aff",
+      "name": "Re-check dependency 1/1",
+      "description": "chsh - change login shell, must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f /usr/bin/chsh ]; then echo \"exit 0\"; else echo \"exit 1\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4b591a19-d408-4e3d-b6c4-ec62ca79a632",
+      "p": "on-success",
+      "o": "b46b957b-ea46-4386-ab49-977ef8c6b1c7"
+    },
+    {
+      "s": "4b591a19-d408-4e3d-b6c4-ec62ca79a632",
+      "p": "on-failure",
+      "o": "b46b957b-ea46-4386-ab49-977ef8c6b1c7"
+    },
+    {
+      "s": "52554462-e083-43d9-89b1-fc61649ee9b8",
+      "p": "on-success",
+      "o": "4b591a19-d408-4e3d-b6c4-ec62ca79a632"
+    },
+    {
+      "s": "52554462-e083-43d9-89b1-fc61649ee9b8",
+      "p": "on-failure",
+      "o": "bbd84528-2c40-400f-827f-29cee23661d1"
+    },
+    {
+      "s": "bbd84528-2c40-400f-827f-29cee23661d1",
+      "p": "on-success",
+      "o": "f8fda7d4-40b2-4ea0-8064-cec913dc5aff"
+    },
+    {
+      "s": "f8fda7d4-40b2-4ea0-8064-cec913dc5aff",
+      "p": "on-failure",
+      "o": "4b591a19-d408-4e3d-b6c4-ec62ca79a632"
+    }
+  ],
+  "tags": [
+    "T1059.004",
+    "atomic-red-team"
+  ]
+}

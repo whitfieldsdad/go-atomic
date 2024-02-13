@@ -1,0 +1,31 @@
+{
+  "id": "cbf506a5-dd78-43e5-be7e-a46b7c7a0a11",
+  "name": "Clear Bash history (echo)",
+  "description": "Clears bash history via echo\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "a214e434-c399-4afc-a19f-29ae1443436b",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"\" \u003e #{history_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1070.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "history_path",
+      "type": "path",
+      "description": "Bash history path",
+      "value": "~/.bash_history"
+    }
+  ]
+}

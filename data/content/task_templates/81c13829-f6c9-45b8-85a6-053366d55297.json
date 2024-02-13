@@ -1,0 +1,31 @@
+{
+  "id": "81c13829-f6c9-45b8-85a6-053366d55297",
+  "name": "Malicious User Agents - Powershell",
+  "description": "This test simulates an infected host beaconing to command and control. Upon execution, no output will be displayed. \nUse an application such as Wireshark to record the session and observe user agent strings and responses.\n\nInspired by APTSimulator - https://github.com/NextronSystems/APTSimulator/blob/master/test-sets/command-and-control/malicious-user-agents.bat\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "193040e2-9886-4e78-b958-0de8e63f6347",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest #{domain} -UserAgent \"HttpBrowser/1.0\" | out-null\nInvoke-WebRequest #{domain} -UserAgent \"Wget/1.9+cvs-stable (Red Hat modified)\" | out-null\nInvoke-WebRequest #{domain} -UserAgent \"Opera/8.81 (Windows NT 6.0; U; en)\" | out-null\nInvoke-WebRequest #{domain} -UserAgent \"*\u003c|\u003e*\" | out-null\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1071.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "Default domain to simulate against",
+      "value": "www.google.com"
+    }
+  ]
+}

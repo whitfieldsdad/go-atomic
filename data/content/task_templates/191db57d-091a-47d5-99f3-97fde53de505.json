@@ -1,0 +1,44 @@
+{
+  "id": "191db57d-091a-47d5-99f3-97fde53de505",
+  "name": "Create local account with admin privileges using sysadminctl utility - MacOS",
+  "description": "After execution the new account will be active and added to the Administrators group",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "2343b319-04fa-43c7-adf3-adc932979aa1",
+      "type": "execute-command",
+      "data": {
+        "command": "sysadminctl interactive -addUser art-tester -fullName ARTUser -password !pass123! -admin",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "90f1d06b-d4f5-44a5-a91f-cc7f46c6111b",
+      "type": "execute-command",
+      "data": {
+        "command": "sysadminctl interactive -deleteUser art-tester",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "2343b319-04fa-43c7-adf3-adc932979aa1",
+      "p": "on-success",
+      "o": "90f1d06b-d4f5-44a5-a91f-cc7f46c6111b"
+    },
+    {
+      "s": "2343b319-04fa-43c7-adf3-adc932979aa1",
+      "p": "on-failure",
+      "o": "90f1d06b-d4f5-44a5-a91f-cc7f46c6111b"
+    }
+  ],
+  "tags": [
+    "T1078.003",
+    "atomic-red-team"
+  ]
+}

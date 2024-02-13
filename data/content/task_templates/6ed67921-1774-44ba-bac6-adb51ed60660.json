@@ -1,0 +1,170 @@
+{
+  "id": "6ed67921-1774-44ba-bac6-adb51ed60660",
+  "name": "Copy a sensitive File over Administrative share with copy",
+  "description": "Copy from sensitive File from the c$ of another LAN computer with copy cmd\nhttps://twitter.com/SBousseaden/status/1211636381086339073",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "14b34be1-f706-487f-9bca-99a351545eaa",
+      "type": "execute-command",
+      "data": {
+        "command": "copy \\\\#{remote}\\C$\\#{share_file} %TEMP%\\#{local_file}",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "830562dd-5fb7-4898-bd43-3dc520190c04",
+      "type": "execute-command",
+      "data": {
+        "command": "del \\\\#{remote}\\C$\\#{share_file}\ndel %TEMP%\\#{local_file}",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9bb08959-d38b-46e6-acca-57422f6ddf8e",
+      "name": "Check dependency 1/2",
+      "description": "Administrative share must exist on #{remote}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"\\\\#{remote}\\C$\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2e05d345-ae1f-460c-93ca-2a5e824df4c5",
+      "name": "Resolve dependency 1/2",
+      "description": "Administrative share must exist on #{remote}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host 'Please Enable \"C$\" share on #{remote}'\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "add0a819-a7ab-48b1-8ceb-6d13722aa240",
+      "name": "Re-check dependency 1/2",
+      "description": "Administrative share must exist on #{remote}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"\\\\#{remote}\\C$\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fa99a9f4-b002-48bb-bf37-3526bfc88069",
+      "name": "Check dependency 2/2",
+      "description": "\"\\\\#{remote}\\C$\\#{share_file}\" must exist on #{remote}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"\\\\#{remote}\\C$\\#{share_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3c2fae2a-34eb-47b6-bf91-fdd7f198fcea",
+      "name": "Resolve dependency 2/2",
+      "description": "\"\\\\#{remote}\\C$\\#{share_file}\" must exist on #{remote}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Out-File -FilePath \"\\\\#{remote}\\C$\\#{share_file}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1a9babf7-83ca-4d0c-8aa0-8dff3523d19c",
+      "name": "Re-check dependency 2/2",
+      "description": "\"\\\\#{remote}\\C$\\#{share_file}\" must exist on #{remote}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"\\\\#{remote}\\C$\\#{share_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "14b34be1-f706-487f-9bca-99a351545eaa",
+      "p": "on-success",
+      "o": "830562dd-5fb7-4898-bd43-3dc520190c04"
+    },
+    {
+      "s": "14b34be1-f706-487f-9bca-99a351545eaa",
+      "p": "on-failure",
+      "o": "830562dd-5fb7-4898-bd43-3dc520190c04"
+    },
+    {
+      "s": "9bb08959-d38b-46e6-acca-57422f6ddf8e",
+      "p": "on-success",
+      "o": "14b34be1-f706-487f-9bca-99a351545eaa"
+    },
+    {
+      "s": "9bb08959-d38b-46e6-acca-57422f6ddf8e",
+      "p": "on-failure",
+      "o": "2e05d345-ae1f-460c-93ca-2a5e824df4c5"
+    },
+    {
+      "s": "2e05d345-ae1f-460c-93ca-2a5e824df4c5",
+      "p": "on-success",
+      "o": "add0a819-a7ab-48b1-8ceb-6d13722aa240"
+    },
+    {
+      "s": "add0a819-a7ab-48b1-8ceb-6d13722aa240",
+      "p": "on-failure",
+      "o": "14b34be1-f706-487f-9bca-99a351545eaa"
+    },
+    {
+      "s": "fa99a9f4-b002-48bb-bf37-3526bfc88069",
+      "p": "on-success",
+      "o": "14b34be1-f706-487f-9bca-99a351545eaa"
+    },
+    {
+      "s": "fa99a9f4-b002-48bb-bf37-3526bfc88069",
+      "p": "on-failure",
+      "o": "3c2fae2a-34eb-47b6-bf91-fdd7f198fcea"
+    },
+    {
+      "s": "3c2fae2a-34eb-47b6-bf91-fdd7f198fcea",
+      "p": "on-success",
+      "o": "1a9babf7-83ca-4d0c-8aa0-8dff3523d19c"
+    },
+    {
+      "s": "1a9babf7-83ca-4d0c-8aa0-8dff3523d19c",
+      "p": "on-failure",
+      "o": "14b34be1-f706-487f-9bca-99a351545eaa"
+    }
+  ],
+  "tags": [
+    "T1039",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote",
+      "type": "string",
+      "description": "Remote server name",
+      "value": "127.0.0.1"
+    },
+    {
+      "name": "share_file",
+      "type": "path",
+      "description": "Remote Path to the file",
+      "value": "Windows\\temp\\Easter_Bunny.password"
+    },
+    {
+      "name": "local_file",
+      "type": "string",
+      "description": "Local name",
+      "value": "Easter_egg.password"
+    }
+  ]
+}

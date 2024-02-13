@@ -1,0 +1,98 @@
+{
+  "id": "d3eaaf6a-cdb1-44a9-9ede-b6c337d0d840",
+  "name": "Invoke HTML Application - JScript Engine with Inline Protocol Handler",
+  "description": "Executes an HTA Application with JScript Engine and Inline Protocol Handler.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "d7c06b5f-0c58-4cba-9ca7-0a509d9cf409",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-ATHHTMLApplication -ScriptEngine #{script_engine} -InlineProtocolHandler #{protocol_handler} -MSHTAFilePath #{mshta_file_path}",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8c0cdba7-eea1-4525-a4dd-135cad034fb9",
+      "name": "Check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHHTMLApplication']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "564fb1b8-5987-415b-84dc-c7a87a3af14b",
+      "name": "Resolve dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0e357af8-4230-40c0-bd3a-730724761366",
+      "name": "Re-check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHHTMLApplication']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8c0cdba7-eea1-4525-a4dd-135cad034fb9",
+      "p": "on-success",
+      "o": "d7c06b5f-0c58-4cba-9ca7-0a509d9cf409"
+    },
+    {
+      "s": "8c0cdba7-eea1-4525-a4dd-135cad034fb9",
+      "p": "on-failure",
+      "o": "564fb1b8-5987-415b-84dc-c7a87a3af14b"
+    },
+    {
+      "s": "564fb1b8-5987-415b-84dc-c7a87a3af14b",
+      "p": "on-success",
+      "o": "0e357af8-4230-40c0-bd3a-730724761366"
+    },
+    {
+      "s": "0e357af8-4230-40c0-bd3a-730724761366",
+      "p": "on-failure",
+      "o": "d7c06b5f-0c58-4cba-9ca7-0a509d9cf409"
+    }
+  ],
+  "tags": [
+    "T1218.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "script_engine",
+      "type": "string",
+      "description": "Script Engine to use",
+      "value": "JScript"
+    },
+    {
+      "name": "protocol_handler",
+      "type": "string",
+      "description": "Protocol Handler to use",
+      "value": "About"
+    },
+    {
+      "name": "mshta_file_path",
+      "type": "path",
+      "description": "Location of mshta.exe",
+      "value": "$env:windir\\system32\\mshta.exe"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "04d55cef-f283-40ba-ae2a-316bc3b5e78c",
+  "name": "HKLM - re-execute 'Internet Explorer Core Fonts' StubPath payload by decreasing version number",
+  "description": "This test will decrease the version number of the 'Internet Explorer Core Fonts' (UUID {C9E9A340-D1F1-11D0-821E-444553540600}) registry key for the current user, \nwhich will force the StubPath payload (if set) to execute.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "8b27d720-7ec5-46b5-9831-4dfb97f93460",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-ItemProperty -Path \"HKCU:\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\{C9E9A340-D1F1-11D0-821E-444553540600}\" -Name \"Version\" -Value \"0,0,0,0\"\n\u0026 $env:SYSTEMROOT\\system32\\runonce.exe /AlternateShellStartup\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1547.014",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "id": "578025d5-faa9-4f6d-8390-aae739d503e1",
+  "name": "Portable Executable Injection",
+  "description": "This test injects a portable executable into a remote Notepad process memory using Portable Executable Injection and base-address relocation techniques. When successful, a message box will appear with the title \"Warning\" and the content \"Atomic Red Team\" after a few seconds.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5d01bebe-d583-4c53-a792-65bd4dbf4bf5",
+      "type": "execute-command",
+      "data": {
+        "command": "Start-Process \"#{exe_binary}\"\nStart-Sleep -Seconds 7\nGet-Process -Name Notepad -ErrorAction SilentlyContinue | Stop-Process -Force",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a531de80-6342-4020-abb5-beb740a4a6ab",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-Process -Name Notepad -ErrorAction SilentlyContinue | Stop-Process -Force",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e09ca2d8-ad52-4a08-944e-072ad99dbe1f",
+      "name": "Check dependency 1/1",
+      "description": "Portable Executable to inject must exist at specified location (#{exe_binary})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{exe_binary}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ecfad358-4ba8-4e98-9a00-9b985e8385bc",
+      "name": "Resolve dependency 1/1",
+      "description": "Portable Executable to inject must exist at specified location (#{exe_binary})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{exe_binary}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1055.002/bin/RedInjection.exe\" -OutFile \"#{exe_binary}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7692f7db-d190-4312-92bb-c961ca5414be",
+      "name": "Re-check dependency 1/1",
+      "description": "Portable Executable to inject must exist at specified location (#{exe_binary})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{exe_binary}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "5d01bebe-d583-4c53-a792-65bd4dbf4bf5",
+      "p": "on-success",
+      "o": "a531de80-6342-4020-abb5-beb740a4a6ab"
+    },
+    {
+      "s": "5d01bebe-d583-4c53-a792-65bd4dbf4bf5",
+      "p": "on-failure",
+      "o": "a531de80-6342-4020-abb5-beb740a4a6ab"
+    },
+    {
+      "s": "e09ca2d8-ad52-4a08-944e-072ad99dbe1f",
+      "p": "on-success",
+      "o": "5d01bebe-d583-4c53-a792-65bd4dbf4bf5"
+    },
+    {
+      "s": "e09ca2d8-ad52-4a08-944e-072ad99dbe1f",
+      "p": "on-failure",
+      "o": "ecfad358-4ba8-4e98-9a00-9b985e8385bc"
+    },
+    {
+      "s": "ecfad358-4ba8-4e98-9a00-9b985e8385bc",
+      "p": "on-success",
+      "o": "7692f7db-d190-4312-92bb-c961ca5414be"
+    },
+    {
+      "s": "7692f7db-d190-4312-92bb-c961ca5414be",
+      "p": "on-failure",
+      "o": "5d01bebe-d583-4c53-a792-65bd4dbf4bf5"
+    }
+  ],
+  "tags": [
+    "T1055.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "exe_binary",
+      "type": "path",
+      "description": "PE binary",
+      "value": "PathToAtomicsFolder\\T1055.002\\bin\\RedInjection.exe"
+    }
+  ]
+}

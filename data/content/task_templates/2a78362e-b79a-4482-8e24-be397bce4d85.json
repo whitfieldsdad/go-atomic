@@ -1,0 +1,44 @@
+{
+  "id": "2a78362e-b79a-4482-8e24-be397bce4d85",
+  "name": "Safe Mode Boot",
+  "description": "Allows adversaries to abuse safe mode to disable endpoint defenses that may not start with limited boot",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "f42c5fd8-cfe0-4aa6-b68c-30e7b547ed1b",
+      "type": "execute-command",
+      "data": {
+        "command": "bcdedit /set safeboot network",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e2a2d46c-c1a9-41e8-8d39-5ccf88950f5a",
+      "type": "execute-command",
+      "data": {
+        "command": "bcdedit /deletevalue {current} safeboot",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f42c5fd8-cfe0-4aa6-b68c-30e7b547ed1b",
+      "p": "on-success",
+      "o": "e2a2d46c-c1a9-41e8-8d39-5ccf88950f5a"
+    },
+    {
+      "s": "f42c5fd8-cfe0-4aa6-b68c-30e7b547ed1b",
+      "p": "on-failure",
+      "o": "e2a2d46c-c1a9-41e8-8d39-5ccf88950f5a"
+    }
+  ],
+  "tags": [
+    "T1562.009",
+    "atomic-red-team"
+  ]
+}

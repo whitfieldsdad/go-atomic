@@ -1,0 +1,44 @@
+{
+  "id": "93386d41-525c-4a1b-8235-134a628dee17",
+  "name": "Activate Windows NoDesktop Group Policy Feature",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to hide all icons on Desktop Group Policy. \nTake note that some Group Policy changes might require a restart to take effect.\nSee how Trojan abuses this technique- https://www.sophos.com/de-de/threat-center/threat-analyses/viruses-and-spyware/Troj~Krotten-N/detailed-analysis\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "95b0a0e9-973f-44c7-8aec-b7c0599c9167",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoDesktop /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "96d3ab31-ccf8-4bc8-9b0a-2fb7082501f3",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoDesktop /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "95b0a0e9-973f-44c7-8aec-b7c0599c9167",
+      "p": "on-success",
+      "o": "96d3ab31-ccf8-4bc8-9b0a-2fb7082501f3"
+    },
+    {
+      "s": "95b0a0e9-973f-44c7-8aec-b7c0599c9167",
+      "p": "on-failure",
+      "o": "96d3ab31-ccf8-4bc8-9b0a-2fb7082501f3"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

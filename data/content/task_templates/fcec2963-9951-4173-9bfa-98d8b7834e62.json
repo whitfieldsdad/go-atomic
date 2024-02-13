@@ -1,0 +1,64 @@
+{
+  "id": "fcec2963-9951-4173-9bfa-98d8b7834e62",
+  "name": "Create a new Windows domain admin user",
+  "description": "Creates a new domain admin user in a command prompt.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ab524e78-83c5-4582-9296-ccdffa880da8",
+      "type": "execute-command",
+      "data": {
+        "command": "net user \"#{username}\" \"#{password}\" /add /domain\nnet group \"#{group}\" \"#{username}\" /add /domain\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "851a4f9b-91b1-45c9-bb13-9138d6a39b58",
+      "type": "execute-command",
+      "data": {
+        "command": "net user \"#{username}\" \u003enul 2\u003e\u00261 /del /domain\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ab524e78-83c5-4582-9296-ccdffa880da8",
+      "p": "on-success",
+      "o": "851a4f9b-91b1-45c9-bb13-9138d6a39b58"
+    },
+    {
+      "s": "ab524e78-83c5-4582-9296-ccdffa880da8",
+      "p": "on-failure",
+      "o": "851a4f9b-91b1-45c9-bb13-9138d6a39b58"
+    }
+  ],
+  "tags": [
+    "T1136.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username of the user to create",
+      "value": "T1136.002_Admin"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password of the user to create",
+      "value": "T1136_pass123!"
+    },
+    {
+      "name": "group",
+      "type": "string",
+      "description": "Domain administrator group to which add the user to",
+      "value": "Domain Admins"
+    }
+  ]
+}

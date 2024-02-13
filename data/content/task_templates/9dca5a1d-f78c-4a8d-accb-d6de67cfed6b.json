@@ -1,0 +1,23 @@
+{
+  "id": "9dca5a1d-f78c-4a8d-accb-d6de67cfed6b",
+  "name": "Security Software Discovery - Windows Firewall Enumeration",
+  "description": "Enumerates windows firewall to retrieves firewall rules from the target computer.\n\nwhen sucessfully executed, details of windows firewall is displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "b73cb057-baa7-451e-a48f-6ddecc494a66",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-NetFirewallProfile | Format-Table Name, Enabled\nGet-NetFirewallSetting\nGet-NetFirewallRule | select DisplayName, Enabled, Description\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1518.001",
+    "atomic-red-team"
+  ]
+}

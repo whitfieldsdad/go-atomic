@@ -1,0 +1,117 @@
+{
+  "id": "53e6735a-4727-44cc-b35b-237682a151ad",
+  "name": "Encrypt files using 7z (FreeBSD/Linux)",
+  "description": "Uses 7z to encrypt a file\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "77818731-5b23-4333-b44e-90845e53ccaa",
+      "type": "execute-command",
+      "data": {
+        "command": "$which_7z a -p#{pwd_for_encrypted_file} #{encrypted_file_path} #{input_file_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a51eb0ee-1249-4fa4-9a61-1445dc383f5a",
+      "type": "execute-command",
+      "data": {
+        "command": "$which_7z e #{encrypted_file_path}\nrm #{encrypted_file_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "608b5dd1-cf00-4e5a-91ce-a5bcac75fa6a",
+      "name": "Check dependency 1/1",
+      "description": "Finds where 7z is located\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which_7z=`which 7z`\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d1caf74e-30bb-4b0e-b5af-c071108e6f96",
+      "name": "Resolve dependency 1/1",
+      "description": "Finds where 7z is located\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which pkg \u0026\u0026 pkg install -y 7-zip)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7c9ca555-c667-438c-b460-70fdc79fbff4",
+      "name": "Re-check dependency 1/1",
+      "description": "Finds where 7z is located\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which_7z=`which 7z`\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "77818731-5b23-4333-b44e-90845e53ccaa",
+      "p": "on-success",
+      "o": "a51eb0ee-1249-4fa4-9a61-1445dc383f5a"
+    },
+    {
+      "s": "77818731-5b23-4333-b44e-90845e53ccaa",
+      "p": "on-failure",
+      "o": "a51eb0ee-1249-4fa4-9a61-1445dc383f5a"
+    },
+    {
+      "s": "608b5dd1-cf00-4e5a-91ce-a5bcac75fa6a",
+      "p": "on-success",
+      "o": "77818731-5b23-4333-b44e-90845e53ccaa"
+    },
+    {
+      "s": "608b5dd1-cf00-4e5a-91ce-a5bcac75fa6a",
+      "p": "on-failure",
+      "o": "d1caf74e-30bb-4b0e-b5af-c071108e6f96"
+    },
+    {
+      "s": "d1caf74e-30bb-4b0e-b5af-c071108e6f96",
+      "p": "on-success",
+      "o": "7c9ca555-c667-438c-b460-70fdc79fbff4"
+    },
+    {
+      "s": "7c9ca555-c667-438c-b460-70fdc79fbff4",
+      "p": "on-failure",
+      "o": "77818731-5b23-4333-b44e-90845e53ccaa"
+    }
+  ],
+  "tags": [
+    "T1486",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "pwd_for_encrypted_file",
+      "type": "string",
+      "description": "the password that you want for the encrypted file",
+      "value": "passwd"
+    },
+    {
+      "name": "encrypted_file_path",
+      "type": "path",
+      "description": "path to the encrypted file",
+      "value": "/tmp/passwd.zip"
+    },
+    {
+      "name": "input_file_path",
+      "type": "path",
+      "description": "path to the file that you want to encrypt",
+      "value": "/etc/passwd"
+    }
+  ]
+}

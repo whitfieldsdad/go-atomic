@@ -1,0 +1,44 @@
+{
+  "id": "3dacb0d2-46ee-4c27-ac1b-f9886bf91a56",
+  "name": "Disable Windows Lock Workstation Feature",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to disable the windows Lock workstation feature.\nSee how ransomware abuses this technique- https://www.bleepingcomputer.com/news/security/in-dev-ransomware-forces-you-do-to-survey-before-unlocking-computer/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "f5b11d4c-972b-4874-8f49-75500d9a39e5",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v DisableLockWorkstation /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ecb59691-9cc4-45fd-9a55-6098f8143251",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v DisableLockWorkstation /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f5b11d4c-972b-4874-8f49-75500d9a39e5",
+      "p": "on-success",
+      "o": "ecb59691-9cc4-45fd-9a55-6098f8143251"
+    },
+    {
+      "s": "f5b11d4c-972b-4874-8f49-75500d9a39e5",
+      "p": "on-failure",
+      "o": "ecb59691-9cc4-45fd-9a55-6098f8143251"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

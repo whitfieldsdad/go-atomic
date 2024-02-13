@@ -1,0 +1,105 @@
+{
+  "id": "f2fa019e-fb2a-4d28-9dc6-fd1a9b7f68c3",
+  "name": "CreateCronjob",
+  "description": "Kubernetes Job is a controller that creates one or more pods and ensures that a specified number of them successfully terminate. Kubernetes Job can be used to run containers that perform finite tasks for batch jobs. Kubernetes CronJob is used to schedule Jobs. Attackers may use Kubernetes CronJob for scheduling execution of malicious code that would run as a container in the cluster.\n",
+  "platforms": [
+    "containers"
+  ],
+  "steps": [
+    {
+      "id": "8df2d959-7d01-4d38-b6ce-09cfb27688e3",
+      "type": "execute-command",
+      "data": {
+        "command": "kubectl create -f src/cronjob.yaml -n #{namespace}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8ef6b7fe-b4eb-4219-aeea-f5a5f4d64110",
+      "type": "execute-command",
+      "data": {
+        "command": "kubectl delete cronjob art -n #{namespace}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "12597c2e-b7f5-4874-a31c-f4b59680e4c3",
+      "name": "Check dependency 1/1",
+      "description": "kubectl must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which kubectl\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7ea13195-d45f-4fd4-9a17-b4c5fd8609ec",
+      "name": "Resolve dependency 1/1",
+      "description": "kubectl must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"kubectl must be installed manually\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9a9d3afd-7098-41f2-a67a-63cf98da48e4",
+      "name": "Re-check dependency 1/1",
+      "description": "kubectl must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which kubectl\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8df2d959-7d01-4d38-b6ce-09cfb27688e3",
+      "p": "on-success",
+      "o": "8ef6b7fe-b4eb-4219-aeea-f5a5f4d64110"
+    },
+    {
+      "s": "8df2d959-7d01-4d38-b6ce-09cfb27688e3",
+      "p": "on-failure",
+      "o": "8ef6b7fe-b4eb-4219-aeea-f5a5f4d64110"
+    },
+    {
+      "s": "12597c2e-b7f5-4874-a31c-f4b59680e4c3",
+      "p": "on-success",
+      "o": "8df2d959-7d01-4d38-b6ce-09cfb27688e3"
+    },
+    {
+      "s": "12597c2e-b7f5-4874-a31c-f4b59680e4c3",
+      "p": "on-failure",
+      "o": "7ea13195-d45f-4fd4-9a17-b4c5fd8609ec"
+    },
+    {
+      "s": "7ea13195-d45f-4fd4-9a17-b4c5fd8609ec",
+      "p": "on-success",
+      "o": "9a9d3afd-7098-41f2-a67a-63cf98da48e4"
+    },
+    {
+      "s": "9a9d3afd-7098-41f2-a67a-63cf98da48e4",
+      "p": "on-failure",
+      "o": "8df2d959-7d01-4d38-b6ce-09cfb27688e3"
+    }
+  ],
+  "tags": [
+    "T1053.007",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "namespace",
+      "type": "string",
+      "description": "K8s namespace to list",
+      "value": "default"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "id": "e16b3b75-dc9e-4cde-a23d-dfa2d0507b3b",
+  "name": "WMI Invoke-CimMethod Scheduled Task",
+  "description": "Create an scheduled task that executes notepad.exe after user login from XML by leveraging WMI class PS_ScheduledTask. Does the same thing as Register-ScheduledTask cmdlet behind the scenes.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "efe1afa9-b428-4b13-88ef-604fc93cdd71",
+      "type": "execute-command",
+      "data": {
+        "command": "$xml = [System.IO.File]::ReadAllText(\"#{xml_path}\")\nInvoke-CimMethod -ClassName PS_ScheduledTask -NameSpace \"Root\\Microsoft\\Windows\\TaskScheduler\" -MethodName \"RegisterByXml\" -Arguments @{ Force = $true; Xml =$xml; }\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6c36f0c5-4389-45ff-b396-a6becadce69d",
+      "type": "execute-command",
+      "data": {
+        "command": "Unregister-ScheduledTask -TaskName \"T1053_005_WMI\" -confirm:$false \u003e$null 2\u003e\u00261\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "40ce4441-de87-4262-a6f4-f8b1a7e72909",
+      "name": "Check dependency 1/1",
+      "description": "File to copy must exist on disk at specified location (#{xml_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{xml_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6add00da-2b98-45f1-bdfa-dbecbf44bdb0",
+      "name": "Resolve dependency 1/1",
+      "description": "File to copy must exist on disk at specified location (#{xml_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{xml_path}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1053.005/src/T1053_005_WMI.xml\" -OutFile \"#{xml_path}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ec6206b5-ceee-4a72-b610-dbff84b0ac1e",
+      "name": "Re-check dependency 1/1",
+      "description": "File to copy must exist on disk at specified location (#{xml_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{xml_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "efe1afa9-b428-4b13-88ef-604fc93cdd71",
+      "p": "on-success",
+      "o": "6c36f0c5-4389-45ff-b396-a6becadce69d"
+    },
+    {
+      "s": "efe1afa9-b428-4b13-88ef-604fc93cdd71",
+      "p": "on-failure",
+      "o": "6c36f0c5-4389-45ff-b396-a6becadce69d"
+    },
+    {
+      "s": "40ce4441-de87-4262-a6f4-f8b1a7e72909",
+      "p": "on-success",
+      "o": "efe1afa9-b428-4b13-88ef-604fc93cdd71"
+    },
+    {
+      "s": "40ce4441-de87-4262-a6f4-f8b1a7e72909",
+      "p": "on-failure",
+      "o": "6add00da-2b98-45f1-bdfa-dbecbf44bdb0"
+    },
+    {
+      "s": "6add00da-2b98-45f1-bdfa-dbecbf44bdb0",
+      "p": "on-success",
+      "o": "ec6206b5-ceee-4a72-b610-dbff84b0ac1e"
+    },
+    {
+      "s": "ec6206b5-ceee-4a72-b610-dbff84b0ac1e",
+      "p": "on-failure",
+      "o": "efe1afa9-b428-4b13-88ef-604fc93cdd71"
+    }
+  ],
+  "tags": [
+    "T1053.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "xml_path",
+      "type": "path",
+      "description": "path of vbs to use when creating masquerading files",
+      "value": "PathToAtomicsFolder\\T1053.005\\src\\T1053_005_WMI.xml"
+    }
+  ]
+}

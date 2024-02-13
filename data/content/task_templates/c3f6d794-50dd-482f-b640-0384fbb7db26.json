@@ -1,0 +1,44 @@
+{
+  "id": "c3f6d794-50dd-482f-b640-0384fbb7db26",
+  "name": "Recon information for export with PowerShell",
+  "description": "collect information for exfiltration. Upon execution, check the users temp directory (%temp%) for files T1119_*.txt\nto see what was collected.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e4a427d5-f97d-4b31-a1be-288958dd52ba",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-Service \u003e $env:TEMP\\T1119_1.txt\nGet-ChildItem Env: \u003e $env:TEMP\\T1119_2.txt\nGet-Process \u003e $env:TEMP\\T1119_3.txt\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d770557f-6e5e-4aa9-80c1-5f9665663ab9",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item $env:TEMP\\T1119_1.txt -ErrorAction Ignore\nRemove-Item $env:TEMP\\T1119_2.txt -ErrorAction Ignore\nRemove-Item $env:TEMP\\T1119_3.txt -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e4a427d5-f97d-4b31-a1be-288958dd52ba",
+      "p": "on-success",
+      "o": "d770557f-6e5e-4aa9-80c1-5f9665663ab9"
+    },
+    {
+      "s": "e4a427d5-f97d-4b31-a1be-288958dd52ba",
+      "p": "on-failure",
+      "o": "d770557f-6e5e-4aa9-80c1-5f9665663ab9"
+    }
+  ],
+  "tags": [
+    "T1119",
+    "atomic-red-team"
+  ]
+}

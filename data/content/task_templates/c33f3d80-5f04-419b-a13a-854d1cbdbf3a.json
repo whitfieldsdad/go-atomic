@@ -1,0 +1,44 @@
+{
+  "id": "c33f3d80-5f04-419b-a13a-854d1cbdbf3a",
+  "name": "rc.common",
+  "description": "Modify rc.common\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "aa5897c3-190c-41e8-9cf6-0339d920f294",
+      "type": "execute-command",
+      "data": {
+        "command": "filename='/etc/rc.common';if [ ! -f $filename ];then sudo touch $filename;else sudo cp $filename /etc/rc.common.original;fi\nprintf '%s\\n' '#!/bin/bash' | sudo tee /etc/rc.common\necho \"python3 -c \\\"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBtb2RpZnlpbmcgcmMuY29tbW9uID4gL3RtcC9UMTAzNy4wMDQucmMuY29tbW9uJykK'))\\\"\" | sudo tee -a /etc/rc.common\nprintf '%s\\n' 'exit 0' | sudo tee -a /etc/rc.common\nsudo chmod +x /etc/rc.common\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2b892a58-5f2b-4d4f-9560-20dda11be458",
+      "type": "execute-command",
+      "data": {
+        "command": "origfilename='/etc/rc.common.original';if [ ! -f $origfilename ];then sudo rm /etc/rc.common;else sudo cp $origfilename /etc/rc.common \u0026\u0026 sudo rm $origfilename;fi\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "aa5897c3-190c-41e8-9cf6-0339d920f294",
+      "p": "on-success",
+      "o": "2b892a58-5f2b-4d4f-9560-20dda11be458"
+    },
+    {
+      "s": "aa5897c3-190c-41e8-9cf6-0339d920f294",
+      "p": "on-failure",
+      "o": "2b892a58-5f2b-4d4f-9560-20dda11be458"
+    }
+  ],
+  "tags": [
+    "T1037.004",
+    "atomic-red-team"
+  ]
+}

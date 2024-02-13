@@ -1,0 +1,44 @@
+{
+  "id": "fec27f65-db86-4c2d-b66c-61945aee87c2",
+  "name": "Scheduled Task Startup Script",
+  "description": "Run an exe on user logon or system startup.  Upon execution, success messages will be displayed for the two scheduled tasks. To view\nthe tasks, open the Task Scheduler and look in the Active Tasks pane.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "bf3c9c56-3b02-40c2-8685-494b7e50368e",
+      "type": "execute-command",
+      "data": {
+        "command": "schtasks /create /tn \"T1053_005_OnLogon\" /sc onlogon /tr \"cmd.exe /c calc.exe\"\nschtasks /create /tn \"T1053_005_OnStartup\" /sc onstart /ru system /tr \"cmd.exe /c calc.exe\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7a257a2d-3623-4b9b-abf7-d25b76249573",
+      "type": "execute-command",
+      "data": {
+        "command": "schtasks /delete /tn \"T1053_005_OnLogon\" /f \u003enul 2\u003e\u00261\nschtasks /delete /tn \"T1053_005_OnStartup\" /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "bf3c9c56-3b02-40c2-8685-494b7e50368e",
+      "p": "on-success",
+      "o": "7a257a2d-3623-4b9b-abf7-d25b76249573"
+    },
+    {
+      "s": "bf3c9c56-3b02-40c2-8685-494b7e50368e",
+      "p": "on-failure",
+      "o": "7a257a2d-3623-4b9b-abf7-d25b76249573"
+    }
+  ],
+  "tags": [
+    "T1053.005",
+    "atomic-red-team"
+  ]
+}

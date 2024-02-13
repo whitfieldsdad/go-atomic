@@ -1,0 +1,44 @@
+{
+  "id": "7e47ee60-9dd1-4269-9c4f-97953b183268",
+  "name": "Snake Malware Encrypted crmlog file",
+  "description": "The following Atomic Test will create a file with a specific name and sets its attributes to Hidden, System, and Archive. This was related to the Snake Malware campaign and is later decrypted by Snake's kernel driver.\n[Snake Malware - CISA](https://media.defense.gov/2023/May/09/2003218554/-1/-1/0/JOINT_CSA_HUNTING_RU_INTEL_SNAKE_MALWARE_20230509.PDF)  \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "2b70bc0a-4e41-40bc-b1c1-f852c8c916ab",
+      "type": "execute-command",
+      "data": {
+        "command": "$file = New-Item $env:windir\\registration\\04e53197-72be-4dd8-88b1-533fe6eed577.04e53197-72be-4dd8-88b1-533fe6eed577.crmlog; $file.Attributes = 'Hidden', 'System', 'Archive'; Write-Host \"File created: $($file.FullName)\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a925968d-f6f6-414f-b7ab-ecd0392c28d7",
+      "type": "execute-command",
+      "data": {
+        "command": "$fileNameToDelete = '04e53197-72be-4dd8-88b1-533fe6eed577.04e53197-72be-4dd8-88b1-533fe6eed577.crmlog'; $filePathToDelete = \"$env:windir\\registration\\\"; $fullPathToDelete = Join-Path $filePathToDelete $fileNameToDelete; if (Test-Path $fullPathToDelete) { Remove-Item -Path $fullPathToDelete -Force; Write-Host \"File deleted: $fullPathToDelete\" } else { Write-Host \"File not found: $fullPathToDelete\" }\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "2b70bc0a-4e41-40bc-b1c1-f852c8c916ab",
+      "p": "on-success",
+      "o": "a925968d-f6f6-414f-b7ab-ecd0392c28d7"
+    },
+    {
+      "s": "2b70bc0a-4e41-40bc-b1c1-f852c8c916ab",
+      "p": "on-failure",
+      "o": "a925968d-f6f6-414f-b7ab-ecd0392c28d7"
+    }
+  ],
+  "tags": [
+    "T1027",
+    "atomic-red-team"
+  ]
+}

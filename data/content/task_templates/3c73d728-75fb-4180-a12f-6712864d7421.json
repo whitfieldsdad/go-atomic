@@ -1,0 +1,58 @@
+{
+  "id": "3c73d728-75fb-4180-a12f-6712864d7421",
+  "name": "Bitsadmin Download (cmd)",
+  "description": "This test simulates an adversary leveraging bitsadmin.exe to download\nand execute a payload\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5d168c8b-c9c1-464f-9edd-20e0562edc1b",
+      "type": "execute-command",
+      "data": {
+        "command": "bitsadmin.exe /transfer /Download /priority Foreground #{remote_file} #{local_file}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7741aa1f-a95c-4bc3-b929-8a4540cfd05c",
+      "type": "execute-command",
+      "data": {
+        "command": "del #{local_file} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "5d168c8b-c9c1-464f-9edd-20e0562edc1b",
+      "p": "on-success",
+      "o": "7741aa1f-a95c-4bc3-b929-8a4540cfd05c"
+    },
+    {
+      "s": "5d168c8b-c9c1-464f-9edd-20e0562edc1b",
+      "p": "on-failure",
+      "o": "7741aa1f-a95c-4bc3-b929-8a4540cfd05c"
+    }
+  ],
+  "tags": [
+    "T1197",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "local_file",
+      "type": "path",
+      "description": "Local file path to save downloaded file",
+      "value": "%temp%\\bitsadmin1_flag.ps1"
+    },
+    {
+      "name": "remote_file",
+      "type": "url",
+      "description": "Remote file to download",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md"
+    }
+  ]
+}

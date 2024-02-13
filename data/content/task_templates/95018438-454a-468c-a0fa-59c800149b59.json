@@ -1,0 +1,105 @@
+{
+  "id": "95018438-454a-468c-a0fa-59c800149b59",
+  "name": "Automated AD Recon (ADRecon)",
+  "description": "ADRecon extracts and combines information about an AD environement into a report. Upon execution, an Excel file with all of the data will be generated and its\npath will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "3d7a34fa-dd78-4165-b3f0-374e98644ee4",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-Expression \"#{adrecon_path}\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ab8c324e-d25d-4a31-a5ec-46e15ff70b7c",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-ChildItem \"PathToAtomicsFolder\\..\\ExternalPayloads\" -Recurse -Force | Where{$_.Name -Match \"^ADRecon-Report-\"} | Remove-Item -Force -Recurse\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7272a57f-a188-4434-b10f-d7f8dd44ce08",
+      "name": "Check dependency 1/1",
+      "description": "ADRecon must exist on disk at specified location (#{adrecon_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{adrecon_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e220569e-de08-4426-97c0-4c7cc5032588",
+      "name": "Resolve dependency 1/1",
+      "description": "ADRecon must exist on disk at specified location (#{adrecon_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest -Uri \"https://raw.githubusercontent.com/sense-of-security/ADRecon/38e4abae3e26d0fa87281c1d0c65cabd4d3c6ebd/ADRecon.ps1\" -OutFile \"#{adrecon_path}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "41b80c8d-3462-4f15-855c-0f3ec8ceea44",
+      "name": "Re-check dependency 1/1",
+      "description": "ADRecon must exist on disk at specified location (#{adrecon_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{adrecon_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3d7a34fa-dd78-4165-b3f0-374e98644ee4",
+      "p": "on-success",
+      "o": "ab8c324e-d25d-4a31-a5ec-46e15ff70b7c"
+    },
+    {
+      "s": "3d7a34fa-dd78-4165-b3f0-374e98644ee4",
+      "p": "on-failure",
+      "o": "ab8c324e-d25d-4a31-a5ec-46e15ff70b7c"
+    },
+    {
+      "s": "7272a57f-a188-4434-b10f-d7f8dd44ce08",
+      "p": "on-success",
+      "o": "3d7a34fa-dd78-4165-b3f0-374e98644ee4"
+    },
+    {
+      "s": "7272a57f-a188-4434-b10f-d7f8dd44ce08",
+      "p": "on-failure",
+      "o": "e220569e-de08-4426-97c0-4c7cc5032588"
+    },
+    {
+      "s": "e220569e-de08-4426-97c0-4c7cc5032588",
+      "p": "on-success",
+      "o": "41b80c8d-3462-4f15-855c-0f3ec8ceea44"
+    },
+    {
+      "s": "41b80c8d-3462-4f15-855c-0f3ec8ceea44",
+      "p": "on-failure",
+      "o": "3d7a34fa-dd78-4165-b3f0-374e98644ee4"
+    }
+  ],
+  "tags": [
+    "T1087.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "adrecon_path",
+      "type": "path",
+      "description": "Path of ADRecon.ps1 file",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\ADRecon.ps1"
+    }
+  ]
+}

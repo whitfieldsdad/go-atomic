@@ -1,0 +1,111 @@
+{
+  "id": "515575ab-d213-42b1-aa64-ef6a2dd4641b",
+  "name": "Packet Capture Linux socket AF_INET,SOCK_PACKET,UDP with sudo",
+  "description": "Captures packets with domain=AF_INET,type=SOCK_PACKET,protocol=UDP for a few seconds.\nSOCK_PACKET is \"obsolete\" according to the man page, but still works on Ubuntu 20.04\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "364c2d62-2293-41c6-a4e5-bee46ed91d29",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo #{program_path} -4 -P -p 17 -t 3\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b4015295-a491-4e0e-8419-3f21a432d19f",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{program_path}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ab5bea49-7e1b-4533-a140-5ea83aa45c53",
+      "name": "Check dependency 1/1",
+      "description": "compile C program\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f \"#{program_path}\" ]; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "23905aa3-a979-4a8a-b5e2-d7669ed2c689",
+      "name": "Resolve dependency 1/1",
+      "description": "compile C program\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cc #{csource_path} -o #{program_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f1290645-4dd3-48c3-9b57-8eef0979b7b8",
+      "name": "Re-check dependency 1/1",
+      "description": "compile C program\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f \"#{program_path}\" ]; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "364c2d62-2293-41c6-a4e5-bee46ed91d29",
+      "p": "on-success",
+      "o": "b4015295-a491-4e0e-8419-3f21a432d19f"
+    },
+    {
+      "s": "364c2d62-2293-41c6-a4e5-bee46ed91d29",
+      "p": "on-failure",
+      "o": "b4015295-a491-4e0e-8419-3f21a432d19f"
+    },
+    {
+      "s": "ab5bea49-7e1b-4533-a140-5ea83aa45c53",
+      "p": "on-success",
+      "o": "364c2d62-2293-41c6-a4e5-bee46ed91d29"
+    },
+    {
+      "s": "ab5bea49-7e1b-4533-a140-5ea83aa45c53",
+      "p": "on-failure",
+      "o": "23905aa3-a979-4a8a-b5e2-d7669ed2c689"
+    },
+    {
+      "s": "23905aa3-a979-4a8a-b5e2-d7669ed2c689",
+      "p": "on-success",
+      "o": "f1290645-4dd3-48c3-9b57-8eef0979b7b8"
+    },
+    {
+      "s": "f1290645-4dd3-48c3-9b57-8eef0979b7b8",
+      "p": "on-failure",
+      "o": "364c2d62-2293-41c6-a4e5-bee46ed91d29"
+    }
+  ],
+  "tags": [
+    "T1040",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "csource_path",
+      "type": "string",
+      "description": "Path to C program source",
+      "value": "PathToAtomicsFolder/T1040/src/linux_pcapdemo.c"
+    },
+    {
+      "name": "program_path",
+      "type": "string",
+      "description": "Path to compiled C program",
+      "value": "/tmp/t1040_linux_pcapdemo"
+    }
+  ]
+}

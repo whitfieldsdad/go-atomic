@@ -1,0 +1,44 @@
+{
+  "id": "8a0b1579-5a36-483a-9cde-0236983e1665",
+  "name": "Copy and Modify Mailbox Data on macOS",
+  "description": "Copies and modifies mail data on macOS\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "3d4ab5b7-fd90-458f-8f6d-794eb7ba8524",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir ~/Library/Mail/copy\ncp -R ~/Library/Mail/* ~/Library/Mail/copy\necho \"Manipulated data\" \u003e ~/Library/Mail/copy/manipulated.txt\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "19f90b5a-4ce7-40d8-bb25-94d2298def97",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -rf ~/Library/Mail/copy\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3d4ab5b7-fd90-458f-8f6d-794eb7ba8524",
+      "p": "on-success",
+      "o": "19f90b5a-4ce7-40d8-bb25-94d2298def97"
+    },
+    {
+      "s": "3d4ab5b7-fd90-458f-8f6d-794eb7ba8524",
+      "p": "on-failure",
+      "o": "19f90b5a-4ce7-40d8-bb25-94d2298def97"
+    }
+  ],
+  "tags": [
+    "T1070.008",
+    "atomic-red-team"
+  ]
+}

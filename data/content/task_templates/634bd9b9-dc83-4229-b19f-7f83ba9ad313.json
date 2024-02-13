@@ -1,0 +1,44 @@
+{
+  "id": "634bd9b9-dc83-4229-b19f-7f83ba9ad313",
+  "name": "Automated Collection PowerShell",
+  "description": "Automated Collection. Upon execution, check the users temp directory (%temp%) for the folder T1119_powershell_collection\nto see what was collected.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "2d7a016a-714c-4cab-9223-200175559e1f",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Path $env:TEMP\\T1119_powershell_collection -ItemType Directory -Force | Out-Null\nGet-ChildItem -Recurse -Include *.doc | % {Copy-Item $_.FullName -destination $env:TEMP\\T1119_powershell_collection}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5ecf4512-53f9-4237-bd32-28e71b2df793",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item $env:TEMP\\T1119_powershell_collection -Force -ErrorAction Ignore | Out-Null\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "2d7a016a-714c-4cab-9223-200175559e1f",
+      "p": "on-success",
+      "o": "5ecf4512-53f9-4237-bd32-28e71b2df793"
+    },
+    {
+      "s": "2d7a016a-714c-4cab-9223-200175559e1f",
+      "p": "on-failure",
+      "o": "5ecf4512-53f9-4237-bd32-28e71b2df793"
+    }
+  ],
+  "tags": [
+    "T1119",
+    "atomic-red-team"
+  ]
+}

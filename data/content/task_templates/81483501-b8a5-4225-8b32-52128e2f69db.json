@@ -1,0 +1,52 @@
+{
+  "id": "81483501-b8a5-4225-8b32-52128e2f69db",
+  "name": "Event Viewer Registry Modification - Redirection Program",
+  "description": "Modify event viewer registry values to alter the behavior of the online help redirection. Upon opening an event in event viewer and attempting to view the help page for the event, it will execute the program defined in the redirection program registry entry.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "4e70945c-0758-4283-a653-a4f743c1c57e",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Event Viewer\" /v MicrosoftRedirectionProgram /t REG_EXPAND_SZ /d \"#{redirection_program}\" /f",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "636fcce8-a340-48cf-b68d-fdaffc047dcf",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Event Viewer\" /v MicrosoftRedirectionProgram /t REG_EXPAND_SZ /f",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4e70945c-0758-4283-a653-a4f743c1c57e",
+      "p": "on-success",
+      "o": "636fcce8-a340-48cf-b68d-fdaffc047dcf"
+    },
+    {
+      "s": "4e70945c-0758-4283-a653-a4f743c1c57e",
+      "p": "on-failure",
+      "o": "636fcce8-a340-48cf-b68d-fdaffc047dcf"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "redirection_program",
+      "type": "path",
+      "description": "Path of the program to execute upon opening the event help",
+      "value": "C:\\windows\\system32\\notepad.exe"
+    }
+  ]
+}

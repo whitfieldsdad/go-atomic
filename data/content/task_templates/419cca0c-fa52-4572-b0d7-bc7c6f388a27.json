@@ -1,0 +1,78 @@
+{
+  "id": "419cca0c-fa52-4572-b0d7-bc7c6f388a27",
+  "name": "Tail the UFW firewall log file",
+  "description": "Print  the last 10 lines of the Uncomplicated Firewall (UFW) log file \n/var/log/ufw.log.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "a6f84b34-b205-451f-a17c-bbb1d60f08c2",
+      "type": "execute-command",
+      "data": {
+        "command": "tail /var/log/ufw.log\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c1719677-55a1-4591-9f24-e28ac3f6e240",
+      "name": "Check dependency 1/1",
+      "description": "Check if /var/log/ufw.log exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -f \"/var/log/ufw.log\" ]; then echo -e \"\\n***** ufw NOT logging *****\\n\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8c294c6a-87ca-44c2-bf0f-0d2ca1eeff26",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if /var/log/ufw.log exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b9c69613-64ba-4e02-9a53-d0a20b9d2e20",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if /var/log/ufw.log exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -f \"/var/log/ufw.log\" ]; then echo -e \"\\n***** ufw NOT logging *****\\n\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c1719677-55a1-4591-9f24-e28ac3f6e240",
+      "p": "on-success",
+      "o": "a6f84b34-b205-451f-a17c-bbb1d60f08c2"
+    },
+    {
+      "s": "c1719677-55a1-4591-9f24-e28ac3f6e240",
+      "p": "on-failure",
+      "o": "8c294c6a-87ca-44c2-bf0f-0d2ca1eeff26"
+    },
+    {
+      "s": "8c294c6a-87ca-44c2-bf0f-0d2ca1eeff26",
+      "p": "on-success",
+      "o": "b9c69613-64ba-4e02-9a53-d0a20b9d2e20"
+    },
+    {
+      "s": "b9c69613-64ba-4e02-9a53-d0a20b9d2e20",
+      "p": "on-failure",
+      "o": "a6f84b34-b205-451f-a17c-bbb1d60f08c2"
+    }
+  ],
+  "tags": [
+    "T1562.004",
+    "atomic-red-team"
+  ]
+}

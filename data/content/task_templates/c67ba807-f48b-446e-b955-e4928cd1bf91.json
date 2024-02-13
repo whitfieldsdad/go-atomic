@@ -1,0 +1,44 @@
+{
+  "id": "c67ba807-f48b-446e-b955-e4928cd1bf91",
+  "name": "Windows Internal pktmon capture",
+  "description": "Will start a packet capture and store log file as t1040.etl.\nhttps://lolbas-project.github.io/lolbas/Binaries/Pktmon/",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "38194f71-96f6-4e47-b7df-81a3f2a2b888",
+      "type": "execute-command",
+      "data": {
+        "command": "pktmon.exe start --etw  -f %TEMP%\\t1040.etl\nTIMEOUT /T 5 \u003enul 2\u003e\u00261\npktmon.exe stop\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "72700e71-7e6b-4401-b93b-66dd9ff458a7",
+      "type": "execute-command",
+      "data": {
+        "command": "del %TEMP%\\t1040.etl",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "38194f71-96f6-4e47-b7df-81a3f2a2b888",
+      "p": "on-success",
+      "o": "72700e71-7e6b-4401-b93b-66dd9ff458a7"
+    },
+    {
+      "s": "38194f71-96f6-4e47-b7df-81a3f2a2b888",
+      "p": "on-failure",
+      "o": "72700e71-7e6b-4401-b93b-66dd9ff458a7"
+    }
+  ],
+  "tags": [
+    "T1040",
+    "atomic-red-team"
+  ]
+}

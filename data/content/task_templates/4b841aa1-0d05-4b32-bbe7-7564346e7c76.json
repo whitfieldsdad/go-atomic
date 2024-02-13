@@ -1,0 +1,97 @@
+{
+  "id": "4b841aa1-0d05-4b32-bbe7-7564346e7c76",
+  "name": "Delete Windows Defender Scheduled Tasks",
+  "description": "The following atomic test will delete the Windows Defender scheduled tasks.\n\n[Reference](https://thedfirreport.com/2022/05/09/seo-poisoning-a-gootloader-story/)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5318e3e7-a339-4607-bc78-0a454719f225",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST \"%temp%\\Windows_Defender_Scheduled_Scan.xml\" ( schtasks /delete /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Scheduled Scan\" /f )\nIF EXIST \"%temp%\\Windows_Defender_Cleanup.xml\" ( schtasks /delete /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cleanup\" /f )\nIF EXIST \"%temp%\\Windows_Defender_Verification.xml\" ( schtasks /delete /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Verification\" /f )\nIF EXIST \"%temp%\\Windows_Defender_Cache_Maintenance.xml\" ( schtasks /delete /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cache Maintenance\" /f )\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fff87ed3-16da-487c-9381-edb398eee648",
+      "type": "execute-command",
+      "data": {
+        "command": "schtasks /create /xml \"%temp%\\Windows_Defender_Scheduled_Scan.xml\" /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Scheduled Scan\" /f\nschtasks /create /xml \"%temp%\\Windows_Defender_Cleanup.xml\" /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cleanup\" /f\nschtasks /create /xml \"%temp%\\Windows_Defender_Verification.xml\" /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Verification\" /f\nschtasks /create /xml \"%temp%\\Windows_Defender_Cache_Maintenance.xml\" /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cache Maintenance\" /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "eead1ce2-84e0-425e-acea-014427884b01",
+      "name": "Check dependency 1/1",
+      "description": "The Windows Defender scheduled tasks must be backed up first\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST \"%temp%\\Windows_Defender_Scheduled_Scan.xml\" ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "03855d64-fda2-46b7-b72d-74b30dafdaaf",
+      "name": "Resolve dependency 1/1",
+      "description": "The Windows Defender scheduled tasks must be backed up first\n",
+      "type": "execute-command",
+      "data": {
+        "command": "schtasks /query /xml /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Scheduled Scan\" \u003e \"%temp%\\Windows_Defender_Scheduled_Scan.xml\"\nschtasks /query /xml /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cleanup\" \u003e \"%temp%\\Windows_Defender_Cleanup.xml\"\nschtasks /query /xml /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Verification\" \u003e \"%temp%\\Windows_Defender_Verification.xml\"\nschtasks /query /xml /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cache Maintenance\" \u003e \"%temp%\\Windows_Defender_Cache_Maintenance.xml\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a1bc37d7-4813-443c-83ba-7bd71248d64d",
+      "name": "Re-check dependency 1/1",
+      "description": "The Windows Defender scheduled tasks must be backed up first\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST \"%temp%\\Windows_Defender_Scheduled_Scan.xml\" ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "5318e3e7-a339-4607-bc78-0a454719f225",
+      "p": "on-success",
+      "o": "fff87ed3-16da-487c-9381-edb398eee648"
+    },
+    {
+      "s": "5318e3e7-a339-4607-bc78-0a454719f225",
+      "p": "on-failure",
+      "o": "fff87ed3-16da-487c-9381-edb398eee648"
+    },
+    {
+      "s": "eead1ce2-84e0-425e-acea-014427884b01",
+      "p": "on-success",
+      "o": "5318e3e7-a339-4607-bc78-0a454719f225"
+    },
+    {
+      "s": "eead1ce2-84e0-425e-acea-014427884b01",
+      "p": "on-failure",
+      "o": "03855d64-fda2-46b7-b72d-74b30dafdaaf"
+    },
+    {
+      "s": "03855d64-fda2-46b7-b72d-74b30dafdaaf",
+      "p": "on-success",
+      "o": "a1bc37d7-4813-443c-83ba-7bd71248d64d"
+    },
+    {
+      "s": "a1bc37d7-4813-443c-83ba-7bd71248d64d",
+      "p": "on-failure",
+      "o": "5318e3e7-a339-4607-bc78-0a454719f225"
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ]
+}

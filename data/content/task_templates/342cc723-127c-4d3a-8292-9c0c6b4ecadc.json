@@ -1,0 +1,45 @@
+{
+  "id": "342cc723-127c-4d3a-8292-9c0c6b4ecadc",
+  "name": "Modify SSH Authorized Keys",
+  "description": "Modify contents of \u003cuser-home\u003e/.ssh/authorized_keys to maintain persistence on victim host. \nIf the user is able to save the same contents in the authorized_keys file, it shows user can modify the file.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "940bbc07-8b85-4b44-8872-fdeff5d34961",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f ~/.ssh/authorized_keys ]; then ssh_authorized_keys=$(cat ~/.ssh/authorized_keys); echo \"$ssh_authorized_keys\" \u003e ~/.ssh/authorized_keys; fi;\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c215bfda-0a47-41fb-83e8-cc4abe9499f2",
+      "type": "execute-command",
+      "data": {
+        "command": "unset ssh_authorized_keys\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "940bbc07-8b85-4b44-8872-fdeff5d34961",
+      "p": "on-success",
+      "o": "c215bfda-0a47-41fb-83e8-cc4abe9499f2"
+    },
+    {
+      "s": "940bbc07-8b85-4b44-8872-fdeff5d34961",
+      "p": "on-failure",
+      "o": "c215bfda-0a47-41fb-83e8-cc4abe9499f2"
+    }
+  ],
+  "tags": [
+    "T1098.004",
+    "atomic-red-team"
+  ]
+}

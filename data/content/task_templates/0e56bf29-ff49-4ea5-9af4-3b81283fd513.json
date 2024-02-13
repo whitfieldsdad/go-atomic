@@ -1,0 +1,23 @@
+{
+  "id": "0e56bf29-ff49-4ea5-9af4-3b81283fd513",
+  "name": "Extracting passwords with findstr",
+  "description": "Extracting Credentials from Files. Upon execution, the contents of files that contain the word \"password\" will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "9926e957-02f1-4c80-b3b5-da30e0975648",
+      "type": "execute-command",
+      "data": {
+        "command": "findstr /si pass *.xml *.doc *.txt *.xls\nls -R | select-string -ErrorAction SilentlyContinue -Pattern password\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1552.001",
+    "atomic-red-team"
+  ]
+}

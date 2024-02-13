@@ -1,0 +1,98 @@
+{
+  "id": "58742c0f-cb01-44cd-a60b-fb26e8871c93",
+  "name": "MSBuild Bypass Using Inline Tasks (C#)",
+  "description": "Executes the code in a project file using msbuild.exe. The default C# project example file (T1127.001.csproj) will simply print \"Hello From a Code Fragment\" and \"Hello From a Class.\" to the screen.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "44071079-3598-42a0-b483-30a133793e15",
+      "type": "execute-command",
+      "data": {
+        "command": "#{msbuildpath}\\#{msbuildname} \"#{filename}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5edd5ed0-3794-4397-b087-2142e0d2ea61",
+      "name": "Check dependency 1/1",
+      "description": "Project file must exist on disk at specified location (#{filename})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{filename}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "28a398fc-e43a-4d12-a0e8-783554d246b7",
+      "name": "Resolve dependency 1/1",
+      "description": "Project file must exist on disk at specified location (#{filename})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{filename}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1127.001/src/T1127.001.csproj\" -OutFile \"#{filename}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "cfe20e7f-f446-4d2e-a920-7993aadda3de",
+      "name": "Re-check dependency 1/1",
+      "description": "Project file must exist on disk at specified location (#{filename})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{filename}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "5edd5ed0-3794-4397-b087-2142e0d2ea61",
+      "p": "on-success",
+      "o": "44071079-3598-42a0-b483-30a133793e15"
+    },
+    {
+      "s": "5edd5ed0-3794-4397-b087-2142e0d2ea61",
+      "p": "on-failure",
+      "o": "28a398fc-e43a-4d12-a0e8-783554d246b7"
+    },
+    {
+      "s": "28a398fc-e43a-4d12-a0e8-783554d246b7",
+      "p": "on-success",
+      "o": "cfe20e7f-f446-4d2e-a920-7993aadda3de"
+    },
+    {
+      "s": "cfe20e7f-f446-4d2e-a920-7993aadda3de",
+      "p": "on-failure",
+      "o": "44071079-3598-42a0-b483-30a133793e15"
+    }
+  ],
+  "tags": [
+    "T1127.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "msbuildname",
+      "type": "path",
+      "description": "Default name of MSBuild",
+      "value": "msbuild.exe"
+    },
+    {
+      "name": "filename",
+      "type": "path",
+      "description": "Location of the project file",
+      "value": "PathToAtomicsFolder\\T1127.001\\src\\T1127.001.csproj"
+    },
+    {
+      "name": "msbuildpath",
+      "type": "path",
+      "description": "Default location of MSBuild",
+      "value": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319"
+    }
+  ]
+}

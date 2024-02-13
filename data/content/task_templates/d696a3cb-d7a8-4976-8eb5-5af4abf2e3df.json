@@ -1,0 +1,92 @@
+{
+  "id": "d696a3cb-d7a8-4976-8eb5-5af4abf2e3df",
+  "name": "Port Scan NMap for Windows",
+  "description": "Scan ports to check for listening ports for the local host 127.0.0.1",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "6f9dbee1-f922-4e1e-adec-58a46797571e",
+      "type": "execute-command",
+      "data": {
+        "command": "nmap #{host_to_scan}",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b8d6b6e3-0a8f-47f0-83b0-de356f261da9",
+      "name": "Check dependency 1/1",
+      "description": "NMap must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (cmd /c \"nmap 2\u003enul\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fced5235-b41c-445b-b774-7f964636d391",
+      "name": "Resolve dependency 1/1",
+      "description": "NMap must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\nmap-7.80-setup.exe\" #{nmap_url}\nStart-Process \"PathToAtomicsFolder\\..\\ExternalPayloads\\nmap-7.80-setup.exe\" /S\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "da326706-5cae-4777-8881-19b821a6a34c",
+      "name": "Re-check dependency 1/1",
+      "description": "NMap must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (cmd /c \"nmap 2\u003enul\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b8d6b6e3-0a8f-47f0-83b0-de356f261da9",
+      "p": "on-success",
+      "o": "6f9dbee1-f922-4e1e-adec-58a46797571e"
+    },
+    {
+      "s": "b8d6b6e3-0a8f-47f0-83b0-de356f261da9",
+      "p": "on-failure",
+      "o": "fced5235-b41c-445b-b774-7f964636d391"
+    },
+    {
+      "s": "fced5235-b41c-445b-b774-7f964636d391",
+      "p": "on-success",
+      "o": "da326706-5cae-4777-8881-19b821a6a34c"
+    },
+    {
+      "s": "da326706-5cae-4777-8881-19b821a6a34c",
+      "p": "on-failure",
+      "o": "6f9dbee1-f922-4e1e-adec-58a46797571e"
+    }
+  ],
+  "tags": [
+    "T1046",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "nmap_url",
+      "type": "url",
+      "description": "NMap installer download URL",
+      "value": "https://nmap.org/dist/nmap-7.80-setup.exe"
+    },
+    {
+      "name": "host_to_scan",
+      "type": "string",
+      "description": "The host to scan with NMap",
+      "value": "127.0.0.1"
+    }
+  ]
+}

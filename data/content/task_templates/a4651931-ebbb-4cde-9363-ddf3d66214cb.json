@@ -1,0 +1,44 @@
+{
+  "id": "a4651931-ebbb-4cde-9363-ddf3d66214cb",
+  "name": "LockBit Black - Unusual Windows firewall registry modification -cmd",
+  "description": "An adversary tries to modify the windows firewall registry\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "b5e29ab4-9de6-413d-8f75-def6a6c90d76",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\" /v EnableFirewall /t REG_DWORD /d 0 /f\nreg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\StandardProfile\" /v EnableFirewall /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d81a13c6-a566-4a16-ab75-508351bba9d2",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\" /v EnableFirewall /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\StandardProfile\" /v EnableFirewall /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b5e29ab4-9de6-413d-8f75-def6a6c90d76",
+      "p": "on-success",
+      "o": "d81a13c6-a566-4a16-ab75-508351bba9d2"
+    },
+    {
+      "s": "b5e29ab4-9de6-413d-8f75-def6a6c90d76",
+      "p": "on-failure",
+      "o": "d81a13c6-a566-4a16-ab75-508351bba9d2"
+    }
+  ],
+  "tags": [
+    "T1562.004",
+    "atomic-red-team"
+  ]
+}

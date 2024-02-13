@@ -1,0 +1,58 @@
+{
+  "id": "42dc4460-9aa6-45d3-b1a6-3955d34e1fe8",
+  "name": "Windows - PowerShell Download",
+  "description": "This test uses PowerShell to download a payload.\nThis technique is used by multiple adversaries and malware families.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "d1b8d9c8-d811-4ed6-a7e5-425dde4830f7",
+      "type": "execute-command",
+      "data": {
+        "command": "(New-Object System.Net.WebClient).DownloadFile(\"#{remote_file}\", \"#{destination_path}\")\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b225c745-d438-4c2e-8974-f63d01eec572",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item #{destination_path} -Force -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d1b8d9c8-d811-4ed6-a7e5-425dde4830f7",
+      "p": "on-success",
+      "o": "b225c745-d438-4c2e-8974-f63d01eec572"
+    },
+    {
+      "s": "d1b8d9c8-d811-4ed6-a7e5-425dde4830f7",
+      "p": "on-failure",
+      "o": "b225c745-d438-4c2e-8974-f63d01eec572"
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "destination_path",
+      "type": "path",
+      "description": "Destination path to file",
+      "value": "$env:TEMP\\Atomic-license.txt"
+    },
+    {
+      "name": "remote_file",
+      "type": "url",
+      "description": "URL of file to copy",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt"
+    }
+  ]
+}

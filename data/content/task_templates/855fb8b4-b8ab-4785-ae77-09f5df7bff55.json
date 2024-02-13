@@ -1,0 +1,44 @@
+{
+  "id": "855fb8b4-b8ab-4785-ae77-09f5df7bff55",
+  "name": "Windows Internal pktmon set filter",
+  "description": "Select Desired ports for packet capture \nhttps://lolbas-project.github.io/lolbas/Binaries/Pktmon/",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "76c28a23-284c-4570-bd35-aa9b9b82ee6a",
+      "type": "execute-command",
+      "data": {
+        "command": "pktmon.exe filter add -p 445\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8faa5ef4-e969-4295-a7c6-0fcc69786bab",
+      "type": "execute-command",
+      "data": {
+        "command": "pktmon filter remove",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "76c28a23-284c-4570-bd35-aa9b9b82ee6a",
+      "p": "on-success",
+      "o": "8faa5ef4-e969-4295-a7c6-0fcc69786bab"
+    },
+    {
+      "s": "76c28a23-284c-4570-bd35-aa9b9b82ee6a",
+      "p": "on-failure",
+      "o": "8faa5ef4-e969-4295-a7c6-0fcc69786bab"
+    }
+  ],
+  "tags": [
+    "T1040",
+    "atomic-red-team"
+  ]
+}

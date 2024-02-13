@@ -1,0 +1,53 @@
+{
+  "id": "db55f666-7cba-46c6-9fe6-205a05c3242c",
+  "name": "Set a SetGID flag on file",
+  "description": "This test sets the SetGID flag on a file in Linux and macOS.\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "a7f98f43-118a-4efb-a983-ca59d8b5cc22",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo touch #{file_to_setuid}\nsudo chown root #{file_to_setuid}\nsudo chmod g+xs #{file_to_setuid}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b77d121c-2e91-492b-b85b-42495059d967",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo rm #{file_to_setuid}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a7f98f43-118a-4efb-a983-ca59d8b5cc22",
+      "p": "on-success",
+      "o": "b77d121c-2e91-492b-b85b-42495059d967"
+    },
+    {
+      "s": "a7f98f43-118a-4efb-a983-ca59d8b5cc22",
+      "p": "on-failure",
+      "o": "b77d121c-2e91-492b-b85b-42495059d967"
+    }
+  ],
+  "tags": [
+    "T1548.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_to_setuid",
+      "type": "path",
+      "description": "Path of file to set SetGID flag",
+      "value": "/tmp/evilBinary"
+    }
+  ]
+}

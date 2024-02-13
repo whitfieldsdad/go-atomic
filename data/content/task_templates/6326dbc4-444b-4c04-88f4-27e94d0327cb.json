@@ -1,0 +1,32 @@
+{
+  "id": "6326dbc4-444b-4c04-88f4-27e94d0327cb",
+  "name": "Restart System via `shutdown` - FreeBSD/macOS/Linux",
+  "description": "This test restarts a FreeBSD/macOS/Linux system.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "dcb3015f-2d1a-41b3-9459-1ff7a34b380b",
+      "type": "execute-command",
+      "data": {
+        "command": "shutdown -r #{timeout}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1529",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "timeout",
+      "type": "string",
+      "description": "Time to restart (can be minutes or specific time)",
+      "value": "now"
+    }
+  ]
+}

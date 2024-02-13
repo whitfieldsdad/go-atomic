@@ -1,0 +1,105 @@
+{
+  "id": "01d75adf-ca1b-4dd1-ac96-7c9550ad1035",
+  "name": "JScript execution to gather local computer information via cscript",
+  "description": "JScript execution test, execute JScript via cscript command. When successful, system information will be written to $env:TEMP\\T1059.007.out.txt",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "66fc194a-630d-4ef1-9b20-100ba6e15898",
+      "type": "execute-command",
+      "data": {
+        "command": "cscript \"#{jscript}\" \u003e %tmp%\\T1059.007.out.txt\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "66ee05c5-d71b-4f9d-b93c-8d310610abf9",
+      "type": "execute-command",
+      "data": {
+        "command": "del %tmp%\\T1059.007.out.txt \u003enul 2\u003e\u00261",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3814e2c2-a87b-4652-86f1-7b0cba007dd8",
+      "name": "Check dependency 1/1",
+      "description": "Sample script must exist on disk at specified location (#{jscript})",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{jscript}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ad841f4c-3f98-4aee-a7ad-d0cee0f4d42f",
+      "name": "Resolve dependency 1/1",
+      "description": "Sample script must exist on disk at specified location (#{jscript})",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -ItemType Directory (Split-Path \"#{jscript}\") -Force | Out-Null\nInvoke-WebRequest \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1059.007/src/sys_info.js\" -OutFile \"#{jscript}\"",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "56435d57-7508-4bf0-9ddc-367a4d80effb",
+      "name": "Re-check dependency 1/1",
+      "description": "Sample script must exist on disk at specified location (#{jscript})",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{jscript}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "66fc194a-630d-4ef1-9b20-100ba6e15898",
+      "p": "on-success",
+      "o": "66ee05c5-d71b-4f9d-b93c-8d310610abf9"
+    },
+    {
+      "s": "66fc194a-630d-4ef1-9b20-100ba6e15898",
+      "p": "on-failure",
+      "o": "66ee05c5-d71b-4f9d-b93c-8d310610abf9"
+    },
+    {
+      "s": "3814e2c2-a87b-4652-86f1-7b0cba007dd8",
+      "p": "on-success",
+      "o": "66fc194a-630d-4ef1-9b20-100ba6e15898"
+    },
+    {
+      "s": "3814e2c2-a87b-4652-86f1-7b0cba007dd8",
+      "p": "on-failure",
+      "o": "ad841f4c-3f98-4aee-a7ad-d0cee0f4d42f"
+    },
+    {
+      "s": "ad841f4c-3f98-4aee-a7ad-d0cee0f4d42f",
+      "p": "on-success",
+      "o": "56435d57-7508-4bf0-9ddc-367a4d80effb"
+    },
+    {
+      "s": "56435d57-7508-4bf0-9ddc-367a4d80effb",
+      "p": "on-failure",
+      "o": "66fc194a-630d-4ef1-9b20-100ba6e15898"
+    }
+  ],
+  "tags": [
+    "T1059.007",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "jscript",
+      "type": "string",
+      "description": "Path to sample script",
+      "value": "PathToAtomicsFolder\\T1059.007\\src\\sys_info.js"
+    }
+  ]
+}

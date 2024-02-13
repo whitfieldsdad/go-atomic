@@ -1,0 +1,130 @@
+{
+  "id": "c99a829f-0bb8-4187-b2c6-d47d1df74cab",
+  "name": "whois file download",
+  "description": "Download a remote file using the whois utility\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "02fa5dda-2867-46c7-8d3e-79d8b673ac4e",
+      "type": "execute-command",
+      "data": {
+        "command": "timeout --preserve-status #{timeout} whois -h #{remote_host} -p #{remote_port} \"#{query}\" \u003e #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9bdae40f-c4d0-43f3-9d85-8595d44ec2c6",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "459c8cf2-8cdb-499c-8032-2c11989ed85a",
+      "name": "Check dependency 1/1",
+      "description": "The whois and timeout commands must be present\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which whois \u0026\u0026 which timeout\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7b46f75f-455b-4dd5-ad2e-7d742da1c53b",
+      "name": "Resolve dependency 1/1",
+      "description": "The whois and timeout commands must be present\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"Please install timeout and the whois package\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "69019b42-772a-45aa-8392-cacccc45c65e",
+      "name": "Re-check dependency 1/1",
+      "description": "The whois and timeout commands must be present\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which whois \u0026\u0026 which timeout\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "02fa5dda-2867-46c7-8d3e-79d8b673ac4e",
+      "p": "on-success",
+      "o": "9bdae40f-c4d0-43f3-9d85-8595d44ec2c6"
+    },
+    {
+      "s": "02fa5dda-2867-46c7-8d3e-79d8b673ac4e",
+      "p": "on-failure",
+      "o": "9bdae40f-c4d0-43f3-9d85-8595d44ec2c6"
+    },
+    {
+      "s": "459c8cf2-8cdb-499c-8032-2c11989ed85a",
+      "p": "on-success",
+      "o": "02fa5dda-2867-46c7-8d3e-79d8b673ac4e"
+    },
+    {
+      "s": "459c8cf2-8cdb-499c-8032-2c11989ed85a",
+      "p": "on-failure",
+      "o": "7b46f75f-455b-4dd5-ad2e-7d742da1c53b"
+    },
+    {
+      "s": "7b46f75f-455b-4dd5-ad2e-7d742da1c53b",
+      "p": "on-success",
+      "o": "69019b42-772a-45aa-8392-cacccc45c65e"
+    },
+    {
+      "s": "69019b42-772a-45aa-8392-cacccc45c65e",
+      "p": "on-failure",
+      "o": "02fa5dda-2867-46c7-8d3e-79d8b673ac4e"
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_host",
+      "type": "string",
+      "description": "Remote hostname or IP address",
+      "value": "localhost"
+    },
+    {
+      "name": "remote_port",
+      "type": "integer",
+      "description": "Remote port to connect to",
+      "value": "8443"
+    },
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path of file to save output to",
+      "value": "/tmp/T1105.whois.out"
+    },
+    {
+      "name": "query",
+      "type": "string",
+      "description": "Query to send to remote server",
+      "value": "Hello from Atomic Red Team test T1105"
+    },
+    {
+      "name": "timeout",
+      "type": "integer",
+      "description": "Timeout period before ending process (seconds)",
+      "value": "1"
+    }
+  ]
+}

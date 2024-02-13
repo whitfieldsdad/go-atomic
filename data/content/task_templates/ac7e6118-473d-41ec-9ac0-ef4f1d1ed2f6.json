@@ -1,0 +1,111 @@
+{
+  "id": "ac7e6118-473d-41ec-9ac0-ef4f1d1ed2f6",
+  "name": "Grant Full Access to folder for Everyone - Ryuk Ransomware Style",
+  "description": "Invokes the command line similar to that used by Ryuk Ransomware to grant full access to the entire C:\\ drive for Everyone.\n**icacls \"C:\\*\" /grant Everyone:F /T /C /Q**\nHowever, for this atomic we set the permission on C:\\Users\\Public so it completes faster and doesn't irreversibly affect the host.\nYou can set your own path variable to \"C:\\*\" if you prefer.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "074c6af7-e7b8-4d9f-a543-a9f670588534",
+      "type": "execute-command",
+      "data": {
+        "command": "icacls \"#{path}\" /grant Everyone:F /T /C /Q",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "209cc684-3cd3-4bd4-bf3f-c0c5963744a7",
+      "type": "execute-command",
+      "data": {
+        "command": "icacls '#{path}' /restore #{file_path} /q \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "91c76ac8-6f29-431c-8ea5-2df5637f5000",
+      "name": "Check dependency 1/1",
+      "description": "Backup of original folder permissions should exist (for use in cleanup commands)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST #{file_path} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c6998dfc-bf6e-4d0f-a1c3-be63d155ec6a",
+      "name": "Resolve dependency 1/1",
+      "description": "Backup of original folder permissions should exist (for use in cleanup commands)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "icacls #{path} /save #{file_path} /t /q \u003enul 2\u003e\u00261\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c8103d4e-1335-434c-aa10-7af9170c973e",
+      "name": "Re-check dependency 1/1",
+      "description": "Backup of original folder permissions should exist (for use in cleanup commands)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST #{file_path} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "074c6af7-e7b8-4d9f-a543-a9f670588534",
+      "p": "on-success",
+      "o": "209cc684-3cd3-4bd4-bf3f-c0c5963744a7"
+    },
+    {
+      "s": "074c6af7-e7b8-4d9f-a543-a9f670588534",
+      "p": "on-failure",
+      "o": "209cc684-3cd3-4bd4-bf3f-c0c5963744a7"
+    },
+    {
+      "s": "91c76ac8-6f29-431c-8ea5-2df5637f5000",
+      "p": "on-success",
+      "o": "074c6af7-e7b8-4d9f-a543-a9f670588534"
+    },
+    {
+      "s": "91c76ac8-6f29-431c-8ea5-2df5637f5000",
+      "p": "on-failure",
+      "o": "c6998dfc-bf6e-4d0f-a1c3-be63d155ec6a"
+    },
+    {
+      "s": "c6998dfc-bf6e-4d0f-a1c3-be63d155ec6a",
+      "p": "on-success",
+      "o": "c8103d4e-1335-434c-aa10-7af9170c973e"
+    },
+    {
+      "s": "c8103d4e-1335-434c-aa10-7af9170c973e",
+      "p": "on-failure",
+      "o": "074c6af7-e7b8-4d9f-a543-a9f670588534"
+    }
+  ],
+  "tags": [
+    "T1222.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "path",
+      "type": "path",
+      "description": "Path of folder to recursively set permissions on",
+      "value": "C:\\Users\\Public\\*"
+    },
+    {
+      "name": "file_path",
+      "type": "path",
+      "description": "Path of folder permission back",
+      "value": "%temp%\\T1222.001-folder-perms-backup.txt"
+    }
+  ]
+}

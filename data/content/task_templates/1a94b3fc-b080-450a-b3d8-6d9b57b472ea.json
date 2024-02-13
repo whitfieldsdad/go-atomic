@@ -1,0 +1,129 @@
+{
+  "id": "1a94b3fc-b080-450a-b3d8-6d9b57b472ea",
+  "name": "Azure - adding user to Azure role in subscription",
+  "description": "The adversaries want to add user to some Azure role, also called Azure resource role. Threat actor \nmay be interested primarily in highly privileged roles, e.g. Owner, Contributor.\nBy default, the role Reader is assigned to user in this test.\n\nNew-AzRoleAssignment cmdlet could be also use to assign user/service principal to resource, resource group and management group.\n\nThe account you use to run the PowerShell command must have Microsoft.Authorization/roleAssignments/write \n(e.g. such as User Access Administrator or Owner) and the Azure Active Directory Graph Directory.Read.All \nand Microsoft Graph Directory.Read.All permissions.\n\nDetection hint - check Operation Name \"Create role assignment\" in subscriptions Activity Logs.\n",
+  "platforms": [
+    "iaas:azure"
+  ],
+  "steps": [
+    {
+      "id": "db9cfe79-99a2-4087-b8fc-ce015e3b0d33",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module -Name Az.Resources\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzAccount -Credential $Credential\n\n$user = Get-AzADUser | where-object {$_.DisplayName -eq \"#{user_principal_name}\" -or $_.UserPrincipalName -eq \"#{user_principal_name}\" }\nif ($user -eq $null) { Write-Warning \"User not found\"; exit }\n$subscription = Get-AzSubscription | where-object {$_.Name -eq \"#{subscription}\"}\nif ($subscription -eq $null) { Write-Warning \"Subscription not found\"; exit }\n$role = Get-AzRoleDefinition | where-object {$_.Name -eq \"#{role_name}\"}\nif ($role -eq $null) { Write-Warning \"Role not found\"; exit }\n\nNew-AzRoleAssignment -ObjectId $user.id -RoleDefinitionId $role.id -Scope /subscriptions/$subscription\nWrite-Host \"User $($user.DisplayName) was added to $($role.Name) role in subscriptions $($subscriptions.Name)\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "73f48028-4feb-47dc-8dfb-ad5393d6912f",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module -Name AzureAD -ErrorAction Ignore\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzAccount -Credential $Credential -ErrorAction Ignore\n\n$user = Get-AzADUser | where-object {$_.DisplayName -eq \"#{user_principal_name}\" -or $_.UserPrincipalName -eq \"#{user_principal_name}\" }\nif ($user -eq $null) { Write-Warning \"User not found\"; exit }\n$subscription = Get-AzSubscription | where-object {$_.Name -eq \"#{subscription}\"}\nif ($subscription -eq $null) { Write-Warning \"Subscription not found\"; exit }\n$role = Get-AzRoleDefinition | where-object {$_.Name -eq \"#{role_name}\"}\nif ($role -eq $null) { Write-Warning \"Role not found\"; exit }\n\nRemove-AzRoleAssignment -ObjectId $user.id -RoleDefinitionId $role.id -Scope /subscriptions/$subscription\nWrite-Host \"User Principal $($sp.DisplayName) was removed from $($role.Name) role in subscriptions $($subscriptions.Name)\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8ded7538-73d7-4e5c-9578-da58f4ed3442",
+      "name": "Check dependency 1/1",
+      "description": "Az.Resources module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {if (Get-InstalledModule -Name Az.Resources -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "886d264b-544e-415f-b4bf-7d1c11beb28a",
+      "name": "Resolve dependency 1/1",
+      "description": "Az.Resources module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name Az.Resources -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d0601443-7004-453a-a8a6-90833f67862b",
+      "name": "Re-check dependency 1/1",
+      "description": "Az.Resources module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {if (Get-InstalledModule -Name Az.Resources -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "db9cfe79-99a2-4087-b8fc-ce015e3b0d33",
+      "p": "on-success",
+      "o": "73f48028-4feb-47dc-8dfb-ad5393d6912f"
+    },
+    {
+      "s": "db9cfe79-99a2-4087-b8fc-ce015e3b0d33",
+      "p": "on-failure",
+      "o": "73f48028-4feb-47dc-8dfb-ad5393d6912f"
+    },
+    {
+      "s": "8ded7538-73d7-4e5c-9578-da58f4ed3442",
+      "p": "on-success",
+      "o": "db9cfe79-99a2-4087-b8fc-ce015e3b0d33"
+    },
+    {
+      "s": "8ded7538-73d7-4e5c-9578-da58f4ed3442",
+      "p": "on-failure",
+      "o": "886d264b-544e-415f-b4bf-7d1c11beb28a"
+    },
+    {
+      "s": "886d264b-544e-415f-b4bf-7d1c11beb28a",
+      "p": "on-success",
+      "o": "d0601443-7004-453a-a8a6-90833f67862b"
+    },
+    {
+      "s": "d0601443-7004-453a-a8a6-90833f67862b",
+      "p": "on-failure",
+      "o": "db9cfe79-99a2-4087-b8fc-ce015e3b0d33"
+    }
+  ],
+  "tags": [
+    "T1098",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Azure AD username",
+      "value": "jonh@contoso.com"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Azure AD password",
+      "value": "p4sswd"
+    },
+    {
+      "name": "user_principal_name",
+      "type": "string",
+      "description": "Display Name, or User Principal Name, of the targeted user principal",
+      "value": "SuperUser"
+    },
+    {
+      "name": "role_name",
+      "type": "string",
+      "description": "Name of the targeted Azure role",
+      "value": "Reader"
+    },
+    {
+      "name": "subscription",
+      "type": "string",
+      "description": "Name of the targeted subscription",
+      "value": "Azure subscription 1"
+    }
+  ]
+}

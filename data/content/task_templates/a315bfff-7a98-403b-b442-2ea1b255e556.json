@@ -1,0 +1,44 @@
+{
+  "id": "a315bfff-7a98-403b-b442-2ea1b255e556",
+  "name": "Masquerading as FreeBSD or Linux crond process.",
+  "description": "Copies sh process, renames it as crond, and executes it to masquerade as the cron daemon.\n\nUpon successful execution, sh is renamed to `crond` and executed.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "4e2c3534-be62-4672-9a39-ef982b3c9b13",
+      "type": "execute-command",
+      "data": {
+        "command": "cp /bin/sh /tmp/crond;\necho 'sleep 5' | /tmp/crond\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f93c5b5a-8960-4679-be85-b0d62e4b1a8a",
+      "type": "execute-command",
+      "data": {
+        "command": "rm /tmp/crond\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4e2c3534-be62-4672-9a39-ef982b3c9b13",
+      "p": "on-success",
+      "o": "f93c5b5a-8960-4679-be85-b0d62e4b1a8a"
+    },
+    {
+      "s": "4e2c3534-be62-4672-9a39-ef982b3c9b13",
+      "p": "on-failure",
+      "o": "f93c5b5a-8960-4679-be85-b0d62e4b1a8a"
+    }
+  ],
+  "tags": [
+    "T1036.003",
+    "atomic-red-team"
+  ]
+}

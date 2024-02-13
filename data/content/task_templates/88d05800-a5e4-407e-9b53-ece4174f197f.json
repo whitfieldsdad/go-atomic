@@ -1,0 +1,44 @@
+{
+  "id": "88d05800-a5e4-407e-9b53-ece4174f197f",
+  "name": "Disable Microsoft Defender Firewall",
+  "description": "Disables the Microsoft Defender Firewall for the current profile.\nCaution if you access remotely the host where the test runs! Especially with the cleanup command which will re-enable firewall for the current profile...\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "8eb6b22c-d4a5-4813-b5a2-1fa818551d0b",
+      "type": "execute-command",
+      "data": {
+        "command": "netsh advfirewall set currentprofile state off\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b797593f-05a9-498a-8232-090f49ee71d0",
+      "type": "execute-command",
+      "data": {
+        "command": "netsh advfirewall set currentprofile state on \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8eb6b22c-d4a5-4813-b5a2-1fa818551d0b",
+      "p": "on-success",
+      "o": "b797593f-05a9-498a-8232-090f49ee71d0"
+    },
+    {
+      "s": "8eb6b22c-d4a5-4813-b5a2-1fa818551d0b",
+      "p": "on-failure",
+      "o": "b797593f-05a9-498a-8232-090f49ee71d0"
+    }
+  ],
+  "tags": [
+    "T1562.004",
+    "atomic-red-team"
+  ]
+}

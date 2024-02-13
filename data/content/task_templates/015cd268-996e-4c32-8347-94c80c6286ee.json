@@ -1,0 +1,23 @@
+{
+  "id": "015cd268-996e-4c32-8347-94c80c6286ee",
+  "name": "Security Software Discovery - AV Discovery via Get-CimInstance and Get-WmiObject cmdlets",
+  "description": "Discovery of installed antivirus products via Get-CimInstance and Get-WmiObject cmdlets of powershell.\n\nwhen sucessfully executed, information about installed AV software is displayed..\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "7c2c8a4d-2aa5-4e61-a4dc-9aa8672c89f5",
+      "type": "execute-command",
+      "data": {
+        "command": "powershell Get-CimInstance -Namespace root/securityCenter2 -classname antivirusproduct\npowershell Get-WmiObject -Namespace root\\securitycenter2 -Class antivirusproduct\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1518.001",
+    "atomic-red-team"
+  ]
+}

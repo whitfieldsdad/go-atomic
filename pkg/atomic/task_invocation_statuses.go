@@ -6,15 +6,19 @@ import (
 	"github.com/google/uuid"
 )
 
-var (
-	Created   = "created"
-	Queued    = "queued"
-	Running   = "running"
-	Success   = "success"
-	Failed    = "failed"
-	Cancelled = "cancelled"
-	Killed    = "killed"
+type TaskStatusType string
+
+const (
+	TaskCreated TaskStatusType = "created"
+	TaskQueued  TaskStatusType = "queued"
+	TaskRunning TaskStatusType = "running"
+	TaskFailed  TaskStatusType = "failed"
+	TaskSuccess TaskStatusType = "success"
 )
+
+func (t TaskStatusType) String() string {
+	return string(t)
+}
 
 type TaskInvocationStatusInterface interface {
 	GetSubtype() string
@@ -31,35 +35,27 @@ type baseTaskInvocationStatus struct {
 }
 
 func (s baseTaskInvocationStatus) IsCreated() bool {
-	return s.Status == Created
+	return s.Status == string(TaskCreated)
 }
 
 func (s baseTaskInvocationStatus) IsQueued() bool {
-	return s.Status == Queued
+	return s.Status == string(TaskQueued)
 }
 
 func (s baseTaskInvocationStatus) IsRunning() bool {
-	return s.Status == Running
+	return s.Status == string(TaskRunning)
 }
 
 func (s baseTaskInvocationStatus) IsFailed() bool {
-	return s.Status == Failed
+	return s.Status == string(TaskFailed)
 }
 
 func (s baseTaskInvocationStatus) IsSuccess() bool {
 	return s.IsSuccess()
 }
 
-func (s baseTaskInvocationStatus) IsCancelled() bool {
-	return s.Status == Cancelled
-}
-
-func (s baseTaskInvocationStatus) IsKilled() bool {
-	return s.Status == Killed
-}
-
 func (s baseTaskInvocationStatus) IsDone() bool {
-	return s.IsSuccess() || s.IsFailed() || s.IsCancelled() || s.IsKilled()
+	return s.IsSuccess() || s.IsFailed()
 }
 
 type TaskInvocationStatus struct {

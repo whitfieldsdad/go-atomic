@@ -1,0 +1,52 @@
+{
+  "id": "1ac3272f-9bcf-443a-9888-4b1d3de785c1",
+  "name": "Provide the SetUID capability to a file",
+  "description": "This test gives a file the capability to set UID without using flags.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "4089c2d7-6902-46c2-9400-d20538017c04",
+      "type": "execute-command",
+      "data": {
+        "command": "touch #{file_to_setcap}\nsudo setcap cap_setuid=ep #{file_to_setcap}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "969f7f71-f239-4840-942e-08c0b6396cfb",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{file_to_setcap}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4089c2d7-6902-46c2-9400-d20538017c04",
+      "p": "on-success",
+      "o": "969f7f71-f239-4840-942e-08c0b6396cfb"
+    },
+    {
+      "s": "4089c2d7-6902-46c2-9400-d20538017c04",
+      "p": "on-failure",
+      "o": "969f7f71-f239-4840-942e-08c0b6396cfb"
+    }
+  ],
+  "tags": [
+    "T1548.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_to_setcap",
+      "type": "path",
+      "description": "Path of file to provide the SetUID capability",
+      "value": "/tmp/evilBinary"
+    }
+  ]
+}

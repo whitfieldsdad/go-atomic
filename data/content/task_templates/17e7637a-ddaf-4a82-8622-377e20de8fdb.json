@@ -1,0 +1,58 @@
+{
+  "id": "17e7637a-ddaf-4a82-8622-377e20de8fdb",
+  "name": "Create ADS command prompt",
+  "description": "Create an Alternate Data Stream with the command prompt. Write access is required. Upon execution, run \"dir /a-d /s /r | find \":$DATA\"\" in the %temp%\nfolder to view that the alternate data stream exists. To view the data in the alternate data stream, run \"notepad T1564.004_has_ads.txt:adstest.txt\"\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "f16ad19c-73f9-4482-99b9-4daa6417c0f5",
+      "type": "execute-command",
+      "data": {
+        "command": "echo cmd /c echo \"Shell code execution.\"\u003e #{file_name}:#{ads_filename}\nfor /f \"usebackq delims=?\" %i in (#{file_name}:#{ads_filename}) do %i\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "cdc12b4c-af87-4430-9471-3568e8d5c5bc",
+      "type": "execute-command",
+      "data": {
+        "command": "del #{file_name} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f16ad19c-73f9-4482-99b9-4daa6417c0f5",
+      "p": "on-success",
+      "o": "cdc12b4c-af87-4430-9471-3568e8d5c5bc"
+    },
+    {
+      "s": "f16ad19c-73f9-4482-99b9-4daa6417c0f5",
+      "p": "on-failure",
+      "o": "cdc12b4c-af87-4430-9471-3568e8d5c5bc"
+    }
+  ],
+  "tags": [
+    "T1564.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_name",
+      "type": "string",
+      "description": "File name of file to create ADS on.",
+      "value": "%temp%\\T1564.004_has_ads_cmd.txt"
+    },
+    {
+      "name": "ads_filename",
+      "type": "string",
+      "description": "Name of ADS.",
+      "value": "adstest.txt"
+    }
+  ]
+}

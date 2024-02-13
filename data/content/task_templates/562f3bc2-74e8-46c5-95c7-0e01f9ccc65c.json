@@ -1,0 +1,105 @@
+{
+  "id": "562f3bc2-74e8-46c5-95c7-0e01f9ccc65c",
+  "name": "X Windows Capture (freebsd)",
+  "description": "Use xwd command to collect a full desktop screenshot and review file with xwud\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "02057fb0-1259-44d0-8ce5-bb4fad83c5b3",
+      "type": "execute-command",
+      "data": {
+        "command": "xwd -root -out #{output_file}\nxwud -in #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3528cf8c-ce8e-4cb4-814c-b72d24ca0886",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fb81815f-88ab-447f-9369-27dd4ab94eed",
+      "name": "Check dependency 1/1",
+      "description": "Package with XWD and XWUD must exist on device\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v xwd)\" ]; then exit 0; else exit 1; fi\nif [ -x \"$(command -v xwud)\" ]; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "32b3b936-d8d5-49c5-b9f5-c020ccff6911",
+      "name": "Resolve dependency 1/1",
+      "description": "Package with XWD and XWUD must exist on device\n",
+      "type": "execute-command",
+      "data": {
+        "command": "pkg install -y xwd xwud \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "436e3155-bb3b-4bba-824a-265947138122",
+      "name": "Re-check dependency 1/1",
+      "description": "Package with XWD and XWUD must exist on device\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v xwd)\" ]; then exit 0; else exit 1; fi\nif [ -x \"$(command -v xwud)\" ]; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "02057fb0-1259-44d0-8ce5-bb4fad83c5b3",
+      "p": "on-success",
+      "o": "3528cf8c-ce8e-4cb4-814c-b72d24ca0886"
+    },
+    {
+      "s": "02057fb0-1259-44d0-8ce5-bb4fad83c5b3",
+      "p": "on-failure",
+      "o": "3528cf8c-ce8e-4cb4-814c-b72d24ca0886"
+    },
+    {
+      "s": "fb81815f-88ab-447f-9369-27dd4ab94eed",
+      "p": "on-success",
+      "o": "02057fb0-1259-44d0-8ce5-bb4fad83c5b3"
+    },
+    {
+      "s": "fb81815f-88ab-447f-9369-27dd4ab94eed",
+      "p": "on-failure",
+      "o": "32b3b936-d8d5-49c5-b9f5-c020ccff6911"
+    },
+    {
+      "s": "32b3b936-d8d5-49c5-b9f5-c020ccff6911",
+      "p": "on-success",
+      "o": "436e3155-bb3b-4bba-824a-265947138122"
+    },
+    {
+      "s": "436e3155-bb3b-4bba-824a-265947138122",
+      "p": "on-failure",
+      "o": "02057fb0-1259-44d0-8ce5-bb4fad83c5b3"
+    }
+  ],
+  "tags": [
+    "T1113",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Output file path",
+      "value": "/tmp/T1113_desktop.xwd"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "id": "562d737f-2fc6-4b09-8c2a-7f8ff0828480",
+  "name": "Delete a single file - FreeBSD/Linux/macOS",
+  "description": "Delete a single file from the temporary directory\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "6472a8e0-85e3-4c4e-9c04-ae8b30e5c2c2",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{file_to_delete}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a6ab2e1b-c78f-4a4e-9df1-8f5de523984c",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -rf #{parent_folder}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e2a6b8ab-fc71-4934-8c09-74de9a0e38b6",
+      "name": "Check dependency 1/1",
+      "description": "The file must exist in order to be deleted\n",
+      "type": "execute-command",
+      "data": {
+        "command": "test -e #{file_to_delete} \u0026\u0026 exit 0 || exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a70366bd-d210-4475-88ff-f447e1c53e5f",
+      "name": "Resolve dependency 1/1",
+      "description": "The file must exist in order to be deleted\n",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir -p #{parent_folder} \u0026\u0026 touch #{file_to_delete}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a91afe7d-b1aa-4121-9eda-96a0497fea04",
+      "name": "Re-check dependency 1/1",
+      "description": "The file must exist in order to be deleted\n",
+      "type": "execute-command",
+      "data": {
+        "command": "test -e #{file_to_delete} \u0026\u0026 exit 0 || exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "6472a8e0-85e3-4c4e-9c04-ae8b30e5c2c2",
+      "p": "on-success",
+      "o": "a6ab2e1b-c78f-4a4e-9df1-8f5de523984c"
+    },
+    {
+      "s": "6472a8e0-85e3-4c4e-9c04-ae8b30e5c2c2",
+      "p": "on-failure",
+      "o": "a6ab2e1b-c78f-4a4e-9df1-8f5de523984c"
+    },
+    {
+      "s": "e2a6b8ab-fc71-4934-8c09-74de9a0e38b6",
+      "p": "on-success",
+      "o": "6472a8e0-85e3-4c4e-9c04-ae8b30e5c2c2"
+    },
+    {
+      "s": "e2a6b8ab-fc71-4934-8c09-74de9a0e38b6",
+      "p": "on-failure",
+      "o": "a70366bd-d210-4475-88ff-f447e1c53e5f"
+    },
+    {
+      "s": "a70366bd-d210-4475-88ff-f447e1c53e5f",
+      "p": "on-success",
+      "o": "a91afe7d-b1aa-4121-9eda-96a0497fea04"
+    },
+    {
+      "s": "a91afe7d-b1aa-4121-9eda-96a0497fea04",
+      "p": "on-failure",
+      "o": "6472a8e0-85e3-4c4e-9c04-ae8b30e5c2c2"
+    }
+  ],
+  "tags": [
+    "T1070.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "parent_folder",
+      "type": "path",
+      "description": "Path of parent folder",
+      "value": "/tmp/victim-files/"
+    },
+    {
+      "name": "file_to_delete",
+      "type": "path",
+      "description": "Path of file to delete",
+      "value": "/tmp/victim-files/T1070.004-test.txt"
+    }
+  ]
+}

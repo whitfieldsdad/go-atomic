@@ -1,0 +1,44 @@
+{
+  "id": "19c07a45-452d-4620-90ed-4c34fffbe758",
+  "name": "Disable .NET Event Tracing for Windows Via Registry (powershell)",
+  "description": "Disables ETW for the .NET Framework using PowerShell to update the Windows registry",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ce49cd2d-10d9-4db5-a4c3-e84f8ebf24b5",
+      "type": "execute-command",
+      "data": {
+        "command": "New-ItemProperty -Path HKLM:\\Software\\Microsoft\\.NETFramework -Name ETWEnabled -Value 0 -PropertyType \"DWord\" -Force",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "212cd36d-1099-4da3-a1ac-f151b22db1d0",
+      "type": "execute-command",
+      "data": {
+        "command": "REG DELETE HKLM\\Software\\Microsoft\\.NETFramework /v ETWEnabled /f \u003e $null 2\u003e\u00261",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ce49cd2d-10d9-4db5-a4c3-e84f8ebf24b5",
+      "p": "on-success",
+      "o": "212cd36d-1099-4da3-a1ac-f151b22db1d0"
+    },
+    {
+      "s": "ce49cd2d-10d9-4db5-a4c3-e84f8ebf24b5",
+      "p": "on-failure",
+      "o": "212cd36d-1099-4da3-a1ac-f151b22db1d0"
+    }
+  ],
+  "tags": [
+    "T1562.006",
+    "atomic-red-team"
+  ]
+}

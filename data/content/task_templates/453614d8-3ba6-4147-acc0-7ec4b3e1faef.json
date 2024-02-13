@@ -1,0 +1,86 @@
+{
+  "id": "453614d8-3ba6-4147-acc0-7ec4b3e1faef",
+  "name": "Dynamic C# Compile",
+  "description": "When C# is compiled dynamically, a .cmdline file will be created as a part of the process. \nCertain processes are not typically observed compiling C# code, but can do so without touching disk. This can be used to unpack a payload for execution.\nThe exe file that will be executed is named as T1027.004_DynamicCompile.exe is contained in the 'bin' folder of this atomic, and the source code to the file is in the 'src' folder.\nUpon execution, the exe will print 'T1027.004 Dynamic Compile'.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "cb28828f-3ade-47cb-afd8-d0a13f1abff0",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-Expression \"#{input_file}\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c1514e2c-a9d6-4456-bbcf-8bcb4f4d134f",
+      "name": "Check dependency 1/1",
+      "description": "exe file must exist on disk at specified location (#{input_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{input_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e19f9c08-8ced-45d2-9254-2b6c24a0a2b5",
+      "name": "Resolve dependency 1/1",
+      "description": "exe file must exist on disk at specified location (#{input_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1027.004/bin/T1027.004_DynamicCompile.exe -OutFile \"#{input_file}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9c528f7a-c87d-4db2-9064-dda6f7db5a83",
+      "name": "Re-check dependency 1/1",
+      "description": "exe file must exist on disk at specified location (#{input_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{input_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c1514e2c-a9d6-4456-bbcf-8bcb4f4d134f",
+      "p": "on-success",
+      "o": "cb28828f-3ade-47cb-afd8-d0a13f1abff0"
+    },
+    {
+      "s": "c1514e2c-a9d6-4456-bbcf-8bcb4f4d134f",
+      "p": "on-failure",
+      "o": "e19f9c08-8ced-45d2-9254-2b6c24a0a2b5"
+    },
+    {
+      "s": "e19f9c08-8ced-45d2-9254-2b6c24a0a2b5",
+      "p": "on-success",
+      "o": "9c528f7a-c87d-4db2-9064-dda6f7db5a83"
+    },
+    {
+      "s": "9c528f7a-c87d-4db2-9064-dda6f7db5a83",
+      "p": "on-failure",
+      "o": "cb28828f-3ade-47cb-afd8-d0a13f1abff0"
+    }
+  ],
+  "tags": [
+    "T1027.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "input_file",
+      "type": "path",
+      "description": "exe program containing dynamically compiled C# code",
+      "value": "PathToAtomicsFolder\\T1027.004\\bin\\T1027.004_DynamicCompile.exe"
+    }
+  ]
+}

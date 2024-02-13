@@ -1,6 +1,7 @@
 package atomic
 
 import (
+	"fmt"
 	"os"
 
 	"gopkg.in/yaml.v3"
@@ -59,32 +60,72 @@ func (t AtomicRedTeamTest) GetTaskTemplate() (*TaskTemplate, error) {
 		args = append(args, arg)
 	}
 
-	var steps []Step
+	tags := []string{
+		t.AttackTechniqueId,
+		"atomic-red-team",
+	}
+	steps := make([]Step, 0)
+	flows := make([]Flow, 0)
+
+	// Create the test and cleanup steps.
 	testStep, err := NewExecuteCommandStep(t.Executor.Command, t.Executor.Name)
 	if err != nil {
 		return nil, err
 	}
 	steps = append(steps, *testStep)
 
-	// Always execute cleanup commands.
 	if t.Executor.CleanupCommand != "" {
 		cleanupStep, err := NewExecuteCommandStep(t.Executor.CleanupCommand, t.Executor.Name)
 		if err != nil {
 			return nil, err
 		}
+		flows = append(flows, NewFlow(testStep.Id, FlowTypeOnSuccess, cleanupStep.Id))
+		flows = append(flows, NewFlow(testStep.Id, FlowTypeOnFailure, cleanupStep.Id))
 		steps = append(steps, *cleanupStep)
 	}
 
+	// Check, resolve, and re-check any dependencies before running the test or cleanup commands.
+	n := len(t.Dependencies)
+	if n > 0 {
+		for i, d := range t.Dependencies {
+			a, err := NewExecuteCommandStep(d.PrereqCommand, d.ExecutorName)
+			if err != nil {
+				return nil, err
+			}
+			a.Name = fmt.Sprintf("Check dependency %d/%d", i+1, n)
+			a.Description = d.Description
+
+			b, err := NewExecuteCommandStep(d.GetPrereqCommand, d.ExecutorName)
+			if err != nil {
+				return nil, err
+			}
+			b.Name = fmt.Sprintf("Resolve dependency %d/%d", i+1, n)
+			b.Description = d.Description
+
+			c, err := NewExecuteCommandStep(d.PrereqCommand, d.ExecutorName)
+			if err != nil {
+				return nil, err
+			}
+			c.Name = fmt.Sprintf("Re-check dependency %d/%d", i+1, n)
+			c.Description = d.Description
+
+			steps = append(steps, *a, *b, *c)
+			flows = append(flows, NewFlow(a.Id, FlowTypeOnSuccess, testStep.Id))
+			flows = append(flows, NewFlow(a.Id, FlowTypeOnFailure, b.Id))
+			flows = append(flows, NewFlow(b.Id, FlowTypeOnSuccess, c.Id))
+			flows = append(flows, NewFlow(c.Id, FlowTypeOnFailure, testStep.Id))
+		}
+	}
+
 	task := &TaskTemplate{
-		TaskMetadata: TaskMetadata{
-			Id:                t.Id,
-			Name:              t.Name,
-			Description:       t.Description,
-			Platforms:         t.Platforms,
-			ElevationRequired: t.Executor.ElevationRequired,
-			Tags:              []string{t.AttackTechniqueId},
-			Steps:             steps,
-		},
+		Id:             t.Id,
+		Name:           t.Name,
+		Description:    t.Description,
+		Platforms:      t.Platforms,
+		Steps:          steps,
+		Flows:          flows,
+		Tags:           tags,
+		InputArguments: args,
 	}
 	return task, nil
 }

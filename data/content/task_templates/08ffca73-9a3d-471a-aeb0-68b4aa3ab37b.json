@@ -1,0 +1,98 @@
+{
+  "id": "08ffca73-9a3d-471a-aeb0-68b4aa3ab37b",
+  "name": "Regsvr32 local DLL execution",
+  "description": "Regsvr32.exe is a command-line program used to register and unregister OLE controls. Upon execution, calc.exe will be launched.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ee6fae82-4a57-4ec7-88ff-fa8c59b813a2",
+      "type": "execute-command",
+      "data": {
+        "command": "IF \"%PROCESSOR_ARCHITECTURE%\"==\"AMD64\" (C:\\Windows\\syswow64\\regsvr32.exe /s #{dll_name}) ELSE ( #{regsvr32path}\\#{regsvr32name} /s #{dll_name} )\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "66dc9433-03b0-4d64-9e5a-0b8d460a62cc",
+      "name": "Check dependency 1/1",
+      "description": "AllTheThingsx86.dll must exist on disk at specified location (#{dll_name})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dll_name}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ea6e4d23-b9fe-4543-aadc-2d9f6d461cc7",
+      "name": "Resolve dependency 1/1",
+      "description": "AllTheThingsx86.dll must exist on disk at specified location (#{dll_name})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{dll_name}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.010/bin/AllTheThingsx86.dll\" -OutFile \"#{dll_name}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5dd65648-56c2-474a-9365-3405ecdbbb96",
+      "name": "Re-check dependency 1/1",
+      "description": "AllTheThingsx86.dll must exist on disk at specified location (#{dll_name})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dll_name}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "66dc9433-03b0-4d64-9e5a-0b8d460a62cc",
+      "p": "on-success",
+      "o": "ee6fae82-4a57-4ec7-88ff-fa8c59b813a2"
+    },
+    {
+      "s": "66dc9433-03b0-4d64-9e5a-0b8d460a62cc",
+      "p": "on-failure",
+      "o": "ea6e4d23-b9fe-4543-aadc-2d9f6d461cc7"
+    },
+    {
+      "s": "ea6e4d23-b9fe-4543-aadc-2d9f6d461cc7",
+      "p": "on-success",
+      "o": "5dd65648-56c2-474a-9365-3405ecdbbb96"
+    },
+    {
+      "s": "5dd65648-56c2-474a-9365-3405ecdbbb96",
+      "p": "on-failure",
+      "o": "ee6fae82-4a57-4ec7-88ff-fa8c59b813a2"
+    }
+  ],
+  "tags": [
+    "T1218.010",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "regsvr32path",
+      "type": "path",
+      "description": "Default location of Regsvr32.exe",
+      "value": "C:\\Windows\\system32"
+    },
+    {
+      "name": "regsvr32name",
+      "type": "string",
+      "description": "Default name of Regsvr32.exe",
+      "value": "regsvr32.exe"
+    },
+    {
+      "name": "dll_name",
+      "type": "path",
+      "description": "Name of DLL to Execute, DLL Should export DllRegisterServer",
+      "value": "PathToAtomicsFolder\\T1218.010\\bin\\AllTheThingsx86.dll"
+    }
+  ]
+}

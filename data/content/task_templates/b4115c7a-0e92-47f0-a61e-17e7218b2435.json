@@ -1,0 +1,44 @@
+{
+  "id": "b4115c7a-0e92-47f0-a61e-17e7218b2435",
+  "name": "Indicator Removal using FSUtil",
+  "description": "Manages the update sequence number (USN) change journal, which provides a persistent log of all changes made to files on the volume. Upon execution, no output\nwill be displayed. More information about fsutil can be found at https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-usn\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "120ccb47-9471-4f5c-b165-195221c74ece",
+      "type": "execute-command",
+      "data": {
+        "command": "fsutil usn deletejournal /D C:\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "310aca73-96be-4733-9fc1-578e4635cb7f",
+      "type": "execute-command",
+      "data": {
+        "command": "fsutil usn createjournal m=1000 a=100 c:\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "120ccb47-9471-4f5c-b165-195221c74ece",
+      "p": "on-success",
+      "o": "310aca73-96be-4733-9fc1-578e4635cb7f"
+    },
+    {
+      "s": "120ccb47-9471-4f5c-b165-195221c74ece",
+      "p": "on-failure",
+      "o": "310aca73-96be-4733-9fc1-578e4635cb7f"
+    }
+  ],
+  "tags": [
+    "T1070",
+    "atomic-red-team"
+  ]
+}

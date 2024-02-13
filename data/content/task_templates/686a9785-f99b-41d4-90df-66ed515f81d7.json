@@ -1,0 +1,92 @@
+{
+  "id": "686a9785-f99b-41d4-90df-66ed515f81d7",
+  "name": "ATHPowerShellCommandLineParameter -Command parameter variations",
+  "description": "Executes powershell.exe with variations of the -Command parameter",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "36fa8b9e-7fea-4977-998d-e856c198e35b",
+      "type": "execute-command",
+      "data": {
+        "command": "Out-ATHPowerShellCommandLineParameter -CommandLineSwitchType #{command_line_switch_type} -CommandParamVariation #{command_param_variation} -Execute -ErrorAction Stop",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fd9b49fa-6ef1-4a57-9412-2ffe5da1c55e",
+      "name": "Check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Out-ATHPowerShellCommandLineParameter']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0d68f4a4-6710-41f9-bfa4-4e502e4801db",
+      "name": "Resolve dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6f3d3216-6a21-4ea5-b162-bf75696dbb2b",
+      "name": "Re-check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Out-ATHPowerShellCommandLineParameter']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "fd9b49fa-6ef1-4a57-9412-2ffe5da1c55e",
+      "p": "on-success",
+      "o": "36fa8b9e-7fea-4977-998d-e856c198e35b"
+    },
+    {
+      "s": "fd9b49fa-6ef1-4a57-9412-2ffe5da1c55e",
+      "p": "on-failure",
+      "o": "0d68f4a4-6710-41f9-bfa4-4e502e4801db"
+    },
+    {
+      "s": "0d68f4a4-6710-41f9-bfa4-4e502e4801db",
+      "p": "on-success",
+      "o": "6f3d3216-6a21-4ea5-b162-bf75696dbb2b"
+    },
+    {
+      "s": "6f3d3216-6a21-4ea5-b162-bf75696dbb2b",
+      "p": "on-failure",
+      "o": "36fa8b9e-7fea-4977-998d-e856c198e35b"
+    }
+  ],
+  "tags": [
+    "T1059.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "command_line_switch_type",
+      "type": "string",
+      "description": "The type of supported command-line switch to use",
+      "value": "Hyphen"
+    },
+    {
+      "name": "command_param_variation",
+      "type": "string",
+      "description": "The \"Command\" parameter variation to use",
+      "value": "C"
+    }
+  ]
+}

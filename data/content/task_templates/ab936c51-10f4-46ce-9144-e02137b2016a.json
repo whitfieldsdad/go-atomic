@@ -1,0 +1,112 @@
+{
+  "id": "ab936c51-10f4-46ce-9144-e02137b2016a",
+  "name": "Data Transfer Size Limits",
+  "description": "Take a file/directory, split it into 5Mb chunks\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "d87f1ba6-a474-4da2-93bc-48fb976d7dc4",
+      "type": "execute-command",
+      "data": {
+        "command": "cd #{folder_path}; split -b 5000000 #{file_name}\nls -l #{folder_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "aff6f46c-9f2d-4a4d-9872-51f0430bcf53",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f #{folder_path}/safe_to_delete ]; then rm -rf #{folder_path}; fi;\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "197f244c-828a-4c9a-8204-cd250fd321ac",
+      "name": "Check dependency 1/1",
+      "description": "The file must exist for the test to run.",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -f #{folder_path}/#{file_name} ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "59bb5113-3636-499a-91bc-05fa90ecff7d",
+      "name": "Resolve dependency 1/1",
+      "description": "The file must exist for the test to run.",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -d #{folder_path} ]; then mkdir -p #{folder_path}; touch #{folder_path}/safe_to_delete; fi; dd if=/dev/urandom of=#{folder_path}/#{file_name} bs=25000000 count=1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4712aa04-a7ce-4279-8157-ab347949ac06",
+      "name": "Re-check dependency 1/1",
+      "description": "The file must exist for the test to run.",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -f #{folder_path}/#{file_name} ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d87f1ba6-a474-4da2-93bc-48fb976d7dc4",
+      "p": "on-success",
+      "o": "aff6f46c-9f2d-4a4d-9872-51f0430bcf53"
+    },
+    {
+      "s": "d87f1ba6-a474-4da2-93bc-48fb976d7dc4",
+      "p": "on-failure",
+      "o": "aff6f46c-9f2d-4a4d-9872-51f0430bcf53"
+    },
+    {
+      "s": "197f244c-828a-4c9a-8204-cd250fd321ac",
+      "p": "on-success",
+      "o": "d87f1ba6-a474-4da2-93bc-48fb976d7dc4"
+    },
+    {
+      "s": "197f244c-828a-4c9a-8204-cd250fd321ac",
+      "p": "on-failure",
+      "o": "59bb5113-3636-499a-91bc-05fa90ecff7d"
+    },
+    {
+      "s": "59bb5113-3636-499a-91bc-05fa90ecff7d",
+      "p": "on-success",
+      "o": "4712aa04-a7ce-4279-8157-ab347949ac06"
+    },
+    {
+      "s": "4712aa04-a7ce-4279-8157-ab347949ac06",
+      "p": "on-failure",
+      "o": "d87f1ba6-a474-4da2-93bc-48fb976d7dc4"
+    }
+  ],
+  "tags": [
+    "T1030",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_name",
+      "type": "path",
+      "description": "File name",
+      "value": "T1030_urandom"
+    },
+    {
+      "name": "folder_path",
+      "type": "path",
+      "description": "Path where the test creates artifacts",
+      "value": "/tmp/T1030"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "id": "4ff64f0b-aaf2-4866-b39d-38d9791407cc",
+  "name": "Process Discovery - ps",
+  "description": "Utilize ps to identify processes.\n\nUpon successful execution, sh will execute ps and output to /tmp/loot.txt.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "4bc9c1a3-b4b1-4f7d-8e3f-b0731f674edf",
+      "type": "execute-command",
+      "data": {
+        "command": "ps \u003e\u003e #{output_file}\nps aux \u003e\u003e #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c0914e9e-23d8-4d31-a7d4-3423b2ae8123",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4bc9c1a3-b4b1-4f7d-8e3f-b0731f674edf",
+      "p": "on-success",
+      "o": "c0914e9e-23d8-4d31-a7d4-3423b2ae8123"
+    },
+    {
+      "s": "4bc9c1a3-b4b1-4f7d-8e3f-b0731f674edf",
+      "p": "on-failure",
+      "o": "c0914e9e-23d8-4d31-a7d4-3423b2ae8123"
+    }
+  ],
+  "tags": [
+    "T1057",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "path of output file",
+      "value": "/tmp/loot.txt"
+    }
+  ]
+}

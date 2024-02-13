@@ -1,0 +1,23 @@
+{
+  "id": "9f4e344b-8434-41b3-85b1-d38f29d148d0",
+  "name": "Enumerate Active Directory Groups with ADSISearcher",
+  "description": "The following Atomic test will utilize ADSISearcher to enumerate groups within Active Directory.\nUpon successful execution a listing of groups will output with their paths in AD.\nReference: https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "bbf0c247-570f-441e-bda9-fbaf2fae4c52",
+      "type": "execute-command",
+      "data": {
+        "command": "([adsisearcher]\"objectcategory=group\").FindAll(); ([adsisearcher]\"objectcategory=group\").FindOne()\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1069.002",
+    "atomic-red-team"
+  ]
+}

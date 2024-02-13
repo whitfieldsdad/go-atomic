@@ -1,0 +1,53 @@
+{
+  "id": "812c3ab8-94b0-4698-a9bf-9420af23ce24",
+  "name": "Execute a process from a directory masquerading as the current parent directory.",
+  "description": "Create and execute a process from a directory masquerading as the current parent directory (`...` instead of normal `..`)\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "bb83c5a3-db7c-4943-bb79-7854e1eda245",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir $HOME/...\ncp $(which sh) $HOME/...\n$HOME/.../sh -c \"echo #{test_message}\"\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fdb3778f-5160-4099-8770-cc6f1474f148",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f $HOME/.../sh\nrmdir $HOME/.../\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "bb83c5a3-db7c-4943-bb79-7854e1eda245",
+      "p": "on-success",
+      "o": "fdb3778f-5160-4099-8770-cc6f1474f148"
+    },
+    {
+      "s": "bb83c5a3-db7c-4943-bb79-7854e1eda245",
+      "p": "on-failure",
+      "o": "fdb3778f-5160-4099-8770-cc6f1474f148"
+    }
+  ],
+  "tags": [
+    "T1036.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "test_message",
+      "type": "string",
+      "description": "Test message to echo out to the screen",
+      "value": "Hello from the Atomic Red Team test T1036.005#1"
+    }
+  ]
+}

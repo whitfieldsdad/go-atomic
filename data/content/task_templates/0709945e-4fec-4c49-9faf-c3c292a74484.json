@@ -1,0 +1,86 @@
+{
+  "id": "0709945e-4fec-4c49-9faf-c3c292a74484",
+  "name": "JScript execution to gather local computer information via wscript",
+  "description": "JScript execution test, execute JScript via wscript command. When successful, system information will be shown with four message boxes.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c348e25d-2a87-4cdc-8709-771edf3cdfa1",
+      "type": "execute-command",
+      "data": {
+        "command": "wscript \"#{jscript}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3bd2a619-8e71-40b3-8422-5fd3978a4978",
+      "name": "Check dependency 1/1",
+      "description": "Sample script must exist on disk at specified location (#{jscript})",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{jscript}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1db3a5e8-71a1-490e-a470-623e282c5c81",
+      "name": "Resolve dependency 1/1",
+      "description": "Sample script must exist on disk at specified location (#{jscript})",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -ItemType Directory (Split-Path \"#{jscript}\") -Force | Out-Null\nInvoke-WebRequest \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1059.007/src/sys_info.js\" -OutFile \"#{jscript}\"",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "be0b2a5e-01a4-4877-b88b-1488ca884a50",
+      "name": "Re-check dependency 1/1",
+      "description": "Sample script must exist on disk at specified location (#{jscript})",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{jscript}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3bd2a619-8e71-40b3-8422-5fd3978a4978",
+      "p": "on-success",
+      "o": "c348e25d-2a87-4cdc-8709-771edf3cdfa1"
+    },
+    {
+      "s": "3bd2a619-8e71-40b3-8422-5fd3978a4978",
+      "p": "on-failure",
+      "o": "1db3a5e8-71a1-490e-a470-623e282c5c81"
+    },
+    {
+      "s": "1db3a5e8-71a1-490e-a470-623e282c5c81",
+      "p": "on-success",
+      "o": "be0b2a5e-01a4-4877-b88b-1488ca884a50"
+    },
+    {
+      "s": "be0b2a5e-01a4-4877-b88b-1488ca884a50",
+      "p": "on-failure",
+      "o": "c348e25d-2a87-4cdc-8709-771edf3cdfa1"
+    }
+  ],
+  "tags": [
+    "T1059.007",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "jscript",
+      "type": "string",
+      "description": "Path to sample script",
+      "value": "PathToAtomicsFolder\\T1059.007\\src\\sys_info.js"
+    }
+  ]
+}

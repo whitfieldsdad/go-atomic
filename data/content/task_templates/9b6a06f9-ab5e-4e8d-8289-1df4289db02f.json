@@ -1,0 +1,44 @@
+{
+  "id": "9b6a06f9-ab5e-4e8d-8289-1df4289db02f",
+  "name": "Registry key creation and/or modification events for SDB",
+  "description": "Create registry keys in locations where fin7 typically places SDB patches. Upon execution, output will be displayed describing\nthe registry keys that were created. These keys can also be viewed using the Registry Editor.\n\nhttps://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "2b935321-22b2-4912-be1e-ebfbfccebde4",
+      "type": "execute-command",
+      "data": {
+        "command": "New-ItemProperty -Path HKLM:\"\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Custom\" -Name \"AtomicRedTeamT1546.011\" -Value \"AtomicRedTeamT1546.011\"\nNew-ItemProperty -Path HKLM:\"\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\InstalledSDB\" -Name \"AtomicRedTeamT1546.011\" -Value \"AtomicRedTeamT1546.011\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "23f7cda3-c784-4daa-a5bd-b6cfdb41351d",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-ItemProperty -Path HKLM:\"\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Custom\" -Name \"AtomicRedTeamT1546.011\" -ErrorAction Ignore\nRemove-ItemProperty -Path HKLM:\"\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\InstalledSDB\" -Name \"AtomicRedTeamT1546.011\" -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "2b935321-22b2-4912-be1e-ebfbfccebde4",
+      "p": "on-success",
+      "o": "23f7cda3-c784-4daa-a5bd-b6cfdb41351d"
+    },
+    {
+      "s": "2b935321-22b2-4912-be1e-ebfbfccebde4",
+      "p": "on-failure",
+      "o": "23f7cda3-c784-4daa-a5bd-b6cfdb41351d"
+    }
+  ],
+  "tags": [
+    "T1546.011",
+    "atomic-red-team"
+  ]
+}

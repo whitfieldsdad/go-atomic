@@ -1,0 +1,44 @@
+{
+  "id": "b51eae65-5441-4789-b8e8-64783c26c1d1",
+  "name": "LockBit Black - Modify Group policy settings -Powershell",
+  "description": "An adversary modifies group policy settings\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "3ad62df0-8621-4170-94f3-0558a1f75dea",
+      "type": "execute-command",
+      "data": {
+        "command": "New-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name GroupPolicyRefreshTimeDC -PropertyType DWord -Value 0 -Force\nNew-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name GroupPolicyRefreshTimeOffsetDC -PropertyType DWord -Value 0 -Force\nNew-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name GroupPolicyRefreshTime -PropertyType DWord -Value 0 -Force\nNew-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name GroupPolicyRefreshTimeOffset -PropertyType DWord -Value 0 -Force\nNew-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name EnableSmartScreen -PropertyType DWord -Value 0 -Force\nNew-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name ShellSmartScreenLevel -Force\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "53dbe8f6-76d9-4a38-a086-947c64c05780",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name GroupPolicyRefreshTimeDC -Force -ErrorAction Ignore\nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name GroupPolicyRefreshTimeOffsetDC -Force -ErrorAction Ignore \nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name GroupPolicyRefreshTime -Force -ErrorAction Ignore\nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name GroupPolicyRefreshTimeOffset -Force -ErrorAction Ignore\nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name EnableSmartScreen -Force -ErrorAction Ignore\nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name ShellSmartScreenLevel -Force -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3ad62df0-8621-4170-94f3-0558a1f75dea",
+      "p": "on-success",
+      "o": "53dbe8f6-76d9-4a38-a086-947c64c05780"
+    },
+    {
+      "s": "3ad62df0-8621-4170-94f3-0558a1f75dea",
+      "p": "on-failure",
+      "o": "53dbe8f6-76d9-4a38-a086-947c64c05780"
+    }
+  ],
+  "tags": [
+    "T1484.001",
+    "atomic-red-team"
+  ]
+}

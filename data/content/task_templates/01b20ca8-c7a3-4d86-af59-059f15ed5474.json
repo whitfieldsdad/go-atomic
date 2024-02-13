@@ -1,0 +1,44 @@
+{
+  "id": "01b20ca8-c7a3-4d86-af59-059f15ed5474",
+  "name": "Disable Windows OS Auto Update",
+  "description": "Disable Auto Update Windows OS feature. Redline is using this as part of its defense evasion.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "a295306a-cc6d-4c92-9e6f-b42c7bffde02",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\" /v \"NoAutoUpdate\" /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d2c0a969-d643-43ca-b6c6-680e731ef64d",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\" /v \"NoAutoUpdate\" /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a295306a-cc6d-4c92-9e6f-b42c7bffde02",
+      "p": "on-success",
+      "o": "d2c0a969-d643-43ca-b6c6-680e731ef64d"
+    },
+    {
+      "s": "a295306a-cc6d-4c92-9e6f-b42c7bffde02",
+      "p": "on-failure",
+      "o": "d2c0a969-d643-43ca-b6c6-680e731ef64d"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

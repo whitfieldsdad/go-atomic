@@ -1,0 +1,44 @@
+{
+  "id": "1d0d9aa6-6111-4f89-927b-53e8afae7f94",
+  "name": "Set Custom AddToHistoryHandler to Avoid History File Logging",
+  "description": "The \"AddToHistoryHandler\" receives the current command as the $line variable and then returns $true if \nthe line should be written to the history file. Here we simply return $false so nothing gets added to \nthe history file for the current session. \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "0cd4567a-923d-4128-85ca-3019a001ce94",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-PSReadLineOption -AddToHistoryHandler { return $false }\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "cc7c973f-de22-41dc-92ac-898552731fb1",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-PSReadLineOption -AddToHistoryHandler $null\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0cd4567a-923d-4128-85ca-3019a001ce94",
+      "p": "on-success",
+      "o": "cc7c973f-de22-41dc-92ac-898552731fb1"
+    },
+    {
+      "s": "0cd4567a-923d-4128-85ca-3019a001ce94",
+      "p": "on-failure",
+      "o": "cc7c973f-de22-41dc-92ac-898552731fb1"
+    }
+  ],
+  "tags": [
+    "T1070.003",
+    "atomic-red-team"
+  ]
+}

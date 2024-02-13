@@ -1,0 +1,44 @@
+{
+  "id": "71db768a-5a9c-4047-b5e7-59e01f188e84",
+  "name": "DisallowRun Execution Of Certain Applications",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to prevent user running specific computer programs that could aid them in manually removing malware or detecting it \nusing security product.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "cd4890b9-096a-4ceb-94f2-c0d829224ff3",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer /v DisallowRun /t REG_DWORD /d 1 /f\nreg add HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\DisallowRun /f /t REG_SZ /v art1 /d \"regedit.exe\"\nreg add HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\DisallowRun /f /t REG_SZ /v art2 /d \"cmd.exe\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b9996ef9-723b-4b1d-9382-1d42915db8b3",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer /v DisallowRun /f \u003enul 2\u003e\u00261\nreg delete HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\DisallowRun /v art1 /f \u003enul 2\u003e\u00261\nreg delete HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\DisallowRun /v art2 /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "cd4890b9-096a-4ceb-94f2-c0d829224ff3",
+      "p": "on-success",
+      "o": "b9996ef9-723b-4b1d-9382-1d42915db8b3"
+    },
+    {
+      "s": "cd4890b9-096a-4ceb-94f2-c0d829224ff3",
+      "p": "on-failure",
+      "o": "b9996ef9-723b-4b1d-9382-1d42915db8b3"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

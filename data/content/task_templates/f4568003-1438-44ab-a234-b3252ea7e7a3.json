@@ -1,0 +1,58 @@
+{
+  "id": "f4568003-1438-44ab-a234-b3252ea7e7a3",
+  "name": "Install root CA on FreeBSD",
+  "description": "Creates a root CA with openssl\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "fb64bb59-1b7b-42a1-b30f-615cd634b630",
+      "type": "execute-command",
+      "data": {
+        "command": "openssl genrsa -out #{key_filename} 4096\nopenssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj \"/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com\" -out #{cert_filename}\ncp #{cert_filename} /usr/local/share/certs/\ncertctl rehash\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "01fd2774-9d7d-4838-bd07-ab965bc53534",
+      "type": "execute-command",
+      "data": {
+        "command": "rm /usr/local/share/certs/#{cert_filename}\ncertctl rehash\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "fb64bb59-1b7b-42a1-b30f-615cd634b630",
+      "p": "on-success",
+      "o": "01fd2774-9d7d-4838-bd07-ab965bc53534"
+    },
+    {
+      "s": "fb64bb59-1b7b-42a1-b30f-615cd634b630",
+      "p": "on-failure",
+      "o": "01fd2774-9d7d-4838-bd07-ab965bc53534"
+    }
+  ],
+  "tags": [
+    "T1553.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "cert_filename",
+      "type": "path",
+      "description": "Path of the CA certificate we create",
+      "value": "rootCA.crt"
+    },
+    {
+      "name": "key_filename",
+      "type": "path",
+      "description": "Key we create that is used to create the CA certificate",
+      "value": "rootCA.key"
+    }
+  ]
+}

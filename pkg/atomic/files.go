@@ -2,12 +2,19 @@ package atomic
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/charmbracelet/log"
 )
+
+type FileHashes struct {
+	Artifact `json:",inline"`
+	Path     string `json:"path"`
+	Hashes   Hashes `json:"hashes"`
+}
 
 type File struct {
 	Artifact
@@ -59,9 +66,13 @@ func findFiles(root, pathPattern string) ([]string, error) {
 		}
 		relativePath, _ := filepath.Rel(root, path)
 		if pathPattern != "" {
+			fmt.Println(pathPattern, relativePath)
 			ok, _ := filepath.Match(pathPattern, relativePath)
 			if !ok {
+				fmt.Printf("%s does not match %s\n", pathPattern, relativePath)
 				return nil
+			} else {
+				fmt.Printf("%s matches %s\n", pathPattern, relativePath)
 			}
 		}
 		paths = append(paths, path)

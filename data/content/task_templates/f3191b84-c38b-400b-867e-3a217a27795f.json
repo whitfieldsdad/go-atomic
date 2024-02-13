@@ -1,0 +1,31 @@
+{
+  "id": "f3191b84-c38b-400b-867e-3a217a27795f",
+  "name": "Windows - Stop service by killing process",
+  "description": "Stops a specified service killng the service's process.\nThis technique was used by WannaCry. Upon execution, if the spoolsv service was running \"SUCCESS: The process \"spoolsv.exe\" with PID 2316 has been terminated.\"\nwill be displayed. If the service was not running \"ERROR: The process \"spoolsv.exe\" not found.\" will be displayed and it can be\nstarted by running the cleanup command.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "f498bd41-4e11-474d-ba6d-d2df42a904e4",
+      "type": "execute-command",
+      "data": {
+        "command": "taskkill.exe /f /im #{process_name}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1489",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "process_name",
+      "type": "string",
+      "description": "Name of a process to kill",
+      "value": "spoolsv.exe"
+    }
+  ]
+}

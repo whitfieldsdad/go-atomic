@@ -12,10 +12,10 @@ func (q TaskQuery) MatchesTask(t Task) bool {
 	if len(q.TaskIds) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern([]string{t.Id}, q.TaskIds) {
 		return false
 	}
-	if len(q.TaskTemplateIds) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern([]string{t.TaskTemplateId}, q.TaskTemplateIds) {
+	if len(q.TaskTemplateIds) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern([]string{t.TemplateId}, q.TaskTemplateIds) {
 		return false
 	}
-	if len(q.Tags) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern(t.Tags, q.Tags) {
+	if len(q.Tags) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern(t.GetTags(), q.Tags) {
 		return false
 	}
 	if len(q.Platforms) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern(t.Platforms, q.Platforms) {
@@ -23,7 +23,7 @@ func (q TaskQuery) MatchesTask(t Task) bool {
 	}
 	if q.ElevationRequired != nil {
 		elevationRequired := *q.ElevationRequired
-		if elevationRequired != t.ElevationRequired {
+		if elevationRequired != t.IsElevationRequired() {
 			return false
 		}
 	}

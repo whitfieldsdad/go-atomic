@@ -1,0 +1,23 @@
+{
+  "id": "84113186-ed3c-4d0d-8a3c-8980c86c1f4a",
+  "name": "Dump Credential Manager using keymgr.dll and rundll32.exe",
+  "description": "This test executes the exported function `KRShowKeyMgr` located in `keymgr.dll` using `rundll32.exe`. It opens a window that allows to export stored Windows credentials from the credential manager to a file (`.crd` by default). The file can then be retrieved and imported on an attacker-controlled computer to list the credentials get the passwords. The only limitation is that it requires a CTRL+ALT+DELETE input from the attacker, which can be achieve multiple ways (e.g. a custom implant with remote control capabilities, enabling RDP, etc.).\nReference: https://twitter.com/0gtweet/status/1415671356239216653",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e3eed85f-48e3-4474-9a1d-f4804f927b70",
+      "type": "execute-command",
+      "data": {
+        "command": "rundll32.exe keymgr,KRShowKeyMgr",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1003",
+    "atomic-red-team"
+  ]
+}

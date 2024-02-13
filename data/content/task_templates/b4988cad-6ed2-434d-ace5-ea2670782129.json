@@ -1,0 +1,92 @@
+{
+  "id": "b4988cad-6ed2-434d-ace5-ea2670782129",
+  "name": "Radmin Viewer Utility",
+  "description": "An adversary may use Radmin Viewer Utility to remotely control Windows device, this will start the radmin console.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "79e7e9d6-d123-460c-8992-442691358072",
+      "type": "execute-command",
+      "data": {
+        "command": "\"%PROGRAMFILES(x86)%/#{radmin_exe}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1a8269e7-8be9-48c6-9fb3-2593538ea460",
+      "name": "Check dependency 1/1",
+      "description": "Radmin Viewer Utility must be installed at specified location (#{radmin_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"${env:ProgramFiles(x86)}/#{radmin_exe}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2e8a0c3b-5d03-4482-bb0d-ed5f17d7d25b",
+      "name": "Resolve dependency 1/1",
+      "description": "Radmin Viewer Utility must be installed at specified location (#{radmin_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host Downloading radmin installer\nNew-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://www.radmin.com/download/Radmin_Viewer_3.5.2.1_EN.msi\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\#{radmin_installer}\"\nWrite-Host Install Radmin\nStart-Process msiexec  -Wait -ArgumentList /i , \"PathToAtomicsFolder\\..\\ExternalPayloads\\#{radmin_installer}\", /qn\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "84cda777-08c3-4508-9974-585b47268c1e",
+      "name": "Re-check dependency 1/1",
+      "description": "Radmin Viewer Utility must be installed at specified location (#{radmin_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"${env:ProgramFiles(x86)}/#{radmin_exe}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1a8269e7-8be9-48c6-9fb3-2593538ea460",
+      "p": "on-success",
+      "o": "79e7e9d6-d123-460c-8992-442691358072"
+    },
+    {
+      "s": "1a8269e7-8be9-48c6-9fb3-2593538ea460",
+      "p": "on-failure",
+      "o": "2e8a0c3b-5d03-4482-bb0d-ed5f17d7d25b"
+    },
+    {
+      "s": "2e8a0c3b-5d03-4482-bb0d-ed5f17d7d25b",
+      "p": "on-success",
+      "o": "84cda777-08c3-4508-9974-585b47268c1e"
+    },
+    {
+      "s": "84cda777-08c3-4508-9974-585b47268c1e",
+      "p": "on-failure",
+      "o": "79e7e9d6-d123-460c-8992-442691358072"
+    }
+  ],
+  "tags": [
+    "T1072",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "radmin_exe",
+      "type": "path",
+      "description": "The radmin.exe executable from RadminViewer.msi",
+      "value": "Radmin Viewer 3/Radmin.exe"
+    },
+    {
+      "name": "radmin_installer",
+      "type": "path",
+      "description": "Radmin Viewer installer",
+      "value": "RadminViewer.msi"
+    }
+  ]
+}

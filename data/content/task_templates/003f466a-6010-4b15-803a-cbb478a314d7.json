@@ -1,0 +1,44 @@
+{
+  "id": "003f466a-6010-4b15-803a-cbb478a314d7",
+  "name": "Disable Windows Toast Notifications",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to disable the windows toast notification.\nSee how azorult malware abuses this technique- https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "61b35534-0a97-43e1-90f7-ededec7f03b1",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\PushNotifications /v ToastEnabled /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6936f43f-5a9d-4882-b16d-e780d42edbd1",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\PushNotifications /v ToastEnabled /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "61b35534-0a97-43e1-90f7-ededec7f03b1",
+      "p": "on-success",
+      "o": "6936f43f-5a9d-4882-b16d-e780d42edbd1"
+    },
+    {
+      "s": "61b35534-0a97-43e1-90f7-ededec7f03b1",
+      "p": "on-failure",
+      "o": "6936f43f-5a9d-4882-b16d-e780d42edbd1"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

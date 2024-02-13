@@ -1,0 +1,117 @@
+{
+  "id": "8f6c14d1-f13d-4616-b7fc-98cc69fe56ec",
+  "name": "ESXi - Enable SSH via PowerCLI",
+  "description": "An adversary enables the SSH service on a ESXi host to maintain persistent access to the host and to carryout subsequent operations.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "318c7024-10e7-4a93-afe5-b864599670e5",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\nGet-VMHostService -VMHost #{vm_host} | Where-Object {$_.Key -eq \"TSM-SSH\" } | Start-VMHostService -Confirm:$false\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "84a966bd-1a73-4f1e-a41b-f2137d053cf6",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\nGet-VMHostService -VMHost #{vm_host} | Where-Object {$_.Key -eq \"TSM-SSH\" } | Stop-VMHostService -Confirm:$false\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "63e56845-2184-4778-adee-37fb42ebba95",
+      "name": "Check dependency 1/1",
+      "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable\nif (-not $RequiredModule) {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "60bca67e-2a14-4170-ad05-ad44d5d8f107",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name VMware.PowerCLI\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "acfd1151-01a0-49b9-bad6-fc242a8b0bff",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable\nif (-not $RequiredModule) {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "318c7024-10e7-4a93-afe5-b864599670e5",
+      "p": "on-success",
+      "o": "84a966bd-1a73-4f1e-a41b-f2137d053cf6"
+    },
+    {
+      "s": "318c7024-10e7-4a93-afe5-b864599670e5",
+      "p": "on-failure",
+      "o": "84a966bd-1a73-4f1e-a41b-f2137d053cf6"
+    },
+    {
+      "s": "63e56845-2184-4778-adee-37fb42ebba95",
+      "p": "on-success",
+      "o": "318c7024-10e7-4a93-afe5-b864599670e5"
+    },
+    {
+      "s": "63e56845-2184-4778-adee-37fb42ebba95",
+      "p": "on-failure",
+      "o": "60bca67e-2a14-4170-ad05-ad44d5d8f107"
+    },
+    {
+      "s": "60bca67e-2a14-4170-ad05-ad44d5d8f107",
+      "p": "on-success",
+      "o": "acfd1151-01a0-49b9-bad6-fc242a8b0bff"
+    },
+    {
+      "s": "acfd1151-01a0-49b9-bad6-fc242a8b0bff",
+      "p": "on-failure",
+      "o": "318c7024-10e7-4a93-afe5-b864599670e5"
+    }
+  ],
+  "tags": [
+    "T1021.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "vm_host",
+      "type": "string",
+      "description": "Specify the host name of the ESXi Server",
+      "value": "atomic.local"
+    },
+    {
+      "name": "vm_user",
+      "type": "string",
+      "description": "Specify the privilege user account on ESXi Server",
+      "value": "root"
+    },
+    {
+      "name": "vm_pass",
+      "type": "string",
+      "description": "Specify the privilege user password on ESXi Server",
+      "value": "pass"
+    }
+  ]
+}

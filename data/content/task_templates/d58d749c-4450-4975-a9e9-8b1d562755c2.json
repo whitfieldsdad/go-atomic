@@ -1,0 +1,104 @@
+{
+  "id": "d58d749c-4450-4975-a9e9-8b1d562755c2",
+  "name": "Active Directory Domain Search Using LDAP - Linux (Ubuntu)/macOS",
+  "description": "Output information from LDAPSearch. LDAP Password is the admin-user password on Active Directory\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "a0ad9600-df1c-4465-aa04-2a3c6103aae3",
+      "type": "execute-command",
+      "data": {
+        "command": "ldapsearch -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{user} -w #{password} -b \"CN=Users,DC=#{domain},DC=#{top_level_domain}\" \"(objectClass=group)\" -s sub -a always -z 1000 dn \n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "063ca750-be05-4445-9907-a6b2be352195",
+      "name": "Check dependency 1/1",
+      "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapsearch\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which ldapsearch\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5e7678a2-5562-4ad4-a9e3-b42ff0193e5b",
+      "name": "Resolve dependency 1/1",
+      "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapsearch\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo missing ldapsearch command; exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "624b0403-2131-46a6-8528-d767a5064dbd",
+      "name": "Re-check dependency 1/1",
+      "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapsearch\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which ldapsearch\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "063ca750-be05-4445-9907-a6b2be352195",
+      "p": "on-success",
+      "o": "a0ad9600-df1c-4465-aa04-2a3c6103aae3"
+    },
+    {
+      "s": "063ca750-be05-4445-9907-a6b2be352195",
+      "p": "on-failure",
+      "o": "5e7678a2-5562-4ad4-a9e3-b42ff0193e5b"
+    },
+    {
+      "s": "5e7678a2-5562-4ad4-a9e3-b42ff0193e5b",
+      "p": "on-success",
+      "o": "624b0403-2131-46a6-8528-d767a5064dbd"
+    },
+    {
+      "s": "624b0403-2131-46a6-8528-d767a5064dbd",
+      "p": "on-failure",
+      "o": "a0ad9600-df1c-4465-aa04-2a3c6103aae3"
+    }
+  ],
+  "tags": [
+    "T1069.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "The domain to be tested",
+      "value": "example"
+    },
+    {
+      "name": "top_level_domain",
+      "type": "string",
+      "description": "The top level domain (.com, .test, .remote, etc... following domain, minus the .)",
+      "value": "com"
+    },
+    {
+      "name": "user",
+      "type": "string",
+      "description": "username@domain of a user",
+      "value": "user@example.com"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "password of the user referenced inside user",
+      "value": "s3CurePssw0rD!"
+    }
+  ]
+}

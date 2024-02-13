@@ -1,0 +1,44 @@
+{
+  "id": "b1a4d687-ba52-4057-81ab-757c3dc0d3b5",
+  "name": "Modify Internet Zone Protocol Defaults in Current User Registry - PowerShell",
+  "description": "This test simulates an adversary modifying the Internet Zone Protocol Defaults in the registry of the currently logged-in user using PowerShell. Such modifications can be indicative of an adversary attempting to weaken browser security settings. \nTo verify the effects of the test:\n1. Open the Registry Editor (regedit.exe).\n2. Navigate to \"HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\ProtocolDefaults\".\n3. Check for the presence of the \"http\" and \"https\" DWORD values set to `0`.\nOr run:\n```powershell\nGet-ItemProperty -Path 'HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\ProtocolDefaults' | Select-Object http,https\n```\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "be66a7e9-8086-4e76-b885-a57cb1a0e053",
+      "type": "execute-command",
+      "data": {
+        "command": "# Set the registry values for http and https to 0\nSet-ItemProperty -Path 'HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\ProtocolDefaults' -Name 'http' -Value 0\nSet-ItemProperty -Path 'HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\ProtocolDefaults' -Name 'https' -Value 0\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8de0dcb9-a454-4532-868f-2537565874e7",
+      "type": "execute-command",
+      "data": {
+        "command": "# Restore the registry values for http and https to 3\nSet-ItemProperty -Path 'HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\ProtocolDefaults' -Name 'http' -Value 3\nSet-ItemProperty -Path 'HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\ProtocolDefaults' -Name 'https' -Value 3\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "be66a7e9-8086-4e76-b885-a57cb1a0e053",
+      "p": "on-success",
+      "o": "8de0dcb9-a454-4532-868f-2537565874e7"
+    },
+    {
+      "s": "be66a7e9-8086-4e76-b885-a57cb1a0e053",
+      "p": "on-failure",
+      "o": "8de0dcb9-a454-4532-868f-2537565874e7"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

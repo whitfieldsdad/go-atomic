@@ -1,0 +1,58 @@
+{
+  "id": "5a3497a4-1568-4663-b12a-d4a5ed70c7d7",
+  "name": "Create a new Domain Account using PowerShell",
+  "description": "Creates a new Domain User using the credentials of the Current User\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "6594cc72-60f4-471c-847c-427b7cde1051",
+      "type": "execute-command",
+      "data": {
+        "command": "$SamAccountName = '#{username}'\n$AccountPassword = ConvertTo-SecureString '#{password}' -AsPlainText -Force\nAdd-Type -AssemblyName System.DirectoryServices.AccountManagement\n$Context = New-Object -TypeName System.DirectoryServices.AccountManagement.PrincipalContext -ArgumentList ([System.DirectoryServices.AccountManagement.ContextType]::Domain)\n$User = New-Object -TypeName System.DirectoryServices.AccountManagement.UserPrincipal -ArgumentList ($Context)\n$User.SamAccountName = $SamAccountName\n$TempCred = New-Object System.Management.Automation.PSCredential('a', $AccountPassword)\n$User.SetPassword($TempCred.GetNetworkCredential().Password)\n$User.Enabled = $True\n$User.PasswordNotRequired = $False\n$User.DisplayName = $SamAccountName\n$User.Save()\n$User\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4ca2b085-7cf3-49d0-9b91-49f7b17bbd15",
+      "type": "execute-command",
+      "data": {
+        "command": "cmd /c \"net user #{username} /del \u003enul 2\u003e\u00261\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "6594cc72-60f4-471c-847c-427b7cde1051",
+      "p": "on-success",
+      "o": "4ca2b085-7cf3-49d0-9b91-49f7b17bbd15"
+    },
+    {
+      "s": "6594cc72-60f4-471c-847c-427b7cde1051",
+      "p": "on-failure",
+      "o": "4ca2b085-7cf3-49d0-9b91-49f7b17bbd15"
+    }
+  ],
+  "tags": [
+    "T1136.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Name of the Account to be created",
+      "value": "T1136.002_Admin"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password of the Account to be created",
+      "value": "T1136_pass123!"
+    }
+  ]
+}

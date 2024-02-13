@@ -1,0 +1,23 @@
+{
+  "id": "718aebaa-d0e0-471a-8241-c5afa69c7414",
+  "name": "WMI Reconnaissance Software",
+  "description": "An adversary might use WMI to list installed Software hotfix and patches.\nWhen the test completes, there should be a list of installed patches and when they were installed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5f6ef74b-7a98-4572-838b-a7b3fbe142c7",
+      "type": "execute-command",
+      "data": {
+        "command": "wmic qfe get description,installedOn /format:csv\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1047",
+    "atomic-red-team"
+  ]
+}

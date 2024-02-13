@@ -1,0 +1,86 @@
+{
+  "id": "c5bec457-43c9-4a18-9a24-fe151d8971b7",
+  "name": "Launch DirLister Executable",
+  "description": "Launches the DirLister executable for a short period of time and then exits.\n\nRecently seen used by [BlackCat ransomware](https://news.sophos.com/en-us/2022/07/14/blackcat-ransomware-attacks-not-merely-a-byproduct-of-bad-luck/) to create a list of accessible directories and files.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "986f2c4a-0ca2-4484-93eb-b088cf73c89b",
+      "type": "execute-command",
+      "data": {
+        "command": "Start-Process \"#{dirlister_path}\"\nStart-Sleep -Second 4\nStop-Process -Name \"DirLister\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "cffd99d7-8802-4d4f-95e1-ed76ed572945",
+      "name": "Check dependency 1/1",
+      "description": "DirLister.exe must exist in the specified path #{dirlister_path}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dirlister_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "116eb0fe-682e-433d-9c0c-e4a1ac34a710",
+      "name": "Resolve dependency 1/1",
+      "description": "DirLister.exe must exist in the specified path #{dirlister_path}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$parentpath = Split-Path \"#{dirlister_path}\"\nNew-Item -ItemType Directory -Force -Path $parentpath | Out-Null\nInvoke-WebRequest https://github.com/SanderSade/DirLister/releases/download/v2.beta4/DirLister.v2.beta4.zip -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\TDirLister.v2.beta4.zip\"\nExpand-Archive -Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\TDirLister.v2.beta4.zip\" -DestinationPath \"PathToAtomicsFolder\\..\\ExternalPayloads\\TDirLister.v2.beta4\" -Force\nCopy-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\TDirLister.v2.beta4\\*\" \"$parentpath\" -Recurse\nRemove-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\TDirLister.v2.beta4.zip\",\"PathToAtomicsFolder\\..\\ExternalPayloads\\TDirLister.v2.beta4\" -Recurse -ErrorAction Ignore\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2899e83d-dbe4-4543-bd36-0147b7687bcf",
+      "name": "Re-check dependency 1/1",
+      "description": "DirLister.exe must exist in the specified path #{dirlister_path}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dirlister_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "cffd99d7-8802-4d4f-95e1-ed76ed572945",
+      "p": "on-success",
+      "o": "986f2c4a-0ca2-4484-93eb-b088cf73c89b"
+    },
+    {
+      "s": "cffd99d7-8802-4d4f-95e1-ed76ed572945",
+      "p": "on-failure",
+      "o": "116eb0fe-682e-433d-9c0c-e4a1ac34a710"
+    },
+    {
+      "s": "116eb0fe-682e-433d-9c0c-e4a1ac34a710",
+      "p": "on-success",
+      "o": "2899e83d-dbe4-4543-bd36-0147b7687bcf"
+    },
+    {
+      "s": "2899e83d-dbe4-4543-bd36-0147b7687bcf",
+      "p": "on-failure",
+      "o": "986f2c4a-0ca2-4484-93eb-b088cf73c89b"
+    }
+  ],
+  "tags": [
+    "T1083",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "dirlister_path",
+      "type": "string",
+      "description": "Path to the DirLister executable ",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\DirLister.exe"
+    }
+  ]
+}

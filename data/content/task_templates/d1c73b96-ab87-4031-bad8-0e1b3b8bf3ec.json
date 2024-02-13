@@ -1,0 +1,86 @@
+{
+  "id": "d1c73b96-ab87-4031-bad8-0e1b3b8bf3ec",
+  "name": "Adfind - Enumerate Active Directory OUs",
+  "description": "Adfind tool can be used for reconnaissance in an Active directory environment. This example has been documented by ransomware actors enumerating Active Directory OUs\nreference- http://www.joeware.net/freetools/tools/adfind/, https://www.fireeye.com/blog/threat-research/2019/04/pick-six-intercepting-a-fin6-intrusion.html\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ed807559-0376-4998-9bc4-92bef6bf1c2d",
+      "type": "execute-command",
+      "data": {
+        "command": "\"PathToAtomicsFolder\\..\\ExternalPayloads\\AdFind.exe\" -f (objectcategory=organizationalUnit) #{optional_args}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2b9822a5-6676-4479-a070-6e376e644897",
+      "name": "Check dependency 1/1",
+      "description": "AdFind.exe must exist on disk at specified location (PathToAtomicsFolder\\..\\ExternalPayloads\\AdFind.exe)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\AdFind.exe\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "194252c2-d16a-4f45-9977-f9610b8205d0",
+      "name": "Resolve dependency 1/1",
+      "description": "AdFind.exe must exist on disk at specified location (PathToAtomicsFolder\\..\\ExternalPayloads\\AdFind.exe)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"PathToAtomicsFolder\\..\\ExternalPayloads\\AdFind.exe\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest -Uri \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1087.002/bin/AdFind.exe\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\AdFind.exe\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "effffb32-318c-4f23-bb06-12132b5b5df0",
+      "name": "Re-check dependency 1/1",
+      "description": "AdFind.exe must exist on disk at specified location (PathToAtomicsFolder\\..\\ExternalPayloads\\AdFind.exe)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\AdFind.exe\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "2b9822a5-6676-4479-a070-6e376e644897",
+      "p": "on-success",
+      "o": "ed807559-0376-4998-9bc4-92bef6bf1c2d"
+    },
+    {
+      "s": "2b9822a5-6676-4479-a070-6e376e644897",
+      "p": "on-failure",
+      "o": "194252c2-d16a-4f45-9977-f9610b8205d0"
+    },
+    {
+      "s": "194252c2-d16a-4f45-9977-f9610b8205d0",
+      "p": "on-success",
+      "o": "effffb32-318c-4f23-bb06-12132b5b5df0"
+    },
+    {
+      "s": "effffb32-318c-4f23-bb06-12132b5b5df0",
+      "p": "on-failure",
+      "o": "ed807559-0376-4998-9bc4-92bef6bf1c2d"
+    }
+  ],
+  "tags": [
+    "T1482",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "optional_args",
+      "type": "string",
+      "description": "Allows defining arguments to add to the adfind command to tailor it to the specific needs of the environment. Use \"-arg\" notation to add arguments separated by spaces.",
+      "value": ""
+    }
+  ]
+}

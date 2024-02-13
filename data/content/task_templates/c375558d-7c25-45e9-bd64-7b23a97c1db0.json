@@ -1,0 +1,44 @@
+{
+  "id": "c375558d-7c25-45e9-bd64-7b23a97c1db0",
+  "name": "Ursnif Malware Registry Key Creation",
+  "description": "Ursnif downloads additional modules from the C\u0026C server and saves these in the registry folder HKEY_CURRENT_USER\\Software\\AppDataLow\\Software\\Microsoft\\\nMore information - https://blog.trendmicro.com/trendlabs-security-intelligence/phishing-campaign-uses-hijacked-emails-to-deliver-ursnif-by-replying-to-ongoing-threads/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "63440948-bf57-4d9a-8cc6-ffe3b1111e79",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add HKCU\\Software\\AppDataLow\\Software\\Microsoft\\3A861D62-51E0-15700F2219A4 /v comsxRes /t REG_BINARY  /d 72656463616e617279 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b8edc688-9239-4c31-9962-57f83ebcc3c1",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete HKCU\\Software\\AppDataLow\\Software\\Microsoft\\3A861D62-51E0-15700F2219A4 /va /f \u003enul 2\u003e\u00261\nreg delete HKCU\\Software\\AppDataLow\\Software\\Microsoft\\3A861D62-51E0-15700F2219A4 /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "63440948-bf57-4d9a-8cc6-ffe3b1111e79",
+      "p": "on-success",
+      "o": "b8edc688-9239-4c31-9962-57f83ebcc3c1"
+    },
+    {
+      "s": "63440948-bf57-4d9a-8cc6-ffe3b1111e79",
+      "p": "on-failure",
+      "o": "b8edc688-9239-4c31-9962-57f83ebcc3c1"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

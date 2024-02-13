@@ -1,0 +1,44 @@
+{
+  "id": "a450e469-ba54-4de1-9deb-9023a6111690",
+  "name": "Activate Windows NoControlPanel Group Policy Feature",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to Disable Control Panel Group Policy. \nTake note that some Group Policy changes might require a restart to take effect.\nSee how Trojan abuses this technique- https://www.sophos.com/de-de/threat-center/threat-analyses/viruses-and-spyware/Troj~Krotten-N/detailed-analysis\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "19c7365d-00c6-4ca2-a568-a0a7db640fd4",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoControlPanel /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "971c9530-a1ee-40f3-804d-7349a04ba750",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoControlPanel /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "19c7365d-00c6-4ca2-a568-a0a7db640fd4",
+      "p": "on-success",
+      "o": "971c9530-a1ee-40f3-804d-7349a04ba750"
+    },
+    {
+      "s": "19c7365d-00c6-4ca2-a568-a0a7db640fd4",
+      "p": "on-failure",
+      "o": "971c9530-a1ee-40f3-804d-7349a04ba750"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

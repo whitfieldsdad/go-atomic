@@ -1,0 +1,23 @@
+{
+  "id": "f4b26bce-4c2c-46c0-bcc5-fce062d38bef",
+  "name": "System Service Discovery - systemctl/service",
+  "description": "Enumerates system service using systemctl/service\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "41423308-f6c2-4a73-8811-07dc00ced097",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ \"$(uname)\" = 'FreeBSD' ]; then service -e; else systemctl --type=service; fi;\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1007",
+    "atomic-red-team"
+  ]
+}

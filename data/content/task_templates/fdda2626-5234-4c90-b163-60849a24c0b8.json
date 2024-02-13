@@ -1,0 +1,58 @@
+{
+  "id": "fdda2626-5234-4c90-b163-60849a24c0b8",
+  "name": "IFEO Add Debugger",
+  "description": "Leverage Global Flags Settings\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "669a7adb-321e-442d-901d-f4e6763638e5",
+      "type": "execute-command",
+      "data": {
+        "command": "REG ADD \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{target_binary}\" /v Debugger /d \"#{payload_binary}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4f3f5e4d-34da-4a13-b9bb-c0502944a2a8",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{target_binary}\" /v Debugger /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "669a7adb-321e-442d-901d-f4e6763638e5",
+      "p": "on-success",
+      "o": "4f3f5e4d-34da-4a13-b9bb-c0502944a2a8"
+    },
+    {
+      "s": "669a7adb-321e-442d-901d-f4e6763638e5",
+      "p": "on-failure",
+      "o": "4f3f5e4d-34da-4a13-b9bb-c0502944a2a8"
+    }
+  ],
+  "tags": [
+    "T1546.012",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "target_binary",
+      "type": "path",
+      "description": "Binary To Attach To",
+      "value": "calc.exe"
+    },
+    {
+      "name": "payload_binary",
+      "type": "path",
+      "description": "Binary To Execute",
+      "value": "C:\\Windows\\System32\\cmd.exe"
+    }
+  ]
+}

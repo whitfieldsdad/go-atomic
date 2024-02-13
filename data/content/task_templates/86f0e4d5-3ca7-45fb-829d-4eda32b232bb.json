@@ -1,0 +1,86 @@
+{
+  "id": "86f0e4d5-3ca7-45fb-829d-4eda32b232bb",
+  "name": "Delete system log files using shred utility",
+  "description": "This test overwrites the contents of the log file with zero bytes(-z) using three passes(-n 3) of data, and then delete the file(-u) securely\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "4cb2e9b2-4804-4bed-87e2-c67ed31c848d",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo shred -u -z -n 3 #{system_log_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3407d427-6082-4fdd-94b4-ed4de41318bc",
+      "name": "Check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "52f70dc8-6bfc-415f-b3fb-eb167b3ae407",
+      "name": "Resolve dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "touch #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "704a45a4-8192-464f-a174-1093042bb8a1",
+      "name": "Re-check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3407d427-6082-4fdd-94b4-ed4de41318bc",
+      "p": "on-success",
+      "o": "4cb2e9b2-4804-4bed-87e2-c67ed31c848d"
+    },
+    {
+      "s": "3407d427-6082-4fdd-94b4-ed4de41318bc",
+      "p": "on-failure",
+      "o": "52f70dc8-6bfc-415f-b3fb-eb167b3ae407"
+    },
+    {
+      "s": "52f70dc8-6bfc-415f-b3fb-eb167b3ae407",
+      "p": "on-success",
+      "o": "704a45a4-8192-464f-a174-1093042bb8a1"
+    },
+    {
+      "s": "704a45a4-8192-464f-a174-1093042bb8a1",
+      "p": "on-failure",
+      "o": "4cb2e9b2-4804-4bed-87e2-c67ed31c848d"
+    }
+  ],
+  "tags": [
+    "T1070.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "system_log_path",
+      "type": "string",
+      "description": "path to system.log",
+      "value": "/var/log/system.log"
+    }
+  ]
+}

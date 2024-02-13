@@ -1,0 +1,98 @@
+{
+  "id": "2988133e-561c-4e42-a15f-6281e6a9b2db",
+  "name": "Parent PID Spoofing - Spawn from New Process",
+  "description": "Creates a notepad.exe process and then spawns a powershell.exe process as a child of it.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "63c42aac-dd80-4290-bc60-9e8054813eb7",
+      "type": "execute-command",
+      "data": {
+        "command": "Start-Process -FilePath #{parent_name} -PassThru | Start-ATHProcessUnderSpecificParent -FilePath #{file_path} -CommandLine '#{command_line}'",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b2871f87-3691-45cf-8354-d626a9ba399c",
+      "name": "Check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Start-ATHProcessUnderSpecificParent']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "37bc2817-398a-4e2f-8147-31ecb3ef30a8",
+      "name": "Resolve dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "22f5f347-2b60-496c-ba3c-e86936299301",
+      "name": "Re-check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Start-ATHProcessUnderSpecificParent']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b2871f87-3691-45cf-8354-d626a9ba399c",
+      "p": "on-success",
+      "o": "63c42aac-dd80-4290-bc60-9e8054813eb7"
+    },
+    {
+      "s": "b2871f87-3691-45cf-8354-d626a9ba399c",
+      "p": "on-failure",
+      "o": "37bc2817-398a-4e2f-8147-31ecb3ef30a8"
+    },
+    {
+      "s": "37bc2817-398a-4e2f-8147-31ecb3ef30a8",
+      "p": "on-success",
+      "o": "22f5f347-2b60-496c-ba3c-e86936299301"
+    },
+    {
+      "s": "22f5f347-2b60-496c-ba3c-e86936299301",
+      "p": "on-failure",
+      "o": "63c42aac-dd80-4290-bc60-9e8054813eb7"
+    }
+  ],
+  "tags": [
+    "T1134.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_path",
+      "type": "path",
+      "description": "File path or name of process to spawn",
+      "value": "$Env:windir\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+    },
+    {
+      "name": "parent_name",
+      "type": "path",
+      "description": "Parent process to spoof from",
+      "value": "$Env:windir\\System32\\notepad.exe"
+    },
+    {
+      "name": "command_line",
+      "type": "string",
+      "description": "Specified command line to use",
+      "value": "-Command Start-Sleep 10"
+    }
+  ]
+}

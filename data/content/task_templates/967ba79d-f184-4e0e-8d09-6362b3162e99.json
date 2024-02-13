@@ -1,0 +1,38 @@
+{
+  "id": "967ba79d-f184-4e0e-8d09-6362b3162e99",
+  "name": "chown - Change file or folder mode ownership only",
+  "description": "Changes a file or folder's ownership only using chown.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "c7641385-6d59-44c2-b3ad-36fa3155a3b6",
+      "type": "execute-command",
+      "data": {
+        "command": "chown #{owner} #{file_or_folder}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1222.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "owner",
+      "type": "string",
+      "description": "Username of desired owner",
+      "value": "root"
+    },
+    {
+      "name": "file_or_folder",
+      "type": "path",
+      "description": "Path of the file or folder",
+      "value": "/tmp/AtomicRedTeam/atomics/T1222.002/T1222.002.yaml"
+    }
+  ]
+}

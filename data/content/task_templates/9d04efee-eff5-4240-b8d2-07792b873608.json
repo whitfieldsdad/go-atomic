@@ -1,0 +1,86 @@
+{
+  "id": "9d04efee-eff5-4240-b8d2-07792b873608",
+  "name": "Packet Capture macOS using tcpdump or tshark",
+  "description": "Perform a PCAP on macOS. This will require Wireshark/tshark to be installed. TCPdump may already be installed.\n\nUpon successful execution, tshark or tcpdump will execute and capture 5 packets on interface en0A.\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "37276c1e-3a18-46c6-83d6-1e0448423843",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo tcpdump -c 5 -nnni #{interface}    \nif [ -x \"$(command -v tshark)\" ]; then sudo tshark -c 5 -i #{interface}; fi;\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0f42ad08-e048-4208-a65b-a53c1c99b397",
+      "name": "Check dependency 1/1",
+      "description": "Check if at least one of tcpdump or tshark is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v tcpdump)\" ] \u0026\u0026 [ ! -x \"$(command -v tshark)\" ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3915bb99-5ce9-49f6-8567-4d627987f18f",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if at least one of tcpdump or tshark is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which yum \u0026\u0026 yum -y install epel-release tcpdump tshark)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y tcpdump tshark)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1b49a026-5b10-43d0-b6ff-c98358166da8",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if at least one of tcpdump or tshark is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v tcpdump)\" ] \u0026\u0026 [ ! -x \"$(command -v tshark)\" ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0f42ad08-e048-4208-a65b-a53c1c99b397",
+      "p": "on-success",
+      "o": "37276c1e-3a18-46c6-83d6-1e0448423843"
+    },
+    {
+      "s": "0f42ad08-e048-4208-a65b-a53c1c99b397",
+      "p": "on-failure",
+      "o": "3915bb99-5ce9-49f6-8567-4d627987f18f"
+    },
+    {
+      "s": "3915bb99-5ce9-49f6-8567-4d627987f18f",
+      "p": "on-success",
+      "o": "1b49a026-5b10-43d0-b6ff-c98358166da8"
+    },
+    {
+      "s": "1b49a026-5b10-43d0-b6ff-c98358166da8",
+      "p": "on-failure",
+      "o": "37276c1e-3a18-46c6-83d6-1e0448423843"
+    }
+  ],
+  "tags": [
+    "T1040",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "interface",
+      "type": "string",
+      "description": "Specify interface to perform PCAP on.",
+      "value": "en0A"
+    }
+  ]
+}

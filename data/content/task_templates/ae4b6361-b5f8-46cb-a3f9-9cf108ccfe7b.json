@@ -1,0 +1,23 @@
+{
+  "id": "ae4b6361-b5f8-46cb-a3f9-9cf108ccfe7b",
+  "name": "Enumerate all accounts via PowerShell (Local)",
+  "description": "Enumerate all accounts via PowerShell. Upon execution, lots of user account and group information will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "7ae4005e-a1a9-4058-a3eb-95b292437ac4",
+      "type": "execute-command",
+      "data": {
+        "command": "net user\nget-localuser\nget-localgroupmember -group Users\ncmdkey.exe /list\nls C:/Users\nget-childitem C:\\Users\\\ndir C:\\Users\\\nget-localgroup\nnet localgroup\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1087.001",
+    "atomic-red-team"
+  ]
+}

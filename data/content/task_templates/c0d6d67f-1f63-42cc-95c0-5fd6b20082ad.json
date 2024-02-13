@@ -1,0 +1,44 @@
+{
+  "id": "c0d6d67f-1f63-42cc-95c0-5fd6b20082ad",
+  "name": "Disable Windows Notification Center",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to disable the windows notification center.\nSee how remcos rat abuses this technique- https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "0e3b5e22-d7c6-4608-933c-12dbe31b1fd7",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add HKEY_CURRENT_USER\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer /v DisableNotificationCenter /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5bb1140d-cc87-40e6-982b-59264e4bc93a",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete HKEY_CURRENT_USER\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer /v DisableNotificationCenter /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0e3b5e22-d7c6-4608-933c-12dbe31b1fd7",
+      "p": "on-success",
+      "o": "5bb1140d-cc87-40e6-982b-59264e4bc93a"
+    },
+    {
+      "s": "0e3b5e22-d7c6-4608-933c-12dbe31b1fd7",
+      "p": "on-failure",
+      "o": "5bb1140d-cc87-40e6-982b-59264e4bc93a"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

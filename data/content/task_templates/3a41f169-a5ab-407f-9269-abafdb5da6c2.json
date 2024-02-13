@@ -1,0 +1,52 @@
+{
+  "id": "3a41f169-a5ab-407f-9269-abafdb5da6c2",
+  "name": "List Mozilla Firefox Bookmark Database Files on FreeBSD/Linux",
+  "description": "Searches for Mozilla Firefox's places.sqlite file (on FreeBSD or Linux distributions) that contains bookmarks and lists any found instances to a text file.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "e28f75c0-1f7b-4e3d-9102-f70feccb85f2",
+      "type": "execute-command",
+      "data": {
+        "command": "find / -path \"*.mozilla/firefox/*/places.sqlite\" 2\u003e/dev/null -exec echo {} \u003e\u003e #{output_file} \\;\ncat #{output_file} 2\u003e/dev/null\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "41e5fcc1-be85-498c-b994-a333b6f5847f",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{output_file} 2\u003e/dev/null\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e28f75c0-1f7b-4e3d-9102-f70feccb85f2",
+      "p": "on-success",
+      "o": "41e5fcc1-be85-498c-b994-a333b6f5847f"
+    },
+    {
+      "s": "e28f75c0-1f7b-4e3d-9102-f70feccb85f2",
+      "p": "on-failure",
+      "o": "41e5fcc1-be85-498c-b994-a333b6f5847f"
+    }
+  ],
+  "tags": [
+    "T1217",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path where captured results will be placed.",
+      "value": "/tmp/T1217-Firefox.txt"
+    }
+  ]
+}

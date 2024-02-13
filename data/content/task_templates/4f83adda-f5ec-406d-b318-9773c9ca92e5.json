@@ -1,0 +1,110 @@
+{
+  "id": "4f83adda-f5ec-406d-b318-9773c9ca92e5",
+  "name": "Invoke CHM with Script Engine and Help Topic",
+  "description": "Executes a CHM file with a defined script engine, ITS Protocol Handler, and help topic extension.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "1aed4f85-de5d-4d90-8256-e718af3383d2",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-ATHCompiledHelp -ScriptEngine #{script_engine} -InfoTechStorageHandler #{infotech_storage_handler} -TopicExtension #{topic_extension} -HHFilePath #{hh_file_path} -CHMFilePath #{chm_file_path}",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6cade2ba-01cd-4d7e-849b-b295f9bb2656",
+      "name": "Check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHCompiledHelp must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHCompiledHelp']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "01b9800a-1e08-4596-a8d8-de987020805d",
+      "name": "Resolve dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHCompiledHelp must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "34d0eb2e-a71b-4d12-9b11-24c6e9943db5",
+      "name": "Re-check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHCompiledHelp must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHCompiledHelp']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "6cade2ba-01cd-4d7e-849b-b295f9bb2656",
+      "p": "on-success",
+      "o": "1aed4f85-de5d-4d90-8256-e718af3383d2"
+    },
+    {
+      "s": "6cade2ba-01cd-4d7e-849b-b295f9bb2656",
+      "p": "on-failure",
+      "o": "01b9800a-1e08-4596-a8d8-de987020805d"
+    },
+    {
+      "s": "01b9800a-1e08-4596-a8d8-de987020805d",
+      "p": "on-success",
+      "o": "34d0eb2e-a71b-4d12-9b11-24c6e9943db5"
+    },
+    {
+      "s": "34d0eb2e-a71b-4d12-9b11-24c6e9943db5",
+      "p": "on-failure",
+      "o": "1aed4f85-de5d-4d90-8256-e718af3383d2"
+    }
+  ],
+  "tags": [
+    "T1218.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "topic_extension",
+      "type": "string",
+      "description": "Default Help Topic",
+      "value": "html"
+    },
+    {
+      "name": "hh_file_path",
+      "type": "path",
+      "description": "path of modified HH.exe",
+      "value": "$env:windir\\hh.exe"
+    },
+    {
+      "name": "infotech_storage_handler",
+      "type": "string",
+      "description": "Default InfoTech Storage Protocol Handler",
+      "value": "its"
+    },
+    {
+      "name": "script_engine",
+      "type": "string",
+      "description": "Default Script Engine",
+      "value": "JScript"
+    },
+    {
+      "name": "chm_file_path",
+      "type": "string",
+      "description": "Default path of CHM",
+      "value": "Test.chm"
+    }
+  ]
+}

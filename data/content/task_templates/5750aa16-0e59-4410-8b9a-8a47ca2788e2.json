@@ -1,0 +1,23 @@
+{
+  "id": "5750aa16-0e59-4410-8b9a-8a47ca2788e2",
+  "name": "WMI Reconnaissance Processes",
+  "description": "An adversary might use WMI to list Processes running on the compromised host.\nWhen the test completes , there should be running processes listed on the command line.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "33a47118-1260-4699-80b5-908fd1f82a28",
+      "type": "execute-command",
+      "data": {
+        "command": "wmic process get caption,executablepath,commandline /format:csv\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1047",
+    "atomic-red-team"
+  ]
+}

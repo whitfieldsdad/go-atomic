@@ -1,0 +1,44 @@
+{
+  "id": "396f997b-c5f8-4a96-bb2c-3c8795cf459d",
+  "name": "Disable Windows Auto Reboot for current logon user",
+  "description": "Disable Windows Auto Reboot for current logon user. Redline is using this as part of its defense evasion.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ea2fe1b9-b9a3-4fa7-8018-51f395472eb4",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\" /v \"NoAutoRebootWithLoggedOnUsers\" /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ca596acf-608f-4a1b-b468-028635003554",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\" /v \"NoAutoRebootWithLoggedOnUsers\" /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ea2fe1b9-b9a3-4fa7-8018-51f395472eb4",
+      "p": "on-success",
+      "o": "ca596acf-608f-4a1b-b468-028635003554"
+    },
+    {
+      "s": "ea2fe1b9-b9a3-4fa7-8018-51f395472eb4",
+      "p": "on-failure",
+      "o": "ca596acf-608f-4a1b-b468-028635003554"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

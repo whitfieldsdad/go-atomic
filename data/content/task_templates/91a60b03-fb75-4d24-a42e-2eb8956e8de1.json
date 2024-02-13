@@ -1,0 +1,24 @@
+{
+  "id": "91a60b03-fb75-4d24-a42e-2eb8956e8de1",
+  "name": "Disable tty_tickets for sudo caching",
+  "description": "Sets sudo caching tty_tickets value to disabled. This is dangerous to modify without using 'visudo', do not do this on a production system.\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "e3eec2f4-fff1-4283-afa3-3ef979ea40a5",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo sh -c \"echo Defaults \"'!'\"tty_tickets \u003e\u003e /etc/sudoers\"\nsudo visudo -c -f /etc/sudoers\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1548.003",
+    "atomic-red-team"
+  ]
+}

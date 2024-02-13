@@ -1,0 +1,23 @@
+{
+  "id": "d3415a0e-66ef-429b-acf4-a768876954f6",
+  "name": "Security Software Discovery - Windows Defender Enumeration",
+  "description": "Windows Defender Enumeration via different built-in windows native tools.\nwhen sucessfully executed, information about windows defender is displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "6d91e2a8-7248-4f0d-84f2-3fd67769c956",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-Service WinDefend #check the service state of Windows Defender\nGet-MpComputerStatus #provides the current status of security solution elements, including Anti-Spyware, Antivirus, LoavProtection, Real-time protection, etc\nGet-MpThreat #threats details that have been detected using MS Defender\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1518.001",
+    "atomic-red-team"
+  ]
+}

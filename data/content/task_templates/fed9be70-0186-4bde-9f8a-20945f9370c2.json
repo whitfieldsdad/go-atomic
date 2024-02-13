@@ -1,0 +1,53 @@
+{
+  "id": "fed9be70-0186-4bde-9f8a-20945f9370c2",
+  "name": "View sudoers access",
+  "description": "(requires root)\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "a2196cd0-6cda-4714-b4a3-46fc4ddc0dd7",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f /etc/sudoers ]; then sudo cat /etc/sudoers \u003e #{output_file}; fi;\nif [ -f /usr/local/etc/sudoers ]; then sudo cat /usr/local/etc/sudoers \u003e #{output_file}; fi;\ncat #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "334eae1e-579a-4ad7-8192-32dadd1049a7",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a2196cd0-6cda-4714-b4a3-46fc4ddc0dd7",
+      "p": "on-success",
+      "o": "334eae1e-579a-4ad7-8192-32dadd1049a7"
+    },
+    {
+      "s": "a2196cd0-6cda-4714-b4a3-46fc4ddc0dd7",
+      "p": "on-failure",
+      "o": "334eae1e-579a-4ad7-8192-32dadd1049a7"
+    }
+  ],
+  "tags": [
+    "T1087.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path where captured results will be placed",
+      "value": "/tmp/T1087.001.txt"
+    }
+  ]
+}

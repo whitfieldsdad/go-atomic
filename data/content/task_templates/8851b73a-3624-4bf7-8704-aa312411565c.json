@@ -1,0 +1,23 @@
+{
+  "id": "8851b73a-3624-4bf7-8704-aa312411565c",
+  "name": "System Information Discovery with WMIC",
+  "description": "Identify system information with the WMI command-line (WMIC) utility. Upon execution, various system information will be displayed, including: OS, CPU, GPU, and disk drive names; memory capacity; display resolution; and baseboard, BIOS, and GPU driver products/versions.\nhttps://nwgat.ninja/getting-system-information-with-wmic-on-windows/\nElements of this test were observed in the wild used by Aurora Stealer in late 2022 and early 2023, as highlighted in public reporting:\nhttps://blog.sekoia.io/aurora-a-rising-stealer-flying-under-the-radar\nhttps://blog.cyble.com/2023/01/18/aurora-a-stealer-using-shapeshifting-tactics/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e05f99fe-9199-4f88-8233-e8b3035acefb",
+      "type": "execute-command",
+      "data": {
+        "command": "wmic cpu get name\nwmic MEMPHYSICAL get MaxCapacity\nwmic baseboard get product\nwmic baseboard get version\nwmic bios get SMBIOSBIOSVersion\nwmic path win32_VideoController get name\nwmic path win32_VideoController get DriverVersion\nwmic path win32_VideoController get VideoModeDescription\nwmic OS get Caption,OSArchitecture,Version\nwmic DISKDRIVE get Caption\nGet-WmiObject win32_bios\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1082",
+    "atomic-red-team"
+  ]
+}

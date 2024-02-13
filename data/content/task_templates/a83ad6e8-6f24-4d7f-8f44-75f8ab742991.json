@@ -1,0 +1,78 @@
+{
+  "id": "a83ad6e8-6f24-4d7f-8f44-75f8ab742991",
+  "name": "Unlimited sudo cache timeout (freebsd)",
+  "description": "Sets sudo caching timestamp_timeout to a value for unlimited. This is dangerous to modify without using 'visudo', do not do this on a production system.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "906871c6-3d61-497a-b186-102071272108",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo sed -i 's/env_reset.*$/env_reset,timestamp_timeout=-1/' /usr/local/etc/sudoers\nsudo visudo -c -f /usr/local/etc/sudoers\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9c521bc5-8033-46ba-a98a-fc47a329681f",
+      "name": "Check dependency 1/1",
+      "description": "Check if sudo is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v sudo)\" ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "82bd7309-6bab-4166-b5b5-94c41d20687a",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if sudo is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which pkg \u0026\u0026 pkg install -y sudo)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ae19f4aa-5770-48ec-9932-7227c35fa49d",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if sudo is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v sudo)\" ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "9c521bc5-8033-46ba-a98a-fc47a329681f",
+      "p": "on-success",
+      "o": "906871c6-3d61-497a-b186-102071272108"
+    },
+    {
+      "s": "9c521bc5-8033-46ba-a98a-fc47a329681f",
+      "p": "on-failure",
+      "o": "82bd7309-6bab-4166-b5b5-94c41d20687a"
+    },
+    {
+      "s": "82bd7309-6bab-4166-b5b5-94c41d20687a",
+      "p": "on-success",
+      "o": "ae19f4aa-5770-48ec-9932-7227c35fa49d"
+    },
+    {
+      "s": "ae19f4aa-5770-48ec-9932-7227c35fa49d",
+      "p": "on-failure",
+      "o": "906871c6-3d61-497a-b186-102071272108"
+    }
+  ],
+  "tags": [
+    "T1548.003",
+    "atomic-red-team"
+  ]
+}

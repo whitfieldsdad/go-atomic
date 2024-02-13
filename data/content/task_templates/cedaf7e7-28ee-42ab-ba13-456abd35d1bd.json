@@ -1,0 +1,52 @@
+{
+  "id": "cedaf7e7-28ee-42ab-ba13-456abd35d1bd",
+  "name": "Auditing Configuration Changes on FreeBSD Host",
+  "description": "Emulates modification of auditd configuration files\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "0fb5a084-473e-48ba-b157-4f5f42d284e2",
+      "type": "execute-command",
+      "data": {
+        "command": "echo '#art_test_1562_006_1' \u003e\u003e /etc/security/#{auditd_config_file_name}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4819f065-3fb2-4e86-adfb-478e477e89bc",
+      "type": "execute-command",
+      "data": {
+        "command": "sed -i \"\" '/#art_test_1562_006_1/d' /etc/security/#{auditd_config_file_name}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0fb5a084-473e-48ba-b157-4f5f42d284e2",
+      "p": "on-success",
+      "o": "4819f065-3fb2-4e86-adfb-478e477e89bc"
+    },
+    {
+      "s": "0fb5a084-473e-48ba-b157-4f5f42d284e2",
+      "p": "on-failure",
+      "o": "4819f065-3fb2-4e86-adfb-478e477e89bc"
+    }
+  ],
+  "tags": [
+    "T1562.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "auditd_config_file_name",
+      "type": "string",
+      "description": "The name of the auditd configuration file to be changed",
+      "value": "audit_event"
+    }
+  ]
+}

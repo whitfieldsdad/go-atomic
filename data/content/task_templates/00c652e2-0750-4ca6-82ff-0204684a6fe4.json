@@ -1,0 +1,23 @@
+{
+  "id": "00c652e2-0750-4ca6-82ff-0204684a6fe4",
+  "name": "Enumerate Root Domain linked policies Discovery",
+  "description": "The following Atomic test will utilize ADSISearcher to enumerate root domain unit within Active Directory.\nUpon successful execution a listing of users will output with their paths in AD.\nReference: https://medium.com/@pentesttas/discover-hidden-gpo-s-on-active-directory-using-ps-adsi-a284b6814c81\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "1b84312c-3c10-4481-adfc-718a729afed3",
+      "type": "execute-command",
+      "data": {
+        "command": "(([adsisearcher]'').SearchRooT).Path | %{if(([ADSI]\"$_\").gPlink){Write-Host \"[+] Domain Path:\"([ADSI]\"$_\").Path;$a=((([ADSI]\"$_\").gplink) -replace \"[[;]\" -split \"]\");for($i=0;$i -lt $a.length;$i++){if($a[$i]){Write-Host \"Policy Path[$i]:\"([ADSI]($a[$i]).Substring(0,$a[$i].length-1)).Path;Write-Host \"Policy Name[$i]:\"([ADSI]($a[$i]).Substring(0,$a[$i].length-1)).DisplayName} };Write-Output \"`n\" }}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1087.002",
+    "atomic-red-team"
+  ]
+}

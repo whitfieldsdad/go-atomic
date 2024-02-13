@@ -1,0 +1,88 @@
+{
+    "steps": [
+        {
+            "id": "1",
+            "name": "Check dependency (1/2)"
+        },
+        {
+            "id": "2",
+            "name": "Resolve dependendency (1/2)"
+        },
+        {
+            "id": "3",
+            "name": "Check dependency (1/2)"
+        },
+        {
+            "id": "4",
+            "name": "Re-check dependency (2/2)"
+        },
+        {
+            "id": "5",
+            "name": "Resolve dependendency (2/2)"
+        },
+        {
+            "id": "6",
+            "name": "Re-check dependency (2/2)"
+        },
+        {
+            "id": "7",
+            "name": "Test command"
+        },
+        {
+            "id": "8",
+            "name": "Cleanup command"
+        }
+    ],
+    "flows": [
+        {
+            "s": "1",
+            "p": "on-failure",
+            "o": "2"
+        },
+        {
+            "s": "1",
+            "p": "on-success",
+            "o": "4"
+        },
+        {
+            "s": "2",
+            "p": "on-success",
+            "o": "3"
+        },
+        {
+            "s": "3",
+            "p": "on-success",
+            "o": "4"
+        },
+        {
+            "s": "4",
+            "p": "on-failure",
+            "o": "5"
+        },
+        {
+            "s": "4",
+            "p": "on-success",
+            "o": "7"
+        },
+        {
+            "s": "5",
+            "p": "on-success",
+            "o": "6"
+        },
+        {
+            "s": "6",
+            "p": "on-success",
+            "o": "7"
+        },
+        {
+            "s": "7",
+            "p": "on-failure",
+            "o": "8"
+        },
+        {
+            "s": "7",
+            "p": "on-success",
+            "o": "8"
+        }
+    ]
+}

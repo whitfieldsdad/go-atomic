@@ -1,0 +1,92 @@
+{
+  "id": "9ebe7901-7edf-45c0-b5c7-8366300919db",
+  "name": "Invoke-ATHRemoteFXvGPUDisablementCommand base test",
+  "description": "RemoteFXvGPUDisablement.exe is an abusable, signed PowerShell host executable that was introduced in Windows 10 and Server 2019 (OS Build 17763.1339).\n\nOne of the PowerShell functions called by RemoteFXvGPUDisablement.exe is Get-VMRemoteFXPhysicalVideoAdapter, a part of the Hyper-V module. This atomic test influences RemoteFXvGPUDisablement.exe to execute custom PowerShell code by using a technique referred to as \"PowerShell module load-order hijacking\" where a module containing, in this case, an implementation of the Get-VMRemoteFXPhysicalVideoAdapter is loaded first by way of introducing a temporary module into the first directory listed in the %PSModulePath% environment variable or within a user-specified module directory outside of %PSModulePath%. Upon execution the temporary module is deleted.\n\nInvoke-ATHRemoteFXvGPUDisablementCommand is used in this test to demonstrate how a PowerShell host executable can be directed to user-supplied PowerShell code without needing to supply anything at the command-line. PowerShell code execution is triggered when supplying the \"Disable\" argument to RemoteFXvGPUDisablement.exe.\n\nThe Invoke-ATHRemoteFXvGPUDisablementCommand function outputs all relevant execution-related artifacts.\n\nReference: https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1218_SignedBinaryProxyExecution/InvokeRemoteFXvGPUDisablementCommand.ps1\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "33aa0680-4174-4321-a450-46d8042d5c38",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-ATHRemoteFXvGPUDisablementCommand -ModuleName #{module_name} -ModulePath #{module_path}",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "21ab3e25-b1d0-43f0-ab8b-590c44f0d86a",
+      "name": "Check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHRemoteFXvGPUDisablementCommand must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHRemoteFXvGPUDisablementCommand']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2d9d4f12-5b51-4bab-a086-cd16779b901d",
+      "name": "Resolve dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHRemoteFXvGPUDisablementCommand must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a93ce2d1-9b81-46fc-bf16-71c51c2962be",
+      "name": "Re-check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHRemoteFXvGPUDisablementCommand must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHRemoteFXvGPUDisablementCommand']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "21ab3e25-b1d0-43f0-ab8b-590c44f0d86a",
+      "p": "on-success",
+      "o": "33aa0680-4174-4321-a450-46d8042d5c38"
+    },
+    {
+      "s": "21ab3e25-b1d0-43f0-ab8b-590c44f0d86a",
+      "p": "on-failure",
+      "o": "2d9d4f12-5b51-4bab-a086-cd16779b901d"
+    },
+    {
+      "s": "2d9d4f12-5b51-4bab-a086-cd16779b901d",
+      "p": "on-success",
+      "o": "a93ce2d1-9b81-46fc-bf16-71c51c2962be"
+    },
+    {
+      "s": "a93ce2d1-9b81-46fc-bf16-71c51c2962be",
+      "p": "on-failure",
+      "o": "33aa0680-4174-4321-a450-46d8042d5c38"
+    }
+  ],
+  "tags": [
+    "T1218",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "module_name",
+      "type": "string",
+      "description": "Specifies a temporary module name to use. If -ModuleName is not supplied, a 16-character random temporary module name is used. A PowerShell module can have any name. Because Get-VMRemoteFXPhysicalVideoAdapter abuses module load order, a module name must be specified.",
+      "value": "foo"
+    },
+    {
+      "name": "module_path",
+      "type": "string",
+      "description": "Specifies an alternate, non-default PowerShell module path for RemoteFXvGPUDisablement.exe. If -ModulePath is not specified, the first entry in %PSModulePath% will be used. Typically, this is %USERPROFILE%\\Documents\\WindowsPowerShell\\Modules.",
+      "value": "$PWD"
+    }
+  ]
+}

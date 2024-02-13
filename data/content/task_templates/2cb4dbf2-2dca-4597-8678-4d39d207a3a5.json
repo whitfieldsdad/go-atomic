@@ -1,0 +1,44 @@
+{
+  "id": "2cb4dbf2-2dca-4597-8678-4d39d207a3a5",
+  "name": "Win32_PnPEntity Hardware Inventory",
+  "description": "Perform peripheral device discovery using Get-WMIObject Win32_PnPEntity",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "713b4a41-921a-4f64-a785-81d3e631aa97",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-WMIObject Win32_PnPEntity | Format-Table Name, Description, Manufacturer \u003e $env:TEMP\\T1120_collection.txt\n$Space,$Heading,$Break,$Data = Get-Content $env:TEMP\\T1120_collection.txt\n@($Heading; $Break; $Data |Sort-Object -Unique) | ? {$_.trim() -ne \"\" } |Set-Content $env:TEMP\\T1120_collection.txt",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "562a343b-08d0-4c0f-8198-9559382598d7",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item $env:TEMP\\T1120_collection.txt -ErrorAction Ignore",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "713b4a41-921a-4f64-a785-81d3e631aa97",
+      "p": "on-success",
+      "o": "562a343b-08d0-4c0f-8198-9559382598d7"
+    },
+    {
+      "s": "713b4a41-921a-4f64-a785-81d3e631aa97",
+      "p": "on-failure",
+      "o": "562a343b-08d0-4c0f-8198-9559382598d7"
+    }
+  ],
+  "tags": [
+    "T1120",
+    "atomic-red-team"
+  ]
+}

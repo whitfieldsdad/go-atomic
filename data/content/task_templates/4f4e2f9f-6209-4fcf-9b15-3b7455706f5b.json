@@ -1,0 +1,44 @@
+{
+  "id": "4f4e2f9f-6209-4fcf-9b15-3b7455706f5b",
+  "name": "BlackByte Ransomware Registry Changes - CMD",
+  "description": "This task recreates the steps taken by BlackByte ransomware before it worms to other machines.  See \"Preparing to Worm\" section: https://redcanary.com/blog/blackbyte-ransomware/\nThe steps are as follows:\n\u003col\u003e\n    \u003cli\u003e1. Elevate Local Privilege by disabling UAC Remote Restrictions\u003c/li\u003e\n    \u003cli\u003e2. Enable OS to share network connections between different privilege levels\u003c/li\u003e\n    \u003cli\u003e3. Enable long path values for file paths, names, and namespaces to ensure encryption of all file names and paths\u003c/li\u003e\n\u003c/ol\u003e\nThe registry keys and their respective values will be created upon successful execution.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "46a39289-ce2e-4c53-a4e6-5caef327c14b",
+      "type": "execute-command",
+      "data": {
+        "command": "cmd.exe /c reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System /v LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f\ncmd.exe /c reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System /v EnableLinkedConnections /t REG_DWORD /d 1 /f\ncmd.exe /c reg add HKLM\\SYSTEM\\CurrentControlSet\\Control\\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "823555c0-1df8-488d-b5dc-9c8c2920d7f3",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\ /v LocalAccountTokenFilterPolicy /f \u003enul 2\u003e\u00261\nreg delete HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\ /v EnableLinkedConnections /f \u003enul 2\u003e\u00261\nreg delete HKLM\\SYSTEM\\CurrentControlSet\\Control\\FileSystem\\ /v LongPathsEnabled /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "46a39289-ce2e-4c53-a4e6-5caef327c14b",
+      "p": "on-success",
+      "o": "823555c0-1df8-488d-b5dc-9c8c2920d7f3"
+    },
+    {
+      "s": "46a39289-ce2e-4c53-a4e6-5caef327c14b",
+      "p": "on-failure",
+      "o": "823555c0-1df8-488d-b5dc-9c8c2920d7f3"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

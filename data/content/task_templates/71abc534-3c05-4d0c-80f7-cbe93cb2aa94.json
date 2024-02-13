@@ -1,0 +1,52 @@
+{
+  "id": "71abc534-3c05-4d0c-80f7-cbe93cb2aa94",
+  "name": "Certutil Rename and Decode",
+  "description": "Rename certutil and decode a file. This is in reference to latest research by FireEye [here](https://www.fireeye.com/blog/threat-research/2018/09/apt10-targeting-japanese-corporations-using-updated-ttps.html)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "6a41886d-ad02-4c6b-a793-40599f8a82cb",
+      "type": "execute-command",
+      "data": {
+        "command": "copy %windir%\\system32\\certutil.exe %temp%\\tcm.tmp\n%temp%\\tcm.tmp -encode #{executable} %temp%\\T1140_calc2.txt\n%temp%\\tcm.tmp -decode %temp%\\T1140_calc2.txt %temp%\\T1140_calc2_decoded.exe\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6449f6c5-abec-4075-9fea-f3e6e3da0fb3",
+      "type": "execute-command",
+      "data": {
+        "command": "del %temp%\\tcm.tmp \u003enul 2\u003e\u00261\ndel %temp%\\T1140_calc2.txt \u003enul 2\u003e\u00261\ndel %temp%\\T1140_calc2_decoded.exe \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "6a41886d-ad02-4c6b-a793-40599f8a82cb",
+      "p": "on-success",
+      "o": "6449f6c5-abec-4075-9fea-f3e6e3da0fb3"
+    },
+    {
+      "s": "6a41886d-ad02-4c6b-a793-40599f8a82cb",
+      "p": "on-failure",
+      "o": "6449f6c5-abec-4075-9fea-f3e6e3da0fb3"
+    }
+  ],
+  "tags": [
+    "T1140",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "executable",
+      "type": "path",
+      "description": "name of executable/file to decode",
+      "value": "C:\\Windows\\System32\\calc.exe"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "1553252f-14ea-4d3b-8a08-d7a4211aa945",
+  "name": "Security Software Discovery - AV Discovery via WMI",
+  "description": "Discovery of installed antivirus products via a WMI query.\n\nwhen sucessfully executed, the test is going to display installed AV software.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "1db982bb-08c7-4fdd-8532-0ced17bfe388",
+      "type": "execute-command",
+      "data": {
+        "command": "wmic.exe /Namespace:\\\\root\\SecurityCenter2 Path AntiVirusProduct Get displayName /Format:List",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1518.001",
+    "atomic-red-team"
+  ]
+}

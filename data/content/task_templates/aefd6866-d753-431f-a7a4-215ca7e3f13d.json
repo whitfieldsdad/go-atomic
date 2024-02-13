@@ -1,0 +1,44 @@
+{
+  "id": "aefd6866-d753-431f-a7a4-215ca7e3f13d",
+  "name": "New shim database files created in the default shim database directory",
+  "description": "Upon execution, check the \"C:\\Windows\\apppatch\\Custom\\\" folder for the new shim database\n\nhttps://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "b5dad777-355d-42e2-98f1-76cebbeab311",
+      "type": "execute-command",
+      "data": {
+        "command": "Copy-Item \"$PathToAtomicsFolder\\T1546.011\\bin\\T1546.011CompatDatabase.sdb\" C:\\Windows\\apppatch\\Custom\\T1546.011CompatDatabase.sdb\nCopy-Item \"$PathToAtomicsFolder\\T1546.011\\bin\\T1546.011CompatDatabase.sdb\" C:\\Windows\\apppatch\\Custom\\Custom64\\T1546.011CompatDatabase.sdb\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5009c104-f139-45ba-978e-0f699b6b3dc2",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item C:\\Windows\\apppatch\\Custom\\T1546.011CompatDatabase.sdb -ErrorAction Ignore\nRemove-Item C:\\Windows\\apppatch\\Custom\\Custom64\\T1546.011CompatDatabase.sdb -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b5dad777-355d-42e2-98f1-76cebbeab311",
+      "p": "on-success",
+      "o": "5009c104-f139-45ba-978e-0f699b6b3dc2"
+    },
+    {
+      "s": "b5dad777-355d-42e2-98f1-76cebbeab311",
+      "p": "on-failure",
+      "o": "5009c104-f139-45ba-978e-0f699b6b3dc2"
+    }
+  ],
+  "tags": [
+    "T1546.011",
+    "atomic-red-team"
+  ]
+}

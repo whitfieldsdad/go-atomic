@@ -1,0 +1,23 @@
+{
+  "id": "af197fd7-e868-448e-9bd5-05d1bcd9d9e5",
+  "name": "Enumeration for PuTTY Credentials in Registry",
+  "description": "Queries to enumerate for PuTTY credentials in the Registry. PuTTY must be installed for this test to work. If any registry\nentries are found, they will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "a0d38f84-e2d9-4ab7-9029-d44bdc813477",
+      "type": "execute-command",
+      "data": {
+        "command": "reg query HKCU\\Software\\SimonTatham\\PuTTY\\Sessions /t REG_SZ /s\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1552.002",
+    "atomic-red-team"
+  ]
+}

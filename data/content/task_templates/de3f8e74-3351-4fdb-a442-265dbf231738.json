@@ -1,0 +1,44 @@
+{
+  "id": "de3f8e74-3351-4fdb-a442-265dbf231738",
+  "name": "Modify HKLM:\\System\\CurrentControlSet\\Control\\Lsa\\OSConfig Security Support Provider configuration in registry",
+  "description": "Add a value to a Windows registry SSP key, simulating an adversarial modification of those keys.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "0da3a9b5-c847-4e51-affb-7ad16ab3444e",
+      "type": "execute-command",
+      "data": {
+        "command": "$oldvalue = $(Get-ItemProperty HKLM:\\System\\CurrentControlSet\\Control\\Lsa\\OSConfig -Name 'Security Packages' | Select-Object -ExpandProperty 'Security Packages');\nSet-ItemProperty -Path \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\\OSConfig\" -Name 'Security Packages old' -Value \"$oldvalue\";\n$newvalue = \"AtomicTest.dll\";\nSet-ItemProperty HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\OSConfig -Name 'Security Packages' -Value $newvalue\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d627e9c7-6f3d-4f64-9e05-a1d7ff7cb384",
+      "type": "execute-command",
+      "data": {
+        "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\\OSConfig\" -Name 'Security Packages old' | Select-Object -ExpandProperty 'Security Packages old');\nSet-ItemProperty -Path HKLM:\\System\\CurrentControlSet\\Control\\Lsa\\OSConfig -Name 'Security Packages' -Value \"$oldvalue\";\nRemove-ItemProperty -Path  \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\\OSConfig\" -Name 'Security Packages old';",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0da3a9b5-c847-4e51-affb-7ad16ab3444e",
+      "p": "on-success",
+      "o": "d627e9c7-6f3d-4f64-9e05-a1d7ff7cb384"
+    },
+    {
+      "s": "0da3a9b5-c847-4e51-affb-7ad16ab3444e",
+      "p": "on-failure",
+      "o": "d627e9c7-6f3d-4f64-9e05-a1d7ff7cb384"
+    }
+  ],
+  "tags": [
+    "T1547.005",
+    "atomic-red-team"
+  ]
+}

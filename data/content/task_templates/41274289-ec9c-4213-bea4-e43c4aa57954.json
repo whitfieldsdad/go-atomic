@@ -1,0 +1,52 @@
+{
+  "id": "41274289-ec9c-4213-bea4-e43c4aa57954",
+  "name": "Windows - Stop service using net.exe",
+  "description": "Stops a specified service using the net.exe command. Upon execution, if the service was running \"The Print Spooler service was stopped successfully.\"\nwill be displayed. If the service was not running, \"The Print Spooler service is not started.\" will be displayed and it can be\nstarted by running the cleanup command.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "620c968c-035d-4578-85f8-e8d17223bc7e",
+      "type": "execute-command",
+      "data": {
+        "command": "net.exe stop #{service_name}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "70bfe32f-55ed-4741-bb1e-f0eea6f565b6",
+      "type": "execute-command",
+      "data": {
+        "command": "net.exe start #{service_name} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "620c968c-035d-4578-85f8-e8d17223bc7e",
+      "p": "on-success",
+      "o": "70bfe32f-55ed-4741-bb1e-f0eea6f565b6"
+    },
+    {
+      "s": "620c968c-035d-4578-85f8-e8d17223bc7e",
+      "p": "on-failure",
+      "o": "70bfe32f-55ed-4741-bb1e-f0eea6f565b6"
+    }
+  ],
+  "tags": [
+    "T1489",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "service_name",
+      "type": "string",
+      "description": "Name of a service to stop",
+      "value": "spooler"
+    }
+  ]
+}

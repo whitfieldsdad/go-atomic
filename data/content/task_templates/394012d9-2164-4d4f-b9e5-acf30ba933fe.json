@@ -1,0 +1,31 @@
+{
+  "id": "394012d9-2164-4d4f-b9e5-acf30ba933fe",
+  "name": "Suspicious LAPS Attributes Query with Get-ADComputer all properties",
+  "description": "This test executes LDAP query using powershell command Get-ADComputer and lists all the properties including Microsoft LAPS attributes ms-mcs-AdmPwd and ms-mcs-AdmPwdExpirationTime",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "afdbacbc-2606-4bea-810d-5c050da5f344",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-ADComputer #{hostname} -Properties *",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1087.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "hostname",
+      "type": "string",
+      "description": "Name of the host",
+      "value": "$env:computername"
+    }
+  ]
+}

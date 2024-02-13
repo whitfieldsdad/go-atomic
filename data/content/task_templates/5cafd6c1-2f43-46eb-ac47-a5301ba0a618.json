@@ -1,0 +1,44 @@
+{
+  "id": "5cafd6c1-2f43-46eb-ac47-a5301ba0a618",
+  "name": "Setting the HISTFILESIZE environment variable",
+  "description": "An Adversary may set the bash history files size environment variable (HISTFILESIZE) to zero to prevent the logging of commands to the history file after they log out of the system.\n\nNote: we don't wish to log out, so we are just confirming the value of HISTFILESIZE. In this test we 1. echo HISTFILESIZE 2. set it to zero 3. confirm that HISTFILESIZE is set to zero.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "08ba01ac-7687-45e7-aea0-0526ac078355",
+      "type": "execute-command",
+      "data": {
+        "command": "TEST=$(echo $HISTFILESIZE)\necho $HISTFILESIZE\nexport HISTFILESIZE=0\nif [ $(echo $HISTFILESIZE) -eq 0 ]; then echo \"\\$HISTFILESIZE is zero\"; fi\n# -\u003e $HISTFILESIZE is zero\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4b9e43b3-f5fc-48f3-8a4a-102961b10bd1",
+      "type": "execute-command",
+      "data": {
+        "command": "export HISTCONTROL=$(echo $TEST)\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "08ba01ac-7687-45e7-aea0-0526ac078355",
+      "p": "on-success",
+      "o": "4b9e43b3-f5fc-48f3-8a4a-102961b10bd1"
+    },
+    {
+      "s": "08ba01ac-7687-45e7-aea0-0526ac078355",
+      "p": "on-failure",
+      "o": "4b9e43b3-f5fc-48f3-8a4a-102961b10bd1"
+    }
+  ],
+  "tags": [
+    "T1562.003",
+    "atomic-red-team"
+  ]
+}

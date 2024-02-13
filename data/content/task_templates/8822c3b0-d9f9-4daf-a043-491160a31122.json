@@ -1,0 +1,105 @@
+{
+  "id": "8822c3b0-d9f9-4daf-a043-491160a31122",
+  "name": "AWS - Create Access Key and Secret Key",
+  "description": "Adversaries create their own new access and secret keys to programatically interact with AWS environment, which is already compromised\n",
+  "platforms": [
+    "iaas:aws"
+  ],
+  "steps": [
+    {
+      "id": "71c9448d-251d-408e-a22e-5cd1112d39ae",
+      "type": "execute-command",
+      "data": {
+        "command": "aws iam create-access-key --user-name #{username} \u003e \"$PathToAtomicsFolder/T1098.001/bin/aws_secret.creds\"\ncd \"$PathToAtomicsFolder/T1098.001/bin/\"\n./aws_secret.sh\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ce5e1853-c5c5-448d-8665-51ef5d93090c",
+      "type": "execute-command",
+      "data": {
+        "command": "access_key=`cat \"$PathToAtomicsFolder/T1098.001/bin/aws_secret.creds\" | jq -r '.AccessKey.AccessKeyId'`\naws iam delete-access-key --access-key-id $access_key --user-name #{username}\nrm \"$PathToAtomicsFolder/T1098.001/bin/aws_secret.creds\"\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9e137965-40c5-4012-a16b-8836a3e65293",
+      "name": "Check dependency 1/1",
+      "description": "Check if the user exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "aws iam list-users | grep #{username}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "15a1f321-6bb5-4d9d-bd33-66078f8ecd0b",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if the user exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Please run atomic test T1136.003, before running this atomic\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "85f4daba-58ac-4a74-a262-67d5f2c5d2bc",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if the user exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "aws iam list-users | grep #{username}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "71c9448d-251d-408e-a22e-5cd1112d39ae",
+      "p": "on-success",
+      "o": "ce5e1853-c5c5-448d-8665-51ef5d93090c"
+    },
+    {
+      "s": "71c9448d-251d-408e-a22e-5cd1112d39ae",
+      "p": "on-failure",
+      "o": "ce5e1853-c5c5-448d-8665-51ef5d93090c"
+    },
+    {
+      "s": "9e137965-40c5-4012-a16b-8836a3e65293",
+      "p": "on-success",
+      "o": "71c9448d-251d-408e-a22e-5cd1112d39ae"
+    },
+    {
+      "s": "9e137965-40c5-4012-a16b-8836a3e65293",
+      "p": "on-failure",
+      "o": "15a1f321-6bb5-4d9d-bd33-66078f8ecd0b"
+    },
+    {
+      "s": "15a1f321-6bb5-4d9d-bd33-66078f8ecd0b",
+      "p": "on-success",
+      "o": "85f4daba-58ac-4a74-a262-67d5f2c5d2bc"
+    },
+    {
+      "s": "85f4daba-58ac-4a74-a262-67d5f2c5d2bc",
+      "p": "on-failure",
+      "o": "71c9448d-251d-408e-a22e-5cd1112d39ae"
+    }
+  ],
+  "tags": [
+    "T1098.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Create new AWS access and secret keys for the user",
+      "value": "atomicredteam"
+    }
+  ]
+}

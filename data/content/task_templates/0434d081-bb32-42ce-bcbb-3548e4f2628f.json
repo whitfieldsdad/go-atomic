@@ -1,0 +1,23 @@
+{
+  "id": "0434d081-bb32-42ce-bcbb-3548e4f2628f",
+  "name": "Query Registry with Powershell cmdlets",
+  "description": "Query Windows Registry with Powershell cmdlets, i.e., Get-Item and Get-ChildItem. The results from above can also be achieved with Get-Item and Get-ChildItem.\nUnlike using \"reg query\" which then executes reg.exe, using cmdlets won't generate new processes, which may evade detection systems monitoring process generation. \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5cd8ac4a-4b75-461d-a17e-c2f66a91ade3",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-Item -Path \"HKLM:SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows\"\nGet-ChildItem -Path \"HKLM:SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\\" | findstr Windows\nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce\"\nGet-Item -Path \"HKCU:Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce\"\nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows\\CurrentVersion\\RunServices\"\nGet-Item -Path \"HKCU:Software\\Microsoft\\Windows\\CurrentVersion\\RunServices\"\nGet-Item -Path \"HKLM:SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\"\nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit\"\nGet-Item -Path \"HKCU:Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\\Shell\"\nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\\Shell\"\nGet-Item -Path \"HKLM:SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ShellServiceObjectDelayLoad\"\nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\"\nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\"\nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows\\CurrentVersion\\Run\"\nGet-Item -Path \"HKCU:Software\\Microsoft\\Windows\\CurrentVersion\\Run\"\nGet-Item -Path \"HKCU:Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\"\nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\"\nGet-Item -Path \"HKCU:Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\"\nGet-ChildItem -Path \"HKLM:system\\currentcontrolset\\services\" \nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows\\CurrentVersion\\Run\"\nGet-Item -Path \"HKLM:SYSTEM\\CurrentControlSet\\Control\\SafeBoot\"\nGet-ChildItem -Path \"HKLM:SOFTWARE\\Microsoft\\Active Setup\\Installed Components\"\nGet-ChildItem -Path \"HKLM:SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\Scripts\\Startup\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1012",
+    "atomic-red-team"
+  ]
+}

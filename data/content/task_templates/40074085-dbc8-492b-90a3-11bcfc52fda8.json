@@ -1,0 +1,45 @@
+{
+  "id": "40074085-dbc8-492b-90a3-11bcfc52fda8",
+  "name": "Tamper with Defender ATP on Linux/MacOS",
+  "description": "With root privileges, an adversary can disable real time protection. Note, this test assumes Defender is not in passive mode and real-time protection is enabled. The use of a managed.json on Linux or Defender .plist on MacOS will prevent these changes. Tamper protection will also prevent this (available on MacOS, but not Linux at the time of writing). Installation of MDATP is a prerequisite. Installation steps vary across MacOS and Linux distros. See Microsoft public documentation for instructions: https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/mac-install-manually?view=o365-worldwide https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/linux-install-manually?view=o365-worldwide\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "0656816b-f4e6-4643-b9ce-1054393750b0",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo mdatp config real-time-protection --value disabled\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "14178bbe-4295-4cc9-bc42-f9eb824a7d67",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo mdatp config real-time-protection --value enabled\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0656816b-f4e6-4643-b9ce-1054393750b0",
+      "p": "on-success",
+      "o": "14178bbe-4295-4cc9-bc42-f9eb824a7d67"
+    },
+    {
+      "s": "0656816b-f4e6-4643-b9ce-1054393750b0",
+      "p": "on-failure",
+      "o": "14178bbe-4295-4cc9-bc42-f9eb824a7d67"
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ]
+}

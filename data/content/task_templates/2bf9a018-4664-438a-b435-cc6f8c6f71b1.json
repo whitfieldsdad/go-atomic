@@ -1,0 +1,78 @@
+{
+  "id": "2bf9a018-4664-438a-b435-cc6f8c6f71b1",
+  "name": "Sudo usage (freebsd)",
+  "description": "Common Sudo enumeration methods.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "0ee3a39b-cdd5-4dec-8d15-55f2e6769d27",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo -l      \nsudo cat /usr/local/etc/sudoers\nsudo ee /usr/local/etc/sudoers\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "086a94f0-8883-48cf-9bcc-7855b3a9e5e0",
+      "name": "Check dependency 1/1",
+      "description": "Check if sudo is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v sudo)\" ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a6319a34-6385-4ed7-856f-6f78752d0426",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if sudo is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which pkg \u0026\u0026 pkg install -y sudo)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "27c32f33-02b5-46ad-b1cf-b89d24e1c174",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if sudo is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v sudo)\" ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "086a94f0-8883-48cf-9bcc-7855b3a9e5e0",
+      "p": "on-success",
+      "o": "0ee3a39b-cdd5-4dec-8d15-55f2e6769d27"
+    },
+    {
+      "s": "086a94f0-8883-48cf-9bcc-7855b3a9e5e0",
+      "p": "on-failure",
+      "o": "a6319a34-6385-4ed7-856f-6f78752d0426"
+    },
+    {
+      "s": "a6319a34-6385-4ed7-856f-6f78752d0426",
+      "p": "on-success",
+      "o": "27c32f33-02b5-46ad-b1cf-b89d24e1c174"
+    },
+    {
+      "s": "27c32f33-02b5-46ad-b1cf-b89d24e1c174",
+      "p": "on-failure",
+      "o": "0ee3a39b-cdd5-4dec-8d15-55f2e6769d27"
+    }
+  ],
+  "tags": [
+    "T1548.003",
+    "atomic-red-team"
+  ]
+}

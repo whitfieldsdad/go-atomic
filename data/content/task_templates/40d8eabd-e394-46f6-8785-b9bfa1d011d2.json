@@ -1,0 +1,52 @@
+{
+  "id": "40d8eabd-e394-46f6-8785-b9bfa1d011d2",
+  "name": "Create a user account on a Linux system",
+  "description": "Create a user via useradd\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "a908f198-7e87-411a-8a2f-8149a47c4c98",
+      "type": "execute-command",
+      "data": {
+        "command": "useradd -M -N -r -s /bin/bash -c evil_account #{username}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c40960e2-c77a-4285-9585-acc9cdec2652",
+      "type": "execute-command",
+      "data": {
+        "command": "userdel #{username}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a908f198-7e87-411a-8a2f-8149a47c4c98",
+      "p": "on-success",
+      "o": "c40960e2-c77a-4285-9585-acc9cdec2652"
+    },
+    {
+      "s": "a908f198-7e87-411a-8a2f-8149a47c4c98",
+      "p": "on-failure",
+      "o": "c40960e2-c77a-4285-9585-acc9cdec2652"
+    }
+  ],
+  "tags": [
+    "T1136.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username of the user to create",
+      "value": "evil_user"
+    }
+  ]
+}

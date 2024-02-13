@@ -1,0 +1,52 @@
+{
+  "id": "cc99e772-4e18-4f1f-b422-c5cdd1bfd7b7",
+  "name": "Azure - Dump Azure Instance Metadata from Virtual Machines",
+  "description": "This test invokes a web request to the default Instance Metadata API of 169.254.169.254 in order to dump the data contained within it to a file. \nSee: https://www.sans.org/blog/cloud-instance-metadata-services-imds-/\n",
+  "platforms": [
+    "iaas:azure"
+  ],
+  "steps": [
+    {
+      "id": "cdb9f1bd-ebe3-4236-ada8-8eb858fabe8e",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-RestMethod -Headers @{\"Metadata\"=\"true\"} -Method GET -Uri \"http://169.254.169.254/metadata/instance?api-version=2021-02-01\" | ConvertTo-Json -Depth 64 \u003e #{output_file}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9e775183-a17b-4ca2-a347-eb499e8e1c70",
+      "type": "execute-command",
+      "data": {
+        "command": "remove-item #{output_file} -force -erroraction silentlycontinue\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "cdb9f1bd-ebe3-4236-ada8-8eb858fabe8e",
+      "p": "on-success",
+      "o": "9e775183-a17b-4ca2-a347-eb499e8e1c70"
+    },
+    {
+      "s": "cdb9f1bd-ebe3-4236-ada8-8eb858fabe8e",
+      "p": "on-failure",
+      "o": "9e775183-a17b-4ca2-a347-eb499e8e1c70"
+    }
+  ],
+  "tags": [
+    "T1552.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "string",
+      "description": "File to output metadata to",
+      "value": "$env:temp\\T1552.005Test2.txt"
+    }
+  ]
+}

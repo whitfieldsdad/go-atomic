@@ -1,0 +1,44 @@
+{
+  "id": "d44b7297-622c-4be8-ad88-ec40d7563c75",
+  "name": "USB Malware Spread Simulation",
+  "description": "Simulates an adversary copying malware to all connected removable drives. \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "db65de61-90a8-41d7-8cba-f7d8778eed1d",
+      "type": "execute-command",
+      "data": {
+        "command": "$RemovableDrives=@()\n$RemovableDrives = Get-WmiObject -Class Win32_LogicalDisk -filter \"drivetype=2\" | select-object -expandproperty DeviceID\nForEach ($Drive in $RemovableDrives)\n{\nwrite-host \"Removable Drive Found:\" $Drive\nNew-Item -Path $Drive/T1091Test1.txt -ItemType \"file\" -Force -Value \"T1091 Test 1 has created this file to simulate malware spread to removable drives.\"\n}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ef636052-09cf-467d-9d9e-65b162cb520a",
+      "type": "execute-command",
+      "data": {
+        "command": "$RemovableDrives = Get-WmiObject -Class Win32_LogicalDisk -filter \"drivetype=2\" | select-object -expandproperty DeviceID\nForEach ($Drive in $RemovableDrives)\n{\nRemove-Item -Path $Drive\\T1091Test1.txt -Force -ErrorAction Ignore\n}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "db65de61-90a8-41d7-8cba-f7d8778eed1d",
+      "p": "on-success",
+      "o": "ef636052-09cf-467d-9d9e-65b162cb520a"
+    },
+    {
+      "s": "db65de61-90a8-41d7-8cba-f7d8778eed1d",
+      "p": "on-failure",
+      "o": "ef636052-09cf-467d-9d9e-65b162cb520a"
+    }
+  ],
+  "tags": [
+    "T1091",
+    "atomic-red-team"
+  ]
+}

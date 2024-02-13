@@ -1,0 +1,44 @@
+{
+  "id": "f9f2fe59-96f7-4a7d-ba9f-a9783200d4c9",
+  "name": "Creating W32Time similar named service using schtasks",
+  "description": "Creating W32Time similar named service (win32times) using schtasks just like threat actor dubbed \"Operation Wocao\"",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "801ed536-97a4-481c-ae49-effa890de20a",
+      "type": "execute-command",
+      "data": {
+        "command": "schtasks /create /ru system /sc daily /tr \"cmd /c powershell.exe -ep bypass -file c:\\T1036.004_NonExistingScript.ps1\" /tn win32times /f\nschtasks /query /tn win32times\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "dd004a57-0912-44f5-91b5-601236bce855",
+      "type": "execute-command",
+      "data": {
+        "command": "schtasks /tn win32times /delete /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "801ed536-97a4-481c-ae49-effa890de20a",
+      "p": "on-success",
+      "o": "dd004a57-0912-44f5-91b5-601236bce855"
+    },
+    {
+      "s": "801ed536-97a4-481c-ae49-effa890de20a",
+      "p": "on-failure",
+      "o": "dd004a57-0912-44f5-91b5-601236bce855"
+    }
+  ],
+  "tags": [
+    "T1036.004",
+    "atomic-red-team"
+  ]
+}

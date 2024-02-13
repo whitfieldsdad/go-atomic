@@ -1,0 +1,205 @@
+{
+  "id": "515942b0-a09f-4163-a7bb-22fefb6f185f",
+  "name": "Port Scan Nmap",
+  "description": "Scan ports to check for listening ports with Nmap.\nUpon successful execution, sh will utilize nmap, telnet, and nc to contact a single or range of addresses on port 80 to determine if listening. Results will be via stdout.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "be994653-39d8-4363-87f4-0a0e67fd153c",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo nmap -sS #{network_range} -p #{port}\ntelnet #{host} #{port}\nnc -nv #{host} #{port}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4d0ca3ad-abf2-4794-a019-b98b8509e9db",
+      "name": "Check dependency 1/3",
+      "description": "Check if nmap command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v nmap)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "804563af-8d5c-4e11-b741-19c5ade590cd",
+      "name": "Resolve dependency 1/3",
+      "description": "Check if nmap command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which yum \u0026\u0026 yum -y install epel-release nmap)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y nmap)||(which pkg \u0026\u0026 pkg install -y nmap)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "28972b81-fe56-4ac4-8d85-a5cd7964bdd6",
+      "name": "Re-check dependency 1/3",
+      "description": "Check if nmap command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v nmap)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c3156796-ef32-4be6-8225-83047965ca36",
+      "name": "Check dependency 2/3",
+      "description": "Check if nc command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v nc)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "432164c0-5434-461a-ac12-8cdf3a511422",
+      "name": "Resolve dependency 2/3",
+      "description": "Check if nc command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which yum \u0026\u0026 yum -y install epel-release nc)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y netcat)||(which pkg \u0026\u0026 pkg install -y netcat)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bf578a7a-372b-42aa-8a43-b2da28af2ed1",
+      "name": "Re-check dependency 2/3",
+      "description": "Check if nc command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v nc)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f6d13ae4-2814-45bc-acd2-2e0f04a2779f",
+      "name": "Check dependency 3/3",
+      "description": "Check if telnet command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v telnet)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f2531550-aad1-46a4-8590-9c38e7c749ee",
+      "name": "Resolve dependency 3/3",
+      "description": "Check if telnet command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which yum \u0026\u0026 yum -y install epel-release telnet)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y telnet)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b2829d3e-0d62-4b44-89cd-f21f9449da3d",
+      "name": "Re-check dependency 3/3",
+      "description": "Check if telnet command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v telnet)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4d0ca3ad-abf2-4794-a019-b98b8509e9db",
+      "p": "on-success",
+      "o": "be994653-39d8-4363-87f4-0a0e67fd153c"
+    },
+    {
+      "s": "4d0ca3ad-abf2-4794-a019-b98b8509e9db",
+      "p": "on-failure",
+      "o": "804563af-8d5c-4e11-b741-19c5ade590cd"
+    },
+    {
+      "s": "804563af-8d5c-4e11-b741-19c5ade590cd",
+      "p": "on-success",
+      "o": "28972b81-fe56-4ac4-8d85-a5cd7964bdd6"
+    },
+    {
+      "s": "28972b81-fe56-4ac4-8d85-a5cd7964bdd6",
+      "p": "on-failure",
+      "o": "be994653-39d8-4363-87f4-0a0e67fd153c"
+    },
+    {
+      "s": "c3156796-ef32-4be6-8225-83047965ca36",
+      "p": "on-success",
+      "o": "be994653-39d8-4363-87f4-0a0e67fd153c"
+    },
+    {
+      "s": "c3156796-ef32-4be6-8225-83047965ca36",
+      "p": "on-failure",
+      "o": "432164c0-5434-461a-ac12-8cdf3a511422"
+    },
+    {
+      "s": "432164c0-5434-461a-ac12-8cdf3a511422",
+      "p": "on-success",
+      "o": "bf578a7a-372b-42aa-8a43-b2da28af2ed1"
+    },
+    {
+      "s": "bf578a7a-372b-42aa-8a43-b2da28af2ed1",
+      "p": "on-failure",
+      "o": "be994653-39d8-4363-87f4-0a0e67fd153c"
+    },
+    {
+      "s": "f6d13ae4-2814-45bc-acd2-2e0f04a2779f",
+      "p": "on-success",
+      "o": "be994653-39d8-4363-87f4-0a0e67fd153c"
+    },
+    {
+      "s": "f6d13ae4-2814-45bc-acd2-2e0f04a2779f",
+      "p": "on-failure",
+      "o": "f2531550-aad1-46a4-8590-9c38e7c749ee"
+    },
+    {
+      "s": "f2531550-aad1-46a4-8590-9c38e7c749ee",
+      "p": "on-success",
+      "o": "b2829d3e-0d62-4b44-89cd-f21f9449da3d"
+    },
+    {
+      "s": "b2829d3e-0d62-4b44-89cd-f21f9449da3d",
+      "p": "on-failure",
+      "o": "be994653-39d8-4363-87f4-0a0e67fd153c"
+    }
+  ],
+  "tags": [
+    "T1046",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "network_range",
+      "type": "string",
+      "description": "Network Range to Scan.",
+      "value": "192.168.1.0/24"
+    },
+    {
+      "name": "host",
+      "type": "string",
+      "description": "Host to scan.",
+      "value": "192.168.1.1"
+    },
+    {
+      "name": "port",
+      "type": "string",
+      "description": "Ports to scan.",
+      "value": "80"
+    }
+  ]
+}

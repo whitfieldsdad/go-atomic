@@ -1,0 +1,52 @@
+{
+  "id": "5f5b71da-e03f-42e7-ac98-d63f9e0465cb",
+  "name": "Re-Opened Applications using LoginHook",
+  "description": "Mac Defaults\n\n[Reference](https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CustomLogin.html)\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "f71090df-e81f-4795-a7d2-db15cecd7038",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo defaults write com.apple.loginwindow LoginHook #{script}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2884e197-a9c9-4eda-bbaa-329ddcb72432",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo defaults delete com.apple.loginwindow LoginHook\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f71090df-e81f-4795-a7d2-db15cecd7038",
+      "p": "on-success",
+      "o": "2884e197-a9c9-4eda-bbaa-329ddcb72432"
+    },
+    {
+      "s": "f71090df-e81f-4795-a7d2-db15cecd7038",
+      "p": "on-failure",
+      "o": "2884e197-a9c9-4eda-bbaa-329ddcb72432"
+    }
+  ],
+  "tags": [
+    "T1547.007",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "script",
+      "type": "path",
+      "description": "path to script",
+      "value": "/path/to/script"
+    }
+  ]
+}

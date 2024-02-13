@@ -1,0 +1,92 @@
+{
+  "id": "89422c87-b57b-4a04-a8ca-802bb9d06121",
+  "name": "AWS - CloudWatch Log Group Deletes",
+  "description": "Creates a new cloudWatch log group in AWS, Upon successful creation it will Delete the group. Attackers can use this technique to evade defenses by \ndeleting the log stream. Once it is deleted, the logs created by the attackers will not be logged. https://www.elastic.co/guide/en/security/current/aws-cloudwatch-log-group-deletion.html#aws-cloudwatch-log-group-deletion\n",
+  "platforms": [
+    "iaas:aws"
+  ],
+  "steps": [
+    {
+      "id": "68241552-39dc-4fbf-b30c-a239cec23ba1",
+      "type": "execute-command",
+      "data": {
+        "command": "aws logs create-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Created ***\"\naws logs delete-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Deleted ***\"\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "279d33ca-3255-413c-a370-f15a76638511",
+      "name": "Check dependency 1/1",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cat ~/.aws/credentials | grep \"default\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "185775c5-67e9-4efd-8115-29e0b239dd8c",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Please install the aws-cli and configure your AWS defult profile using: aws configure\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1c8d5e68-0620-4f5a-a4c2-ad88343efbb5",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cat ~/.aws/credentials | grep \"default\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "279d33ca-3255-413c-a370-f15a76638511",
+      "p": "on-success",
+      "o": "68241552-39dc-4fbf-b30c-a239cec23ba1"
+    },
+    {
+      "s": "279d33ca-3255-413c-a370-f15a76638511",
+      "p": "on-failure",
+      "o": "185775c5-67e9-4efd-8115-29e0b239dd8c"
+    },
+    {
+      "s": "185775c5-67e9-4efd-8115-29e0b239dd8c",
+      "p": "on-success",
+      "o": "1c8d5e68-0620-4f5a-a4c2-ad88343efbb5"
+    },
+    {
+      "s": "1c8d5e68-0620-4f5a-a4c2-ad88343efbb5",
+      "p": "on-failure",
+      "o": "68241552-39dc-4fbf-b30c-a239cec23ba1"
+    }
+  ],
+  "tags": [
+    "T1562.008",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "region",
+      "type": "string",
+      "description": "Name of the region",
+      "value": "us-east-1"
+    },
+    {
+      "name": "cloudwatch_log_group_name",
+      "type": "string",
+      "description": "Name of the cloudWatch log group",
+      "value": "log-test"
+    }
+  ]
+}

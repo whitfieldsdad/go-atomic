@@ -1,0 +1,44 @@
+{
+  "id": "8ca3b96d-8983-4a7f-b125-fc98cc0a2aa0",
+  "name": "TeamViewer Files Detected Test on Windows",
+  "description": "An adversary may attempt to trick the user into downloading teamviewer and using this to maintain access to the machine. Download of TeamViewer installer will be at the destination location when sucessfully executed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5933c6ff-e5b0-45a9-a1a3-e13800d1fe72",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest -OutFile C:\\Users\\$env:username\\Desktop\\TeamViewer_Setup.exe https://download.teamviewer.com/download/TeamViewer_Setup.exe\n$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\TeamViewer_Setup.exe\"\nStart-Process -Wait $file1 /S; \nStart-Process 'C:\\Program Files (x86)\\TeamViewer\\TeamViewer.exe'\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ce42c36e-c174-4e1e-bae5-2269af53f890",
+      "type": "execute-command",
+      "data": {
+        "command": "$file = 'C:\\Program Files (x86)\\TeamViewer\\uninstall.exe'\nif(Test-Path $file){ Start-Process $file \"/S\" -ErrorAction Ignore | Out-Null }\n$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\TeamViewer_Setup.exe\"\nRemove-Item $file1 -ErrorAction Ignore | Out-Null",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "5933c6ff-e5b0-45a9-a1a3-e13800d1fe72",
+      "p": "on-success",
+      "o": "ce42c36e-c174-4e1e-bae5-2269af53f890"
+    },
+    {
+      "s": "5933c6ff-e5b0-45a9-a1a3-e13800d1fe72",
+      "p": "on-failure",
+      "o": "ce42c36e-c174-4e1e-bae5-2269af53f890"
+    }
+  ],
+  "tags": [
+    "T1219",
+    "atomic-red-team"
+  ]
+}

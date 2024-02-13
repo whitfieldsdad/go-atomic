@@ -1,0 +1,23 @@
+{
+  "id": "a960185f-aef6-4547-8350-d1ce16680d09",
+  "name": "Detect Virtualization Environment (MacOS)",
+  "description": "ioreg contains registry entries for all the device drivers in the system. If it's a virtual machine, one of the device manufacturer will be a Virtualization Software.\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "28415b2b-c0eb-4f20-bc72-3b0290af7c1c",
+      "type": "execute-command",
+      "data": {
+        "command": "if (ioreg -l | grep -e Manufacturer -e 'Vendor Name' | grep -iE 'Oracle|VirtualBox|VMWare|Parallels') then echo 'Virtualization Environment detected'; fi;\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1497.001",
+    "atomic-red-team"
+  ]
+}

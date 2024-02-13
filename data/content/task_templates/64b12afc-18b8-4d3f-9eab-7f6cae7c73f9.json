@@ -1,0 +1,111 @@
+{
+  "id": "64b12afc-18b8-4d3f-9eab-7f6cae7c73f9",
+  "name": "Remove the Zone.Identifier alternate data stream",
+  "description": "Remove the Zone.Identifier alternate data stream which identifies the file as downloaded from the internet.\nRemoving this allows more freedom in executing scripts in PowerShell and avoids opening files in protected view.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e2ad5775-77a2-4420-8966-24573137b456",
+      "type": "execute-command",
+      "data": {
+        "command": "Unblock-File -Path #{file_path}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "317376be-4a81-4ac9-b14e-ae7689b32970",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-Content -Path #{file_path} -Stream Zone.Identifier -Value '[ZoneTransfer]','ZoneId=3'\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2ba0db77-e970-4e4f-9204-1731e741a9d0",
+      "name": "Check dependency 1/1",
+      "description": "A test file with the Zone.Identifier attribute must be present.",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{file_path}) { EXIT 0 } else { EXIT 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d0571b08-e93a-4001-80fb-13811afd57c9",
+      "name": "Resolve dependency 1/1",
+      "description": "A test file with the Zone.Identifier attribute must be present.",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest #{file_to_download} -OutFile #{file_path}\nSet-Content -Path #{file_path} -Stream Zone.Identifier -Value '[ZoneTransfer]','ZoneId=3'\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "053287f2-6c99-4f37-862e-13b5030f5b46",
+      "name": "Re-check dependency 1/1",
+      "description": "A test file with the Zone.Identifier attribute must be present.",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{file_path}) { EXIT 0 } else { EXIT 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e2ad5775-77a2-4420-8966-24573137b456",
+      "p": "on-success",
+      "o": "317376be-4a81-4ac9-b14e-ae7689b32970"
+    },
+    {
+      "s": "e2ad5775-77a2-4420-8966-24573137b456",
+      "p": "on-failure",
+      "o": "317376be-4a81-4ac9-b14e-ae7689b32970"
+    },
+    {
+      "s": "2ba0db77-e970-4e4f-9204-1731e741a9d0",
+      "p": "on-success",
+      "o": "e2ad5775-77a2-4420-8966-24573137b456"
+    },
+    {
+      "s": "2ba0db77-e970-4e4f-9204-1731e741a9d0",
+      "p": "on-failure",
+      "o": "d0571b08-e93a-4001-80fb-13811afd57c9"
+    },
+    {
+      "s": "d0571b08-e93a-4001-80fb-13811afd57c9",
+      "p": "on-success",
+      "o": "053287f2-6c99-4f37-862e-13b5030f5b46"
+    },
+    {
+      "s": "053287f2-6c99-4f37-862e-13b5030f5b46",
+      "p": "on-failure",
+      "o": "e2ad5775-77a2-4420-8966-24573137b456"
+    }
+  ],
+  "tags": [
+    "T1553.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_to_download",
+      "type": "url",
+      "description": "File that will be downloaded to test against.",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/README.md"
+    },
+    {
+      "name": "file_path",
+      "type": "string",
+      "description": "File to have the Zone.Identifier removed.",
+      "value": "$env:tmp\\ReadMe.md"
+    }
+  ]
+}

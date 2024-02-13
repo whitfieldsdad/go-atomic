@@ -1,0 +1,18 @@
+digraph {
+    abort [label="abort", shape="diamond"];
+
+    # Explicit state transitions
+    1 -> 2 [label="on-failure", color="red"];
+    1 -> 4 [label="on-success", color="green"];
+    2 -> 3 [label="on-success", color="green"];
+    3 -> 4 [label="on-success", color="green"];
+    4 -> 5 [label="on-failure", color="red"];
+    4 -> 7 [label="on-success", color="green"];
+    5 -> 6 [label="on-success", color="green"];
+    6 -> 7 [label="on-success", color="green"];
+    7 -> 8 [label="on-failure", color="red"];
+    7 -> 8 [label="on-success", color="green"];
+
+    # Implicit state transitions
+    2, 3, 5, 6 -> abort [label="on-failure", color="red", style="dotted"];
+}

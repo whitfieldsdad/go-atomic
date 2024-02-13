@@ -1,0 +1,86 @@
+{
+  "id": "43c3a49d-d15c-45e6-b303-f6e177e44a9a",
+  "name": "ListSecrets",
+  "description": "A Kubernetes secret is an object that lets users store and manage sensitive information, such as passwords and connection strings in the cluster. Secrets can be consumed by reference in the pod configuration. Attackers who have permissions to retrieve the secrets from the API server (by using the pod service account, for example) can access sensitive information that might include credentials to various services.\n",
+  "platforms": [
+    "containers"
+  ],
+  "steps": [
+    {
+      "id": "dde1d98c-718f-4a01-b742-e20b50eb5c60",
+      "type": "execute-command",
+      "data": {
+        "command": "kubectl get secrets -n #{namespace}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "00eedb5d-eb36-404c-8efd-aec26e22acb8",
+      "name": "Check dependency 1/1",
+      "description": "kubectl must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which kubectl\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4c1bbc7a-97c6-45f7-ba87-d15138e047a0",
+      "name": "Resolve dependency 1/1",
+      "description": "kubectl must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"kubectl must be installed manually\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5c17bc0e-f1c6-435f-9e6e-174da2857aa0",
+      "name": "Re-check dependency 1/1",
+      "description": "kubectl must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which kubectl\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "00eedb5d-eb36-404c-8efd-aec26e22acb8",
+      "p": "on-success",
+      "o": "dde1d98c-718f-4a01-b742-e20b50eb5c60"
+    },
+    {
+      "s": "00eedb5d-eb36-404c-8efd-aec26e22acb8",
+      "p": "on-failure",
+      "o": "4c1bbc7a-97c6-45f7-ba87-d15138e047a0"
+    },
+    {
+      "s": "4c1bbc7a-97c6-45f7-ba87-d15138e047a0",
+      "p": "on-success",
+      "o": "5c17bc0e-f1c6-435f-9e6e-174da2857aa0"
+    },
+    {
+      "s": "5c17bc0e-f1c6-435f-9e6e-174da2857aa0",
+      "p": "on-failure",
+      "o": "dde1d98c-718f-4a01-b742-e20b50eb5c60"
+    }
+  ],
+  "tags": [
+    "T1552.007",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "namespace",
+      "type": "string",
+      "description": "K8s namespace to list",
+      "value": "default"
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "id": "eb577a19-b730-4918-9b03-c5edcf51dc4e",
+  "name": "Chown through c script (freebsd)",
+  "description": "chowns a file to root using a c script\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "6c4b59f6-474f-4f17-ae3d-3af55323bcac",
+      "type": "execute-command",
+      "data": {
+        "command": "#{compiled_file} #{source_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "adb7001d-462b-43dd-bdd9-5a2901a19a72",
+      "name": "Check dependency 1/1",
+      "description": "Compile the script from (#{source_file}). Destination is #{compiled_file}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cc #{source_file} -o #{compiled_file}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "68f10c5a-3cf3-4816-976d-0f59c640b6c1",
+      "name": "Resolve dependency 1/1",
+      "description": "Compile the script from (#{source_file}). Destination is #{compiled_file}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cc #{source_file} -o #{compiled_file}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8a7337c4-dea7-4b3e-94a1-7f61134a6680",
+      "name": "Re-check dependency 1/1",
+      "description": "Compile the script from (#{source_file}). Destination is #{compiled_file}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cc #{source_file} -o #{compiled_file}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "adb7001d-462b-43dd-bdd9-5a2901a19a72",
+      "p": "on-success",
+      "o": "6c4b59f6-474f-4f17-ae3d-3af55323bcac"
+    },
+    {
+      "s": "adb7001d-462b-43dd-bdd9-5a2901a19a72",
+      "p": "on-failure",
+      "o": "68f10c5a-3cf3-4816-976d-0f59c640b6c1"
+    },
+    {
+      "s": "68f10c5a-3cf3-4816-976d-0f59c640b6c1",
+      "p": "on-success",
+      "o": "8a7337c4-dea7-4b3e-94a1-7f61134a6680"
+    },
+    {
+      "s": "8a7337c4-dea7-4b3e-94a1-7f61134a6680",
+      "p": "on-failure",
+      "o": "6c4b59f6-474f-4f17-ae3d-3af55323bcac"
+    }
+  ],
+  "tags": [
+    "T1222.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "source_file",
+      "type": "path",
+      "description": "Path of c source file",
+      "value": "PathToAtomicsFolder/T1222.002/src/chown.c"
+    },
+    {
+      "name": "compiled_file",
+      "type": "path",
+      "description": "Path of compiled file",
+      "value": "/tmp/T1222002own"
+    }
+  ]
+}

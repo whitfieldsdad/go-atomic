@@ -1,0 +1,44 @@
+{
+  "id": "99c657aa-ebeb-4179-a665-69288fdd12b8",
+  "name": "Disable Administrative Share Creation at Startup",
+  "description": "Administrative shares are hidden network shares created by Microsoft’s Windows NT operating systems that grant system administrators \nremote access to every disk volume on a network-connected system. These shares are automatically created at started unless they have been\npurposefully disabled as is done in this Atomic test. As Microsoft puts it, \"Missing administrative shares typically \nindicate that the computer in question has been compromised by malicious software.\"\nhttps://threatpost.com/conti-ransomware-gang-has-full-log4shell-attack-chain/177173/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "afeb10bd-1ec9-4690-a7d6-feb952418e79",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters\" /v AutoShareServer /t REG_DWORD /d 0 /f\nreg add \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters\" /v AutoShareWks /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f660903a-5c11-4259-b311-b6b6098dbec5",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters\" /v AutoShareServer /f\nreg delete \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters\" /v AutoShareWks /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "afeb10bd-1ec9-4690-a7d6-feb952418e79",
+      "p": "on-success",
+      "o": "f660903a-5c11-4259-b311-b6b6098dbec5"
+    },
+    {
+      "s": "afeb10bd-1ec9-4690-a7d6-feb952418e79",
+      "p": "on-failure",
+      "o": "f660903a-5c11-4259-b311-b6b6098dbec5"
+    }
+  ],
+  "tags": [
+    "T1070.005",
+    "atomic-red-team"
+  ]
+}

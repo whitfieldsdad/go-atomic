@@ -1,0 +1,23 @@
+{
+  "id": "88e1fa00-bf63-4e5b-a3e1-e2ea51c8cca6",
+  "name": "Keychain Dump",
+  "description": "This command will dump keychain credential information from login.keychain. \nSource: https://www.loobins.io/binaries/security/\n\n### Keychain File path\n  ~/Library/Keychains/\n  /Library/Keychains/\n  /Network/Library/Keychains/\n  [Security Reference](https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/security.1.html)\n  ",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "0b9f92bc-1221-4dac-b7cb-6e0ffc156f1e",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo security dump-keychain -d login.keychain",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1555.001",
+    "atomic-red-team"
+  ]
+}

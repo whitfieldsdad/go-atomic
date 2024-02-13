@@ -1,0 +1,52 @@
+{
+  "id": "dd580455-d84b-481b-b8b0-ac96f3b1dc4c",
+  "name": "Make and modify binary from C source (freebsd)",
+  "description": "Make, change owner, and change file attributes on a C source code file\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "a55e50be-f35f-40a0-bb9b-6cf455a377ef",
+      "type": "execute-command",
+      "data": {
+        "command": "cp #{payload} /tmp/hello.c\nchown root /tmp/hello.c\nmake /tmp/hello\nchown root /tmp/hello\nchmod u+s /tmp/hello\n/tmp/hello\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "928c98bb-d150-4793-97ae-1ca51128195a",
+      "type": "execute-command",
+      "data": {
+        "command": "rm /tmp/hello\nrm /tmp/hello.c\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a55e50be-f35f-40a0-bb9b-6cf455a377ef",
+      "p": "on-success",
+      "o": "928c98bb-d150-4793-97ae-1ca51128195a"
+    },
+    {
+      "s": "a55e50be-f35f-40a0-bb9b-6cf455a377ef",
+      "p": "on-failure",
+      "o": "928c98bb-d150-4793-97ae-1ca51128195a"
+    }
+  ],
+  "tags": [
+    "T1548.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "payload",
+      "type": "path",
+      "description": "hello.c payload",
+      "value": "PathToAtomicsFolder/T1548.001/src/hello.c"
+    }
+  ]
+}

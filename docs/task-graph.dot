@@ -1,0 +1,45 @@
+digraph G {
+    node [shape="rect"];
+    rankdir=LR;
+
+    abort [label="Abort"; shape=diamond];
+
+    subgraph cluster_0 {
+        label="Dependency (a)";
+        
+        check_dependency_a [label="Check dependency (a)"];
+        resolve_dependency_a [label="Resolve dependency (a)"];
+        recheck_dependency_a [label="Recheck dependency (a)"];
+    }
+    
+    subgraph cluster_1 {
+        label="Dependency (b)";
+        check_dependency_b [label="Check dependency (b)"];
+        resolve_dependency_b [label="Resolve dependency (b)"];
+        recheck_dependency_b [label="Recheck dependency (b)"];
+    }
+
+    subgraph cluster_2 {
+        label="Test";
+        command [label="Command"];
+        cleanup_command [label="Cleanup command"];
+    }
+
+    command [label="Command"];
+    cleanup_command [label="Cleanup command"];
+
+    check_dependency_a -> command [color="green"];
+    check_dependency_a -> resolve_dependency_a [color="red"];
+    resolve_dependency_a -> abort [color="red"];
+    resolve_dependency_a -> recheck_dependency_a [color="green"];
+    recheck_dependency_a -> command [color="green"];
+
+    check_dependency_b -> command [color="green"];
+    check_dependency_b -> resolve_dependency_b [color="red"];
+    resolve_dependency_b -> abort [color="red"];
+    resolve_dependency_b -> recheck_dependency_b [color="green"];
+    recheck_dependency_b -> command [color="green"];
+
+    command -> cleanup_command [color="green"];
+    command -> cleanup_command [color="red"];
+}

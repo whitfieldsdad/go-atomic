@@ -1,0 +1,78 @@
+{
+  "id": "158bd4dd-6359-40ab-b13c-285b9ef6fa25",
+  "name": "Remote System Discovery - ip neighbour",
+  "description": "Use the ip neighbour command to display the known link layer (ARP table) addresses for hosts sharing the same network segment. \n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "9c5d59f0-5de6-4114-b9bc-916cf1321da3",
+      "type": "execute-command",
+      "data": {
+        "command": "ip neighbour show\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "11118907-5c6d-4205-b94c-4c09ae3345fb",
+      "name": "Check dependency 1/1",
+      "description": "Check if ip command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v ip)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d58194cd-e7f3-43f2-bd4a-411f4a3d43a3",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if ip command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "apt-get install iproute2 -y\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5c2ed420-d91f-4214-8ec6-af484c40b817",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if ip command exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v ip)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "11118907-5c6d-4205-b94c-4c09ae3345fb",
+      "p": "on-success",
+      "o": "9c5d59f0-5de6-4114-b9bc-916cf1321da3"
+    },
+    {
+      "s": "11118907-5c6d-4205-b94c-4c09ae3345fb",
+      "p": "on-failure",
+      "o": "d58194cd-e7f3-43f2-bd4a-411f4a3d43a3"
+    },
+    {
+      "s": "d58194cd-e7f3-43f2-bd4a-411f4a3d43a3",
+      "p": "on-success",
+      "o": "5c2ed420-d91f-4214-8ec6-af484c40b817"
+    },
+    {
+      "s": "5c2ed420-d91f-4214-8ec6-af484c40b817",
+      "p": "on-failure",
+      "o": "9c5d59f0-5de6-4114-b9bc-916cf1321da3"
+    }
+  ],
+  "tags": [
+    "T1018",
+    "atomic-red-team"
+  ]
+}

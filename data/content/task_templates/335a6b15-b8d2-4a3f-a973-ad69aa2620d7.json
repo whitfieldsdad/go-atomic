@@ -1,0 +1,44 @@
+{
+  "id": "335a6b15-b8d2-4a3f-a973-ad69aa2620d7",
+  "name": "Windows Auto Update Option to Notify before download",
+  "description": "Windows Auto Update Option to Notify before download. Redline is using this as part of its defense evasion.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5a379efa-cd71-4a9b-bd64-abd6c364242a",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\" /v \"AUOptions\" /t REG_DWORD /d 2 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8cf4041b-195b-489e-b2f6-5f7fb9d40f7c",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\" /v \"AUOptions\" /t REG_DWORD /d 3 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "5a379efa-cd71-4a9b-bd64-abd6c364242a",
+      "p": "on-success",
+      "o": "8cf4041b-195b-489e-b2f6-5f7fb9d40f7c"
+    },
+    {
+      "s": "5a379efa-cd71-4a9b-bd64-abd6c364242a",
+      "p": "on-failure",
+      "o": "8cf4041b-195b-489e-b2f6-5f7fb9d40f7c"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

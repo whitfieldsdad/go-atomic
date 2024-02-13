@@ -1,0 +1,123 @@
+{
+  "id": "4ce786f8-e601-44b5-bfae-9ebb15a7d1c8",
+  "name": "Disable syslog",
+  "description": "Disables syslog collection\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "eb390602-6719-4781-a153-3f0de27f50b4",
+      "type": "execute-command",
+      "data": {
+        "command": "#{flavor_command}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b893dbf1-0777-4c0d-9ad9-3991cc09e707",
+      "type": "execute-command",
+      "data": {
+        "command": "#{cleanup_command}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4efd096e-937a-4dec-b79f-a76364c0b4c1",
+      "name": "Check dependency 1/1",
+      "description": "Package with rsyslog must be on system\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "57871971-90ae-48d0-9b72-e2f51158682c",
+      "name": "Resolve dependency 1/1",
+      "description": "Package with rsyslog must be on system\n",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo #{package_installer} \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "31c900cf-0d32-420c-ae49-12d1d094855a",
+      "name": "Re-check dependency 1/1",
+      "description": "Package with rsyslog must be on system\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "eb390602-6719-4781-a153-3f0de27f50b4",
+      "p": "on-success",
+      "o": "b893dbf1-0777-4c0d-9ad9-3991cc09e707"
+    },
+    {
+      "s": "eb390602-6719-4781-a153-3f0de27f50b4",
+      "p": "on-failure",
+      "o": "b893dbf1-0777-4c0d-9ad9-3991cc09e707"
+    },
+    {
+      "s": "4efd096e-937a-4dec-b79f-a76364c0b4c1",
+      "p": "on-success",
+      "o": "eb390602-6719-4781-a153-3f0de27f50b4"
+    },
+    {
+      "s": "4efd096e-937a-4dec-b79f-a76364c0b4c1",
+      "p": "on-failure",
+      "o": "57871971-90ae-48d0-9b72-e2f51158682c"
+    },
+    {
+      "s": "57871971-90ae-48d0-9b72-e2f51158682c",
+      "p": "on-success",
+      "o": "31c900cf-0d32-420c-ae49-12d1d094855a"
+    },
+    {
+      "s": "31c900cf-0d32-420c-ae49-12d1d094855a",
+      "p": "on-failure",
+      "o": "eb390602-6719-4781-a153-3f0de27f50b4"
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "flavor_command",
+      "type": "string",
+      "description": "Command to disable syslog collection. Default newer rsyslog commands. i.e older command = service rsyslog stop ; chkconfig off rsyslog",
+      "value": "systemctl stop rsyslog ; systemctl disable rsyslog"
+    },
+    {
+      "name": "cleanup_command",
+      "type": "string",
+      "description": "Command to enable syslog collection. Default newer rsyslog commands. i.e older command = service rsyslog start ; chkconfig rsyslog on",
+      "value": "systemctl start rsyslog ; systemctl enable rsyslog"
+    },
+    {
+      "name": "package_checker",
+      "type": "string",
+      "description": "Package checking command for linux.",
+      "value": "(rpm -q rsyslog 2\u003e\u00261 \u003e/dev/null) || (dpkg -s rsyslog | grep -q installed)"
+    },
+    {
+      "name": "package_installer",
+      "type": "string",
+      "description": "Package installer command for linux. Default yum",
+      "value": "(which yum \u0026\u0026 yum -y install epel-release rsyslog)||(which apt-get \u0026\u0026 apt-get install -y rsyslog)"
+    }
+  ]
+}

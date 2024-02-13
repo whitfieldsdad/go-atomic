@@ -1,0 +1,86 @@
+{
+  "id": "03013b4b-01db-437d-909b-1fdaa5010ee8",
+  "name": "Delete system log files via unlink utility",
+  "description": "This test deletes the system log file using unlink utility\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "bf4828ed-f021-4ee2-b10e-26d7142e0fd7",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo unlink #{system_log_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "19bf971f-e549-465f-b0c3-0fafaff7e7f1",
+      "name": "Check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "70dfd664-0947-4d4f-958b-9283efc2e068",
+      "name": "Resolve dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "touch #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "746ad60a-dbb0-400b-a482-27a01047056c",
+      "name": "Re-check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "19bf971f-e549-465f-b0c3-0fafaff7e7f1",
+      "p": "on-success",
+      "o": "bf4828ed-f021-4ee2-b10e-26d7142e0fd7"
+    },
+    {
+      "s": "19bf971f-e549-465f-b0c3-0fafaff7e7f1",
+      "p": "on-failure",
+      "o": "70dfd664-0947-4d4f-958b-9283efc2e068"
+    },
+    {
+      "s": "70dfd664-0947-4d4f-958b-9283efc2e068",
+      "p": "on-success",
+      "o": "746ad60a-dbb0-400b-a482-27a01047056c"
+    },
+    {
+      "s": "746ad60a-dbb0-400b-a482-27a01047056c",
+      "p": "on-failure",
+      "o": "bf4828ed-f021-4ee2-b10e-26d7142e0fd7"
+    }
+  ],
+  "tags": [
+    "T1070.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "system_log_path",
+      "type": "string",
+      "description": "path to system.log",
+      "value": "/var/log/system.log"
+    }
+  ]
+}

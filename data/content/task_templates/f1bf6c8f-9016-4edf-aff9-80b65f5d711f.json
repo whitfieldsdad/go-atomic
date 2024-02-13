@@ -1,0 +1,23 @@
+{
+  "id": "f1bf6c8f-9016-4edf-aff9-80b65f5d711f",
+  "name": "Remote System Discovery - net group Domain Computers",
+  "description": "Identify remote systems with net.exe querying the Active Directory Domain Computers group.\n\nUpon successful execution, cmd.exe will execute cmd.exe against Active Directory to list the \"Domain Computers\" group. Output will be via stdout.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "583acd9d-1d72-4be8-b5c1-0f00b3d47bf2",
+      "type": "execute-command",
+      "data": {
+        "command": "net group \"Domain Computers\" /domain\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1018",
+    "atomic-red-team"
+  ]
+}

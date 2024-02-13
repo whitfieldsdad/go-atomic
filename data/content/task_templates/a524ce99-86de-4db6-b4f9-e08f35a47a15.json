@@ -1,0 +1,52 @@
+{
+  "id": "a524ce99-86de-4db6-b4f9-e08f35a47a15",
+  "name": "Create local account with admin privileges",
+  "description": "After execution the new account will be active and added to the Administrators group",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ae0c4007-187f-44a6-88ce-90d31566b6b6",
+      "type": "execute-command",
+      "data": {
+        "command": "net user art-test /add\nnet user art-test #{password}\nnet localgroup administrators art-test /add",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "087b29b6-2ee3-44cc-9c7f-d89d919661f7",
+      "type": "execute-command",
+      "data": {
+        "command": "net localgroup administrators art-test /delete \u003enul 2\u003e\u00261\nnet user art-test /delete \u003enul 2\u003e\u00261",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ae0c4007-187f-44a6-88ce-90d31566b6b6",
+      "p": "on-success",
+      "o": "087b29b6-2ee3-44cc-9c7f-d89d919661f7"
+    },
+    {
+      "s": "ae0c4007-187f-44a6-88ce-90d31566b6b6",
+      "p": "on-failure",
+      "o": "087b29b6-2ee3-44cc-9c7f-d89d919661f7"
+    }
+  ],
+  "tags": [
+    "T1078.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password for art-test user",
+      "value": "-4RTisCool!-321"
+    }
+  ]
+}

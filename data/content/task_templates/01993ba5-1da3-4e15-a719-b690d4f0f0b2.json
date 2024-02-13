@@ -1,0 +1,58 @@
+{
+  "id": "01993ba5-1da3-4e15-a719-b690d4f0f0b2",
+  "name": "Create a user account on a MacOS system",
+  "description": "Creates a user on a MacOS system with dscl\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "c58da728-6d8f-43d7-949d-e5b111b23bff",
+      "type": "execute-command",
+      "data": {
+        "command": "dscl . -create /Users/#{username}\ndscl . -create /Users/#{username} UserShell /bin/zsh\ndscl . -create /Users/#{username} RealName \"#{realname}\"\ndscl . -create /Users/#{username} UniqueID \"1010\"\ndscl . -create /Users/#{username} PrimaryGroupID 80\ndscl . -create /Users/#{username} NFSHomeDirectory /Users/#{username}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3c5d0cc6-c51c-4636-ba55-ef61473e5f1e",
+      "type": "execute-command",
+      "data": {
+        "command": "dscl . -delete /Users/#{username}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c58da728-6d8f-43d7-949d-e5b111b23bff",
+      "p": "on-success",
+      "o": "3c5d0cc6-c51c-4636-ba55-ef61473e5f1e"
+    },
+    {
+      "s": "c58da728-6d8f-43d7-949d-e5b111b23bff",
+      "p": "on-failure",
+      "o": "3c5d0cc6-c51c-4636-ba55-ef61473e5f1e"
+    }
+  ],
+  "tags": [
+    "T1136.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username of the user to create",
+      "value": "evil_user"
+    },
+    {
+      "name": "realname",
+      "type": "string",
+      "description": "'realname' to record when creating the user",
+      "value": "Evil Account"
+    }
+  ]
+}

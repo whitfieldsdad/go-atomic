@@ -1,0 +1,44 @@
+{
+  "id": "afedc8c4-038c-4d82-b3e5-623a95f8a612",
+  "name": "Disable Microsoft Defender Firewall via Registry",
+  "description": "Disables the Microsoft Defender Firewall for the public profile via registry\nCaution if you access remotely the host where the test runs! Especially with the cleanup command which will re-enable firewall for the current profile...\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "97bd03cd-c434-4ba9-bd33-80c069a9a76a",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile\" /v \"EnableFirewall\" /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4df8e882-d2be-415c-af69-0f29b0d47b37",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile\" /v \"EnableFirewall\" /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "97bd03cd-c434-4ba9-bd33-80c069a9a76a",
+      "p": "on-success",
+      "o": "4df8e882-d2be-415c-af69-0f29b0d47b37"
+    },
+    {
+      "s": "97bd03cd-c434-4ba9-bd33-80c069a9a76a",
+      "p": "on-failure",
+      "o": "4df8e882-d2be-415c-af69-0f29b0d47b37"
+    }
+  ],
+  "tags": [
+    "T1562.004",
+    "atomic-red-team"
+  ]
+}

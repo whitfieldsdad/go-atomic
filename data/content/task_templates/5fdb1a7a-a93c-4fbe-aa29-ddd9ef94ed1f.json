@@ -1,0 +1,105 @@
+{
+  "id": "5fdb1a7a-a93c-4fbe-aa29-ddd9ef94ed1f",
+  "name": "Install root CA on Windows with certutil",
+  "description": "Creates a root CA with certutil\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "95432062-9e5b-479e-b5c8-858152728332",
+      "type": "execute-command",
+      "data": {
+        "command": "certutil -addstore my #{pfx_path}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0807df1e-6441-40f7-8763-1fb258350390",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n$cert = Import-Certificate -FilePath #{pfx_path} -CertStoreLocation Cert:\\LocalMachine\\My\nGet-ChildItem Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\nGet-ChildItem Cert:\\LocalMachine\\Root\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\n} catch { }\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a115199a-b246-4ba1-88c8-45345d4050c7",
+      "name": "Check dependency 1/1",
+      "description": "Certificate must exist at specified location (#{pfx_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{pfx_path}) { exit 0 } else { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "78721e4a-90c2-447e-9c1b-d5a5073a6f99",
+      "name": "Resolve dependency 1/1",
+      "description": "Certificate must exist at specified location (#{pfx_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$cert = New-SelfSignedCertificate -DnsName atomicredteam.com -CertStoreLocation cert:\\LocalMachine\\My\nExport-Certificate -Type CERT -Cert  Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -FilePath #{pfx_path}\nGet-ChildItem Cert:\\LocalMachine\\My\\$($cert.Thumbprint) | Remove-Item\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c78460d6-f263-463c-a57e-899e13a5739e",
+      "name": "Re-check dependency 1/1",
+      "description": "Certificate must exist at specified location (#{pfx_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{pfx_path}) { exit 0 } else { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "95432062-9e5b-479e-b5c8-858152728332",
+      "p": "on-success",
+      "o": "0807df1e-6441-40f7-8763-1fb258350390"
+    },
+    {
+      "s": "95432062-9e5b-479e-b5c8-858152728332",
+      "p": "on-failure",
+      "o": "0807df1e-6441-40f7-8763-1fb258350390"
+    },
+    {
+      "s": "a115199a-b246-4ba1-88c8-45345d4050c7",
+      "p": "on-success",
+      "o": "95432062-9e5b-479e-b5c8-858152728332"
+    },
+    {
+      "s": "a115199a-b246-4ba1-88c8-45345d4050c7",
+      "p": "on-failure",
+      "o": "78721e4a-90c2-447e-9c1b-d5a5073a6f99"
+    },
+    {
+      "s": "78721e4a-90c2-447e-9c1b-d5a5073a6f99",
+      "p": "on-success",
+      "o": "c78460d6-f263-463c-a57e-899e13a5739e"
+    },
+    {
+      "s": "c78460d6-f263-463c-a57e-899e13a5739e",
+      "p": "on-failure",
+      "o": "95432062-9e5b-479e-b5c8-858152728332"
+    }
+  ],
+  "tags": [
+    "T1553.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "pfx_path",
+      "type": "path",
+      "description": "Path of the certificate",
+      "value": "$env:Temp\\rootCA2.cer"
+    }
+  ]
+}

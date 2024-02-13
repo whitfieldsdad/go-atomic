@@ -1,0 +1,31 @@
+{
+  "id": "13daa2cf-195a-43df-a8bd-7dd5ffb607b5",
+  "name": "Network Share Discovery via dir command",
+  "description": "Network Share Discovery utilizing the dir command prompt. The computer ip variable may need to be modified to point to a different host ip\nUpon execution avalaible network shares will be displayed in the commandline session\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "866ed412-a5dc-47a0-bb3a-5aea5fecf2c6",
+      "type": "execute-command",
+      "data": {
+        "command": "dir \\\\#{computer_ip}\\c$\ndir \\\\#{computer_ip}\\admin$\ndir \\\\#{computer_ip}\\IPC$\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1135",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "computer_ip",
+      "type": "string",
+      "description": "Computer IP to find a mount on.",
+      "value": "127.0.0.1"
+    }
+  ]
+}

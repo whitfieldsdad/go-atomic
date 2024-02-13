@@ -1,0 +1,44 @@
+{
+  "id": "8cd1947b-4a54-41fb-b5ea-07d0ace04f81",
+  "name": "New script file in the tmp directory",
+  "description": "An attacker may create script files in the /tmp directory using the mktemp utility and execute them. The following commands creates a temp file and places a pointer to it in the variable $TMPFILE, echos the string id into it, and then executes the file using bash, which results in the id command being executed.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "7ff85f76-1d95-45cc-b2e7-acf3aa0b3b6d",
+      "type": "execute-command",
+      "data": {
+        "command": "TMPFILE=$(mktemp)\necho \"id\" \u003e $TMPFILE\nbash $TMPFILE\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "14b4d1d5-a703-4afd-9e63-a6a50b358f70",
+      "type": "execute-command",
+      "data": {
+        "command": "rm $TMPFILE\nunset TMPFILE\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7ff85f76-1d95-45cc-b2e7-acf3aa0b3b6d",
+      "p": "on-success",
+      "o": "14b4d1d5-a703-4afd-9e63-a6a50b358f70"
+    },
+    {
+      "s": "7ff85f76-1d95-45cc-b2e7-acf3aa0b3b6d",
+      "p": "on-failure",
+      "o": "14b4d1d5-a703-4afd-9e63-a6a50b358f70"
+    }
+  ],
+  "tags": [
+    "T1059.004",
+    "atomic-red-team"
+  ]
+}

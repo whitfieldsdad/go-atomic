@@ -1,0 +1,105 @@
+{
+  "id": "31eb7828-97d7-4067-9c1e-c6feb85edc4b",
+  "name": "BlackCat pre-encryption cmds with Lateral Movement",
+  "description": "This atomic attempts to emulate the unique behavior of BlackCat ransomware prior to encryption and during Lateral Movement attempts via PsExec on Windows. Uses bundled PsExec like BlackCat",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "56fc3afb-2b1b-4bd1-ba96-66804d4e491d",
+      "type": "execute-command",
+      "data": {
+        "command": "cmd.exe /c \"wmic \tcsproduct \tget UUID\" \ncmd.exe /c \"fsutil behavior \tset SymlinkEvaluation R2L:1\" \ncmd.exe /c \"fsutil behavior set \tSymlinkEvaluation R2R:1\"\nreg    add    HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters    /v MaxMpxCt /d 65535 /t REG_DWORD /f      \ncopy \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsExec.exe\" $env:temp\ncmd.exe /c \"$env:temp\\psexec.exe  -accepteula  \\\\#{targethost} cmd.exe  /c echo \"--access-token\"\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c0f5f5a2-be0e-41b1-a071-a8812e3f8ef9",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters /v MaxMpxCt /f\ncmd.exe /c \"fsutil behavior set SymlinkEvaluation R2L:0\" \ncmd.exe /c \"fsutil behavior set SymlinkEvaluation R2R:0\"\nrm $env:temp\\psexec.exe\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e49ecf86-b998-42f8-b133-d1eba1a0722b",
+      "name": "Check dependency 1/1",
+      "description": "PsExec must exist on disk at \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsExec.exe\"\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsExec.exe\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "613907c9-ba51-4c69-818d-54997f588e4a",
+      "name": "Resolve dependency 1/1",
+      "description": "PsExec must exist on disk at \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsExec.exe\"\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest \"https://download.sysinternals.com/files/PSTools.zip\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsTools.zip\"\nExpand-Archive \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsTools.zip\" \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsTools\" -Force\nNew-Item -ItemType Directory (Split-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsExec.exe\") -Force | Out-Null\nCopy-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsTools\\PsExec.exe\" \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsExec.exe\" -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ff671f9b-e9da-4d58-a9f9-42a08bdb23c5",
+      "name": "Re-check dependency 1/1",
+      "description": "PsExec must exist on disk at \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsExec.exe\"\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsExec.exe\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "56fc3afb-2b1b-4bd1-ba96-66804d4e491d",
+      "p": "on-success",
+      "o": "c0f5f5a2-be0e-41b1-a071-a8812e3f8ef9"
+    },
+    {
+      "s": "56fc3afb-2b1b-4bd1-ba96-66804d4e491d",
+      "p": "on-failure",
+      "o": "c0f5f5a2-be0e-41b1-a071-a8812e3f8ef9"
+    },
+    {
+      "s": "e49ecf86-b998-42f8-b133-d1eba1a0722b",
+      "p": "on-success",
+      "o": "56fc3afb-2b1b-4bd1-ba96-66804d4e491d"
+    },
+    {
+      "s": "e49ecf86-b998-42f8-b133-d1eba1a0722b",
+      "p": "on-failure",
+      "o": "613907c9-ba51-4c69-818d-54997f588e4a"
+    },
+    {
+      "s": "613907c9-ba51-4c69-818d-54997f588e4a",
+      "p": "on-success",
+      "o": "ff671f9b-e9da-4d58-a9f9-42a08bdb23c5"
+    },
+    {
+      "s": "ff671f9b-e9da-4d58-a9f9-42a08bdb23c5",
+      "p": "on-failure",
+      "o": "56fc3afb-2b1b-4bd1-ba96-66804d4e491d"
+    }
+  ],
+  "tags": [
+    "T1569.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "targethost",
+      "type": "string",
+      "description": "Target hostname to attempt psexec connection to for emulation of lateral movement.",
+      "value": "$ENV:COMPUTERNAME"
+    }
+  ]
+}

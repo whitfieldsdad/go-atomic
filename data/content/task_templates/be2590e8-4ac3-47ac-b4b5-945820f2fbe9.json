@@ -1,0 +1,44 @@
+{
+  "id": "be2590e8-4ac3-47ac-b4b5-945820f2fbe9",
+  "name": "Authentication Package",
+  "description": "Establishes persistence using a custom authentication package for the Local Security Authority (LSA).\nAfter a reboot, Notepad.exe will be executed as child process of lsass.exe.\nPayload source code: https://github.com/tr4cefl0w/payloads/tree/master/T1547.002/package\n[Related blog](https://pentestlab.blog/2019/10/21/persistence-security-support-provider/)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "109af90d-b60a-45c9-9f8d-681422c8f972",
+      "type": "execute-command",
+      "data": {
+        "command": "Copy-Item \"$PathToAtomicsFolder\\T1547.002\\bin\\package.dll\" C:\\Windows\\System32\\\nreg add \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa\" /v \"Authentication Packages\" /t REG_MULTI_SZ /d \"msv1_0\\0package.dll\" /f\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3fc9d721-4433-4e0c-9565-ab7edc79538a",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa\" /v \"Authentication Packages\" /t REG_MULTI_SZ /d \"msv1_0\" /f\nrm -force C:\\windows\\system32\\package.dll\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "109af90d-b60a-45c9-9f8d-681422c8f972",
+      "p": "on-success",
+      "o": "3fc9d721-4433-4e0c-9565-ab7edc79538a"
+    },
+    {
+      "s": "109af90d-b60a-45c9-9f8d-681422c8f972",
+      "p": "on-failure",
+      "o": "3fc9d721-4433-4e0c-9565-ab7edc79538a"
+    }
+  ],
+  "tags": [
+    "T1547.002",
+    "atomic-red-team"
+  ]
+}

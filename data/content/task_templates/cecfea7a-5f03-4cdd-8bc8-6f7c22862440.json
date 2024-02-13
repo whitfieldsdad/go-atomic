@@ -1,0 +1,37 @@
+{
+  "id": "cecfea7a-5f03-4cdd-8bc8-6f7c22862440",
+  "name": "Indirect Command Execution - pcalua.exe",
+  "description": "The Program Compatibility Assistant (pcalua.exe) may invoke the execution of programs and commands from a Command-Line Interface.\n[Reference](https://twitter.com/KyleHanslovan/status/912659279806640128)\nUpon execution, calc.exe should open\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "bc670149-08da-4b0a-8b77-c02283cbd95e",
+      "type": "execute-command",
+      "data": {
+        "command": "pcalua.exe -a #{process}\npcalua.exe -a #{payload_path}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1202",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "payload_path",
+      "type": "path",
+      "description": "Path to payload",
+      "value": "C:\\Windows\\System32\\calc.exe"
+    },
+    {
+      "name": "process",
+      "type": "string",
+      "description": "Process to execute",
+      "value": "calc.exe"
+    }
+  ]
+}

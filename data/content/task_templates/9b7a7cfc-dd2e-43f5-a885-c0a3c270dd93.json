@@ -1,0 +1,123 @@
+{
+  "id": "9b7a7cfc-dd2e-43f5-a885-c0a3c270dd93",
+  "name": "InstallUtil class constructor method call",
+  "description": "Executes the installer assembly class constructor. Upon execution, version information will be displayed the .NET framework install utility.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "20fe1453-7bc7-44fb-b8ea-927fa20afa83",
+      "type": "execute-command",
+      "data": {
+        "command": "# Import the required test harness function, Invoke-BuildAndInvokeInstallUtilAssembly\n. \"#{test_harness}\"\n\n$InstallerAssemblyDir = \"#{assembly_dir}\"\n$InstallerAssemblyFileName = \"#{assembly_filename}\"\n$InstallerAssemblyFullPath = Join-Path -Path $InstallerAssemblyDir -ChildPath $InstallerAssemblyFileName\n\n$CommandLine = \"/logfile= /logtoconsole=false `\"$InstallerAssemblyFullPath`\"\"\n$ExpectedOutput = 'Constructor_'\n\n$TestArgs = @{\n    OutputAssemblyDirectory = $InstallerAssemblyDir\n    OutputAssemblyFileName = $InstallerAssemblyFileName\n    InvocationMethod = '#{invocation_method}'\n    CommandLine = $CommandLine\n}\n\n$ActualOutput = Invoke-BuildAndInvokeInstallUtilAssembly @TestArgs -MinimumViableAssembly\n\nif ($ActualOutput -ne $ExpectedOutput) {\n    throw @\"\nInstallUtil class constructor execution test failure. Installer assembly execution output did not match the expected output.\nExpected: $ExpectedOutput\nActual: $ActualOutput\n\"@\n}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0a7f1a06-423c-458d-8194-6cfd693aa748",
+      "type": "execute-command",
+      "data": {
+        "command": "$InstallerAssemblyDir = \"#{assembly_dir}\"\n$InstallerAssemblyFileName = \"#{assembly_filename}\"\n$InstallerAssemblyFullPath = Join-Path -Path $InstallerAssemblyDir -ChildPath $InstallerAssemblyFileName\nRemove-Item -Path $InstallerAssemblyFullPath -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "19be6d37-6895-45f8-bff5-69472642f37e",
+      "name": "Check dependency 1/1",
+      "description": "InstallUtil test harness script must be installed at specified location (#{test_harness})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{test_harness}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "610c9917-7ea2-48db-905a-0467e5a12d80",
+      "name": "Resolve dependency 1/1",
+      "description": "InstallUtil test harness script must be installed at specified location (#{test_harness})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{test_harness}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest 'https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.004/src/InstallUtilTestHarness.ps1' -OutFile \"#{test_harness}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a52b888b-034e-4ac4-8c1a-cf262c68a8af",
+      "name": "Re-check dependency 1/1",
+      "description": "InstallUtil test harness script must be installed at specified location (#{test_harness})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{test_harness}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "20fe1453-7bc7-44fb-b8ea-927fa20afa83",
+      "p": "on-success",
+      "o": "0a7f1a06-423c-458d-8194-6cfd693aa748"
+    },
+    {
+      "s": "20fe1453-7bc7-44fb-b8ea-927fa20afa83",
+      "p": "on-failure",
+      "o": "0a7f1a06-423c-458d-8194-6cfd693aa748"
+    },
+    {
+      "s": "19be6d37-6895-45f8-bff5-69472642f37e",
+      "p": "on-success",
+      "o": "20fe1453-7bc7-44fb-b8ea-927fa20afa83"
+    },
+    {
+      "s": "19be6d37-6895-45f8-bff5-69472642f37e",
+      "p": "on-failure",
+      "o": "610c9917-7ea2-48db-905a-0467e5a12d80"
+    },
+    {
+      "s": "610c9917-7ea2-48db-905a-0467e5a12d80",
+      "p": "on-success",
+      "o": "a52b888b-034e-4ac4-8c1a-cf262c68a8af"
+    },
+    {
+      "s": "a52b888b-034e-4ac4-8c1a-cf262c68a8af",
+      "p": "on-failure",
+      "o": "20fe1453-7bc7-44fb-b8ea-927fa20afa83"
+    }
+  ],
+  "tags": [
+    "T1218.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "test_harness",
+      "type": "path",
+      "description": "location of the test harness script - Invoke-BuildAndInvokeInstallUtilAssembly",
+      "value": "PathToAtomicsFolder\\T1218.004\\src\\InstallUtilTestHarness.ps1"
+    },
+    {
+      "name": "assembly_dir",
+      "type": "path",
+      "description": "directory to drop the compiled installer assembly",
+      "value": "$Env:TEMP\\"
+    },
+    {
+      "name": "invocation_method",
+      "type": "string",
+      "description": "the type of InstallUtil invocation variant - Executable, InstallHelper, or CheckIfInstallable",
+      "value": "Executable"
+    },
+    {
+      "name": "assembly_filename",
+      "type": "string",
+      "description": "filename of the compiled installer assembly",
+      "value": "T1218.004.dll"
+    }
+  ]
+}

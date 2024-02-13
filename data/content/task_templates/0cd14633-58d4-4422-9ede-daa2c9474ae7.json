@@ -1,0 +1,44 @@
+{
+  "id": "0cd14633-58d4-4422-9ede-daa2c9474ae7",
+  "name": "Utilize Clipboard to store or execute commands from",
+  "description": "Add data to clipboard to copy off or execute commands from.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "0d9f6a14-1bb7-4699-b64b-18b2f1e2494a",
+      "type": "execute-command",
+      "data": {
+        "command": "dir | clip\necho \"T1115\" \u003e %temp%\\T1115.txt\nclip \u003c %temp%\\T1115.txt\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b1da5bd0-7f59-4397-b96b-4fe1282b60d7",
+      "type": "execute-command",
+      "data": {
+        "command": "del %temp%\\T1115.txt \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0d9f6a14-1bb7-4699-b64b-18b2f1e2494a",
+      "p": "on-success",
+      "o": "b1da5bd0-7f59-4397-b96b-4fe1282b60d7"
+    },
+    {
+      "s": "0d9f6a14-1bb7-4699-b64b-18b2f1e2494a",
+      "p": "on-failure",
+      "o": "b1da5bd0-7f59-4397-b96b-4fe1282b60d7"
+    }
+  ],
+  "tags": [
+    "T1115",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "id": "161d694c-b543-4434-85c3-c3a433e33792",
+  "name": "Python pty module and spawn function used to spawn sh or bash",
+  "description": "Uses the Python spawn function to spawn a sh shell followed by a bash shell. Per Volexity, this technique was observed in exploitation of Atlassian Confluence [CVE-2022-26134]. Reference: https://www.volexity.com/blog/2022/06/02/zero-day-exploitation-of-atlassian-confluence\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "11a25483-87ba-451a-b5ef-6735768603f4",
+      "type": "execute-command",
+      "data": {
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2)\n$which_python -c \"import pty;pty.spawn('/bin/sh')\"\nexit\n$which_python -c \"import pty;pty.spawn('/bin/bash')\"\nexit",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "45db24f0-2d24-4645-8776-233fd8802fc5",
+      "name": "Check dependency 1/1",
+      "description": "Verify if python is in the environment variable path and attempt to import requests library.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?          \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5b306267-4cfc-477c-be35-97c644a2e2da",
+      "name": "Resolve dependency 1/1",
+      "description": "Verify if python is in the environment variable path and attempt to import requests library.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "pip install requests\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "72a213ed-573e-4fba-bef6-c023e178319f",
+      "name": "Re-check dependency 1/1",
+      "description": "Verify if python is in the environment variable path and attempt to import requests library.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?          \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "45db24f0-2d24-4645-8776-233fd8802fc5",
+      "p": "on-success",
+      "o": "11a25483-87ba-451a-b5ef-6735768603f4"
+    },
+    {
+      "s": "45db24f0-2d24-4645-8776-233fd8802fc5",
+      "p": "on-failure",
+      "o": "5b306267-4cfc-477c-be35-97c644a2e2da"
+    },
+    {
+      "s": "5b306267-4cfc-477c-be35-97c644a2e2da",
+      "p": "on-success",
+      "o": "72a213ed-573e-4fba-bef6-c023e178319f"
+    },
+    {
+      "s": "72a213ed-573e-4fba-bef6-c023e178319f",
+      "p": "on-failure",
+      "o": "11a25483-87ba-451a-b5ef-6735768603f4"
+    }
+  ],
+  "tags": [
+    "T1059.006",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "af254e70-dd0e-4de6-9afe-a994d9ea8b62",
+  "name": "Disable Windows Task Manager application",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to disable the windows task manager application.\nSee example how Agent Tesla malware abuses this technique: https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c073d52e-7b7c-4c9a-9217-09d96aa2adb9",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v DisableTaskmgr /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5d409e45-8c01-4132-8dc6-966c10773893",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v DisableTaskmgr /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c073d52e-7b7c-4c9a-9217-09d96aa2adb9",
+      "p": "on-success",
+      "o": "5d409e45-8c01-4132-8dc6-966c10773893"
+    },
+    {
+      "s": "c073d52e-7b7c-4c9a-9217-09d96aa2adb9",
+      "p": "on-failure",
+      "o": "5d409e45-8c01-4132-8dc6-966c10773893"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

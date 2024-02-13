@@ -1,0 +1,37 @@
+{
+  "id": "b6097712-c42e-4174-b8f2-4b1e1a5bbb3d",
+  "name": "Base64 decoding with shell utilities (freebsd)",
+  "description": "Use common shell utilities to decode a base64-encoded text string and echo it to the console\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "616cf05e-bac2-4d30-927b-c638d0be380e",
+      "type": "execute-command",
+      "data": {
+        "command": "ENCODED=$(echo '#{message}' | b64encode -r -)\nprintf $ENCODED | b64decode -r\necho $ENCODED | b64decode -r\necho $(echo $ENCODED) | b64decode -r\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 b64encode -r #{encoded_file}\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 b64decode -r \u003c #{encoded_file}\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 cat #{encoded_file} | b64decode -r\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 cat \u003c #{encoded_file} | b64decode -r\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1140",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "encoded_file",
+      "type": "path",
+      "description": "File to temporarily save encoded text",
+      "value": "/tmp/T1140.encoded"
+    },
+    {
+      "name": "message",
+      "type": "string",
+      "description": "Message to print to the screen",
+      "value": "Hello from Atomic Red Team test T1140!"
+    }
+  ]
+}

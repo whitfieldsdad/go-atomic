@@ -1,0 +1,86 @@
+{
+  "id": "1602ff76-ed7f-4c94-b550-2f727b4782d4",
+  "name": "Overwrite Linux Mail Spool",
+  "description": "This test overwrites the Linux mail spool of a specified user. This technique was used by threat actor Rocke during the exploitation of Linux web servers.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "2c44df7c-14cb-4332-b761-cca913ede98b",
+      "type": "execute-command",
+      "data": {
+        "command": "echo 0\u003e /var/spool/mail/#{username}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0099584f-bdd2-4257-ad60-f897f737baa2",
+      "name": "Check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat /var/spool/mail/#{username}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "39ad5638-014a-4735-b849-53a19a0b7b2f",
+      "name": "Resolve dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "touch /var/spool/mail/#{username}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "afac1ff5-a2b2-4b03-b666-d9798ad33d5c",
+      "name": "Re-check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat /var/spool/mail/#{username}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0099584f-bdd2-4257-ad60-f897f737baa2",
+      "p": "on-success",
+      "o": "2c44df7c-14cb-4332-b761-cca913ede98b"
+    },
+    {
+      "s": "0099584f-bdd2-4257-ad60-f897f737baa2",
+      "p": "on-failure",
+      "o": "39ad5638-014a-4735-b849-53a19a0b7b2f"
+    },
+    {
+      "s": "39ad5638-014a-4735-b849-53a19a0b7b2f",
+      "p": "on-success",
+      "o": "afac1ff5-a2b2-4b03-b666-d9798ad33d5c"
+    },
+    {
+      "s": "afac1ff5-a2b2-4b03-b666-d9798ad33d5c",
+      "p": "on-failure",
+      "o": "2c44df7c-14cb-4332-b761-cca913ede98b"
+    }
+  ],
+  "tags": [
+    "T1070.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username of mail spool",
+      "value": "root"
+    }
+  ]
+}

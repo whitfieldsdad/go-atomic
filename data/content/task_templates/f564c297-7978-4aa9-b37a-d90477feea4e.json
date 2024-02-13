@@ -1,0 +1,50 @@
+{
+  "id": "f564c297-7978-4aa9-b37a-d90477feea4e",
+  "name": "sftp remote file copy (push)",
+  "description": "Utilize sftp to perform a remote file copy (push)\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "7a0b2b0c-4da6-4590-916a-245abda2383c",
+      "type": "execute-command",
+      "data": {
+        "command": "sftp #{username}@#{remote_host}:#{remote_path} \u003c\u003c\u003c $'put #{local_file}'\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_path",
+      "type": "path",
+      "description": "Remote path to receive sftp",
+      "value": "/tmp/victim-files/"
+    },
+    {
+      "name": "local_file",
+      "type": "path",
+      "description": "Path of file to copy",
+      "value": "/tmp/adversary-sftp"
+    },
+    {
+      "name": "remote_host",
+      "type": "string",
+      "description": "Remote host to copy toward",
+      "value": "victim-host"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "User account to authenticate on remote host",
+      "value": "victim"
+    }
+  ]
+}

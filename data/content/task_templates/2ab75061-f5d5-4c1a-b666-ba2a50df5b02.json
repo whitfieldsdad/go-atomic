@@ -1,0 +1,64 @@
+{
+  "id": "2ab75061-f5d5-4c1a-b666-ba2a50df5b02",
+  "name": "Store file in Alternate Data Stream (ADS)",
+  "description": "Storing files in Alternate Data Stream (ADS) similar to Astaroth malware.\nUpon execution cmd will run and attempt to launch desktop.ini. No windows remain open after the test\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c9d06d46-898b-4364-a7d4-bfa830970703",
+      "type": "execute-command",
+      "data": {
+        "command": "if (!(Test-Path C:\\Users\\Public\\Libraries\\yanki -PathType Container)) {\n    New-Item -ItemType Directory -Force -Path C:\\Users\\Public\\Libraries\\yanki\n    }\nStart-Process -FilePath \"$env:comspec\" -ArgumentList \"/c,type,#{payload_path},\u003e,`\"#{ads_file_path}:#{ads_name}`\"\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e965ba5d-be74-4f3b-8a11-b61c0b962d5f",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item \"#{ads_file_path}\" -Force -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c9d06d46-898b-4364-a7d4-bfa830970703",
+      "p": "on-success",
+      "o": "e965ba5d-be74-4f3b-8a11-b61c0b962d5f"
+    },
+    {
+      "s": "c9d06d46-898b-4364-a7d4-bfa830970703",
+      "p": "on-failure",
+      "o": "e965ba5d-be74-4f3b-8a11-b61c0b962d5f"
+    }
+  ],
+  "tags": [
+    "T1564.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "payload_path",
+      "type": "path",
+      "description": "Path of file to hide in ADS",
+      "value": "c:\\windows\\system32\\cmd.exe"
+    },
+    {
+      "name": "ads_file_path",
+      "type": "path",
+      "description": "Path of file to create an ADS under",
+      "value": "C:\\Users\\Public\\Libraries\\yanki\\desktop.ini"
+    },
+    {
+      "name": "ads_name",
+      "type": "string",
+      "description": "Name of ADS",
+      "value": "desktop.ini"
+    }
+  ]
+}

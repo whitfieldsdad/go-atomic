@@ -1,0 +1,23 @@
+{
+  "id": "8b8a6449-be98-4f42-afd2-dedddc7453b2",
+  "name": "Enumerate all accounts via PowerShell (Domain)",
+  "description": "Enumerate all accounts via PowerShell. Upon execution, lots of user account and group information will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "dcd9e8ff-1923-493d-b5ee-b7fbc4a4e3bb",
+      "type": "execute-command",
+      "data": {
+        "command": "net user /domain\nget-localgroupmember -group Users\nget-aduser -filter *\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1087.002",
+    "atomic-red-team"
+  ]
+}

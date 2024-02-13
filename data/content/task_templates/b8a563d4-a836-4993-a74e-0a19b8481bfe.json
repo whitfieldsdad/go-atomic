@@ -1,0 +1,44 @@
+{
+  "id": "b8a563d4-a836-4993-a74e-0a19b8481bfe",
+  "name": "Wevtutil - Discover NTLM Users Remote",
+  "description": "This test discovers users who have authenticated against a Domain Controller via NTLM. \nThis is done remotely via wmic and captures the event code 4776 from the domain controller and stores the ouput in C:\\temp. [Reference](https://www.reliaquest.com/blog/socgholish-fakeupdates/)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "704d7774-4ee1-4ff0-b6ab-385f696d7310",
+      "type": "execute-command",
+      "data": {
+        "command": "$target = $env:LOGONSERVER\n$target = $target.Trim(\"\\\\\")\n$IpAddress = [System.Net.Dns]::GetHostAddresses($target) | select IPAddressToString -ExpandProperty IPAddressToString\nwmic.exe /node:$IpAddress process call create 'wevtutil epl Security C:\\\\ntlmusers.evtx /q:\\\"Event[System[(EventID=4776)]]\"'",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7ffda266-57aa-47bf-a80f-a07653ba1c7c",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -Path \\\\$IpAddress\\c$\\ntlmusers.evtx\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "704d7774-4ee1-4ff0-b6ab-385f696d7310",
+      "p": "on-success",
+      "o": "7ffda266-57aa-47bf-a80f-a07653ba1c7c"
+    },
+    {
+      "s": "704d7774-4ee1-4ff0-b6ab-385f696d7310",
+      "p": "on-failure",
+      "o": "7ffda266-57aa-47bf-a80f-a07653ba1c7c"
+    }
+  ],
+  "tags": [
+    "T1087.002",
+    "atomic-red-team"
+  ]
+}

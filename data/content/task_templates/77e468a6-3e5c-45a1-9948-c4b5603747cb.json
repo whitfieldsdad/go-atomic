@@ -1,0 +1,92 @@
+{
+  "id": "77e468a6-3e5c-45a1-9948-c4b5603747cb",
+  "name": "Network Share Discovery - FreeBSD",
+  "description": "Network Share Discovery using smbstatus\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "f74990dc-bafb-4963-89e2-291f09568c21",
+      "type": "execute-command",
+      "data": {
+        "command": "smbstatus --shares\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "adc4263a-08de-4c48-9f11-af57e4a6a5f0",
+      "name": "Check dependency 1/1",
+      "description": "Package with smbstatus (samba) must exist on device\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2e73d67b-f4ac-4e1a-b7e9-c8a5e2d4f4d9",
+      "name": "Resolve dependency 1/1",
+      "description": "Package with smbstatus (samba) must exist on device\n",
+      "type": "execute-command",
+      "data": {
+        "command": "#{package_installer} \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3880a488-2cf3-4c0f-bcca-9361de6eaaf8",
+      "name": "Re-check dependency 1/1",
+      "description": "Package with smbstatus (samba) must exist on device\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "adc4263a-08de-4c48-9f11-af57e4a6a5f0",
+      "p": "on-success",
+      "o": "f74990dc-bafb-4963-89e2-291f09568c21"
+    },
+    {
+      "s": "adc4263a-08de-4c48-9f11-af57e4a6a5f0",
+      "p": "on-failure",
+      "o": "2e73d67b-f4ac-4e1a-b7e9-c8a5e2d4f4d9"
+    },
+    {
+      "s": "2e73d67b-f4ac-4e1a-b7e9-c8a5e2d4f4d9",
+      "p": "on-success",
+      "o": "3880a488-2cf3-4c0f-bcca-9361de6eaaf8"
+    },
+    {
+      "s": "3880a488-2cf3-4c0f-bcca-9361de6eaaf8",
+      "p": "on-failure",
+      "o": "f74990dc-bafb-4963-89e2-291f09568c21"
+    }
+  ],
+  "tags": [
+    "T1135",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "package_installer",
+      "type": "string",
+      "description": "Package installer command. pkg install -y samba413",
+      "value": "(which pkg \u0026\u0026 pkg install -y samba413)"
+    },
+    {
+      "name": "package_checker",
+      "type": "string",
+      "description": "Package checking command. pkg info -x samba",
+      "value": "(pkg info -x samba \u0026\u003e/dev/null)"
+    }
+  ]
+}

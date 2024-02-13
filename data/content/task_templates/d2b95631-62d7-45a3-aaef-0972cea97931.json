@@ -1,0 +1,44 @@
+{
+  "id": "d2b95631-62d7-45a3-aaef-0972cea97931",
+  "name": "Reactivate a locked/expired account (Linux)",
+  "description": "A system administrator may have locked and expired a user account rather than deleting it. \"the user is coming back, at some stage\" An adversary may reactivate a inactive account in an attempt to appear legitimate. \n\nIn this test we create a \"art\" user with the password art, lock and expire the account, try to su to art and fail, unlock and renew the account, su successfully, then delete the account.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "f98efccd-07ec-4405-b0e8-70e7c7556748",
+      "type": "execute-command",
+      "data": {
+        "command": "useradd --shell /bin/bash --create-home --password $(openssl passwd -1 art) art\nusermod --lock art\nusermod --expiredate \"1\" art\nusermod --unlock art\nusermod --expiredate \"99999\" art\nsu art\nwhoami\nexit\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d0224840-1259-4354-81e0-21d5be358b1e",
+      "type": "execute-command",
+      "data": {
+        "command": "userdel -r art \n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f98efccd-07ec-4405-b0e8-70e7c7556748",
+      "p": "on-success",
+      "o": "d0224840-1259-4354-81e0-21d5be358b1e"
+    },
+    {
+      "s": "f98efccd-07ec-4405-b0e8-70e7c7556748",
+      "p": "on-failure",
+      "o": "d0224840-1259-4354-81e0-21d5be358b1e"
+    }
+  ],
+  "tags": [
+    "T1078.003",
+    "atomic-red-team"
+  ]
+}

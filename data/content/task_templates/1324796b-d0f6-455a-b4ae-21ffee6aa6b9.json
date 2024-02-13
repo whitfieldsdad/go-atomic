@@ -1,0 +1,44 @@
+{
+  "id": "1324796b-d0f6-455a-b4ae-21ffee6aa6b9",
+  "name": "Modify Registry of Current User Profile - cmd",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console. Upon execution, the message \"The operation completed successfully.\"\nwill be displayed. Additionally, open Registry Editor to view the new entry in HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "d877d2bb-7baf-4bbb-888e-97da60420876",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced /t REG_DWORD /v HideFileExt /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "871322ed-6dfa-4553-b01f-5b7f7829d67e",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced /v HideFileExt /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d877d2bb-7baf-4bbb-888e-97da60420876",
+      "p": "on-success",
+      "o": "871322ed-6dfa-4553-b01f-5b7f7829d67e"
+    },
+    {
+      "s": "d877d2bb-7baf-4bbb-888e-97da60420876",
+      "p": "on-failure",
+      "o": "871322ed-6dfa-4553-b01f-5b7f7829d67e"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

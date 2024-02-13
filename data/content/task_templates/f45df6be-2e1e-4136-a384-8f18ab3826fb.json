@@ -1,0 +1,106 @@
+{
+  "id": "f45df6be-2e1e-4136-a384-8f18ab3826fb",
+  "name": "Decode base64 Data into Script",
+  "description": "Creates a base64-encoded data file and decodes it into an executable shell script\n\nUpon successful execution, sh will execute art.sh, which is a base64 encoded command, that echoes `Hello from the Atomic Red Team` \nand uname -v\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "1492393b-bbbe-44d4-82d7-ce83b2cb4c63",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ \"$(uname)\" = 'FreeBSD' ]; then cmd=\"b64decode -r\"; else cmd=\"base64 -d\"; fi;\ncat /tmp/encoded.dat | $cmd \u003e /tmp/art.sh\nchmod +x /tmp/art.sh\n/tmp/art.sh\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9705d215-f3ee-4b3e-95be-74e1945bf97a",
+      "type": "execute-command",
+      "data": {
+        "command": "rm /tmp/encoded.dat \nrm /tmp/art.sh\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "18384ee3-f4d4-45ef-bb48-810b35357d90",
+      "name": "Check dependency 1/1",
+      "description": "encode the command into base64 file\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -e \"/tmp/encoded.dat\" ]; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "32ddd4a2-9578-47da-9ced-d5365a94b6f0",
+      "name": "Resolve dependency 1/1",
+      "description": "encode the command into base64 file\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ \"$(uname)\" = 'FreeBSD' ]; then cmd=\"b64encode -r -\"; else cmd=\"base64\"; fi;\necho \"#{shell_command}\" | $cmd \u003e /tmp/encoded.dat\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b4464271-9250-4a2b-b311-8f397271e0d3",
+      "name": "Re-check dependency 1/1",
+      "description": "encode the command into base64 file\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -e \"/tmp/encoded.dat\" ]; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1492393b-bbbe-44d4-82d7-ce83b2cb4c63",
+      "p": "on-success",
+      "o": "9705d215-f3ee-4b3e-95be-74e1945bf97a"
+    },
+    {
+      "s": "1492393b-bbbe-44d4-82d7-ce83b2cb4c63",
+      "p": "on-failure",
+      "o": "9705d215-f3ee-4b3e-95be-74e1945bf97a"
+    },
+    {
+      "s": "18384ee3-f4d4-45ef-bb48-810b35357d90",
+      "p": "on-success",
+      "o": "1492393b-bbbe-44d4-82d7-ce83b2cb4c63"
+    },
+    {
+      "s": "18384ee3-f4d4-45ef-bb48-810b35357d90",
+      "p": "on-failure",
+      "o": "32ddd4a2-9578-47da-9ced-d5365a94b6f0"
+    },
+    {
+      "s": "32ddd4a2-9578-47da-9ced-d5365a94b6f0",
+      "p": "on-success",
+      "o": "b4464271-9250-4a2b-b311-8f397271e0d3"
+    },
+    {
+      "s": "b4464271-9250-4a2b-b311-8f397271e0d3",
+      "p": "on-failure",
+      "o": "1492393b-bbbe-44d4-82d7-ce83b2cb4c63"
+    }
+  ],
+  "tags": [
+    "T1027",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "shell_command",
+      "type": "string",
+      "description": "command to encode",
+      "value": "echo Hello from the Atomic Red Team \u0026\u0026 uname -v"
+    }
+  ]
+}

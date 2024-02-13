@@ -1,0 +1,31 @@
+{
+  "id": "f151ee37-9e2b-47e6-80e4-550b9f999b7a",
+  "name": "Hidden Window",
+  "description": "Launch PowerShell with the \"-WindowStyle Hidden\" argument to conceal PowerShell windows by setting the WindowStyle parameter to hidden.\nUpon execution a hidden PowerShell window will launch calc.exe\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "7cd20c50-168d-4318-bb81-626807e1bce9",
+      "type": "execute-command",
+      "data": {
+        "command": "Start-Process #{powershell_command}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1564.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "powershell_command",
+      "type": "string",
+      "description": "Command to launch calc.exe from a hidden PowerShell Window",
+      "value": "powershell.exe -WindowStyle hidden calc.exe"
+    }
+  ]
+}

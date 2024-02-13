@@ -1,0 +1,111 @@
+{
+  "id": "001a042b-859f-44d9-bf81-fd1c4e2200b0",
+  "name": "Compressing data using zipfile in Python (FreeBSD/Linux)",
+  "description": "Uses zipfile from Python to compress files\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "d9583214-c746-4c17-bd3e-290770c166d9",
+      "type": "execute-command",
+      "data": {
+        "command": "which_python=`which python || which python3`\n$which_python -c \"from zipfile import ZipFile; ZipFile('#{path_to_output_file}', mode='w').write('#{path_to_input_file}')\"\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f081232b-9a4a-4b19-8f47-ac8a9fadac13",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{path_to_output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "201c40f5-4551-49d5-9cc6-f8a604504ccf",
+      "name": "Check dependency 1/1",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which python || which python3\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "521afcbd-1224-47b9-96ac-b657c9557bb4",
+      "name": "Resolve dependency 1/1",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"please install python to run this test\"; exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "da1d1564-4d5f-4580-ba02-17994531bc6c",
+      "name": "Re-check dependency 1/1",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which python || which python3\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d9583214-c746-4c17-bd3e-290770c166d9",
+      "p": "on-success",
+      "o": "f081232b-9a4a-4b19-8f47-ac8a9fadac13"
+    },
+    {
+      "s": "d9583214-c746-4c17-bd3e-290770c166d9",
+      "p": "on-failure",
+      "o": "f081232b-9a4a-4b19-8f47-ac8a9fadac13"
+    },
+    {
+      "s": "201c40f5-4551-49d5-9cc6-f8a604504ccf",
+      "p": "on-success",
+      "o": "d9583214-c746-4c17-bd3e-290770c166d9"
+    },
+    {
+      "s": "201c40f5-4551-49d5-9cc6-f8a604504ccf",
+      "p": "on-failure",
+      "o": "521afcbd-1224-47b9-96ac-b657c9557bb4"
+    },
+    {
+      "s": "521afcbd-1224-47b9-96ac-b657c9557bb4",
+      "p": "on-success",
+      "o": "da1d1564-4d5f-4580-ba02-17994531bc6c"
+    },
+    {
+      "s": "da1d1564-4d5f-4580-ba02-17994531bc6c",
+      "p": "on-failure",
+      "o": "d9583214-c746-4c17-bd3e-290770c166d9"
+    }
+  ],
+  "tags": [
+    "T1560.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "path_to_input_file",
+      "type": "path",
+      "description": "Path to the file that you want to compress",
+      "value": "/etc/passwd"
+    },
+    {
+      "name": "path_to_output_file",
+      "type": "path",
+      "description": "Path of the file that you want your .zip file to be",
+      "value": "/tmp/passwd.zip"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "3cfde62b-7c33-4b26-a61e-755d6131c8ce",
+  "name": "Search Through Bash History",
+  "description": "Search through bash history for specifice commands we want to capture\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "df7cab53-d14f-45df-ba5b-5fb6a1c451bc",
+      "type": "execute-command",
+      "data": {
+        "command": "cat #{bash_history_filename} | grep #{bash_history_grep_args} \u003e #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1552.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "bash_history_grep_args",
+      "type": "path",
+      "description": "grep arguments that filter out specific commands we want to capture",
+      "value": "-e '-p ' -e 'pass' -e 'ssh'"
+    },
+    {
+      "name": "bash_history_filename",
+      "type": "path",
+      "description": "Path of the bash history file to capture",
+      "value": "~/.bash_history"
+    },
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path where captured results will be placed",
+      "value": "~/loot.txt"
+    }
+  ]
+}

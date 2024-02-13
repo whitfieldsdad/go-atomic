@@ -1,0 +1,92 @@
+{
+  "id": "29d6f0d7-be63-4482-8827-ea77126c1ef7",
+  "name": "Invoke CHM with default Shortcut Command Execution",
+  "description": "Executes a CHM file with the default Shortcut Command method.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "35e1c4fe-2591-474b-9868-b2c77d21e92a",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-ATHCompiledHelp -HHFilePath #{hh_file_path} -CHMFilePath #{chm_file_path}",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d7abb871-59df-4aa8-88ae-8fa00c1475df",
+      "name": "Check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHCompiledHelp must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHCompiledHelp']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "349fb0c6-604c-49e9-8be0-d8300cdc8c5a",
+      "name": "Resolve dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHCompiledHelp must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fe8bf40b-40ee-4eb9-8bc8-9fc93503da75",
+      "name": "Re-check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHCompiledHelp must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHCompiledHelp']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d7abb871-59df-4aa8-88ae-8fa00c1475df",
+      "p": "on-success",
+      "o": "35e1c4fe-2591-474b-9868-b2c77d21e92a"
+    },
+    {
+      "s": "d7abb871-59df-4aa8-88ae-8fa00c1475df",
+      "p": "on-failure",
+      "o": "349fb0c6-604c-49e9-8be0-d8300cdc8c5a"
+    },
+    {
+      "s": "349fb0c6-604c-49e9-8be0-d8300cdc8c5a",
+      "p": "on-success",
+      "o": "fe8bf40b-40ee-4eb9-8bc8-9fc93503da75"
+    },
+    {
+      "s": "fe8bf40b-40ee-4eb9-8bc8-9fc93503da75",
+      "p": "on-failure",
+      "o": "35e1c4fe-2591-474b-9868-b2c77d21e92a"
+    }
+  ],
+  "tags": [
+    "T1218.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "chm_file_path",
+      "type": "string",
+      "description": "Default path of CHM",
+      "value": "Test.chm"
+    },
+    {
+      "name": "hh_file_path",
+      "type": "path",
+      "description": "path of modified HH.exe",
+      "value": "$env:windir\\hh.exe"
+    }
+  ]
+}

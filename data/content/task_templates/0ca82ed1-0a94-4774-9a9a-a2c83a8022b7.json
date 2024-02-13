@@ -1,0 +1,97 @@
+{
+  "id": "0ca82ed1-0a94-4774-9a9a-a2c83a8022b7",
+  "name": "Stop/Start Packet Filter",
+  "description": "Stop the Packet Filter if installed.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "8346ffa8-4377-4ffb-b9f1-ce7bbe96d590",
+      "type": "execute-command",
+      "data": {
+        "command": "service pf stop\nservice pf disable\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9b0c10be-75cc-4a42-9adc-46fa2caad29c",
+      "type": "execute-command",
+      "data": {
+        "command": "service pf enable\nservice pf start\nservice pf status\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7aa1d533-180f-414e-8b43-a50f3aa6847d",
+      "name": "Check dependency 1/1",
+      "description": "Check if pfctl is installed on the machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v pfctl)\" ]; then echo -e \"\\n***** PF NOT installed *****\\n\"; exit 1; fi\nif [ \"$(kldstat -n pf)\" = \"\" ]; then echo -e \"\\n***** PF inactive *****\\n\"; exit 1; fi \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b1275846-8259-4f91-a7c8-123a02a380c9",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if pfctl is installed on the machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "92697285-5189-43e8-b388-0f72178dfcf4",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if pfctl is installed on the machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v pfctl)\" ]; then echo -e \"\\n***** PF NOT installed *****\\n\"; exit 1; fi\nif [ \"$(kldstat -n pf)\" = \"\" ]; then echo -e \"\\n***** PF inactive *****\\n\"; exit 1; fi \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8346ffa8-4377-4ffb-b9f1-ce7bbe96d590",
+      "p": "on-success",
+      "o": "9b0c10be-75cc-4a42-9adc-46fa2caad29c"
+    },
+    {
+      "s": "8346ffa8-4377-4ffb-b9f1-ce7bbe96d590",
+      "p": "on-failure",
+      "o": "9b0c10be-75cc-4a42-9adc-46fa2caad29c"
+    },
+    {
+      "s": "7aa1d533-180f-414e-8b43-a50f3aa6847d",
+      "p": "on-success",
+      "o": "8346ffa8-4377-4ffb-b9f1-ce7bbe96d590"
+    },
+    {
+      "s": "7aa1d533-180f-414e-8b43-a50f3aa6847d",
+      "p": "on-failure",
+      "o": "b1275846-8259-4f91-a7c8-123a02a380c9"
+    },
+    {
+      "s": "b1275846-8259-4f91-a7c8-123a02a380c9",
+      "p": "on-success",
+      "o": "92697285-5189-43e8-b388-0f72178dfcf4"
+    },
+    {
+      "s": "92697285-5189-43e8-b388-0f72178dfcf4",
+      "p": "on-failure",
+      "o": "8346ffa8-4377-4ffb-b9f1-ce7bbe96d590"
+    }
+  ],
+  "tags": [
+    "T1562.004",
+    "atomic-red-team"
+  ]
+}

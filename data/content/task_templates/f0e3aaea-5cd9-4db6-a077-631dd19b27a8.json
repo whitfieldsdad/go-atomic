@@ -1,0 +1,105 @@
+{
+  "id": "f0e3aaea-5cd9-4db6-a077-631dd19b27a8",
+  "name": "linux rename /proc/pid/comm using prctl",
+  "description": "Runs a C program that calls prctl(PR_SET_NAME) to modify /proc/pid/comm value to \"totally_legit\".  This will show up as process name in simple 'ps' listings.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "1a0c874b-b96c-483b-bd76-f93ea8881780",
+      "type": "execute-command",
+      "data": {
+        "command": "#{exe_path} \u0026 ps\nTMP=`ps | grep totally_legit`\nif [ -z \"${TMP}\" ] ; then echo \"renamed process NOT FOUND in process list\" \u0026\u0026 exit 1; fi\nexit 0\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0fb329c8-f2f1-43a0-8408-0565525deaea",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{exe_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c5c4375d-0937-4038-91ca-03575dad3fb0",
+      "name": "Check dependency 1/1",
+      "description": "#{exe_path} must be exist on system.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat #{exe_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f7ff0e62-ef44-4766-a4bb-1676b83195d7",
+      "name": "Resolve dependency 1/1",
+      "description": "#{exe_path} must be exist on system.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cc -o #{exe_path} PathToAtomicsFolder/T1036.004/src/prctl_rename.c\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0453d6e5-69e8-4a65-9891-58725d7ac0dd",
+      "name": "Re-check dependency 1/1",
+      "description": "#{exe_path} must be exist on system.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat #{exe_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1a0c874b-b96c-483b-bd76-f93ea8881780",
+      "p": "on-success",
+      "o": "0fb329c8-f2f1-43a0-8408-0565525deaea"
+    },
+    {
+      "s": "1a0c874b-b96c-483b-bd76-f93ea8881780",
+      "p": "on-failure",
+      "o": "0fb329c8-f2f1-43a0-8408-0565525deaea"
+    },
+    {
+      "s": "c5c4375d-0937-4038-91ca-03575dad3fb0",
+      "p": "on-success",
+      "o": "1a0c874b-b96c-483b-bd76-f93ea8881780"
+    },
+    {
+      "s": "c5c4375d-0937-4038-91ca-03575dad3fb0",
+      "p": "on-failure",
+      "o": "f7ff0e62-ef44-4766-a4bb-1676b83195d7"
+    },
+    {
+      "s": "f7ff0e62-ef44-4766-a4bb-1676b83195d7",
+      "p": "on-success",
+      "o": "0453d6e5-69e8-4a65-9891-58725d7ac0dd"
+    },
+    {
+      "s": "0453d6e5-69e8-4a65-9891-58725d7ac0dd",
+      "p": "on-failure",
+      "o": "1a0c874b-b96c-483b-bd76-f93ea8881780"
+    }
+  ],
+  "tags": [
+    "T1036.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "exe_path",
+      "type": "path",
+      "description": "Output Binary Path",
+      "value": "/tmp/T1036_004_prctl_rename"
+    }
+  ]
+}

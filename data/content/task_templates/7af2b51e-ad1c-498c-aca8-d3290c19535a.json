@@ -1,0 +1,112 @@
+{
+  "id": "7af2b51e-ad1c-498c-aca8-d3290c19535a",
+  "name": "Data Compressed - nix - tar Folder or File",
+  "description": "An adversary may compress data (e.g., sensitive documents) that is collected prior to exfiltration. This test uses standard gzip compression.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "970fb6ba-035a-46d8-b91f-090065c4a488",
+      "type": "execute-command",
+      "data": {
+        "command": "tar -cvzf #{output_file} #{input_file_folder}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "56eeac2f-43c8-48fc-9df9-79e8ee1189b2",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "88d6c639-6ead-48c9-b173-5000d617ddc3",
+      "name": "Check dependency 1/1",
+      "description": "Folder to zip must exist (#{input_file_folder})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "test -e #{input_file_folder}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "20c36a7d-241a-438d-8a4d-2642dba2c870",
+      "name": "Resolve dependency 1/1",
+      "description": "Folder to zip must exist (#{input_file_folder})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir -p #{input_file_folder} \u0026\u0026 touch #{input_file_folder}/file1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4e9af252-a597-4ecc-a982-b6ee4221342a",
+      "name": "Re-check dependency 1/1",
+      "description": "Folder to zip must exist (#{input_file_folder})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "test -e #{input_file_folder}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "970fb6ba-035a-46d8-b91f-090065c4a488",
+      "p": "on-success",
+      "o": "56eeac2f-43c8-48fc-9df9-79e8ee1189b2"
+    },
+    {
+      "s": "970fb6ba-035a-46d8-b91f-090065c4a488",
+      "p": "on-failure",
+      "o": "56eeac2f-43c8-48fc-9df9-79e8ee1189b2"
+    },
+    {
+      "s": "88d6c639-6ead-48c9-b173-5000d617ddc3",
+      "p": "on-success",
+      "o": "970fb6ba-035a-46d8-b91f-090065c4a488"
+    },
+    {
+      "s": "88d6c639-6ead-48c9-b173-5000d617ddc3",
+      "p": "on-failure",
+      "o": "20c36a7d-241a-438d-8a4d-2642dba2c870"
+    },
+    {
+      "s": "20c36a7d-241a-438d-8a4d-2642dba2c870",
+      "p": "on-success",
+      "o": "4e9af252-a597-4ecc-a982-b6ee4221342a"
+    },
+    {
+      "s": "4e9af252-a597-4ecc-a982-b6ee4221342a",
+      "p": "on-failure",
+      "o": "970fb6ba-035a-46d8-b91f-090065c4a488"
+    }
+  ],
+  "tags": [
+    "T1560.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "input_file_folder",
+      "type": "path",
+      "description": "Path that should be compressed",
+      "value": "$HOME/$USERNAME"
+    },
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "File that should be output",
+      "value": "$HOME/data.tar.gz"
+    }
+  ]
+}

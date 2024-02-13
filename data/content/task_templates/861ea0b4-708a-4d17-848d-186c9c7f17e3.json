@@ -1,0 +1,86 @@
+{
+  "id": "861ea0b4-708a-4d17-848d-186c9c7f17e3",
+  "name": "Delete a single file - Windows cmd",
+  "description": "Delete a single file from the temporary directory using cmd.exe.\nUpon execution, no output will be displayed. Use File Explorer to verify the file was deleted.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "617dde0a-0267-4bcc-a451-1ffeea0bf041",
+      "type": "execute-command",
+      "data": {
+        "command": "del /f #{file_to_delete}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ddefda58-0b9f-412e-8d89-87477920b2bd",
+      "name": "Check dependency 1/1",
+      "description": "The file to delete must exist on disk at specified location (#{file_to_delete})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST \"#{file_to_delete}\" ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "30ed8e97-d965-4995-8e14-be39636aa72c",
+      "name": "Resolve dependency 1/1",
+      "description": "The file to delete must exist on disk at specified location (#{file_to_delete})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo deleteme_T1551.004 \u003e\u003e #{file_to_delete}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f3097160-3771-465e-828d-8264719a6bbe",
+      "name": "Re-check dependency 1/1",
+      "description": "The file to delete must exist on disk at specified location (#{file_to_delete})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST \"#{file_to_delete}\" ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ddefda58-0b9f-412e-8d89-87477920b2bd",
+      "p": "on-success",
+      "o": "617dde0a-0267-4bcc-a451-1ffeea0bf041"
+    },
+    {
+      "s": "ddefda58-0b9f-412e-8d89-87477920b2bd",
+      "p": "on-failure",
+      "o": "30ed8e97-d965-4995-8e14-be39636aa72c"
+    },
+    {
+      "s": "30ed8e97-d965-4995-8e14-be39636aa72c",
+      "p": "on-success",
+      "o": "f3097160-3771-465e-828d-8264719a6bbe"
+    },
+    {
+      "s": "f3097160-3771-465e-828d-8264719a6bbe",
+      "p": "on-failure",
+      "o": "617dde0a-0267-4bcc-a451-1ffeea0bf041"
+    }
+  ],
+  "tags": [
+    "T1070.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_to_delete",
+      "type": "string",
+      "description": "File to delete. Run the prereq command to create it if it does not exist.",
+      "value": "%temp%\\deleteme_T1551.004"
+    }
+  ]
+}

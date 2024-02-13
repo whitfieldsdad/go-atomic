@@ -1,0 +1,44 @@
+{
+  "id": "12e03af7-79f9-4f95-af48-d3f12f28a260",
+  "name": "Disable Win Defender Notification",
+  "description": "Disable Win Defender Notification. Redline is using this to disable this win defender feature.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "feb2b66e-e1c1-43eb-8027-80d55d26aa36",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\Notifications\" /v \"DisableNotifications\" /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7d6398b6-8481-4cf9-82c3-290104be661b",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\Notifications\" /v \"DisableNotifications\" /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "feb2b66e-e1c1-43eb-8027-80d55d26aa36",
+      "p": "on-success",
+      "o": "7d6398b6-8481-4cf9-82c3-290104be661b"
+    },
+    {
+      "s": "feb2b66e-e1c1-43eb-8027-80d55d26aa36",
+      "p": "on-failure",
+      "o": "7d6398b6-8481-4cf9-82c3-290104be661b"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

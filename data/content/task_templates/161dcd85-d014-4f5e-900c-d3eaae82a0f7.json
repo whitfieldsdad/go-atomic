@@ -1,0 +1,31 @@
+{
+  "id": "161dcd85-d014-4f5e-900c-d3eaae82a0f7",
+  "name": "Enumerate logged on users via CMD (Domain)",
+  "description": "Enumerate logged on users. Upon exeuction, logged on users will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "2d41fe42-037e-4cd6-bfc9-393471588a13",
+      "type": "execute-command",
+      "data": {
+        "command": "query user /SERVER:#{computer_name}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1087.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "computer_name",
+      "type": "string",
+      "description": "Name of remote system to query",
+      "value": "%COMPUTERNAME%"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "23d348f3-cc5c-4ba9-bd0a-ae09069f0914",
+  "name": "Clear Bash history (ln dev/null)",
+  "description": "Clears bash history via a symlink to /dev/null\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "a1b7a5f9-4505-4aea-9924-f7068f368b97",
+      "type": "execute-command",
+      "data": {
+        "command": "ln -sf /dev/null #{history_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1070.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "history_path",
+      "type": "path",
+      "description": "Bash history path",
+      "value": "~/.bash_history"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "85f3a526-4cfa-4fe7-98c1-dea99be025c7",
+  "name": "Disable UAC - Switch to the secure desktop when prompting for elevation via registry key",
+  "description": "User Account Control (UAC) is a security mechanism for limiting the elevation of privileges, including administrative accounts, unless authorized. \nThis setting ensures that the elevation prompt is only used in secure desktop mode.\nDisable User Account Conrol (UAC) for secure desktop by setting the registry key HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\PromptOnSecureDesktop to 0.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "d6bd6ab1-6333-4523-b31c-f39b05e0c6cc",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name PromptOnSecureDesktop -Value 0 -Type Dword -Force",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e726665b-c80e-4b0c-9d22-d5ecc78cef9a",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name PromptOnSecureDesktop -Value 1 -Type Dword -Force\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d6bd6ab1-6333-4523-b31c-f39b05e0c6cc",
+      "p": "on-success",
+      "o": "e726665b-c80e-4b0c-9d22-d5ecc78cef9a"
+    },
+    {
+      "s": "d6bd6ab1-6333-4523-b31c-f39b05e0c6cc",
+      "p": "on-failure",
+      "o": "e726665b-c80e-4b0c-9d22-d5ecc78cef9a"
+    }
+  ],
+  "tags": [
+    "T1548.002",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "24e55612-85f6-4bd6-ae74-a73d02e3441d",
+  "name": "Add Executable Shortcut Link to User Startup Folder",
+  "description": "Adds a non-malicious executable shortcut link to the current users startup directory. Test can be verified by going to the users startup directory and checking if the shortcut link exists. ",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "3e896545-c8fd-4a8a-85ea-993e87102f69",
+      "type": "execute-command",
+      "data": {
+        "command": "$Target = \"C:\\Windows\\System32\\calc.exe\"\n$ShortcutLocation = \"$home\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\calc_exe.lnk\"\n$WScriptShell = New-Object -ComObject WScript.Shell\n$Create = $WScriptShell.CreateShortcut($ShortcutLocation)\n$Create.TargetPath = $Target\n$Create.Save()      ",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fc796576-c765-48c2-a53c-3683e06b43d4",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item \"$home\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\calc_exe.lnk\" -ErrorAction Ignore",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3e896545-c8fd-4a8a-85ea-993e87102f69",
+      "p": "on-success",
+      "o": "fc796576-c765-48c2-a53c-3683e06b43d4"
+    },
+    {
+      "s": "3e896545-c8fd-4a8a-85ea-993e87102f69",
+      "p": "on-failure",
+      "o": "fc796576-c765-48c2-a53c-3683e06b43d4"
+    }
+  ],
+  "tags": [
+    "T1547.001",
+    "atomic-red-team"
+  ]
+}

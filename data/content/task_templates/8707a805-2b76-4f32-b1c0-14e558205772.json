@@ -1,0 +1,37 @@
+{
+  "id": "8707a805-2b76-4f32-b1c0-14e558205772",
+  "name": "Mshta used to Execute PowerShell",
+  "description": "Use Mshta to execute arbitrary PowerShell. Example is from the 2021 Threat Detection Report by Red Canary.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "0ff48055-bc9d-460c-a5dd-7265fd141526",
+      "type": "execute-command",
+      "data": {
+        "command": "mshta.exe \"about:\u003chta:application\u003e\u003cscript language=\"VBScript\"\u003eClose(Execute(\"CreateObject(\"\"Wscript.Shell\"\").Run%20\"\"powershell.exe%20-nop%20-Command%20Write-Host%20#{message};Start-Sleep%20-Seconds%20#{seconds_to_sleep}\"\"\"))\u003c/script\u003e'\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1218.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "message",
+      "type": "string",
+      "description": "Encoded message to include",
+      "value": "Hello,%20MSHTA!"
+    },
+    {
+      "name": "seconds_to_sleep",
+      "type": "integer",
+      "description": "How many seconds to sleep/wait",
+      "value": "5"
+    }
+  ]
+}

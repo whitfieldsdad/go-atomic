@@ -1,0 +1,105 @@
+{
+  "id": "8d1c2368-b503-40c9-9057-8e42f21c58ad",
+  "name": "AWS - Create a new IAM user",
+  "description": "Creates a new IAM user in AWS. Upon successful creation, a new user will be created. Adversaries create new IAM users so that their malicious activity do not interupt the normal functions of the compromised users and can remain undetected for a long time\n",
+  "platforms": [
+    "iaas:aws"
+  ],
+  "steps": [
+    {
+      "id": "1da952ca-3225-440d-b703-48e4159d5146",
+      "type": "execute-command",
+      "data": {
+        "command": "aws iam create-user --user-name #{username}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d6a43441-564c-43fa-96e9-b4c1536c8704",
+      "type": "execute-command",
+      "data": {
+        "command": "aws iam delete-user --user-name #{username}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "00a2cd4f-6761-4ef2-9f6f-b336b0a9a942",
+      "name": "Check dependency 1/1",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cat ~/.aws/credentials | grep \"default\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a4531d12-c6b7-429d-a824-260e3a12c615",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Please install the aws-cli and configure your AWS defult profile using: aws configure\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a1f6f639-989b-46fa-ad2b-82634edca0ff",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cat ~/.aws/credentials | grep \"default\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1da952ca-3225-440d-b703-48e4159d5146",
+      "p": "on-success",
+      "o": "d6a43441-564c-43fa-96e9-b4c1536c8704"
+    },
+    {
+      "s": "1da952ca-3225-440d-b703-48e4159d5146",
+      "p": "on-failure",
+      "o": "d6a43441-564c-43fa-96e9-b4c1536c8704"
+    },
+    {
+      "s": "00a2cd4f-6761-4ef2-9f6f-b336b0a9a942",
+      "p": "on-success",
+      "o": "1da952ca-3225-440d-b703-48e4159d5146"
+    },
+    {
+      "s": "00a2cd4f-6761-4ef2-9f6f-b336b0a9a942",
+      "p": "on-failure",
+      "o": "a4531d12-c6b7-429d-a824-260e3a12c615"
+    },
+    {
+      "s": "a4531d12-c6b7-429d-a824-260e3a12c615",
+      "p": "on-success",
+      "o": "a1f6f639-989b-46fa-ad2b-82634edca0ff"
+    },
+    {
+      "s": "a1f6f639-989b-46fa-ad2b-82634edca0ff",
+      "p": "on-failure",
+      "o": "1da952ca-3225-440d-b703-48e4159d5146"
+    }
+  ],
+  "tags": [
+    "T1136.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username of the IAM user to create in AWS",
+      "value": "atomicredteam"
+    }
+  ]
+}

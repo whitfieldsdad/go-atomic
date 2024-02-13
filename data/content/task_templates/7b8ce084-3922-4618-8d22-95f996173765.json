@@ -1,0 +1,123 @@
+{
+  "id": "7b8ce084-3922-4618-8d22-95f996173765",
+  "name": "Encrypt files using gpg (FreeBSD/Linux)",
+  "description": "Uses gpg to encrypt a file\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "16c3c431-1a48-4390-b5b0-632a1b50b083",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"#{pwd_for_encrypted_file}\" | $which_gpg --batch --yes --passphrase-fd 0 --cipher-algo #{encryption_alg} -o #{encrypted_file_path} -c #{input_file_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "861c3b98-b140-4401-ba6c-2ffbdcd4d0f5",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{encrypted_file_path}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5450cb60-58f3-4d61-ae6c-db34f3d1f411",
+      "name": "Check dependency 1/1",
+      "description": "Finds where gpg is located\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which_gpg=`which gpg`\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6c990b50-774f-4466-a3cc-77067336f5e0",
+      "name": "Resolve dependency 1/1",
+      "description": "Finds where gpg is located\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which pkg \u0026\u0026 pkg install -y gnupg)||(which yum \u0026\u0026 yum -y install epel-release gpg)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y gpg)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "10d14821-bd07-4730-baa3-e3539df89792",
+      "name": "Re-check dependency 1/1",
+      "description": "Finds where gpg is located\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which_gpg=`which gpg`\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "16c3c431-1a48-4390-b5b0-632a1b50b083",
+      "p": "on-success",
+      "o": "861c3b98-b140-4401-ba6c-2ffbdcd4d0f5"
+    },
+    {
+      "s": "16c3c431-1a48-4390-b5b0-632a1b50b083",
+      "p": "on-failure",
+      "o": "861c3b98-b140-4401-ba6c-2ffbdcd4d0f5"
+    },
+    {
+      "s": "5450cb60-58f3-4d61-ae6c-db34f3d1f411",
+      "p": "on-success",
+      "o": "16c3c431-1a48-4390-b5b0-632a1b50b083"
+    },
+    {
+      "s": "5450cb60-58f3-4d61-ae6c-db34f3d1f411",
+      "p": "on-failure",
+      "o": "6c990b50-774f-4466-a3cc-77067336f5e0"
+    },
+    {
+      "s": "6c990b50-774f-4466-a3cc-77067336f5e0",
+      "p": "on-success",
+      "o": "10d14821-bd07-4730-baa3-e3539df89792"
+    },
+    {
+      "s": "10d14821-bd07-4730-baa3-e3539df89792",
+      "p": "on-failure",
+      "o": "16c3c431-1a48-4390-b5b0-632a1b50b083"
+    }
+  ],
+  "tags": [
+    "T1486",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "pwd_for_encrypted_file",
+      "type": "string",
+      "description": "the password that you want for the encrypted file",
+      "value": "passwd"
+    },
+    {
+      "name": "encrypted_file_path",
+      "type": "path",
+      "description": "path to the encrypted file",
+      "value": "/tmp/passwd.gpg"
+    },
+    {
+      "name": "input_file_path",
+      "type": "path",
+      "description": "path to the file that you want to encrypt",
+      "value": "/etc/passwd"
+    },
+    {
+      "name": "encryption_alg",
+      "type": "string",
+      "description": "encryption algorithm of the file",
+      "value": "AES-256"
+    }
+  ]
+}

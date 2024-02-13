@@ -1,0 +1,86 @@
+{
+  "id": "810a465f-cd4f-47bc-b43e-d2de3b033ecc",
+  "name": "Delete system log files using OSAScript",
+  "description": "This test deletes the system log file using osascript via \"do shell script\"(sh/bash by default) which in-turn spawns rm utility, requires admin privileges\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "594864ba-ad2a-483d-a7d6-5c56a7622a03",
+      "type": "execute-command",
+      "data": {
+        "command": "osascript -e 'do shell script \"rm #{system_log_path}\" with administrator privileges'\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a26c4914-c65a-4802-a8b1-19756228e0a5",
+      "name": "Check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "881cb5c4-9e47-43fe-9f14-8ba2532bf36f",
+      "name": "Resolve dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "touch #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3771df15-bad1-4fa1-a1e7-726599d2980f",
+      "name": "Re-check dependency 1/1",
+      "description": "target files must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "stat #{system_log_path}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a26c4914-c65a-4802-a8b1-19756228e0a5",
+      "p": "on-success",
+      "o": "594864ba-ad2a-483d-a7d6-5c56a7622a03"
+    },
+    {
+      "s": "a26c4914-c65a-4802-a8b1-19756228e0a5",
+      "p": "on-failure",
+      "o": "881cb5c4-9e47-43fe-9f14-8ba2532bf36f"
+    },
+    {
+      "s": "881cb5c4-9e47-43fe-9f14-8ba2532bf36f",
+      "p": "on-success",
+      "o": "3771df15-bad1-4fa1-a1e7-726599d2980f"
+    },
+    {
+      "s": "3771df15-bad1-4fa1-a1e7-726599d2980f",
+      "p": "on-failure",
+      "o": "594864ba-ad2a-483d-a7d6-5c56a7622a03"
+    }
+  ],
+  "tags": [
+    "T1070.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "system_log_path",
+      "type": "string",
+      "description": "path to system.log",
+      "value": "/var/log/system.log"
+    }
+  ]
+}

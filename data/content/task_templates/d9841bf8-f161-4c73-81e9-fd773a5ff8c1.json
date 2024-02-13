@@ -1,0 +1,44 @@
+{
+  "id": "d9841bf8-f161-4c73-81e9-fd773a5ff8c1",
+  "name": "Allow SMB and RDP on Microsoft Defender Firewall",
+  "description": "Allow all SMB and RDP rules on the Microsoft Defender Firewall for all profiles.\nCaution if you access remotely the host where the test runs! Especially with the cleanup command which will reset the firewall and risk disabling those services...\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "4f48b95d-f3c6-4187-a256-fad6f2b57161",
+      "type": "execute-command",
+      "data": {
+        "command": "netsh advfirewall firewall set rule group=\"remote desktop\" new enable=Yes\nnetsh advfirewall firewall set rule group=\"file and printer sharing\" new enable=Yes\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0b37f838-6bdd-4e65-8fb2-a1bfa351a4cf",
+      "type": "execute-command",
+      "data": {
+        "command": "netsh advfirewall reset \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4f48b95d-f3c6-4187-a256-fad6f2b57161",
+      "p": "on-success",
+      "o": "0b37f838-6bdd-4e65-8fb2-a1bfa351a4cf"
+    },
+    {
+      "s": "4f48b95d-f3c6-4187-a256-fad6f2b57161",
+      "p": "on-failure",
+      "o": "0b37f838-6bdd-4e65-8fb2-a1bfa351a4cf"
+    }
+  ],
+  "tags": [
+    "T1562.004",
+    "atomic-red-team"
+  ]
+}

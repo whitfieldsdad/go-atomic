@@ -1,0 +1,86 @@
+{
+  "id": "9dee89bd-9a98-4c4f-9e2d-4256690b0e72",
+  "name": "Delete a single file - Windows PowerShell",
+  "description": "Delete a single file from the temporary directory using Powershell. Upon execution, no output will be displayed. Use File Explorer to verify the file was deleted.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "634f8091-6717-47a7-8226-aba7ea4c97dd",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -path #{file_to_delete}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b8897563-3c99-4b2b-9cc3-31fa4055ed55",
+      "name": "Check dependency 1/1",
+      "description": "The file to delete must exist on disk at specified location (#{file_to_delete})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{file_to_delete}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "681e0fb9-5ed7-4340-8039-bca066e43009",
+      "name": "Resolve dependency 1/1",
+      "description": "The file to delete must exist on disk at specified location (#{file_to_delete})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Path #{file_to_delete} | Out-Null\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fdcdbc0c-b919-48a9-91ab-ce2b20c5f3cb",
+      "name": "Re-check dependency 1/1",
+      "description": "The file to delete must exist on disk at specified location (#{file_to_delete})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{file_to_delete}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b8897563-3c99-4b2b-9cc3-31fa4055ed55",
+      "p": "on-success",
+      "o": "634f8091-6717-47a7-8226-aba7ea4c97dd"
+    },
+    {
+      "s": "b8897563-3c99-4b2b-9cc3-31fa4055ed55",
+      "p": "on-failure",
+      "o": "681e0fb9-5ed7-4340-8039-bca066e43009"
+    },
+    {
+      "s": "681e0fb9-5ed7-4340-8039-bca066e43009",
+      "p": "on-success",
+      "o": "fdcdbc0c-b919-48a9-91ab-ce2b20c5f3cb"
+    },
+    {
+      "s": "fdcdbc0c-b919-48a9-91ab-ce2b20c5f3cb",
+      "p": "on-failure",
+      "o": "634f8091-6717-47a7-8226-aba7ea4c97dd"
+    }
+  ],
+  "tags": [
+    "T1070.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_to_delete",
+      "type": "string",
+      "description": "File to delete. Run the prereq command to create it if it does not exist.",
+      "value": "$env:TEMP\\deleteme_T1551.004"
+    }
+  ]
+}

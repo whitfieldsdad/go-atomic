@@ -1,0 +1,211 @@
+{
+  "id": "c955c1c7-3145-4a22-af2d-63eea0d967f0",
+  "name": "Azure AD - Delete user via Azure CLI",
+  "description": "Deletes a user in Azure AD. Adversaries may interrupt availability of system and network resources by inhibiting access to accounts utilized by legitimate users. Accounts may be deleted, locked, or manipulated (excluding changed credentials) to remove access to accounts.",
+  "platforms": [
+    "azure-ad"
+  ],
+  "steps": [
+    {
+      "id": "21c842d1-bd73-4bd8-b684-9ad857968615",
+      "type": "execute-command",
+      "data": {
+        "command": "az login\n$userprincipalname = \"#{userprincipalname}\"\naz ad user delete --id $userprincipalname",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1fd3f60e-f949-4cc5-b999-677375b5863b",
+      "type": "execute-command",
+      "data": {
+        "command": "N/A",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "eb921ead-14dd-456f-b578-7993c0910516",
+      "name": "Check dependency 1/3",
+      "description": "Check if Azure CLI is installed and install manually",
+      "type": "execute-command",
+      "data": {
+        "command": "az account list",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8f7ecfc7-e96b-4712-ace3-9364cd2e5dc4",
+      "name": "Resolve dependency 1/3",
+      "description": "Check if Azure CLI is installed and install manually",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"use the following to install the Azure CLI manually https://aka.ms/installazurecliwindows\"",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d48cf6bd-39e1-4089-a8c0-f2a453b1ff6e",
+      "name": "Re-check dependency 1/3",
+      "description": "Check if Azure CLI is installed and install manually",
+      "type": "execute-command",
+      "data": {
+        "command": "az account list",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8790c0a4-337f-4c42-aaa2-27ea3c5a1636",
+      "name": "Check dependency 2/3",
+      "description": "Check if Azure CLI is installed and install via PowerShell",
+      "type": "execute-command",
+      "data": {
+        "command": "az account list",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "009e8b13-43f3-402d-bc15-4883e2335cba",
+      "name": "Resolve dependency 2/3",
+      "description": "Check if Azure CLI is installed and install via PowerShell",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"use the following to install the Azure CLI $ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'; Remove-Item .\\AzureCLI.msi\"",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "567b4434-78ce-4569-912a-ddc0f2bc28e0",
+      "name": "Re-check dependency 2/3",
+      "description": "Check if Azure CLI is installed and install via PowerShell",
+      "type": "execute-command",
+      "data": {
+        "command": "az account list",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7df521a3-a779-4660-8173-5eecfc3238b2",
+      "name": "Check dependency 3/3",
+      "description": "Update the userprincipalname to meet your requirements",
+      "type": "execute-command",
+      "data": {
+        "command": "Update the input arguments so the userprincipalname value is accurate for your environment",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "56f1949d-342a-48cc-bb41-290ac93f49ec",
+      "name": "Resolve dependency 3/3",
+      "description": "Update the userprincipalname to meet your requirements",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"Update the input arguments in the .yaml file so that the userprincipalname value is accurate for your environment\"",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "55512ca9-56bd-4d06-b71c-7ac3c9fa95ee",
+      "name": "Re-check dependency 3/3",
+      "description": "Update the userprincipalname to meet your requirements",
+      "type": "execute-command",
+      "data": {
+        "command": "Update the input arguments so the userprincipalname value is accurate for your environment",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "21c842d1-bd73-4bd8-b684-9ad857968615",
+      "p": "on-success",
+      "o": "1fd3f60e-f949-4cc5-b999-677375b5863b"
+    },
+    {
+      "s": "21c842d1-bd73-4bd8-b684-9ad857968615",
+      "p": "on-failure",
+      "o": "1fd3f60e-f949-4cc5-b999-677375b5863b"
+    },
+    {
+      "s": "eb921ead-14dd-456f-b578-7993c0910516",
+      "p": "on-success",
+      "o": "21c842d1-bd73-4bd8-b684-9ad857968615"
+    },
+    {
+      "s": "eb921ead-14dd-456f-b578-7993c0910516",
+      "p": "on-failure",
+      "o": "8f7ecfc7-e96b-4712-ace3-9364cd2e5dc4"
+    },
+    {
+      "s": "8f7ecfc7-e96b-4712-ace3-9364cd2e5dc4",
+      "p": "on-success",
+      "o": "d48cf6bd-39e1-4089-a8c0-f2a453b1ff6e"
+    },
+    {
+      "s": "d48cf6bd-39e1-4089-a8c0-f2a453b1ff6e",
+      "p": "on-failure",
+      "o": "21c842d1-bd73-4bd8-b684-9ad857968615"
+    },
+    {
+      "s": "8790c0a4-337f-4c42-aaa2-27ea3c5a1636",
+      "p": "on-success",
+      "o": "21c842d1-bd73-4bd8-b684-9ad857968615"
+    },
+    {
+      "s": "8790c0a4-337f-4c42-aaa2-27ea3c5a1636",
+      "p": "on-failure",
+      "o": "009e8b13-43f3-402d-bc15-4883e2335cba"
+    },
+    {
+      "s": "009e8b13-43f3-402d-bc15-4883e2335cba",
+      "p": "on-success",
+      "o": "567b4434-78ce-4569-912a-ddc0f2bc28e0"
+    },
+    {
+      "s": "567b4434-78ce-4569-912a-ddc0f2bc28e0",
+      "p": "on-failure",
+      "o": "21c842d1-bd73-4bd8-b684-9ad857968615"
+    },
+    {
+      "s": "7df521a3-a779-4660-8173-5eecfc3238b2",
+      "p": "on-success",
+      "o": "21c842d1-bd73-4bd8-b684-9ad857968615"
+    },
+    {
+      "s": "7df521a3-a779-4660-8173-5eecfc3238b2",
+      "p": "on-failure",
+      "o": "56f1949d-342a-48cc-bb41-290ac93f49ec"
+    },
+    {
+      "s": "56f1949d-342a-48cc-bb41-290ac93f49ec",
+      "p": "on-success",
+      "o": "55512ca9-56bd-4d06-b71c-7ac3c9fa95ee"
+    },
+    {
+      "s": "55512ca9-56bd-4d06-b71c-7ac3c9fa95ee",
+      "p": "on-failure",
+      "o": "21c842d1-bd73-4bd8-b684-9ad857968615"
+    }
+  ],
+  "tags": [
+    "T1531",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "userprincipalname",
+      "type": "string",
+      "description": "User principal name (UPN) for the Azure user being deleted",
+      "value": "atomicredteam@yourdomain.com"
+    }
+  ]
+}

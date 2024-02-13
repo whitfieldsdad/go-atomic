@@ -1,0 +1,44 @@
+{
+  "id": "10ab786a-028e-4465-96f6-9e83ca6c5f24",
+  "name": "Setting the HISTCONTROL environment variable",
+  "description": "An attacker may exploit the space before a command (e.g. \" ls\") or the duplicate command suppression feature in Bash history to prevent their commands from being recorded in the history file or to obscure the order of commands used. \n\nIn this test we 1. sets $HISTCONTROL to ignoreboth 2. clears the history cache 3. executes ls -la with a space in-front of it 4. confirms that ls -la is not in the history cache 5. sets $HISTCONTROL to erasedups 6. clears the history cache 7..9 executes ls -la $HISTFILE 3 times 10. confirms that their is only one command in history\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "bf6fd84d-75e0-4fcb-9cc6-186ca826736f",
+      "type": "execute-command",
+      "data": {
+        "command": "TEST=$(echo $HISTCONTROL)\nif [ \"$HISTCONTROL\" != \"ignoreboth\" ]; then export HISTCONTROL=\"ignoreboth\"; fi\nhistory -c \nls -la $HISTFILE # \" ls -la $HISTFILE\"\nif [ $(history |wc -l) -eq 1 ]; then echo \"ls -la is not in history cache\"; fi\n# -\u003e ls -la is not in history cache\nif [ \"$HISTCONTROL\" != \"erasedups\" ]; then export HISTCONTROL=\"erasedups\"; fi\nhistory -c \nls -la $HISTFILE\nls -la $HISTFILE\nls -la $HISTFILE\nif [ $(history |wc -l) -eq 2 ]; then echo \"Their is only one entry for ls -la $HISTFILE\"; fi\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8aef08b8-a000-423a-971c-cb9e3e7bd113",
+      "type": "execute-command",
+      "data": {
+        "command": "export HISTCONTROL=$(echo $TEST)\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "bf6fd84d-75e0-4fcb-9cc6-186ca826736f",
+      "p": "on-success",
+      "o": "8aef08b8-a000-423a-971c-cb9e3e7bd113"
+    },
+    {
+      "s": "bf6fd84d-75e0-4fcb-9cc6-186ca826736f",
+      "p": "on-failure",
+      "o": "8aef08b8-a000-423a-971c-cb9e3e7bd113"
+    }
+  ],
+  "tags": [
+    "T1562.003",
+    "atomic-red-team"
+  ]
+}

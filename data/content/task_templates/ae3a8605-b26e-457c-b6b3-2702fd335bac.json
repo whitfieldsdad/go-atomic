@@ -1,0 +1,92 @@
+{
+  "id": "ae3a8605-b26e-457c-b6b3-2702fd335bac",
+  "name": "Execution of non-dll using rundll32.exe",
+  "description": "Rundll32.exe running non-dll \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "00a31b57-c960-4f19-a856-2f14e4490d95",
+      "type": "execute-command",
+      "data": {
+        "command": "rundll32.exe #{input_file}, StartW\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a3f41dc6-e3eb-4c84-969a-16384dae0074",
+      "name": "Check dependency 1/1",
+      "description": "Non-dll file must exist on disk at specified location\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{input_file}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "43dbe6de-2e93-449a-9a9d-e1adf46c1e23",
+      "name": "Resolve dependency 1/1",
+      "description": "Non-dll file must exist on disk at specified location\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest \"#{input_url}\" -OutFile \"#{input_file}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "697dc98d-c477-42ac-bcb9-a6c1543e9e83",
+      "name": "Re-check dependency 1/1",
+      "description": "Non-dll file must exist on disk at specified location\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{input_file}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a3f41dc6-e3eb-4c84-969a-16384dae0074",
+      "p": "on-success",
+      "o": "00a31b57-c960-4f19-a856-2f14e4490d95"
+    },
+    {
+      "s": "a3f41dc6-e3eb-4c84-969a-16384dae0074",
+      "p": "on-failure",
+      "o": "43dbe6de-2e93-449a-9a9d-e1adf46c1e23"
+    },
+    {
+      "s": "43dbe6de-2e93-449a-9a9d-e1adf46c1e23",
+      "p": "on-success",
+      "o": "697dc98d-c477-42ac-bcb9-a6c1543e9e83"
+    },
+    {
+      "s": "697dc98d-c477-42ac-bcb9-a6c1543e9e83",
+      "p": "on-failure",
+      "o": "00a31b57-c960-4f19-a856-2f14e4490d95"
+    }
+  ],
+  "tags": [
+    "T1218.011",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "input_url",
+      "type": "url",
+      "description": "Url to download the DLL",
+      "value": "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1047/bin/calc.dll"
+    },
+    {
+      "name": "input_file",
+      "type": "string",
+      "description": "Non-dll file",
+      "value": "C:\\Users\\$env:username\\Downloads\\calc.png"
+    }
+  ]
+}

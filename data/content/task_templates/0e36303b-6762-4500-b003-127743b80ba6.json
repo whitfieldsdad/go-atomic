@@ -1,0 +1,52 @@
+{
+  "id": "0e36303b-6762-4500-b003-127743b80ba6",
+  "name": "File and Directory Discovery (cmd.exe)",
+  "description": "Find or discover files on the file system.  Upon successful execution, this test will output the results of all the data discovery commands to a specified file.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "9d309dbd-ea8c-420f-847e-32fa065505fe",
+      "type": "execute-command",
+      "data": {
+        "command": "dir /s c:\\ \u003e\u003e #{output_file}\ndir /s \"c:\\Documents and Settings\" \u003e\u003e #{output_file}\ndir /s \"c:\\Program Files\\\" \u003e\u003e #{output_file}\ndir \"%systemdrive%\\Users\\*.*\" \u003e\u003e #{output_file}\ndir \"%userprofile%\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\*.*\" \u003e\u003e #{output_file}\ndir \"%userprofile%\\Desktop\\*.*\" \u003e\u003e #{output_file}\ntree /F \u003e\u003e #{output_file}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "aab3c17d-3f72-4652-8291-3ef3ec47becc",
+      "type": "execute-command",
+      "data": {
+        "command": "del #{output_file}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "9d309dbd-ea8c-420f-847e-32fa065505fe",
+      "p": "on-success",
+      "o": "aab3c17d-3f72-4652-8291-3ef3ec47becc"
+    },
+    {
+      "s": "9d309dbd-ea8c-420f-847e-32fa065505fe",
+      "p": "on-failure",
+      "o": "aab3c17d-3f72-4652-8291-3ef3ec47becc"
+    }
+  ],
+  "tags": [
+    "T1083",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "string",
+      "description": "File to output results to",
+      "value": "%temp%\\T1083Test1.txt"
+    }
+  ]
+}

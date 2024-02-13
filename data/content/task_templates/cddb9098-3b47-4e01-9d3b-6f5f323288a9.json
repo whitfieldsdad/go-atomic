@@ -1,0 +1,23 @@
+{
+  "id": "cddb9098-3b47-4e01-9d3b-6f5f323288a9",
+  "name": "Mac Hidden file",
+  "description": "Hide a file on MacOS\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "ee81355b-4f23-4bea-831b-e5da9b3b9cc0",
+      "type": "execute-command",
+      "data": {
+        "command": "xattr -lr * / 2\u003e\u00261 /dev/null | grep -C 2 \"00 00 00 00 00 00 00 00 40 00 FF FF FF FF 00 00\"\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1564.001",
+    "atomic-red-team"
+  ]
+}

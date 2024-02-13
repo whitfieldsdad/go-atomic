@@ -1,0 +1,97 @@
+{
+  "id": "c1d8c4eb-88da-4927-ae97-c7c25893803b",
+  "name": "Edit UFW firewall ufw.conf file",
+  "description": "Edit the Uncomplicated Firewall (UFW) configuration file /etc/ufw/ufw.conf \nwhich controls if the firewall starts on boot and its logging level.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "088f6b20-95f6-419b-a5d6-1187ffb1ce16",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"# THIS IS A COMMENT\" \u003e\u003e /etc/ufw/ufw.conf\ngrep \"# THIS IS A COMMENT\" /etc/ufw/ufw.conf\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5a0378cf-3863-494f-ab6c-b4c29d5afd3b",
+      "type": "execute-command",
+      "data": {
+        "command": "sed -i 's/# THIS IS A COMMENT//g' /etc/ufw/ufw.conf\ncat /etc/ufw/ufw.conf\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9d52f3c6-991e-4ef5-95dd-8ab31ef2d047",
+      "name": "Check dependency 1/1",
+      "description": "Check if /etc/ufw/ufw.conf exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -f \"/etc/ufw/ufw.conf\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0502c82c-c3e1-40a5-9805-740ffecb9079",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if /etc/ufw/ufw.conf exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "04dea32f-3365-46e9-9e02-98044fc3ef30",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if /etc/ufw/ufw.conf exists.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -f \"/etc/ufw/ufw.conf\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "088f6b20-95f6-419b-a5d6-1187ffb1ce16",
+      "p": "on-success",
+      "o": "5a0378cf-3863-494f-ab6c-b4c29d5afd3b"
+    },
+    {
+      "s": "088f6b20-95f6-419b-a5d6-1187ffb1ce16",
+      "p": "on-failure",
+      "o": "5a0378cf-3863-494f-ab6c-b4c29d5afd3b"
+    },
+    {
+      "s": "9d52f3c6-991e-4ef5-95dd-8ab31ef2d047",
+      "p": "on-success",
+      "o": "088f6b20-95f6-419b-a5d6-1187ffb1ce16"
+    },
+    {
+      "s": "9d52f3c6-991e-4ef5-95dd-8ab31ef2d047",
+      "p": "on-failure",
+      "o": "0502c82c-c3e1-40a5-9805-740ffecb9079"
+    },
+    {
+      "s": "0502c82c-c3e1-40a5-9805-740ffecb9079",
+      "p": "on-success",
+      "o": "04dea32f-3365-46e9-9e02-98044fc3ef30"
+    },
+    {
+      "s": "04dea32f-3365-46e9-9e02-98044fc3ef30",
+      "p": "on-failure",
+      "o": "088f6b20-95f6-419b-a5d6-1187ffb1ce16"
+    }
+  ],
+  "tags": [
+    "T1562.004",
+    "atomic-red-team"
+  ]
+}

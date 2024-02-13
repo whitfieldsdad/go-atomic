@@ -1,0 +1,117 @@
+{
+  "id": "1ec1c269-d6bd-49e7-b71b-a461f7fa7bc8",
+  "name": "Lolbin Jsc.exe compile javascript to exe",
+  "description": "Use jsc.exe to compile javascript code stored in scriptfile.js and output scriptfile.exe.\nhttps://lolbas-project.github.io/lolbas/Binaries/Jsc/\nhttps://www.phpied.com/make-your-javascript-a-windows-exe/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5674b537-4bad-4ee1-b49a-b48d7b6d9218",
+      "type": "execute-command",
+      "data": {
+        "command": "copy \"#{filename}\" %TEMP%\\hello.js\n#{jscpath}\\#{jscname} %TEMP%\\hello.js\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "cc6a7f96-abef-4216-9d1f-6fee86349503",
+      "type": "execute-command",
+      "data": {
+        "command": "del %TEMP%\\hello.js\ndel %TEMP%\\hello.exe\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b07dadcc-3603-4fe6-9d08-c2c605ad3f68",
+      "name": "Check dependency 1/1",
+      "description": "JavaScript code file must exist on disk at specified location (#{filename})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{filename}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "99c17c9d-e6b5-4fad-a64e-ace0416d4641",
+      "name": "Resolve dependency 1/1",
+      "description": "JavaScript code file must exist on disk at specified location (#{filename})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{filename}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1127/src/hello.js\" -OutFile \"#{filename}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a6b34e4f-a22f-42af-b567-c1383566e586",
+      "name": "Re-check dependency 1/1",
+      "description": "JavaScript code file must exist on disk at specified location (#{filename})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{filename}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "5674b537-4bad-4ee1-b49a-b48d7b6d9218",
+      "p": "on-success",
+      "o": "cc6a7f96-abef-4216-9d1f-6fee86349503"
+    },
+    {
+      "s": "5674b537-4bad-4ee1-b49a-b48d7b6d9218",
+      "p": "on-failure",
+      "o": "cc6a7f96-abef-4216-9d1f-6fee86349503"
+    },
+    {
+      "s": "b07dadcc-3603-4fe6-9d08-c2c605ad3f68",
+      "p": "on-success",
+      "o": "5674b537-4bad-4ee1-b49a-b48d7b6d9218"
+    },
+    {
+      "s": "b07dadcc-3603-4fe6-9d08-c2c605ad3f68",
+      "p": "on-failure",
+      "o": "99c17c9d-e6b5-4fad-a64e-ace0416d4641"
+    },
+    {
+      "s": "99c17c9d-e6b5-4fad-a64e-ace0416d4641",
+      "p": "on-success",
+      "o": "a6b34e4f-a22f-42af-b567-c1383566e586"
+    },
+    {
+      "s": "a6b34e4f-a22f-42af-b567-c1383566e586",
+      "p": "on-failure",
+      "o": "5674b537-4bad-4ee1-b49a-b48d7b6d9218"
+    }
+  ],
+  "tags": [
+    "T1127",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "filename",
+      "type": "path",
+      "description": "Location of the project file",
+      "value": "PathToAtomicsFolder\\T1127\\src\\hello.js"
+    },
+    {
+      "name": "jscpath",
+      "type": "path",
+      "description": "Default location of jsc.exe",
+      "value": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319"
+    },
+    {
+      "name": "jscname",
+      "type": "path",
+      "description": "Default name of jsc",
+      "value": "jsc.exe"
+    }
+  ]
+}

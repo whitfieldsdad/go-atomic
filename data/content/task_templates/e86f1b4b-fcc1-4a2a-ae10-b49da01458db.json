@@ -1,0 +1,111 @@
+{
+  "id": "e86f1b4b-fcc1-4a2a-ae10-b49da01458db",
+  "name": "Compressing data using tarfile in Python (FreeBSD/Linux)",
+  "description": "Uses tarfile from Python to compress files\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "0f451e33-bee2-4dff-a0eb-a1ed979c29e2",
+      "type": "execute-command",
+      "data": {
+        "command": "which_python=`which python || which python3`\n$which_python -c \"from zipfile import ZipFile; ZipFile('#{path_to_output_file}', mode='w').write('#{path_to_input_file}')\" \n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1389b2c0-efc9-4ed0-b9da-d01bd7e29682",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{path_to_output_file}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3e97f905-074c-49a8-95eb-9b27a0fdb2f0",
+      "name": "Check dependency 1/1",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which python || which python3\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1fe67cbb-9ecc-4860-9c6f-6bad1627ce18",
+      "name": "Resolve dependency 1/1",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"please install python to run this test\"; exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7a966c5a-0aa7-49ff-ad2b-3334375a1926",
+      "name": "Re-check dependency 1/1",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which python || which python3\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0f451e33-bee2-4dff-a0eb-a1ed979c29e2",
+      "p": "on-success",
+      "o": "1389b2c0-efc9-4ed0-b9da-d01bd7e29682"
+    },
+    {
+      "s": "0f451e33-bee2-4dff-a0eb-a1ed979c29e2",
+      "p": "on-failure",
+      "o": "1389b2c0-efc9-4ed0-b9da-d01bd7e29682"
+    },
+    {
+      "s": "3e97f905-074c-49a8-95eb-9b27a0fdb2f0",
+      "p": "on-success",
+      "o": "0f451e33-bee2-4dff-a0eb-a1ed979c29e2"
+    },
+    {
+      "s": "3e97f905-074c-49a8-95eb-9b27a0fdb2f0",
+      "p": "on-failure",
+      "o": "1fe67cbb-9ecc-4860-9c6f-6bad1627ce18"
+    },
+    {
+      "s": "1fe67cbb-9ecc-4860-9c6f-6bad1627ce18",
+      "p": "on-success",
+      "o": "7a966c5a-0aa7-49ff-ad2b-3334375a1926"
+    },
+    {
+      "s": "7a966c5a-0aa7-49ff-ad2b-3334375a1926",
+      "p": "on-failure",
+      "o": "0f451e33-bee2-4dff-a0eb-a1ed979c29e2"
+    }
+  ],
+  "tags": [
+    "T1560.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "path_to_input_file",
+      "type": "path",
+      "description": "Path to the file that you want to compress",
+      "value": "/etc/passwd"
+    },
+    {
+      "name": "path_to_output_file",
+      "type": "path",
+      "description": "Path of the file that you want your .tar.gz file to be",
+      "value": "/tmp/passwd.tar.gz"
+    }
+  ]
+}

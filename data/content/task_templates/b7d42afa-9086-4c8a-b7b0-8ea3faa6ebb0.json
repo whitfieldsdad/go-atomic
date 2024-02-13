@@ -1,0 +1,59 @@
+{
+  "id": "b7d42afa-9086-4c8a-b7b0-8ea3faa6ebb0",
+  "name": "Cron - Add script to all cron subfolders",
+  "description": "This test adds a script to /etc/cron.hourly, /etc/cron.daily, /etc/cron.monthly and /etc/cron.weekly folders configured to execute on a schedule. This technique was used by the threat actor Rocke during the exploitation of Linux web servers.\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "ad05becc-683d-44db-8279-0c52ce5f4507",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"#{command}\" \u003e /etc/cron.daily/#{cron_script_name}\necho \"#{command}\" \u003e /etc/cron.hourly/#{cron_script_name}\necho \"#{command}\" \u003e /etc/cron.monthly/#{cron_script_name}\necho \"#{command}\" \u003e /etc/cron.weekly/#{cron_script_name}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2c6436dd-3dc0-40df-99e3-5f33c3b62623",
+      "type": "execute-command",
+      "data": {
+        "command": "rm /etc/cron.daily/#{cron_script_name}\nrm /etc/cron.hourly/#{cron_script_name}\nrm /etc/cron.monthly/#{cron_script_name}\nrm /etc/cron.weekly/#{cron_script_name}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ad05becc-683d-44db-8279-0c52ce5f4507",
+      "p": "on-success",
+      "o": "2c6436dd-3dc0-40df-99e3-5f33c3b62623"
+    },
+    {
+      "s": "ad05becc-683d-44db-8279-0c52ce5f4507",
+      "p": "on-failure",
+      "o": "2c6436dd-3dc0-40df-99e3-5f33c3b62623"
+    }
+  ],
+  "tags": [
+    "T1053.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "command",
+      "type": "string",
+      "description": "Command to execute",
+      "value": "echo 'Hello from Atomic Red Team' \u003e /tmp/atomic.log"
+    },
+    {
+      "name": "cron_script_name",
+      "type": "string",
+      "description": "Name of file to store in cron folder",
+      "value": "persistevil"
+    }
+  ]
+}

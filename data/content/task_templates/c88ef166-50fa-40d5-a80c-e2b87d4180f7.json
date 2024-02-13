@@ -1,0 +1,44 @@
+{
+  "id": "c88ef166-50fa-40d5-a80c-e2b87d4180f7",
+  "name": "Modify Internet Zone Protocol Defaults in Current User Registry - cmd",
+  "description": "This test simulates an adversary modifying the Internet Zone Protocol Defaults in the registry of the currently logged-in user using the reg.exe utility via the command prompt. Such modifications can be indicative of an adversary trying to weaken browser security settings. Upon execution, if successful, the message \"The operation completed successfully.\" will be displayed.\nTo verify the effects of the test:\n1. Open the Registry Editor (regedit.exe).\n2. Navigate to \"HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\ProtocolDefaults\".\n3. Check for the presence of the \"http\" and \"https\" DWORD values set to `0`.\nOr run:\n```batch\nreg query \"HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\ProtocolDefaults\"\n```\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "cb5f168c-ef25-4877-ab64-8192cce188ab",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\ProtocolDefaults\" /v http /t REG_DWORD /d 0 /F\nreg add \"HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\ProtocolDefaults\" /v https /t REG_DWORD /d 0 /F\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "048abacc-febd-45f0-aeac-65e46c9024fe",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\ProtocolDefaults\" /v http /t REG_DWORD /d 3 /F\nreg add \"HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\ProtocolDefaults\" /v https /t REG_DWORD /d 3 /F\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "cb5f168c-ef25-4877-ab64-8192cce188ab",
+      "p": "on-success",
+      "o": "048abacc-febd-45f0-aeac-65e46c9024fe"
+    },
+    {
+      "s": "cb5f168c-ef25-4877-ab64-8192cce188ab",
+      "p": "on-failure",
+      "o": "048abacc-febd-45f0-aeac-65e46c9024fe"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

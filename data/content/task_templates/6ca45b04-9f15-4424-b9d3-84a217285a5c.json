@@ -1,0 +1,92 @@
+{
+  "id": "6ca45b04-9f15-4424-b9d3-84a217285a5c",
+  "name": "Port Scan using python",
+  "description": "Scan ports to check for listening ports with python\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "39018e60-56ca-4667-809b-d39a1f2947ce",
+      "type": "execute-command",
+      "data": {
+        "command": "python \"#{filename}\" -i #{host_ip}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "05e55f02-e1ee-4257-837f-6f7790d21a2c",
+      "name": "Check dependency 1/1",
+      "description": "Check if python exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (python --version) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "88e273ab-6514-4381-9c53-92a7d2a021ec",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if python exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"Python 3 must be installed manually\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "df720451-a7fc-47d0-90bc-c73c361d8d4b",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if python exists on the machine\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (python --version) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "05e55f02-e1ee-4257-837f-6f7790d21a2c",
+      "p": "on-success",
+      "o": "39018e60-56ca-4667-809b-d39a1f2947ce"
+    },
+    {
+      "s": "05e55f02-e1ee-4257-837f-6f7790d21a2c",
+      "p": "on-failure",
+      "o": "88e273ab-6514-4381-9c53-92a7d2a021ec"
+    },
+    {
+      "s": "88e273ab-6514-4381-9c53-92a7d2a021ec",
+      "p": "on-success",
+      "o": "df720451-a7fc-47d0-90bc-c73c361d8d4b"
+    },
+    {
+      "s": "df720451-a7fc-47d0-90bc-c73c361d8d4b",
+      "p": "on-failure",
+      "o": "39018e60-56ca-4667-809b-d39a1f2947ce"
+    }
+  ],
+  "tags": [
+    "T1046",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "host_ip",
+      "type": "string",
+      "description": "Host to scan.",
+      "value": "127.0.0.1"
+    },
+    {
+      "name": "filename",
+      "type": "path",
+      "description": "Location of the project file",
+      "value": "PathToAtomicsFolder\\T1046\\src\\T1046.py"
+    }
+  ]
+}

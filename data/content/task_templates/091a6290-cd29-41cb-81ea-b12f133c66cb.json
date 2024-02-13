@@ -1,0 +1,98 @@
+{
+  "id": "091a6290-cd29-41cb-81ea-b12f133c66cb",
+  "name": "ESXi - Disable Account Lockout Policy via PowerCLI",
+  "description": "An adversary may disable account lockout policy within ESXi to have the ability to prevent defensive actions from being enforced in the future or to prevent future alerting.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "6fe4bbe8-5c1d-4a0f-8963-04ba462fb3c6",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\nGet-AdvancedSetting -Entity #{vm_host} -Name 'Security.AccountLockFailures' | Set-AdvancedSetting -Value '0' -Confirm:$false\nDisconnect-VIServer -Confirm:$false\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f11c0743-a466-44a0-accc-00430ec6b4d3",
+      "name": "Check dependency 1/1",
+      "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable\nif (-not $RequiredModule) {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "802968a9-ef1d-4774-a4be-1d1157c509d8",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name VMware.PowerCLI -Confirm:$false\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "48313ffd-dd90-4290-8c46-2795a573830d",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable\nif (-not $RequiredModule) {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f11c0743-a466-44a0-accc-00430ec6b4d3",
+      "p": "on-success",
+      "o": "6fe4bbe8-5c1d-4a0f-8963-04ba462fb3c6"
+    },
+    {
+      "s": "f11c0743-a466-44a0-accc-00430ec6b4d3",
+      "p": "on-failure",
+      "o": "802968a9-ef1d-4774-a4be-1d1157c509d8"
+    },
+    {
+      "s": "802968a9-ef1d-4774-a4be-1d1157c509d8",
+      "p": "on-success",
+      "o": "48313ffd-dd90-4290-8c46-2795a573830d"
+    },
+    {
+      "s": "48313ffd-dd90-4290-8c46-2795a573830d",
+      "p": "on-failure",
+      "o": "6fe4bbe8-5c1d-4a0f-8963-04ba462fb3c6"
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "vm_host",
+      "type": "string",
+      "description": "Specify the host name of the ESXi Server",
+      "value": "atomic.local"
+    },
+    {
+      "name": "vm_user",
+      "type": "string",
+      "description": "Specify the privilege user account on ESXi Server",
+      "value": "root"
+    },
+    {
+      "name": "vm_pass",
+      "type": "string",
+      "description": "Specify the privilege user password on ESXi Server",
+      "value": "pass"
+    }
+  ]
+}

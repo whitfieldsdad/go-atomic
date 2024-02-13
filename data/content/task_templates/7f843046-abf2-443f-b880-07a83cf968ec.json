@@ -1,0 +1,147 @@
+{
+  "id": "7f843046-abf2-443f-b880-07a83cf968ec",
+  "name": "ESXi - Install a custom VIB on an ESXi host",
+  "description": "An adversary can maintain persistence within an ESXi host by installing malicious vSphere Installation Bundles (VIBs).\n[Reference](https://www.mandiant.com/resources/blog/esxi-hypervisors-malware-persistence)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "915b8a8f-20a3-4baf-8b46-a597230a6597",
+      "type": "execute-command",
+      "data": {
+        "command": "#{pscp_file} -pw #{vm_pass} #{vib_file} #{vm_user}@#{vm_host}:/tmp\necho \"\" | \"#{plink_file}\" \"#{vm_host}\" -ssh  -l \"#{vm_user}\" -pw \"#{vm_pass}\" -m \"#{vib_install}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "14aa86b9-cab9-4798-8587-51c2041e9f42",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"\" | \"#{plink_file}\" \"#{vm_host}\" -ssh  -l \"#{vm_user}\" -pw \"#{vm_pass}\" -m \"#{vib_remove}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7b512776-fb5f-4ed8-b401-0251fdc64b9e",
+      "name": "Check dependency 1/1",
+      "description": "Check if plink and pscp are available.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{plink_file}\") {exit 0} else {exit 1}\nif (Test-Path \"#{pscp_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8b86d21d-713d-4478-a0c7-7c1c2c71914b",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if plink and pscp are available.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://the.earth.li/~sgtatham/putty/latest/w64/plink.exe\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\plink.exe\"\nInvoke-WebRequest \"https://the.earth.li/~sgtatham/putty/latest/w64/pscp.exe\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\pscp.exe\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "aa2a871f-5631-41ea-ad9d-05fc1af906f8",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if plink and pscp are available.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{plink_file}\") {exit 0} else {exit 1}\nif (Test-Path \"#{pscp_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "915b8a8f-20a3-4baf-8b46-a597230a6597",
+      "p": "on-success",
+      "o": "14aa86b9-cab9-4798-8587-51c2041e9f42"
+    },
+    {
+      "s": "915b8a8f-20a3-4baf-8b46-a597230a6597",
+      "p": "on-failure",
+      "o": "14aa86b9-cab9-4798-8587-51c2041e9f42"
+    },
+    {
+      "s": "7b512776-fb5f-4ed8-b401-0251fdc64b9e",
+      "p": "on-success",
+      "o": "915b8a8f-20a3-4baf-8b46-a597230a6597"
+    },
+    {
+      "s": "7b512776-fb5f-4ed8-b401-0251fdc64b9e",
+      "p": "on-failure",
+      "o": "8b86d21d-713d-4478-a0c7-7c1c2c71914b"
+    },
+    {
+      "s": "8b86d21d-713d-4478-a0c7-7c1c2c71914b",
+      "p": "on-success",
+      "o": "aa2a871f-5631-41ea-ad9d-05fc1af906f8"
+    },
+    {
+      "s": "aa2a871f-5631-41ea-ad9d-05fc1af906f8",
+      "p": "on-failure",
+      "o": "915b8a8f-20a3-4baf-8b46-a597230a6597"
+    }
+  ],
+  "tags": [
+    "T1129",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "vm_user",
+      "type": "string",
+      "description": "Specify the privilege user account on ESXi Server",
+      "value": "root"
+    },
+    {
+      "name": "vm_pass",
+      "type": "string",
+      "description": "Specify the privilege user password on ESXi Server",
+      "value": "pass"
+    },
+    {
+      "name": "plink_file",
+      "type": "path",
+      "description": "Path to plink",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\plink.exe"
+    },
+    {
+      "name": "pscp_file",
+      "type": "path",
+      "description": "Path to Pscp",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\pscp.exe"
+    },
+    {
+      "name": "vib_install",
+      "type": "path",
+      "description": "Path to script with commands to install the vib",
+      "value": "PathToAtomicsFolder\\..\\atomics\\T1129\\src\\esxi_vibinstall.txt"
+    },
+    {
+      "name": "vib_remove",
+      "type": "path",
+      "description": "Path to script with commands to remove the vib",
+      "value": "PathToAtomicsFolder\\..\\atomics\\T1129\\src\\esxi_vibremove.txt"
+    },
+    {
+      "name": "vib_file",
+      "type": "path",
+      "description": "Path to the dummy vib",
+      "value": "PathToAtomicsFolder\\..\\atomics\\T1129\\src\\atomicvibes.vib"
+    },
+    {
+      "name": "vm_host",
+      "type": "string",
+      "description": "Specify the host name of the ESXi Server",
+      "value": "atomic.local"
+    }
+  ]
+}

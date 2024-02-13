@@ -1,0 +1,44 @@
+{
+  "id": "b5656f67-d67f-4de8-8e62-b5581630f528",
+  "name": "Windows Internal Packet Capture",
+  "description": "Uses the built-in Windows packet capture\nAfter execution you should find a file named trace.etl and trace.cab in the temp directory",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "7cd559e6-beaf-46ef-89a5-3608e728637f",
+      "type": "execute-command",
+      "data": {
+        "command": "netsh trace start capture=yes tracefile=%temp%\\trace.etl maxsize=10",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8f4cfe0b-4222-44a5-b41c-1d4de3fbc965",
+      "type": "execute-command",
+      "data": {
+        "command": "netsh trace stop \u003enul 2\u003e\u00261\nTIMEOUT /T 5 \u003enul 2\u003e\u00261\ndel %temp%\\trace.etl \u003enul 2\u003e\u00261\ndel %temp%\\trace.cab \u003enul 2\u003e\u00261",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7cd559e6-beaf-46ef-89a5-3608e728637f",
+      "p": "on-success",
+      "o": "8f4cfe0b-4222-44a5-b41c-1d4de3fbc965"
+    },
+    {
+      "s": "7cd559e6-beaf-46ef-89a5-3608e728637f",
+      "p": "on-failure",
+      "o": "8f4cfe0b-4222-44a5-b41c-1d4de3fbc965"
+    }
+  ],
+  "tags": [
+    "T1040",
+    "atomic-red-team"
+  ]
+}

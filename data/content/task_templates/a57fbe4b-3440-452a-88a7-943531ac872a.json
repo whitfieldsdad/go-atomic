@@ -1,0 +1,58 @@
+{
+  "id": "a57fbe4b-3440-452a-88a7-943531ac872a",
+  "name": "Zip a Folder with PowerShell for Staging in Temp",
+  "description": "Use living off the land tools to zip a file and stage it in the Windows temporary folder for later exfiltration. Upon execution, Verify that a zipped folder named Folder_to_zip.zip\nwas placed in the temp directory.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "50ec4d06-01e9-4800-b29c-569182b32cb1",
+      "type": "execute-command",
+      "data": {
+        "command": "Compress-Archive -Path \"#{input_file}\" -DestinationPath #{output_file} -Force\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4e09a270-60ce-4498-9e9e-e7be77c1676c",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -Path #{output_file} -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "50ec4d06-01e9-4800-b29c-569182b32cb1",
+      "p": "on-success",
+      "o": "4e09a270-60ce-4498-9e9e-e7be77c1676c"
+    },
+    {
+      "s": "50ec4d06-01e9-4800-b29c-569182b32cb1",
+      "p": "on-failure",
+      "o": "4e09a270-60ce-4498-9e9e-e7be77c1676c"
+    }
+  ],
+  "tags": [
+    "T1074.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Location to save zipped file or folder",
+      "value": "$env:TEMP\\Folder_to_zip.zip"
+    },
+    {
+      "name": "input_file",
+      "type": "path",
+      "description": "Location of file or folder to zip",
+      "value": "PathToAtomicsFolder\\T1074.001\\bin\\Folder_to_zip"
+    }
+  ]
+}

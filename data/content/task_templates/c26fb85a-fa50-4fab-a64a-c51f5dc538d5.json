@@ -1,0 +1,44 @@
+{
+  "id": "c26fb85a-fa50-4fab-a64a-c51f5dc538d5",
+  "name": "Activities To Disable Secondary Authentication Detected By Modified Registry Value.",
+  "description": "Detect the disable secondary authentication activities that adversary attempt to bypass MFA and to get the unauthorized access to the system or sensitive data.\nSee the related article (https://admx.help/?Category=Windows_10_2016\u0026Policy=Microsoft.Policies.SecondaryAuthenticationFactor::MSSecondaryAuthFactor_AllowSecondaryAuthenticationDevice).\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "afe068f0-c776-4043-a779-7c02e917424e",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\SecondaryAuthenticationFactor\" /v \"AllowSecondaryAuthenticationDevice\" /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f838049a-0d68-431f-94d0-40e1cc7ba794",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\SecondaryAuthenticationFactor\" /v \"AllowSecondaryAuthenticationDevice\" /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "afe068f0-c776-4043-a779-7c02e917424e",
+      "p": "on-success",
+      "o": "f838049a-0d68-431f-94d0-40e1cc7ba794"
+    },
+    {
+      "s": "afe068f0-c776-4043-a779-7c02e917424e",
+      "p": "on-failure",
+      "o": "f838049a-0d68-431f-94d0-40e1cc7ba794"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

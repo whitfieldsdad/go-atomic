@@ -1,0 +1,78 @@
+{
+  "id": "6ce12552-0adb-4f56-89ff-95ce268f6358",
+  "name": "Examine password complexity policy - CentOS/RHEL 6.x",
+  "description": "Lists the password complexity policy to console on CentOS/RHEL 6.x Linux.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "e98543d2-c4ff-43ff-8988-ddc097f81fc2",
+      "type": "execute-command",
+      "data": {
+        "command": "cat /etc/pam.d/system-auth\ncat /etc/security/pwquality.conf\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b1483456-a308-4710-884a-85a3fd1b1e2c",
+      "name": "Check dependency 1/1",
+      "description": "System must be CentOS or RHEL v6\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ $(rpm -q --queryformat '%{VERSION}') -eq \"6\" ]; then exit /b 0; else exit /b 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "34e720d2-4b0d-46f0-83aa-e6cb932bbf4a",
+      "name": "Resolve dependency 1/1",
+      "description": "System must be CentOS or RHEL v6\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Please run from CentOS or RHEL v6\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7496a5c0-d0ab-4eb7-97f9-533ce6a8d7a7",
+      "name": "Re-check dependency 1/1",
+      "description": "System must be CentOS or RHEL v6\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ $(rpm -q --queryformat '%{VERSION}') -eq \"6\" ]; then exit /b 0; else exit /b 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b1483456-a308-4710-884a-85a3fd1b1e2c",
+      "p": "on-success",
+      "o": "e98543d2-c4ff-43ff-8988-ddc097f81fc2"
+    },
+    {
+      "s": "b1483456-a308-4710-884a-85a3fd1b1e2c",
+      "p": "on-failure",
+      "o": "34e720d2-4b0d-46f0-83aa-e6cb932bbf4a"
+    },
+    {
+      "s": "34e720d2-4b0d-46f0-83aa-e6cb932bbf4a",
+      "p": "on-success",
+      "o": "7496a5c0-d0ab-4eb7-97f9-533ce6a8d7a7"
+    },
+    {
+      "s": "7496a5c0-d0ab-4eb7-97f9-533ce6a8d7a7",
+      "p": "on-failure",
+      "o": "e98543d2-c4ff-43ff-8988-ddc097f81fc2"
+    }
+  ],
+  "tags": [
+    "T1201",
+    "atomic-red-team"
+  ]
+}

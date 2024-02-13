@@ -1,0 +1,44 @@
+{
+  "id": "795d3248-0394-4d4d-8e86-4e8df2a2693f",
+  "name": "Windows Modify Show Compress Color And Info Tip Registry",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to show compress color and show tips feature. \nSee how hermeticwiper uses this technique - https://www.splunk.com/en_us/blog/security/detecting-hermeticwiper.html\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "595563f6-0981-46b5-8722-69993675c36d",
+      "type": "execute-command",
+      "data": {
+        "command": "reg  add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced /v ShowInfoTip /t REG_DWORD /d 0 /f\nreg  add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced /v ShowCompColor /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fdd9cfc0-6aaa-40bd-acec-69c6c4c42bcb",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced /v ShowInfoTip /f \u003enul 2\u003e\u00261\nreg delete HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced /v ShowCompColor /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "595563f6-0981-46b5-8722-69993675c36d",
+      "p": "on-success",
+      "o": "fdd9cfc0-6aaa-40bd-acec-69c6c4c42bcb"
+    },
+    {
+      "s": "595563f6-0981-46b5-8722-69993675c36d",
+      "p": "on-failure",
+      "o": "fdd9cfc0-6aaa-40bd-acec-69c6c4c42bcb"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

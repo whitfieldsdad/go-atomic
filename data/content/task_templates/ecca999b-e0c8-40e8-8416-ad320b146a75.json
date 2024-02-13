@@ -1,0 +1,105 @@
+{
+  "id": "ecca999b-e0c8-40e8-8416-ad320b146a75",
+  "name": "NetSupport - RAT Execution",
+  "description": "A recent trend by threat actors, once a foothold is established, maintain long term persistence using third party remote services such as NetSupport to provide the operator with access to the network using legitimate services. \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "50893234-9f1e-497c-badf-fdb0a69d75a6",
+      "type": "execute-command",
+      "data": {
+        "command": "Start-Process \"#{NetSupport_Path}\" -ArgumentList \"/S /v/qn\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "565810a7-f2d1-4ad7-aa55-9214946550c0",
+      "type": "execute-command",
+      "data": {
+        "command": "Stop-Process -Name \"client32\" -force -erroraction silentlycontinue\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a5433306-354b-4c33-9d8b-5a30ca61a699",
+      "name": "Check dependency 1/1",
+      "description": "NetSupport must be downloaded and exist on the disk at the specified location. (#{NetSupport_Path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{NetSupport_Path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e51b0256-7456-48d7-a218-8192eb19a760",
+      "name": "Resolve dependency 1/1",
+      "description": "NetSupport must be downloaded and exist on the disk at the specified location. (#{NetSupport_Path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\n(New-Object Net.WebClient).DownloadFile(\"https://nsproducts.azureedge.net/nsm-1270/en/Setup.exe\",\"#{NetSupport_Path}\")\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "67ef7677-fea2-48e6-a901-7962e94d8d7f",
+      "name": "Re-check dependency 1/1",
+      "description": "NetSupport must be downloaded and exist on the disk at the specified location. (#{NetSupport_Path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{NetSupport_Path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "50893234-9f1e-497c-badf-fdb0a69d75a6",
+      "p": "on-success",
+      "o": "565810a7-f2d1-4ad7-aa55-9214946550c0"
+    },
+    {
+      "s": "50893234-9f1e-497c-badf-fdb0a69d75a6",
+      "p": "on-failure",
+      "o": "565810a7-f2d1-4ad7-aa55-9214946550c0"
+    },
+    {
+      "s": "a5433306-354b-4c33-9d8b-5a30ca61a699",
+      "p": "on-success",
+      "o": "50893234-9f1e-497c-badf-fdb0a69d75a6"
+    },
+    {
+      "s": "a5433306-354b-4c33-9d8b-5a30ca61a699",
+      "p": "on-failure",
+      "o": "e51b0256-7456-48d7-a218-8192eb19a760"
+    },
+    {
+      "s": "e51b0256-7456-48d7-a218-8192eb19a760",
+      "p": "on-success",
+      "o": "67ef7677-fea2-48e6-a901-7962e94d8d7f"
+    },
+    {
+      "s": "67ef7677-fea2-48e6-a901-7962e94d8d7f",
+      "p": "on-failure",
+      "o": "50893234-9f1e-497c-badf-fdb0a69d75a6"
+    }
+  ],
+  "tags": [
+    "T1219",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "NetSupport_Path",
+      "type": "path",
+      "description": "Path to the NetSupport executable.",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\T1219_NetSupport.exe"
+    }
+  ]
+}

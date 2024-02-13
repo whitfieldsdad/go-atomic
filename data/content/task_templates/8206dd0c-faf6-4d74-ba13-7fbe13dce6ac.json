@@ -1,0 +1,117 @@
+{
+  "id": "8206dd0c-faf6-4d74-ba13-7fbe13dce6ac",
+  "name": "X Windows Capture",
+  "description": "Use xwd command to collect a full desktop screenshot and review file with xwud\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "d53d027a-27a6-4067-a064-ee0b2a04a0e4",
+      "type": "execute-command",
+      "data": {
+        "command": "xwd -root -out #{output_file}\nxwud -in #{output_file}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ad4def35-6baa-4a63-8ec4-a7bcf8681dd0",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{output_file}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9a215336-5731-4b10-b7bd-7ad8fb307045",
+      "name": "Check dependency 1/1",
+      "description": "Package with XWD and XWUD must exist on device\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4b48eafd-c115-42ad-880d-2cfd21b05250",
+      "name": "Resolve dependency 1/1",
+      "description": "Package with XWD and XWUD must exist on device\n",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo #{package_installer} \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6651fea0-53d9-451a-a29d-9d9e3c7a55b8",
+      "name": "Re-check dependency 1/1",
+      "description": "Package with XWD and XWUD must exist on device\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d53d027a-27a6-4067-a064-ee0b2a04a0e4",
+      "p": "on-success",
+      "o": "ad4def35-6baa-4a63-8ec4-a7bcf8681dd0"
+    },
+    {
+      "s": "d53d027a-27a6-4067-a064-ee0b2a04a0e4",
+      "p": "on-failure",
+      "o": "ad4def35-6baa-4a63-8ec4-a7bcf8681dd0"
+    },
+    {
+      "s": "9a215336-5731-4b10-b7bd-7ad8fb307045",
+      "p": "on-success",
+      "o": "d53d027a-27a6-4067-a064-ee0b2a04a0e4"
+    },
+    {
+      "s": "9a215336-5731-4b10-b7bd-7ad8fb307045",
+      "p": "on-failure",
+      "o": "4b48eafd-c115-42ad-880d-2cfd21b05250"
+    },
+    {
+      "s": "4b48eafd-c115-42ad-880d-2cfd21b05250",
+      "p": "on-success",
+      "o": "6651fea0-53d9-451a-a29d-9d9e3c7a55b8"
+    },
+    {
+      "s": "6651fea0-53d9-451a-a29d-9d9e3c7a55b8",
+      "p": "on-failure",
+      "o": "d53d027a-27a6-4067-a064-ee0b2a04a0e4"
+    }
+  ],
+  "tags": [
+    "T1113",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "package_installer",
+      "type": "string",
+      "description": "Package installer command for linux. Debian system command- apt-get install x11-apps",
+      "value": "yum install -y xorg-x11-apps"
+    },
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Output file path",
+      "value": "/tmp/T1113_desktop.xwd"
+    },
+    {
+      "name": "package_checker",
+      "type": "string",
+      "description": "Package checking command for linux. Debian system command- dpkg -s x11-apps",
+      "value": "rpm -q xorg-x11-apps"
+    }
+  ]
+}

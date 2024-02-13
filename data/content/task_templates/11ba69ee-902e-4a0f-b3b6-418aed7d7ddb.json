@@ -1,0 +1,31 @@
+{
+  "id": "11ba69ee-902e-4a0f-b3b6-418aed7d7ddb",
+  "name": "Discover Specific Process - tasklist",
+  "description": "Adversaries may use command line tools to discover specific processes in preparation of further attacks. \nExamples of this could be discovering the PID of lsass.exe to dump its memory or discovering whether specific security processes (e.g. AV or EDR) are running.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "acf1a2ac-3067-4333-a513-64bf94f676d6",
+      "type": "execute-command",
+      "data": {
+        "command": "tasklist | findstr #{process_to_enumerate}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1057",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "process_to_enumerate",
+      "type": "string",
+      "description": "Process name string to search for.",
+      "value": "lsass"
+    }
+  ]
+}

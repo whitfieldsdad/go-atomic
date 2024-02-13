@@ -1,0 +1,110 @@
+{
+  "id": "edbcd8c9-3639-4844-afad-455c91e95a35",
+  "name": "psexec.py (Impacket)",
+  "description": "Will execute a command on the remote host with Impacket psexec.py script.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "316a1ed8-95f1-4942-9f8e-e4120acc62bf",
+      "type": "execute-command",
+      "data": {
+        "command": "psexec.py '#{domain}/#{username}:#{password}@#{remote_host}' '#{command}'\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7ed29089-3511-4c52-8862-f316f097a912",
+      "name": "Check dependency 1/1",
+      "description": "psexec.py (Impacket)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v psexec.py)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ffcc9617-f8d1-4ece-8807-3181da4aa9f4",
+      "name": "Resolve dependency 1/1",
+      "description": "psexec.py (Impacket)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo pip3 install impacket\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4b5394d3-7354-4fc7-9b9b-69524269eaa6",
+      "name": "Re-check dependency 1/1",
+      "description": "psexec.py (Impacket)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v psexec.py)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7ed29089-3511-4c52-8862-f316f097a912",
+      "p": "on-success",
+      "o": "316a1ed8-95f1-4942-9f8e-e4120acc62bf"
+    },
+    {
+      "s": "7ed29089-3511-4c52-8862-f316f097a912",
+      "p": "on-failure",
+      "o": "ffcc9617-f8d1-4ece-8807-3181da4aa9f4"
+    },
+    {
+      "s": "ffcc9617-f8d1-4ece-8807-3181da4aa9f4",
+      "p": "on-success",
+      "o": "4b5394d3-7354-4fc7-9b9b-69524269eaa6"
+    },
+    {
+      "s": "4b5394d3-7354-4fc7-9b9b-69524269eaa6",
+      "p": "on-failure",
+      "o": "316a1ed8-95f1-4942-9f8e-e4120acc62bf"
+    }
+  ],
+  "tags": [
+    "T1569.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_host",
+      "type": "string",
+      "description": "Remote hostname or IP address",
+      "value": "127.0.0.1"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username",
+      "value": "Administrator"
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "Target domain",
+      "value": ""
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password",
+      "value": "P@ssw0rd1"
+    },
+    {
+      "name": "command",
+      "type": "string",
+      "description": "Command to execute in target computer",
+      "value": "whoami"
+    }
+  ]
+}

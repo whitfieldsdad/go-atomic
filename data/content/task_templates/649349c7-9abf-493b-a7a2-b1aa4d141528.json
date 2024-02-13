@@ -1,0 +1,44 @@
+{
+  "id": "649349c7-9abf-493b-a7a2-b1aa4d141528",
+  "name": "PureLocker Ransom Note",
+  "description": "building the IOC (YOUR_FILES.txt) for the PureLocker ransomware \nhttps://www.bleepingcomputer.com/news/security/purelocker-ransomware-can-lock-files-on-windows-linux-and-macos/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "42f6c486-a67d-49ec-9311-8b8d0b538af2",
+      "type": "execute-command",
+      "data": {
+        "command": "echo T1486 - Purelocker Ransom Note \u003e %USERPROFILE%\\Desktop\\YOUR_FILES.txt\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4be0b0a1-c304-481b-92de-2b5eec0e2a7b",
+      "type": "execute-command",
+      "data": {
+        "command": "del %USERPROFILE%\\Desktop\\YOUR_FILES.txt \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "42f6c486-a67d-49ec-9311-8b8d0b538af2",
+      "p": "on-success",
+      "o": "4be0b0a1-c304-481b-92de-2b5eec0e2a7b"
+    },
+    {
+      "s": "42f6c486-a67d-49ec-9311-8b8d0b538af2",
+      "p": "on-failure",
+      "o": "4be0b0a1-c304-481b-92de-2b5eec0e2a7b"
+    }
+  ],
+  "tags": [
+    "T1486",
+    "atomic-red-team"
+  ]
+}

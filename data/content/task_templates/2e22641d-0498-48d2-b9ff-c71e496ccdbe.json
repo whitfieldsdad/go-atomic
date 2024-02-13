@@ -1,0 +1,78 @@
+{
+  "id": "2e22641d-0498-48d2-b9ff-c71e496ccdbe",
+  "name": "Windows - Discover domain trusts with nltest",
+  "description": "Uses the nltest command to discover domain trusts.\nRequires the installation of nltest via Windows RSAT or the Windows Server AD DS role.\nThis technique has been used by the Trickbot malware family.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "a7c3c541-00b0-4fed-b21e-5be03a1e0fd7",
+      "type": "execute-command",
+      "data": {
+        "command": "nltest /domain_trusts\nnltest /trusted_domains\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "100f603f-0f4a-4161-9f18-48524b9407a0",
+      "name": "Check dependency 1/1",
+      "description": "nltest.exe from RSAT must be present on disk\n",
+      "type": "execute-command",
+      "data": {
+        "command": "WHERE nltest.exe \u003eNUL 2\u003e\u00261\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4c4a5ba7-b78c-4cf4-ab5b-406fb8635d5b",
+      "name": "Resolve dependency 1/1",
+      "description": "nltest.exe from RSAT must be present on disk\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Sorry RSAT must be installed manually\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "db6be3b7-4181-45e3-a6ad-23f7d743b3f6",
+      "name": "Re-check dependency 1/1",
+      "description": "nltest.exe from RSAT must be present on disk\n",
+      "type": "execute-command",
+      "data": {
+        "command": "WHERE nltest.exe \u003eNUL 2\u003e\u00261\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "100f603f-0f4a-4161-9f18-48524b9407a0",
+      "p": "on-success",
+      "o": "a7c3c541-00b0-4fed-b21e-5be03a1e0fd7"
+    },
+    {
+      "s": "100f603f-0f4a-4161-9f18-48524b9407a0",
+      "p": "on-failure",
+      "o": "4c4a5ba7-b78c-4cf4-ab5b-406fb8635d5b"
+    },
+    {
+      "s": "4c4a5ba7-b78c-4cf4-ab5b-406fb8635d5b",
+      "p": "on-success",
+      "o": "db6be3b7-4181-45e3-a6ad-23f7d743b3f6"
+    },
+    {
+      "s": "db6be3b7-4181-45e3-a6ad-23f7d743b3f6",
+      "p": "on-failure",
+      "o": "a7c3c541-00b0-4fed-b21e-5be03a1e0fd7"
+    }
+  ],
+  "tags": [
+    "T1482",
+    "atomic-red-team"
+  ]
+}

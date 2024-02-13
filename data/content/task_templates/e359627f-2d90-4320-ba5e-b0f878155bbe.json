@@ -1,0 +1,86 @@
+{
+  "id": "e359627f-2d90-4320-ba5e-b0f878155bbe",
+  "name": "WebBrowserPassView - Credentials from Browser",
+  "description": "The following Atomic test utilizes WebBrowserPassView to extract passwords from browsers on a Window system. WebBrowserPassView is an open source application used to retrieve passwords stored on a local computer. Recently noticed as a tool used in the BlackCat Ransomware.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "9cab78bc-913c-4c1f-b9fa-b3a6b46452be",
+      "type": "execute-command",
+      "data": {
+        "command": "Start-Process \"#{webbrowserpassview_path}\"\nStart-Sleep -Second 4\nStop-Process -Name \"WebBrowserPassView\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "23cb6cd0-c1f6-4867-9c33-f4f835ab5286",
+      "name": "Check dependency 1/1",
+      "description": "Check if WebBrowserPassView.exe exists in the specified path #{webbrowserpassview_path}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{webbrowserpassview_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0548062f-4cd9-4b88-8613-f292da84d0de",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if WebBrowserPassView.exe exists in the specified path #{webbrowserpassview_path}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\T1555.003\\bin\\\" -ErrorAction ignore -Force | Out-Null\nInvoke-WebRequest https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1555.003/bin/WebBrowserPassView.exe -OutFile \"#{webbrowserpassview_path}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d01442aa-3ff1-4e4f-9cb4-4f37c4e1a87d",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if WebBrowserPassView.exe exists in the specified path #{webbrowserpassview_path}\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{webbrowserpassview_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "23cb6cd0-c1f6-4867-9c33-f4f835ab5286",
+      "p": "on-success",
+      "o": "9cab78bc-913c-4c1f-b9fa-b3a6b46452be"
+    },
+    {
+      "s": "23cb6cd0-c1f6-4867-9c33-f4f835ab5286",
+      "p": "on-failure",
+      "o": "0548062f-4cd9-4b88-8613-f292da84d0de"
+    },
+    {
+      "s": "0548062f-4cd9-4b88-8613-f292da84d0de",
+      "p": "on-success",
+      "o": "d01442aa-3ff1-4e4f-9cb4-4f37c4e1a87d"
+    },
+    {
+      "s": "d01442aa-3ff1-4e4f-9cb4-4f37c4e1a87d",
+      "p": "on-failure",
+      "o": "9cab78bc-913c-4c1f-b9fa-b3a6b46452be"
+    }
+  ],
+  "tags": [
+    "T1555.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "webbrowserpassview_path",
+      "type": "string",
+      "description": "Path to the WebBrowserPassView executable ",
+      "value": "PathToAtomicsFolder\\T1555.003\\bin\\WebBrowserPassView.exe"
+    }
+  ]
+}

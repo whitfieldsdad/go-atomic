@@ -1,0 +1,78 @@
+{
+  "id": "4df6a0fe-2bdd-4be8-8618-a6a19654a57a",
+  "name": "Disable tty_tickets for sudo caching (freebsd)",
+  "description": "Sets sudo caching tty_tickets value to disabled. This is dangerous to modify without using 'visudo', do not do this on a production system.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "8ce00d89-8590-4ca1-bed2-907b70cba439",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo sh -c \"echo Defaults \"'!'\"tty_tickets \u003e\u003e /usr/local/etc/sudoers\"\nsudo visudo -c -f /usr/local/etc/sudoers\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b5dd07e0-9bf3-4163-a274-b72d82e10267",
+      "name": "Check dependency 1/1",
+      "description": "Check if sudo is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v sudo)\" ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "dc0d690d-501b-4c8a-be85-74a293bd4811",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if sudo is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which pkg \u0026\u0026 pkg install -y sudo)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "93122cb5-2540-4740-9a58-935d342a43ef",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if sudo is installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v sudo)\" ]; then exit 1; else exit 0; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b5dd07e0-9bf3-4163-a274-b72d82e10267",
+      "p": "on-success",
+      "o": "8ce00d89-8590-4ca1-bed2-907b70cba439"
+    },
+    {
+      "s": "b5dd07e0-9bf3-4163-a274-b72d82e10267",
+      "p": "on-failure",
+      "o": "dc0d690d-501b-4c8a-be85-74a293bd4811"
+    },
+    {
+      "s": "dc0d690d-501b-4c8a-be85-74a293bd4811",
+      "p": "on-success",
+      "o": "93122cb5-2540-4740-9a58-935d342a43ef"
+    },
+    {
+      "s": "93122cb5-2540-4740-9a58-935d342a43ef",
+      "p": "on-failure",
+      "o": "8ce00d89-8590-4ca1-bed2-907b70cba439"
+    }
+  ],
+  "tags": [
+    "T1548.003",
+    "atomic-red-team"
+  ]
+}

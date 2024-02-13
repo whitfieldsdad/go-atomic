@@ -1,0 +1,52 @@
+{
+  "id": "a957fb0f-1e85-49b2-a211-413366784b1e",
+  "name": "Disable Windows IIS HTTP Logging via PowerShell",
+  "description": "Disables HTTP logging on a Windows IIS web server as seen by Threat Group 3390 (Bronze Union).\nThis action requires HTTP logging configurations in IIS to be unlocked.\n\nUse the cleanup commands to restore some default auditpol settings (your original settings will be lost)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "69f988f5-5902-49fe-a0d3-1e7e8e0c26af",
+      "type": "execute-command",
+      "data": {
+        "command": "set-WebConfigurationProperty -PSPath \"IIS:\\Sites\\#{website_name}\\\" -filter \"system.webServer/httpLogging\" -name dontLog -value $true\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f82df372-585f-4e79-9873-441b7ca53714",
+      "type": "execute-command",
+      "data": {
+        "command": "if(Test-Path \"C:\\Windows\\System32\\inetsrv\\appcmd.exe\"){\n  C:\\Windows\\System32\\inetsrv\\appcmd.exe set config \"#{website_name}\" /section:httplogging /dontLog:false *\u003e$null\n}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "69f988f5-5902-49fe-a0d3-1e7e8e0c26af",
+      "p": "on-success",
+      "o": "f82df372-585f-4e79-9873-441b7ca53714"
+    },
+    {
+      "s": "69f988f5-5902-49fe-a0d3-1e7e8e0c26af",
+      "p": "on-failure",
+      "o": "f82df372-585f-4e79-9873-441b7ca53714"
+    }
+  ],
+  "tags": [
+    "T1562.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "website_name",
+      "type": "string",
+      "description": "The name of the website on a server",
+      "value": "Default Web Site"
+    }
+  ]
+}

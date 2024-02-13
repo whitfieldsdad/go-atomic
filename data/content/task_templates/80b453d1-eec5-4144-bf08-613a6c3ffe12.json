@@ -1,0 +1,44 @@
+{
+  "id": "80b453d1-eec5-4144-bf08-613a6c3ffe12",
+  "name": "LockBit Black - Unusual Windows firewall registry modification -Powershell",
+  "description": "An adversary tries to modify the windows firewall registry.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "2078d466-e0c2-4eb8-bc2e-1a1b7593ab8b",
+      "type": "execute-command",
+      "data": {
+        "command": "New-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\" -Name EnableFirewall -PropertyType DWORD -Value 0 -Force\nNew-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\StandardProfile\" -Name EnableFirewall -PropertyType DWORD -Value 0 -Force\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "23fccd20-79b2-426c-927e-1ecc32e1195c",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\"  -Name EnableFirewall -Force -ErrorAction Ignore\nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\StandardProfile\" -Name EnableFirewall -Force -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "2078d466-e0c2-4eb8-bc2e-1a1b7593ab8b",
+      "p": "on-success",
+      "o": "23fccd20-79b2-426c-927e-1ecc32e1195c"
+    },
+    {
+      "s": "2078d466-e0c2-4eb8-bc2e-1a1b7593ab8b",
+      "p": "on-failure",
+      "o": "23fccd20-79b2-426c-927e-1ecc32e1195c"
+    }
+  ],
+  "tags": [
+    "T1562.004",
+    "atomic-red-team"
+  ]
+}

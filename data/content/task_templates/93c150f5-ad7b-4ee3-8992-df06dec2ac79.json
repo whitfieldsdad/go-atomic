@@ -1,0 +1,166 @@
+{
+  "id": "93c150f5-ad7b-4ee3-8992-df06dec2ac79",
+  "name": "AWS - Remove VPC Flow Logs using Stratus",
+  "description": "This Atomic will attempt to remove AWS VPC Flow Logs configuration. Stratus Red Team is a self-contained binary. You can use it to easily detonate offensive attack techniques against a live cloud environment. Ref: https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.vpc-remove-flow-logs/\n",
+  "platforms": [
+    "linux",
+    "darwin",
+    "iaas:aws"
+  ],
+  "steps": [
+    {
+      "id": "9d3bf431-91ab-4b2a-b610-d61545e072ef",
+      "type": "execute-command",
+      "data": {
+        "command": "export AWS_REGION=#{aws_region} \ncd #{stratus_path}\necho \"starting warmup\"\n./stratus warmup aws.defense-evasion.vpc-remove-flow-logs\necho \"starting detonate\"\n./stratus detonate aws.defense-evasion.vpc-remove-flow-logs --force\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7a629bcd-1a6b-4a15-9063-b34afa8d574a",
+      "type": "execute-command",
+      "data": {
+        "command": "export AWS_REGION=#{aws_region}\necho \"Cleanup detonation\"\ncd #{stratus_path}\n./stratus cleanup --all\nrm -rf stratus*\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f4d6d262-8887-4e86-bb48-62ee643e7fae",
+      "name": "Check dependency 1/2",
+      "description": "Stratus binary must be present at the (#{stratus_path}/stratus)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f #{stratus_path}/stratus ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6a589148-42a3-463a-93f6-25f0aa138f22",
+      "name": "Resolve dependency 1/2",
+      "description": "Stratus binary must be present at the (#{stratus_path}/stratus)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ \"$(uname)\" == \"Darwin\" ]\nthen DOWNLOAD_URL=$(curl -s https://api.github.com/repos/DataDog/stratus-red-team/releases/latest | grep browser_download_url | grep Darwin_x86_64 | cut -d '\"' -f 4); wget -q -O #{stratus_path}/stratus-red-team-latest.tar.gz $DOWNLOAD_URL\n  tar -xzvf #{stratus_path}/stratus-red-team-latest.tar.gz --directory #{stratus_path}/\nelif [ \"$(expr substr $(uname) 1 5)\" == \"Linux\" ]\nthen DOWNLOAD_URL=$(curl -s https://api.github.com/repos/DataDog/stratus-red-team/releases/latest | grep browser_download_url | grep linux_x86_64 | cut -d '\"' -f 4) \n  wget -q -O #{stratus_path}/stratus-red-team-latest.tar.gz $DOWNLOAD_URL\n  tar -xzvf #{stratus_path}/stratus-red-team-latest.tar.gz --directory #{stratus_path}/\nfi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "76c341c9-d053-486a-97a4-c60722f118f2",
+      "name": "Re-check dependency 1/2",
+      "description": "Stratus binary must be present at the (#{stratus_path}/stratus)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f #{stratus_path}/stratus ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8f3e5c16-e8c9-4f1a-854e-96a0115aa8b2",
+      "name": "Check dependency 2/2",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cat ~/.aws/credentials | grep \"default\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5bfb134b-ea07-4f51-88bb-9b8f5e406cfc",
+      "name": "Resolve dependency 2/2",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Please install the aws-cli and configure your AWS defult profile using: aws configure\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "788ad2d0-b008-41f0-ad43-1305c1ad8e4d",
+      "name": "Re-check dependency 2/2",
+      "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
+      "type": "execute-command",
+      "data": {
+        "command": "cat ~/.aws/credentials | grep \"default\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "9d3bf431-91ab-4b2a-b610-d61545e072ef",
+      "p": "on-success",
+      "o": "7a629bcd-1a6b-4a15-9063-b34afa8d574a"
+    },
+    {
+      "s": "9d3bf431-91ab-4b2a-b610-d61545e072ef",
+      "p": "on-failure",
+      "o": "7a629bcd-1a6b-4a15-9063-b34afa8d574a"
+    },
+    {
+      "s": "f4d6d262-8887-4e86-bb48-62ee643e7fae",
+      "p": "on-success",
+      "o": "9d3bf431-91ab-4b2a-b610-d61545e072ef"
+    },
+    {
+      "s": "f4d6d262-8887-4e86-bb48-62ee643e7fae",
+      "p": "on-failure",
+      "o": "6a589148-42a3-463a-93f6-25f0aa138f22"
+    },
+    {
+      "s": "6a589148-42a3-463a-93f6-25f0aa138f22",
+      "p": "on-success",
+      "o": "76c341c9-d053-486a-97a4-c60722f118f2"
+    },
+    {
+      "s": "76c341c9-d053-486a-97a4-c60722f118f2",
+      "p": "on-failure",
+      "o": "9d3bf431-91ab-4b2a-b610-d61545e072ef"
+    },
+    {
+      "s": "8f3e5c16-e8c9-4f1a-854e-96a0115aa8b2",
+      "p": "on-success",
+      "o": "9d3bf431-91ab-4b2a-b610-d61545e072ef"
+    },
+    {
+      "s": "8f3e5c16-e8c9-4f1a-854e-96a0115aa8b2",
+      "p": "on-failure",
+      "o": "5bfb134b-ea07-4f51-88bb-9b8f5e406cfc"
+    },
+    {
+      "s": "5bfb134b-ea07-4f51-88bb-9b8f5e406cfc",
+      "p": "on-success",
+      "o": "788ad2d0-b008-41f0-ad43-1305c1ad8e4d"
+    },
+    {
+      "s": "788ad2d0-b008-41f0-ad43-1305c1ad8e4d",
+      "p": "on-failure",
+      "o": "9d3bf431-91ab-4b2a-b610-d61545e072ef"
+    }
+  ],
+  "tags": [
+    "T1562.008",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "stratus_path",
+      "type": "path",
+      "description": "Path of stratus binary",
+      "value": "$PathToAtomicsFolder/T1562.008/src"
+    },
+    {
+      "name": "aws_region",
+      "type": "string",
+      "description": "AWS region to detonate",
+      "value": "us-west-2"
+    }
+  ]
+}

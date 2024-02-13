@@ -1,0 +1,44 @@
+{
+  "id": "25e2be0e-96f7-4417-bd16-a4a2500e3802",
+  "name": "Copy and Delete Mailbox Data on Linux",
+  "description": "Copies and deletes mail data on Linux\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "3e0855aa-4858-4bf7-a61f-838cf60a598d",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir -p /var/spool/mail/copy\nfor file in /var/spool/mail/*; do\n  if [ \"$(basename \"$file\")\" != \"copy\" ]\n  then\n    cp -R \"$file\" /var/spool/mail/copy/\n  fi\ndone\nrm -rf /var/spool/mail/copy/*\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4087d210-9012-4bd7-b5a8-427fd0df2e5a",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -rf /var/spool/mail/copy\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3e0855aa-4858-4bf7-a61f-838cf60a598d",
+      "p": "on-success",
+      "o": "4087d210-9012-4bd7-b5a8-427fd0df2e5a"
+    },
+    {
+      "s": "3e0855aa-4858-4bf7-a61f-838cf60a598d",
+      "p": "on-failure",
+      "o": "4087d210-9012-4bd7-b5a8-427fd0df2e5a"
+    }
+  ],
+  "tags": [
+    "T1070.008",
+    "atomic-red-team"
+  ]
+}

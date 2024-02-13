@@ -1,0 +1,44 @@
+{
+  "id": "37ad2f24-7c53-4a50-92da-427a4ad13f58",
+  "name": "Create/Append to .bash_logout",
+  "description": "The Bash shell runs ~/.bash_logout \"if it exists\" to run commands on user logout. An adversary may create or append to a .bash_logout to clear history, start processes etc. Note the ~/.bash_logout is only run if you explicitly exit or log out of an \"interactive login shell session\" i.e. via the console, SSH, /bin/bash -l or su -l \u003cusername\u003e. \n\nThis test creates the art user, logs in, creates a .bash_logout which will echo some text into the art.txt file on logout and logs out and the /home/art/art.txt is created.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "8f9e47a3-2344-474a-a7d8-a2d8eef350ce",
+      "type": "execute-command",
+      "data": {
+        "command": "useradd --create-home --shell /bin/bash art\nsu --login art\necho 'echo \"Atomic Red Team was here... T1546.004\" \u003e\u003e $HOME/art.txt' \u003e\u003e $HOME/.bash_logout\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "787c8c48-06e8-4b88-99db-75212a47ee41",
+      "type": "execute-command",
+      "data": {
+        "command": "userdel -fr art\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8f9e47a3-2344-474a-a7d8-a2d8eef350ce",
+      "p": "on-success",
+      "o": "787c8c48-06e8-4b88-99db-75212a47ee41"
+    },
+    {
+      "s": "8f9e47a3-2344-474a-a7d8-a2d8eef350ce",
+      "p": "on-failure",
+      "o": "787c8c48-06e8-4b88-99db-75212a47ee41"
+    }
+  ],
+  "tags": [
+    "T1546.004",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "ad254fa8-45c0-403b-8c77-e00b3d3e7a64",
+  "name": "Shutdown System - Windows",
+  "description": "This test shuts down a Windows system.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ab5aa7b5-cf22-4f6b-9191-836a3e3149b1",
+      "type": "execute-command",
+      "data": {
+        "command": "shutdown /s /t #{timeout}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1529",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "timeout",
+      "type": "integer",
+      "description": "Timeout period before shutdown (seconds)",
+      "value": "1"
+    }
+  ]
+}

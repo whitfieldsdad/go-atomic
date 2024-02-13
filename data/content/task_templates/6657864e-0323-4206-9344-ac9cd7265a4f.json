@@ -1,0 +1,58 @@
+{
+  "id": "6657864e-0323-4206-9344-ac9cd7265a4f",
+  "name": "Create a new user in a command prompt",
+  "description": "Creates a new user in a command prompt. Upon execution, \"The command completed successfully.\" will be displayed. To verify the\nnew account, run \"net user\" in powershell or CMD and observe that there is a new user named \"T1136.001_CMD\"\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "836a3cfc-083e-49d9-a1d7-e1198032eb7d",
+      "type": "execute-command",
+      "data": {
+        "command": "net user /add \"#{username}\" \"#{password}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9d528b12-de58-4887-b952-27d25951996a",
+      "type": "execute-command",
+      "data": {
+        "command": "net user /del \"#{username}\" \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "836a3cfc-083e-49d9-a1d7-e1198032eb7d",
+      "p": "on-success",
+      "o": "9d528b12-de58-4887-b952-27d25951996a"
+    },
+    {
+      "s": "836a3cfc-083e-49d9-a1d7-e1198032eb7d",
+      "p": "on-failure",
+      "o": "9d528b12-de58-4887-b952-27d25951996a"
+    }
+  ],
+  "tags": [
+    "T1136.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username of the user to create",
+      "value": "T1136.001_CMD"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password of the user to create",
+      "value": "T1136.001_CMD!"
+    }
+  ]
+}

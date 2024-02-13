@@ -1,0 +1,58 @@
+{
+  "id": "b3e7510c-2d4c-4249-a33f-591a2bc83eef",
+  "name": "Stop and unload Crowdstrike Falcon on macOS",
+  "description": "Stop and unload Crowdstrike Falcon daemons falcond and userdaemon on macOS\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "d9c8fc8a-eb69-47fa-8508-8d85b33a8896",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo launchctl unload #{falcond_plist}\nsudo launchctl unload #{userdaemon_plist}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "169a2810-6cc9-405f-8d22-67ba01ea877d",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo launchctl load -w #{falcond_plist}\nsudo launchctl load -w #{userdaemon_plist}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d9c8fc8a-eb69-47fa-8508-8d85b33a8896",
+      "p": "on-success",
+      "o": "169a2810-6cc9-405f-8d22-67ba01ea877d"
+    },
+    {
+      "s": "d9c8fc8a-eb69-47fa-8508-8d85b33a8896",
+      "p": "on-failure",
+      "o": "169a2810-6cc9-405f-8d22-67ba01ea877d"
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "falcond_plist",
+      "type": "path",
+      "description": "The path of the Crowdstrike Falcon plist file",
+      "value": "/Library/LaunchDaemons/com.crowdstrike.falcond.plist"
+    },
+    {
+      "name": "userdaemon_plist",
+      "type": "path",
+      "description": "The path of the Crowdstrike Userdaemon plist file",
+      "value": "/Library/LaunchDaemons/com.crowdstrike.userdaemon.plist"
+    }
+  ]
+}

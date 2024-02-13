@@ -1,0 +1,31 @@
+{
+  "id": "cada55b4-8251-4c60-819e-8ec1b33c9306",
+  "name": "Disable history collection (freebsd)",
+  "description": "Disables history collection in shells\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "a4f1eef8-cd90-490f-84de-91d5ac840b2c",
+      "type": "execute-command",
+      "data": {
+        "command": "export HISTSIZE=0\n#{evil_command}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1562.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "evil_command",
+      "type": "string",
+      "description": "Command to run after shell history collection is disabled",
+      "value": "whoami"
+    }
+  ]
+}

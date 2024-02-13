@@ -1,0 +1,52 @@
+{
+  "id": "c6c34f61-1c3e-40fb-8a58-d017d88286d8",
+  "name": "Simulating MAZE Directory Enumeration",
+  "description": "This test emulates MAZE ransomware's ability to enumerate directories using Powershell. \nUpon successful execution, this test will output the directory enumeration results to a specified file, as well as display them in the active window. \nSee https://www.mandiant.com/resources/tactics-techniques-procedures-associated-with-maze-ransomware-incidents\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "86824003-8dc7-474a-91f0-0688e19afadf",
+      "type": "execute-command",
+      "data": {
+        "command": "$folderarray = @(\"Desktop\", \"Downloads\", \"Documents\", \"AppData/Local\", \"AppData/Roaming\")\nGet-ChildItem -Path $env:homedrive -ErrorAction SilentlyContinue | Out-File -append #{File_to_output}\nGet-ChildItem -Path $env:programfiles -erroraction silentlycontinue | Out-File -append #{File_to_output}\nGet-ChildItem -Path \"${env:ProgramFiles(x86)}\" -erroraction silentlycontinue | Out-File -append #{File_to_output}\n$UsersFolder = \"$env:homedrive\\Users\\\"\nforeach ($directory in Get-ChildItem -Path $UsersFolder -ErrorAction SilentlyContinue) \n{\nforeach ($secondarydirectory in $folderarray)\n {Get-ChildItem -Path \"$UsersFolder/$directory/$secondarydirectory\" -ErrorAction SilentlyContinue | Out-File -append #{File_to_output}}\n}\ncat #{File_to_output}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0965aac3-0fb9-4c76-befe-99b857647e0d",
+      "type": "execute-command",
+      "data": {
+        "command": "remove-item #{File_to_output} -ErrorAction SilentlyContinue\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "86824003-8dc7-474a-91f0-0688e19afadf",
+      "p": "on-success",
+      "o": "0965aac3-0fb9-4c76-befe-99b857647e0d"
+    },
+    {
+      "s": "86824003-8dc7-474a-91f0-0688e19afadf",
+      "p": "on-failure",
+      "o": "0965aac3-0fb9-4c76-befe-99b857647e0d"
+    }
+  ],
+  "tags": [
+    "T1083",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "File_to_output",
+      "type": "string",
+      "description": "File to output results to",
+      "value": "$env:temp\\T1083Test5.txt"
+    }
+  ]
+}

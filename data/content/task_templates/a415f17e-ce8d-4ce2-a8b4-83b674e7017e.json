@@ -1,0 +1,87 @@
+{
+  "id": "a415f17e-ce8d-4ce2-a8b4-83b674e7017e",
+  "name": "Delete an entire folder - FreeBSD/Linux/macOS",
+  "description": "Recursively delete the temporary directory and all files contained within it\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "ae12a4d1-6799-461b-9087-855664330a54",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -rf #{folder_to_delete}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "713d1259-0ddf-477f-9f65-c16a3ac458d3",
+      "name": "Check dependency 1/1",
+      "description": "The folder must exist in order to be deleted\n",
+      "type": "execute-command",
+      "data": {
+        "command": "test -e #{folder_to_delete} \u0026\u0026 exit 0 || exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9e267ce0-b495-4acf-8fcb-ff39bbfce42d",
+      "name": "Resolve dependency 1/1",
+      "description": "The folder must exist in order to be deleted\n",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir -p #{folder_to_delete}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "87492d60-f2ed-491c-9996-28cea603934b",
+      "name": "Re-check dependency 1/1",
+      "description": "The folder must exist in order to be deleted\n",
+      "type": "execute-command",
+      "data": {
+        "command": "test -e #{folder_to_delete} \u0026\u0026 exit 0 || exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "713d1259-0ddf-477f-9f65-c16a3ac458d3",
+      "p": "on-success",
+      "o": "ae12a4d1-6799-461b-9087-855664330a54"
+    },
+    {
+      "s": "713d1259-0ddf-477f-9f65-c16a3ac458d3",
+      "p": "on-failure",
+      "o": "9e267ce0-b495-4acf-8fcb-ff39bbfce42d"
+    },
+    {
+      "s": "9e267ce0-b495-4acf-8fcb-ff39bbfce42d",
+      "p": "on-success",
+      "o": "87492d60-f2ed-491c-9996-28cea603934b"
+    },
+    {
+      "s": "87492d60-f2ed-491c-9996-28cea603934b",
+      "p": "on-failure",
+      "o": "ae12a4d1-6799-461b-9087-855664330a54"
+    }
+  ],
+  "tags": [
+    "T1070.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "folder_to_delete",
+      "type": "path",
+      "description": "Path of folder to delete",
+      "value": "/tmp/victim-folder"
+    }
+  ]
+}

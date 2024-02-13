@@ -1,0 +1,23 @@
+{
+  "id": "c49978f6-bd6e-4221-ad2c-9e3e30cc1e3b",
+  "name": "Applications Installed",
+  "description": "Query the registry to determine software and versions installed on the system. Upon execution a table of\nsoftware name and version information will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "f9618df5-22ac-41e7-b2f6-7a043b24155b",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -Autosize\nGet-ItemProperty HKLM:\\Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -Autosize\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1518",
+    "atomic-red-team"
+  ]
+}

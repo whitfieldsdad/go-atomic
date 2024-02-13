@@ -1,0 +1,52 @@
+{
+  "id": "dc6fe391-69e6-4506-bd06-ea5eeb4082f8",
+  "name": "Deobfuscate/Decode Files Or Information",
+  "description": "Encode/Decode executable\nUpon execution a file named T1140_calc_decoded.exe will be placed in the temp folder\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "22f9a74b-7b18-42f6-b870-5df34d53074d",
+      "type": "execute-command",
+      "data": {
+        "command": "certutil -encode #{executable} %temp%\\T1140_calc.txt\ncertutil -decode %temp%\\T1140_calc.txt %temp%\\T1140_calc_decoded.exe\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "eb209965-3beb-4bda-a843-df3e6363e182",
+      "type": "execute-command",
+      "data": {
+        "command": "del %temp%\\T1140_calc.txt \u003enul 2\u003e\u00261\ndel %temp%\\T1140_calc_decoded.exe \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "22f9a74b-7b18-42f6-b870-5df34d53074d",
+      "p": "on-success",
+      "o": "eb209965-3beb-4bda-a843-df3e6363e182"
+    },
+    {
+      "s": "22f9a74b-7b18-42f6-b870-5df34d53074d",
+      "p": "on-failure",
+      "o": "eb209965-3beb-4bda-a843-df3e6363e182"
+    }
+  ],
+  "tags": [
+    "T1140",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "executable",
+      "type": "path",
+      "description": "name of executable",
+      "value": "C:\\Windows\\System32\\calc.exe"
+    }
+  ]
+}

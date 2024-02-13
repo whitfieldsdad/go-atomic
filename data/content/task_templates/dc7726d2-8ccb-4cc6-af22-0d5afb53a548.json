@@ -1,0 +1,58 @@
+{
+  "id": "dc7726d2-8ccb-4cc6-af22-0d5afb53a548",
+  "name": "Create a new account similar to ANONYMOUS LOGON",
+  "description": "Create a new account similar to ANONYMOUS LOGON in a command prompt.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "9eb77925-d92e-4e6d-a017-1289a11b6ae2",
+      "type": "execute-command",
+      "data": {
+        "command": "net user \"#{username}\" \"#{password}\" /add /domain\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a87594d5-fca8-4eaf-81c5-5441310e5977",
+      "type": "execute-command",
+      "data": {
+        "command": "net user \"#{username}\" \u003enul 2\u003e\u00261 /del /domain\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "9eb77925-d92e-4e6d-a017-1289a11b6ae2",
+      "p": "on-success",
+      "o": "a87594d5-fca8-4eaf-81c5-5441310e5977"
+    },
+    {
+      "s": "9eb77925-d92e-4e6d-a017-1289a11b6ae2",
+      "p": "on-failure",
+      "o": "a87594d5-fca8-4eaf-81c5-5441310e5977"
+    }
+  ],
+  "tags": [
+    "T1136.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username of the user to create",
+      "value": "ANONYMOUS  LOGON"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password of the user to create",
+      "value": "T1136_pass123!"
+    }
+  ]
+}

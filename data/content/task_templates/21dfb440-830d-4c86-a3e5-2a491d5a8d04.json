@@ -1,0 +1,52 @@
+{
+  "id": "21dfb440-830d-4c86-a3e5-2a491d5a8d04",
+  "name": "Windows - Stop service using Service Controller",
+  "description": "Stops a specified service using the sc.exe command. Upon execution, if the spooler service was running infomration will be displayed saying\nit has changed to a state of STOP_PENDING. If the spooler service was not running \"The service has not been started.\" will be displayed and it can be\nstarted by running the cleanup command.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "672f31c3-f3d6-4b1a-8b37-26413c7c4ffc",
+      "type": "execute-command",
+      "data": {
+        "command": "sc.exe stop #{service_name}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "95d40b97-1bad-4e5d-9348-8c981a301a10",
+      "type": "execute-command",
+      "data": {
+        "command": "sc.exe start #{service_name} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "672f31c3-f3d6-4b1a-8b37-26413c7c4ffc",
+      "p": "on-success",
+      "o": "95d40b97-1bad-4e5d-9348-8c981a301a10"
+    },
+    {
+      "s": "672f31c3-f3d6-4b1a-8b37-26413c7c4ffc",
+      "p": "on-failure",
+      "o": "95d40b97-1bad-4e5d-9348-8c981a301a10"
+    }
+  ],
+  "tags": [
+    "T1489",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "service_name",
+      "type": "string",
+      "description": "Name of a service to stop",
+      "value": "spooler"
+    }
+  ]
+}

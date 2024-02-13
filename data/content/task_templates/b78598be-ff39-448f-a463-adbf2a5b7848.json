@@ -1,0 +1,44 @@
+{
+  "id": "b78598be-ff39-448f-a463-adbf2a5b7848",
+  "name": "chown - Change file or folder ownership and group recursively",
+  "description": "Changes a file or folder's ownership and group information recursively using chown.\n",
+  "platforms": [
+    "darwin",
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "8a85cb9f-5019-4c01-9f43-1ad71df6f8c2",
+      "type": "execute-command",
+      "data": {
+        "command": "chown -R #{owner}:#{group} #{file_or_folder}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1222.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_or_folder",
+      "type": "path",
+      "description": "Path of the file or folder",
+      "value": "/tmp/AtomicRedTeam/atomics/T1222.002"
+    },
+    {
+      "name": "group",
+      "type": "string",
+      "description": "Group name of desired group",
+      "value": "root"
+    },
+    {
+      "name": "owner",
+      "type": "string",
+      "description": "Username of desired owner",
+      "value": "root"
+    }
+  ]
+}

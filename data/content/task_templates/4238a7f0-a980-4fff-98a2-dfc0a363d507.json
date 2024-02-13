@@ -1,0 +1,52 @@
+{
+  "id": "4238a7f0-a980-4fff-98a2-dfc0a363d507",
+  "name": "Create Hidden User using UniqueID \u003c 500",
+  "description": "Add a hidden user on macOS using Unique ID \u003c 500 (users with that ID are hidden by default)\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "0e91f84d-b0e2-4202-bb67-390c1c4a4fe8",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo dscl . -create /Users/#{user_name} UniqueID 333\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "165a3e13-dcf9-42d9-ae06-8c8786ecbafb",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo dscl . -delete /Users/#{user_name}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "0e91f84d-b0e2-4202-bb67-390c1c4a4fe8",
+      "p": "on-success",
+      "o": "165a3e13-dcf9-42d9-ae06-8c8786ecbafb"
+    },
+    {
+      "s": "0e91f84d-b0e2-4202-bb67-390c1c4a4fe8",
+      "p": "on-failure",
+      "o": "165a3e13-dcf9-42d9-ae06-8c8786ecbafb"
+    }
+  ],
+  "tags": [
+    "T1564.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "user_name",
+      "type": "string",
+      "description": "username to add",
+      "value": "APT"
+    }
+  ]
+}

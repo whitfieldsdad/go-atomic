@@ -1,0 +1,31 @@
+{
+  "id": "6d5d8c96-3d2a-4da9-9d6d-9a9d341899a7",
+  "name": "Permission Groups Discovery PowerShell (Domain)",
+  "description": "Permission Groups Discovery utilizing PowerShell. This test will display some errors if run on a computer not connected to a domain. Upon execution, domain\ninformation will be displayed.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "cba9283e-f311-4eb6-aa8d-7541b4134ea6",
+      "type": "execute-command",
+      "data": {
+        "command": "get-ADPrincipalGroupMembership #{user} | select name\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1069.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "user",
+      "type": "string",
+      "description": "User to identify what groups a user is a member of",
+      "value": "$env:USERNAME"
+    }
+  ]
+}

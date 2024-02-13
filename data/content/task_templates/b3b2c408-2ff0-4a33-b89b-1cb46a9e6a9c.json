@@ -1,0 +1,92 @@
+{
+  "id": "b3b2c408-2ff0-4a33-b89b-1cb46a9e6a9c",
+  "name": "Windows - Modify file creation timestamp with PowerShell",
+  "description": "Modifies the file creation timestamp of a specified file. This technique was seen in use by the Stitch RAT.\nTo verify execution, use File Explorer to view the Properties of the file and observe that the Created time is the year 1970.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "f0772440-f0e6-4c8d-b9ef-1e1f0f8ec004",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-ChildItem \"#{file_path}\" | % { $_.CreationTime = \"#{target_date_time}\" }\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6731cc10-b6e4-4844-86f8-bf04fb334c71",
+      "name": "Check dependency 1/1",
+      "description": "A file must exist at the path (#{file_path}) to change the creation time on\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{file_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c79548b3-eab4-4bae-92c1-0ba5e8d8e1a8",
+      "name": "Resolve dependency 1/1",
+      "description": "A file must exist at the path (#{file_path}) to change the creation time on\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Path \"#{file_path}\" -Force | Out-Null\nSet-Content \"#{file_path}\" -Value \"T1551.006 Timestomp\" -Force | Out-Null\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ef98883a-53d7-4fcd-8a6a-19606c79faff",
+      "name": "Re-check dependency 1/1",
+      "description": "A file must exist at the path (#{file_path}) to change the creation time on\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{file_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "6731cc10-b6e4-4844-86f8-bf04fb334c71",
+      "p": "on-success",
+      "o": "f0772440-f0e6-4c8d-b9ef-1e1f0f8ec004"
+    },
+    {
+      "s": "6731cc10-b6e4-4844-86f8-bf04fb334c71",
+      "p": "on-failure",
+      "o": "c79548b3-eab4-4bae-92c1-0ba5e8d8e1a8"
+    },
+    {
+      "s": "c79548b3-eab4-4bae-92c1-0ba5e8d8e1a8",
+      "p": "on-success",
+      "o": "ef98883a-53d7-4fcd-8a6a-19606c79faff"
+    },
+    {
+      "s": "ef98883a-53d7-4fcd-8a6a-19606c79faff",
+      "p": "on-failure",
+      "o": "f0772440-f0e6-4c8d-b9ef-1e1f0f8ec004"
+    }
+  ],
+  "tags": [
+    "T1070.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "target_date_time",
+      "type": "string",
+      "description": "Date/time to replace original timestamps with",
+      "value": "01/01/1970 00:00:00"
+    },
+    {
+      "name": "file_path",
+      "type": "path",
+      "description": "Path of file to change creation timestamp",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\T1551.006_timestomp.txt"
+    }
+  ]
+}

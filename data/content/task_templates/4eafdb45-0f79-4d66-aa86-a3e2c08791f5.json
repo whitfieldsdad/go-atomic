@@ -1,0 +1,32 @@
+{
+  "id": "4eafdb45-0f79-4d66-aa86-a3e2c08791f5",
+  "name": "Disable history collection",
+  "description": "Disables history collection in shells\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "73061e9b-7ba2-49a5-a788-857dc1ee7aa3",
+      "type": "execute-command",
+      "data": {
+        "command": "export HISTCONTROL=ignoreboth\n#{evil_command}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1562.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "evil_command",
+      "type": "string",
+      "description": "Command to run after shell history collection is disabled",
+      "value": "whoami"
+    }
+  ]
+}

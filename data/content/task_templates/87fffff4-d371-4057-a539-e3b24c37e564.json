@@ -1,0 +1,111 @@
+{
+  "id": "87fffff4-d371-4057-a539-e3b24c37e564",
+  "name": "MacOS - Timestomp Date Modified",
+  "description": "Stomps on the modification timestamp of a file using MacOS's SetFile utility\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "d3d87674-05e2-4d55-be93-ceea0e114089",
+      "type": "execute-command",
+      "data": {
+        "command": "SetFile -m #{target_date} #{target_filename}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3e853342-dfa1-4c51-8f85-e9d51f5d29f9",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -f #{target_filename}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7d6bff1a-79a7-4a5d-a7ab-189145e2707c",
+      "name": "Check dependency 1/1",
+      "description": "The file must exist in order to be timestomped\n",
+      "type": "execute-command",
+      "data": {
+        "command": "test -e #{target_filename} \u0026\u0026 exit 0 || exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "208d3bc4-fd5e-4e10-a71d-1ffe3e3db483",
+      "name": "Resolve dependency 1/1",
+      "description": "The file must exist in order to be timestomped\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo 'T1070.006 MacOS file modified timestomp test' \u003e #{target_filename}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "57842604-0e4b-46f0-b9ff-0470290ec922",
+      "name": "Re-check dependency 1/1",
+      "description": "The file must exist in order to be timestomped\n",
+      "type": "execute-command",
+      "data": {
+        "command": "test -e #{target_filename} \u0026\u0026 exit 0 || exit 1\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d3d87674-05e2-4d55-be93-ceea0e114089",
+      "p": "on-success",
+      "o": "3e853342-dfa1-4c51-8f85-e9d51f5d29f9"
+    },
+    {
+      "s": "d3d87674-05e2-4d55-be93-ceea0e114089",
+      "p": "on-failure",
+      "o": "3e853342-dfa1-4c51-8f85-e9d51f5d29f9"
+    },
+    {
+      "s": "7d6bff1a-79a7-4a5d-a7ab-189145e2707c",
+      "p": "on-success",
+      "o": "d3d87674-05e2-4d55-be93-ceea0e114089"
+    },
+    {
+      "s": "7d6bff1a-79a7-4a5d-a7ab-189145e2707c",
+      "p": "on-failure",
+      "o": "208d3bc4-fd5e-4e10-a71d-1ffe3e3db483"
+    },
+    {
+      "s": "208d3bc4-fd5e-4e10-a71d-1ffe3e3db483",
+      "p": "on-success",
+      "o": "57842604-0e4b-46f0-b9ff-0470290ec922"
+    },
+    {
+      "s": "57842604-0e4b-46f0-b9ff-0470290ec922",
+      "p": "on-failure",
+      "o": "d3d87674-05e2-4d55-be93-ceea0e114089"
+    }
+  ],
+  "tags": [
+    "T1070.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "target_filename",
+      "type": "path",
+      "description": "Path of file that we are going to stomp on last modified time\n",
+      "value": "/tmp/T1070.006-modified.txt"
+    },
+    {
+      "name": "target_date",
+      "type": "string",
+      "description": "Date to replace original timestamps with",
+      "value": "01/01/1970"
+    }
+  ]
+}

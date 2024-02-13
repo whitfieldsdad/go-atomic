@@ -1,0 +1,150 @@
+{
+  "id": "a6a5ec26-a2d1-4109-9d35-58b867689329",
+  "name": "Simulating access to Windows Edge Login Data",
+  "description": "Simulates an adversary accessing encrypted credentials from Edge web browser's login database.\nmore info in https://www.forensicfocus.com/articles/chromium-based-microsoft-edge-from-a-forensic-point-of-view/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "3c73582d-a907-4120-83e4-84d948af6221",
+      "type": "execute-command",
+      "data": {
+        "command": "Copy-Item \"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\\Default\" -Destination \"PathToAtomicsFolder\\..\\ExternalPayloads\\Edge\" -Force -Recurse\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1892dae2-390d-4dc3-bef2-1aeda4590b42",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\Edge\" -Force -ErrorAction Ignore -Recurse\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f138a6e4-ab38-4a31-9a24-5d0f6f37cf53",
+      "name": "Check dependency 1/2",
+      "description": "Edge must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "120ce977-6ff9-48e6-a0b8-0e37b2e2e3b9",
+      "name": "Resolve dependency 1/2",
+      "description": "Edge must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "\"Installation is not implemented as Edge is a part of windows\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "66a17e60-3753-4e5b-b3d5-b7387465d84a",
+      "name": "Re-check dependency 1/2",
+      "description": "Edge must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ff9abe2c-c317-460f-a15d-18ef07f8b9f5",
+      "name": "Check dependency 2/2",
+      "description": "Edge login data file must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\\Default\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "53dddd88-dc11-47d4-9ec6-122c2d1f5216",
+      "name": "Resolve dependency 2/2",
+      "description": "Edge login data file must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$edge=\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\"\nStart-Process $edge \nStart-Sleep -s 20\nStop-Process -Name msedge\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3a975be6-43ab-4ffe-893f-a0d5513953cd",
+      "name": "Re-check dependency 2/2",
+      "description": "Edge login data file must exist\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\\Default\") {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3c73582d-a907-4120-83e4-84d948af6221",
+      "p": "on-success",
+      "o": "1892dae2-390d-4dc3-bef2-1aeda4590b42"
+    },
+    {
+      "s": "3c73582d-a907-4120-83e4-84d948af6221",
+      "p": "on-failure",
+      "o": "1892dae2-390d-4dc3-bef2-1aeda4590b42"
+    },
+    {
+      "s": "f138a6e4-ab38-4a31-9a24-5d0f6f37cf53",
+      "p": "on-success",
+      "o": "3c73582d-a907-4120-83e4-84d948af6221"
+    },
+    {
+      "s": "f138a6e4-ab38-4a31-9a24-5d0f6f37cf53",
+      "p": "on-failure",
+      "o": "120ce977-6ff9-48e6-a0b8-0e37b2e2e3b9"
+    },
+    {
+      "s": "120ce977-6ff9-48e6-a0b8-0e37b2e2e3b9",
+      "p": "on-success",
+      "o": "66a17e60-3753-4e5b-b3d5-b7387465d84a"
+    },
+    {
+      "s": "66a17e60-3753-4e5b-b3d5-b7387465d84a",
+      "p": "on-failure",
+      "o": "3c73582d-a907-4120-83e4-84d948af6221"
+    },
+    {
+      "s": "ff9abe2c-c317-460f-a15d-18ef07f8b9f5",
+      "p": "on-success",
+      "o": "3c73582d-a907-4120-83e4-84d948af6221"
+    },
+    {
+      "s": "ff9abe2c-c317-460f-a15d-18ef07f8b9f5",
+      "p": "on-failure",
+      "o": "53dddd88-dc11-47d4-9ec6-122c2d1f5216"
+    },
+    {
+      "s": "53dddd88-dc11-47d4-9ec6-122c2d1f5216",
+      "p": "on-success",
+      "o": "3a975be6-43ab-4ffe-893f-a0d5513953cd"
+    },
+    {
+      "s": "3a975be6-43ab-4ffe-893f-a0d5513953cd",
+      "p": "on-failure",
+      "o": "3c73582d-a907-4120-83e4-84d948af6221"
+    }
+  ],
+  "tags": [
+    "T1555.003",
+    "atomic-red-team"
+  ]
+}

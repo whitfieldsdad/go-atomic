@@ -1,0 +1,111 @@
+{
+  "id": "75483ef8-f10f-444a-bf02-62eb0e48db6f",
+  "name": "Loadable Kernel Module based Rootkit",
+  "description": "Loadable Kernel Module based Rootkit\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "6172dc1d-b32d-4c4d-93f7-7901d06c729f",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo modprobe #{rootkit_name}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "72bf4423-ded0-4d3b-b75e-83d3478cbf6a",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo modprobe -r #{rootkit_name}\nsudo rm /lib/modules/$(uname -r)/#{rootkit_name}.ko\nsudo depmod -a\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f798082b-2223-40f2-b682-053777829683",
+      "name": "Check dependency 1/1",
+      "description": "The kernel module must exist on disk at specified location (#{rootkit_source_path}/#{rootkit_name}.ko)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f /lib/modules/$(uname -r)/#{rootkit_name}.ko ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d1e1d627-4fc5-41a1-843c-12da9c4a90b0",
+      "name": "Resolve dependency 1/1",
+      "description": "The kernel module must exist on disk at specified location (#{rootkit_source_path}/#{rootkit_name}.ko)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo apt install make\nsudo apt install gcc\nif [ ! -d /tmp/T1014 ]; then mkdir /tmp/T1014; touch /tmp/T1014/safe_to_delete; fi;\ncp #{rootkit_source_path}/* /tmp/T1014\ncd /tmp/T1014; make        \nsudo cp /tmp/T1014/#{rootkit_name}.ko /lib/modules/$(uname -r)/\n[ -f /tmp/T1014/safe_to_delete ] \u0026\u0026 rm -rf /tmp/T1014\nsudo depmod -a\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a531109f-963e-4937-9ce2-b92920506685",
+      "name": "Re-check dependency 1/1",
+      "description": "The kernel module must exist on disk at specified location (#{rootkit_source_path}/#{rootkit_name}.ko)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -f /lib/modules/$(uname -r)/#{rootkit_name}.ko ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "6172dc1d-b32d-4c4d-93f7-7901d06c729f",
+      "p": "on-success",
+      "o": "72bf4423-ded0-4d3b-b75e-83d3478cbf6a"
+    },
+    {
+      "s": "6172dc1d-b32d-4c4d-93f7-7901d06c729f",
+      "p": "on-failure",
+      "o": "72bf4423-ded0-4d3b-b75e-83d3478cbf6a"
+    },
+    {
+      "s": "f798082b-2223-40f2-b682-053777829683",
+      "p": "on-success",
+      "o": "6172dc1d-b32d-4c4d-93f7-7901d06c729f"
+    },
+    {
+      "s": "f798082b-2223-40f2-b682-053777829683",
+      "p": "on-failure",
+      "o": "d1e1d627-4fc5-41a1-843c-12da9c4a90b0"
+    },
+    {
+      "s": "d1e1d627-4fc5-41a1-843c-12da9c4a90b0",
+      "p": "on-success",
+      "o": "a531109f-963e-4937-9ce2-b92920506685"
+    },
+    {
+      "s": "a531109f-963e-4937-9ce2-b92920506685",
+      "p": "on-failure",
+      "o": "6172dc1d-b32d-4c4d-93f7-7901d06c729f"
+    }
+  ],
+  "tags": [
+    "T1014",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "rootkit_source_path",
+      "type": "path",
+      "description": "Path to the rootkit source. Used when prerequisites are fetched.",
+      "value": "PathToAtomicsFolder/T1014/src/Linux"
+    },
+    {
+      "name": "rootkit_name",
+      "type": "string",
+      "description": "Module name",
+      "value": "T1014"
+    }
+  ]
+}

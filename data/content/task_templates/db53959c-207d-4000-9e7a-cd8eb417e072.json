@@ -1,0 +1,52 @@
+{
+  "id": "db53959c-207d-4000-9e7a-cd8eb417e072",
+  "name": "Make and modify capabilities of a binary",
+  "description": "Make and modify [capabilities](https://man7.org/linux/man-pages/man7/capabilities.7.html) of a C source code file.\nThe binary doesn't have to modify the UID, but the binary is given the capability to arbitrarily modify it at any time with `setuid(0)`.\nWithout being owned by root, the binary can set the UID to 0.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "8d5b3b3e-77c0-4137-8e7d-eaad7edc5c32",
+      "type": "execute-command",
+      "data": {
+        "command": "cp #{payload} /tmp/cap.c\nmake /tmp/cap\nsudo setcap cap_setuid=ep /tmp/cap\n/tmp/cap\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "76159be6-2f63-499c-bab3-ab25bcac9d39",
+      "type": "execute-command",
+      "data": {
+        "command": "rm /tmp/cap\nrm /tmp/cap.c\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8d5b3b3e-77c0-4137-8e7d-eaad7edc5c32",
+      "p": "on-success",
+      "o": "76159be6-2f63-499c-bab3-ab25bcac9d39"
+    },
+    {
+      "s": "8d5b3b3e-77c0-4137-8e7d-eaad7edc5c32",
+      "p": "on-failure",
+      "o": "76159be6-2f63-499c-bab3-ab25bcac9d39"
+    }
+  ],
+  "tags": [
+    "T1548.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "payload",
+      "type": "path",
+      "description": "cap.c payload",
+      "value": "PathToAtomicsFolder/T1548.001/src/cap.c"
+    }
+  ]
+}

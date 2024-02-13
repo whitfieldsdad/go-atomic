@@ -1,0 +1,86 @@
+{
+  "id": "bec1e95c-83aa-492e-ab77-60c71bbd21b0",
+  "name": "attrib - Remove read-only attribute",
+  "description": "Removes the read-only attribute from a file or folder using the attrib.exe command. Upon execution, no output will be displayed.\nOpen the file in File Explorer \u003e Right Click - Prperties and observe that the Read Only checkbox is empty.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "d257d285-42d0-434b-9517-d0a1ff06d772",
+      "type": "execute-command",
+      "data": {
+        "command": "attrib.exe -r #{file_or_folder}\\*.* /s\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "728050bd-f752-4862-9407-4ff94e923fa1",
+      "name": "Check dependency 1/1",
+      "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST #{file_or_folder} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8787ab68-2698-4139-9313-2222eeae6331",
+      "name": "Resolve dependency 1/1",
+      "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "mkdir #{file_or_folder}\necho T1222.001_attrib1 \u003e\u003e #{file_or_folder}\\T1222.001_attrib1.txt\necho T1222.001_attrib2 \u003e\u003e #{file_or_folder}\\T1222.001_attrib2.txt\nattrib.exe +r #{file_or_folder}\\T1222.001_attrib1.txt\nattrib.exe +r #{file_or_folder}\\T1222.001_attrib2.txt\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e9699ada-d621-457d-9fc0-bc0b137e4629",
+      "name": "Re-check dependency 1/1",
+      "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST #{file_or_folder} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "728050bd-f752-4862-9407-4ff94e923fa1",
+      "p": "on-success",
+      "o": "d257d285-42d0-434b-9517-d0a1ff06d772"
+    },
+    {
+      "s": "728050bd-f752-4862-9407-4ff94e923fa1",
+      "p": "on-failure",
+      "o": "8787ab68-2698-4139-9313-2222eeae6331"
+    },
+    {
+      "s": "8787ab68-2698-4139-9313-2222eeae6331",
+      "p": "on-success",
+      "o": "e9699ada-d621-457d-9fc0-bc0b137e4629"
+    },
+    {
+      "s": "e9699ada-d621-457d-9fc0-bc0b137e4629",
+      "p": "on-failure",
+      "o": "d257d285-42d0-434b-9517-d0a1ff06d772"
+    }
+  ],
+  "tags": [
+    "T1222.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_or_folder",
+      "type": "path",
+      "description": "Path of the file or folder remove attribute.",
+      "value": "%temp%\\T1222.001_attrib"
+    }
+  ]
+}

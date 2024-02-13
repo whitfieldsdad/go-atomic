@@ -1,0 +1,86 @@
+{
+  "id": "ddfb0bc1-3c3f-47e9-a298-550ecfefacbd",
+  "name": "ListCronjobs",
+  "description": "Kubernetes Job is a controller that creates one or more pods and ensures that a specified number of them successfully terminate. Kubernetes Job can be used to run containers that perform finite tasks for batch jobs. Kubernetes CronJob is used to schedule Jobs. Attackers may use Kubernetes CronJob for scheduling execution of malicious code that would run as a container in the cluster.\n",
+  "platforms": [
+    "containers"
+  ],
+  "steps": [
+    {
+      "id": "5c9dbf8f-d6aa-450e-bf16-369e78551736",
+      "type": "execute-command",
+      "data": {
+        "command": "kubectl get cronjobs -n #{namespace}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b557b052-c39d-4031-8eb5-a715eefe31a9",
+      "name": "Check dependency 1/1",
+      "description": "kubectl must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which kubectl\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bf13ed39-044f-4d71-ba15-8429be7710d8",
+      "name": "Resolve dependency 1/1",
+      "description": "kubectl must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"kubectl must be installed manually\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3402034a-752f-4ed4-8d6d-ab394bee915c",
+      "name": "Re-check dependency 1/1",
+      "description": "kubectl must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which kubectl\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b557b052-c39d-4031-8eb5-a715eefe31a9",
+      "p": "on-success",
+      "o": "5c9dbf8f-d6aa-450e-bf16-369e78551736"
+    },
+    {
+      "s": "b557b052-c39d-4031-8eb5-a715eefe31a9",
+      "p": "on-failure",
+      "o": "bf13ed39-044f-4d71-ba15-8429be7710d8"
+    },
+    {
+      "s": "bf13ed39-044f-4d71-ba15-8429be7710d8",
+      "p": "on-success",
+      "o": "3402034a-752f-4ed4-8d6d-ab394bee915c"
+    },
+    {
+      "s": "3402034a-752f-4ed4-8d6d-ab394bee915c",
+      "p": "on-failure",
+      "o": "5c9dbf8f-d6aa-450e-bf16-369e78551736"
+    }
+  ],
+  "tags": [
+    "T1053.007",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "namespace",
+      "type": "string",
+      "description": "K8s namespace to list",
+      "value": "default"
+    }
+  ]
+}

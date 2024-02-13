@@ -1,0 +1,44 @@
+{
+  "id": "e3ad8e83-3089-49ff-817f-e52f8c948090",
+  "name": "Enabling Remote Desktop Protocol via Remote Registry",
+  "description": "Enabling RDP through remote registry.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "b7358064-8f04-4e63-83aa-2620cec3a590",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"hklm\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\Winstations\\RDP-Tcp\" /v SecurityLayer /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "35cf434a-ecc8-4048-8f12-612499686a9c",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"hklm\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\Winstations\\RDP-Tcp\" /v SecurityLayer /t REG_DWORD /d 2 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b7358064-8f04-4e63-83aa-2620cec3a590",
+      "p": "on-success",
+      "o": "35cf434a-ecc8-4048-8f12-612499686a9c"
+    },
+    {
+      "s": "b7358064-8f04-4e63-83aa-2620cec3a590",
+      "p": "on-failure",
+      "o": "35cf434a-ecc8-4048-8f12-612499686a9c"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

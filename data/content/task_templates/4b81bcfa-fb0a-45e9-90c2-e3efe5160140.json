@@ -1,0 +1,44 @@
+{
+  "id": "4b81bcfa-fb0a-45e9-90c2-e3efe5160140",
+  "name": "Disable Remote Desktop Security Settings Through Registry",
+  "description": "A modification registry to disable RDP security settings. This technique was seen in DarkGate malware as part of its installation\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "f8b67665-4e60-450f-a180-732cf0952748",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows NT\\Terminal Services\" /v \"DisableSecuritySettings\" /t REG_DWORD /d 1 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7d44c605-2787-4c1f-be3c-54c018eb0fa8",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add \"HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows NT\\Terminal Services\" /v \"DisableSecuritySettings\" /t REG_DWORD /d 0 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f8b67665-4e60-450f-a180-732cf0952748",
+      "p": "on-success",
+      "o": "7d44c605-2787-4c1f-be3c-54c018eb0fa8"
+    },
+    {
+      "s": "f8b67665-4e60-450f-a180-732cf0952748",
+      "p": "on-failure",
+      "o": "7d44c605-2787-4c1f-be3c-54c018eb0fa8"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

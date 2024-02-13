@@ -1,0 +1,44 @@
+{
+  "id": "18136e38-0530-49b2-b309-eed173787471",
+  "name": "Modify Terminal Services DLL Path",
+  "description": "This atomic test simulates the modification of the ServiceDll value in HKLM\\System\\CurrentControlSet\\services\\TermService\\Parameters. This technique may be leveraged by adversaries to establish persistence by loading a patched version of the DLL containing malicious code.",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "9e3f30a2-e080-4dec-9876-6c2dc5070c0a",
+      "type": "execute-command",
+      "data": {
+        "command": "$termsrvDll = \"C:\\Windows\\System32\\termsrv.dll\"\n\n$ACL = Get-Acl $termsrvDll\n$permission = \"Administrators\",\"FullControl\",\"Allow\"\n$accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule $permission\n$ACL.SetAccessRule($accessRule)\nSet-Acl -Path $termsrvDll -AclObject $ACL\n\nCopy-Item -Path $termsrvDll -Destination \"$HOME\\AtomicTest.dll\"\n\n$newServiceDll = \"$HOME\\AtomicTest.dll\"\n\n$registryPath = \"HKLM:\\System\\CurrentControlSet\\services\\TermService\\Parameters\"\n\n# Check if the registry key exists\nif (Test-Path -Path $registryPath) {\n    # Modify the ServiceDll value in the registry\n    Set-ItemProperty -Path $registryPath -Name \"ServiceDll\" -Value $newServiceDll\n    Write-Host \"ServiceDll value in the registry has been updated to: $newServiceDll\"\n} else {\n    Write-Host \"Registry key not found. Make sure the 'TermService\\Parameters' key exists.\"\n}",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4160d64e-bb54-4192-9de7-3d69c56bdf23",
+      "type": "execute-command",
+      "data": {
+        "command": "Set-ItemProperty -Path \"HKLM:\\System\\CurrentControlSet\\services\\TermService\\Parameters\" -Name \"ServiceDll\" -Value \"C:\\Windows\\System32\\termsrv.dll\"",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "9e3f30a2-e080-4dec-9876-6c2dc5070c0a",
+      "p": "on-success",
+      "o": "4160d64e-bb54-4192-9de7-3d69c56bdf23"
+    },
+    {
+      "s": "9e3f30a2-e080-4dec-9876-6c2dc5070c0a",
+      "p": "on-failure",
+      "o": "4160d64e-bb54-4192-9de7-3d69c56bdf23"
+    }
+  ],
+  "tags": [
+    "T1505.005",
+    "atomic-red-team"
+  ]
+}

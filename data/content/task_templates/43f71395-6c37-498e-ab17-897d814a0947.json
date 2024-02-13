@@ -1,0 +1,98 @@
+{
+  "id": "43f71395-6c37-498e-ab17-897d814a0947",
+  "name": "Remove Account From Domain Admin Group",
+  "description": "This test will remove an account from the domain admins group\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c8b85f0c-1707-40c0-952d-14f9923c868c",
+      "type": "execute-command",
+      "data": {
+        "command": "$PWord = ConvertTo-SecureString -String #{super_pass} -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList #{super_user}, $PWord\nif((Get-ADUser #{remove_user} -Properties memberof).memberof -like \"CN=Domain Admins*\"){\n  Remove-ADGroupMember -Identity \"Domain Admins\" -Members #{remove_user} -Credential $Credential -Confirm:$False\n} else{\n    write-host \"Error - Make sure #{remove_user} is in the domain admins group\" -foregroundcolor Red\n}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "e3fcb8f3-b2bf-497a-bcf4-5f7773f97331",
+      "name": "Check dependency 1/1",
+      "description": "Requires the Active Directory module for powershell to be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5435ba7f-4dac-4d39-a725-7a4e8772d6f8",
+      "name": "Resolve dependency 1/1",
+      "description": "Requires the Active Directory module for powershell to be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Add-WindowsCapability -Online -Name \"Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "99bbef43-4d28-4a9c-8099-99904ab964eb",
+      "name": "Re-check dependency 1/1",
+      "description": "Requires the Active Directory module for powershell to be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e3fcb8f3-b2bf-497a-bcf4-5f7773f97331",
+      "p": "on-success",
+      "o": "c8b85f0c-1707-40c0-952d-14f9923c868c"
+    },
+    {
+      "s": "e3fcb8f3-b2bf-497a-bcf4-5f7773f97331",
+      "p": "on-failure",
+      "o": "5435ba7f-4dac-4d39-a725-7a4e8772d6f8"
+    },
+    {
+      "s": "5435ba7f-4dac-4d39-a725-7a4e8772d6f8",
+      "p": "on-success",
+      "o": "99bbef43-4d28-4a9c-8099-99904ab964eb"
+    },
+    {
+      "s": "99bbef43-4d28-4a9c-8099-99904ab964eb",
+      "p": "on-failure",
+      "o": "c8b85f0c-1707-40c0-952d-14f9923c868c"
+    }
+  ],
+  "tags": [
+    "T1531",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "super_user",
+      "type": "string",
+      "description": "Account used to run the execution command (must include domain).",
+      "value": "domain\\super_user"
+    },
+    {
+      "name": "super_pass",
+      "type": "string",
+      "description": "super_user account password.",
+      "value": "password"
+    },
+    {
+      "name": "remove_user",
+      "type": "string",
+      "description": "Account to remove from domain admins.",
+      "value": "remove_user"
+    }
+  ]
+}

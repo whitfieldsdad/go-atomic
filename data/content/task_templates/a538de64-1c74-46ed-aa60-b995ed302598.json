@@ -1,0 +1,31 @@
+{
+  "id": "a538de64-1c74-46ed-aa60-b995ed302598",
+  "name": "PowerShell Command Execution",
+  "description": "Use of obfuscated PowerShell to execute an arbitrary command; outputs \"Hello, from PowerShell!\". Example is from the 2021 Threat Detection Report by Red Canary.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "872f1c8f-29a2-46e2-9d00-692e81080b2d",
+      "type": "execute-command",
+      "data": {
+        "command": "powershell.exe -e  #{obfuscated_code}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1059.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "obfuscated_code",
+      "type": "string",
+      "description": "Defaults to: Invoke-Expression with a \"Write-Host\" line.",
+      "value": "JgAgACgAZwBjAG0AIAAoACcAaQBlAHsAMAB9ACcAIAAtAGYAIAAnAHgAJwApACkAIAAoACIAVwByACIAKwAiAGkAdAAiACsAIgBlAC0ASAAiACsAIgBvAHMAdAAgACcASAAiACsAIgBlAGwAIgArACIAbABvACwAIABmAHIAIgArACIAbwBtACAAUAAiACsAIgBvAHcAIgArACIAZQByAFMAIgArACIAaAAiACsAIgBlAGwAbAAhACcAIgApAA=="
+    }
+  ]
+}

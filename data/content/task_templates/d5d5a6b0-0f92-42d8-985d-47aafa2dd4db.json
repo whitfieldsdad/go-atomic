@@ -1,0 +1,23 @@
+{
+  "id": "d5d5a6b0-0f92-42d8-985d-47aafa2dd4db",
+  "name": "System Time Discovery W32tm as a Delay",
+  "description": "identifies DCRat delay time tactics using w32tm.\nhttps://research.splunk.com/endpoint/b2cc69e7-11ba-42dc-a269-59c069a48870/\nhttps://blogs.blackberry.com/en/2022/05/dirty-deeds-done-dirt-cheap-russian-rat-offers-backdoor-bargains\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "12df8393-8ad0-4cb2-b7ba-2b6964384c74",
+      "type": "execute-command",
+      "data": {
+        "command": "W32tm /stripchart /computer:localhost /period:5 /dataonly /samples:2\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1124",
+    "atomic-red-team"
+  ]
+}

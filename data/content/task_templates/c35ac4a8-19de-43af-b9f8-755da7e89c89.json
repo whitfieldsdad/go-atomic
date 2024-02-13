@@ -1,0 +1,97 @@
+{
+  "id": "c35ac4a8-19de-43af-b9f8-755da7e89c89",
+  "name": "Create Systemd Service file,  Enable the service , Modify and Reload the service.",
+  "description": "This test creates a systemd service unit file and enables it to autostart on boot. Once service is created and enabled, it also modifies this same service file showcasing both Creation and Modification of system process. \n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "060bcef6-aa50-4ebc-b775-fba533da2168",
+      "type": "execute-command",
+      "data": {
+        "command": "cat \u003e /etc/init.d/T1543.002 \u003c\u003c EOF\n#!/bin/bash\n### BEGIN INIT INFO\n# Provides : Atomic Test T1543.002\n# Required-Start: $all\n# Required-Stop : \n# Default-Start: 2 3 4 5\n# Default-Stop: \n# Short Description: Atomic Test for Systemd Service Creation\n### END INIT INFO\npython3 -c \"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBDcmVhdGluZyBTeXN0ZW1kIFNlcnZpY2UgVDE1NDMuMDAyID4gL3RtcC9UMTU0My4wMDIuc3lzdGVtZC5zZXJ2aWNlLmNyZWF0aW9uJykK'))\"\nEOF\n\nchmod +x /etc/init.d/T1543.002\nif [ $(cat /etc/os-release | grep -i ID=ubuntu) ] || [ $(cat /etc/os-release | grep -i ID=kali) ]; then update-rc.d T1543.002 defaults; elif [ $(cat /etc/os-release | grep -i 'ID=\"centos\"') ]; then chkconfig T1543.002 on ; else echo \"Please run this test on Ubnutu , kali OR centos\" ; fi ;\nsystemctl enable T1543.002\nsystemctl start T1543.002\n\necho \"python3 -c \\\"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBtb2RpZnlpbmcgYSBTeXN0ZW1kIFNlcnZpY2UgVDE1NDMuMDAyID4gL3RtcC9UMTU0My4wMDIuc3lzdGVtZC5zZXJ2aWNlLm1vZGlmaWNhdGlvbicpCg=='))\\\"\" | sudo tee -a /etc/init.d/T1543.002\nsystemctl daemon-reload\nsystemctl restart T1543.002\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "88be616c-dbeb-4a10-8df2-b854659e0620",
+      "type": "execute-command",
+      "data": {
+        "command": "systemctl stop T1543.002\nsystemctl disable T1543.002\nrm -rf /etc/init.d/T1543.002\nsystemctl daemon-reload\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7ffb6486-5652-45b4-bc12-c4cae18ddb64",
+      "name": "Check dependency 1/1",
+      "description": "System must be Ubuntu ,Kali OR CentOS.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ $(cat /etc/os-release | grep -i ID=ubuntu) ] || [ $(cat /etc/os-release | grep -i ID=kali) ] || [ $(cat /etc/os-release | grep -i 'ID=\"centos\"') ]; then exit /b 0; else exit /b 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1d415788-315f-48f1-a88d-34cf0adef876",
+      "name": "Resolve dependency 1/1",
+      "description": "System must be Ubuntu ,Kali OR CentOS.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo Please run from Ubuntu ,Kali OR CentOS.\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b48bdcaa-71d0-4711-995f-0c747ddcd3f1",
+      "name": "Re-check dependency 1/1",
+      "description": "System must be Ubuntu ,Kali OR CentOS.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ $(cat /etc/os-release | grep -i ID=ubuntu) ] || [ $(cat /etc/os-release | grep -i ID=kali) ] || [ $(cat /etc/os-release | grep -i 'ID=\"centos\"') ]; then exit /b 0; else exit /b 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "060bcef6-aa50-4ebc-b775-fba533da2168",
+      "p": "on-success",
+      "o": "88be616c-dbeb-4a10-8df2-b854659e0620"
+    },
+    {
+      "s": "060bcef6-aa50-4ebc-b775-fba533da2168",
+      "p": "on-failure",
+      "o": "88be616c-dbeb-4a10-8df2-b854659e0620"
+    },
+    {
+      "s": "7ffb6486-5652-45b4-bc12-c4cae18ddb64",
+      "p": "on-success",
+      "o": "060bcef6-aa50-4ebc-b775-fba533da2168"
+    },
+    {
+      "s": "7ffb6486-5652-45b4-bc12-c4cae18ddb64",
+      "p": "on-failure",
+      "o": "1d415788-315f-48f1-a88d-34cf0adef876"
+    },
+    {
+      "s": "1d415788-315f-48f1-a88d-34cf0adef876",
+      "p": "on-success",
+      "o": "b48bdcaa-71d0-4711-995f-0c747ddcd3f1"
+    },
+    {
+      "s": "b48bdcaa-71d0-4711-995f-0c747ddcd3f1",
+      "p": "on-failure",
+      "o": "060bcef6-aa50-4ebc-b775-fba533da2168"
+    }
+  ],
+  "tags": [
+    "T1543.002",
+    "atomic-red-team"
+  ]
+}

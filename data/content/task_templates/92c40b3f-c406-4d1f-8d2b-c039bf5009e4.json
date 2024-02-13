@@ -1,0 +1,123 @@
+{
+  "id": "92c40b3f-c406-4d1f-8d2b-c039bf5009e4",
+  "name": "Azure AD - adding service principal to Azure AD role",
+  "description": "The adversaries want to add service principal to some Azure AD role. Threat actor \nmay be interested primarily in highly privileged roles, e.g. Global Administrator, Application Administrator, \nPrivileged Authentication Administrator (this role can reset Global Administrator password!).\nBy default, the role Global Reader is assigned to service principal in this test.\n\nThe account you use to run the PowerShell command should have Privileged Role Administrator or Global Administrator role in your Azure AD.\n\nDetection hint - check Activity \"Add member to role\" in Azure AD Audit Logs. In targer you will also see Service Principal as a type.\n",
+  "platforms": [
+    "azure-ad"
+  ],
+  "steps": [
+    {
+      "id": "ca3e95aa-2736-47c3-b912-28e6097f49fb",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module -Name AzureAD\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential\n\n$sp = Get-AzureADServicePrincipal -Filter \"DisplayName eq '#{service_principal_name}'\"\nif ($sp -eq $null) { Write-Warning \"Service Principal not found\"; exit }\n$role = Get-AzureADDirectoryRole -Filter \"DisplayName eq '#{role_name}'\"\nif ($role -eq $null) { Write-Warning \"Role not found\"; exit }\nAdd-AzureADDirectoryRoleMember -ObjectId $role.ObjectId -RefObjectId $sp.ObjectId\nWrite-Host \"Service Principal $($sp.DisplayName) was added to $($role.DisplayName)\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d4e374e6-5c9a-405b-9526-4725d7d39ed8",
+      "type": "execute-command",
+      "data": {
+        "command": "Import-Module -Name AzureAD -ErrorAction Ignore\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential -ErrorAction Ignore\n\n$sp = Get-AzureADServicePrincipal -Filter \"DisplayName eq '#{service_principal_name}'\"\nif ($sp -eq $null) { Write-Warning \"Service Principal not found\"; exit }\n$role = Get-AzureADDirectoryRole -Filter \"DisplayName eq '#{role_name}'\"\nif ($role -eq $null) { Write-Warning \"Role not found\"; exit }\n\nRemove-AzureADDirectoryRoleMember -ObjectId $role.ObjectId -MemberId $sp.ObjectId\nWrite-Host \"Service Principal $($sp.DisplayName) was removed from $($role.DisplayName) role\"\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "df71c2e6-0d0d-4196-ab58-8c52ebc018ba",
+      "name": "Check dependency 1/1",
+      "description": "AzureAD module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b75fbd76-92e9-4fb7-97d7-d0891f379804",
+      "name": "Resolve dependency 1/1",
+      "description": "AzureAD module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name AzureAD -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "dd311b33-5bed-4dd3-abde-6e2d82f08fe0",
+      "name": "Re-check dependency 1/1",
+      "description": "AzureAD module must be installed.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ca3e95aa-2736-47c3-b912-28e6097f49fb",
+      "p": "on-success",
+      "o": "d4e374e6-5c9a-405b-9526-4725d7d39ed8"
+    },
+    {
+      "s": "ca3e95aa-2736-47c3-b912-28e6097f49fb",
+      "p": "on-failure",
+      "o": "d4e374e6-5c9a-405b-9526-4725d7d39ed8"
+    },
+    {
+      "s": "df71c2e6-0d0d-4196-ab58-8c52ebc018ba",
+      "p": "on-success",
+      "o": "ca3e95aa-2736-47c3-b912-28e6097f49fb"
+    },
+    {
+      "s": "df71c2e6-0d0d-4196-ab58-8c52ebc018ba",
+      "p": "on-failure",
+      "o": "b75fbd76-92e9-4fb7-97d7-d0891f379804"
+    },
+    {
+      "s": "b75fbd76-92e9-4fb7-97d7-d0891f379804",
+      "p": "on-success",
+      "o": "dd311b33-5bed-4dd3-abde-6e2d82f08fe0"
+    },
+    {
+      "s": "dd311b33-5bed-4dd3-abde-6e2d82f08fe0",
+      "p": "on-failure",
+      "o": "ca3e95aa-2736-47c3-b912-28e6097f49fb"
+    }
+  ],
+  "tags": [
+    "T1098",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Azure AD username",
+      "value": "jonh@contoso.com"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Azure AD password",
+      "value": "p4sswd"
+    },
+    {
+      "name": "service_principal_name",
+      "type": "string",
+      "description": "Name of the service principal",
+      "value": "SuperSP"
+    },
+    {
+      "name": "role_name",
+      "type": "string",
+      "description": "Name of the targeted Azure AD role",
+      "value": "Global Reader"
+    }
+  ]
+}

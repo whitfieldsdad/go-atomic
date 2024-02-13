@@ -1,0 +1,170 @@
+{
+  "id": "e62d23ef-3153-4837-8625-fa4a3829134d",
+  "name": "Azure AD - Create a new user",
+  "description": "Creates a new user in Azure AD. Upon successful creation, a new user will be created. Adversaries create new users so that their malicious activity does not interrupt the normal functions of the compromised users and can remain undetected for a long time.",
+  "platforms": [
+    "azure-ad"
+  ],
+  "steps": [
+    {
+      "id": "1a664dff-e470-4181-88e2-69deeed2f8db",
+      "type": "execute-command",
+      "data": {
+        "command": "Connect-AzureAD\n$userprincipalname = \"#{userprincipalname}\"\n$username = \"#{username}\"      \n$password = \"#{password}\"\n$PasswordProfile = New-Object -TypeName Microsoft.Open.AzureAD.Model.PasswordProfile\n$PasswordProfile.Password = $password\nNew-AzureADUser -DisplayName $username -PasswordProfile $PasswordProfile -UserPrincipalName $userprincipalname -AccountEnabled $true -MailNickName $username      ",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "562800df-8603-4af4-ba6c-a1f6594a601e",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-AzureADUser -ObjectId \"#{userprincipalname}\"",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "cffbd430-96cd-4913-b457-03138d645195",
+      "name": "Check dependency 1/2",
+      "description": "Check if AzureAD PowerShell module is installed",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-InstalledModule -Name AzureAD",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "234cf1c5-9b52-433e-8b93-e0e71d026932",
+      "name": "Resolve dependency 1/2",
+      "description": "Check if AzureAD PowerShell module is installed",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"use the following to install AzureAD PowerShell module - Install-Module -Name AzureAD -Scope CurrentUser -Repository PSGallery -Force\"",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5aee7c1b-4483-4042-853f-2bb9a8a0e89f",
+      "name": "Re-check dependency 1/2",
+      "description": "Check if AzureAD PowerShell module is installed",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-InstalledModule -Name AzureAD",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4e91a4ea-c369-4433-aac4-3c5d34b4e0d6",
+      "name": "Check dependency 2/2",
+      "description": "Check if AzureAD PowerShell module is installed",
+      "type": "execute-command",
+      "data": {
+        "command": "Update the input arguments so the userprincipalname value is accurate for your environment",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "522735f3-a2a0-4a8c-86dd-44f64e298f17",
+      "name": "Resolve dependency 2/2",
+      "description": "Check if AzureAD PowerShell module is installed",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"Update the input arguments in the .yaml file so that the userprincipalname value is accurate for your environment\"",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b6131538-ccbc-404d-9ad2-e22b44c4dfe8",
+      "name": "Re-check dependency 2/2",
+      "description": "Check if AzureAD PowerShell module is installed",
+      "type": "execute-command",
+      "data": {
+        "command": "Update the input arguments so the userprincipalname value is accurate for your environment",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1a664dff-e470-4181-88e2-69deeed2f8db",
+      "p": "on-success",
+      "o": "562800df-8603-4af4-ba6c-a1f6594a601e"
+    },
+    {
+      "s": "1a664dff-e470-4181-88e2-69deeed2f8db",
+      "p": "on-failure",
+      "o": "562800df-8603-4af4-ba6c-a1f6594a601e"
+    },
+    {
+      "s": "cffbd430-96cd-4913-b457-03138d645195",
+      "p": "on-success",
+      "o": "1a664dff-e470-4181-88e2-69deeed2f8db"
+    },
+    {
+      "s": "cffbd430-96cd-4913-b457-03138d645195",
+      "p": "on-failure",
+      "o": "234cf1c5-9b52-433e-8b93-e0e71d026932"
+    },
+    {
+      "s": "234cf1c5-9b52-433e-8b93-e0e71d026932",
+      "p": "on-success",
+      "o": "5aee7c1b-4483-4042-853f-2bb9a8a0e89f"
+    },
+    {
+      "s": "5aee7c1b-4483-4042-853f-2bb9a8a0e89f",
+      "p": "on-failure",
+      "o": "1a664dff-e470-4181-88e2-69deeed2f8db"
+    },
+    {
+      "s": "4e91a4ea-c369-4433-aac4-3c5d34b4e0d6",
+      "p": "on-success",
+      "o": "1a664dff-e470-4181-88e2-69deeed2f8db"
+    },
+    {
+      "s": "4e91a4ea-c369-4433-aac4-3c5d34b4e0d6",
+      "p": "on-failure",
+      "o": "522735f3-a2a0-4a8c-86dd-44f64e298f17"
+    },
+    {
+      "s": "522735f3-a2a0-4a8c-86dd-44f64e298f17",
+      "p": "on-success",
+      "o": "b6131538-ccbc-404d-9ad2-e22b44c4dfe8"
+    },
+    {
+      "s": "b6131538-ccbc-404d-9ad2-e22b44c4dfe8",
+      "p": "on-failure",
+      "o": "1a664dff-e470-4181-88e2-69deeed2f8db"
+    }
+  ],
+  "tags": [
+    "T1136.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password for the new Azure AD user being created",
+      "value": "reallylongcredential12345ART-ydsfghsdgfhsdgfhgsdhfg"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Display name of the new user to be created in Azure AD",
+      "value": "atomicredteam"
+    },
+    {
+      "name": "userprincipalname",
+      "type": "string",
+      "description": "User principal name (UPN) for the new Azure user being created format email address",
+      "value": "atomicredteam@yourdomain.com"
+    }
+  ]
+}

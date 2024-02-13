@@ -1,0 +1,44 @@
+{
+  "id": "cfdc954d-4bb0-4027-875b-a1893ce406f2",
+  "name": "Create shortcut to cmd in startup folders",
+  "description": "LNK file to launch CMD placed in startup folder. Upon execution, open File Explorer and browse to \"%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\\"\nto view the new shortcut.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ceb5306b-a118-48e7-86a4-7948fd753c35",
+      "type": "execute-command",
+      "data": {
+        "command": "$Shell = New-Object -ComObject (\"WScript.Shell\")\n$ShortCut = $Shell.CreateShortcut(\"$env:APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\T1547.009.lnk\")\n$ShortCut.TargetPath=\"cmd.exe\"\n$ShortCut.WorkingDirectory = \"C:\\Windows\\System32\";\n$ShortCut.WindowStyle = 1;\n$ShortCut.Description = \"T1547.009.\";\n$ShortCut.Save()\n\n$Shell = New-Object -ComObject (\"WScript.Shell\")\n$ShortCut = $Shell.CreateShortcut(\"$env:ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\T1547.009.lnk\")\n$ShortCut.TargetPath=\"cmd.exe\"\n$ShortCut.WorkingDirectory = \"C:\\Windows\\System32\";\n$ShortCut.WindowStyle = 1;\n$ShortCut.Description = \"T1547.009.\";\n$ShortCut.Save()\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fb09e4ec-215c-4720-9c32-9ac180cecb6e",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item \"$env:APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\T1547.009.lnk\" -ErrorAction Ignore\nRemove-Item \"$env:ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\T1547.009.lnk\" -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ceb5306b-a118-48e7-86a4-7948fd753c35",
+      "p": "on-success",
+      "o": "fb09e4ec-215c-4720-9c32-9ac180cecb6e"
+    },
+    {
+      "s": "ceb5306b-a118-48e7-86a4-7948fd753c35",
+      "p": "on-failure",
+      "o": "fb09e4ec-215c-4720-9c32-9ac180cecb6e"
+    }
+  ],
+  "tags": [
+    "T1547.009",
+    "atomic-red-team"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "bdaebd56-368b-4970-a523-f905ff4a8a51",
+  "name": "Environment variable scripts",
+  "description": "An adversary may place scripts in an environment variable because they can't or don't wish to create script files on the host. The following test, in a bash shell, exports the ART variable containing an echo command, then pipes the variable to /bin/bash\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "d4943df0-e905-4d02-9965-cddc3f5066df",
+      "type": "execute-command",
+      "data": {
+        "command": "export ART='echo \"Atomic Red Team was here... T1059.004\"'\necho $ART |/bin/sh\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1108f241-d2a6-46ca-ad99-006d2146f0be",
+      "type": "execute-command",
+      "data": {
+        "command": "unset ART\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d4943df0-e905-4d02-9965-cddc3f5066df",
+      "p": "on-success",
+      "o": "1108f241-d2a6-46ca-ad99-006d2146f0be"
+    },
+    {
+      "s": "d4943df0-e905-4d02-9965-cddc3f5066df",
+      "p": "on-failure",
+      "o": "1108f241-d2a6-46ca-ad99-006d2146f0be"
+    }
+  ],
+  "tags": [
+    "T1059.004",
+    "atomic-red-team"
+  ]
+}

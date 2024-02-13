@@ -1,0 +1,52 @@
+{
+  "id": "0f47ceb1-720f-4275-96b8-21f0562217ac",
+  "name": "Screencapture",
+  "description": "Use screencapture command to collect a full desktop screenshot\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "f38892a3-0577-4381-91b8-11c28f85b56e",
+      "type": "execute-command",
+      "data": {
+        "command": "screencapture #{output_file}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "2cb16181-b93e-48d3-9d5c-8faedbe84f8d",
+      "type": "execute-command",
+      "data": {
+        "command": "rm #{output_file}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f38892a3-0577-4381-91b8-11c28f85b56e",
+      "p": "on-success",
+      "o": "2cb16181-b93e-48d3-9d5c-8faedbe84f8d"
+    },
+    {
+      "s": "f38892a3-0577-4381-91b8-11c28f85b56e",
+      "p": "on-failure",
+      "o": "2cb16181-b93e-48d3-9d5c-8faedbe84f8d"
+    }
+  ],
+  "tags": [
+    "T1113",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Output file path",
+      "value": "/tmp/T1113_desktop.png"
+    }
+  ]
+}

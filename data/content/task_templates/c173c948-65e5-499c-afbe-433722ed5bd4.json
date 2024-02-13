@@ -1,0 +1,44 @@
+{
+  "id": "c173c948-65e5-499c-afbe-433722ed5bd4",
+  "name": "Windows Add Registry Value to Load Service in Safe Mode with Network",
+  "description": "Modify the registry to allow a driver, service, to persist in Safe Mode with networking.\nsee https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/ and https://blog.didierstevens.com/2007/03/26/playing-with-safe-mode/ for further details.\nAdding a subkey to Netowrk with the name of your service and a default value set to Service, makes that your service will be started when you boot into Safe Mode with networking.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "ea087ec2-39f2-4725-b648-69bad9d7da98",
+      "type": "execute-command",
+      "data": {
+        "command": "REG ADD \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Network\\AtomicSafeMode\" /VE /T REG_SZ /F /D \"Service\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "edc92733-6159-4d81-be30-f6ccd5ae5678",
+      "type": "execute-command",
+      "data": {
+        "command": "reg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Network\\AtomicSafeMode\" /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "ea087ec2-39f2-4725-b648-69bad9d7da98",
+      "p": "on-success",
+      "o": "edc92733-6159-4d81-be30-f6ccd5ae5678"
+    },
+    {
+      "s": "ea087ec2-39f2-4725-b648-69bad9d7da98",
+      "p": "on-failure",
+      "o": "edc92733-6159-4d81-be30-f6ccd5ae5678"
+    }
+  ],
+  "tags": [
+    "T1112",
+    "atomic-red-team"
+  ]
+}

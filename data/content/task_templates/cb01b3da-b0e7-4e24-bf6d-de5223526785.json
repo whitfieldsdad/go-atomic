@@ -1,0 +1,31 @@
+{
+  "id": "cb01b3da-b0e7-4e24-bf6d-de5223526785",
+  "name": "Add a driver",
+  "description": "Install a driver via pnputil.exe lolbin\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "8e187eca-f45c-4b01-8fce-11d6d75db7f5",
+      "type": "execute-command",
+      "data": {
+        "command": "pnputil.exe /add-driver \"#{driver_inf}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1547",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "driver_inf",
+      "type": "path",
+      "description": "A built-in, already installed windows driver inf",
+      "value": "C:\\Windows\\INF\\usbstor.inf"
+    }
+  ]
+}

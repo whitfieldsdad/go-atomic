@@ -1,0 +1,164 @@
+{
+  "id": "52778a8f-a10b-41a4-9eae-52ddb74072bf",
+  "name": "MSFT Get-GPO Cmdlet",
+  "description": "The Get-GPO cmdlet gets one Group Policy Object (GPO) or all the GPOs in a domain. Tested on Windows Server 2019 as a domain user with computer joined to domain. Reference: https://docs.microsoft.com/en-us/powershell/module/grouppolicy/get-gpo?view=windowsserver2022-ps",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "1236ad6a-0b95-4a3b-88b1-4a8573e7cc7e",
+      "type": "execute-command",
+      "data": {
+        "command": "Get-GPO -Domain $ENV:userdnsdomain #{gpo_param} \u003e\u003e #{gpo_output}",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5a9bd0f0-ccd0-4752-9dba-1c0dfab8216b",
+      "type": "execute-command",
+      "data": {
+        "command": "del $env:temp\\GPO_Output.txt -erroraction silentlycontinue",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9cf0dcfb-baea-4e48-b85a-70d2e7c3e5ea",
+      "name": "Check dependency 1/2",
+      "description": "Add Rsat.ActiveDirectory.DS",
+      "type": "execute-command",
+      "data": {
+        "command": "if(Get-WindowsCapability -Online -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0 | Where-Object { $_.State -eq 'Installed' }){ exit 0 } else { exit 1 }",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f1de34cf-c300-498c-869b-53af45b98c20",
+      "name": "Resolve dependency 1/2",
+      "description": "Add Rsat.ActiveDirectory.DS",
+      "type": "execute-command",
+      "data": {
+        "command": "Add-WindowsCapability -online -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b6994d29-500a-43a3-84e9-e5b1ffdb7456",
+      "name": "Re-check dependency 1/2",
+      "description": "Add Rsat.ActiveDirectory.DS",
+      "type": "execute-command",
+      "data": {
+        "command": "if(Get-WindowsCapability -Online -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0 | Where-Object { $_.State -eq 'Installed' }){ exit 0 } else { exit 1 }",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c0195d70-bc6c-420b-a83f-e642cf3c436d",
+      "name": "Check dependency 2/2",
+      "description": "Add Rsat.GroupPolicy.Management.Tools ###Two RSAT Modules needed for this to work on Win10, WinServer 2019 works by default. This will take a long time (almost 2 minutes) to install RSAT Manually###.",
+      "type": "execute-command",
+      "data": {
+        "command": "if(Get-WindowsCapability -Online -Name Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0 | Where-Object { $_.State -eq 'Installed' }){ exit 0 } else { exit 1 }",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "21cc754d-35e2-4e16-a9fc-d8c52cce9a77",
+      "name": "Resolve dependency 2/2",
+      "description": "Add Rsat.GroupPolicy.Management.Tools ###Two RSAT Modules needed for this to work on Win10, WinServer 2019 works by default. This will take a long time (almost 2 minutes) to install RSAT Manually###.",
+      "type": "execute-command",
+      "data": {
+        "command": "Add-WindowsCapability -online -Name Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f944d614-2373-4149-958a-6d7e47ab57b9",
+      "name": "Re-check dependency 2/2",
+      "description": "Add Rsat.GroupPolicy.Management.Tools ###Two RSAT Modules needed for this to work on Win10, WinServer 2019 works by default. This will take a long time (almost 2 minutes) to install RSAT Manually###.",
+      "type": "execute-command",
+      "data": {
+        "command": "if(Get-WindowsCapability -Online -Name Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0 | Where-Object { $_.State -eq 'Installed' }){ exit 0 } else { exit 1 }",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "1236ad6a-0b95-4a3b-88b1-4a8573e7cc7e",
+      "p": "on-success",
+      "o": "5a9bd0f0-ccd0-4752-9dba-1c0dfab8216b"
+    },
+    {
+      "s": "1236ad6a-0b95-4a3b-88b1-4a8573e7cc7e",
+      "p": "on-failure",
+      "o": "5a9bd0f0-ccd0-4752-9dba-1c0dfab8216b"
+    },
+    {
+      "s": "9cf0dcfb-baea-4e48-b85a-70d2e7c3e5ea",
+      "p": "on-success",
+      "o": "1236ad6a-0b95-4a3b-88b1-4a8573e7cc7e"
+    },
+    {
+      "s": "9cf0dcfb-baea-4e48-b85a-70d2e7c3e5ea",
+      "p": "on-failure",
+      "o": "f1de34cf-c300-498c-869b-53af45b98c20"
+    },
+    {
+      "s": "f1de34cf-c300-498c-869b-53af45b98c20",
+      "p": "on-success",
+      "o": "b6994d29-500a-43a3-84e9-e5b1ffdb7456"
+    },
+    {
+      "s": "b6994d29-500a-43a3-84e9-e5b1ffdb7456",
+      "p": "on-failure",
+      "o": "1236ad6a-0b95-4a3b-88b1-4a8573e7cc7e"
+    },
+    {
+      "s": "c0195d70-bc6c-420b-a83f-e642cf3c436d",
+      "p": "on-success",
+      "o": "1236ad6a-0b95-4a3b-88b1-4a8573e7cc7e"
+    },
+    {
+      "s": "c0195d70-bc6c-420b-a83f-e642cf3c436d",
+      "p": "on-failure",
+      "o": "21cc754d-35e2-4e16-a9fc-d8c52cce9a77"
+    },
+    {
+      "s": "21cc754d-35e2-4e16-a9fc-d8c52cce9a77",
+      "p": "on-success",
+      "o": "f944d614-2373-4149-958a-6d7e47ab57b9"
+    },
+    {
+      "s": "f944d614-2373-4149-958a-6d7e47ab57b9",
+      "p": "on-failure",
+      "o": "1236ad6a-0b95-4a3b-88b1-4a8573e7cc7e"
+    }
+  ],
+  "tags": [
+    "T1615",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "gpo_output",
+      "type": "string",
+      "description": "The output of the Get-GPO cmdlet",
+      "value": "$env:temp\\GPO_Output.txt"
+    },
+    {
+      "name": "gpo_param",
+      "type": "string",
+      "description": "You can specify a GPO by its display name or by its globally unique identifier (GUID) to get a single GPO, or you can get all the GPOs in the domain through the All parameter",
+      "value": "-All"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "848e43b3-4c0a-4e4c-b4c9-d1e8cea9651c",
+  "name": "Real-time system log clearance/deletion",
+  "description": "This test reads real-time system log file and writes empty string to it, thus clearing the log file without tampering with the logging process\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "0d14d4de-b29a-4a05-8380-2d22f0fa6b68",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo log -f /var/log/system.log | : \u003e /var/log/system.log\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1070.002",
+    "atomic-red-team"
+  ]
+}

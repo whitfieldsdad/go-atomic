@@ -1,0 +1,44 @@
+{
+  "id": "d29f01ea-ac72-4efc-8a15-bea64b77fabf",
+  "name": "Copy and Delete Mailbox Data on Windows",
+  "description": "Copies and deletes mail data on Windows\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c5c313b4-f062-4112-8d1a-215665f84e95",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -ItemType Directory -ErrorAction Ignore\nGet-ChildItem -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\" -Exclude copy | ForEach-Object { Copy-Item -Path $_.FullName -Destination \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -Recurse -Force -ErrorAction Ignore }\nRemove-Item -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -Recurse -Force -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1c1a5dfa-1a5b-4061-b08e-56024a7e89f4",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-Item -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -Recurse -Force -ErrorAction Ignore\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "c5c313b4-f062-4112-8d1a-215665f84e95",
+      "p": "on-success",
+      "o": "1c1a5dfa-1a5b-4061-b08e-56024a7e89f4"
+    },
+    {
+      "s": "c5c313b4-f062-4112-8d1a-215665f84e95",
+      "p": "on-failure",
+      "o": "1c1a5dfa-1a5b-4061-b08e-56024a7e89f4"
+    }
+  ],
+  "tags": [
+    "T1070.008",
+    "atomic-red-team"
+  ]
+}

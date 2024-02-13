@@ -1,0 +1,105 @@
+{
+  "id": "f70974c8-c094-4574-b542-2c545af95a32",
+  "name": "Create Windows System File with Attrib",
+  "description": "Creates a file and marks it as a system file using the attrib.exe utility. Upon execution, open the file in file explorer then open Properties \u003e Details\nand observe that the Attributes are \"SA\" for System and Archive.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "7a544253-3fd4-48a1-b6ba-940e9bfa5253",
+      "type": "execute-command",
+      "data": {
+        "command": "attrib.exe +s #{file_to_modify}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0aa8b3ab-35e6-4330-92e8-ab2d9526d72b",
+      "type": "execute-command",
+      "data": {
+        "command": "del /A:S #{file_to_modify} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0016c632-f452-46e6-963c-734d5c901ba2",
+      "name": "Check dependency 1/1",
+      "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST #{file_to_modify} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "16b247aa-2e8e-4b85-973e-6acfbbdfd017",
+      "name": "Resolve dependency 1/1",
+      "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo system_Attrib_T1564.001 \u003e\u003e #{file_to_modify}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6b656327-517d-4601-be8a-a72bb5c4686a",
+      "name": "Re-check dependency 1/1",
+      "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST #{file_to_modify} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "7a544253-3fd4-48a1-b6ba-940e9bfa5253",
+      "p": "on-success",
+      "o": "0aa8b3ab-35e6-4330-92e8-ab2d9526d72b"
+    },
+    {
+      "s": "7a544253-3fd4-48a1-b6ba-940e9bfa5253",
+      "p": "on-failure",
+      "o": "0aa8b3ab-35e6-4330-92e8-ab2d9526d72b"
+    },
+    {
+      "s": "0016c632-f452-46e6-963c-734d5c901ba2",
+      "p": "on-success",
+      "o": "7a544253-3fd4-48a1-b6ba-940e9bfa5253"
+    },
+    {
+      "s": "0016c632-f452-46e6-963c-734d5c901ba2",
+      "p": "on-failure",
+      "o": "16b247aa-2e8e-4b85-973e-6acfbbdfd017"
+    },
+    {
+      "s": "16b247aa-2e8e-4b85-973e-6acfbbdfd017",
+      "p": "on-success",
+      "o": "6b656327-517d-4601-be8a-a72bb5c4686a"
+    },
+    {
+      "s": "6b656327-517d-4601-be8a-a72bb5c4686a",
+      "p": "on-failure",
+      "o": "7a544253-3fd4-48a1-b6ba-940e9bfa5253"
+    }
+  ],
+  "tags": [
+    "T1564.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_to_modify",
+      "type": "string",
+      "description": "File to modify using Attrib command",
+      "value": "%temp%\\T1564.001.txt"
+    }
+  ]
+}

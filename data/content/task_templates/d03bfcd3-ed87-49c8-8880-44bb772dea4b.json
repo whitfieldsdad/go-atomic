@@ -1,0 +1,117 @@
+{
+  "id": "d03bfcd3-ed87-49c8-8880-44bb772dea4b",
+  "name": "ExecIntoContainer",
+  "description": "Attackers who have permissions, can run malicious commands in containers in the cluster using exec command (“kubectl exec”). In this method, attackers can use legitimate images, such as an OS image (e.g., Ubuntu) as a backdoor container, and run their malicious code remotely by using “kubectl exec”.\n",
+  "platforms": [
+    "containers"
+  ],
+  "steps": [
+    {
+      "id": "f788896a-db40-4d48-90f5-3b801eb1513f",
+      "type": "execute-command",
+      "data": {
+        "command": "kubectl create -f #{path} -n #{namespace}\n# wait 3 seconds for the instance to come up\nsleep 3\nkubectl exec -n #{namespace} busybox -- #{command}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "61ca2416-5dc2-47ed-89da-f30e9b9990a5",
+      "type": "execute-command",
+      "data": {
+        "command": "kubectl delete pod busybox -n #{namespace}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1ac59cd5-bb7e-4f38-acf7-63b2f20de98d",
+      "name": "Check dependency 1/1",
+      "description": "kubectl must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which kubectl\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "86d41d80-49c8-48ec-b60c-05a3ffe2b845",
+      "name": "Resolve dependency 1/1",
+      "description": "kubectl must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"kubectl must be installed manually\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a6db1cc3-ff64-410f-80b4-ca1f703d9e4d",
+      "name": "Re-check dependency 1/1",
+      "description": "kubectl must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which kubectl\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "f788896a-db40-4d48-90f5-3b801eb1513f",
+      "p": "on-success",
+      "o": "61ca2416-5dc2-47ed-89da-f30e9b9990a5"
+    },
+    {
+      "s": "f788896a-db40-4d48-90f5-3b801eb1513f",
+      "p": "on-failure",
+      "o": "61ca2416-5dc2-47ed-89da-f30e9b9990a5"
+    },
+    {
+      "s": "1ac59cd5-bb7e-4f38-acf7-63b2f20de98d",
+      "p": "on-success",
+      "o": "f788896a-db40-4d48-90f5-3b801eb1513f"
+    },
+    {
+      "s": "1ac59cd5-bb7e-4f38-acf7-63b2f20de98d",
+      "p": "on-failure",
+      "o": "86d41d80-49c8-48ec-b60c-05a3ffe2b845"
+    },
+    {
+      "s": "86d41d80-49c8-48ec-b60c-05a3ffe2b845",
+      "p": "on-success",
+      "o": "a6db1cc3-ff64-410f-80b4-ca1f703d9e4d"
+    },
+    {
+      "s": "a6db1cc3-ff64-410f-80b4-ca1f703d9e4d",
+      "p": "on-failure",
+      "o": "f788896a-db40-4d48-90f5-3b801eb1513f"
+    }
+  ],
+  "tags": [
+    "T1609",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "namespace",
+      "type": "string",
+      "description": "K8s namespace to use",
+      "value": "default"
+    },
+    {
+      "name": "command",
+      "type": "string",
+      "description": "Command to run",
+      "value": "uname"
+    },
+    {
+      "name": "path",
+      "type": "string",
+      "description": "Path to busybox.yaml file",
+      "value": "$PathtoAtomicsFolder/T1609/src/busybox.yaml"
+    }
+  ]
+}

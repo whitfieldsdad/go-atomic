@@ -1,0 +1,105 @@
+{
+  "id": "7f66d539-4fbe-4cfa-9a56-4a2bf660c58a",
+  "name": "Create Windows Hidden File with powershell",
+  "description": "Creates a file and marks it as hidden through powershell. Upon execution, open File Epxplorer and enable View \u003e Hidden Items. Then, open Properties \u003e Details on the file\nand observe that the Attributes is \"H\" Hidden.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e0e0a2da-fe98-40fc-af00-00486901fcee",
+      "type": "execute-command",
+      "data": {
+        "command": "$file = Get-Item $env:temp\\T1564.001-9.txt -Force\n$file.attributes='Hidden'\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "1cdcf6c4-6092-443a-8228-750790d18c9a",
+      "type": "execute-command",
+      "data": {
+        "command": "cmd /c 'del /A:H #{file_to_modify} \u003enul 2\u003e\u00261'\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6778e890-5cb7-473f-97f9-2db0d24623cf",
+      "name": "Check dependency 1/1",
+      "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST #{file_to_modify} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "22f0dcf4-7873-445d-8865-ac833b525f28",
+      "name": "Resolve dependency 1/1",
+      "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo system_Attrib_T1564.001-9 \u003e\u003e #{file_to_modify}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a136136d-2052-4184-a753-76b67ba3b706",
+      "name": "Re-check dependency 1/1",
+      "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
+      "type": "execute-command",
+      "data": {
+        "command": "IF EXIST #{file_to_modify} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e0e0a2da-fe98-40fc-af00-00486901fcee",
+      "p": "on-success",
+      "o": "1cdcf6c4-6092-443a-8228-750790d18c9a"
+    },
+    {
+      "s": "e0e0a2da-fe98-40fc-af00-00486901fcee",
+      "p": "on-failure",
+      "o": "1cdcf6c4-6092-443a-8228-750790d18c9a"
+    },
+    {
+      "s": "6778e890-5cb7-473f-97f9-2db0d24623cf",
+      "p": "on-success",
+      "o": "e0e0a2da-fe98-40fc-af00-00486901fcee"
+    },
+    {
+      "s": "6778e890-5cb7-473f-97f9-2db0d24623cf",
+      "p": "on-failure",
+      "o": "22f0dcf4-7873-445d-8865-ac833b525f28"
+    },
+    {
+      "s": "22f0dcf4-7873-445d-8865-ac833b525f28",
+      "p": "on-success",
+      "o": "a136136d-2052-4184-a753-76b67ba3b706"
+    },
+    {
+      "s": "a136136d-2052-4184-a753-76b67ba3b706",
+      "p": "on-failure",
+      "o": "e0e0a2da-fe98-40fc-af00-00486901fcee"
+    }
+  ],
+  "tags": [
+    "T1564.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_to_modify",
+      "type": "string",
+      "description": "File to modify",
+      "value": "%temp%\\T1564.001-9.txt"
+    }
+  ]
+}

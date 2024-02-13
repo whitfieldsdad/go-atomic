@@ -1,0 +1,44 @@
+{
+  "id": "cf21060a-80b3-4238-a595-22525de4ab81",
+  "name": "Windows - Disable Windows Recovery Console Repair",
+  "description": "Disables repair by the Windows Recovery Console on boot. This technique is used by numerous ransomware families and APT malware such as Olympic Destroyer.\nUpon execution, \"The operation completed successfully.\" will be displayed in the powershell session.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "e4f82ae2-4366-44e0-85e1-9521d90c7f77",
+      "type": "execute-command",
+      "data": {
+        "command": "bcdedit.exe /set {default} bootstatuspolicy ignoreallfailures\nbcdedit.exe /set {default} recoveryenabled no\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fce2e5dc-c706-4681-bfbb-a61a52c10ec4",
+      "type": "execute-command",
+      "data": {
+        "command": "bcdedit.exe /set {default} bootstatuspolicy DisplayAllFailures \u003enul 2\u003e\u00261\nbcdedit.exe /set {default} recoveryenabled yes \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "e4f82ae2-4366-44e0-85e1-9521d90c7f77",
+      "p": "on-success",
+      "o": "fce2e5dc-c706-4681-bfbb-a61a52c10ec4"
+    },
+    {
+      "s": "e4f82ae2-4366-44e0-85e1-9521d90c7f77",
+      "p": "on-failure",
+      "o": "fce2e5dc-c706-4681-bfbb-a61a52c10ec4"
+    }
+  ],
+  "tags": [
+    "T1490",
+    "atomic-red-team"
+  ]
+}

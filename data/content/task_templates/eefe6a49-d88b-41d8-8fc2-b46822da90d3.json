@@ -1,0 +1,23 @@
+{
+  "id": "eefe6a49-d88b-41d8-8fc2-b46822da90d3",
+  "name": "FreeBSD VM Check via Kernel Modules",
+  "description": "Identify virtual machine host kernel modules.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "9732a1aa-a6cb-4b5d-93fb-ca9266c90614",
+      "type": "execute-command",
+      "data": {
+        "command": "kldstat | grep -i \"vmm\"\nkldstat | grep -i \"vbox\"\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1082",
+    "atomic-red-team"
+  ]
+}

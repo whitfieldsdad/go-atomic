@@ -1,0 +1,31 @@
+{
+  "id": "0512d214-9512-4d22-bde7-f37e058259b3",
+  "name": "Remove Network Share PowerShell",
+  "description": "Removes a Network Share utilizing PowerShell\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "915957b0-7951-41ed-95d8-80b76ba622e9",
+      "type": "execute-command",
+      "data": {
+        "command": "Remove-SmbShare -Name #{share_name}\nRemove-FileShare -Name #{share_name}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1070.005",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "share_name",
+      "type": "string",
+      "description": "Share to remove.",
+      "value": "\\\\test\\share"
+    }
+  ]
+}

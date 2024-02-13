@@ -1,0 +1,64 @@
+{
+  "id": "1b99ef28-f83c-4ec5-8a08-1a56263a5bb2",
+  "name": "Change User Password - Windows",
+  "description": "Changes the user password to hinder access attempts. Seen in use by LockerGoga. Upon execution, log into the user account \"AtomicAdministrator\" with\nthe password \"HuHuHUHoHo283283\".\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "54d94f2e-bfdf-47f2-adab-3db766bd47fb",
+      "type": "execute-command",
+      "data": {
+        "command": "net user #{user_account} #{new_user_password} /add\nnet.exe user #{user_account} #{new_password}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a14151cc-4e0b-456c-8de5-a8aa5cbf86b2",
+      "type": "execute-command",
+      "data": {
+        "command": "net.exe user #{user_account} /delete \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "54d94f2e-bfdf-47f2-adab-3db766bd47fb",
+      "p": "on-success",
+      "o": "a14151cc-4e0b-456c-8de5-a8aa5cbf86b2"
+    },
+    {
+      "s": "54d94f2e-bfdf-47f2-adab-3db766bd47fb",
+      "p": "on-failure",
+      "o": "a14151cc-4e0b-456c-8de5-a8aa5cbf86b2"
+    }
+  ],
+  "tags": [
+    "T1531",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "user_account",
+      "type": "string",
+      "description": "User account whose password will be changed.",
+      "value": "AtomicAdministrator"
+    },
+    {
+      "name": "new_user_password",
+      "type": "string",
+      "description": "Password to use if user account must be created first",
+      "value": "User2ChangePW!"
+    },
+    {
+      "name": "new_password",
+      "type": "string",
+      "description": "New password for the specified account.",
+      "value": "HuHuHUHoHo283283@dJD"
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "id": "a668edb9-334e-48eb-8c2e-5413a40867af",
+  "name": "Auditd keylogger",
+  "description": "The linux audit tool auditd can be used to capture 32 and 64 bit command execution and place the command in the /var/log/audit/audit.log audit log. \n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "3ca67390-e5f6-49e9-9f0d-b3bde5105419",
+      "type": "execute-command",
+      "data": {
+        "command": "auditctl -a always,exit -F arch=b64 -S execve -k CMDS \nauditctl -a always,exit -F arch=b32 -S execve -k CMDS\nwhoami; ausearch -i --start $(date +\"%d/%m/%y %H:%M:%S\") \n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7d0f95d9-e72c-4955-a160-688a95b89e5a",
+      "type": "execute-command",
+      "data": {
+        "command": "systemctl restart auditd\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c428e383-5841-4e48-aa1c-326b0aeb3368",
+      "name": "Check dependency 1/1",
+      "description": "This test requires sshd and auditd\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v auditd)\" ]; then echo -e \"\\n***** auditd NOT installed *****\\n\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "22ce1983-d2e9-437d-ae91-b5c9ac6e7cc2",
+      "name": "Resolve dependency 1/1",
+      "description": "This test requires sshd and auditd\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "82f56eed-862f-4864-9508-6fa04d7ec42e",
+      "name": "Re-check dependency 1/1",
+      "description": "This test requires sshd and auditd\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ ! -x \"$(command -v auditd)\" ]; then echo -e \"\\n***** auditd NOT installed *****\\n\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3ca67390-e5f6-49e9-9f0d-b3bde5105419",
+      "p": "on-success",
+      "o": "7d0f95d9-e72c-4955-a160-688a95b89e5a"
+    },
+    {
+      "s": "3ca67390-e5f6-49e9-9f0d-b3bde5105419",
+      "p": "on-failure",
+      "o": "7d0f95d9-e72c-4955-a160-688a95b89e5a"
+    },
+    {
+      "s": "c428e383-5841-4e48-aa1c-326b0aeb3368",
+      "p": "on-success",
+      "o": "3ca67390-e5f6-49e9-9f0d-b3bde5105419"
+    },
+    {
+      "s": "c428e383-5841-4e48-aa1c-326b0aeb3368",
+      "p": "on-failure",
+      "o": "22ce1983-d2e9-437d-ae91-b5c9ac6e7cc2"
+    },
+    {
+      "s": "22ce1983-d2e9-437d-ae91-b5c9ac6e7cc2",
+      "p": "on-success",
+      "o": "82f56eed-862f-4864-9508-6fa04d7ec42e"
+    },
+    {
+      "s": "82f56eed-862f-4864-9508-6fa04d7ec42e",
+      "p": "on-failure",
+      "o": "3ca67390-e5f6-49e9-9f0d-b3bde5105419"
+    }
+  ],
+  "tags": [
+    "T1056.001",
+    "atomic-red-team"
+  ]
+}

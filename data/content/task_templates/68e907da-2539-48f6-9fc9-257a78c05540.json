@@ -1,0 +1,32 @@
+{
+  "id": "68e907da-2539-48f6-9fc9-257a78c05540",
+  "name": "Port Scan",
+  "description": "Scan ports to check for listening ports.\n\nUpon successful execution, sh will perform a network connection against a single host (192.168.1.1) and determine what ports are open in the range of 1-65535. Results will be via stdout.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "c3d216d9-84bf-46e1-b057-dfa378b81964",
+      "type": "execute-command",
+      "data": {
+        "command": "for port in {1..65535}; do (2\u003e/dev/null echo \u003e/dev/tcp/#{host}/$port) \u0026\u0026 echo port $port is open ; done\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1046",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "host",
+      "type": "string",
+      "description": "Host to scan.",
+      "value": "192.168.1.1"
+    }
+  ]
+}

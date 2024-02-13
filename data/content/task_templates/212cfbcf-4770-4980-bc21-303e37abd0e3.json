@@ -1,0 +1,64 @@
+{
+  "id": "212cfbcf-4770-4980-bc21-303e37abd0e3",
+  "name": "Auditing Configuration Changes on Linux Host",
+  "description": "Emulates modification of auditd configuration files\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "26680b60-3fc7-4dcf-9f76-01f6030aa30b",
+      "type": "execute-command",
+      "data": {
+        "command": "sed -i '$ a #art_test_1562_006_1' /etc/audisp/#{audisp_config_file_name}\nif [ -f \"/etc/#{auditd_config_file_name}\" ];\nthen sed -i '$ a #art_test_1562_006_1' /etc/#{auditd_config_file_name}\nelse sed -i '$ a #art_test_1562_006_1' /etc/audit/#{auditd_config_file_name}\nfi \nsed -i '$ a #art_test_1562_006_1' /etc/#{libaudit_config_file_name}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fe10f62b-db4b-4855-a411-c64ce50c0fae",
+      "type": "execute-command",
+      "data": {
+        "command": "sed -i '$ d' /etc/audisp/#{audisp_config_file_name}\nif [ -f \"/etc/#{auditd_config_file_name}\" ];\nthen sed -i '$ d' /etc/#{auditd_config_file_name}\nelse sed -i '$ d' /etc/audit/#{auditd_config_file_name}\nfi\nsed -i '$ d' /etc/#{libaudit_config_file_name}\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "26680b60-3fc7-4dcf-9f76-01f6030aa30b",
+      "p": "on-success",
+      "o": "fe10f62b-db4b-4855-a411-c64ce50c0fae"
+    },
+    {
+      "s": "26680b60-3fc7-4dcf-9f76-01f6030aa30b",
+      "p": "on-failure",
+      "o": "fe10f62b-db4b-4855-a411-c64ce50c0fae"
+    }
+  ],
+  "tags": [
+    "T1562.006",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "audisp_config_file_name",
+      "type": "string",
+      "description": "The name of the audispd configuration file to be changed",
+      "value": "audispd.conf"
+    },
+    {
+      "name": "auditd_config_file_name",
+      "type": "string",
+      "description": "The name of the auditd configuration file to be changed",
+      "value": "auditd.conf"
+    },
+    {
+      "name": "libaudit_config_file_name",
+      "type": "string",
+      "description": "The name of the libaudit configuration file to be changed",
+      "value": "libaudit.conf"
+    }
+  ]
+}

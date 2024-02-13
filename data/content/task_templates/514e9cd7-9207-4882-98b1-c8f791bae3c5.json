@@ -1,0 +1,43 @@
+{
+  "id": "514e9cd7-9207-4882-98b1-c8f791bae3c5",
+  "name": "Map Admin Share PowerShell",
+  "description": "Map Admin share utilizing PowerShell\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "9a30d3dd-26b4-496d-a5fa-588a6c3bb530",
+      "type": "execute-command",
+      "data": {
+        "command": "New-PSDrive -name #{map_name} -psprovider filesystem -root \\\\#{computer_name}\\#{share_name}\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1021.002",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "share_name",
+      "type": "string",
+      "description": "Examples C$, IPC$, Admin$",
+      "value": "C$"
+    },
+    {
+      "name": "map_name",
+      "type": "string",
+      "description": "Mapped Drive Letter",
+      "value": "g"
+    },
+    {
+      "name": "computer_name",
+      "type": "string",
+      "description": "Target Computer Name",
+      "value": "Target"
+    }
+  ]
+}

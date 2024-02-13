@@ -1,0 +1,111 @@
+{
+  "id": "1ee572f3-056c-4632-a7fc-7e7c42b1543c",
+  "name": "Office 365 - Exchange Audit Log Disabled",
+  "description": "You can use the Exchange Management Shell to enable or disable mailbox audit logging for a mailbox.\nUnified or Admin Audit logs are disabled via the Exchange Powershell cmdline.\nhttps://github.com/Azure/Azure-Sentinel/blob/master/Detections/OfficeActivity/exchange_auditlogdisabled.yaml\n",
+  "platforms": [
+    "office-365"
+  ],
+  "steps": [
+    {
+      "id": "a2f9d71b-2a97-4231-b76d-d2cf3c9ceef3",
+      "type": "execute-command",
+      "data": {
+        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nSet-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $False\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f4271138-ae9c-49e7-ade4-ef53a92da001",
+      "type": "execute-command",
+      "data": {
+        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nSet-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $True\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "c845b771-713f-4821-9bcb-8c9f8cb649b6",
+      "name": "Check dependency 1/1",
+      "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "28dab79d-3d83-4735-a1b4-1faef2eba136",
+      "name": "Resolve dependency 1/1",
+      "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Install-Module -Name ExchangeOnlineManagement         \nImport-Module ExchangeOnlineManagement\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "72e7b74c-5792-43e7-94b6-8bf26c9aed41",
+      "name": "Re-check dependency 1/1",
+      "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "a2f9d71b-2a97-4231-b76d-d2cf3c9ceef3",
+      "p": "on-success",
+      "o": "f4271138-ae9c-49e7-ade4-ef53a92da001"
+    },
+    {
+      "s": "a2f9d71b-2a97-4231-b76d-d2cf3c9ceef3",
+      "p": "on-failure",
+      "o": "f4271138-ae9c-49e7-ade4-ef53a92da001"
+    },
+    {
+      "s": "c845b771-713f-4821-9bcb-8c9f8cb649b6",
+      "p": "on-success",
+      "o": "a2f9d71b-2a97-4231-b76d-d2cf3c9ceef3"
+    },
+    {
+      "s": "c845b771-713f-4821-9bcb-8c9f8cb649b6",
+      "p": "on-failure",
+      "o": "28dab79d-3d83-4735-a1b4-1faef2eba136"
+    },
+    {
+      "s": "28dab79d-3d83-4735-a1b4-1faef2eba136",
+      "p": "on-success",
+      "o": "72e7b74c-5792-43e7-94b6-8bf26c9aed41"
+    },
+    {
+      "s": "72e7b74c-5792-43e7-94b6-8bf26c9aed41",
+      "p": "on-failure",
+      "o": "a2f9d71b-2a97-4231-b76d-d2cf3c9ceef3"
+    }
+  ],
+  "tags": [
+    "T1562.008",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "office-365 username",
+      "value": ""
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "office-365 password",
+      "value": ""
+    }
+  ]
+}

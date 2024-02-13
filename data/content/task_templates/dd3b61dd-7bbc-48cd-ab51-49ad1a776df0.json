@@ -1,0 +1,58 @@
+{
+  "id": "dd3b61dd-7bbc-48cd-ab51-49ad1a776df0",
+  "name": "certutil download (urlcache)",
+  "description": "Use certutil -urlcache argument to download a file from the web. Note - /urlcache also works!\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "d71037cf-42cc-44ac-be03-3c7d5e25a8ab",
+      "type": "execute-command",
+      "data": {
+        "command": "cmd /c certutil -urlcache -split -f #{remote_file} #{local_path}\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "de8bda2b-4667-490e-b8ae-18f059b84540",
+      "type": "execute-command",
+      "data": {
+        "command": "del #{local_path} \u003enul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d71037cf-42cc-44ac-be03-3c7d5e25a8ab",
+      "p": "on-success",
+      "o": "de8bda2b-4667-490e-b8ae-18f059b84540"
+    },
+    {
+      "s": "d71037cf-42cc-44ac-be03-3c7d5e25a8ab",
+      "p": "on-failure",
+      "o": "de8bda2b-4667-490e-b8ae-18f059b84540"
+    }
+  ],
+  "tags": [
+    "T1105",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_file",
+      "type": "url",
+      "description": "URL of file to copy",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt"
+    },
+    {
+      "name": "local_path",
+      "type": "path",
+      "description": "Local path to place file",
+      "value": "Atomic-license.txt"
+    }
+  ]
+}

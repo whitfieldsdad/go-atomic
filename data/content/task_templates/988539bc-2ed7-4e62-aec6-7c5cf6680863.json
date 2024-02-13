@@ -1,0 +1,78 @@
+{
+  "id": "988539bc-2ed7-4e62-aec6-7c5cf6680863",
+  "name": "Request A Single Ticket via PowerShell",
+  "description": "The following test will utilize native PowerShell Identity modules to query the domain to extract the Service Principal Names for a single computer. This behavior is typically used during a kerberos or silver ticket attack. \nA successful execution will output the SPNs for the endpoint in question.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "2705c861-6f5b-4d4b-93d6-374d48eaf53a",
+      "type": "execute-command",
+      "data": {
+        "command": "Add-Type -AssemblyName System.IdentityModel\n$ComputerFQDN=$env:LogonServer.trimStart('\\') + \".\" + $env:UserDnsDomain\nNew-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList \"HTTP/$ComputerFQDN\" \n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d29fd7e3-a04c-48ff-835a-6ebf3e84dfc9",
+      "name": "Check dependency 1/1",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "7c865188-fbee-4bcf-8907-38a6ca8beba2",
+      "name": "Resolve dependency 1/1",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "Write-Host Joining this computer to a domain must be done manually\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "48770288-9bd3-4ea3-b7e5-0ab07f031660",
+      "name": "Re-check dependency 1/1",
+      "description": "Computer must be domain joined\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "d29fd7e3-a04c-48ff-835a-6ebf3e84dfc9",
+      "p": "on-success",
+      "o": "2705c861-6f5b-4d4b-93d6-374d48eaf53a"
+    },
+    {
+      "s": "d29fd7e3-a04c-48ff-835a-6ebf3e84dfc9",
+      "p": "on-failure",
+      "o": "7c865188-fbee-4bcf-8907-38a6ca8beba2"
+    },
+    {
+      "s": "7c865188-fbee-4bcf-8907-38a6ca8beba2",
+      "p": "on-success",
+      "o": "48770288-9bd3-4ea3-b7e5-0ab07f031660"
+    },
+    {
+      "s": "48770288-9bd3-4ea3-b7e5-0ab07f031660",
+      "p": "on-failure",
+      "o": "2705c861-6f5b-4d4b-93d6-374d48eaf53a"
+    }
+  ],
+  "tags": [
+    "T1558.003",
+    "atomic-red-team"
+  ]
+}

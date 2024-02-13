@@ -1,0 +1,44 @@
+{
+  "id": "2a821573-fb3f-4e71-92c3-daac7432f053",
+  "name": "Disable macOS Gatekeeper",
+  "description": "Disables macOS Gatekeeper\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "3733d807-df2b-4377-bd8c-e7a1f529a17f",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo spctl --master-disable\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "335c1b9d-8359-4f51-bff9-d426d2545f54",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo spctl --master-enable\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "3733d807-df2b-4377-bd8c-e7a1f529a17f",
+      "p": "on-success",
+      "o": "335c1b9d-8359-4f51-bff9-d426d2545f54"
+    },
+    {
+      "s": "3733d807-df2b-4377-bd8c-e7a1f529a17f",
+      "p": "on-failure",
+      "o": "335c1b9d-8359-4f51-bff9-d426d2545f54"
+    }
+  ],
+  "tags": [
+    "T1562.001",
+    "atomic-red-team"
+  ]
+}

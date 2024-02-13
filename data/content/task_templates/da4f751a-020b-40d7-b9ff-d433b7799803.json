@@ -1,0 +1,32 @@
+{
+  "id": "da4f751a-020b-40d7-b9ff-d433b7799803",
+  "name": "Find and Access Github Credentials",
+  "description": "This test looks for .netrc files (which stores github credentials in clear text )and dumps its contents if found.\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "3e9f5321-1103-4176-9f7f-2fe1212c175b",
+      "type": "execute-command",
+      "data": {
+        "command": "for file in $(find #{file_path} -type f -name .netrc 2\u003e /dev/null);do echo $file ; cat $file ; done\n",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1552.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "file_path",
+      "type": "string",
+      "description": "Path to search",
+      "value": "/home"
+    }
+  ]
+}

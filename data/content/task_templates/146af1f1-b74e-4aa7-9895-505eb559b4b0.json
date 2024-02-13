@@ -1,0 +1,70 @@
+{
+  "id": "146af1f1-b74e-4aa7-9895-505eb559b4b0",
+  "name": "Azure - Scan for Anonymous Access to Azure Storage (Powershell)",
+  "description": "Upon successful execution, this test will test for anonymous access to Azure storage containers by invoking a web request and outputting the results to a file. \nThe corresponding response could then be interpreted to determine whether or not the resource/container exists, as well as other information. \nSee https://ninocrudele.com/the-three-most-effective-and-dangerous-cyberattacks-to-azure-and-countermeasures-part-2-attack-the-azure-storage-service     \n",
+  "platforms": [
+    "iaas:azure"
+  ],
+  "steps": [
+    {
+      "id": "2a1b969a-82c3-4228-9554-cafc2cc85749",
+      "type": "execute-command",
+      "data": {
+        "command": "try{$response = invoke-webrequest \"https://#{base_name}.blob.core.windows.net/#{container_name}/#{blob_name}\" -method \"GET\"}\ncatch [system.net.webexception]\n{if($_.Exception.Response -ne $null)\n{$Response = $_.Exception.Response.GetResponseStream()\n$ReadResponse = New-Object System.IO.StreamReader($Response)\n$ReadResponse.BaseStream.Position = 0\n$responseBody = $ReadResponse.ReadToEnd()}\nelse {$responseBody = \"The storage account could not be anonymously accessed.\"}}\n\"Response received for #{base_name}.blob.core.windows.net/#{container_name}/#{blob_name}: $responsebody\" | out-file -filepath #{output_file} -append\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "f82a84c0-6520-4047-bf2a-882982c8adfb",
+      "type": "execute-command",
+      "data": {
+        "command": "remove-item #{output_file} -erroraction silentlycontinue\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "2a1b969a-82c3-4228-9554-cafc2cc85749",
+      "p": "on-success",
+      "o": "f82a84c0-6520-4047-bf2a-882982c8adfb"
+    },
+    {
+      "s": "2a1b969a-82c3-4228-9554-cafc2cc85749",
+      "p": "on-failure",
+      "o": "f82a84c0-6520-4047-bf2a-882982c8adfb"
+    }
+  ],
+  "tags": [
+    "T1530",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "base_name",
+      "type": "string",
+      "description": "Azure storage account name to test",
+      "value": "T1530Test2"
+    },
+    {
+      "name": "output_file",
+      "type": "string",
+      "description": "File to output results to",
+      "value": "$env:temp\\T1530Test2.txt"
+    },
+    {
+      "name": "container_name",
+      "type": "string",
+      "description": "Container name to search for (optional)",
+      "value": ""
+    },
+    {
+      "name": "blob_name",
+      "type": "string",
+      "description": "Blob name to search for (optional)",
+      "value": ""
+    }
+  ]
+}

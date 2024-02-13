@@ -1,0 +1,139 @@
+{
+  "id": "d56152ec-01d9-42a2-877c-aac1f6ebe8e6",
+  "name": "GCP - Delete Activity Event Log",
+  "description": "GCP provides 4 types of Cloud Audit Logs: Admin Activity, Data Access, System Events, and Policy Denied.\nAn adversary may attempt to delete logs in order to hide their activity. However, Admin Activity, System Events, and Policy Deny events logs cannot be deleted. \n\nThis Atomic attempts to delete the Activity Event log. An event is generated under the method name of `google.logging.v2.LoggingServiceV2.DeleteLog` with a Serverity of `ERROR`.\n",
+  "platforms": [
+    "iaas:gcp"
+  ],
+  "steps": [
+    {
+      "id": "b10ba7f5-6ba1-42a8-98f1-e1aeb63fcf6a",
+      "type": "execute-command",
+      "data": {
+        "command": "gcloud config set project #{project-id}\ngcloud logging logs delete projects/#{project-id}/logs/cloudaudit.googleapis.com%2Factivity --quiet\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "11979ac4-e2f7-49af-8896-2738a8fbfa3a",
+      "name": "Check dependency 1/2",
+      "description": "Requires gcloud\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v gcloud)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0a20fc5f-0993-4c3e-a67e-0cf69f22ac6d",
+      "name": "Resolve dependency 1/2",
+      "description": "Requires gcloud\n",
+      "type": "execute-command",
+      "data": {
+        "command": "echo \"Please Install Google Cloud SDK before running this atomic test : https://cloud.google.com/sdk/docs/install\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "37ac96e6-3df8-4d8c-8cd5-4da7a142c6f0",
+      "name": "Re-check dependency 1/2",
+      "description": "Requires gcloud\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v gcloud)\" ]; then exit 0; else exit 1; fi;\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b81f2f0f-aa0f-4602-9056-05a5e58d7819",
+      "name": "Check dependency 2/2",
+      "description": "Check if user is logged in \n",
+      "type": "execute-command",
+      "data": {
+        "command": "gcloud config get-value account\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "03ee5a7a-f9ca-4032-8175-ced6ffde5f70",
+      "name": "Resolve dependency 2/2",
+      "description": "Check if user is logged in \n",
+      "type": "execute-command",
+      "data": {
+        "command": "gcloud auth login --no-launch-browser\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0320c950-0937-4567-9ca7-37ea7544d48d",
+      "name": "Re-check dependency 2/2",
+      "description": "Check if user is logged in \n",
+      "type": "execute-command",
+      "data": {
+        "command": "gcloud config get-value account\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "11979ac4-e2f7-49af-8896-2738a8fbfa3a",
+      "p": "on-success",
+      "o": "b10ba7f5-6ba1-42a8-98f1-e1aeb63fcf6a"
+    },
+    {
+      "s": "11979ac4-e2f7-49af-8896-2738a8fbfa3a",
+      "p": "on-failure",
+      "o": "0a20fc5f-0993-4c3e-a67e-0cf69f22ac6d"
+    },
+    {
+      "s": "0a20fc5f-0993-4c3e-a67e-0cf69f22ac6d",
+      "p": "on-success",
+      "o": "37ac96e6-3df8-4d8c-8cd5-4da7a142c6f0"
+    },
+    {
+      "s": "37ac96e6-3df8-4d8c-8cd5-4da7a142c6f0",
+      "p": "on-failure",
+      "o": "b10ba7f5-6ba1-42a8-98f1-e1aeb63fcf6a"
+    },
+    {
+      "s": "b81f2f0f-aa0f-4602-9056-05a5e58d7819",
+      "p": "on-success",
+      "o": "b10ba7f5-6ba1-42a8-98f1-e1aeb63fcf6a"
+    },
+    {
+      "s": "b81f2f0f-aa0f-4602-9056-05a5e58d7819",
+      "p": "on-failure",
+      "o": "03ee5a7a-f9ca-4032-8175-ced6ffde5f70"
+    },
+    {
+      "s": "03ee5a7a-f9ca-4032-8175-ced6ffde5f70",
+      "p": "on-success",
+      "o": "0320c950-0937-4567-9ca7-37ea7544d48d"
+    },
+    {
+      "s": "0320c950-0937-4567-9ca7-37ea7544d48d",
+      "p": "on-failure",
+      "o": "b10ba7f5-6ba1-42a8-98f1-e1aeb63fcf6a"
+    }
+  ],
+  "tags": [
+    "T1562.008",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "project-id",
+      "type": "string",
+      "description": "ID of the GCP Project you to execute the command against.",
+      "value": "atomic-project-1"
+    }
+  ]
+}

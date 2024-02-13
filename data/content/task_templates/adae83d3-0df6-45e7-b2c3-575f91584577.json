@@ -1,0 +1,49 @@
+{
+  "id": "adae83d3-0df6-45e7-b2c3-575f91584577",
+  "name": "WMI Invoke-CimMethod Start Process",
+  "description": "The following Atomic will create a New-CimSession on a remote endpoint and start a process usnig Invoke-CimMethod.\nThis is a novel way to perform lateral movement or to start a remote process.\nThis does require WinRM to be enabled. The account performing the run will also need to be elevated.\nA successful execution will stdout that the process started. On the remote endpoint, wmiprvse.exe will spawn the given process.\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "c809fea2-d185-4ef7-83d9-b1d5f8e1a06f",
+      "type": "execute-command",
+      "data": {
+        "command": "# Set the remote computer name and credentials\n $RemoteComputer = \"#{dest}\"\n $PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\n\n # Create a CIM session\n $CimSession = New-CimSession -ComputerName $RemoteComputer -Credential $Credential\n\n # Define the process you want to start\n $ProcessToStart = \"#{process}\"\n\n # Invoke the Create method on the Win32_Process class to start the process\n $Result = Invoke-CimMethod -CimSession $CimSession -ClassName Win32_Process -MethodName Create -Arguments @{CommandLine = $ProcessToStart}\n\n # Check the result\n if ($Result.ReturnValue -eq 0) {\n     Write-Host \"Process started successfully with Process ID: $($Result.ProcessId)\"\n } else {\n     Write-Host \"Failed to start the process. Error code: $($Result.ReturnValue)\"\n }\n\n # Clean up the CIM session\n Remove-CimSession -CimSession $CimSession \n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1546",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "account to use",
+      "value": "Administrator"
+    },
+    {
+      "name": "process",
+      "type": "string",
+      "description": "process to spawn",
+      "value": "calc.exe"
+    },
+    {
+      "name": "dest",
+      "type": "string",
+      "description": "destination computer name",
+      "value": "localhost"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "password for account",
+      "value": "P@ssword1"
+    }
+  ]
+}

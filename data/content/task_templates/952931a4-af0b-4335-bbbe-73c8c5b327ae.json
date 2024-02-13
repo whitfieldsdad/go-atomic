@@ -1,0 +1,24 @@
+{
+  "id": "952931a4-af0b-4335-bbbe-73c8c5b327ae",
+  "name": "Permission Groups Discovery (Local)",
+  "description": "Permission Groups Discovery\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "5692c259-f056-4101-8b74-12fcdad9915d",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v dscacheutil)\" ]; then dscacheutil -q group; else echo \"dscacheutil is missing from the machine. skipping...\"; fi;\nif [ -x \"$(command -v dscl)\" ]; then dscl . -list /Groups; else echo \"dscl is missing from the machine. skipping...\"; fi;\nif [ -x \"$(command -v groups)\" ]; then groups; else echo \"groups is missing from the machine. skipping...\"; fi;\nif [ -x \"$(command -v id)\" ]; then id; else echo \"id is missing from the machine. skipping...\"; fi;\nif [ -x \"$(command -v getent)\" ]; then getent group; else echo \"getent is missing from the machine. skipping...\"; fi;\ncat /etc/group\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1069.001",
+    "atomic-red-team"
+  ]
+}

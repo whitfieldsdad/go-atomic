@@ -1,0 +1,44 @@
+{
+  "id": "6581e4a7-42e3-43c5-a0d2-5a0d62f9702a",
+  "name": "Registry artefact when application use webcam",
+  "description": "[can-you-track-processes-accessing-the-camera-and-microphone](https://svch0st.medium.com/can-you-track-processes-accessing-the-camera-and-microphone-7e6885b37072)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "8167ad34-6250-4363-8d2c-e9d440d213ea",
+      "type": "execute-command",
+      "data": {
+        "command": "reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\webcam\\NonPackaged\\C:#Windows#Temp#atomic.exe /v LastUsedTimeStart /t REG_BINARY /d a273b6f07104d601 /f\nreg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\webcam\\NonPackaged\\C:#Windows#Temp#atomic.exe /v LastUsedTimeStop /t REG_BINARY /d 96ef514b7204d601 /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "60c84963-2caa-4dfa-95d6-b6fc83d0f7a5",
+      "type": "execute-command",
+      "data": {
+        "command": "reg DELETE HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\webcam\\NonPackaged\\C:#Windows#Temp#atomic.exe /f\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8167ad34-6250-4363-8d2c-e9d440d213ea",
+      "p": "on-success",
+      "o": "60c84963-2caa-4dfa-95d6-b6fc83d0f7a5"
+    },
+    {
+      "s": "8167ad34-6250-4363-8d2c-e9d440d213ea",
+      "p": "on-failure",
+      "o": "60c84963-2caa-4dfa-95d6-b6fc83d0f7a5"
+    }
+  ],
+  "tags": [
+    "T1125",
+    "atomic-red-team"
+  ]
+}

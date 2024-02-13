@@ -1,0 +1,31 @@
+{
+  "id": "a50d5a97-2531-499e-a1de-5544c74432c6",
+  "name": "Execute base64-encoded PowerShell",
+  "description": "Creates base64-encoded PowerShell code and executes it. This is used by numerous adversaries and malicious tools.\n\nUpon successful execution, powershell will execute an encoded command and stdout default is \"Write-Host \"Hey, Atomic!\"\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "d58b5125-fac3-460b-be11-99b323e1a6d4",
+      "type": "execute-command",
+      "data": {
+        "command": "$OriginalCommand = '#{powershell_command}'\n$Bytes = [System.Text.Encoding]::Unicode.GetBytes($OriginalCommand)\n$EncodedCommand =[Convert]::ToBase64String($Bytes)\n$EncodedCommand\npowershell.exe -EncodedCommand $EncodedCommand\n",
+        "command_type": "powershell"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1027",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "powershell_command",
+      "type": "string",
+      "description": "PowerShell command to encode",
+      "value": "Write-Host \"Hey, Atomic!\""
+    }
+  ]
+}

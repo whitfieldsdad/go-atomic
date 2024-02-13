@@ -1,0 +1,32 @@
+{
+  "id": "2d7c471a-e887-4b78-b0dc-b0df1f2e0658",
+  "name": "Malicious User Agents - Nix",
+  "description": "This test simulates an infected host beaconing to command and control.\nInspired by APTSimulator - https://github.com/NextronSystems/APTSimulator/blob/master/test-sets/command-and-control/malicious-user-agents.bat\n",
+  "platforms": [
+    "linux",
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "4eda66da-7319-42bf-9644-7acc1ec78f2c",
+      "type": "execute-command",
+      "data": {
+        "command": "curl -s -A \"HttpBrowser/1.0\" -m3 #{domain}\ncurl -s -A \"Wget/1.9+cvs-stable (Red Hat modified)\" -m3 #{domain}\ncurl -s -A \"Opera/8.81 (Windows NT 6.0; U; en)\" -m3 #{domain}\ncurl -s -A \"*\u003c|\u003e*\" -m3 #{domain}\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "tags": [
+    "T1071.001",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "Default domain to simulate against",
+      "value": "www.google.com"
+    }
+  ]
+}

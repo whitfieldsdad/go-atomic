@@ -18,10 +18,13 @@ const (
 )
 
 type Step struct {
-	Id   string      `json:"id"`
-	Type StepType    `json:"type"`
-	Data interface{} `json:"data"`
-	Tags []string    `json:"tags,omitempty"`
+	Id                string      `json:"id"`
+	Name              string      `json:"name,omitempty"`
+	Description       string      `json:"description,omitempty"`
+	Type              StepType    `json:"type"`
+	Data              interface{} `json:"data"`
+	ElevationRequired bool        `json:"elevation_required"`
+	Tags              []string    `json:"tags,omitempty"`
 }
 
 func (s Step) GetAttackTechniqueIds() []string {
@@ -141,7 +144,6 @@ func NewExecuteCommandStep(command, commandType string) (*Step, error) {
 			Command:     command,
 			CommandType: commandType,
 		},
-		Tags: []string{"T1059"},
 	}
 	return s, nil
 }

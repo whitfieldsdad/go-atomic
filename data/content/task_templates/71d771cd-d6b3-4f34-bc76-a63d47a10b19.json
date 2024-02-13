@@ -1,0 +1,86 @@
+{
+  "id": "71d771cd-d6b3-4f34-bc76-a63d47a10b19",
+  "name": "Rundll32 setupapi.dll Execution",
+  "description": "Test execution of a command using rundll32.exe with setupapi.dll. Upon execution, a windows saying \"installation failed\" will be opened\n\nReference: https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/OSLibraries/Setupapi.yml\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "7bbed270-6725-41c6-8110-b473207e522c",
+      "type": "execute-command",
+      "data": {
+        "command": "rundll32.exe setupapi.dll,InstallHinfSection DefaultInstall 128 \"#{inf_to_execute}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8197cca5-dec7-4d90-8cda-30386d710db5",
+      "name": "Check dependency 1/1",
+      "description": "Inf file must exist on disk at specified location (\"#{inf_to_execute}\")\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{inf_to_execute}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "bf29984e-c692-445b-9c99-0f37e4d523f5",
+      "name": "Resolve dependency 1/1",
+      "description": "Inf file must exist on disk at specified location (\"#{inf_to_execute}\")\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory (split-path \"#{inf_to_execute}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.011/src/T1218.011_DefaultInstall.inf\" -OutFile \"#{inf_to_execute}\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "ff632ee5-1064-4439-8fd6-45df9439c011",
+      "name": "Re-check dependency 1/1",
+      "description": "Inf file must exist on disk at specified location (\"#{inf_to_execute}\")\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if (Test-Path \"#{inf_to_execute}\") {exit 0} else {exit 1}\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "8197cca5-dec7-4d90-8cda-30386d710db5",
+      "p": "on-success",
+      "o": "7bbed270-6725-41c6-8110-b473207e522c"
+    },
+    {
+      "s": "8197cca5-dec7-4d90-8cda-30386d710db5",
+      "p": "on-failure",
+      "o": "bf29984e-c692-445b-9c99-0f37e4d523f5"
+    },
+    {
+      "s": "bf29984e-c692-445b-9c99-0f37e4d523f5",
+      "p": "on-success",
+      "o": "ff632ee5-1064-4439-8fd6-45df9439c011"
+    },
+    {
+      "s": "ff632ee5-1064-4439-8fd6-45df9439c011",
+      "p": "on-failure",
+      "o": "7bbed270-6725-41c6-8110-b473207e522c"
+    }
+  ],
+  "tags": [
+    "T1218.011",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "inf_to_execute",
+      "type": "string",
+      "description": "Local location of inf file",
+      "value": "PathToAtomicsFolder\\T1218.011\\src\\T1218.011_DefaultInstall.inf"
+    }
+  ]
+}

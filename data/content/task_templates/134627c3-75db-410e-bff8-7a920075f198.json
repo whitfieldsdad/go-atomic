@@ -1,0 +1,44 @@
+{
+  "id": "134627c3-75db-410e-bff8-7a920075f198",
+  "name": "Add file to Local Library StartupItems",
+  "description": "Modify or create an file in /Library/StartupItems\n\n[Reference](https://www.alienvault.com/blogs/labs-research/diversity-in-recent-mac-malware)\n",
+  "platforms": [
+    "darwin"
+  ],
+  "steps": [
+    {
+      "id": "be41aac2-cea1-45bb-9c03-8708d066fec3",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo touch /Library/StartupItems/EvilStartup.plist\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b5a04bee-4fa7-48cf-9570-babad0c5eb27",
+      "type": "execute-command",
+      "data": {
+        "command": "sudo rm /Library/StartupItems/EvilStartup.plist\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "be41aac2-cea1-45bb-9c03-8708d066fec3",
+      "p": "on-success",
+      "o": "b5a04bee-4fa7-48cf-9570-babad0c5eb27"
+    },
+    {
+      "s": "be41aac2-cea1-45bb-9c03-8708d066fec3",
+      "p": "on-failure",
+      "o": "b5a04bee-4fa7-48cf-9570-babad0c5eb27"
+    }
+  ],
+  "tags": [
+    "T1037.005",
+    "atomic-red-team"
+  ]
+}

