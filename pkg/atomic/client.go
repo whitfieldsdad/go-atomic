@@ -11,6 +11,7 @@ import (
 
 	"github.com/charmbracelet/log"
 	"github.com/gobwas/glob"
+	"github.com/mitchellh/mapstructure"
 	"github.com/pkg/errors"
 	"github.com/spf13/afero"
 	"github.com/spf13/afero/tarfs"
@@ -124,12 +125,49 @@ func (c Client) readTaskTemplate(path string) (*TaskTemplate, error) {
 	if err != nil {
 		return nil, err
 	}
+	m := make(map[string]interface{})
+	err = json.Unmarshal(b, &m)
+	if err != nil {
+		return nil, err
+	}
+	var (
+		steps []Step
+	)
+	for _, rawStep := range m["steps"].([]interface{}) {
+		step, err := parseStep(rawStep.(map[string]interface{}))
+		if err != nil {
+			return nil, err
+		}
+		steps = append(steps, *step)
+	}
+	m["steps"] = steps
+	
 	var template TaskTemplate
-	err = json.Unmarshal(b, &template)
+	err = mapstructure.Decode(m, &template)
 	if err != nil {
 		return nil, err
 	}
 	return &template, nil
+}
+
+func parseStep(m map[string]interface{}) (*Step, error) {
+	var step Step
+	err := mapstructure.Decode(m, &step)
+	if err != nil {
+		return nil, err
+	}
+	switch step.Type {
+	case "execute-command":
+		var s ExecuteCommandStep
+		err := mapstructure.Decode(m, &s)
+		if err != nil {
+			return nil, err
+		}
+		step.Data = s
+	default:
+		return nil, errors.New("unsupported step type")
+	}
+	return &step, nil
 }
 
 func (c Client) ImportTaskTemplates(paths ...string) error {

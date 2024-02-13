@@ -74,13 +74,46 @@ var countTaskTemplatesCmd = &cobra.Command{
 	},
 }
 
+// TODO
+var runTaskTemplatesCmd = &cobra.Command{
+	Use:   "run",
+	Short: "Run task templates",
+	Run: func(cmd *cobra.Command, args []string) {
+		flags := cmd.Flags()
+		client, err := getClient(flags)
+		if err != nil {
+			log.Fatalf("Failed to create client: %s", err)
+		}
+		query, err := getTaskTemplateQuery(flags)
+		if err != nil {
+			log.Fatalf("Failed to get task query: %s", err)
+		}
+		templates, err := client.ListTaskTemplates(query)
+		if err != nil {
+			log.Fatalf("Failed to list task templates: %s", err)
+		}
+		for _, template := range templates {
+			task, err := template.GetTask(nil)
+			if err != nil {
+				log.Fatalf("Failed to get task: %s", err)
+				continue
+			}
+			result, err := task.Run(cmd.Context())
+			if err != nil {
+				log.Fatalf("Failed to run task: %s", err)
+			}
+			fmt.Println(result)
+		}
+	},
+}
+
 func init() {
 	rootCmd.AddCommand(taskTemplatesCmd)
 
 	rootCmd.PersistentFlags().StringP("workdir", "w", "", "Work directory")
 	rootCmd.MarkPersistentFlagRequired("workdir")
 
-	taskTemplatesCmd.AddCommand(generateTaskTemplatesCmd, listTaskTemplatesCmd, countTaskTemplatesCmd)
+	taskTemplatesCmd.AddCommand(generateTaskTemplatesCmd, listTaskTemplatesCmd, countTaskTemplatesCmd, runTaskTemplatesCmd)
 
 	taskTemplatesCmd.PersistentFlags().StringArrayP("task-template-id", "", []string{}, "Task template ID")
 	taskTemplatesCmd.PersistentFlags().StringArrayP("platform", "", []string{}, "Platform (windows, linux, darwin)")
