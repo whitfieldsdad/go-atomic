@@ -16,6 +16,10 @@ A Go library for executing tests from the [Atomic Red Team](https://github.com/r
 
 ## Usage
 
+### Caveats
+
+- Since the release artifacts are not signed, you may need to explicitly allow the binary to run on your system ([macOS](docs/troubleshooting/darwin/README.md)).
+
 ### Command line interface
 
 Throughout this guide, the following commands are equivalent:
