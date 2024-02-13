@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "7d74d03a-db5f-4372-99e9-789a1c3442e5",
+      "id": "cbd370fa-0383-4c4d-a3e8-eda096b84494",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\" /v EnableFirewall /t REG_DWORD /d 0 /f\nreg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\StandardProfile\" /v EnableFirewall /t REG_DWORD /d 0 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "58ae2776-6d21-4e90-af6a-521280c57e43",
+      "id": "3c782ee7-3d60-4e3d-ba86-e4d5db8fe6d7",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\" /v EnableFirewall /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\StandardProfile\" /v EnableFirewall /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "7d74d03a-db5f-4372-99e9-789a1c3442e5",
+      "s": "cbd370fa-0383-4c4d-a3e8-eda096b84494",
       "p": "on-success",
-      "o": "58ae2776-6d21-4e90-af6a-521280c57e43"
+      "o": "3c782ee7-3d60-4e3d-ba86-e4d5db8fe6d7"
     },
     {
-      "s": "7d74d03a-db5f-4372-99e9-789a1c3442e5",
+      "s": "cbd370fa-0383-4c4d-a3e8-eda096b84494",
       "p": "on-failure",
-      "o": "58ae2776-6d21-4e90-af6a-521280c57e43"
+      "o": "3c782ee7-3d60-4e3d-ba86-e4d5db8fe6d7"
     }
   ],
   "tags": [
-    "T1562.004",
-    "atomic-red-team"
+    "T1562",
+    "T1562.004"
   ]
 }

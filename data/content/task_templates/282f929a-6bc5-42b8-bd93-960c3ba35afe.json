@@ -7,39 +7,38 @@
   ],
   "steps": [
     {
-      "id": "d59c2037-c204-4756-acf9-88e9a0813f7d",
+      "id": "f27cb92f-7f4a-497e-8187-562f5523ff54",
       "type": "execute-command",
       "data": {
         "command": "reg add HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /t REG_EXPAND_SZ /v SecurityHealth /d #{new_executable} /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4830f2fa-5264-4b0e-81d4-bd12f91f4c3a",
+      "id": "e248d8cb-3ecb-4221-bde4-b8b4f8e6c7e5",
       "type": "execute-command",
       "data": {
         "command": "reg delete HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v SecurityHealth /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "d59c2037-c204-4756-acf9-88e9a0813f7d",
+      "s": "f27cb92f-7f4a-497e-8187-562f5523ff54",
       "p": "on-success",
-      "o": "4830f2fa-5264-4b0e-81d4-bd12f91f4c3a"
+      "o": "e248d8cb-3ecb-4221-bde4-b8b4f8e6c7e5"
     },
     {
-      "s": "d59c2037-c204-4756-acf9-88e9a0813f7d",
+      "s": "f27cb92f-7f4a-497e-8187-562f5523ff54",
       "p": "on-failure",
-      "o": "4830f2fa-5264-4b0e-81d4-bd12f91f4c3a"
+      "o": "e248d8cb-3ecb-4221-bde4-b8b4f8e6c7e5"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ],
   "input_arguments": [
     {

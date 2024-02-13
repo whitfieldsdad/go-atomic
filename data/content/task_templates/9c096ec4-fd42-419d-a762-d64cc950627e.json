@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "1e6bb988-28f2-4118-98ab-f377ceeb41f2",
+      "id": "ab687a49-ae6e-453d-9335-4d1079e45558",
       "type": "execute-command",
       "data": {
         "command": "openssl genrsa -out #{key_filename} 4096\nopenssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj \"/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com\" -out #{cert_filename}\ncp #{cert_filename} /etc/pki/ca-trust/source/anchors/\nupdate-ca-trust\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "c1ca733f-ab4c-4732-b8df-a27b29250d54",
+      "id": "12883dcd-d3f3-4db7-bbd0-5f3047b8106d",
       "type": "execute-command",
       "data": {
         "command": "rm /etc/pki/ca-trust/source/anchors/#{cert_filename}\nupdate-ca-trust\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "1e6bb988-28f2-4118-98ab-f377ceeb41f2",
+      "s": "ab687a49-ae6e-453d-9335-4d1079e45558",
       "p": "on-success",
-      "o": "c1ca733f-ab4c-4732-b8df-a27b29250d54"
+      "o": "12883dcd-d3f3-4db7-bbd0-5f3047b8106d"
     },
     {
-      "s": "1e6bb988-28f2-4118-98ab-f377ceeb41f2",
+      "s": "ab687a49-ae6e-453d-9335-4d1079e45558",
       "p": "on-failure",
-      "o": "c1ca733f-ab4c-4732-b8df-a27b29250d54"
+      "o": "12883dcd-d3f3-4db7-bbd0-5f3047b8106d"
     }
   ],
   "tags": [
-    "T1553.004",
-    "atomic-red-team"
+    "T1553",
+    "T1553.004"
   ],
   "input_arguments": [
     {

@@ -47,6 +47,32 @@ type TaskTemplate struct {
 	InputArguments []InputArgument `json:"input_arguments,omitempty"`
 }
 
+func (t TaskTemplate) GetAttackTechniqueIds() []string {
+	var result []string
+	for _, tag := range t.Tags {
+		if !slices.Contains(result, tag) && isAttackTechniqueId(tag) {
+			result = append(result, tag)
+		}
+	}
+	for _, step := range t.Steps {
+		for _, tag := range step.Tags {
+			if !slices.Contains(result, tag) && isAttackTechniqueId(tag) {
+				result = append(result, tag)
+			}
+		}
+	}
+	return result
+}
+
+func (t TaskTemplate) IsElevationRequired() bool {
+	for _, s := range t.Steps {
+		if s.ElevationRequired {
+			return true
+		}
+	}
+	return false
+}
+
 func (t TaskTemplate) GetTags() []string {
 	tags := t.Tags
 	for _, step := range t.Steps {

@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "0c565296-3d61-42ba-ad24-c36b5091334a",
+      "id": "dcb67664-f864-40ff-afc9-fa2e4caa7fa3",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoLogOff /t REG_DWORD /d 1 /f\nreg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v StartMenuLogOff /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "0ab85d4d-53d3-4b1b-9913-d097f2f61940",
+      "id": "d6b2329d-753e-4129-8c98-b4582b9d4204",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoLogOff /f \u003enul 2\u003e\u00261\nreg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v StartMenuLogOff /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "0c565296-3d61-42ba-ad24-c36b5091334a",
+      "s": "dcb67664-f864-40ff-afc9-fa2e4caa7fa3",
       "p": "on-success",
-      "o": "0ab85d4d-53d3-4b1b-9913-d097f2f61940"
+      "o": "d6b2329d-753e-4129-8c98-b4582b9d4204"
     },
     {
-      "s": "0c565296-3d61-42ba-ad24-c36b5091334a",
+      "s": "dcb67664-f864-40ff-afc9-fa2e4caa7fa3",
       "p": "on-failure",
-      "o": "0ab85d4d-53d3-4b1b-9913-d097f2f61940"
+      "o": "d6b2329d-753e-4129-8c98-b4582b9d4204"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

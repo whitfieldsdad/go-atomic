@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "9cfc97e4-7338-4bff-b6f9-cddaab54777d",
+      "id": "1759a16c-7103-4fdc-9260-0cc1160d753c",
       "type": "execute-command",
       "data": {
         "command": "Get-CimInstance -ClassName Win32_Process -Property Name, CommandLine, ProcessId -Filter \"Name = 'svchost.exe' AND CommandLine LIKE '%'\" | Select-Object -First 1 | Start-ATHProcessUnderSpecificParent -FilePath #{file_path} -CommandLine '#{command_line}'",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "2d3106b0-1c6f-4845-b0ec-f51314532f0d",
+      "id": "88186d16-8439-4c91-b316-3647c63679b3",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "e3f2a3eb-0b80-4eb9-bd66-8b28831de588",
+      "id": "eb8838df-8bab-4754-a50c-7e64406ad179",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "661f505b-06e3-40f8-9855-65d4d398330c",
+      "id": "d164bab8-80ed-4b8f-a0ac-1a3cc080d4d5",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
       "type": "execute-command",
@@ -51,29 +51,29 @@
   ],
   "flows": [
     {
-      "s": "2d3106b0-1c6f-4845-b0ec-f51314532f0d",
+      "s": "88186d16-8439-4c91-b316-3647c63679b3",
       "p": "on-success",
-      "o": "9cfc97e4-7338-4bff-b6f9-cddaab54777d"
+      "o": "1759a16c-7103-4fdc-9260-0cc1160d753c"
     },
     {
-      "s": "2d3106b0-1c6f-4845-b0ec-f51314532f0d",
+      "s": "88186d16-8439-4c91-b316-3647c63679b3",
       "p": "on-failure",
-      "o": "e3f2a3eb-0b80-4eb9-bd66-8b28831de588"
+      "o": "eb8838df-8bab-4754-a50c-7e64406ad179"
     },
     {
-      "s": "e3f2a3eb-0b80-4eb9-bd66-8b28831de588",
+      "s": "eb8838df-8bab-4754-a50c-7e64406ad179",
       "p": "on-success",
-      "o": "661f505b-06e3-40f8-9855-65d4d398330c"
+      "o": "d164bab8-80ed-4b8f-a0ac-1a3cc080d4d5"
     },
     {
-      "s": "661f505b-06e3-40f8-9855-65d4d398330c",
+      "s": "d164bab8-80ed-4b8f-a0ac-1a3cc080d4d5",
       "p": "on-failure",
-      "o": "9cfc97e4-7338-4bff-b6f9-cddaab54777d"
+      "o": "1759a16c-7103-4fdc-9260-0cc1160d753c"
     }
   ],
   "tags": [
-    "T1134.004",
-    "atomic-red-team"
+    "T1134",
+    "T1134.004"
   ],
   "input_arguments": [
     {

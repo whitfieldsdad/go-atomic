@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "d4ca47ce-03f4-43df-a5e5-5c25e24b0029",
+      "id": "15284346-f411-4d1f-bc06-ef78b28a157f",
       "type": "execute-command",
       "data": {
         "command": "$Target = \"C:\\Windows\\System32\\calc.exe\"\n$ShortcutLocation = \"$home\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\calc_exe.lnk\"\n$WScriptShell = New-Object -ComObject WScript.Shell\n$Create = $WScriptShell.CreateShortcut($ShortcutLocation)\n$Create.TargetPath = $Target\n$Create.Save()      ",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ec4411f0-ed2a-4e3f-9f21-34901e7e0b36",
+      "id": "f5338267-beef-46d4-8063-fbd18221e481",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item \"$home\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\calc_exe.lnk\" -ErrorAction Ignore",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "d4ca47ce-03f4-43df-a5e5-5c25e24b0029",
+      "s": "15284346-f411-4d1f-bc06-ef78b28a157f",
       "p": "on-success",
-      "o": "ec4411f0-ed2a-4e3f-9f21-34901e7e0b36"
+      "o": "f5338267-beef-46d4-8063-fbd18221e481"
     },
     {
-      "s": "d4ca47ce-03f4-43df-a5e5-5c25e24b0029",
+      "s": "15284346-f411-4d1f-bc06-ef78b28a157f",
       "p": "on-failure",
-      "o": "ec4411f0-ed2a-4e3f-9f21-34901e7e0b36"
+      "o": "f5338267-beef-46d4-8063-fbd18221e481"
     }
   ],
   "tags": [
-    "T1547.001",
-    "atomic-red-team"
+    "T1547",
+    "T1547.001"
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "3c3b0d71-f80f-4c0b-9357-70b1eca462bc",
+      "id": "3dde6b27-5756-4236-a596-7f0a756b0096",
       "type": "execute-command",
       "data": {
         "command": "for($i=0; $i -le #{query_volume}; $i++) { Resolve-DnsName -type \"#{query_type}\" \"#{subdomain}-$(Get-Random -Minimum 1 -Maximum 999999).#{domain}\" -QuickTimeout}\n",
@@ -17,10 +17,16 @@
     }
   ],
   "tags": [
-    "T1071.004",
-    "atomic-red-team"
+    "T1071",
+    "T1071.004"
   ],
   "input_arguments": [
+    {
+      "name": "query_type",
+      "type": "string",
+      "description": "DNS query type",
+      "value": "TXT"
+    },
     {
       "name": "subdomain",
       "type": "string",
@@ -38,12 +44,6 @@
       "type": "string",
       "description": "Default domain to simulate against",
       "value": "127.0.0.1.nip.io"
-    },
-    {
-      "name": "query_type",
-      "type": "string",
-      "description": "DNS query type",
-      "value": "TXT"
     }
   ]
 }

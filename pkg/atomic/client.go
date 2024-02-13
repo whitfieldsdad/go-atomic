@@ -91,38 +91,19 @@ func NewClientConfig(workdir string) ClientConfig {
 	}
 }
 
-func (c Client) ReadTasks(path string) ([]Task, error) {
-	var tasks []Task
-	paths, err := findFiles(path, "*.json")
-	if err != nil {
-		return nil, err
-	}
-	for _, path := range paths {
-		task, err := c.readTask(path)
-		if err != nil {
-			log.Errorf("Failed to read task: %s", err)
-			continue
-		}
-		tasks = append(tasks, *task)
-	}
-	return tasks, nil
-}
-
-// TODO: implement
-func (c Client) readTask(path string) (*Task, error) {
-	panic("not implemented")
-}
-
-func (c Client) ReadTaskTemplates(path string) ([]TaskTemplate, error) {
+func (c Client) ListTaskTemplates(q *TaskTemplateQuery) ([]TaskTemplate, error) {
 	var templates []TaskTemplate
-	paths, err := findFiles(path, "*.json")
+	paths, err := findFiles(c.Config.GetTaskTemplateDir(), "*.json")
 	if err != nil {
 		return nil, err
 	}
 	for _, path := range paths {
 		template, err := c.readTaskTemplate(path)
 		if err != nil {
-			log.Errorf("Failed to read task template: %s", err)
+			log.Errorf("Failed to read task: %s", err)
+			continue
+		}
+		if q != nil && !q.Matches(*template) {
 			continue
 		}
 		templates = append(templates, *template)
@@ -130,44 +111,25 @@ func (c Client) ReadTaskTemplates(path string) ([]TaskTemplate, error) {
 	return templates, nil
 }
 
-// TODO: implement
-func (c Client) readTaskTemplate(path string) (*TaskTemplate, error) {
-	os.Exit(1)
-	return nil, nil
+func (c Client) CountTaskTemplates(q *TaskTemplateQuery) (int, error) {
+	templates, err := c.ListTaskTemplates(q)
+	if err != nil {
+		return 0, err
+	}
+	return len(templates), nil
 }
 
-func (c Client) GenerateTasks(inputPath, outputDir string) error {
-	inputPaths, err := findFiles(inputPath, "*.json")
+func (c Client) readTaskTemplate(path string) (*TaskTemplate, error) {
+	b, err := os.ReadFile(path)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	for _, inputPath := range inputPaths {
-		template, err := c.readTaskTemplate(inputPath)
-		if err != nil {
-			return err
-		}
-		task, err := template.GetTask(template.getDefaultArgumentMap())
-		if err != nil {
-			return err
-		}
-		filename := fmt.Sprintf("%s.json", task.Id)
-		path := filepath.Join(outputDir, filename)
-		f, err := os.Create(path)
-		if err != nil {
-			return err
-		}
-		defer f.Close()
-
-		b, err := json.MarshalIndent(task, "", "  ")
-		if err != nil {
-			return err
-		}
-		_, err = f.Write(b)
-		if err != nil {
-			return err
-		}
+	var template TaskTemplate
+	err = json.Unmarshal(b, &template)
+	if err != nil {
+		return nil, err
 	}
-	return nil
+	return &template, nil
 }
 
 func (c Client) ImportTaskTemplates(paths ...string) error {

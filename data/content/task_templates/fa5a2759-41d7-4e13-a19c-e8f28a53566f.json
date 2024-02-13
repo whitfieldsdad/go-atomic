@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "49556df3-8dca-46ca-89ad-aec335f8ba7a",
+      "id": "190aef08-f509-4c3b-8386-aa4fa5e8ca58",
       "type": "execute-command",
       "data": {
         "command": "copy C:\\Windows\\System32\\cmd.exe C:\\svchost.exe\nC:\\svchost.exe /c echo T1105 \u003e \\\\localhost\\c$\\T1105.txt\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "e78e1c25-5b22-4ddc-b6a7-d6af4064911c",
+      "id": "5afad1fd-3255-48c2-a882-2da123132859",
       "type": "execute-command",
       "data": {
         "command": "del C:\\T1105.txt \u003enul 2\u003e\u00261\ndel C:\\\\svchost.exe \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "49556df3-8dca-46ca-89ad-aec335f8ba7a",
+      "s": "190aef08-f509-4c3b-8386-aa4fa5e8ca58",
       "p": "on-success",
-      "o": "e78e1c25-5b22-4ddc-b6a7-d6af4064911c"
+      "o": "5afad1fd-3255-48c2-a882-2da123132859"
     },
     {
-      "s": "49556df3-8dca-46ca-89ad-aec335f8ba7a",
+      "s": "190aef08-f509-4c3b-8386-aa4fa5e8ca58",
       "p": "on-failure",
-      "o": "e78e1c25-5b22-4ddc-b6a7-d6af4064911c"
+      "o": "5afad1fd-3255-48c2-a882-2da123132859"
     }
   ],
   "tags": [
-    "T1105",
-    "atomic-red-team"
+    "T1105"
   ]
 }

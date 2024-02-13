@@ -7,39 +7,38 @@
   ],
   "steps": [
     {
-      "id": "3373e299-9bf7-4ba4-a7cb-d7d8fae3dfec",
+      "id": "37897d98-7222-4697-9972-fc70bfe40dcc",
       "type": "execute-command",
       "data": {
         "command": "sc.exe stop #{service_name}\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "474953d5-de9e-4677-8345-b0f0f3ede06d",
+      "id": "67d586b8-08d2-4b61-80ca-8b9bf355ee9d",
       "type": "execute-command",
       "data": {
         "command": "sc.exe start #{service_name} \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "3373e299-9bf7-4ba4-a7cb-d7d8fae3dfec",
+      "s": "37897d98-7222-4697-9972-fc70bfe40dcc",
       "p": "on-success",
-      "o": "474953d5-de9e-4677-8345-b0f0f3ede06d"
+      "o": "67d586b8-08d2-4b61-80ca-8b9bf355ee9d"
     },
     {
-      "s": "3373e299-9bf7-4ba4-a7cb-d7d8fae3dfec",
+      "s": "37897d98-7222-4697-9972-fc70bfe40dcc",
       "p": "on-failure",
-      "o": "474953d5-de9e-4677-8345-b0f0f3ede06d"
+      "o": "67d586b8-08d2-4b61-80ca-8b9bf355ee9d"
     }
   ],
   "tags": [
-    "T1489",
-    "atomic-red-team"
+    "T1489"
   ],
   "input_arguments": [
     {

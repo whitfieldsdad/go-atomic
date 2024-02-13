@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6719684b-fdda-4d25-9b78-ecaaa2f456a4",
+      "id": "7d44edf4-808e-41b6-85e7-b0d0c0537cd8",
       "type": "execute-command",
       "data": {
         "command": "wmic /user:#{user_name} /password:#{password} /node:\"#{node}\" process call create #{process_to_execute}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "64db4262-3bed-4e7e-b191-380fd5ddf27b",
+      "id": "64bfc1df-cb0e-4510-a59f-6f333d689d59",
       "type": "execute-command",
       "data": {
         "command": "wmic /user:#{user_name} /password:#{password} /node:\"#{node}\" process where name='#{process_to_execute}' delete \u003enul 2\u003e\u00261\n",
@@ -27,21 +27,26 @@
   ],
   "flows": [
     {
-      "s": "6719684b-fdda-4d25-9b78-ecaaa2f456a4",
+      "s": "7d44edf4-808e-41b6-85e7-b0d0c0537cd8",
       "p": "on-success",
-      "o": "64db4262-3bed-4e7e-b191-380fd5ddf27b"
+      "o": "64bfc1df-cb0e-4510-a59f-6f333d689d59"
     },
     {
-      "s": "6719684b-fdda-4d25-9b78-ecaaa2f456a4",
+      "s": "7d44edf4-808e-41b6-85e7-b0d0c0537cd8",
       "p": "on-failure",
-      "o": "64db4262-3bed-4e7e-b191-380fd5ddf27b"
+      "o": "64bfc1df-cb0e-4510-a59f-6f333d689d59"
     }
   ],
   "tags": [
-    "T1047",
-    "atomic-red-team"
+    "T1047"
   ],
   "input_arguments": [
+    {
+      "name": "node",
+      "type": "string",
+      "description": "Ip Address",
+      "value": "127.0.0.1"
+    },
     {
       "name": "user_name",
       "type": "string",
@@ -59,12 +64,6 @@
       "type": "string",
       "description": "Name or path of process to execute.",
       "value": "notepad.exe"
-    },
-    {
-      "name": "node",
-      "type": "string",
-      "description": "Ip Address",
-      "value": "127.0.0.1"
     }
   ]
 }

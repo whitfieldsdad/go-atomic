@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "4adff7f1-525d-4740-a3a1-8f3ed2f62c06",
+      "id": "a08e45d5-dafb-435e-82cf-1d9ecdb39596",
       "type": "execute-command",
       "data": {
         "command": "set \"#{download_path}\" \u0026\u0026 cmd /c desktopimgdownldr.exe /lockscreenurl:#{remote_file} /eventName:desktopimgdownldr\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "57625c08-d1a0-4f74-8c0c-879cd46772c2",
+      "id": "ea1a8618-c01e-4802-a903-448d4837ecea",
       "type": "execute-command",
       "data": {
         "command": "del #{cleanup_path}\\#{cleanup_file} \u003enul 2\u003e\u00261\n",
@@ -27,33 +27,20 @@
   ],
   "flows": [
     {
-      "s": "4adff7f1-525d-4740-a3a1-8f3ed2f62c06",
+      "s": "a08e45d5-dafb-435e-82cf-1d9ecdb39596",
       "p": "on-success",
-      "o": "57625c08-d1a0-4f74-8c0c-879cd46772c2"
+      "o": "ea1a8618-c01e-4802-a903-448d4837ecea"
     },
     {
-      "s": "4adff7f1-525d-4740-a3a1-8f3ed2f62c06",
+      "s": "a08e45d5-dafb-435e-82cf-1d9ecdb39596",
       "p": "on-failure",
-      "o": "57625c08-d1a0-4f74-8c0c-879cd46772c2"
+      "o": "ea1a8618-c01e-4802-a903-448d4837ecea"
     }
   ],
   "tags": [
-    "T1197",
-    "atomic-red-team"
+    "T1197"
   ],
   "input_arguments": [
-    {
-      "name": "remote_file",
-      "type": "url",
-      "description": "Remote file to download",
-      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md"
-    },
-    {
-      "name": "download_path",
-      "type": "path",
-      "description": "Local file path to save downloaded file",
-      "value": "SYSTEMROOT=C:\\Windows\\Temp"
-    },
     {
       "name": "cleanup_path",
       "type": "path",
@@ -65,6 +52,18 @@
       "type": "string",
       "description": "file to remove as part of cleanup_command",
       "value": "*.md"
+    },
+    {
+      "name": "remote_file",
+      "type": "url",
+      "description": "Remote file to download",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md"
+    },
+    {
+      "name": "download_path",
+      "type": "path",
+      "description": "Local file path to save downloaded file",
+      "value": "SYSTEMROOT=C:\\Windows\\Temp"
     }
   ]
 }

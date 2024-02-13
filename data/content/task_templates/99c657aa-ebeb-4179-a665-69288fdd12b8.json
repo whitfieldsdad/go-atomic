@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "fae3a5e9-718a-4055-b9c5-5800bbc67517",
+      "id": "c4788c3b-db7e-47ab-bfe0-724fa04d8477",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters\" /v AutoShareServer /t REG_DWORD /d 0 /f\nreg add \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters\" /v AutoShareWks /t REG_DWORD /d 0 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "fe140208-0f4d-4021-a822-b428282002b8",
+      "id": "4170d5d5-0154-4f56-abb8-45c78faa9675",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters\" /v AutoShareServer /f\nreg delete \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters\" /v AutoShareWks /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "fae3a5e9-718a-4055-b9c5-5800bbc67517",
+      "s": "c4788c3b-db7e-47ab-bfe0-724fa04d8477",
       "p": "on-success",
-      "o": "fe140208-0f4d-4021-a822-b428282002b8"
+      "o": "4170d5d5-0154-4f56-abb8-45c78faa9675"
     },
     {
-      "s": "fae3a5e9-718a-4055-b9c5-5800bbc67517",
+      "s": "c4788c3b-db7e-47ab-bfe0-724fa04d8477",
       "p": "on-failure",
-      "o": "fe140208-0f4d-4021-a822-b428282002b8"
+      "o": "4170d5d5-0154-4f56-abb8-45c78faa9675"
     }
   ],
   "tags": [
-    "T1070.005",
-    "atomic-red-team"
+    "T1070",
+    "T1070.005"
   ]
 }

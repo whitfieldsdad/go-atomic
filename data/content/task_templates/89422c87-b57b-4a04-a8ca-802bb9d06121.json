@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "113eea70-7b3f-4454-bf95-f10b3b471b38",
+      "id": "d5910889-556a-4581-9084-355639a2d068",
       "type": "execute-command",
       "data": {
         "command": "aws logs create-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Created ***\"\naws logs delete-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Deleted ***\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "870d7512-057d-4032-b605-07df98ed558a",
+      "id": "ad1c7059-89fa-47f8-be15-a43b90bf6f85",
       "name": "Check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "af066f71-8c19-4f0c-8922-495c081e4271",
+      "id": "a55bcc38-c0a7-40b5-848c-56eb80664eeb",
       "name": "Resolve dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "3d66f2e2-5aab-4145-aa2d-2eae3de6c8cb",
+      "id": "d7dcb272-412b-4510-ae24-c0027cafb6f9",
       "name": "Re-check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -51,29 +51,29 @@
   ],
   "flows": [
     {
-      "s": "870d7512-057d-4032-b605-07df98ed558a",
+      "s": "ad1c7059-89fa-47f8-be15-a43b90bf6f85",
       "p": "on-success",
-      "o": "113eea70-7b3f-4454-bf95-f10b3b471b38"
+      "o": "d5910889-556a-4581-9084-355639a2d068"
     },
     {
-      "s": "870d7512-057d-4032-b605-07df98ed558a",
+      "s": "ad1c7059-89fa-47f8-be15-a43b90bf6f85",
       "p": "on-failure",
-      "o": "af066f71-8c19-4f0c-8922-495c081e4271"
+      "o": "a55bcc38-c0a7-40b5-848c-56eb80664eeb"
     },
     {
-      "s": "af066f71-8c19-4f0c-8922-495c081e4271",
+      "s": "a55bcc38-c0a7-40b5-848c-56eb80664eeb",
       "p": "on-success",
-      "o": "3d66f2e2-5aab-4145-aa2d-2eae3de6c8cb"
+      "o": "d7dcb272-412b-4510-ae24-c0027cafb6f9"
     },
     {
-      "s": "3d66f2e2-5aab-4145-aa2d-2eae3de6c8cb",
+      "s": "d7dcb272-412b-4510-ae24-c0027cafb6f9",
       "p": "on-failure",
-      "o": "113eea70-7b3f-4454-bf95-f10b3b471b38"
+      "o": "d5910889-556a-4581-9084-355639a2d068"
     }
   ],
   "tags": [
-    "T1562.008",
-    "atomic-red-team"
+    "T1562",
+    "T1562.008"
   ],
   "input_arguments": [
     {

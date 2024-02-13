@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "9b304fc4-a3fc-4d5d-8a0a-4f618451676a",
+      "id": "08404ede-c1c7-476e-901d-6f983d2e3299",
       "type": "execute-command",
       "data": {
         "command": "$Server=#{logonserver}\n$User = Join-Path #{domain} #{username}\n$Password=\"#{password}\"\ncmdkey /generic:TERMSRV/$Server /user:$User /pass:$Password\nmstsc /v:$Server\necho \"RDP connection established\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "c95064b1-c4b3-4a91-b2e2-03268bb319fc",
+      "id": "3a457b07-33cd-4165-9525-cc2fc7d8e546",
       "type": "execute-command",
       "data": {
         "command": "$p=Tasklist /svc /fi \"IMAGENAME eq mstsc.exe\" /fo csv | convertfrom-csv\nif(-not ([string]::IsNullOrEmpty($p.PID))) { Stop-Process -Id $p.PID }\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "71d89eda-b3ae-4f46-b2ef-c506d3122c65",
+      "id": "cd407446-fa72-4baa-919c-67612049523c",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "9bd8afc8-99a5-4c8a-b7b0-450ed8068a2c",
+      "id": "524baf1a-90ff-4b58-ac69-77eec7b3a3f1",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "c68592df-7b95-4deb-83af-9116d6c212e0",
+      "id": "dd8e9e1c-4a2a-48f3-b893-4de1062a0640",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -60,39 +60,39 @@
   ],
   "flows": [
     {
-      "s": "9b304fc4-a3fc-4d5d-8a0a-4f618451676a",
+      "s": "08404ede-c1c7-476e-901d-6f983d2e3299",
       "p": "on-success",
-      "o": "c95064b1-c4b3-4a91-b2e2-03268bb319fc"
+      "o": "3a457b07-33cd-4165-9525-cc2fc7d8e546"
     },
     {
-      "s": "9b304fc4-a3fc-4d5d-8a0a-4f618451676a",
+      "s": "08404ede-c1c7-476e-901d-6f983d2e3299",
       "p": "on-failure",
-      "o": "c95064b1-c4b3-4a91-b2e2-03268bb319fc"
+      "o": "3a457b07-33cd-4165-9525-cc2fc7d8e546"
     },
     {
-      "s": "71d89eda-b3ae-4f46-b2ef-c506d3122c65",
+      "s": "cd407446-fa72-4baa-919c-67612049523c",
       "p": "on-success",
-      "o": "9b304fc4-a3fc-4d5d-8a0a-4f618451676a"
+      "o": "08404ede-c1c7-476e-901d-6f983d2e3299"
     },
     {
-      "s": "71d89eda-b3ae-4f46-b2ef-c506d3122c65",
+      "s": "cd407446-fa72-4baa-919c-67612049523c",
       "p": "on-failure",
-      "o": "9bd8afc8-99a5-4c8a-b7b0-450ed8068a2c"
+      "o": "524baf1a-90ff-4b58-ac69-77eec7b3a3f1"
     },
     {
-      "s": "9bd8afc8-99a5-4c8a-b7b0-450ed8068a2c",
+      "s": "524baf1a-90ff-4b58-ac69-77eec7b3a3f1",
       "p": "on-success",
-      "o": "c68592df-7b95-4deb-83af-9116d6c212e0"
+      "o": "dd8e9e1c-4a2a-48f3-b893-4de1062a0640"
     },
     {
-      "s": "c68592df-7b95-4deb-83af-9116d6c212e0",
+      "s": "dd8e9e1c-4a2a-48f3-b893-4de1062a0640",
       "p": "on-failure",
-      "o": "9b304fc4-a3fc-4d5d-8a0a-4f618451676a"
+      "o": "08404ede-c1c7-476e-901d-6f983d2e3299"
     }
   ],
   "tags": [
-    "T1021.001",
-    "atomic-red-team"
+    "T1021",
+    "T1021.001"
   ],
   "input_arguments": [
     {

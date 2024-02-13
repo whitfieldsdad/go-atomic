@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "a9040034-9fd1-4c04-9a64-996d05e75a07",
+      "id": "28ceb8d6-3e96-431a-bea1-615289c40708",
       "type": "execute-command",
       "data": {
         "command": "iptables-save \u003e /tmp/iptables.rules\niptables -D OUTPUT -p tcp --dport 21 -j DROP\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "00cddc67-bc3f-42b0-9cbd-7eb7ddee4542",
+      "id": "81118267-6c04-49c2-81cd-4391c393cd91",
       "type": "execute-command",
       "data": {
         "command": "iptables-restore \u003c /tmp/iptables.rules\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5d86f292-b805-4eea-85a0-c446ae6aa12b",
+      "id": "2d640b46-01b8-4f0d-90e6-d56368e07d50",
       "name": "Check dependency 1/1",
       "description": "Check if iptables is installed on the machine.\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if [ ! -x \"$(command -v iptables)\" ]; then echo -e \"\\n***** iptables NOT installed *****\\n\"; exit 1; fi\nif ! echo \"$(iptables -L)\" | grep -q \"DROP .*dpt:ftp\"; then echo -e \"\\n***** this firewall rule is NOT activated *****\\n***** activate it by executing \\\"iptables -A OUTPUT -p tcp --dport 21 -j DROP\\\" *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "285a76d8-7c63-47eb-8bfc-80978aa65396",
+      "id": "6d425b3f-cf28-4973-8fbb-60788767d324",
       "name": "Resolve dependency 1/1",
       "description": "Check if iptables is installed on the machine.\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo \"\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "eb3c6f5f-0174-4bc9-b538-f197bbb2bf51",
+      "id": "adaf06b5-c54f-4765-8bcc-303a154856ca",
       "name": "Re-check dependency 1/1",
       "description": "Check if iptables is installed on the machine.\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "if [ ! -x \"$(command -v iptables)\" ]; then echo -e \"\\n***** iptables NOT installed *****\\n\"; exit 1; fi\nif ! echo \"$(iptables -L)\" | grep -q \"DROP .*dpt:ftp\"; then echo -e \"\\n***** this firewall rule is NOT activated *****\\n***** activate it by executing \\\"iptables -A OUTPUT -p tcp --dport 21 -j DROP\\\" *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "a9040034-9fd1-4c04-9a64-996d05e75a07",
+      "s": "28ceb8d6-3e96-431a-bea1-615289c40708",
       "p": "on-success",
-      "o": "00cddc67-bc3f-42b0-9cbd-7eb7ddee4542"
+      "o": "81118267-6c04-49c2-81cd-4391c393cd91"
     },
     {
-      "s": "a9040034-9fd1-4c04-9a64-996d05e75a07",
+      "s": "28ceb8d6-3e96-431a-bea1-615289c40708",
       "p": "on-failure",
-      "o": "00cddc67-bc3f-42b0-9cbd-7eb7ddee4542"
+      "o": "81118267-6c04-49c2-81cd-4391c393cd91"
     },
     {
-      "s": "5d86f292-b805-4eea-85a0-c446ae6aa12b",
+      "s": "2d640b46-01b8-4f0d-90e6-d56368e07d50",
       "p": "on-success",
-      "o": "a9040034-9fd1-4c04-9a64-996d05e75a07"
+      "o": "28ceb8d6-3e96-431a-bea1-615289c40708"
     },
     {
-      "s": "5d86f292-b805-4eea-85a0-c446ae6aa12b",
+      "s": "2d640b46-01b8-4f0d-90e6-d56368e07d50",
       "p": "on-failure",
-      "o": "285a76d8-7c63-47eb-8bfc-80978aa65396"
+      "o": "6d425b3f-cf28-4973-8fbb-60788767d324"
     },
     {
-      "s": "285a76d8-7c63-47eb-8bfc-80978aa65396",
+      "s": "6d425b3f-cf28-4973-8fbb-60788767d324",
       "p": "on-success",
-      "o": "eb3c6f5f-0174-4bc9-b538-f197bbb2bf51"
+      "o": "adaf06b5-c54f-4765-8bcc-303a154856ca"
     },
     {
-      "s": "eb3c6f5f-0174-4bc9-b538-f197bbb2bf51",
+      "s": "adaf06b5-c54f-4765-8bcc-303a154856ca",
       "p": "on-failure",
-      "o": "a9040034-9fd1-4c04-9a64-996d05e75a07"
+      "o": "28ceb8d6-3e96-431a-bea1-615289c40708"
     }
   ],
   "tags": [
-    "T1562.004",
-    "atomic-red-team"
+    "T1562",
+    "T1562.004"
   ]
 }

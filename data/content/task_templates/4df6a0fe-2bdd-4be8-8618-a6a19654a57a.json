@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "666f81b7-d029-4e15-bf4b-2783ff7ecb01",
+      "id": "5521951d-c3eb-4f4c-82ca-19c738fa7481",
       "type": "execute-command",
       "data": {
         "command": "sudo sh -c \"echo Defaults \"'!'\"tty_tickets \u003e\u003e /usr/local/etc/sudoers\"\nsudo visudo -c -f /usr/local/etc/sudoers\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "88e116ac-e3df-4aab-9597-de0052b94297",
+      "id": "8c186a7e-ef56-4f6a-b890-47c591b4ae01",
       "name": "Check dependency 1/1",
       "description": "Check if sudo is installed.\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "if [ ! -x \"$(command -v sudo)\" ]; then exit 1; else exit 0; fi;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "e614541d-02bb-4ada-ada1-9eb371d95201",
+      "id": "cad7c133-b288-4741-b785-04993f86f539",
       "name": "Resolve dependency 1/1",
       "description": "Check if sudo is installed.\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "(which pkg \u0026\u0026 pkg install -y sudo)\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "6bcc7399-d643-46bf-a309-00eb595ff3ac",
+      "id": "87518bc6-630d-48d4-9830-b7e3151a3d07",
       "name": "Re-check dependency 1/1",
       "description": "Check if sudo is installed.\n",
       "type": "execute-command",
@@ -46,33 +46,33 @@
         "command": "if [ ! -x \"$(command -v sudo)\" ]; then exit 1; else exit 0; fi;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "88e116ac-e3df-4aab-9597-de0052b94297",
+      "s": "8c186a7e-ef56-4f6a-b890-47c591b4ae01",
       "p": "on-success",
-      "o": "666f81b7-d029-4e15-bf4b-2783ff7ecb01"
+      "o": "5521951d-c3eb-4f4c-82ca-19c738fa7481"
     },
     {
-      "s": "88e116ac-e3df-4aab-9597-de0052b94297",
+      "s": "8c186a7e-ef56-4f6a-b890-47c591b4ae01",
       "p": "on-failure",
-      "o": "e614541d-02bb-4ada-ada1-9eb371d95201"
+      "o": "cad7c133-b288-4741-b785-04993f86f539"
     },
     {
-      "s": "e614541d-02bb-4ada-ada1-9eb371d95201",
+      "s": "cad7c133-b288-4741-b785-04993f86f539",
       "p": "on-success",
-      "o": "6bcc7399-d643-46bf-a309-00eb595ff3ac"
+      "o": "87518bc6-630d-48d4-9830-b7e3151a3d07"
     },
     {
-      "s": "6bcc7399-d643-46bf-a309-00eb595ff3ac",
+      "s": "87518bc6-630d-48d4-9830-b7e3151a3d07",
       "p": "on-failure",
-      "o": "666f81b7-d029-4e15-bf4b-2783ff7ecb01"
+      "o": "5521951d-c3eb-4f4c-82ca-19c738fa7481"
     }
   ],
   "tags": [
-    "T1548.003",
-    "atomic-red-team"
+    "T1548",
+    "T1548.003"
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "98ff262c-6c95-47c5-9cb1-7271d2c74721",
+      "id": "78699cbb-11f0-4f5d-ab9d-7cc1d260cac1",
       "type": "execute-command",
       "data": {
         "command": "Get-ADUser -Filter 'useraccountcontrol -band 4194304' -Properties useraccountcontrol | Format-Table name\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "40a52845-29aa-47d1-b1e5-026ddd23d89c",
+      "id": "d59ba23d-0acf-49c6-8c90-f8b9a1cd67ce",
       "name": "Check dependency 1/2",
       "description": "Computer must be domain joined.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "8dd03cdf-b7d7-467b-afe2-6d6ff622b153",
+      "id": "16346e9b-8ef1-49eb-a7fc-3daefabf6785",
       "name": "Resolve dependency 1/2",
       "description": "Computer must be domain joined.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "ad91c1d5-d37c-40bf-b1e1-dfa208b6a07f",
+      "id": "8bd8c7e4-9d24-47b4-9b59-e04ec86f5e0c",
       "name": "Re-check dependency 1/2",
       "description": "Computer must be domain joined.\n",
       "type": "execute-command",
@@ -49,7 +49,7 @@
       "elevation_required": false
     },
     {
-      "id": "7144e9a4-4333-4e38-a374-6d309acd29c2",
+      "id": "9e127830-c24e-48c9-bff8-294b76fa73cb",
       "name": "Check dependency 2/2",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
@@ -60,7 +60,7 @@
       "elevation_required": false
     },
     {
-      "id": "c0054816-b2ff-4f7e-b6fa-79a6a3571227",
+      "id": "70442b6d-be38-4f10-a310-263973377cbf",
       "name": "Resolve dependency 2/2",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
@@ -71,7 +71,7 @@
       "elevation_required": false
     },
     {
-      "id": "446c3e00-a9ac-4eda-9f95-109bf030ade6",
+      "id": "21db4768-d0a3-4d97-9e5c-82f5df26634d",
       "name": "Re-check dependency 2/2",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
@@ -84,48 +84,48 @@
   ],
   "flows": [
     {
-      "s": "40a52845-29aa-47d1-b1e5-026ddd23d89c",
+      "s": "d59ba23d-0acf-49c6-8c90-f8b9a1cd67ce",
       "p": "on-success",
-      "o": "98ff262c-6c95-47c5-9cb1-7271d2c74721"
+      "o": "78699cbb-11f0-4f5d-ab9d-7cc1d260cac1"
     },
     {
-      "s": "40a52845-29aa-47d1-b1e5-026ddd23d89c",
+      "s": "d59ba23d-0acf-49c6-8c90-f8b9a1cd67ce",
       "p": "on-failure",
-      "o": "8dd03cdf-b7d7-467b-afe2-6d6ff622b153"
+      "o": "16346e9b-8ef1-49eb-a7fc-3daefabf6785"
     },
     {
-      "s": "8dd03cdf-b7d7-467b-afe2-6d6ff622b153",
+      "s": "16346e9b-8ef1-49eb-a7fc-3daefabf6785",
       "p": "on-success",
-      "o": "ad91c1d5-d37c-40bf-b1e1-dfa208b6a07f"
+      "o": "8bd8c7e4-9d24-47b4-9b59-e04ec86f5e0c"
     },
     {
-      "s": "ad91c1d5-d37c-40bf-b1e1-dfa208b6a07f",
+      "s": "8bd8c7e4-9d24-47b4-9b59-e04ec86f5e0c",
       "p": "on-failure",
-      "o": "98ff262c-6c95-47c5-9cb1-7271d2c74721"
+      "o": "78699cbb-11f0-4f5d-ab9d-7cc1d260cac1"
     },
     {
-      "s": "7144e9a4-4333-4e38-a374-6d309acd29c2",
+      "s": "9e127830-c24e-48c9-bff8-294b76fa73cb",
       "p": "on-success",
-      "o": "98ff262c-6c95-47c5-9cb1-7271d2c74721"
+      "o": "78699cbb-11f0-4f5d-ab9d-7cc1d260cac1"
     },
     {
-      "s": "7144e9a4-4333-4e38-a374-6d309acd29c2",
+      "s": "9e127830-c24e-48c9-bff8-294b76fa73cb",
       "p": "on-failure",
-      "o": "c0054816-b2ff-4f7e-b6fa-79a6a3571227"
+      "o": "70442b6d-be38-4f10-a310-263973377cbf"
     },
     {
-      "s": "c0054816-b2ff-4f7e-b6fa-79a6a3571227",
+      "s": "70442b6d-be38-4f10-a310-263973377cbf",
       "p": "on-success",
-      "o": "446c3e00-a9ac-4eda-9f95-109bf030ade6"
+      "o": "21db4768-d0a3-4d97-9e5c-82f5df26634d"
     },
     {
-      "s": "446c3e00-a9ac-4eda-9f95-109bf030ade6",
+      "s": "21db4768-d0a3-4d97-9e5c-82f5df26634d",
       "p": "on-failure",
-      "o": "98ff262c-6c95-47c5-9cb1-7271d2c74721"
+      "o": "78699cbb-11f0-4f5d-ab9d-7cc1d260cac1"
     }
   ],
   "tags": [
-    "T1069.002",
-    "atomic-red-team"
+    "T1069",
+    "T1069.002"
   ]
 }

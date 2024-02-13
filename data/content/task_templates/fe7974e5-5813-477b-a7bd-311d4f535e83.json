@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "92bf5457-6df9-4f8d-8645-bc72b4c72782",
+      "id": "fa1d7294-a2ce-49d9-bdf7-3966cf15b60a",
       "type": "execute-command",
       "data": {
         "command": "reg add \"hklm\\system\\currentcontrolset\\control\\lsa\" /f /v DisableRestrictedAdmin /t REG_DWORD /d 0\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "135b0dde-2482-4a4f-9c88-a50762f1c5d6",
+      "id": "9df0257f-c184-451b-83ae-67090abaeea0",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"hklm\\system\\currentcontrolset\\control\\lsa\" /f /v DisableRestrictedAdmin \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "92bf5457-6df9-4f8d-8645-bc72b4c72782",
+      "s": "fa1d7294-a2ce-49d9-bdf7-3966cf15b60a",
       "p": "on-success",
-      "o": "135b0dde-2482-4a4f-9c88-a50762f1c5d6"
+      "o": "9df0257f-c184-451b-83ae-67090abaeea0"
     },
     {
-      "s": "92bf5457-6df9-4f8d-8645-bc72b4c72782",
+      "s": "fa1d7294-a2ce-49d9-bdf7-3966cf15b60a",
       "p": "on-failure",
-      "o": "135b0dde-2482-4a4f-9c88-a50762f1c5d6"
+      "o": "9df0257f-c184-451b-83ae-67090abaeea0"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

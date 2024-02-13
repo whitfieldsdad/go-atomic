@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "ff021a27-c839-4042-b97e-bc68bcda87b2",
+      "id": "914957ac-84c4-4321-9333-1d1510489ec2",
       "type": "execute-command",
       "data": {
         "command": "$excludedExts= \"#{excluded_exts}\"\nAdd-MpPreference -ExclusionExtension  $excludedExts",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5448a7e6-69f0-470b-8deb-3dfecad7df76",
+      "id": "e5c8460c-3646-4dc3-ad4f-709a2099b8b6",
       "type": "execute-command",
       "data": {
         "command": "$excludedExts= \"#{excluded_exts}\"\nRemove-MpPreference -ExclusionExtension  $excludedExts -ErrorAction Ignore\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "ff021a27-c839-4042-b97e-bc68bcda87b2",
+      "s": "914957ac-84c4-4321-9333-1d1510489ec2",
       "p": "on-success",
-      "o": "5448a7e6-69f0-470b-8deb-3dfecad7df76"
+      "o": "e5c8460c-3646-4dc3-ad4f-709a2099b8b6"
     },
     {
-      "s": "ff021a27-c839-4042-b97e-bc68bcda87b2",
+      "s": "914957ac-84c4-4321-9333-1d1510489ec2",
       "p": "on-failure",
-      "o": "5448a7e6-69f0-470b-8deb-3dfecad7df76"
+      "o": "e5c8460c-3646-4dc3-ad4f-709a2099b8b6"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ],
   "input_arguments": [
     {

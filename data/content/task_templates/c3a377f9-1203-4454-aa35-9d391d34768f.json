@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "e4d4c9bd-c06e-4cbd-bf71-08e00582adc8",
+      "id": "809037f6-0f82-4049-a2be-5cdcc1d35317",
       "type": "execute-command",
       "data": {
         "command": "sudo systemctl stop systemd-journald #disables journal logging\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "63fcfa54-52d2-4533-84bb-64bcb18cb9d1",
+      "id": "e075af3d-025f-4b83-9b18-b389b2fc90c9",
       "type": "execute-command",
       "data": {
         "command": "sudo systemctl start systemd-journald #starts journal service\nsudo systemctl enable systemd-journald #starts journal service automatically at boot time\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "e4d4c9bd-c06e-4cbd-bf71-08e00582adc8",
+      "s": "809037f6-0f82-4049-a2be-5cdcc1d35317",
       "p": "on-success",
-      "o": "63fcfa54-52d2-4533-84bb-64bcb18cb9d1"
+      "o": "e075af3d-025f-4b83-9b18-b389b2fc90c9"
     },
     {
-      "s": "e4d4c9bd-c06e-4cbd-bf71-08e00582adc8",
+      "s": "809037f6-0f82-4049-a2be-5cdcc1d35317",
       "p": "on-failure",
-      "o": "63fcfa54-52d2-4533-84bb-64bcb18cb9d1"
+      "o": "e075af3d-025f-4b83-9b18-b389b2fc90c9"
     }
   ],
   "tags": [
-    "T1562",
-    "atomic-red-team"
+    "T1562"
   ]
 }

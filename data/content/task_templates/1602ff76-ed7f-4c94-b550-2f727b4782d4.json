@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "e91b1f38-218e-4d36-858b-7d41b2d0179c",
+      "id": "b8584c2e-f5a2-460a-8b09-7c58c3f5fba9",
       "type": "execute-command",
       "data": {
         "command": "echo 0\u003e /var/spool/mail/#{username}\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5eeba27c-5c6f-4e88-82c0-53606ec74fce",
+      "id": "c2ba503d-fdba-4e45-9efb-a203cba6e400",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "stat /var/spool/mail/#{username}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "c769cd6f-6af5-4c6a-963c-ed71802bd527",
+      "id": "d36d3558-581a-4a03-a54c-a13ef5672a8d",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "touch /var/spool/mail/#{username}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f0c67fd0-24d2-4fc1-8259-9a29e60532cd",
+      "id": "152f03a4-6b23-4940-a746-af644eb228f6",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -46,34 +46,34 @@
         "command": "stat /var/spool/mail/#{username}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "5eeba27c-5c6f-4e88-82c0-53606ec74fce",
+      "s": "c2ba503d-fdba-4e45-9efb-a203cba6e400",
       "p": "on-success",
-      "o": "e91b1f38-218e-4d36-858b-7d41b2d0179c"
+      "o": "b8584c2e-f5a2-460a-8b09-7c58c3f5fba9"
     },
     {
-      "s": "5eeba27c-5c6f-4e88-82c0-53606ec74fce",
+      "s": "c2ba503d-fdba-4e45-9efb-a203cba6e400",
       "p": "on-failure",
-      "o": "c769cd6f-6af5-4c6a-963c-ed71802bd527"
+      "o": "d36d3558-581a-4a03-a54c-a13ef5672a8d"
     },
     {
-      "s": "c769cd6f-6af5-4c6a-963c-ed71802bd527",
+      "s": "d36d3558-581a-4a03-a54c-a13ef5672a8d",
       "p": "on-success",
-      "o": "f0c67fd0-24d2-4fc1-8259-9a29e60532cd"
+      "o": "152f03a4-6b23-4940-a746-af644eb228f6"
     },
     {
-      "s": "f0c67fd0-24d2-4fc1-8259-9a29e60532cd",
+      "s": "152f03a4-6b23-4940-a746-af644eb228f6",
       "p": "on-failure",
-      "o": "e91b1f38-218e-4d36-858b-7d41b2d0179c"
+      "o": "b8584c2e-f5a2-460a-8b09-7c58c3f5fba9"
     }
   ],
   "tags": [
-    "T1070.002",
-    "atomic-red-team"
+    "T1070",
+    "T1070.002"
   ],
   "input_arguments": [
     {

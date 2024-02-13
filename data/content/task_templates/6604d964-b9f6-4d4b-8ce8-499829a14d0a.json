@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "46aab749-3184-4bd0-bcca-fdb18058362d",
+      "id": "5d2df17d-6f02-459f-b0b8-717aabca0bec",
       "type": "execute-command",
       "data": {
         "command": "ENCODED=$(perl -e \"use MIME::Base64;print(encode_base64('#{message}'));\")\nperl -le \"use MIME::Base64;print(decode_base64('$ENCODED'));\"\necho $ENCODED | perl -le 'use MIME::Base64;print(decode_base64(\u003cSTDIN\u003e));'\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 perl -le 'use MIME::Base64;open($f,\"\u003c\",\"#{encoded_file}\");print(decode_base64(\u003c$f\u003e));'\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "4055c316-acf9-4097-8e8f-d897e6e2215a",
+      "id": "bf73652f-4291-447c-9f03-8029a5454b4c",
       "name": "Check dependency 1/1",
       "description": "Perl must be present\n",
       "type": "execute-command",
@@ -28,7 +28,7 @@
       "elevation_required": false
     },
     {
-      "id": "e9385304-cbba-49f4-a6da-502060f6c27e",
+      "id": "63c49a6e-bb71-49c3-98ba-9af7d7df4a25",
       "name": "Resolve dependency 1/1",
       "description": "Perl must be present\n",
       "type": "execute-command",
@@ -39,7 +39,7 @@
       "elevation_required": false
     },
     {
-      "id": "8da44b6b-febb-4099-874d-64b3ba18f5cb",
+      "id": "82dbbd1a-004e-4a1a-9a79-b4cf0d35ad09",
       "name": "Re-check dependency 1/1",
       "description": "Perl must be present\n",
       "type": "execute-command",
@@ -52,29 +52,28 @@
   ],
   "flows": [
     {
-      "s": "4055c316-acf9-4097-8e8f-d897e6e2215a",
+      "s": "bf73652f-4291-447c-9f03-8029a5454b4c",
       "p": "on-success",
-      "o": "46aab749-3184-4bd0-bcca-fdb18058362d"
+      "o": "5d2df17d-6f02-459f-b0b8-717aabca0bec"
     },
     {
-      "s": "4055c316-acf9-4097-8e8f-d897e6e2215a",
+      "s": "bf73652f-4291-447c-9f03-8029a5454b4c",
       "p": "on-failure",
-      "o": "e9385304-cbba-49f4-a6da-502060f6c27e"
+      "o": "63c49a6e-bb71-49c3-98ba-9af7d7df4a25"
     },
     {
-      "s": "e9385304-cbba-49f4-a6da-502060f6c27e",
+      "s": "63c49a6e-bb71-49c3-98ba-9af7d7df4a25",
       "p": "on-success",
-      "o": "8da44b6b-febb-4099-874d-64b3ba18f5cb"
+      "o": "82dbbd1a-004e-4a1a-9a79-b4cf0d35ad09"
     },
     {
-      "s": "8da44b6b-febb-4099-874d-64b3ba18f5cb",
+      "s": "82dbbd1a-004e-4a1a-9a79-b4cf0d35ad09",
       "p": "on-failure",
-      "o": "46aab749-3184-4bd0-bcca-fdb18058362d"
+      "o": "5d2df17d-6f02-459f-b0b8-717aabca0bec"
     }
   ],
   "tags": [
-    "T1140",
-    "atomic-red-team"
+    "T1140"
   ],
   "input_arguments": [
     {

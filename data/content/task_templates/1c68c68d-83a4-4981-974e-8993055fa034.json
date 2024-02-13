@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "cf778f39-ebdc-4cff-b56a-858fad6ce390",
+      "id": "6ac5d731-d6cf-4f80-bca3-4107c07607b7",
       "type": "execute-command",
       "data": {
         "command": "schtasks.exe /Change /TN \"\\Microsoft\\Windows\\SystemRestore\\SR\" /disable\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "61501a71-238d-40c3-908a-2e68e27e88d0",
+      "id": "61064e06-5ae9-40a5-948d-d139b8d737fd",
       "type": "execute-command",
       "data": {
         "command": "schtasks.exe /Change /TN \"\\Microsoft\\Windows\\SystemRestore\\SR\" /enable \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "cf778f39-ebdc-4cff-b56a-858fad6ce390",
+      "s": "6ac5d731-d6cf-4f80-bca3-4107c07607b7",
       "p": "on-success",
-      "o": "61501a71-238d-40c3-908a-2e68e27e88d0"
+      "o": "61064e06-5ae9-40a5-948d-d139b8d737fd"
     },
     {
-      "s": "cf778f39-ebdc-4cff-b56a-858fad6ce390",
+      "s": "6ac5d731-d6cf-4f80-bca3-4107c07607b7",
       "p": "on-failure",
-      "o": "61501a71-238d-40c3-908a-2e68e27e88d0"
+      "o": "61064e06-5ae9-40a5-948d-d139b8d737fd"
     }
   ],
   "tags": [
-    "T1490",
-    "atomic-red-team"
+    "T1490"
   ]
 }

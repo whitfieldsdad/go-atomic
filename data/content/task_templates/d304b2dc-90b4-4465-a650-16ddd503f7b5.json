@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "3928d5b3-5548-47c2-ac26-a8fa4e8b6707",
+      "id": "503f3f13-79d5-40e7-b6b6-e6e1b822f9fd",
       "type": "execute-command",
       "data": {
         "command": "echo 0\u003e #{log_path}\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "68eaad8a-21c5-4ff6-8c08-6688afa1c6d0",
+      "id": "2cced2b5-c6e6-477b-bdb7-28c5786d73ad",
       "type": "execute-command",
       "data": {
         "command": "if [ \"/var/log/secure\" != \"#{log_path}\" ] ; then rm -f #{log_path} ; fi\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "3928d5b3-5548-47c2-ac26-a8fa4e8b6707",
+      "s": "503f3f13-79d5-40e7-b6b6-e6e1b822f9fd",
       "p": "on-success",
-      "o": "68eaad8a-21c5-4ff6-8c08-6688afa1c6d0"
+      "o": "2cced2b5-c6e6-477b-bdb7-28c5786d73ad"
     },
     {
-      "s": "3928d5b3-5548-47c2-ac26-a8fa4e8b6707",
+      "s": "503f3f13-79d5-40e7-b6b6-e6e1b822f9fd",
       "p": "on-failure",
-      "o": "68eaad8a-21c5-4ff6-8c08-6688afa1c6d0"
+      "o": "2cced2b5-c6e6-477b-bdb7-28c5786d73ad"
     }
   ],
   "tags": [
-    "T1070.002",
-    "atomic-red-team"
+    "T1070",
+    "T1070.002"
   ],
   "input_arguments": [
     {

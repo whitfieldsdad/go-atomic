@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "4cdccc62-6796-4b01-b016-01870189b1f8",
+      "id": "a99dc12f-06c8-4557-8c07-255da84656ff",
       "type": "execute-command",
       "data": {
         "command": "if [ \"$(uname)\" = 'FreeBSD' ]; then cmd=\"b64decode -r\"; else cmd=\"base64 -d\"; fi;\ncat /tmp/encoded.dat | $cmd \u003e /tmp/art.sh\nchmod +x /tmp/art.sh\n/tmp/art.sh\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "f1abf759-291c-404e-b319-2ee95727b7fc",
+      "id": "44d2b117-d1fd-4919-8a73-e18f79442551",
       "type": "execute-command",
       "data": {
         "command": "rm /tmp/encoded.dat \nrm /tmp/art.sh\n",
@@ -26,7 +26,7 @@
       "elevation_required": false
     },
     {
-      "id": "03f81041-3fca-4137-be49-17ea58d96ad4",
+      "id": "1ad37c4b-cff2-4aba-a955-b4d5bcb80c52",
       "name": "Check dependency 1/1",
       "description": "encode the command into base64 file\n",
       "type": "execute-command",
@@ -37,7 +37,7 @@
       "elevation_required": false
     },
     {
-      "id": "5ca95ca7-5352-43b7-b848-3d4692fea8c6",
+      "id": "75e4fe7e-91ee-40ab-929b-c5a0885c73d2",
       "name": "Resolve dependency 1/1",
       "description": "encode the command into base64 file\n",
       "type": "execute-command",
@@ -48,7 +48,7 @@
       "elevation_required": false
     },
     {
-      "id": "e6f3da5f-d8f3-4d59-b0ec-3d28ef6968b8",
+      "id": "31fa741f-3471-41d2-933c-8a591f8cf824",
       "name": "Re-check dependency 1/1",
       "description": "encode the command into base64 file\n",
       "type": "execute-command",
@@ -61,39 +61,38 @@
   ],
   "flows": [
     {
-      "s": "4cdccc62-6796-4b01-b016-01870189b1f8",
+      "s": "a99dc12f-06c8-4557-8c07-255da84656ff",
       "p": "on-success",
-      "o": "f1abf759-291c-404e-b319-2ee95727b7fc"
+      "o": "44d2b117-d1fd-4919-8a73-e18f79442551"
     },
     {
-      "s": "4cdccc62-6796-4b01-b016-01870189b1f8",
+      "s": "a99dc12f-06c8-4557-8c07-255da84656ff",
       "p": "on-failure",
-      "o": "f1abf759-291c-404e-b319-2ee95727b7fc"
+      "o": "44d2b117-d1fd-4919-8a73-e18f79442551"
     },
     {
-      "s": "03f81041-3fca-4137-be49-17ea58d96ad4",
+      "s": "1ad37c4b-cff2-4aba-a955-b4d5bcb80c52",
       "p": "on-success",
-      "o": "4cdccc62-6796-4b01-b016-01870189b1f8"
+      "o": "a99dc12f-06c8-4557-8c07-255da84656ff"
     },
     {
-      "s": "03f81041-3fca-4137-be49-17ea58d96ad4",
+      "s": "1ad37c4b-cff2-4aba-a955-b4d5bcb80c52",
       "p": "on-failure",
-      "o": "5ca95ca7-5352-43b7-b848-3d4692fea8c6"
+      "o": "75e4fe7e-91ee-40ab-929b-c5a0885c73d2"
     },
     {
-      "s": "5ca95ca7-5352-43b7-b848-3d4692fea8c6",
+      "s": "75e4fe7e-91ee-40ab-929b-c5a0885c73d2",
       "p": "on-success",
-      "o": "e6f3da5f-d8f3-4d59-b0ec-3d28ef6968b8"
+      "o": "31fa741f-3471-41d2-933c-8a591f8cf824"
     },
     {
-      "s": "e6f3da5f-d8f3-4d59-b0ec-3d28ef6968b8",
+      "s": "31fa741f-3471-41d2-933c-8a591f8cf824",
       "p": "on-failure",
-      "o": "4cdccc62-6796-4b01-b016-01870189b1f8"
+      "o": "a99dc12f-06c8-4557-8c07-255da84656ff"
     }
   ],
   "tags": [
-    "T1027",
-    "atomic-red-team"
+    "T1027"
   ],
   "input_arguments": [
     {

@@ -8,16 +8,16 @@
   ],
   "steps": [
     {
-      "id": "39673517-effb-41a1-8c7a-5bc952b2a026",
+      "id": "f16240fd-a7e0-4743-882e-9e560aa4f6d5",
       "type": "execute-command",
       "data": {
         "command": "sudo rm -rf #{syslog_path}\nif [ -d /var/audit ] ; then sudo rm -rf #{macos_audit_path} ; fi\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b4e2fe56-d8b4-42fa-822c-fa7fddb378a9",
+      "id": "b0f60056-0e63-4829-81b0-91295f3efcc2",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -25,10 +25,10 @@
         "command": "if [ -d /var/audit ] ; then stat #{macos_audit_path} ; fi \u0026\u0026 stat #{syslog_path}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "44bd881f-3c0f-4f47-8473-aa614a121d62",
+      "id": "33167be3-64a9-46e7-b7ea-02e068019a8f",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -36,10 +36,10 @@
         "command": "touch #{syslog_path}\nif [ -d /var/audit ] ; then touch #{macos_audit_path} ; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "de7b322b-fc29-41e0-8f35-781a65bd35db",
+      "id": "dfebe32f-09fd-4f10-a078-156dc958de7d",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -47,47 +47,47 @@
         "command": "if [ -d /var/audit ] ; then stat #{macos_audit_path} ; fi \u0026\u0026 stat #{syslog_path}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "b4e2fe56-d8b4-42fa-822c-fa7fddb378a9",
+      "s": "b0f60056-0e63-4829-81b0-91295f3efcc2",
       "p": "on-success",
-      "o": "39673517-effb-41a1-8c7a-5bc952b2a026"
+      "o": "f16240fd-a7e0-4743-882e-9e560aa4f6d5"
     },
     {
-      "s": "b4e2fe56-d8b4-42fa-822c-fa7fddb378a9",
+      "s": "b0f60056-0e63-4829-81b0-91295f3efcc2",
       "p": "on-failure",
-      "o": "44bd881f-3c0f-4f47-8473-aa614a121d62"
+      "o": "33167be3-64a9-46e7-b7ea-02e068019a8f"
     },
     {
-      "s": "44bd881f-3c0f-4f47-8473-aa614a121d62",
+      "s": "33167be3-64a9-46e7-b7ea-02e068019a8f",
       "p": "on-success",
-      "o": "de7b322b-fc29-41e0-8f35-781a65bd35db"
+      "o": "dfebe32f-09fd-4f10-a078-156dc958de7d"
     },
     {
-      "s": "de7b322b-fc29-41e0-8f35-781a65bd35db",
+      "s": "dfebe32f-09fd-4f10-a078-156dc958de7d",
       "p": "on-failure",
-      "o": "39673517-effb-41a1-8c7a-5bc952b2a026"
+      "o": "f16240fd-a7e0-4743-882e-9e560aa4f6d5"
     }
   ],
   "tags": [
-    "T1070.002",
-    "atomic-red-team"
+    "T1070",
+    "T1070.002"
   ],
   "input_arguments": [
-    {
-      "name": "syslog_path",
-      "type": "string",
-      "description": "path of syslog file to delete. On macos it's /var/log/system.log*, on linux, it's /var/log/syslog*. Also note for File events, that on macos, /var/ is a link to /private/var/.",
-      "value": "/var/log/system.log"
-    },
     {
       "name": "macos_audit_path",
       "type": "string",
       "description": "path of audit file to delete",
       "value": "/var/audit/20220725213300.202208110700021"
+    },
+    {
+      "name": "syslog_path",
+      "type": "string",
+      "description": "path of syslog file to delete. On macos it's /var/log/system.log*, on linux, it's /var/log/syslog*. Also note for File events, that on macos, /var/ is a link to /private/var/.",
+      "value": "/var/log/system.log"
     }
   ]
 }

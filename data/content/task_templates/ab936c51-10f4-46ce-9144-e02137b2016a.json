@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "3bbbd2e4-797f-4e55-b98e-1095a1df425a",
+      "id": "d9703a9d-0ccb-4bee-a78e-f8a3cf35a7b4",
       "type": "execute-command",
       "data": {
         "command": "cd #{folder_path}; split -b 5000000 #{file_name}\nls -l #{folder_path}\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "6ef6a30c-3aec-484e-b59d-233b66d25e9d",
+      "id": "ea7b9694-a758-4615-a77a-ff1859fa3f4d",
       "type": "execute-command",
       "data": {
         "command": "if [ -f #{folder_path}/safe_to_delete ]; then rm -rf #{folder_path}; fi;\n",
@@ -26,7 +26,7 @@
       "elevation_required": false
     },
     {
-      "id": "3a3fde57-4df6-431e-b23d-208fda0a4a9f",
+      "id": "4db60020-d6b1-4729-a174-b723510697b3",
       "name": "Check dependency 1/1",
       "description": "The file must exist for the test to run.",
       "type": "execute-command",
@@ -37,7 +37,7 @@
       "elevation_required": false
     },
     {
-      "id": "7a7044a5-0149-48e7-8b2b-952fa0ac28db",
+      "id": "358e3c7b-77f1-4f32-b6e0-ed98b01c2f7c",
       "name": "Resolve dependency 1/1",
       "description": "The file must exist for the test to run.",
       "type": "execute-command",
@@ -48,7 +48,7 @@
       "elevation_required": false
     },
     {
-      "id": "27908ed1-202c-4ab3-bc36-0253a1837a2e",
+      "id": "1cb3857e-feaf-43df-b488-87c239a2434c",
       "name": "Re-check dependency 1/1",
       "description": "The file must exist for the test to run.",
       "type": "execute-command",
@@ -61,39 +61,38 @@
   ],
   "flows": [
     {
-      "s": "3bbbd2e4-797f-4e55-b98e-1095a1df425a",
+      "s": "d9703a9d-0ccb-4bee-a78e-f8a3cf35a7b4",
       "p": "on-success",
-      "o": "6ef6a30c-3aec-484e-b59d-233b66d25e9d"
+      "o": "ea7b9694-a758-4615-a77a-ff1859fa3f4d"
     },
     {
-      "s": "3bbbd2e4-797f-4e55-b98e-1095a1df425a",
+      "s": "d9703a9d-0ccb-4bee-a78e-f8a3cf35a7b4",
       "p": "on-failure",
-      "o": "6ef6a30c-3aec-484e-b59d-233b66d25e9d"
+      "o": "ea7b9694-a758-4615-a77a-ff1859fa3f4d"
     },
     {
-      "s": "3a3fde57-4df6-431e-b23d-208fda0a4a9f",
+      "s": "4db60020-d6b1-4729-a174-b723510697b3",
       "p": "on-success",
-      "o": "3bbbd2e4-797f-4e55-b98e-1095a1df425a"
+      "o": "d9703a9d-0ccb-4bee-a78e-f8a3cf35a7b4"
     },
     {
-      "s": "3a3fde57-4df6-431e-b23d-208fda0a4a9f",
+      "s": "4db60020-d6b1-4729-a174-b723510697b3",
       "p": "on-failure",
-      "o": "7a7044a5-0149-48e7-8b2b-952fa0ac28db"
+      "o": "358e3c7b-77f1-4f32-b6e0-ed98b01c2f7c"
     },
     {
-      "s": "7a7044a5-0149-48e7-8b2b-952fa0ac28db",
+      "s": "358e3c7b-77f1-4f32-b6e0-ed98b01c2f7c",
       "p": "on-success",
-      "o": "27908ed1-202c-4ab3-bc36-0253a1837a2e"
+      "o": "1cb3857e-feaf-43df-b488-87c239a2434c"
     },
     {
-      "s": "27908ed1-202c-4ab3-bc36-0253a1837a2e",
+      "s": "1cb3857e-feaf-43df-b488-87c239a2434c",
       "p": "on-failure",
-      "o": "3bbbd2e4-797f-4e55-b98e-1095a1df425a"
+      "o": "d9703a9d-0ccb-4bee-a78e-f8a3cf35a7b4"
     }
   ],
   "tags": [
-    "T1030",
-    "atomic-red-team"
+    "T1030"
   ],
   "input_arguments": [
     {

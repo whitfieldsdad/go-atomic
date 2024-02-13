@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "1de6101c-9387-4ad1-8363-047cab3299cf",
+      "id": "05f5571e-cafb-4208-8019-1034759422a1",
       "type": "execute-command",
       "data": {
         "command": "$installer = \"C:\\Users\\$env:username\\Downloads\\ScreenConnect.msi\"\nInvoke-WebRequest -OutFile $installer \"https://d1kuyuqowve5id.cloudfront.net/ScreenConnect_21.11.4237.7885_Release.msi\"\nmsiexec /i $installer /qn\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4d62f688-fc65-4984-acc4-b3ac4e123ef2",
+      "id": "5ab511ba-5c3c-4042-a743-f6ee767f4f4d",
       "type": "execute-command",
       "data": {
         "command": "$installer = \"C:\\Users\\$env:username\\Downloads\\ScreenConnect.msi\"\nmsiexec /x $installer /qn\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "1de6101c-9387-4ad1-8363-047cab3299cf",
+      "s": "05f5571e-cafb-4208-8019-1034759422a1",
       "p": "on-success",
-      "o": "4d62f688-fc65-4984-acc4-b3ac4e123ef2"
+      "o": "5ab511ba-5c3c-4042-a743-f6ee767f4f4d"
     },
     {
-      "s": "1de6101c-9387-4ad1-8363-047cab3299cf",
+      "s": "05f5571e-cafb-4208-8019-1034759422a1",
       "p": "on-failure",
-      "o": "4d62f688-fc65-4984-acc4-b3ac4e123ef2"
+      "o": "5ab511ba-5c3c-4042-a743-f6ee767f4f4d"
     }
   ],
   "tags": [
-    "T1219",
-    "atomic-red-team"
+    "T1219"
   ]
 }

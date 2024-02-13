@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6d7e8332-6c7b-46a3-9bfb-df6e81b9d2dd",
+      "id": "f5d2afe0-1256-4ef9-b22d-86ad58f734ee",
       "type": "execute-command",
       "data": {
         "command": "aws iam create-user --user-name #{username}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "013f7574-d39d-4787-b398-c84f271a6f73",
+      "id": "33fe84ab-26f2-485e-832e-04ca6a8360af",
       "type": "execute-command",
       "data": {
         "command": "aws iam delete-user --user-name #{username}\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "da937449-350d-4dee-a5ea-b9af8639587b",
+      "id": "bae73481-b47c-4466-bbaa-a42eae4992b0",
       "name": "Check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "c6c8fdaa-4587-4019-8209-91afd16d7c2d",
+      "id": "506fb8bd-19de-4370-9cb6-ace2fae30d3a",
       "name": "Resolve dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "d1719b92-b1db-458e-b209-3cfa5aa62d1e",
+      "id": "8bfd5a40-ae2e-4622-8b0e-f0f39195fe3b",
       "name": "Re-check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -60,39 +60,39 @@
   ],
   "flows": [
     {
-      "s": "6d7e8332-6c7b-46a3-9bfb-df6e81b9d2dd",
+      "s": "f5d2afe0-1256-4ef9-b22d-86ad58f734ee",
       "p": "on-success",
-      "o": "013f7574-d39d-4787-b398-c84f271a6f73"
+      "o": "33fe84ab-26f2-485e-832e-04ca6a8360af"
     },
     {
-      "s": "6d7e8332-6c7b-46a3-9bfb-df6e81b9d2dd",
+      "s": "f5d2afe0-1256-4ef9-b22d-86ad58f734ee",
       "p": "on-failure",
-      "o": "013f7574-d39d-4787-b398-c84f271a6f73"
+      "o": "33fe84ab-26f2-485e-832e-04ca6a8360af"
     },
     {
-      "s": "da937449-350d-4dee-a5ea-b9af8639587b",
+      "s": "bae73481-b47c-4466-bbaa-a42eae4992b0",
       "p": "on-success",
-      "o": "6d7e8332-6c7b-46a3-9bfb-df6e81b9d2dd"
+      "o": "f5d2afe0-1256-4ef9-b22d-86ad58f734ee"
     },
     {
-      "s": "da937449-350d-4dee-a5ea-b9af8639587b",
+      "s": "bae73481-b47c-4466-bbaa-a42eae4992b0",
       "p": "on-failure",
-      "o": "c6c8fdaa-4587-4019-8209-91afd16d7c2d"
+      "o": "506fb8bd-19de-4370-9cb6-ace2fae30d3a"
     },
     {
-      "s": "c6c8fdaa-4587-4019-8209-91afd16d7c2d",
+      "s": "506fb8bd-19de-4370-9cb6-ace2fae30d3a",
       "p": "on-success",
-      "o": "d1719b92-b1db-458e-b209-3cfa5aa62d1e"
+      "o": "8bfd5a40-ae2e-4622-8b0e-f0f39195fe3b"
     },
     {
-      "s": "d1719b92-b1db-458e-b209-3cfa5aa62d1e",
+      "s": "8bfd5a40-ae2e-4622-8b0e-f0f39195fe3b",
       "p": "on-failure",
-      "o": "6d7e8332-6c7b-46a3-9bfb-df6e81b9d2dd"
+      "o": "f5d2afe0-1256-4ef9-b22d-86ad58f734ee"
     }
   ],
   "tags": [
-    "T1136.003",
-    "atomic-red-team"
+    "T1136",
+    "T1136.003"
   ],
   "input_arguments": [
     {

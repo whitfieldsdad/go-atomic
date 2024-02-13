@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "8eb7557f-4293-4591-af13-dc946f9e5ce4",
+      "id": "706d601c-7eb2-4a30-b138-e702de5b4a2b",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential\n\n$user = Get-AzureADUser -Filter \"DisplayName eq '#{user_principal_name}' or UserPrincipalName eq '#{user_principal_name}'\"\nif ($user -eq $null) { Write-Warning \"User not found\"; exit }\n$role = Get-AzureADDirectoryRole -Filter \"DisplayName eq '#{role_name}'\"\nif ($role -eq $null) { Write-Warning \"Role not found\"; exit }\nAdd-AzureADDirectoryRoleMember -ObjectId $role.ObjectId -RefObjectId $user.ObjectId\nWrite-Host \"User $($user.DisplayName) was added to $($role.DisplayName) role\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "eb697d26-15d1-48bd-991a-551c6bd337dc",
+      "id": "c6e52fe5-7317-4ba9-a4b9-fcfadc345bb6",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD -ErrorAction Ignore\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential -ErrorAction Ignore\n\n$user = Get-AzureADUser -Filter \"DisplayName eq '#{user_principal_name}' or UserPrincipalName eq '#{user_principal_name}'\"\nif ($user -eq $null) { Write-Warning \"User not found\"; exit }\n$role = Get-AzureADDirectoryRole -Filter \"DisplayName eq '#{role_name}'\"\nif ($role -eq $null) { Write-Warning \"Role not found\"; exit }\n\nRemove-AzureADDirectoryRoleMember -ObjectId $role.ObjectId -MemberId $user.ObjectId\nWrite-Host \"User $($user.DisplayName) was removed from $($role.DisplayName) role\"\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "e24b4a32-43ff-47ec-a7d3-54ef8233a522",
+      "id": "9479a521-f660-44b8-bb82-22e56631de23",
       "name": "Check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "69eaaa82-daac-46cb-8560-3056abb62971",
+      "id": "bab0faba-e768-42c3-af96-30c3856e64bd",
       "name": "Resolve dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "2c57690b-7ce5-4ab9-888f-b0a73e4da459",
+      "id": "f3de54ad-e899-45f7-8774-323b4b02c1b8",
       "name": "Re-check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -60,39 +60,38 @@
   ],
   "flows": [
     {
-      "s": "8eb7557f-4293-4591-af13-dc946f9e5ce4",
+      "s": "706d601c-7eb2-4a30-b138-e702de5b4a2b",
       "p": "on-success",
-      "o": "eb697d26-15d1-48bd-991a-551c6bd337dc"
+      "o": "c6e52fe5-7317-4ba9-a4b9-fcfadc345bb6"
     },
     {
-      "s": "8eb7557f-4293-4591-af13-dc946f9e5ce4",
+      "s": "706d601c-7eb2-4a30-b138-e702de5b4a2b",
       "p": "on-failure",
-      "o": "eb697d26-15d1-48bd-991a-551c6bd337dc"
+      "o": "c6e52fe5-7317-4ba9-a4b9-fcfadc345bb6"
     },
     {
-      "s": "e24b4a32-43ff-47ec-a7d3-54ef8233a522",
+      "s": "9479a521-f660-44b8-bb82-22e56631de23",
       "p": "on-success",
-      "o": "8eb7557f-4293-4591-af13-dc946f9e5ce4"
+      "o": "706d601c-7eb2-4a30-b138-e702de5b4a2b"
     },
     {
-      "s": "e24b4a32-43ff-47ec-a7d3-54ef8233a522",
+      "s": "9479a521-f660-44b8-bb82-22e56631de23",
       "p": "on-failure",
-      "o": "69eaaa82-daac-46cb-8560-3056abb62971"
+      "o": "bab0faba-e768-42c3-af96-30c3856e64bd"
     },
     {
-      "s": "69eaaa82-daac-46cb-8560-3056abb62971",
+      "s": "bab0faba-e768-42c3-af96-30c3856e64bd",
       "p": "on-success",
-      "o": "2c57690b-7ce5-4ab9-888f-b0a73e4da459"
+      "o": "f3de54ad-e899-45f7-8774-323b4b02c1b8"
     },
     {
-      "s": "2c57690b-7ce5-4ab9-888f-b0a73e4da459",
+      "s": "f3de54ad-e899-45f7-8774-323b4b02c1b8",
       "p": "on-failure",
-      "o": "8eb7557f-4293-4591-af13-dc946f9e5ce4"
+      "o": "706d601c-7eb2-4a30-b138-e702de5b4a2b"
     }
   ],
   "tags": [
-    "T1098",
-    "atomic-red-team"
+    "T1098"
   ],
   "input_arguments": [
     {

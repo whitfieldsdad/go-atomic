@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "675aed94-28a2-403b-bc98-7f829e5b9604",
+      "id": "c137a02d-1cbe-41a3-9117-7772a35416e4",
       "type": "execute-command",
       "data": {
         "command": "copy c:\\windows\\system32\\calc.exe 'C:\\users\\#{user}\\AppData\\local\\Microsoft\\WindowsApps\\foxprow.exe'\n$com = [System.Activator]::CreateInstance([type]::GetTypeFromProgID(\"Excel.Application\",\"#{computer_name}\"))\n$com.ActivateMicrosoftApp(\"5\")\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "587152fc-6290-4054-bf45-37e375c469d8",
+      "id": "358cc514-22aa-40cd-9615-c0a0feb8b901",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item 'C:\\users\\#{user}\\AppData\\local\\Microsoft\\WindowsApps\\foxprow.exe'\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "b573fe05-0c66-416b-b496-b26886b8d180",
+      "id": "e7f896dd-e458-4ab8-8dd0-2e83d0dc9842",
       "name": "Check dependency 1/1",
       "description": "Microsoft Excel must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "356ee397-6c65-49f0-9b68-710d3533b52f",
+      "id": "cf294cc7-816f-4d84-b92f-ba410d23a270",
       "name": "Resolve dependency 1/1",
       "description": "Microsoft Excel must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "daa9929d-e46b-4fd1-a22b-881c3d75a15a",
+      "id": "aeedb097-8f7a-4aac-aa40-455405f746f1",
       "name": "Re-check dependency 1/1",
       "description": "Microsoft Excel must be installed\n",
       "type": "execute-command",
@@ -60,39 +60,39 @@
   ],
   "flows": [
     {
-      "s": "675aed94-28a2-403b-bc98-7f829e5b9604",
+      "s": "c137a02d-1cbe-41a3-9117-7772a35416e4",
       "p": "on-success",
-      "o": "587152fc-6290-4054-bf45-37e375c469d8"
+      "o": "358cc514-22aa-40cd-9615-c0a0feb8b901"
     },
     {
-      "s": "675aed94-28a2-403b-bc98-7f829e5b9604",
+      "s": "c137a02d-1cbe-41a3-9117-7772a35416e4",
       "p": "on-failure",
-      "o": "587152fc-6290-4054-bf45-37e375c469d8"
+      "o": "358cc514-22aa-40cd-9615-c0a0feb8b901"
     },
     {
-      "s": "b573fe05-0c66-416b-b496-b26886b8d180",
+      "s": "e7f896dd-e458-4ab8-8dd0-2e83d0dc9842",
       "p": "on-success",
-      "o": "675aed94-28a2-403b-bc98-7f829e5b9604"
+      "o": "c137a02d-1cbe-41a3-9117-7772a35416e4"
     },
     {
-      "s": "b573fe05-0c66-416b-b496-b26886b8d180",
+      "s": "e7f896dd-e458-4ab8-8dd0-2e83d0dc9842",
       "p": "on-failure",
-      "o": "356ee397-6c65-49f0-9b68-710d3533b52f"
+      "o": "cf294cc7-816f-4d84-b92f-ba410d23a270"
     },
     {
-      "s": "356ee397-6c65-49f0-9b68-710d3533b52f",
+      "s": "cf294cc7-816f-4d84-b92f-ba410d23a270",
       "p": "on-success",
-      "o": "daa9929d-e46b-4fd1-a22b-881c3d75a15a"
+      "o": "aeedb097-8f7a-4aac-aa40-455405f746f1"
     },
     {
-      "s": "daa9929d-e46b-4fd1-a22b-881c3d75a15a",
+      "s": "aeedb097-8f7a-4aac-aa40-455405f746f1",
       "p": "on-failure",
-      "o": "675aed94-28a2-403b-bc98-7f829e5b9604"
+      "o": "c137a02d-1cbe-41a3-9117-7772a35416e4"
     }
   ],
   "tags": [
-    "T1021.003",
-    "atomic-red-team"
+    "T1021",
+    "T1021.003"
   ],
   "input_arguments": [
     {

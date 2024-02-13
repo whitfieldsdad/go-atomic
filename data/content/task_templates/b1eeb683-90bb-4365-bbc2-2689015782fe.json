@@ -7,39 +7,38 @@
   ],
   "steps": [
     {
-      "id": "de4eced6-f0a9-435f-ac83-fff493f54b1d",
+      "id": "b2dc8afc-910b-406b-9947-6dff50bf2a05",
       "type": "execute-command",
       "data": {
         "command": "if (-not (Test-Path #{dest_path})) {\nNew-Item -Path #{dest_path} -ItemType Directory\n} else {\nWrite-Host \"Directory #{dest_path} already exists.\" }\nCopy-Item -Path \"C:\\windows\\system32\\customshellhost.exe\" -Destination \"#{dest_path}\\customshellhost.exe\" -Force\nCopy-Item -Path \"C:\\windows\\system32\\calc.exe\" -Destination \"#{dest_path}\\explorer.exe\" -Force\n#{dest_path}\\customshellhost.exe\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "75f81a3a-ad7a-4a4a-8b8d-099a63aee66b",
+      "id": "73a40773-b91e-4bcb-8818-0fe682ea6cbf",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item -Path #{dest_path} -Recurse -Force\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "de4eced6-f0a9-435f-ac83-fff493f54b1d",
+      "s": "b2dc8afc-910b-406b-9947-6dff50bf2a05",
       "p": "on-success",
-      "o": "75f81a3a-ad7a-4a4a-8b8d-099a63aee66b"
+      "o": "73a40773-b91e-4bcb-8818-0fe682ea6cbf"
     },
     {
-      "s": "de4eced6-f0a9-435f-ac83-fff493f54b1d",
+      "s": "b2dc8afc-910b-406b-9947-6dff50bf2a05",
       "p": "on-failure",
-      "o": "75f81a3a-ad7a-4a4a-8b8d-099a63aee66b"
+      "o": "73a40773-b91e-4bcb-8818-0fe682ea6cbf"
     }
   ],
   "tags": [
-    "T1218",
-    "atomic-red-team"
+    "T1218"
   ],
   "input_arguments": [
     {

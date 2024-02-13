@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "84ef87d9-6843-4496-a782-108e9d97aa8c",
+      "id": "c9c33b57-6a54-4607-be17-758f8e142d23",
       "type": "execute-command",
       "data": {
         "command": "Add-Type -AssemblyName System.Windows.Forms\n$screen = [Windows.Forms.SystemInformation]::VirtualScreen\n$bitmap = New-Object Drawing.Bitmap $screen.Width, $screen.Height\n$graphic = [Drawing.Graphics]::FromImage($bitmap)\n$graphic.CopyFromScreen($screen.Left, $screen.Top, 0, 0, $bitmap.Size)\n$bitmap.Save(\"#{output_file}\")\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "61a6dd52-4664-4ae7-8f07-f17f9bf6e932",
+      "id": "66931880-989c-4fa9-84a8-2bc0f0248d02",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item #{output_file} -ErrorAction Ignore\n",
@@ -27,19 +27,18 @@
   ],
   "flows": [
     {
-      "s": "84ef87d9-6843-4496-a782-108e9d97aa8c",
+      "s": "c9c33b57-6a54-4607-be17-758f8e142d23",
       "p": "on-success",
-      "o": "61a6dd52-4664-4ae7-8f07-f17f9bf6e932"
+      "o": "66931880-989c-4fa9-84a8-2bc0f0248d02"
     },
     {
-      "s": "84ef87d9-6843-4496-a782-108e9d97aa8c",
+      "s": "c9c33b57-6a54-4607-be17-758f8e142d23",
       "p": "on-failure",
-      "o": "61a6dd52-4664-4ae7-8f07-f17f9bf6e932"
+      "o": "66931880-989c-4fa9-84a8-2bc0f0248d02"
     }
   ],
   "tags": [
-    "T1113",
-    "atomic-red-team"
+    "T1113"
   ],
   "input_arguments": [
     {

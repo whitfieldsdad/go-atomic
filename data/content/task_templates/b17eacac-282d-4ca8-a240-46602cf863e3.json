@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "a3de78c9-ccda-4417-b076-5c7c4540ea9e",
+      "id": "2e37de55-5331-4ed5-826e-eb8c283d81c4",
       "type": "execute-command",
       "data": {
         "command": "sudo sed -i \"\" \"#{index}s,^,#{pam_rule}\\n,g\" #{path_to_pam_conf}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "10d26307-aa06-4470-9fb2-c0de8c115e59",
+      "id": "571e94c0-fb63-451b-be2d-df7b85a07f5d",
       "type": "execute-command",
       "data": {
         "command": "sudo sed -i \"\" \"/#{pam_rule}/d\" #{path_to_pam_conf}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "a3de78c9-ccda-4417-b076-5c7c4540ea9e",
+      "s": "2e37de55-5331-4ed5-826e-eb8c283d81c4",
       "p": "on-success",
-      "o": "10d26307-aa06-4470-9fb2-c0de8c115e59"
+      "o": "571e94c0-fb63-451b-be2d-df7b85a07f5d"
     },
     {
-      "s": "a3de78c9-ccda-4417-b076-5c7c4540ea9e",
+      "s": "2e37de55-5331-4ed5-826e-eb8c283d81c4",
       "p": "on-failure",
-      "o": "10d26307-aa06-4470-9fb2-c0de8c115e59"
+      "o": "571e94c0-fb63-451b-be2d-df7b85a07f5d"
     }
   ],
   "tags": [
-    "T1556.003",
-    "atomic-red-team"
+    "T1556",
+    "T1556.003"
   ],
   "input_arguments": [
     {

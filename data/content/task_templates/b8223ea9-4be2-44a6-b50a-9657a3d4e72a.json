@@ -7,47 +7,41 @@
   ],
   "steps": [
     {
-      "id": "ab1995d0-6e08-4d87-8f6e-29624edfcfba",
+      "id": "c82f16e2-308d-4100-92bd-c47e2350a612",
       "type": "execute-command",
       "data": {
         "command": "netsh interface portproxy add v4tov4 listenport=#{listenport} connectport=#{connectport} connectaddress=#{connectaddress}",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "c4556e45-0a66-494f-89d5-54a29e06941d",
+      "id": "2df37ee0-ba5f-415c-8a12-bd0622591781",
       "type": "execute-command",
       "data": {
         "command": "netsh interface portproxy delete v4tov4 listenport=#{listenport} -ErrorAction Ignore | Out-Null",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "ab1995d0-6e08-4d87-8f6e-29624edfcfba",
+      "s": "c82f16e2-308d-4100-92bd-c47e2350a612",
       "p": "on-success",
-      "o": "c4556e45-0a66-494f-89d5-54a29e06941d"
+      "o": "2df37ee0-ba5f-415c-8a12-bd0622591781"
     },
     {
-      "s": "ab1995d0-6e08-4d87-8f6e-29624edfcfba",
+      "s": "c82f16e2-308d-4100-92bd-c47e2350a612",
       "p": "on-failure",
-      "o": "c4556e45-0a66-494f-89d5-54a29e06941d"
+      "o": "2df37ee0-ba5f-415c-8a12-bd0622591781"
     }
   ],
   "tags": [
-    "T1090.001",
-    "atomic-red-team"
+    "T1090",
+    "T1090.001"
   ],
   "input_arguments": [
-    {
-      "name": "connectport",
-      "type": "string",
-      "description": "Specifies the IPv4 port, by port number or service name, to which to connect. If connectport is not specified, the default is the value of listenport on the local computer.",
-      "value": "1337"
-    },
     {
       "name": "listenport",
       "type": "string",
@@ -59,6 +53,12 @@
       "type": "string",
       "description": "Specifies the IPv4 address to which to connect. Acceptable values are IP address, computer NetBIOS name, or computer DNS name. If an address is not specified, the default is the local computer.",
       "value": "127.0.0.1"
+    },
+    {
+      "name": "connectport",
+      "type": "string",
+      "description": "Specifies the IPv4 port, by port number or service name, to which to connect. If connectport is not specified, the default is the value of listenport on the local computer.",
+      "value": "1337"
     }
   ]
 }

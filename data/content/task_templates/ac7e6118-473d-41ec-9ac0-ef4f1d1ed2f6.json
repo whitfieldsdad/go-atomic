@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "a47c90f0-78d3-42c5-a5fa-e91c1a274446",
+      "id": "efb5fcf7-721d-4f51-91c8-e4fe75fe0080",
       "type": "execute-command",
       "data": {
         "command": "icacls \"#{path}\" /grant Everyone:F /T /C /Q",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d7a39313-f3f3-450e-932e-c366a81db395",
+      "id": "d279fcb0-fcaf-4703-be70-9b2f09857120",
       "type": "execute-command",
       "data": {
         "command": "icacls '#{path}' /restore #{file_path} /q \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4fb461e9-e1b0-4b27-80bf-938f0d047212",
+      "id": "cad10f60-8bf2-4d6e-9a51-aa93f0ddc6fe",
       "name": "Check dependency 1/1",
       "description": "Backup of original folder permissions should exist (for use in cleanup commands)\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "IF EXIST #{file_path} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "56676140-f248-4d93-aa85-589007a0f8fc",
+      "id": "61dbe841-b5fc-4c40-929d-e8be26d4aeb2",
       "name": "Resolve dependency 1/1",
       "description": "Backup of original folder permissions should exist (for use in cleanup commands)\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "icacls #{path} /save #{file_path} /t /q \u003enul 2\u003e\u00261\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "bd4f629d-bf2f-4a55-b9b8-0ea87c52553a",
+      "id": "05eb09dc-1de2-4503-813c-983b1a97603a",
       "name": "Re-check dependency 1/1",
       "description": "Backup of original folder permissions should exist (for use in cleanup commands)\n",
       "type": "execute-command",
@@ -55,44 +55,44 @@
         "command": "IF EXIST #{file_path} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "a47c90f0-78d3-42c5-a5fa-e91c1a274446",
+      "s": "efb5fcf7-721d-4f51-91c8-e4fe75fe0080",
       "p": "on-success",
-      "o": "d7a39313-f3f3-450e-932e-c366a81db395"
+      "o": "d279fcb0-fcaf-4703-be70-9b2f09857120"
     },
     {
-      "s": "a47c90f0-78d3-42c5-a5fa-e91c1a274446",
+      "s": "efb5fcf7-721d-4f51-91c8-e4fe75fe0080",
       "p": "on-failure",
-      "o": "d7a39313-f3f3-450e-932e-c366a81db395"
+      "o": "d279fcb0-fcaf-4703-be70-9b2f09857120"
     },
     {
-      "s": "4fb461e9-e1b0-4b27-80bf-938f0d047212",
+      "s": "cad10f60-8bf2-4d6e-9a51-aa93f0ddc6fe",
       "p": "on-success",
-      "o": "a47c90f0-78d3-42c5-a5fa-e91c1a274446"
+      "o": "efb5fcf7-721d-4f51-91c8-e4fe75fe0080"
     },
     {
-      "s": "4fb461e9-e1b0-4b27-80bf-938f0d047212",
+      "s": "cad10f60-8bf2-4d6e-9a51-aa93f0ddc6fe",
       "p": "on-failure",
-      "o": "56676140-f248-4d93-aa85-589007a0f8fc"
+      "o": "61dbe841-b5fc-4c40-929d-e8be26d4aeb2"
     },
     {
-      "s": "56676140-f248-4d93-aa85-589007a0f8fc",
+      "s": "61dbe841-b5fc-4c40-929d-e8be26d4aeb2",
       "p": "on-success",
-      "o": "bd4f629d-bf2f-4a55-b9b8-0ea87c52553a"
+      "o": "05eb09dc-1de2-4503-813c-983b1a97603a"
     },
     {
-      "s": "bd4f629d-bf2f-4a55-b9b8-0ea87c52553a",
+      "s": "05eb09dc-1de2-4503-813c-983b1a97603a",
       "p": "on-failure",
-      "o": "a47c90f0-78d3-42c5-a5fa-e91c1a274446"
+      "o": "efb5fcf7-721d-4f51-91c8-e4fe75fe0080"
     }
   ],
   "tags": [
-    "T1222.001",
-    "atomic-red-team"
+    "T1222",
+    "T1222.001"
   ],
   "input_arguments": [
     {

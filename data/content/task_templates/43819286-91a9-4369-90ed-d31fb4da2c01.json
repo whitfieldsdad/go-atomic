@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "38b6ebbb-ed84-49ab-890c-780183253f32",
+      "id": "2333ecb1-604b-447c-a451-0591664742b7",
       "type": "execute-command",
       "data": {
         "command": "vssadmin.exe delete shadows /all /quiet\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "2d45a66f-b456-4192-a65d-200c1fad3c66",
+      "id": "644f0cec-fbb9-4e3d-a0f8-faad36f13fe8",
       "name": "Check dependency 1/1",
       "description": "Create volume shadow copy of C:\\ . This prereq command only works on Windows Server or Windows 8.\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "if(!(vssadmin.exe list shadows | findstr \"No items found that satisfy the query.\")) { exit 0 } else { exit 1 }\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "a71e4178-d2e6-410e-a2e0-e14ccdd65fa2",
+      "id": "166a1e8e-a111-4e74-b937-c1d9988dd2c4",
       "name": "Resolve dependency 1/1",
       "description": "Create volume shadow copy of C:\\ . This prereq command only works on Windows Server or Windows 8.\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "vssadmin.exe create shadow /for=c:\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "3298a24e-15f6-4c9f-9a63-df8df6db78d1",
+      "id": "73b55dbf-6cc1-4dc3-ae0a-945c01db838e",
       "name": "Re-check dependency 1/1",
       "description": "Create volume shadow copy of C:\\ . This prereq command only works on Windows Server or Windows 8.\n",
       "type": "execute-command",
@@ -46,33 +46,32 @@
         "command": "if(!(vssadmin.exe list shadows | findstr \"No items found that satisfy the query.\")) { exit 0 } else { exit 1 }\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "2d45a66f-b456-4192-a65d-200c1fad3c66",
+      "s": "644f0cec-fbb9-4e3d-a0f8-faad36f13fe8",
       "p": "on-success",
-      "o": "38b6ebbb-ed84-49ab-890c-780183253f32"
+      "o": "2333ecb1-604b-447c-a451-0591664742b7"
     },
     {
-      "s": "2d45a66f-b456-4192-a65d-200c1fad3c66",
+      "s": "644f0cec-fbb9-4e3d-a0f8-faad36f13fe8",
       "p": "on-failure",
-      "o": "a71e4178-d2e6-410e-a2e0-e14ccdd65fa2"
+      "o": "166a1e8e-a111-4e74-b937-c1d9988dd2c4"
     },
     {
-      "s": "a71e4178-d2e6-410e-a2e0-e14ccdd65fa2",
+      "s": "166a1e8e-a111-4e74-b937-c1d9988dd2c4",
       "p": "on-success",
-      "o": "3298a24e-15f6-4c9f-9a63-df8df6db78d1"
+      "o": "73b55dbf-6cc1-4dc3-ae0a-945c01db838e"
     },
     {
-      "s": "3298a24e-15f6-4c9f-9a63-df8df6db78d1",
+      "s": "73b55dbf-6cc1-4dc3-ae0a-945c01db838e",
       "p": "on-failure",
-      "o": "38b6ebbb-ed84-49ab-890c-780183253f32"
+      "o": "2333ecb1-604b-447c-a451-0591664742b7"
     }
   ],
   "tags": [
-    "T1490",
-    "atomic-red-team"
+    "T1490"
   ]
 }

@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "1a59b125-1cbf-44ae-a1bd-1cacefa4fdcd",
+      "id": "74717dcb-341b-45fa-9a3d-6fbe93c9dbac",
       "type": "execute-command",
       "data": {
         "command": "#{flavor_command}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f7ea930d-c1bd-4e5f-b1e6-e422532b6b6a",
+      "id": "950d7cd4-7d0c-46b2-8a37-6dff20c3b178",
       "type": "execute-command",
       "data": {
         "command": "#{cleanup_command}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ab5e340f-f5fc-458f-a94a-a3ad7ae4bcef",
+      "id": "364443ab-b53a-454d-ab1c-dafe5da7d53b",
       "name": "Check dependency 1/1",
       "description": "Package with rsyslog must be on system\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f000dc00-b0a5-453f-a36b-5ac2dd33928e",
+      "id": "dfe563c7-6c6e-4535-8666-a6ae1052616a",
       "name": "Resolve dependency 1/1",
       "description": "Package with rsyslog must be on system\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "sudo #{package_installer} \n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "1c1ba940-4485-443e-8158-a3df3fb6d0cc",
+      "id": "d32d884f-dfb7-4f18-a384-cb12b4d2e752",
       "name": "Re-check dependency 1/1",
       "description": "Package with rsyslog must be on system\n",
       "type": "execute-command",
@@ -55,46 +55,52 @@
         "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "1a59b125-1cbf-44ae-a1bd-1cacefa4fdcd",
+      "s": "74717dcb-341b-45fa-9a3d-6fbe93c9dbac",
       "p": "on-success",
-      "o": "f7ea930d-c1bd-4e5f-b1e6-e422532b6b6a"
+      "o": "950d7cd4-7d0c-46b2-8a37-6dff20c3b178"
     },
     {
-      "s": "1a59b125-1cbf-44ae-a1bd-1cacefa4fdcd",
+      "s": "74717dcb-341b-45fa-9a3d-6fbe93c9dbac",
       "p": "on-failure",
-      "o": "f7ea930d-c1bd-4e5f-b1e6-e422532b6b6a"
+      "o": "950d7cd4-7d0c-46b2-8a37-6dff20c3b178"
     },
     {
-      "s": "ab5e340f-f5fc-458f-a94a-a3ad7ae4bcef",
+      "s": "364443ab-b53a-454d-ab1c-dafe5da7d53b",
       "p": "on-success",
-      "o": "1a59b125-1cbf-44ae-a1bd-1cacefa4fdcd"
+      "o": "74717dcb-341b-45fa-9a3d-6fbe93c9dbac"
     },
     {
-      "s": "ab5e340f-f5fc-458f-a94a-a3ad7ae4bcef",
+      "s": "364443ab-b53a-454d-ab1c-dafe5da7d53b",
       "p": "on-failure",
-      "o": "f000dc00-b0a5-453f-a36b-5ac2dd33928e"
+      "o": "dfe563c7-6c6e-4535-8666-a6ae1052616a"
     },
     {
-      "s": "f000dc00-b0a5-453f-a36b-5ac2dd33928e",
+      "s": "dfe563c7-6c6e-4535-8666-a6ae1052616a",
       "p": "on-success",
-      "o": "1c1ba940-4485-443e-8158-a3df3fb6d0cc"
+      "o": "d32d884f-dfb7-4f18-a384-cb12b4d2e752"
     },
     {
-      "s": "1c1ba940-4485-443e-8158-a3df3fb6d0cc",
+      "s": "d32d884f-dfb7-4f18-a384-cb12b4d2e752",
       "p": "on-failure",
-      "o": "1a59b125-1cbf-44ae-a1bd-1cacefa4fdcd"
+      "o": "74717dcb-341b-45fa-9a3d-6fbe93c9dbac"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ],
   "input_arguments": [
+    {
+      "name": "flavor_command",
+      "type": "string",
+      "description": "Command to disable syslog collection. Default newer rsyslog commands. i.e older command = service rsyslog stop ; chkconfig off rsyslog",
+      "value": "systemctl stop rsyslog ; systemctl disable rsyslog"
+    },
     {
       "name": "cleanup_command",
       "type": "string",
@@ -112,12 +118,6 @@
       "type": "string",
       "description": "Package installer command for linux. Default yum",
       "value": "(which yum \u0026\u0026 yum -y install epel-release rsyslog)||(which apt-get \u0026\u0026 apt-get install -y rsyslog)"
-    },
-    {
-      "name": "flavor_command",
-      "type": "string",
-      "description": "Command to disable syslog collection. Default newer rsyslog commands. i.e older command = service rsyslog stop ; chkconfig off rsyslog",
-      "value": "systemctl stop rsyslog ; systemctl disable rsyslog"
     }
   ]
 }

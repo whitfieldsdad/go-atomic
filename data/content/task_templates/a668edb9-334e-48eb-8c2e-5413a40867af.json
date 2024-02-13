@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "0b756a9a-3913-4088-ba2f-b7a21f3af073",
+      "id": "fe76ffbd-88b6-4cdd-bb1d-7a793106cd91",
       "type": "execute-command",
       "data": {
         "command": "auditctl -a always,exit -F arch=b64 -S execve -k CMDS \nauditctl -a always,exit -F arch=b32 -S execve -k CMDS\nwhoami; ausearch -i --start $(date +\"%d/%m/%y %H:%M:%S\") \n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "c6111197-35cf-4a7e-bb03-e2252ed7631b",
+      "id": "8ef3d635-6896-46e4-b04d-a79442de0641",
       "type": "execute-command",
       "data": {
         "command": "systemctl restart auditd\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f59bd613-856e-4534-bd52-8526c4f13b01",
+      "id": "ab48235b-fb5d-446e-ba56-5e3d922f2ff9",
       "name": "Check dependency 1/1",
       "description": "This test requires sshd and auditd\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if [ ! -x \"$(command -v auditd)\" ]; then echo -e \"\\n***** auditd NOT installed *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "de272f3b-1cfa-478c-b6ba-277fec3ee936",
+      "id": "aa0f17f8-2d43-4c5e-939e-b5edada62ac8",
       "name": "Resolve dependency 1/1",
       "description": "This test requires sshd and auditd\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo \"\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ff90dce4-9292-4c25-bfe7-683c89c71d6c",
+      "id": "7261c9d3-895d-4c52-9f36-7aac8a49728d",
       "name": "Re-check dependency 1/1",
       "description": "This test requires sshd and auditd\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "if [ ! -x \"$(command -v auditd)\" ]; then echo -e \"\\n***** auditd NOT installed *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "0b756a9a-3913-4088-ba2f-b7a21f3af073",
+      "s": "fe76ffbd-88b6-4cdd-bb1d-7a793106cd91",
       "p": "on-success",
-      "o": "c6111197-35cf-4a7e-bb03-e2252ed7631b"
+      "o": "8ef3d635-6896-46e4-b04d-a79442de0641"
     },
     {
-      "s": "0b756a9a-3913-4088-ba2f-b7a21f3af073",
+      "s": "fe76ffbd-88b6-4cdd-bb1d-7a793106cd91",
       "p": "on-failure",
-      "o": "c6111197-35cf-4a7e-bb03-e2252ed7631b"
+      "o": "8ef3d635-6896-46e4-b04d-a79442de0641"
     },
     {
-      "s": "f59bd613-856e-4534-bd52-8526c4f13b01",
+      "s": "ab48235b-fb5d-446e-ba56-5e3d922f2ff9",
       "p": "on-success",
-      "o": "0b756a9a-3913-4088-ba2f-b7a21f3af073"
+      "o": "fe76ffbd-88b6-4cdd-bb1d-7a793106cd91"
     },
     {
-      "s": "f59bd613-856e-4534-bd52-8526c4f13b01",
+      "s": "ab48235b-fb5d-446e-ba56-5e3d922f2ff9",
       "p": "on-failure",
-      "o": "de272f3b-1cfa-478c-b6ba-277fec3ee936"
+      "o": "aa0f17f8-2d43-4c5e-939e-b5edada62ac8"
     },
     {
-      "s": "de272f3b-1cfa-478c-b6ba-277fec3ee936",
+      "s": "aa0f17f8-2d43-4c5e-939e-b5edada62ac8",
       "p": "on-success",
-      "o": "ff90dce4-9292-4c25-bfe7-683c89c71d6c"
+      "o": "7261c9d3-895d-4c52-9f36-7aac8a49728d"
     },
     {
-      "s": "ff90dce4-9292-4c25-bfe7-683c89c71d6c",
+      "s": "7261c9d3-895d-4c52-9f36-7aac8a49728d",
       "p": "on-failure",
-      "o": "0b756a9a-3913-4088-ba2f-b7a21f3af073"
+      "o": "fe76ffbd-88b6-4cdd-bb1d-7a793106cd91"
     }
   ],
   "tags": [
-    "T1056.001",
-    "atomic-red-team"
+    "T1056",
+    "T1056.001"
   ]
 }

@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "bc41e9f7-e2e6-498c-b285-796a3c9465b9",
+      "id": "6d7da920-20a9-4ea7-81e8-a7a9a5d5e003",
       "type": "execute-command",
       "data": {
         "command": "reg add HKEY_CURRENT_USER\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer /v DisableNotificationCenter /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "cc73a32b-a873-484e-b9a1-b793e6b03bd4",
+      "id": "2b4ef4fa-094d-4305-9dc9-28b0c34a33d3",
       "type": "execute-command",
       "data": {
         "command": "reg delete HKEY_CURRENT_USER\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer /v DisableNotificationCenter /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "bc41e9f7-e2e6-498c-b285-796a3c9465b9",
+      "s": "6d7da920-20a9-4ea7-81e8-a7a9a5d5e003",
       "p": "on-success",
-      "o": "cc73a32b-a873-484e-b9a1-b793e6b03bd4"
+      "o": "2b4ef4fa-094d-4305-9dc9-28b0c34a33d3"
     },
     {
-      "s": "bc41e9f7-e2e6-498c-b285-796a3c9465b9",
+      "s": "6d7da920-20a9-4ea7-81e8-a7a9a5d5e003",
       "p": "on-failure",
-      "o": "cc73a32b-a873-484e-b9a1-b793e6b03bd4"
+      "o": "2b4ef4fa-094d-4305-9dc9-28b0c34a33d3"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

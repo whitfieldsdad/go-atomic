@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "59afdd54-1f6f-4112-8191-60b9cc044531",
+      "id": "8ca6ba9f-9b96-42b6-a15f-487431d9d754",
       "type": "execute-command",
       "data": {
         "command": "sudo srm #{system_log_path} #system log file deletion\nsudo srm -r #{system_log_folder} #recursive deletion of log files\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f4491619-aa16-4bff-9071-7aa3c3462421",
+      "id": "d8209856-b447-4e47-b2c0-94535dbb3b69",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "stat #{system_log_path} #{system_log_folder}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "3488895d-a701-4469-bc47-837ee109d314",
+      "id": "c5896db5-62db-4164-89e6-c84796d01c2a",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "mkdir -p #{system_log_folder} \u0026\u0026 touch #{system_log_path} #{system_log_folder}/system.log\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "45d5cf66-1909-410c-9949-181419aee444",
+      "id": "def65d91-a76a-4bfc-a2c2-9ed08d632572",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -46,34 +46,34 @@
         "command": "stat #{system_log_path} #{system_log_folder}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "f4491619-aa16-4bff-9071-7aa3c3462421",
+      "s": "d8209856-b447-4e47-b2c0-94535dbb3b69",
       "p": "on-success",
-      "o": "59afdd54-1f6f-4112-8191-60b9cc044531"
+      "o": "8ca6ba9f-9b96-42b6-a15f-487431d9d754"
     },
     {
-      "s": "f4491619-aa16-4bff-9071-7aa3c3462421",
+      "s": "d8209856-b447-4e47-b2c0-94535dbb3b69",
       "p": "on-failure",
-      "o": "3488895d-a701-4469-bc47-837ee109d314"
+      "o": "c5896db5-62db-4164-89e6-c84796d01c2a"
     },
     {
-      "s": "3488895d-a701-4469-bc47-837ee109d314",
+      "s": "c5896db5-62db-4164-89e6-c84796d01c2a",
       "p": "on-success",
-      "o": "45d5cf66-1909-410c-9949-181419aee444"
+      "o": "def65d91-a76a-4bfc-a2c2-9ed08d632572"
     },
     {
-      "s": "45d5cf66-1909-410c-9949-181419aee444",
+      "s": "def65d91-a76a-4bfc-a2c2-9ed08d632572",
       "p": "on-failure",
-      "o": "59afdd54-1f6f-4112-8191-60b9cc044531"
+      "o": "8ca6ba9f-9b96-42b6-a15f-487431d9d754"
     }
   ],
   "tags": [
-    "T1070.002",
-    "atomic-red-team"
+    "T1070",
+    "T1070.002"
   ],
   "input_arguments": [
     {

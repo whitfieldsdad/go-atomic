@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "aa290a21-47c1-4cbb-a102-7872653c1e5c",
+      "id": "c0d476d2-e285-4017-be05-4c794b1c0229",
       "type": "execute-command",
       "data": {
         "command": "REG ADD HKLM\\Software\\Microsoft\\.NETFramework /v ETWEnabled /t REG_DWORD /d 0",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "7ec50317-d8bf-4f17-9399-e10a991fb2ad",
+      "id": "2b95f48d-377c-41f7-b2d3-2e99c84b10f9",
       "type": "execute-command",
       "data": {
         "command": "REG DELETE HKLM\\Software\\Microsoft\\.NETFramework /v ETWEnabled /f \u003e nul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "aa290a21-47c1-4cbb-a102-7872653c1e5c",
+      "s": "c0d476d2-e285-4017-be05-4c794b1c0229",
       "p": "on-success",
-      "o": "7ec50317-d8bf-4f17-9399-e10a991fb2ad"
+      "o": "2b95f48d-377c-41f7-b2d3-2e99c84b10f9"
     },
     {
-      "s": "aa290a21-47c1-4cbb-a102-7872653c1e5c",
+      "s": "c0d476d2-e285-4017-be05-4c794b1c0229",
       "p": "on-failure",
-      "o": "7ec50317-d8bf-4f17-9399-e10a991fb2ad"
+      "o": "2b95f48d-377c-41f7-b2d3-2e99c84b10f9"
     }
   ],
   "tags": [
-    "T1562.006",
-    "atomic-red-team"
+    "T1562",
+    "T1562.006"
   ]
 }

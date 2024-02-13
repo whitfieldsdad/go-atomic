@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "d54ea0fc-9e43-402d-89b7-24985ea6141c",
+      "id": "30cdb305-3823-41b6-9cb4-2ea112ee0ecf",
       "type": "execute-command",
       "data": {
         "command": "REG ADD \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Minimal\\AtomicSafeMode\" /VE /T REG_SZ /F /D \"Service\"\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "c8b5b7f1-bdc8-4784-af7a-eb47340ee2a2",
+      "id": "f770f724-61e3-447b-8bcb-1ae21f76e1d1",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Minimal\\AtomicSafeMode\" /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "d54ea0fc-9e43-402d-89b7-24985ea6141c",
+      "s": "30cdb305-3823-41b6-9cb4-2ea112ee0ecf",
       "p": "on-success",
-      "o": "c8b5b7f1-bdc8-4784-af7a-eb47340ee2a2"
+      "o": "f770f724-61e3-447b-8bcb-1ae21f76e1d1"
     },
     {
-      "s": "d54ea0fc-9e43-402d-89b7-24985ea6141c",
+      "s": "30cdb305-3823-41b6-9cb4-2ea112ee0ecf",
       "p": "on-failure",
-      "o": "c8b5b7f1-bdc8-4784-af7a-eb47340ee2a2"
+      "o": "f770f724-61e3-447b-8bcb-1ae21f76e1d1"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

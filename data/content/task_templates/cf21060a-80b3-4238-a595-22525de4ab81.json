@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "ab4fddec-909f-4ad2-85db-d27541fce089",
+      "id": "47f4af64-be46-46be-a55d-a89532b77969",
       "type": "execute-command",
       "data": {
         "command": "bcdedit.exe /set {default} bootstatuspolicy ignoreallfailures\nbcdedit.exe /set {default} recoveryenabled no\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ca4b0a1f-63c3-44ca-b106-f05cf0539fab",
+      "id": "c134be77-46a6-48f5-8d07-438ece95d513",
       "type": "execute-command",
       "data": {
         "command": "bcdedit.exe /set {default} bootstatuspolicy DisplayAllFailures \u003enul 2\u003e\u00261\nbcdedit.exe /set {default} recoveryenabled yes \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "ab4fddec-909f-4ad2-85db-d27541fce089",
+      "s": "47f4af64-be46-46be-a55d-a89532b77969",
       "p": "on-success",
-      "o": "ca4b0a1f-63c3-44ca-b106-f05cf0539fab"
+      "o": "c134be77-46a6-48f5-8d07-438ece95d513"
     },
     {
-      "s": "ab4fddec-909f-4ad2-85db-d27541fce089",
+      "s": "47f4af64-be46-46be-a55d-a89532b77969",
       "p": "on-failure",
-      "o": "ca4b0a1f-63c3-44ca-b106-f05cf0539fab"
+      "o": "c134be77-46a6-48f5-8d07-438ece95d513"
     }
   ],
   "tags": [
-    "T1490",
-    "atomic-red-team"
+    "T1490"
   ]
 }

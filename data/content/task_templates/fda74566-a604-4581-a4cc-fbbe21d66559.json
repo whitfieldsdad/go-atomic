@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "2c3d4cf3-e582-4b91-b667-ec1898757c98",
+      "id": "b93c1b73-5aa2-41e7-9de3-b36f4c423fa7",
       "type": "execute-command",
       "data": {
         "command": "net user /add \"#{username}\" \"#{password}\"\nnet localgroup administrators \"#{username}\" /add\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "aa56ea45-00a2-4a88-936a-70cb0ecc385b",
+      "id": "88e4fb40-5a81-4228-a6e9-934edf903fdf",
       "type": "execute-command",
       "data": {
         "command": "net user /del \"#{username}\" \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "2c3d4cf3-e582-4b91-b667-ec1898757c98",
+      "s": "b93c1b73-5aa2-41e7-9de3-b36f4c423fa7",
       "p": "on-success",
-      "o": "aa56ea45-00a2-4a88-936a-70cb0ecc385b"
+      "o": "88e4fb40-5a81-4228-a6e9-934edf903fdf"
     },
     {
-      "s": "2c3d4cf3-e582-4b91-b667-ec1898757c98",
+      "s": "b93c1b73-5aa2-41e7-9de3-b36f4c423fa7",
       "p": "on-failure",
-      "o": "aa56ea45-00a2-4a88-936a-70cb0ecc385b"
+      "o": "88e4fb40-5a81-4228-a6e9-934edf903fdf"
     }
   ],
   "tags": [
-    "T1136.001",
-    "atomic-red-team"
+    "T1136",
+    "T1136.001"
   ],
   "input_arguments": [
     {

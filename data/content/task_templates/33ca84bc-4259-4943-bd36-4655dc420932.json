@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "52f6f052-cf9e-49f6-bd98-c926d6c9df7e",
+      "id": "0467a214-ec37-4ef2-8837-7fac94b81a7f",
       "type": "execute-command",
       "data": {
         "command": "aws logs create-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Created ***\"\naws logs create-log-stream --log-group-name #{cloudwatch_log_group_name} --log-stream-name #{cloudwatch_log_stream_name}\necho \"*** Log Stream Created ***\"\naws logs delete-log-stream --log-group-name #{cloudwatch_log_group_name} --log-stream-name #{cloudwatch_log_stream_name}\necho \"*** Log Stream Deleted ***\"\naws logs delete-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Deleted ***\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "f85e2d8f-1a00-4756-b8e5-749a7fed0daf",
+      "id": "d2bd3b17-6567-4400-82e2-f51b419a9d8e",
       "name": "Check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "772eee42-a042-4d99-bb6f-ec65c79ac2a9",
+      "id": "d67cf128-2ffb-4a48-885f-bd56e7d16b02",
       "name": "Resolve dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "a1343c04-78b9-4541-a72b-9432c83050a2",
+      "id": "90f20b8d-5fe3-4329-8841-cf9bffbbc5f9",
       "name": "Re-check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -51,37 +51,31 @@
   ],
   "flows": [
     {
-      "s": "f85e2d8f-1a00-4756-b8e5-749a7fed0daf",
+      "s": "d2bd3b17-6567-4400-82e2-f51b419a9d8e",
       "p": "on-success",
-      "o": "52f6f052-cf9e-49f6-bd98-c926d6c9df7e"
+      "o": "0467a214-ec37-4ef2-8837-7fac94b81a7f"
     },
     {
-      "s": "f85e2d8f-1a00-4756-b8e5-749a7fed0daf",
+      "s": "d2bd3b17-6567-4400-82e2-f51b419a9d8e",
       "p": "on-failure",
-      "o": "772eee42-a042-4d99-bb6f-ec65c79ac2a9"
+      "o": "d67cf128-2ffb-4a48-885f-bd56e7d16b02"
     },
     {
-      "s": "772eee42-a042-4d99-bb6f-ec65c79ac2a9",
+      "s": "d67cf128-2ffb-4a48-885f-bd56e7d16b02",
       "p": "on-success",
-      "o": "a1343c04-78b9-4541-a72b-9432c83050a2"
+      "o": "90f20b8d-5fe3-4329-8841-cf9bffbbc5f9"
     },
     {
-      "s": "a1343c04-78b9-4541-a72b-9432c83050a2",
+      "s": "90f20b8d-5fe3-4329-8841-cf9bffbbc5f9",
       "p": "on-failure",
-      "o": "52f6f052-cf9e-49f6-bd98-c926d6c9df7e"
+      "o": "0467a214-ec37-4ef2-8837-7fac94b81a7f"
     }
   ],
   "tags": [
-    "T1562.008",
-    "atomic-red-team"
+    "T1562",
+    "T1562.008"
   ],
   "input_arguments": [
-    {
-      "name": "cloudwatch_log_group_name",
-      "type": "string",
-      "description": "Name of the cloudWatch log group",
-      "value": "test-logs"
-    },
     {
       "name": "cloudwatch_log_stream_name",
       "type": "string",
@@ -93,6 +87,12 @@
       "type": "string",
       "description": "Name of the region",
       "value": "us-west-2"
+    },
+    {
+      "name": "cloudwatch_log_group_name",
+      "type": "string",
+      "description": "Name of the cloudWatch log group",
+      "value": "test-logs"
     }
   ]
 }

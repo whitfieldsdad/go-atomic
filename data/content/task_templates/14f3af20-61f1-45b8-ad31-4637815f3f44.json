@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "572f1a33-6465-4884-8501-67dac8b79281",
+      "id": "31c25ad9-cc99-44c8-8b07-4dfdfcd314b5",
       "type": "execute-command",
       "data": {
         "command": "Import-Module MSOnline\nImport-Module AzureAD\n$password = ConvertTo-SecureString -String \"#{auth_password}\" -AsPlainText -Force\n$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{auth_username}\", $password\n$targetsecurepw = ConvertTo-SecureString -String \"#{target_password}\" -AsPlainText -Force\nConnect-MsolService -Credential $credential -ErrorAction:SilentlyContinue\nConnect-AzureAD -Credential $credential -ErrorAction:SilentlyContinue\n\n#Saving the ObjectId of the target_user into a variable\n$target_objid = Get-AzureADUser -filter \"userPrincipalName eq '#{target_user}'\" | Select-Object -ExpandProperty ObjectId\n\n#Reset the password of the target_user\nSet-AzureADUserPassword -ObjectId  $target_objid -Password $targetsecurepw -ErrorAction:SilentlyContinue\n\n#Adding target_user\nAdd-MsolRoleMember -RoleName \"Company Administrator\" -RoleMemberEmailAddress \"#{target_user}\"\nAdd-MsolRoleMember -RoleName \"Global Reader\" -RoleMemberEmailAddress \"#{target_user}\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "7d820eb9-2f68-4613-852e-61d4150cccb1",
+      "id": "e1d0bddb-24ee-486c-b570-da0e2ff46bb7",
       "type": "execute-command",
       "data": {
         "command": "Import-Module MSOnline\n$password = ConvertTo-SecureString -String \"#{auth_password}\" -AsPlainText -Force\n$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{auth_username}\", $password\nConnect-MsolService -Credential $credential\nRemove-MsolRoleMember -RoleName \"Company Administrator\" -RoleMemberType User -RoleMemberEmailAddress \"#{target_user}\"\nRemove-MsolRoleMember -RoleName \"Global Reader\" -RoleMemberType User -RoleMemberEmailAddress \"#{target_user}\"\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "53918ec7-d756-4beb-a6c2-d7d2b0b956e4",
+      "id": "746583af-4bc2-4763-9859-97704278d521",
       "name": "Check dependency 1/1",
       "description": "MSOnline and AzureAD modules must be installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "1eb48d65-088d-4d31-9496-e1488583962e",
+      "id": "02abf992-0a68-414c-8a15-3187389c1276",
       "name": "Resolve dependency 1/1",
       "description": "MSOnline and AzureAD modules must be installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "baf392d7-5c65-47c2-a523-a120e8ef42f6",
+      "id": "c75152b8-f517-4ec0-baeb-db957c141bce",
       "name": "Re-check dependency 1/1",
       "description": "MSOnline and AzureAD modules must be installed.\n",
       "type": "execute-command",
@@ -60,47 +60,41 @@
   ],
   "flows": [
     {
-      "s": "572f1a33-6465-4884-8501-67dac8b79281",
+      "s": "31c25ad9-cc99-44c8-8b07-4dfdfcd314b5",
       "p": "on-success",
-      "o": "7d820eb9-2f68-4613-852e-61d4150cccb1"
+      "o": "e1d0bddb-24ee-486c-b570-da0e2ff46bb7"
     },
     {
-      "s": "572f1a33-6465-4884-8501-67dac8b79281",
+      "s": "31c25ad9-cc99-44c8-8b07-4dfdfcd314b5",
       "p": "on-failure",
-      "o": "7d820eb9-2f68-4613-852e-61d4150cccb1"
+      "o": "e1d0bddb-24ee-486c-b570-da0e2ff46bb7"
     },
     {
-      "s": "53918ec7-d756-4beb-a6c2-d7d2b0b956e4",
+      "s": "746583af-4bc2-4763-9859-97704278d521",
       "p": "on-success",
-      "o": "572f1a33-6465-4884-8501-67dac8b79281"
+      "o": "31c25ad9-cc99-44c8-8b07-4dfdfcd314b5"
     },
     {
-      "s": "53918ec7-d756-4beb-a6c2-d7d2b0b956e4",
+      "s": "746583af-4bc2-4763-9859-97704278d521",
       "p": "on-failure",
-      "o": "1eb48d65-088d-4d31-9496-e1488583962e"
+      "o": "02abf992-0a68-414c-8a15-3187389c1276"
     },
     {
-      "s": "1eb48d65-088d-4d31-9496-e1488583962e",
+      "s": "02abf992-0a68-414c-8a15-3187389c1276",
       "p": "on-success",
-      "o": "baf392d7-5c65-47c2-a523-a120e8ef42f6"
+      "o": "c75152b8-f517-4ec0-baeb-db957c141bce"
     },
     {
-      "s": "baf392d7-5c65-47c2-a523-a120e8ef42f6",
+      "s": "c75152b8-f517-4ec0-baeb-db957c141bce",
       "p": "on-failure",
-      "o": "572f1a33-6465-4884-8501-67dac8b79281"
+      "o": "31c25ad9-cc99-44c8-8b07-4dfdfcd314b5"
     }
   ],
   "tags": [
-    "T1098.003",
-    "atomic-red-team"
+    "T1098",
+    "T1098.003"
   ],
   "input_arguments": [
-    {
-      "name": "target_password",
-      "type": "string",
-      "description": "The password that the user target_user will be reset to.",
-      "value": "Ohn05GeMe#$"
-    },
     {
       "name": "auth_username",
       "type": "string",
@@ -118,6 +112,12 @@
       "type": "string",
       "description": "Name of the user whose password be reset and added to the admin role.",
       "value": "default"
+    },
+    {
+      "name": "target_password",
+      "type": "string",
+      "description": "The password that the user target_user will be reset to.",
+      "value": "Ohn05GeMe#$"
     }
   ]
 }

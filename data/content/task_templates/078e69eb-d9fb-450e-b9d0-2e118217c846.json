@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "726ba9b0-4a50-429e-905c-ff7c749dc8e9",
+      "id": "21d66285-f538-45e3-aea5-32abda980e26",
       "type": "execute-command",
       "data": {
         "command": "echo \"#{command}\" \u003e /etc/cron.d/#{cron_script_name}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d1cccec3-c65e-48f2-b5d3-87cf1ef0de4a",
+      "id": "b370b56b-ee43-4624-9022-d1264a5cdf6d",
       "type": "execute-command",
       "data": {
         "command": "rm /etc/cron.d/#{cron_script_name}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "726ba9b0-4a50-429e-905c-ff7c749dc8e9",
+      "s": "21d66285-f538-45e3-aea5-32abda980e26",
       "p": "on-success",
-      "o": "d1cccec3-c65e-48f2-b5d3-87cf1ef0de4a"
+      "o": "b370b56b-ee43-4624-9022-d1264a5cdf6d"
     },
     {
-      "s": "726ba9b0-4a50-429e-905c-ff7c749dc8e9",
+      "s": "21d66285-f538-45e3-aea5-32abda980e26",
       "p": "on-failure",
-      "o": "d1cccec3-c65e-48f2-b5d3-87cf1ef0de4a"
+      "o": "b370b56b-ee43-4624-9022-d1264a5cdf6d"
     }
   ],
   "tags": [
-    "T1053.003",
-    "atomic-red-team"
+    "T1053",
+    "T1053.003"
   ],
   "input_arguments": [
     {

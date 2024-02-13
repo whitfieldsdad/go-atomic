@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "8c2f352f-0d62-4552-81eb-86f7d5e30000",
+      "id": "b6ddbefa-3f7f-4657-9993-586b49f24459",
       "type": "execute-command",
       "data": {
         "command": "echo \"dn: cn=Atomic User, cn=Users,dc=#{domain},dc=#{top_level_domain}\\nobjectClass: person\\ncn: Atomic User\\nsn: User\" \u003e tempadmin.ldif\necho ldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif\nldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "962be074-17e8-4760-8786-fa059abfe443",
+      "id": "f68a0252-24c9-49c1-9360-5644ee9874ea",
       "type": "execute-command",
       "data": {
         "command": "echo removing Atomic User (temporary user)\necho \"dn: cn=Atomic User,cn=Users,dc=scwxscratch,dc=dev\\nchangetype: delete\" \u003e deleteuser.ldif\nldapmodify -H ldap://#{domain_controller}:389 -x -D #{admin_user} -w #{admin_password} -f deleteuser.ldif\nrm deleteuser.ldif\nrm tempadmin.ldif\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "f6431b67-f764-4703-9900-30d861c4d004",
+      "id": "4a7125d5-5393-46a0-8c4a-0279fc7b4932",
       "name": "Check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapadd, ldapmodify\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "33d995de-da2b-483d-b55b-972a66a8aa6a",
+      "id": "6471cee6-69b1-4daf-b471-210c3d854655",
       "name": "Resolve dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapadd, ldapmodify\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "f776de25-d5b8-4360-8044-6c32f6f7b1ea",
+      "id": "8be6823c-b7c3-4e75-b240-cbb756aa9e36",
       "name": "Re-check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapadd, ldapmodify\n",
       "type": "execute-command",
@@ -60,39 +60,39 @@
   ],
   "flows": [
     {
-      "s": "8c2f352f-0d62-4552-81eb-86f7d5e30000",
+      "s": "b6ddbefa-3f7f-4657-9993-586b49f24459",
       "p": "on-success",
-      "o": "962be074-17e8-4760-8786-fa059abfe443"
+      "o": "f68a0252-24c9-49c1-9360-5644ee9874ea"
     },
     {
-      "s": "8c2f352f-0d62-4552-81eb-86f7d5e30000",
+      "s": "b6ddbefa-3f7f-4657-9993-586b49f24459",
       "p": "on-failure",
-      "o": "962be074-17e8-4760-8786-fa059abfe443"
+      "o": "f68a0252-24c9-49c1-9360-5644ee9874ea"
     },
     {
-      "s": "f6431b67-f764-4703-9900-30d861c4d004",
+      "s": "4a7125d5-5393-46a0-8c4a-0279fc7b4932",
       "p": "on-success",
-      "o": "8c2f352f-0d62-4552-81eb-86f7d5e30000"
+      "o": "b6ddbefa-3f7f-4657-9993-586b49f24459"
     },
     {
-      "s": "f6431b67-f764-4703-9900-30d861c4d004",
+      "s": "4a7125d5-5393-46a0-8c4a-0279fc7b4932",
       "p": "on-failure",
-      "o": "33d995de-da2b-483d-b55b-972a66a8aa6a"
+      "o": "6471cee6-69b1-4daf-b471-210c3d854655"
     },
     {
-      "s": "33d995de-da2b-483d-b55b-972a66a8aa6a",
+      "s": "6471cee6-69b1-4daf-b471-210c3d854655",
       "p": "on-success",
-      "o": "f776de25-d5b8-4360-8044-6c32f6f7b1ea"
+      "o": "8be6823c-b7c3-4e75-b240-cbb756aa9e36"
     },
     {
-      "s": "f776de25-d5b8-4360-8044-6c32f6f7b1ea",
+      "s": "8be6823c-b7c3-4e75-b240-cbb756aa9e36",
       "p": "on-failure",
-      "o": "8c2f352f-0d62-4552-81eb-86f7d5e30000"
+      "o": "b6ddbefa-3f7f-4657-9993-586b49f24459"
     }
   ],
   "tags": [
-    "T1136.002",
-    "atomic-red-team"
+    "T1136",
+    "T1136.002"
   ],
   "input_arguments": [
     {

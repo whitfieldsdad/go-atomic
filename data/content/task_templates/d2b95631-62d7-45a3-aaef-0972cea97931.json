@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "47f61b19-f146-4af0-ae47-2b57b3bb32df",
+      "id": "d30d007d-eb48-407f-9819-b231bb642dd8",
       "type": "execute-command",
       "data": {
         "command": "useradd --shell /bin/bash --create-home --password $(openssl passwd -1 art) art\nusermod --lock art\nusermod --expiredate \"1\" art\nusermod --unlock art\nusermod --expiredate \"99999\" art\nsu art\nwhoami\nexit\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "e4bf14f1-2649-4171-b096-af7de0d1075b",
+      "id": "e37f332c-c37c-488b-beb7-b0709230863d",
       "type": "execute-command",
       "data": {
         "command": "userdel -r art \n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "47f61b19-f146-4af0-ae47-2b57b3bb32df",
+      "s": "d30d007d-eb48-407f-9819-b231bb642dd8",
       "p": "on-success",
-      "o": "e4bf14f1-2649-4171-b096-af7de0d1075b"
+      "o": "e37f332c-c37c-488b-beb7-b0709230863d"
     },
     {
-      "s": "47f61b19-f146-4af0-ae47-2b57b3bb32df",
+      "s": "d30d007d-eb48-407f-9819-b231bb642dd8",
       "p": "on-failure",
-      "o": "e4bf14f1-2649-4171-b096-af7de0d1075b"
+      "o": "e37f332c-c37c-488b-beb7-b0709230863d"
     }
   ],
   "tags": [
-    "T1078.003",
-    "atomic-red-team"
+    "T1078",
+    "T1078.003"
   ]
 }

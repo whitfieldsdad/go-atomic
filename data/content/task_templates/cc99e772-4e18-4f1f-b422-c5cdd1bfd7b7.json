@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "0fcbbec9-e545-472e-84c7-7d2a8a357bf6",
+      "id": "316be20e-00ea-4480-96a8-dcfc6eefa369",
       "type": "execute-command",
       "data": {
         "command": "Invoke-RestMethod -Headers @{\"Metadata\"=\"true\"} -Method GET -Uri \"http://169.254.169.254/metadata/instance?api-version=2021-02-01\" | ConvertTo-Json -Depth 64 \u003e #{output_file}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "ef2ceec0-37ab-49be-ad92-6c3e1221579d",
+      "id": "d0d0f200-317c-44a6-b8ac-e7d5609cef74",
       "type": "execute-command",
       "data": {
         "command": "remove-item #{output_file} -force -erroraction silentlycontinue\n",
@@ -27,19 +27,19 @@
   ],
   "flows": [
     {
-      "s": "0fcbbec9-e545-472e-84c7-7d2a8a357bf6",
+      "s": "316be20e-00ea-4480-96a8-dcfc6eefa369",
       "p": "on-success",
-      "o": "ef2ceec0-37ab-49be-ad92-6c3e1221579d"
+      "o": "d0d0f200-317c-44a6-b8ac-e7d5609cef74"
     },
     {
-      "s": "0fcbbec9-e545-472e-84c7-7d2a8a357bf6",
+      "s": "316be20e-00ea-4480-96a8-dcfc6eefa369",
       "p": "on-failure",
-      "o": "ef2ceec0-37ab-49be-ad92-6c3e1221579d"
+      "o": "d0d0f200-317c-44a6-b8ac-e7d5609cef74"
     }
   ],
   "tags": [
-    "T1552.005",
-    "atomic-red-team"
+    "T1552",
+    "T1552.005"
   ],
   "input_arguments": [
     {

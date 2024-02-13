@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "6fb91f19-8ce5-45ef-8380-0c0b43aa6a46",
+      "id": "0168b6e7-74a1-4ff8-90f6-650d0b061265",
       "type": "execute-command",
       "data": {
         "command": "sc config Fax binPath= \"C:\\windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe -noexit -c \\\"write-host 'T1543.003 Test'\\\"\"\nsc start Fax\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "699dd9d1-17a1-4ae6-93cd-357e808e818a",
+      "id": "3e4167c7-d8c5-4c9b-bd2f-18c3914c1aee",
       "type": "execute-command",
       "data": {
         "command": "sc config Fax binPath= \"C:\\WINDOWS\\system32\\fxssvc.exe\" \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "6fb91f19-8ce5-45ef-8380-0c0b43aa6a46",
+      "s": "0168b6e7-74a1-4ff8-90f6-650d0b061265",
       "p": "on-success",
-      "o": "699dd9d1-17a1-4ae6-93cd-357e808e818a"
+      "o": "3e4167c7-d8c5-4c9b-bd2f-18c3914c1aee"
     },
     {
-      "s": "6fb91f19-8ce5-45ef-8380-0c0b43aa6a46",
+      "s": "0168b6e7-74a1-4ff8-90f6-650d0b061265",
       "p": "on-failure",
-      "o": "699dd9d1-17a1-4ae6-93cd-357e808e818a"
+      "o": "3e4167c7-d8c5-4c9b-bd2f-18c3914c1aee"
     }
   ],
   "tags": [
-    "T1543.003",
-    "atomic-red-team"
+    "T1543",
+    "T1543.003"
   ]
 }

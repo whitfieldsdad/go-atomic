@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "c11ce0f1-9427-436c-8924-0f2eebe681ac",
+      "id": "53355799-280e-4d59-9dad-9ca7d3da87f0",
       "type": "execute-command",
       "data": {
         "command": "ldifde.exe -f #{output_path}\\#{output_file} -p subtree\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "e2b2d840-b743-42ea-898f-4125037b3392",
+      "id": "25e907d1-0355-4468-bac8-c20d3f5572a7",
       "type": "execute-command",
       "data": {
         "command": "del #{output_path}\\#{output_file}\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d565ddc8-2ba6-417e-a193-238441bd3531",
+      "id": "f015709a-ea7d-46ec-96d9-e276857efb44",
       "name": "Check dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "Try {\n    Import-Module ActiveDirectory -ErrorAction Stop | Out-Null\n    exit 0\n}\nCatch {\n    exit 1\n}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "a64cab52-2e9c-462c-a3ab-45f12e4f8328",
+      "id": "9bb12e7e-3531-4257-875f-40f449748949",
       "name": "Resolve dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "if((Get-CimInstance -ClassName Win32_OperatingSystem).ProductType -eq 1) {\n  Add-WindowsCapability -Name (Get-WindowsCapability -Name RSAT.ActiveDirectory.DS* -Online).Name -Online\n} else {\n  Install-WindowsFeature RSAT-AD-PowerShell\n}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "43484e4e-dd4c-4ffa-b199-5c84a93e5ee6",
+      "id": "4bb83cc6-0f5c-483a-ab03-e527929516a3",
       "name": "Re-check dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
@@ -55,44 +55,44 @@
         "command": "Try {\n    Import-Module ActiveDirectory -ErrorAction Stop | Out-Null\n    exit 0\n}\nCatch {\n    exit 1\n}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "c11ce0f1-9427-436c-8924-0f2eebe681ac",
+      "s": "53355799-280e-4d59-9dad-9ca7d3da87f0",
       "p": "on-success",
-      "o": "e2b2d840-b743-42ea-898f-4125037b3392"
+      "o": "25e907d1-0355-4468-bac8-c20d3f5572a7"
     },
     {
-      "s": "c11ce0f1-9427-436c-8924-0f2eebe681ac",
+      "s": "53355799-280e-4d59-9dad-9ca7d3da87f0",
       "p": "on-failure",
-      "o": "e2b2d840-b743-42ea-898f-4125037b3392"
+      "o": "25e907d1-0355-4468-bac8-c20d3f5572a7"
     },
     {
-      "s": "d565ddc8-2ba6-417e-a193-238441bd3531",
+      "s": "f015709a-ea7d-46ec-96d9-e276857efb44",
       "p": "on-success",
-      "o": "c11ce0f1-9427-436c-8924-0f2eebe681ac"
+      "o": "53355799-280e-4d59-9dad-9ca7d3da87f0"
     },
     {
-      "s": "d565ddc8-2ba6-417e-a193-238441bd3531",
+      "s": "f015709a-ea7d-46ec-96d9-e276857efb44",
       "p": "on-failure",
-      "o": "a64cab52-2e9c-462c-a3ab-45f12e4f8328"
+      "o": "9bb12e7e-3531-4257-875f-40f449748949"
     },
     {
-      "s": "a64cab52-2e9c-462c-a3ab-45f12e4f8328",
+      "s": "9bb12e7e-3531-4257-875f-40f449748949",
       "p": "on-success",
-      "o": "43484e4e-dd4c-4ffa-b199-5c84a93e5ee6"
+      "o": "4bb83cc6-0f5c-483a-ab03-e527929516a3"
     },
     {
-      "s": "43484e4e-dd4c-4ffa-b199-5c84a93e5ee6",
+      "s": "4bb83cc6-0f5c-483a-ab03-e527929516a3",
       "p": "on-failure",
-      "o": "c11ce0f1-9427-436c-8924-0f2eebe681ac"
+      "o": "53355799-280e-4d59-9dad-9ca7d3da87f0"
     }
   ],
   "tags": [
-    "T1069.002",
-    "atomic-red-team"
+    "T1069",
+    "T1069.002"
   ],
   "input_arguments": [
     {

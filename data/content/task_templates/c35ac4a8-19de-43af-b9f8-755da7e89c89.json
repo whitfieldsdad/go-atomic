@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "6833615b-98d9-4f24-942e-94e847c9ba81",
+      "id": "7a354a79-d187-4e18-a571-26c5e21e10ca",
       "type": "execute-command",
       "data": {
         "command": "cat \u003e /etc/init.d/T1543.002 \u003c\u003c EOF\n#!/bin/bash\n### BEGIN INIT INFO\n# Provides : Atomic Test T1543.002\n# Required-Start: $all\n# Required-Stop : \n# Default-Start: 2 3 4 5\n# Default-Stop: \n# Short Description: Atomic Test for Systemd Service Creation\n### END INIT INFO\npython3 -c \"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBDcmVhdGluZyBTeXN0ZW1kIFNlcnZpY2UgVDE1NDMuMDAyID4gL3RtcC9UMTU0My4wMDIuc3lzdGVtZC5zZXJ2aWNlLmNyZWF0aW9uJykK'))\"\nEOF\n\nchmod +x /etc/init.d/T1543.002\nif [ $(cat /etc/os-release | grep -i ID=ubuntu) ] || [ $(cat /etc/os-release | grep -i ID=kali) ]; then update-rc.d T1543.002 defaults; elif [ $(cat /etc/os-release | grep -i 'ID=\"centos\"') ]; then chkconfig T1543.002 on ; else echo \"Please run this test on Ubnutu , kali OR centos\" ; fi ;\nsystemctl enable T1543.002\nsystemctl start T1543.002\n\necho \"python3 -c \\\"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBtb2RpZnlpbmcgYSBTeXN0ZW1kIFNlcnZpY2UgVDE1NDMuMDAyID4gL3RtcC9UMTU0My4wMDIuc3lzdGVtZC5zZXJ2aWNlLm1vZGlmaWNhdGlvbicpCg=='))\\\"\" | sudo tee -a /etc/init.d/T1543.002\nsystemctl daemon-reload\nsystemctl restart T1543.002\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "73b9638c-0f8f-4f16-a20e-8b2e8791d4d0",
+      "id": "692ac8a0-43fb-4570-9472-2c996ffca2f3",
       "type": "execute-command",
       "data": {
         "command": "systemctl stop T1543.002\nsystemctl disable T1543.002\nrm -rf /etc/init.d/T1543.002\nsystemctl daemon-reload\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ec2f4d23-fd67-4aba-9cd7-2f7db0eaa463",
+      "id": "4deb9466-d754-47ea-8f03-9442e1d96cee",
       "name": "Check dependency 1/1",
       "description": "System must be Ubuntu ,Kali OR CentOS.\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if [ $(cat /etc/os-release | grep -i ID=ubuntu) ] || [ $(cat /etc/os-release | grep -i ID=kali) ] || [ $(cat /etc/os-release | grep -i 'ID=\"centos\"') ]; then exit /b 0; else exit /b 1; fi;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ef14fd37-c539-4f5c-8914-0f2beb28847a",
+      "id": "8c4a2bd2-e57e-417a-98a3-4b500572fb56",
       "name": "Resolve dependency 1/1",
       "description": "System must be Ubuntu ,Kali OR CentOS.\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo Please run from Ubuntu ,Kali OR CentOS.\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "27d96c63-07a9-47ec-9e14-46e99252719e",
+      "id": "6a8413fd-9e6f-4028-9346-fbc7410f3f89",
       "name": "Re-check dependency 1/1",
       "description": "System must be Ubuntu ,Kali OR CentOS.\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "if [ $(cat /etc/os-release | grep -i ID=ubuntu) ] || [ $(cat /etc/os-release | grep -i ID=kali) ] || [ $(cat /etc/os-release | grep -i 'ID=\"centos\"') ]; then exit /b 0; else exit /b 1; fi;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "6833615b-98d9-4f24-942e-94e847c9ba81",
+      "s": "7a354a79-d187-4e18-a571-26c5e21e10ca",
       "p": "on-success",
-      "o": "73b9638c-0f8f-4f16-a20e-8b2e8791d4d0"
+      "o": "692ac8a0-43fb-4570-9472-2c996ffca2f3"
     },
     {
-      "s": "6833615b-98d9-4f24-942e-94e847c9ba81",
+      "s": "7a354a79-d187-4e18-a571-26c5e21e10ca",
       "p": "on-failure",
-      "o": "73b9638c-0f8f-4f16-a20e-8b2e8791d4d0"
+      "o": "692ac8a0-43fb-4570-9472-2c996ffca2f3"
     },
     {
-      "s": "ec2f4d23-fd67-4aba-9cd7-2f7db0eaa463",
+      "s": "4deb9466-d754-47ea-8f03-9442e1d96cee",
       "p": "on-success",
-      "o": "6833615b-98d9-4f24-942e-94e847c9ba81"
+      "o": "7a354a79-d187-4e18-a571-26c5e21e10ca"
     },
     {
-      "s": "ec2f4d23-fd67-4aba-9cd7-2f7db0eaa463",
+      "s": "4deb9466-d754-47ea-8f03-9442e1d96cee",
       "p": "on-failure",
-      "o": "ef14fd37-c539-4f5c-8914-0f2beb28847a"
+      "o": "8c4a2bd2-e57e-417a-98a3-4b500572fb56"
     },
     {
-      "s": "ef14fd37-c539-4f5c-8914-0f2beb28847a",
+      "s": "8c4a2bd2-e57e-417a-98a3-4b500572fb56",
       "p": "on-success",
-      "o": "27d96c63-07a9-47ec-9e14-46e99252719e"
+      "o": "6a8413fd-9e6f-4028-9346-fbc7410f3f89"
     },
     {
-      "s": "27d96c63-07a9-47ec-9e14-46e99252719e",
+      "s": "6a8413fd-9e6f-4028-9346-fbc7410f3f89",
       "p": "on-failure",
-      "o": "6833615b-98d9-4f24-942e-94e847c9ba81"
+      "o": "7a354a79-d187-4e18-a571-26c5e21e10ca"
     }
   ],
   "tags": [
-    "T1543.002",
-    "atomic-red-team"
+    "T1543",
+    "T1543.002"
   ]
 }

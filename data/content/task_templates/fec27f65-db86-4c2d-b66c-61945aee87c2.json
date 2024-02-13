@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "e672a95d-77a8-4351-867d-90602b0867e5",
+      "id": "230356f9-a073-4d68-88f3-e894c9d6b2d7",
       "type": "execute-command",
       "data": {
         "command": "schtasks /create /tn \"T1053_005_OnLogon\" /sc onlogon /tr \"cmd.exe /c calc.exe\"\nschtasks /create /tn \"T1053_005_OnStartup\" /sc onstart /ru system /tr \"cmd.exe /c calc.exe\"\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "583cc031-1bb7-462d-8a83-4a8d4b58c6c9",
+      "id": "289cf2c2-96f1-41e0-b08f-d40399ef004c",
       "type": "execute-command",
       "data": {
         "command": "schtasks /delete /tn \"T1053_005_OnLogon\" /f \u003enul 2\u003e\u00261\nschtasks /delete /tn \"T1053_005_OnStartup\" /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "e672a95d-77a8-4351-867d-90602b0867e5",
+      "s": "230356f9-a073-4d68-88f3-e894c9d6b2d7",
       "p": "on-success",
-      "o": "583cc031-1bb7-462d-8a83-4a8d4b58c6c9"
+      "o": "289cf2c2-96f1-41e0-b08f-d40399ef004c"
     },
     {
-      "s": "e672a95d-77a8-4351-867d-90602b0867e5",
+      "s": "230356f9-a073-4d68-88f3-e894c9d6b2d7",
       "p": "on-failure",
-      "o": "583cc031-1bb7-462d-8a83-4a8d4b58c6c9"
+      "o": "289cf2c2-96f1-41e0-b08f-d40399ef004c"
     }
   ],
   "tags": [
-    "T1053.005",
-    "atomic-red-team"
+    "T1053",
+    "T1053.005"
   ]
 }

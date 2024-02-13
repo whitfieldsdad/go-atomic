@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f803a28c-7c1f-4858-bc80-e5f22d6e61b2",
+      "id": "a1ae7dfa-4244-499c-b07c-0a7029d4df2a",
       "type": "execute-command",
       "data": {
         "command": "Add-Type -TypeDefinition @'\npublic class Test {\n    public static void Main(string[] args) {\n        System.Console.WriteLine(\"tweet, tweet\");\n    }\n}\n'@ -OutputAssembly \"#{executable_filepath}\"\n\nStart-Process -FilePath \"#{executable_filepath}\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "ce2d58d4-5f65-4c05-b78a-60c517472400",
+      "id": "586c489d-eecd-47a2-9cb8-01dbee5ca936",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item -Path \"#{executable_filepath}\" -ErrorAction Ignore\n",
@@ -27,19 +27,19 @@
   ],
   "flows": [
     {
-      "s": "f803a28c-7c1f-4858-bc80-e5f22d6e61b2",
+      "s": "a1ae7dfa-4244-499c-b07c-0a7029d4df2a",
       "p": "on-success",
-      "o": "ce2d58d4-5f65-4c05-b78a-60c517472400"
+      "o": "586c489d-eecd-47a2-9cb8-01dbee5ca936"
     },
     {
-      "s": "f803a28c-7c1f-4858-bc80-e5f22d6e61b2",
+      "s": "a1ae7dfa-4244-499c-b07c-0a7029d4df2a",
       "p": "on-failure",
-      "o": "ce2d58d4-5f65-4c05-b78a-60c517472400"
+      "o": "586c489d-eecd-47a2-9cb8-01dbee5ca936"
     }
   ],
   "tags": [
-    "T1036.005",
-    "atomic-red-team"
+    "T1036",
+    "T1036.005"
   ],
   "input_arguments": [
     {

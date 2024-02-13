@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "48179a5a-1898-4c2a-9295-facf2f14a2cb",
+      "id": "60248d7f-e722-46de-9138-e523d824c98d",
       "type": "execute-command",
       "data": {
         "command": "Get-GPO -Domain $ENV:userdnsdomain #{gpo_param} \u003e\u003e #{gpo_output}",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "3ad3788a-1c8e-49b6-b336-6f31926de9a7",
+      "id": "e9037a99-3f88-44f9-b40d-de420d682bc7",
       "type": "execute-command",
       "data": {
         "command": "del $env:temp\\GPO_Output.txt -erroraction silentlycontinue",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ade37eea-4c96-451e-9a4d-897422a0d7ac",
+      "id": "b465a2cf-f1c1-4318-b6e8-9bc7abbbee7b",
       "name": "Check dependency 1/2",
       "description": "Add Rsat.ActiveDirectory.DS",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if(Get-WindowsCapability -Online -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0 | Where-Object { $_.State -eq 'Installed' }){ exit 0 } else { exit 1 }",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5d7038fb-1590-4cfd-9ed0-8fab318c1412",
+      "id": "75874968-4e56-4fbd-8805-e2a1d55b4efa",
       "name": "Resolve dependency 1/2",
       "description": "Add Rsat.ActiveDirectory.DS",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "Add-WindowsCapability -online -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "abaaa2a8-24ed-4b9a-a16e-45b2adbaafb1",
+      "id": "ac49d6f2-7a4f-416a-a769-6b0fa83b721c",
       "name": "Re-check dependency 1/2",
       "description": "Add Rsat.ActiveDirectory.DS",
       "type": "execute-command",
@@ -55,10 +55,10 @@
         "command": "if(Get-WindowsCapability -Online -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0 | Where-Object { $_.State -eq 'Installed' }){ exit 0 } else { exit 1 }",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "cb3a7707-71c7-4c2e-9d63-f76471531c00",
+      "id": "4f324a40-428b-49a2-a640-78d42f62fb44",
       "name": "Check dependency 2/2",
       "description": "Add Rsat.GroupPolicy.Management.Tools ###Two RSAT Modules needed for this to work on Win10, WinServer 2019 works by default. This will take a long time (almost 2 minutes) to install RSAT Manually###.",
       "type": "execute-command",
@@ -66,10 +66,10 @@
         "command": "if(Get-WindowsCapability -Online -Name Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0 | Where-Object { $_.State -eq 'Installed' }){ exit 0 } else { exit 1 }",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "7e100971-23dc-40b3-b09a-72893ff210f4",
+      "id": "b3da942a-7676-4055-a1c3-55c94d2c1f59",
       "name": "Resolve dependency 2/2",
       "description": "Add Rsat.GroupPolicy.Management.Tools ###Two RSAT Modules needed for this to work on Win10, WinServer 2019 works by default. This will take a long time (almost 2 minutes) to install RSAT Manually###.",
       "type": "execute-command",
@@ -77,10 +77,10 @@
         "command": "Add-WindowsCapability -online -Name Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "7932e7c6-e45d-4ef8-8069-bb92dced38db",
+      "id": "ae31e2d2-769b-4679-80f4-e8b132231039",
       "name": "Re-check dependency 2/2",
       "description": "Add Rsat.GroupPolicy.Management.Tools ###Two RSAT Modules needed for this to work on Win10, WinServer 2019 works by default. This will take a long time (almost 2 minutes) to install RSAT Manually###.",
       "type": "execute-command",
@@ -88,64 +88,63 @@
         "command": "if(Get-WindowsCapability -Online -Name Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0 | Where-Object { $_.State -eq 'Installed' }){ exit 0 } else { exit 1 }",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "48179a5a-1898-4c2a-9295-facf2f14a2cb",
+      "s": "60248d7f-e722-46de-9138-e523d824c98d",
       "p": "on-success",
-      "o": "3ad3788a-1c8e-49b6-b336-6f31926de9a7"
+      "o": "e9037a99-3f88-44f9-b40d-de420d682bc7"
     },
     {
-      "s": "48179a5a-1898-4c2a-9295-facf2f14a2cb",
+      "s": "60248d7f-e722-46de-9138-e523d824c98d",
       "p": "on-failure",
-      "o": "3ad3788a-1c8e-49b6-b336-6f31926de9a7"
+      "o": "e9037a99-3f88-44f9-b40d-de420d682bc7"
     },
     {
-      "s": "ade37eea-4c96-451e-9a4d-897422a0d7ac",
+      "s": "b465a2cf-f1c1-4318-b6e8-9bc7abbbee7b",
       "p": "on-success",
-      "o": "48179a5a-1898-4c2a-9295-facf2f14a2cb"
+      "o": "60248d7f-e722-46de-9138-e523d824c98d"
     },
     {
-      "s": "ade37eea-4c96-451e-9a4d-897422a0d7ac",
+      "s": "b465a2cf-f1c1-4318-b6e8-9bc7abbbee7b",
       "p": "on-failure",
-      "o": "5d7038fb-1590-4cfd-9ed0-8fab318c1412"
+      "o": "75874968-4e56-4fbd-8805-e2a1d55b4efa"
     },
     {
-      "s": "5d7038fb-1590-4cfd-9ed0-8fab318c1412",
+      "s": "75874968-4e56-4fbd-8805-e2a1d55b4efa",
       "p": "on-success",
-      "o": "abaaa2a8-24ed-4b9a-a16e-45b2adbaafb1"
+      "o": "ac49d6f2-7a4f-416a-a769-6b0fa83b721c"
     },
     {
-      "s": "abaaa2a8-24ed-4b9a-a16e-45b2adbaafb1",
+      "s": "ac49d6f2-7a4f-416a-a769-6b0fa83b721c",
       "p": "on-failure",
-      "o": "48179a5a-1898-4c2a-9295-facf2f14a2cb"
+      "o": "60248d7f-e722-46de-9138-e523d824c98d"
     },
     {
-      "s": "cb3a7707-71c7-4c2e-9d63-f76471531c00",
+      "s": "4f324a40-428b-49a2-a640-78d42f62fb44",
       "p": "on-success",
-      "o": "48179a5a-1898-4c2a-9295-facf2f14a2cb"
+      "o": "60248d7f-e722-46de-9138-e523d824c98d"
     },
     {
-      "s": "cb3a7707-71c7-4c2e-9d63-f76471531c00",
+      "s": "4f324a40-428b-49a2-a640-78d42f62fb44",
       "p": "on-failure",
-      "o": "7e100971-23dc-40b3-b09a-72893ff210f4"
+      "o": "b3da942a-7676-4055-a1c3-55c94d2c1f59"
     },
     {
-      "s": "7e100971-23dc-40b3-b09a-72893ff210f4",
+      "s": "b3da942a-7676-4055-a1c3-55c94d2c1f59",
       "p": "on-success",
-      "o": "7932e7c6-e45d-4ef8-8069-bb92dced38db"
+      "o": "ae31e2d2-769b-4679-80f4-e8b132231039"
     },
     {
-      "s": "7932e7c6-e45d-4ef8-8069-bb92dced38db",
+      "s": "ae31e2d2-769b-4679-80f4-e8b132231039",
       "p": "on-failure",
-      "o": "48179a5a-1898-4c2a-9295-facf2f14a2cb"
+      "o": "60248d7f-e722-46de-9138-e523d824c98d"
     }
   ],
   "tags": [
-    "T1615",
-    "atomic-red-team"
+    "T1615"
   ],
   "input_arguments": [
     {

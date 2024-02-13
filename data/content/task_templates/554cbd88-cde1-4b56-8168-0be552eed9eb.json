@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "82247a61-3b96-4f98-91b4-44cb08c81c2d",
+      "id": "9602ecfe-3c5f-48ee-9f98-9b46c523ad9a",
       "type": "execute-command",
       "data": {
         "command": "REG ADD HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d \"#{thing_to_execute}\"\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "7ecbc789-6df6-4e17-beab-c211b9c3d7f9",
+      "id": "659751ae-dd8d-4809-9f64-09aa5f8c9342",
       "type": "execute-command",
       "data": {
         "command": "REG DELETE HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "82247a61-3b96-4f98-91b4-44cb08c81c2d",
+      "s": "9602ecfe-3c5f-48ee-9f98-9b46c523ad9a",
       "p": "on-success",
-      "o": "7ecbc789-6df6-4e17-beab-c211b9c3d7f9"
+      "o": "659751ae-dd8d-4809-9f64-09aa5f8c9342"
     },
     {
-      "s": "82247a61-3b96-4f98-91b4-44cb08c81c2d",
+      "s": "9602ecfe-3c5f-48ee-9f98-9b46c523ad9a",
       "p": "on-failure",
-      "o": "7ecbc789-6df6-4e17-beab-c211b9c3d7f9"
+      "o": "659751ae-dd8d-4809-9f64-09aa5f8c9342"
     }
   ],
   "tags": [
-    "T1547.001",
-    "atomic-red-team"
+    "T1547",
+    "T1547.001"
   ],
   "input_arguments": [
     {

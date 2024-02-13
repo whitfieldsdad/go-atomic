@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "1755a13f-600f-43bc-9f4d-4c02f2967ea6",
+      "id": "4b8abfad-84c5-4cac-a2ac-d33c1f11e369",
       "type": "execute-command",
       "data": {
         "command": "ufw logging off\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "84b043a7-f2f9-4b4c-8388-87773ba6053a",
+      "id": "06bf2138-77c4-4db9-a235-10567c80724d",
       "type": "execute-command",
       "data": {
         "command": "ufw logging low\nufw status verbose\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "918fe7fd-ce68-4885-9629-a22a53cc82ca",
+      "id": "8a57e726-c2e4-4efd-93c8-bcc77ad6ca63",
       "name": "Check dependency 1/1",
       "description": "Check if ufw is installed on the machine and enabled.\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "2978dfdb-f6a6-46d0-86de-3632b2b35f94",
+      "id": "d707f2fb-cd00-439c-8231-98404c2c6aa5",
       "name": "Resolve dependency 1/1",
       "description": "Check if ufw is installed on the machine and enabled.\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo \"\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "af2b2269-8627-486b-8a88-eae4cc1f2b67",
+      "id": "0ab94a4e-59dd-45f5-ad6a-d6dd451c0403",
       "name": "Re-check dependency 1/1",
       "description": "Check if ufw is installed on the machine and enabled.\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "if [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "1755a13f-600f-43bc-9f4d-4c02f2967ea6",
+      "s": "4b8abfad-84c5-4cac-a2ac-d33c1f11e369",
       "p": "on-success",
-      "o": "84b043a7-f2f9-4b4c-8388-87773ba6053a"
+      "o": "06bf2138-77c4-4db9-a235-10567c80724d"
     },
     {
-      "s": "1755a13f-600f-43bc-9f4d-4c02f2967ea6",
+      "s": "4b8abfad-84c5-4cac-a2ac-d33c1f11e369",
       "p": "on-failure",
-      "o": "84b043a7-f2f9-4b4c-8388-87773ba6053a"
+      "o": "06bf2138-77c4-4db9-a235-10567c80724d"
     },
     {
-      "s": "918fe7fd-ce68-4885-9629-a22a53cc82ca",
+      "s": "8a57e726-c2e4-4efd-93c8-bcc77ad6ca63",
       "p": "on-success",
-      "o": "1755a13f-600f-43bc-9f4d-4c02f2967ea6"
+      "o": "4b8abfad-84c5-4cac-a2ac-d33c1f11e369"
     },
     {
-      "s": "918fe7fd-ce68-4885-9629-a22a53cc82ca",
+      "s": "8a57e726-c2e4-4efd-93c8-bcc77ad6ca63",
       "p": "on-failure",
-      "o": "2978dfdb-f6a6-46d0-86de-3632b2b35f94"
+      "o": "d707f2fb-cd00-439c-8231-98404c2c6aa5"
     },
     {
-      "s": "2978dfdb-f6a6-46d0-86de-3632b2b35f94",
+      "s": "d707f2fb-cd00-439c-8231-98404c2c6aa5",
       "p": "on-success",
-      "o": "af2b2269-8627-486b-8a88-eae4cc1f2b67"
+      "o": "0ab94a4e-59dd-45f5-ad6a-d6dd451c0403"
     },
     {
-      "s": "af2b2269-8627-486b-8a88-eae4cc1f2b67",
+      "s": "0ab94a4e-59dd-45f5-ad6a-d6dd451c0403",
       "p": "on-failure",
-      "o": "1755a13f-600f-43bc-9f4d-4c02f2967ea6"
+      "o": "4b8abfad-84c5-4cac-a2ac-d33c1f11e369"
     }
   ],
   "tags": [
-    "T1562.004",
-    "atomic-red-team"
+    "T1562",
+    "T1562.004"
   ]
 }

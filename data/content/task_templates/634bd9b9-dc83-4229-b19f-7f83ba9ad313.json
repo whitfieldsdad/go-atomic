@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b399bc04-aa40-4f26-a205-296e1def08c0",
+      "id": "b2a2d11e-8d24-44aa-821f-78fc3161d895",
       "type": "execute-command",
       "data": {
         "command": "New-Item -Path $env:TEMP\\T1119_powershell_collection -ItemType Directory -Force | Out-Null\nGet-ChildItem -Recurse -Include *.doc | % {Copy-Item $_.FullName -destination $env:TEMP\\T1119_powershell_collection}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "c859cd0b-5693-4c36-9c12-4720ce04cfb1",
+      "id": "6ee632ca-9339-46fb-882d-286656273d57",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item $env:TEMP\\T1119_powershell_collection -Force -ErrorAction Ignore | Out-Null\n",
@@ -27,18 +27,17 @@
   ],
   "flows": [
     {
-      "s": "b399bc04-aa40-4f26-a205-296e1def08c0",
+      "s": "b2a2d11e-8d24-44aa-821f-78fc3161d895",
       "p": "on-success",
-      "o": "c859cd0b-5693-4c36-9c12-4720ce04cfb1"
+      "o": "6ee632ca-9339-46fb-882d-286656273d57"
     },
     {
-      "s": "b399bc04-aa40-4f26-a205-296e1def08c0",
+      "s": "b2a2d11e-8d24-44aa-821f-78fc3161d895",
       "p": "on-failure",
-      "o": "c859cd0b-5693-4c36-9c12-4720ce04cfb1"
+      "o": "6ee632ca-9339-46fb-882d-286656273d57"
     }
   ],
   "tags": [
-    "T1119",
-    "atomic-red-team"
+    "T1119"
   ]
 }

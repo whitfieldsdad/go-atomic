@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "689e4aa7-80b8-4889-b6ee-1411bb9ff084",
+      "id": "d297af35-ed12-475f-9792-2b7ea52fd28f",
       "type": "execute-command",
       "data": {
         "command": "touch #{file_to_setcap}\nsudo setcap cap_setuid=ep #{file_to_setcap}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "dea4a0cc-0881-4b43-87c3-449ff1a65e2c",
+      "id": "2396c683-1e2d-417f-94fb-2c5fb9d99283",
       "type": "execute-command",
       "data": {
         "command": "rm #{file_to_setcap}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "689e4aa7-80b8-4889-b6ee-1411bb9ff084",
+      "s": "d297af35-ed12-475f-9792-2b7ea52fd28f",
       "p": "on-success",
-      "o": "dea4a0cc-0881-4b43-87c3-449ff1a65e2c"
+      "o": "2396c683-1e2d-417f-94fb-2c5fb9d99283"
     },
     {
-      "s": "689e4aa7-80b8-4889-b6ee-1411bb9ff084",
+      "s": "d297af35-ed12-475f-9792-2b7ea52fd28f",
       "p": "on-failure",
-      "o": "dea4a0cc-0881-4b43-87c3-449ff1a65e2c"
+      "o": "2396c683-1e2d-417f-94fb-2c5fb9d99283"
     }
   ],
   "tags": [
-    "T1548.001",
-    "atomic-red-team"
+    "T1548",
+    "T1548.001"
   ],
   "input_arguments": [
     {

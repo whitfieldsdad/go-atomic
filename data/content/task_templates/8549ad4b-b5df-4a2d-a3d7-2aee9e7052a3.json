@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "f0ed0496-2ff8-4ec3-b1b8-1532fb3b7003",
+      "id": "6a347f6a-9298-4571-9d5b-50d69ee23512",
       "type": "execute-command",
       "data": {
         "command": "copy %windir%\\System32\\windowspowershell\\v1.0\\powershell.exe %APPDATA%\\updater.exe\ncopy %windir%\\System32\\amsi.dll %APPDATA%\\amsi.dll\n%APPDATA%\\updater.exe -Command exit\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "16338ac1-efca-4585-88b1-ff4cdb6493c0",
+      "id": "2b5b90c8-31be-47a1-a925-70d0bf252b61",
       "type": "execute-command",
       "data": {
         "command": "del %APPDATA%\\updater.exe \u003enul 2\u003e\u00261\ndel %APPDATA%\\amsi.dll \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "f0ed0496-2ff8-4ec3-b1b8-1532fb3b7003",
+      "s": "6a347f6a-9298-4571-9d5b-50d69ee23512",
       "p": "on-success",
-      "o": "16338ac1-efca-4585-88b1-ff4cdb6493c0"
+      "o": "2b5b90c8-31be-47a1-a925-70d0bf252b61"
     },
     {
-      "s": "f0ed0496-2ff8-4ec3-b1b8-1532fb3b7003",
+      "s": "6a347f6a-9298-4571-9d5b-50d69ee23512",
       "p": "on-failure",
-      "o": "16338ac1-efca-4585-88b1-ff4cdb6493c0"
+      "o": "2b5b90c8-31be-47a1-a925-70d0bf252b61"
     }
   ],
   "tags": [
-    "T1574.001",
-    "atomic-red-team"
+    "T1574",
+    "T1574.001"
   ]
 }

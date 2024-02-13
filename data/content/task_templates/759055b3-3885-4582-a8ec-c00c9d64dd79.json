@@ -8,39 +8,39 @@
   ],
   "steps": [
     {
-      "id": "4a4974ab-927b-49af-b257-5a41c7faadfe",
+      "id": "98c40812-7236-402d-b084-8ab4ec8d60d9",
       "type": "execute-command",
       "data": {
         "command": "sudo touch #{file_to_setuid}\nsudo chown root #{file_to_setuid}\nsudo chmod u+xs #{file_to_setuid}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "0f47db83-a98c-4746-a895-0d8ea09d724a",
+      "id": "4cdf1b39-480e-4bd6-b109-05788db44b3d",
       "type": "execute-command",
       "data": {
         "command": "sudo rm #{file_to_setuid}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "4a4974ab-927b-49af-b257-5a41c7faadfe",
+      "s": "98c40812-7236-402d-b084-8ab4ec8d60d9",
       "p": "on-success",
-      "o": "0f47db83-a98c-4746-a895-0d8ea09d724a"
+      "o": "4cdf1b39-480e-4bd6-b109-05788db44b3d"
     },
     {
-      "s": "4a4974ab-927b-49af-b257-5a41c7faadfe",
+      "s": "98c40812-7236-402d-b084-8ab4ec8d60d9",
       "p": "on-failure",
-      "o": "0f47db83-a98c-4746-a895-0d8ea09d724a"
+      "o": "4cdf1b39-480e-4bd6-b109-05788db44b3d"
     }
   ],
   "tags": [
-    "T1548.001",
-    "atomic-red-team"
+    "T1548",
+    "T1548.001"
   ],
   "input_arguments": [
     {

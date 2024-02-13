@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "11e3ab1e-bbc1-4cf9-9ee3-70ce1e51ad26",
+      "id": "19f53758-8c83-4544-a3ed-94f34044a7ba",
       "type": "execute-command",
       "data": {
         "command": "sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -allowAccessFor -allUsers -privs -all -quiet\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b2eb17b4-6a51-4463-b00a-7648d2904f2b",
+      "id": "d97fd181-5ccc-4658-bed1-f9a22b7ef071",
       "type": "execute-command",
       "data": {
         "command": "sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -deactivate -stop -configure -privs -none -quiet\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "11e3ab1e-bbc1-4cf9-9ee3-70ce1e51ad26",
+      "s": "19f53758-8c83-4544-a3ed-94f34044a7ba",
       "p": "on-success",
-      "o": "b2eb17b4-6a51-4463-b00a-7648d2904f2b"
+      "o": "d97fd181-5ccc-4658-bed1-f9a22b7ef071"
     },
     {
-      "s": "11e3ab1e-bbc1-4cf9-9ee3-70ce1e51ad26",
+      "s": "19f53758-8c83-4544-a3ed-94f34044a7ba",
       "p": "on-failure",
-      "o": "b2eb17b4-6a51-4463-b00a-7648d2904f2b"
+      "o": "d97fd181-5ccc-4658-bed1-f9a22b7ef071"
     }
   ],
   "tags": [
-    "T1021.005",
-    "atomic-red-team"
+    "T1021",
+    "T1021.005"
   ]
 }

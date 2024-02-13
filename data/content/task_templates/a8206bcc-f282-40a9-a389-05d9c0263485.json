@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "2899fa41-edb7-4e83-8d84-2635dcba0c3f",
+      "id": "5a5461d2-7295-4562-b8d7-f9fe522bbc31",
       "type": "execute-command",
       "data": {
         "command": "icacls.exe #{file_or_folder} /grant #{user_or_group}:F\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "ac9fefed-52df-42ac-8dbd-32fe1bb7740a",
+      "id": "3f90bf81-d846-4d6d-a48a-a92886a4eca0",
       "name": "Check dependency 1/1",
       "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "a6c93e37-4d4e-4f90-b215-7f016a1e497d",
+      "id": "ee67c2d6-f886-424c-87fa-bf760920d7c9",
       "name": "Resolve dependency 1/1",
       "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "8e325bcc-986a-4fbb-b122-49f9e051e458",
+      "id": "6bf4e6f9-1b68-43b1-bd4a-eb98f6614a1f",
       "name": "Re-check dependency 1/1",
       "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
       "type": "execute-command",
@@ -51,29 +51,29 @@
   ],
   "flows": [
     {
-      "s": "ac9fefed-52df-42ac-8dbd-32fe1bb7740a",
+      "s": "3f90bf81-d846-4d6d-a48a-a92886a4eca0",
       "p": "on-success",
-      "o": "2899fa41-edb7-4e83-8d84-2635dcba0c3f"
+      "o": "5a5461d2-7295-4562-b8d7-f9fe522bbc31"
     },
     {
-      "s": "ac9fefed-52df-42ac-8dbd-32fe1bb7740a",
+      "s": "3f90bf81-d846-4d6d-a48a-a92886a4eca0",
       "p": "on-failure",
-      "o": "a6c93e37-4d4e-4f90-b215-7f016a1e497d"
+      "o": "ee67c2d6-f886-424c-87fa-bf760920d7c9"
     },
     {
-      "s": "a6c93e37-4d4e-4f90-b215-7f016a1e497d",
+      "s": "ee67c2d6-f886-424c-87fa-bf760920d7c9",
       "p": "on-success",
-      "o": "8e325bcc-986a-4fbb-b122-49f9e051e458"
+      "o": "6bf4e6f9-1b68-43b1-bd4a-eb98f6614a1f"
     },
     {
-      "s": "8e325bcc-986a-4fbb-b122-49f9e051e458",
+      "s": "6bf4e6f9-1b68-43b1-bd4a-eb98f6614a1f",
       "p": "on-failure",
-      "o": "2899fa41-edb7-4e83-8d84-2635dcba0c3f"
+      "o": "5a5461d2-7295-4562-b8d7-f9fe522bbc31"
     }
   ],
   "tags": [
-    "T1222.001",
-    "atomic-red-team"
+    "T1222",
+    "T1222.001"
   ],
   "input_arguments": [
     {

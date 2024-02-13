@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "c93b97c2-cb24-4916-a005-b087ee098a8e",
+      "id": "088f52ed-177a-4f5d-9fee-18dab327777f",
       "type": "execute-command",
       "data": {
         "command": "tcpdump -c 5 -nnni #{interface}\ntshark -c 5 -i #{interface}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d74ed1b7-605b-4310-a58d-e68399d0ea6b",
+      "id": "124b6ad8-75c2-4023-a201-87da36a718c3",
       "name": "Check dependency 1/1",
       "description": "Check if at least one of tcpdump or tshark is installed.\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "if [ ! -x \"$(command -v tcpdump)\" ] \u0026\u0026 [ ! -x \"$(command -v tshark)\" ]; then exit 1; else exit 0; fi;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4ae3c12d-70f8-4c44-89bd-7bcee968b711",
+      "id": "7019bafa-ac80-4c00-a32c-4cf411800dde",
       "name": "Resolve dependency 1/1",
       "description": "Check if at least one of tcpdump or tshark is installed.\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "(which pkg \u0026\u0026 pkg install -y wireshark-nox11)\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "891f5065-03a1-43cd-b647-56cefbabbd79",
+      "id": "2dd82af6-3488-4cf3-963c-1f9e5f3ef5f0",
       "name": "Re-check dependency 1/1",
       "description": "Check if at least one of tcpdump or tshark is installed.\n",
       "type": "execute-command",
@@ -46,34 +46,33 @@
         "command": "if [ ! -x \"$(command -v tcpdump)\" ] \u0026\u0026 [ ! -x \"$(command -v tshark)\" ]; then exit 1; else exit 0; fi;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "d74ed1b7-605b-4310-a58d-e68399d0ea6b",
+      "s": "124b6ad8-75c2-4023-a201-87da36a718c3",
       "p": "on-success",
-      "o": "c93b97c2-cb24-4916-a005-b087ee098a8e"
+      "o": "088f52ed-177a-4f5d-9fee-18dab327777f"
     },
     {
-      "s": "d74ed1b7-605b-4310-a58d-e68399d0ea6b",
+      "s": "124b6ad8-75c2-4023-a201-87da36a718c3",
       "p": "on-failure",
-      "o": "4ae3c12d-70f8-4c44-89bd-7bcee968b711"
+      "o": "7019bafa-ac80-4c00-a32c-4cf411800dde"
     },
     {
-      "s": "4ae3c12d-70f8-4c44-89bd-7bcee968b711",
+      "s": "7019bafa-ac80-4c00-a32c-4cf411800dde",
       "p": "on-success",
-      "o": "891f5065-03a1-43cd-b647-56cefbabbd79"
+      "o": "2dd82af6-3488-4cf3-963c-1f9e5f3ef5f0"
     },
     {
-      "s": "891f5065-03a1-43cd-b647-56cefbabbd79",
+      "s": "2dd82af6-3488-4cf3-963c-1f9e5f3ef5f0",
       "p": "on-failure",
-      "o": "c93b97c2-cb24-4916-a005-b087ee098a8e"
+      "o": "088f52ed-177a-4f5d-9fee-18dab327777f"
     }
   ],
   "tags": [
-    "T1040",
-    "atomic-red-team"
+    "T1040"
   ],
   "input_arguments": [
     {

@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "2868520e-b3e7-4dd6-9833-e5b078be6255",
+      "id": "dd05ee33-8b60-4e67-b5bd-9a37ebf61044",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name PromptOnSecureDesktop -Value 0 -Type Dword -Force",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "30bb92be-c528-4874-b1a9-f3cac94f305c",
+      "id": "a24425e8-3dd8-4842-b362-79a511ad2134",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name PromptOnSecureDesktop -Value 1 -Type Dword -Force\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "2868520e-b3e7-4dd6-9833-e5b078be6255",
+      "s": "dd05ee33-8b60-4e67-b5bd-9a37ebf61044",
       "p": "on-success",
-      "o": "30bb92be-c528-4874-b1a9-f3cac94f305c"
+      "o": "a24425e8-3dd8-4842-b362-79a511ad2134"
     },
     {
-      "s": "2868520e-b3e7-4dd6-9833-e5b078be6255",
+      "s": "dd05ee33-8b60-4e67-b5bd-9a37ebf61044",
       "p": "on-failure",
-      "o": "30bb92be-c528-4874-b1a9-f3cac94f305c"
+      "o": "a24425e8-3dd8-4842-b362-79a511ad2134"
     }
   ],
   "tags": [
-    "T1548.002",
-    "atomic-red-team"
+    "T1548",
+    "T1548.002"
   ]
 }

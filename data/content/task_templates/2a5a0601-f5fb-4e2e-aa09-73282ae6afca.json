@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "9165349b-925b-4285-9934-d142cce02b84",
+      "id": "e334f9f5-ca3a-458c-92c9-111919ca9c81",
       "type": "execute-command",
       "data": {
         "command": "mkdir #{output_folder}\nfind #{search_path} -type d -name '.gnupg' 2\u003e/dev/null -exec rsync -Rr {} #{output_folder} \\;\nexit 0\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "a23be4e0-74a6-4f0e-bd64-444a36e2f104",
+      "id": "d5a26824-b105-4257-b1a8-ec248c14d160",
       "type": "execute-command",
       "data": {
         "command": "rm -rf #{output_folder}\n",
@@ -28,32 +28,32 @@
   ],
   "flows": [
     {
-      "s": "9165349b-925b-4285-9934-d142cce02b84",
+      "s": "e334f9f5-ca3a-458c-92c9-111919ca9c81",
       "p": "on-success",
-      "o": "a23be4e0-74a6-4f0e-bd64-444a36e2f104"
+      "o": "d5a26824-b105-4257-b1a8-ec248c14d160"
     },
     {
-      "s": "9165349b-925b-4285-9934-d142cce02b84",
+      "s": "e334f9f5-ca3a-458c-92c9-111919ca9c81",
       "p": "on-failure",
-      "o": "a23be4e0-74a6-4f0e-bd64-444a36e2f104"
+      "o": "d5a26824-b105-4257-b1a8-ec248c14d160"
     }
   ],
   "tags": [
-    "T1552.004",
-    "atomic-red-team"
+    "T1552",
+    "T1552.004"
   ],
   "input_arguments": [
-    {
-      "name": "search_path",
-      "type": "path",
-      "description": "Path where to start searching from",
-      "value": "/"
-    },
     {
       "name": "output_folder",
       "type": "path",
       "description": "Output folder containing a copy of the .gnupg directory",
       "value": "/tmp/GnuPG"
+    },
+    {
+      "name": "search_path",
+      "type": "path",
+      "description": "Path where to start searching from",
+      "value": "/"
     }
   ]
 }

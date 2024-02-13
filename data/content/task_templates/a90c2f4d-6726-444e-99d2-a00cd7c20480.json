@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "ecf8c9e0-fa95-4a82-a721-aa54b58595de",
+      "id": "ae78b35d-35b0-4758-958f-06d8ecc6daea",
       "type": "execute-command",
       "data": {
         "command": "esentutl.exe /y /vss #{file_path} /d #{copy_dest}/#{file_name}\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "74aa54eb-9f0c-4cd5-ae35-b4507b8b9d56",
+      "id": "92300394-1113-4d4b-aed3-f1991bab0559",
       "type": "execute-command",
       "data": {
         "command": "del #{copy_dest}\\#{file_name} \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "ecf8c9e0-fa95-4a82-a721-aa54b58595de",
+      "s": "ae78b35d-35b0-4758-958f-06d8ecc6daea",
       "p": "on-success",
-      "o": "74aa54eb-9f0c-4cd5-ae35-b4507b8b9d56"
+      "o": "92300394-1113-4d4b-aed3-f1991bab0559"
     },
     {
-      "s": "ecf8c9e0-fa95-4a82-a721-aa54b58595de",
+      "s": "ae78b35d-35b0-4758-958f-06d8ecc6daea",
       "p": "on-failure",
-      "o": "74aa54eb-9f0c-4cd5-ae35-b4507b8b9d56"
+      "o": "92300394-1113-4d4b-aed3-f1991bab0559"
     }
   ],
   "tags": [
-    "T1003.002",
-    "atomic-red-team"
+    "T1003",
+    "T1003.002"
   ],
   "input_arguments": [
     {

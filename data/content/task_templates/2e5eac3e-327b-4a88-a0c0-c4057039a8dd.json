@@ -7,41 +7,47 @@
   ],
   "steps": [
     {
-      "id": "4eb49ef3-935f-4396-9f6f-5457ecb596ee",
+      "id": "36f9e9dc-5c3a-4d49-86b5-bae80c3a2be1",
       "type": "execute-command",
       "data": {
         "command": "SCHTASKS /Create /S #{target} /RU #{user_name} /RP #{password} /TN \"Atomic task\" /TR \"#{task_command}\" /SC daily /ST #{time}\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "1b11063d-8200-424b-8c25-096b35a7f81f",
+      "id": "384d55b9-98f0-4f5d-94f3-d0612765ab52",
       "type": "execute-command",
       "data": {
         "command": "SCHTASKS /Delete /S #{target} /U #{user_name} /P #{password} /TN \"Atomic task\" /F \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "4eb49ef3-935f-4396-9f6f-5457ecb596ee",
+      "s": "36f9e9dc-5c3a-4d49-86b5-bae80c3a2be1",
       "p": "on-success",
-      "o": "1b11063d-8200-424b-8c25-096b35a7f81f"
+      "o": "384d55b9-98f0-4f5d-94f3-d0612765ab52"
     },
     {
-      "s": "4eb49ef3-935f-4396-9f6f-5457ecb596ee",
+      "s": "36f9e9dc-5c3a-4d49-86b5-bae80c3a2be1",
       "p": "on-failure",
-      "o": "1b11063d-8200-424b-8c25-096b35a7f81f"
+      "o": "384d55b9-98f0-4f5d-94f3-d0612765ab52"
     }
   ],
   "tags": [
-    "T1053.005",
-    "atomic-red-team"
+    "T1053",
+    "T1053.005"
   ],
   "input_arguments": [
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password to authenticate with",
+      "value": "At0micStrong"
+    },
     {
       "name": "task_command",
       "type": "string",
@@ -65,12 +71,6 @@
       "type": "string",
       "description": "Username to authenticate with, format: DOMAIN\\User",
       "value": "DOMAIN\\user"
-    },
-    {
-      "name": "password",
-      "type": "string",
-      "description": "Password to authenticate with",
-      "value": "At0micStrong"
     }
   ]
 }

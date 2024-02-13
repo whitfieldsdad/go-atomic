@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b7ce5602-1294-4161-9388-347a1f58e04b",
+      "id": "8c30cc6b-321f-40f0-a8b3-bd30b29ec33c",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" \"Userinit\" \"Userinit.exe, #{binary_to_execute}\" -Force\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "0151cce7-1bfc-427f-ad3d-0c4d7f567fad",
+      "id": "b57ac746-4069-47df-abb8-c4d7be062dff",
       "type": "execute-command",
       "data": {
         "command": "Remove-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" -Name \"Userinit\" -Force -ErrorAction Ignore\n",
@@ -27,19 +27,19 @@
   ],
   "flows": [
     {
-      "s": "b7ce5602-1294-4161-9388-347a1f58e04b",
+      "s": "8c30cc6b-321f-40f0-a8b3-bd30b29ec33c",
       "p": "on-success",
-      "o": "0151cce7-1bfc-427f-ad3d-0c4d7f567fad"
+      "o": "b57ac746-4069-47df-abb8-c4d7be062dff"
     },
     {
-      "s": "b7ce5602-1294-4161-9388-347a1f58e04b",
+      "s": "8c30cc6b-321f-40f0-a8b3-bd30b29ec33c",
       "p": "on-failure",
-      "o": "0151cce7-1bfc-427f-ad3d-0c4d7f567fad"
+      "o": "b57ac746-4069-47df-abb8-c4d7be062dff"
     }
   ],
   "tags": [
-    "T1547.004",
-    "atomic-red-team"
+    "T1547",
+    "T1547.004"
   ],
   "input_arguments": [
     {

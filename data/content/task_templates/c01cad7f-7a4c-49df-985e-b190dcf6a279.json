@@ -7,52 +7,51 @@
   ],
   "steps": [
     {
-      "id": "951bc6a8-3963-4553-b7b4-5bdcdb9d227e",
+      "id": "5ca6fbe6-6713-4485-8a40-2825b68745dc",
       "type": "execute-command",
       "data": {
         "command": "powershell.exe iwr -URI #{remote_file} -Outfile #{local_path}\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "81d37252-3c42-4f31-89a2-a15fe6ae6606",
+      "id": "330e7801-7b2a-40de-ac64-e079bc929425",
       "type": "execute-command",
       "data": {
         "command": "del %temp%\\Atomic-license.txt \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "951bc6a8-3963-4553-b7b4-5bdcdb9d227e",
+      "s": "5ca6fbe6-6713-4485-8a40-2825b68745dc",
       "p": "on-success",
-      "o": "81d37252-3c42-4f31-89a2-a15fe6ae6606"
+      "o": "330e7801-7b2a-40de-ac64-e079bc929425"
     },
     {
-      "s": "951bc6a8-3963-4553-b7b4-5bdcdb9d227e",
+      "s": "5ca6fbe6-6713-4485-8a40-2825b68745dc",
       "p": "on-failure",
-      "o": "81d37252-3c42-4f31-89a2-a15fe6ae6606"
+      "o": "330e7801-7b2a-40de-ac64-e079bc929425"
     }
   ],
   "tags": [
-    "T1105",
-    "atomic-red-team"
+    "T1105"
   ],
   "input_arguments": [
-    {
-      "name": "remote_file",
-      "type": "url",
-      "description": "URL of file to copy",
-      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt"
-    },
     {
       "name": "local_path",
       "type": "path",
       "description": "Local path to place file",
       "value": "%temp%\\Atomic-license.txt"
+    },
+    {
+      "name": "remote_file",
+      "type": "url",
+      "description": "URL of file to copy",
+      "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt"
     }
   ]
 }

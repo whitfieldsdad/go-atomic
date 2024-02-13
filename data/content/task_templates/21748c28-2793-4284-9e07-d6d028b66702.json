@@ -7,31 +7,31 @@
   ],
   "steps": [
     {
-      "id": "6a7c83b5-586c-4c3a-a915-e9649a9d5287",
+      "id": "43e2d585-88af-4266-8f1f-b887df11b4a1",
       "type": "execute-command",
       "data": {
         "command": "vssadmin.exe create shadow /for=#{drive_letter}\nmklink /D #{symlink_path} \\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy1\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "tags": [
-    "T1003.003",
-    "atomic-red-team"
+    "T1003",
+    "T1003.003"
   ],
   "input_arguments": [
-    {
-      "name": "drive_letter",
-      "type": "string",
-      "description": "Drive letter to source VSC (including colon)",
-      "value": "C:"
-    },
     {
       "name": "symlink_path",
       "type": "string",
       "description": "symlink path",
       "value": "C:\\Temp\\vssstore"
+    },
+    {
+      "name": "drive_letter",
+      "type": "string",
+      "description": "Drive letter to source VSC (including colon)",
+      "value": "C:"
     }
   ]
 }

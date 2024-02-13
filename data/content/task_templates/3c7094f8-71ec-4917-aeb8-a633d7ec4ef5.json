@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "dece0fe6-5c2e-437a-b4f5-0c7a9ca16821",
+      "id": "14a69c50-31bc-4467-96e6-64b498bb067e",
       "type": "execute-command",
       "data": {
         "command": "for bucket in \"$(aws s3 ls | cut -d \" \" -f3)\"; do aws s3api list-objects-v2 --bucket $bucket --output text; done\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "593db04f-a841-47c0-ac6c-5d162dee6305",
+      "id": "61d8d958-5901-4c51-8679-b753683e66d4",
       "name": "Check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "527c31d7-30bf-4354-88da-661f7f571325",
+      "id": "940c2139-1ddb-4793-badb-fdf1607dffbb",
       "name": "Resolve dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "d267bdfe-b396-4d01-adde-0a45ddd33b82",
+      "id": "c8404c10-cd0e-4868-8571-953a3ac44dc5",
       "name": "Re-check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -51,28 +51,27 @@
   ],
   "flows": [
     {
-      "s": "593db04f-a841-47c0-ac6c-5d162dee6305",
+      "s": "61d8d958-5901-4c51-8679-b753683e66d4",
       "p": "on-success",
-      "o": "dece0fe6-5c2e-437a-b4f5-0c7a9ca16821"
+      "o": "14a69c50-31bc-4467-96e6-64b498bb067e"
     },
     {
-      "s": "593db04f-a841-47c0-ac6c-5d162dee6305",
+      "s": "61d8d958-5901-4c51-8679-b753683e66d4",
       "p": "on-failure",
-      "o": "527c31d7-30bf-4354-88da-661f7f571325"
+      "o": "940c2139-1ddb-4793-badb-fdf1607dffbb"
     },
     {
-      "s": "527c31d7-30bf-4354-88da-661f7f571325",
+      "s": "940c2139-1ddb-4793-badb-fdf1607dffbb",
       "p": "on-success",
-      "o": "d267bdfe-b396-4d01-adde-0a45ddd33b82"
+      "o": "c8404c10-cd0e-4868-8571-953a3ac44dc5"
     },
     {
-      "s": "d267bdfe-b396-4d01-adde-0a45ddd33b82",
+      "s": "c8404c10-cd0e-4868-8571-953a3ac44dc5",
       "p": "on-failure",
-      "o": "dece0fe6-5c2e-437a-b4f5-0c7a9ca16821"
+      "o": "14a69c50-31bc-4467-96e6-64b498bb067e"
     }
   ],
   "tags": [
-    "T1619",
-    "atomic-red-team"
+    "T1619"
   ]
 }

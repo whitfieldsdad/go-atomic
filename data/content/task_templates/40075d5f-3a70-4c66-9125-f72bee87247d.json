@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "f0d2c99a-4b61-45b5-8fad-806e2116c2ae",
+      "id": "206a2840-20ec-447d-bb47-19ec8c3a6459",
       "type": "execute-command",
       "data": {
         "command": "reg add HKLM\\SYSTEM\\CurrentControlSet\\Control\\LSA /v RunAsPPL /t REG_DWORD /d 0 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "15cd1ec0-7242-4d10-b208-402155b4ddb0",
+      "id": "2c1658bd-b626-46ce-8e14-a7d5ec84a61f",
       "type": "execute-command",
       "data": {
         "command": "reg delete HKLM\\SYSTEM\\CurrentControlSet\\Control\\LSA /v RunAsPPL /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "f0d2c99a-4b61-45b5-8fad-806e2116c2ae",
+      "s": "206a2840-20ec-447d-bb47-19ec8c3a6459",
       "p": "on-success",
-      "o": "15cd1ec0-7242-4d10-b208-402155b4ddb0"
+      "o": "2c1658bd-b626-46ce-8e14-a7d5ec84a61f"
     },
     {
-      "s": "f0d2c99a-4b61-45b5-8fad-806e2116c2ae",
+      "s": "206a2840-20ec-447d-bb47-19ec8c3a6459",
       "p": "on-failure",
-      "o": "15cd1ec0-7242-4d10-b208-402155b4ddb0"
+      "o": "2c1658bd-b626-46ce-8e14-a7d5ec84a61f"
     }
   ],
   "tags": [
-    "T1562",
-    "atomic-red-team"
+    "T1562"
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6c6c6e1b-a04e-4ac0-a0ae-5e0573dc7bc5",
+      "id": "1d7058ca-acbe-4f16-943f-ee4cc5d5837c",
       "type": "execute-command",
       "data": {
         "command": "cmd /c start /b psr.exe /start /output #{output_file} /sc 1 /gui 0 /stopevent 12\nAdd-Type -MemberDefinition '[DllImport(\"user32.dll\")] public static extern void mouse_event(int flags, int dx, int dy, int cButtons, int info);' -Name U32 -Namespace W;\n[W.U32]::mouse_event(0x02 -bor 0x04 -bor 0x01, 0, 0, 0, 0);\ncmd /c \"timeout #{recording_time} \u003e NULL \u0026\u0026 psr.exe /stop\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "cf80832b-9e03-4331-bc58-31c6d9780a2c",
+      "id": "fe7f6b4e-bae0-4b4d-8ab6-b98fa7e9be86",
       "type": "execute-command",
       "data": {
         "command": "rm #{output_file} -ErrorAction Ignore\n",
@@ -27,32 +27,31 @@
   ],
   "flows": [
     {
-      "s": "6c6c6e1b-a04e-4ac0-a0ae-5e0573dc7bc5",
+      "s": "1d7058ca-acbe-4f16-943f-ee4cc5d5837c",
       "p": "on-success",
-      "o": "cf80832b-9e03-4331-bc58-31c6d9780a2c"
+      "o": "fe7f6b4e-bae0-4b4d-8ab6-b98fa7e9be86"
     },
     {
-      "s": "6c6c6e1b-a04e-4ac0-a0ae-5e0573dc7bc5",
+      "s": "1d7058ca-acbe-4f16-943f-ee4cc5d5837c",
       "p": "on-failure",
-      "o": "cf80832b-9e03-4331-bc58-31c6d9780a2c"
+      "o": "fe7f6b4e-bae0-4b4d-8ab6-b98fa7e9be86"
     }
   ],
   "tags": [
-    "T1113",
-    "atomic-red-team"
+    "T1113"
   ],
   "input_arguments": [
-    {
-      "name": "recording_time",
-      "type": "integer",
-      "description": "Time to take screenshots",
-      "value": "5"
-    },
     {
       "name": "output_file",
       "type": "path",
       "description": "Output file path",
       "value": "c:\\temp\\T1113_desktop.zip"
+    },
+    {
+      "name": "recording_time",
+      "type": "integer",
+      "description": "Time to take screenshots",
+      "value": "5"
     }
   ]
 }

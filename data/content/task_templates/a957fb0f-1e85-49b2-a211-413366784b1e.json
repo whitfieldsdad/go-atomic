@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "0fbddb50-2b3e-479a-b299-56c922ba9deb",
+      "id": "22b95204-2934-4654-b371-35a93f90ee32",
       "type": "execute-command",
       "data": {
         "command": "set-WebConfigurationProperty -PSPath \"IIS:\\Sites\\#{website_name}\\\" -filter \"system.webServer/httpLogging\" -name dontLog -value $true\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "ee8b7079-8cb6-484c-8b44-e1ba73adc6ac",
+      "id": "2ac0f1d1-db08-4084-b3c0-9e8a7cbe5d8c",
       "type": "execute-command",
       "data": {
         "command": "if(Test-Path \"C:\\Windows\\System32\\inetsrv\\appcmd.exe\"){\n  C:\\Windows\\System32\\inetsrv\\appcmd.exe set config \"#{website_name}\" /section:httplogging /dontLog:false *\u003e$null\n}\n",
@@ -27,19 +27,19 @@
   ],
   "flows": [
     {
-      "s": "0fbddb50-2b3e-479a-b299-56c922ba9deb",
+      "s": "22b95204-2934-4654-b371-35a93f90ee32",
       "p": "on-success",
-      "o": "ee8b7079-8cb6-484c-8b44-e1ba73adc6ac"
+      "o": "2ac0f1d1-db08-4084-b3c0-9e8a7cbe5d8c"
     },
     {
-      "s": "0fbddb50-2b3e-479a-b299-56c922ba9deb",
+      "s": "22b95204-2934-4654-b371-35a93f90ee32",
       "p": "on-failure",
-      "o": "ee8b7079-8cb6-484c-8b44-e1ba73adc6ac"
+      "o": "2ac0f1d1-db08-4084-b3c0-9e8a7cbe5d8c"
     }
   ],
   "tags": [
-    "T1562.002",
-    "atomic-red-team"
+    "T1562",
+    "T1562.002"
   ],
   "input_arguments": [
     {

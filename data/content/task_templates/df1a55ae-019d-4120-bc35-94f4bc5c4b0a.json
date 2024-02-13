@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "a471cf42-0003-4d72-aca0-5c096d56b29a",
+      "id": "29f31b74-a224-455c-9b23-f825a3869b4a",
       "type": "execute-command",
       "data": {
         "command": "unamestr=$(uname)\nif [ \"$unamestr\" = 'Linux' ]; then echo -e \"e /etc/passwd\\n,p\\ne /etc/shadow\\n,p\\n\" | ed \u003e ${output_file}; elif [ \"$unamestr\" = 'FreeBSD' ]; then echo -e \"e /etc/passwd\\n,p\\ne /etc/master.passwd\\n,p\\ne /etc/shadow\\n,p\\n\" | ed \u003e ${output_file}; fi\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "169e44f3-34e7-4435-a75e-15abbe3d7f02",
+      "id": "40c3fb8a-5db1-447f-a516-3123c7f0df99",
       "type": "execute-command",
       "data": {
         "command": "rm -f #{output_file}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "a471cf42-0003-4d72-aca0-5c096d56b29a",
+      "s": "29f31b74-a224-455c-9b23-f825a3869b4a",
       "p": "on-success",
-      "o": "169e44f3-34e7-4435-a75e-15abbe3d7f02"
+      "o": "40c3fb8a-5db1-447f-a516-3123c7f0df99"
     },
     {
-      "s": "a471cf42-0003-4d72-aca0-5c096d56b29a",
+      "s": "29f31b74-a224-455c-9b23-f825a3869b4a",
       "p": "on-failure",
-      "o": "169e44f3-34e7-4435-a75e-15abbe3d7f02"
+      "o": "40c3fb8a-5db1-447f-a516-3123c7f0df99"
     }
   ],
   "tags": [
-    "T1003.008",
-    "atomic-red-team"
+    "T1003",
+    "T1003.008"
   ],
   "input_arguments": [
     {

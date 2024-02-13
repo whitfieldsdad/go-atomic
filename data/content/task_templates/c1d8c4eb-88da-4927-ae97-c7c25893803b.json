@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "7804adc8-870f-447f-8897-f5f13a727287",
+      "id": "cafa86f2-fe4c-442e-97db-068112c1bb9c",
       "type": "execute-command",
       "data": {
         "command": "echo \"# THIS IS A COMMENT\" \u003e\u003e /etc/ufw/ufw.conf\ngrep \"# THIS IS A COMMENT\" /etc/ufw/ufw.conf\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b0b52abd-26c2-476a-a065-b595fd144a61",
+      "id": "c7009c99-e074-4756-b19a-3ef1c2e0cc98",
       "type": "execute-command",
       "data": {
         "command": "sed -i 's/# THIS IS A COMMENT//g' /etc/ufw/ufw.conf\ncat /etc/ufw/ufw.conf\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "9b56c163-3721-4928-8bd4-110592ebf990",
+      "id": "f78e2db6-bba5-49ef-986e-3974a509e11c",
       "name": "Check dependency 1/1",
       "description": "Check if /etc/ufw/ufw.conf exists.\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if [ ! -f \"/etc/ufw/ufw.conf\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "2727928b-dc29-4091-b0b7-71717b159d50",
+      "id": "4eac7213-b978-4707-8fd3-c0a5afab142e",
       "name": "Resolve dependency 1/1",
       "description": "Check if /etc/ufw/ufw.conf exists.\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo \"\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "16ed361c-0ff5-4533-948b-9b17fe215f2d",
+      "id": "ef76ebb4-fcb7-4cd3-a554-8834d5e20be4",
       "name": "Re-check dependency 1/1",
       "description": "Check if /etc/ufw/ufw.conf exists.\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "if [ ! -f \"/etc/ufw/ufw.conf\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "7804adc8-870f-447f-8897-f5f13a727287",
+      "s": "cafa86f2-fe4c-442e-97db-068112c1bb9c",
       "p": "on-success",
-      "o": "b0b52abd-26c2-476a-a065-b595fd144a61"
+      "o": "c7009c99-e074-4756-b19a-3ef1c2e0cc98"
     },
     {
-      "s": "7804adc8-870f-447f-8897-f5f13a727287",
+      "s": "cafa86f2-fe4c-442e-97db-068112c1bb9c",
       "p": "on-failure",
-      "o": "b0b52abd-26c2-476a-a065-b595fd144a61"
+      "o": "c7009c99-e074-4756-b19a-3ef1c2e0cc98"
     },
     {
-      "s": "9b56c163-3721-4928-8bd4-110592ebf990",
+      "s": "f78e2db6-bba5-49ef-986e-3974a509e11c",
       "p": "on-success",
-      "o": "7804adc8-870f-447f-8897-f5f13a727287"
+      "o": "cafa86f2-fe4c-442e-97db-068112c1bb9c"
     },
     {
-      "s": "9b56c163-3721-4928-8bd4-110592ebf990",
+      "s": "f78e2db6-bba5-49ef-986e-3974a509e11c",
       "p": "on-failure",
-      "o": "2727928b-dc29-4091-b0b7-71717b159d50"
+      "o": "4eac7213-b978-4707-8fd3-c0a5afab142e"
     },
     {
-      "s": "2727928b-dc29-4091-b0b7-71717b159d50",
+      "s": "4eac7213-b978-4707-8fd3-c0a5afab142e",
       "p": "on-success",
-      "o": "16ed361c-0ff5-4533-948b-9b17fe215f2d"
+      "o": "ef76ebb4-fcb7-4cd3-a554-8834d5e20be4"
     },
     {
-      "s": "16ed361c-0ff5-4533-948b-9b17fe215f2d",
+      "s": "ef76ebb4-fcb7-4cd3-a554-8834d5e20be4",
       "p": "on-failure",
-      "o": "7804adc8-870f-447f-8897-f5f13a727287"
+      "o": "cafa86f2-fe4c-442e-97db-068112c1bb9c"
     }
   ],
   "tags": [
-    "T1562.004",
-    "atomic-red-team"
+    "T1562",
+    "T1562.004"
   ]
 }

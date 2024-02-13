@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "b1192cf3-bbf1-4d3d-a9af-48d2be6d38cb",
+      "id": "ec9c31c8-b076-45c0-ac7c-9527491e6521",
       "type": "execute-command",
       "data": {
         "command": "python3 #{lazagne_path}/laZagne.py #{specific_module} \u003e\u003e #{output_file}",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "fab1f52a-53bd-4f53-a15a-f39c43b173b1",
+      "id": "a5de1d52-02d3-4cbf-8083-6975717dfdef",
       "type": "execute-command",
       "data": {
         "command": "rm -R /tmp/LaZagne; rm -f #{output_file}",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "34efae9c-6758-4800-9e1f-eda06e104151",
+      "id": "85eb4a35-de7b-4349-96b4-0420c03190ce",
       "name": "Check dependency 1/2",
       "description": "Get Lazagne from Github and install requirements",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "test -f #{lazagne_path}/laZagne.py",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b1f700df-db05-4d81-ad84-3b2a34de8321",
+      "id": "bb85788a-811e-4523-a3e3-0a22894a8203",
       "name": "Resolve dependency 1/2",
       "description": "Get Lazagne from Github and install requirements",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "cd /tmp; git clone https://github.com/AlessandroZ/LaZagne; cd /tmp/LaZagne/; pip install -r requirements.txt",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "577be935-1b1a-41bf-bbcb-4605874f06e4",
+      "id": "a7a58d1d-ad1a-48f6-9488-d4c1a2841321",
       "name": "Re-check dependency 1/2",
       "description": "Get Lazagne from Github and install requirements",
       "type": "execute-command",
@@ -55,10 +55,10 @@
         "command": "test -f #{lazagne_path}/laZagne.py",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "9bc4f080-48d1-4b78-b658-d7134b51193e",
+      "id": "dbcbed17-2c7b-4b8e-a0e5-bbdc976a0370",
       "name": "Check dependency 2/2",
       "description": "Needs git, python3 and some pip stuff",
       "type": "execute-command",
@@ -66,10 +66,10 @@
         "command": "which git \u0026\u0026 which python3 \u0026\u0026 which pip",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "9e78079e-78b9-4a03-a89e-17b0f15b1722",
+      "id": "8b9ec574-a9e5-4c97-aacc-38d291a85e52",
       "name": "Resolve dependency 2/2",
       "description": "Needs git, python3 and some pip stuff",
       "type": "execute-command",
@@ -77,10 +77,10 @@
         "command": "apt install git; apt install python3-pip -y; pip install pyasn1 psutil Crypto",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b119a925-fb63-46aa-8890-38a48d4bf867",
+      "id": "ea799d14-8425-4a31-b160-1095fef9a8c7",
       "name": "Re-check dependency 2/2",
       "description": "Needs git, python3 and some pip stuff",
       "type": "execute-command",
@@ -88,64 +88,64 @@
         "command": "which git \u0026\u0026 which python3 \u0026\u0026 which pip",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "b1192cf3-bbf1-4d3d-a9af-48d2be6d38cb",
+      "s": "ec9c31c8-b076-45c0-ac7c-9527491e6521",
       "p": "on-success",
-      "o": "fab1f52a-53bd-4f53-a15a-f39c43b173b1"
+      "o": "a5de1d52-02d3-4cbf-8083-6975717dfdef"
     },
     {
-      "s": "b1192cf3-bbf1-4d3d-a9af-48d2be6d38cb",
+      "s": "ec9c31c8-b076-45c0-ac7c-9527491e6521",
       "p": "on-failure",
-      "o": "fab1f52a-53bd-4f53-a15a-f39c43b173b1"
+      "o": "a5de1d52-02d3-4cbf-8083-6975717dfdef"
     },
     {
-      "s": "34efae9c-6758-4800-9e1f-eda06e104151",
+      "s": "85eb4a35-de7b-4349-96b4-0420c03190ce",
       "p": "on-success",
-      "o": "b1192cf3-bbf1-4d3d-a9af-48d2be6d38cb"
+      "o": "ec9c31c8-b076-45c0-ac7c-9527491e6521"
     },
     {
-      "s": "34efae9c-6758-4800-9e1f-eda06e104151",
+      "s": "85eb4a35-de7b-4349-96b4-0420c03190ce",
       "p": "on-failure",
-      "o": "b1f700df-db05-4d81-ad84-3b2a34de8321"
+      "o": "bb85788a-811e-4523-a3e3-0a22894a8203"
     },
     {
-      "s": "b1f700df-db05-4d81-ad84-3b2a34de8321",
+      "s": "bb85788a-811e-4523-a3e3-0a22894a8203",
       "p": "on-success",
-      "o": "577be935-1b1a-41bf-bbcb-4605874f06e4"
+      "o": "a7a58d1d-ad1a-48f6-9488-d4c1a2841321"
     },
     {
-      "s": "577be935-1b1a-41bf-bbcb-4605874f06e4",
+      "s": "a7a58d1d-ad1a-48f6-9488-d4c1a2841321",
       "p": "on-failure",
-      "o": "b1192cf3-bbf1-4d3d-a9af-48d2be6d38cb"
+      "o": "ec9c31c8-b076-45c0-ac7c-9527491e6521"
     },
     {
-      "s": "9bc4f080-48d1-4b78-b658-d7134b51193e",
+      "s": "dbcbed17-2c7b-4b8e-a0e5-bbdc976a0370",
       "p": "on-success",
-      "o": "b1192cf3-bbf1-4d3d-a9af-48d2be6d38cb"
+      "o": "ec9c31c8-b076-45c0-ac7c-9527491e6521"
     },
     {
-      "s": "9bc4f080-48d1-4b78-b658-d7134b51193e",
+      "s": "dbcbed17-2c7b-4b8e-a0e5-bbdc976a0370",
       "p": "on-failure",
-      "o": "9e78079e-78b9-4a03-a89e-17b0f15b1722"
+      "o": "8b9ec574-a9e5-4c97-aacc-38d291a85e52"
     },
     {
-      "s": "9e78079e-78b9-4a03-a89e-17b0f15b1722",
+      "s": "8b9ec574-a9e5-4c97-aacc-38d291a85e52",
       "p": "on-success",
-      "o": "b119a925-fb63-46aa-8890-38a48d4bf867"
+      "o": "ea799d14-8425-4a31-b160-1095fef9a8c7"
     },
     {
-      "s": "b119a925-fb63-46aa-8890-38a48d4bf867",
+      "s": "ea799d14-8425-4a31-b160-1095fef9a8c7",
       "p": "on-failure",
-      "o": "b1192cf3-bbf1-4d3d-a9af-48d2be6d38cb"
+      "o": "ec9c31c8-b076-45c0-ac7c-9527491e6521"
     }
   ],
   "tags": [
-    "T1555.003",
-    "atomic-red-team"
+    "T1555",
+    "T1555.003"
   ],
   "input_arguments": [
     {

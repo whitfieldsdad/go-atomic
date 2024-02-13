@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ec169b9b-4a94-44d7-ba5f-7d3f2c1bbb15",
+      "id": "576a7dd0-1b90-4860-bbfc-8b3237d6a5ab",
       "type": "execute-command",
       "data": {
         "command": "$path = \"HKCU:\\Software\\Microsoft\\Command Processor\"\nif (!(Test-Path -path $path)){\n  New-Item -ItemType Key -Path $path\n}\nNew-ItemProperty -Path $path -Name \"AutoRun\" -Value \"#{command}\" -PropertyType \"String\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "64105ab5-5077-4921-b756-2bdfe4ab4665",
+      "id": "8536db7f-9ee8-43c0-979a-b9a94bb669a8",
       "type": "execute-command",
       "data": {
         "command": "Remove-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Command Processor\" -Name \"AutoRun\" -ErrorAction Ignore",
@@ -27,19 +27,18 @@
   ],
   "flows": [
     {
-      "s": "ec169b9b-4a94-44d7-ba5f-7d3f2c1bbb15",
+      "s": "576a7dd0-1b90-4860-bbfc-8b3237d6a5ab",
       "p": "on-success",
-      "o": "64105ab5-5077-4921-b756-2bdfe4ab4665"
+      "o": "8536db7f-9ee8-43c0-979a-b9a94bb669a8"
     },
     {
-      "s": "ec169b9b-4a94-44d7-ba5f-7d3f2c1bbb15",
+      "s": "576a7dd0-1b90-4860-bbfc-8b3237d6a5ab",
       "p": "on-failure",
-      "o": "64105ab5-5077-4921-b756-2bdfe4ab4665"
+      "o": "8536db7f-9ee8-43c0-979a-b9a94bb669a8"
     }
   ],
   "tags": [
-    "T1546",
-    "atomic-red-team"
+    "T1546"
   ],
   "input_arguments": [
     {

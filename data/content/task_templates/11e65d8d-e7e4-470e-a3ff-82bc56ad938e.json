@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ad0b4863-9b33-47a4-9b98-42120a815ace",
+      "id": "93931485-e2df-41d0-a713-4547a7b2dc53",
       "type": "execute-command",
       "data": {
         "command": "detectorId=$(aws guardduty create-detector --enable --region \"#{region}\" | grep -oP '(?\u003c=\"DetectorId\": \")[^\"]*')\naws guardduty update-detector --no-enable --detector-id $detectorId\naws guardduty delete-detector --detector-id $detectorId\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "66b9077e-d3fe-4ed5-880a-52822a894702",
+      "id": "2dab867c-3edf-4811-b4f2-33b795a068f2",
       "type": "execute-command",
       "data": {
         "command": "echo \"If test successfully ran, no cleanup required.\"\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "dafcdf3b-3f7e-4739-8534-adab7cad31d6",
+      "id": "b29dc448-8158-4749-942d-24472033d7ae",
       "name": "Check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "66046b75-90b2-4da8-842b-4c3d688b3236",
+      "id": "c06f7ea7-e178-43b9-a495-98b26f10301b",
       "name": "Resolve dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "29d39e37-dcef-4113-ad57-490858f98107",
+      "id": "7d2fe398-5071-473d-a335-e18248f7a418",
       "name": "Re-check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -60,39 +60,39 @@
   ],
   "flows": [
     {
-      "s": "ad0b4863-9b33-47a4-9b98-42120a815ace",
+      "s": "93931485-e2df-41d0-a713-4547a7b2dc53",
       "p": "on-success",
-      "o": "66b9077e-d3fe-4ed5-880a-52822a894702"
+      "o": "2dab867c-3edf-4811-b4f2-33b795a068f2"
     },
     {
-      "s": "ad0b4863-9b33-47a4-9b98-42120a815ace",
+      "s": "93931485-e2df-41d0-a713-4547a7b2dc53",
       "p": "on-failure",
-      "o": "66b9077e-d3fe-4ed5-880a-52822a894702"
+      "o": "2dab867c-3edf-4811-b4f2-33b795a068f2"
     },
     {
-      "s": "dafcdf3b-3f7e-4739-8534-adab7cad31d6",
+      "s": "b29dc448-8158-4749-942d-24472033d7ae",
       "p": "on-success",
-      "o": "ad0b4863-9b33-47a4-9b98-42120a815ace"
+      "o": "93931485-e2df-41d0-a713-4547a7b2dc53"
     },
     {
-      "s": "dafcdf3b-3f7e-4739-8534-adab7cad31d6",
+      "s": "b29dc448-8158-4749-942d-24472033d7ae",
       "p": "on-failure",
-      "o": "66046b75-90b2-4da8-842b-4c3d688b3236"
+      "o": "c06f7ea7-e178-43b9-a495-98b26f10301b"
     },
     {
-      "s": "66046b75-90b2-4da8-842b-4c3d688b3236",
+      "s": "c06f7ea7-e178-43b9-a495-98b26f10301b",
       "p": "on-success",
-      "o": "29d39e37-dcef-4113-ad57-490858f98107"
+      "o": "7d2fe398-5071-473d-a335-e18248f7a418"
     },
     {
-      "s": "29d39e37-dcef-4113-ad57-490858f98107",
+      "s": "7d2fe398-5071-473d-a335-e18248f7a418",
       "p": "on-failure",
-      "o": "ad0b4863-9b33-47a4-9b98-42120a815ace"
+      "o": "93931485-e2df-41d0-a713-4547a7b2dc53"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ],
   "input_arguments": [
     {

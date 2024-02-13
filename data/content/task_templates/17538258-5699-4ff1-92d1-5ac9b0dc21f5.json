@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "44beefb3-a917-4e30-9d3d-c021436478e0",
+      "id": "63bed492-52f6-4408-8483-cc159952d37e",
       "type": "execute-command",
       "data": {
         "command": "REG ADD HKCU\\Software\\Classes\\CLSID\\{fdb00e52-a214-4aa1-8fba-4357bb0072ec}\\InProcServer32 /ve /t REG_SZ /d C:\\IDontExist.dll /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "11825254-8552-4dec-9a38-2aaf1ca6184a",
+      "id": "628b9dbd-bfae-4958-bf5e-af0f523dbd21",
       "type": "execute-command",
       "data": {
         "command": "REG DELETE HKCU\\Software\\Classes\\CLSID\\{fdb00e52-a214-4aa1-8fba-4357bb0072ec}\\InProcServer32 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "44beefb3-a917-4e30-9d3d-c021436478e0",
+      "s": "63bed492-52f6-4408-8483-cc159952d37e",
       "p": "on-success",
-      "o": "11825254-8552-4dec-9a38-2aaf1ca6184a"
+      "o": "628b9dbd-bfae-4958-bf5e-af0f523dbd21"
     },
     {
-      "s": "44beefb3-a917-4e30-9d3d-c021436478e0",
+      "s": "63bed492-52f6-4408-8483-cc159952d37e",
       "p": "on-failure",
-      "o": "11825254-8552-4dec-9a38-2aaf1ca6184a"
+      "o": "628b9dbd-bfae-4958-bf5e-af0f523dbd21"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ]
 }

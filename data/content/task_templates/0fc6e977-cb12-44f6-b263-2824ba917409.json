@@ -8,16 +8,16 @@
   ],
   "steps": [
     {
-      "id": "f9ac331f-967b-4e33-a036-26f88d322a13",
+      "id": "7e47e798-1e94-4e8c-bd7b-a6637aeff9c1",
       "type": "execute-command",
       "data": {
         "command": "rsync -r #{local_path} #{username}@#{remote_host}:#{remote_path}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "52c1f255-3056-4908-ad6e-71816f4f4b0c",
+      "id": "94f6c43c-1c78-428a-b8c4-21b3087db3d7",
       "name": "Check dependency 1/1",
       "description": "rsync must be installed on the machine \n",
       "type": "execute-command",
@@ -25,10 +25,10 @@
         "command": "if [ -x \"$(command -v rsync)\" ]; then exit 0; else exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "9a0b7696-8d39-4e0a-8c64-679606b30853",
+      "id": "f5a00209-1735-497a-8b16-d6db435a7b3b",
       "name": "Resolve dependency 1/1",
       "description": "rsync must be installed on the machine \n",
       "type": "execute-command",
@@ -36,10 +36,10 @@
         "command": "(pkg install -y rsync)||(sudo apt-get -y install rsync)\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "69288028-8c4f-4c8e-aac8-55f42255fd1c",
+      "id": "b81c9d89-efda-4ed0-8521-199abfafd333",
       "name": "Re-check dependency 1/1",
       "description": "rsync must be installed on the machine \n",
       "type": "execute-command",
@@ -47,34 +47,33 @@
         "command": "if [ -x \"$(command -v rsync)\" ]; then exit 0; else exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "52c1f255-3056-4908-ad6e-71816f4f4b0c",
+      "s": "94f6c43c-1c78-428a-b8c4-21b3087db3d7",
       "p": "on-success",
-      "o": "f9ac331f-967b-4e33-a036-26f88d322a13"
+      "o": "7e47e798-1e94-4e8c-bd7b-a6637aeff9c1"
     },
     {
-      "s": "52c1f255-3056-4908-ad6e-71816f4f4b0c",
+      "s": "94f6c43c-1c78-428a-b8c4-21b3087db3d7",
       "p": "on-failure",
-      "o": "9a0b7696-8d39-4e0a-8c64-679606b30853"
+      "o": "f5a00209-1735-497a-8b16-d6db435a7b3b"
     },
     {
-      "s": "9a0b7696-8d39-4e0a-8c64-679606b30853",
+      "s": "f5a00209-1735-497a-8b16-d6db435a7b3b",
       "p": "on-success",
-      "o": "69288028-8c4f-4c8e-aac8-55f42255fd1c"
+      "o": "b81c9d89-efda-4ed0-8521-199abfafd333"
     },
     {
-      "s": "69288028-8c4f-4c8e-aac8-55f42255fd1c",
+      "s": "b81c9d89-efda-4ed0-8521-199abfafd333",
       "p": "on-failure",
-      "o": "f9ac331f-967b-4e33-a036-26f88d322a13"
+      "o": "7e47e798-1e94-4e8c-bd7b-a6637aeff9c1"
     }
   ],
   "tags": [
-    "T1105",
-    "atomic-red-team"
+    "T1105"
   ],
   "input_arguments": [
     {

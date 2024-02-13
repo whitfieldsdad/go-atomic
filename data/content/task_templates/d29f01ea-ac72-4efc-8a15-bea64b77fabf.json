@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "08e89470-b992-4661-a721-f3542380cfec",
+      "id": "06324cad-d26a-42c1-af62-f03e3fd14b7b",
       "type": "execute-command",
       "data": {
         "command": "New-Item -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -ItemType Directory -ErrorAction Ignore\nGet-ChildItem -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\" -Exclude copy | ForEach-Object { Copy-Item -Path $_.FullName -Destination \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -Recurse -Force -ErrorAction Ignore }\nRemove-Item -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -Recurse -Force -ErrorAction Ignore\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "fcece562-9397-4a17-9a32-8bd9780f0de9",
+      "id": "10f701b3-afc9-45ea-81dd-b6d2ff00d78d",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -Recurse -Force -ErrorAction Ignore\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "08e89470-b992-4661-a721-f3542380cfec",
+      "s": "06324cad-d26a-42c1-af62-f03e3fd14b7b",
       "p": "on-success",
-      "o": "fcece562-9397-4a17-9a32-8bd9780f0de9"
+      "o": "10f701b3-afc9-45ea-81dd-b6d2ff00d78d"
     },
     {
-      "s": "08e89470-b992-4661-a721-f3542380cfec",
+      "s": "06324cad-d26a-42c1-af62-f03e3fd14b7b",
       "p": "on-failure",
-      "o": "fcece562-9397-4a17-9a32-8bd9780f0de9"
+      "o": "10f701b3-afc9-45ea-81dd-b6d2ff00d78d"
     }
   ],
   "tags": [
-    "T1070.008",
-    "atomic-red-team"
+    "T1070",
+    "T1070.008"
   ]
 }

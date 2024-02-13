@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "edf062f5-768a-46bb-97ad-c9563e0f475c",
+      "id": "3807ae98-5a11-4d8d-986b-94a8965b835e",
       "type": "execute-command",
       "data": {
         "command": "netsh trace start capture=yes tracefile=%temp%\\trace.etl maxsize=10",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ec9aeb9a-9f89-4035-83cb-5656f8eedfc6",
+      "id": "33ef5012-6642-4979-859d-e352a3792894",
       "type": "execute-command",
       "data": {
         "command": "netsh trace stop \u003enul 2\u003e\u00261\nTIMEOUT /T 5 \u003enul 2\u003e\u00261\ndel %temp%\\trace.etl \u003enul 2\u003e\u00261\ndel %temp%\\trace.cab \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "edf062f5-768a-46bb-97ad-c9563e0f475c",
+      "s": "3807ae98-5a11-4d8d-986b-94a8965b835e",
       "p": "on-success",
-      "o": "ec9aeb9a-9f89-4035-83cb-5656f8eedfc6"
+      "o": "33ef5012-6642-4979-859d-e352a3792894"
     },
     {
-      "s": "edf062f5-768a-46bb-97ad-c9563e0f475c",
+      "s": "3807ae98-5a11-4d8d-986b-94a8965b835e",
       "p": "on-failure",
-      "o": "ec9aeb9a-9f89-4035-83cb-5656f8eedfc6"
+      "o": "33ef5012-6642-4979-859d-e352a3792894"
     }
   ],
   "tags": [
-    "T1040",
-    "atomic-red-team"
+    "T1040"
   ]
 }

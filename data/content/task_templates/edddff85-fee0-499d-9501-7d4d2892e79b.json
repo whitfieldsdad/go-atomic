@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "70a14119-37eb-48fc-8e98-45ccc53a7342",
+      "id": "5d334122-0997-4191-972b-d892d319ef19",
       "type": "execute-command",
       "data": {
         "command": "New-Item -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -ItemType Directory -ErrorAction Ignore\nGet-ChildItem -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\" -Exclude copy | ForEach-Object { Copy-Item -Path $_.FullName -Destination \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -Recurse -Force -ErrorAction Ignore }\nGet-ChildItem -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -File | ForEach-Object { Add-Content -Path $_.FullName -Value \"Modification for Atomic Red Test\" -ErrorAction Ignore }\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "8e77a714-cc81-4f21-b189-3c329a22136a",
+      "id": "9a0d49fb-7894-4bf4-bae4-1f3c82c88e89",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -Recurse -Force -ErrorAction Ignore\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "70a14119-37eb-48fc-8e98-45ccc53a7342",
+      "s": "5d334122-0997-4191-972b-d892d319ef19",
       "p": "on-success",
-      "o": "8e77a714-cc81-4f21-b189-3c329a22136a"
+      "o": "9a0d49fb-7894-4bf4-bae4-1f3c82c88e89"
     },
     {
-      "s": "70a14119-37eb-48fc-8e98-45ccc53a7342",
+      "s": "5d334122-0997-4191-972b-d892d319ef19",
       "p": "on-failure",
-      "o": "8e77a714-cc81-4f21-b189-3c329a22136a"
+      "o": "9a0d49fb-7894-4bf4-bae4-1f3c82c88e89"
     }
   ],
   "tags": [
-    "T1070.008",
-    "atomic-red-team"
+    "T1070",
+    "T1070.008"
   ]
 }

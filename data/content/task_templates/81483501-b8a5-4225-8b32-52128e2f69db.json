@@ -7,39 +7,38 @@
   ],
   "steps": [
     {
-      "id": "feaaac13-35ce-418f-a1c2-5d0a8818a257",
+      "id": "b56da62d-3e7c-4cb9-9731-e37250a1d26c",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Event Viewer\" /v MicrosoftRedirectionProgram /t REG_EXPAND_SZ /d \"#{redirection_program}\" /f",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4fd80225-4025-4e59-871b-b8ae7d0c304f",
+      "id": "35e40c20-c328-4df9-a9e4-c7ad98252ecf",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Event Viewer\" /v MicrosoftRedirectionProgram /t REG_EXPAND_SZ /f",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "feaaac13-35ce-418f-a1c2-5d0a8818a257",
+      "s": "b56da62d-3e7c-4cb9-9731-e37250a1d26c",
       "p": "on-success",
-      "o": "4fd80225-4025-4e59-871b-b8ae7d0c304f"
+      "o": "35e40c20-c328-4df9-a9e4-c7ad98252ecf"
     },
     {
-      "s": "feaaac13-35ce-418f-a1c2-5d0a8818a257",
+      "s": "b56da62d-3e7c-4cb9-9731-e37250a1d26c",
       "p": "on-failure",
-      "o": "4fd80225-4025-4e59-871b-b8ae7d0c304f"
+      "o": "35e40c20-c328-4df9-a9e4-c7ad98252ecf"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ],
   "input_arguments": [
     {

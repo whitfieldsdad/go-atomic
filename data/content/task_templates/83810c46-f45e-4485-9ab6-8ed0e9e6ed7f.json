@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "824d035f-1763-4344-a86f-a129e4f2889f",
+      "id": "9eee0a92-2e26-49f4-a8c8-72e6d1a28415",
       "type": "execute-command",
       "data": {
         "command": "copy C:\\Windows\\System32\\cmd.exe C:\\lsm.exe\nC:\\lsm.exe /c echo T1036.003 \u003e C:\\T1036.003.txt\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b4226fd9-59e1-410a-ac39-7cd49e34eb87",
+      "id": "7c3a3765-e2b5-4b4d-8437-a2fa6881cbf5",
       "type": "execute-command",
       "data": {
         "command": "del C:\\T1036.003.txt \u003enul 2\u003e\u00261\ndel C:\\lsm.exe \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "824d035f-1763-4344-a86f-a129e4f2889f",
+      "s": "9eee0a92-2e26-49f4-a8c8-72e6d1a28415",
       "p": "on-success",
-      "o": "b4226fd9-59e1-410a-ac39-7cd49e34eb87"
+      "o": "7c3a3765-e2b5-4b4d-8437-a2fa6881cbf5"
     },
     {
-      "s": "824d035f-1763-4344-a86f-a129e4f2889f",
+      "s": "9eee0a92-2e26-49f4-a8c8-72e6d1a28415",
       "p": "on-failure",
-      "o": "b4226fd9-59e1-410a-ac39-7cd49e34eb87"
+      "o": "7c3a3765-e2b5-4b4d-8437-a2fa6881cbf5"
     }
   ],
   "tags": [
-    "T1036.003",
-    "atomic-red-team"
+    "T1036",
+    "T1036.003"
   ]
 }

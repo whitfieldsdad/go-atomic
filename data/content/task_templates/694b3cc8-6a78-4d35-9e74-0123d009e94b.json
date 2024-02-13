@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "f51715ce-b0ba-4d9b-9564-3cbc4e3835de",
+      "id": "92c2f706-50ad-48bc-afd4-04f587bee1cd",
       "type": "execute-command",
       "data": {
         "command": "echo '#{text_to_append}' \u003e\u003e /etc/profile\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "36bea775-1bd8-445e-8d41-28994b7253e4",
+      "id": "f20cf8ba-e702-49f9-8f07-2830bf6f135e",
       "type": "execute-command",
       "data": {
         "command": "sed -i \"s/# Atomic Red Team was here! T1546.004//\" /etc/profile\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "f51715ce-b0ba-4d9b-9564-3cbc4e3835de",
+      "s": "92c2f706-50ad-48bc-afd4-04f587bee1cd",
       "p": "on-success",
-      "o": "36bea775-1bd8-445e-8d41-28994b7253e4"
+      "o": "f20cf8ba-e702-49f9-8f07-2830bf6f135e"
     },
     {
-      "s": "f51715ce-b0ba-4d9b-9564-3cbc4e3835de",
+      "s": "92c2f706-50ad-48bc-afd4-04f587bee1cd",
       "p": "on-failure",
-      "o": "36bea775-1bd8-445e-8d41-28994b7253e4"
+      "o": "f20cf8ba-e702-49f9-8f07-2830bf6f135e"
     }
   ],
   "tags": [
-    "T1546.004",
-    "atomic-red-team"
+    "T1546",
+    "T1546.004"
   ],
   "input_arguments": [
     {

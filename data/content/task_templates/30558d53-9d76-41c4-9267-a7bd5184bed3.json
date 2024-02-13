@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "3987cf62-a7b5-40d4-9002-3b0c14ad4f8f",
+      "id": "853cff83-d994-413f-8af9-86a7b8aab6a6",
       "type": "execute-command",
       "data": {
         "command": "$url = \"#{url_of_wallpaper}\"\n$imgLocation = \"#{wallpaper_location}\"\n$orgWallpaper = (Get-ItemProperty -Path Registry::'HKEY_CURRENT_USER\\Control Panel\\Desktop\\' -Name WallPaper).WallPaper\n$orgWallpaper | Out-File -FilePath \"#{pointer_to_orginal_wallpaper}\"\n$updateWallpapercode = @' \nusing System.Runtime.InteropServices; \nnamespace Win32{\n\n    public class Wallpaper{ \n        [DllImport(\"user32.dll\", CharSet=CharSet.Auto)] \n         static extern int SystemParametersInfo (int uAction , int uParam , string lpvParam , int fuWinIni) ; \n         \n         public static void SetWallpaper(string thePath){ \n            SystemParametersInfo(20,0,thePath,3); \n        }\n    }\n} \n'@\n$wc = New-Object System.Net.WebClient  \ntry{  \n    $wc.DownloadFile($url, $imgLocation)\n    add-type $updateWallpapercode \n    [Win32.Wallpaper]::SetWallpaper($imgLocation)\n} \ncatch [System.Net.WebException]{  \n    Write-Host(\"Cannot download $url\") \n    add-type $updateWallpapercode \n    [Win32.Wallpaper]::SetWallpaper($imgLocation)\n} \nfinally{    \n    $wc.Dispose()  \n}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "7012dad3-c9ff-4ed4-acd5-f23e8599f881",
+      "id": "c0afbd3d-6dcf-4aae-b66f-8a62c32cbcbb",
       "type": "execute-command",
       "data": {
         "command": "$updateWallpapercode = @' \nusing System.Runtime.InteropServices; \nnamespace Win32{\n\n    public class Wallpaper{ \n        [DllImport(\"user32.dll\", CharSet=CharSet.Auto)] \n         static extern int SystemParametersInfo (int uAction , int uParam , string lpvParam , int fuWinIni) ; \n         \n         public static void SetWallpaper(string thePath){ \n            SystemParametersInfo(20,0,thePath,3); \n        }\n    }\n} \n'@\nif (Test-Path -Path #{pointer_to_orginal_wallpaper} -PathType Leaf) {\n     $orgImg = Get-Content -Path \"#{pointer_to_orginal_wallpaper}\"\n     add-type $updateWallpapercode \n     [Win32.Wallpaper]::SetWallpaper($orgImg)\n}\nRemove-Item \"#{pointer_to_orginal_wallpaper}\" -ErrorAction Ignore\nRemove-Item \"#{wallpaper_location}\" -ErrorAction Ignore\n",
@@ -27,19 +27,19 @@
   ],
   "flows": [
     {
-      "s": "3987cf62-a7b5-40d4-9002-3b0c14ad4f8f",
+      "s": "853cff83-d994-413f-8af9-86a7b8aab6a6",
       "p": "on-success",
-      "o": "7012dad3-c9ff-4ed4-acd5-f23e8599f881"
+      "o": "c0afbd3d-6dcf-4aae-b66f-8a62c32cbcbb"
     },
     {
-      "s": "3987cf62-a7b5-40d4-9002-3b0c14ad4f8f",
+      "s": "853cff83-d994-413f-8af9-86a7b8aab6a6",
       "p": "on-failure",
-      "o": "7012dad3-c9ff-4ed4-acd5-f23e8599f881"
+      "o": "c0afbd3d-6dcf-4aae-b66f-8a62c32cbcbb"
     }
   ],
   "tags": [
-    "T1491.001",
-    "atomic-red-team"
+    "T1491",
+    "T1491.001"
   ],
   "input_arguments": [
     {

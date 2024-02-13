@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "b4861e1d-b0ec-4781-bf96-77073d2b2b39",
+      "id": "e22de555-3c74-4b8f-aa1e-abf58f14ecad",
       "type": "execute-command",
       "data": {
         "command": "copy \\\\#{remote}\\C$\\#{share_file} %TEMP%\\#{local_file}",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "310c68f4-8265-4f5d-8013-624711c025d1",
+      "id": "4eddaa3c-5f18-4427-bba4-49fa53d007c6",
       "type": "execute-command",
       "data": {
         "command": "del \\\\#{remote}\\C$\\#{share_file}\ndel %TEMP%\\#{local_file}",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ebf7bfd5-a259-4a9c-af15-454ff4de0570",
+      "id": "9a2a36b2-42e8-4021-9039-c45569bcf84f",
       "name": "Check dependency 1/2",
       "description": "Administrative share must exist on #{remote}\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if (Test-Path \"\\\\#{remote}\\C$\") {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b63ce638-9b75-4ab6-bf8e-dbb9d2464d7b",
+      "id": "147503c7-6b76-43ef-a0df-3c79771e7a71",
       "name": "Resolve dependency 1/2",
       "description": "Administrative share must exist on #{remote}\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "Write-Host 'Please Enable \"C$\" share on #{remote}'\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4604a322-c3b0-48ac-8d5e-9099784cfff4",
+      "id": "8107589e-7a48-4744-a078-0d7ccefa8d36",
       "name": "Re-check dependency 1/2",
       "description": "Administrative share must exist on #{remote}\n",
       "type": "execute-command",
@@ -55,10 +55,10 @@
         "command": "if (Test-Path \"\\\\#{remote}\\C$\") {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d9fc9e1b-6bf0-48f5-8c0a-91cf89ff4b52",
+      "id": "c92028da-d34c-4628-b737-04aadc266f9a",
       "name": "Check dependency 2/2",
       "description": "\"\\\\#{remote}\\C$\\#{share_file}\" must exist on #{remote}\n",
       "type": "execute-command",
@@ -66,10 +66,10 @@
         "command": "if (Test-Path \"\\\\#{remote}\\C$\\#{share_file}\") {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "fdd5468c-92a6-47b5-99ae-fc8971fba65f",
+      "id": "e27f1780-6c01-4b87-b23b-dc2713d70921",
       "name": "Resolve dependency 2/2",
       "description": "\"\\\\#{remote}\\C$\\#{share_file}\" must exist on #{remote}\n",
       "type": "execute-command",
@@ -77,10 +77,10 @@
         "command": "Out-File -FilePath \"\\\\#{remote}\\C$\\#{share_file}\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f811cd93-9247-4401-88ad-b00296193104",
+      "id": "439f37c9-01c3-4110-8be2-d13aedb57ed8",
       "name": "Re-check dependency 2/2",
       "description": "\"\\\\#{remote}\\C$\\#{share_file}\" must exist on #{remote}\n",
       "type": "execute-command",
@@ -88,66 +88,71 @@
         "command": "if (Test-Path \"\\\\#{remote}\\C$\\#{share_file}\") {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "b4861e1d-b0ec-4781-bf96-77073d2b2b39",
+      "s": "e22de555-3c74-4b8f-aa1e-abf58f14ecad",
       "p": "on-success",
-      "o": "310c68f4-8265-4f5d-8013-624711c025d1"
+      "o": "4eddaa3c-5f18-4427-bba4-49fa53d007c6"
     },
     {
-      "s": "b4861e1d-b0ec-4781-bf96-77073d2b2b39",
+      "s": "e22de555-3c74-4b8f-aa1e-abf58f14ecad",
       "p": "on-failure",
-      "o": "310c68f4-8265-4f5d-8013-624711c025d1"
+      "o": "4eddaa3c-5f18-4427-bba4-49fa53d007c6"
     },
     {
-      "s": "ebf7bfd5-a259-4a9c-af15-454ff4de0570",
+      "s": "9a2a36b2-42e8-4021-9039-c45569bcf84f",
       "p": "on-success",
-      "o": "b4861e1d-b0ec-4781-bf96-77073d2b2b39"
+      "o": "e22de555-3c74-4b8f-aa1e-abf58f14ecad"
     },
     {
-      "s": "ebf7bfd5-a259-4a9c-af15-454ff4de0570",
+      "s": "9a2a36b2-42e8-4021-9039-c45569bcf84f",
       "p": "on-failure",
-      "o": "b63ce638-9b75-4ab6-bf8e-dbb9d2464d7b"
+      "o": "147503c7-6b76-43ef-a0df-3c79771e7a71"
     },
     {
-      "s": "b63ce638-9b75-4ab6-bf8e-dbb9d2464d7b",
+      "s": "147503c7-6b76-43ef-a0df-3c79771e7a71",
       "p": "on-success",
-      "o": "4604a322-c3b0-48ac-8d5e-9099784cfff4"
+      "o": "8107589e-7a48-4744-a078-0d7ccefa8d36"
     },
     {
-      "s": "4604a322-c3b0-48ac-8d5e-9099784cfff4",
+      "s": "8107589e-7a48-4744-a078-0d7ccefa8d36",
       "p": "on-failure",
-      "o": "b4861e1d-b0ec-4781-bf96-77073d2b2b39"
+      "o": "e22de555-3c74-4b8f-aa1e-abf58f14ecad"
     },
     {
-      "s": "d9fc9e1b-6bf0-48f5-8c0a-91cf89ff4b52",
+      "s": "c92028da-d34c-4628-b737-04aadc266f9a",
       "p": "on-success",
-      "o": "b4861e1d-b0ec-4781-bf96-77073d2b2b39"
+      "o": "e22de555-3c74-4b8f-aa1e-abf58f14ecad"
     },
     {
-      "s": "d9fc9e1b-6bf0-48f5-8c0a-91cf89ff4b52",
+      "s": "c92028da-d34c-4628-b737-04aadc266f9a",
       "p": "on-failure",
-      "o": "fdd5468c-92a6-47b5-99ae-fc8971fba65f"
+      "o": "e27f1780-6c01-4b87-b23b-dc2713d70921"
     },
     {
-      "s": "fdd5468c-92a6-47b5-99ae-fc8971fba65f",
+      "s": "e27f1780-6c01-4b87-b23b-dc2713d70921",
       "p": "on-success",
-      "o": "f811cd93-9247-4401-88ad-b00296193104"
+      "o": "439f37c9-01c3-4110-8be2-d13aedb57ed8"
     },
     {
-      "s": "f811cd93-9247-4401-88ad-b00296193104",
+      "s": "439f37c9-01c3-4110-8be2-d13aedb57ed8",
       "p": "on-failure",
-      "o": "b4861e1d-b0ec-4781-bf96-77073d2b2b39"
+      "o": "e22de555-3c74-4b8f-aa1e-abf58f14ecad"
     }
   ],
   "tags": [
-    "T1039",
-    "atomic-red-team"
+    "T1039"
   ],
   "input_arguments": [
+    {
+      "name": "remote",
+      "type": "string",
+      "description": "Remote server name",
+      "value": "127.0.0.1"
+    },
     {
       "name": "share_file",
       "type": "path",
@@ -159,12 +164,6 @@
       "type": "string",
       "description": "Local name",
       "value": "Easter_egg.password"
-    },
-    {
-      "name": "remote",
-      "type": "string",
-      "description": "Remote server name",
-      "value": "127.0.0.1"
     }
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "15559e24-a913-42e5-bec4-9c17ebec5576",
+      "id": "6fc41571-fb7a-4921-bbfb-d409b89581b5",
       "type": "execute-command",
       "data": {
         "command": "echo \"[Unit]\" \u003e #{systemd_service_path}/#{systemd_service_file}\necho \"Description=Atomic Red Team Systemd Service\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"[Service]\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"Type=simple\"\necho \"ExecStart=#{execstart_action}\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"ExecStartPre=#{execstartpre_action}\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"ExecStartPost=#{execstartpost_action}\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"ExecReload=#{execreload_action}\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"ExecStop=#{execstop_action}\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"ExecStopPost=#{execstoppost_action}\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"[Install]\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\necho \"WantedBy=default.target\" \u003e\u003e #{systemd_service_path}/#{systemd_service_file}\nsystemctl daemon-reload\nsystemctl enable #{systemd_service_file}\nsystemctl start #{systemd_service_file}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "72127d88-018b-459e-a487-cecbd7d00beb",
+      "id": "a394c39d-1118-4108-8e3d-6bf6b8a40941",
       "type": "execute-command",
       "data": {
         "command": "systemctl stop #{systemd_service_file}\nsystemctl disable #{systemd_service_file}\nrm -rf #{systemd_service_path}/#{systemd_service_file}\nsystemctl daemon-reload\n",
@@ -27,39 +27,21 @@
   ],
   "flows": [
     {
-      "s": "15559e24-a913-42e5-bec4-9c17ebec5576",
+      "s": "6fc41571-fb7a-4921-bbfb-d409b89581b5",
       "p": "on-success",
-      "o": "72127d88-018b-459e-a487-cecbd7d00beb"
+      "o": "a394c39d-1118-4108-8e3d-6bf6b8a40941"
     },
     {
-      "s": "15559e24-a913-42e5-bec4-9c17ebec5576",
+      "s": "6fc41571-fb7a-4921-bbfb-d409b89581b5",
       "p": "on-failure",
-      "o": "72127d88-018b-459e-a487-cecbd7d00beb"
+      "o": "a394c39d-1118-4108-8e3d-6bf6b8a40941"
     }
   ],
   "tags": [
-    "T1543.002",
-    "atomic-red-team"
+    "T1543",
+    "T1543.002"
   ],
   "input_arguments": [
-    {
-      "name": "execstoppost_action",
-      "type": "string",
-      "description": "ExecStopPost action for Systemd service",
-      "value": "/bin/touch /tmp/art-systemd-execstoppost-marker"
-    },
-    {
-      "name": "execreload_action",
-      "type": "string",
-      "description": "ExecReload action for Systemd service",
-      "value": "/bin/touch /tmp/art-systemd-execreload-marker"
-    },
-    {
-      "name": "execstart_action",
-      "type": "string",
-      "description": "ExecStart action for Systemd service",
-      "value": "/bin/touch /tmp/art-systemd-execstart-marker"
-    },
     {
       "name": "execstop_action",
       "type": "string",
@@ -89,6 +71,24 @@
       "type": "string",
       "description": "File name of systemd service unit file",
       "value": "art-systemd-service.service"
+    },
+    {
+      "name": "execstoppost_action",
+      "type": "string",
+      "description": "ExecStopPost action for Systemd service",
+      "value": "/bin/touch /tmp/art-systemd-execstoppost-marker"
+    },
+    {
+      "name": "execreload_action",
+      "type": "string",
+      "description": "ExecReload action for Systemd service",
+      "value": "/bin/touch /tmp/art-systemd-execreload-marker"
+    },
+    {
+      "name": "execstart_action",
+      "type": "string",
+      "description": "ExecStart action for Systemd service",
+      "value": "/bin/touch /tmp/art-systemd-execstart-marker"
     }
   ]
 }

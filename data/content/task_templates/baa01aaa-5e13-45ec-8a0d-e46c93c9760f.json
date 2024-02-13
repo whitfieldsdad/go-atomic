@@ -7,17 +7,16 @@
   ],
   "steps": [
     {
-      "id": "89e7fdb4-edf1-4bbe-bd59-f32e053d64d1",
+      "id": "0f41da89-6e50-4898-941a-7e7b3bffd704",
       "type": "execute-command",
       "data": {
         "command": "$localip = ((ipconfig | findstr [0-9].\\.)[0]).Split()[-1]\n$pieces = $localip.split(\".\")\n$firstOctet = $pieces[0]\n$secondOctet = $pieces[1]\n$thirdOctet = $pieces[2]\nforeach ($ip in 1..255 | % { \"$firstOctet.$secondOctet.$thirdOctet.$_\" } ) {cmd.exe /c nslookup $ip}\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "tags": [
-    "T1018",
-    "atomic-red-team"
+    "T1018"
   ]
 }

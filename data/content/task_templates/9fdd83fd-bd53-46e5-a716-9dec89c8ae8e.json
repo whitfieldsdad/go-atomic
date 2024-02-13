@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "4937e537-27bb-425d-ad8a-978653a84333",
+      "id": "97123abf-f191-4691-a685-c5d96cb20093",
       "type": "execute-command",
       "data": {
         "command": "gcloud config set project #{project-id}\ngcloud iam service-accounts create #{service-account-name}\ngcloud iam service-accounts keys create #{output-key-file} --iam-account=#{service-account-email}\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "c540bf0e-9516-4cc2-813b-10e5782d504c",
+      "id": "a923bb14-b16b-442d-8abd-16ad93bc51ce",
       "type": "execute-command",
       "data": {
         "command": "gcloud iam service-accounts delete #{service-account-email} --quiet\n",
@@ -26,7 +26,7 @@
       "elevation_required": false
     },
     {
-      "id": "ee216db9-4ed2-4f98-a430-137063c35192",
+      "id": "569c7cc2-24f0-4ec6-b88e-45b71d15c70c",
       "name": "Check dependency 1/2",
       "description": "Requires gcloud\n",
       "type": "execute-command",
@@ -37,7 +37,7 @@
       "elevation_required": false
     },
     {
-      "id": "a2a7f3b0-ca1a-42bb-823c-993a0455256e",
+      "id": "1b37a705-dd1b-4a5d-8590-f06e32eac96e",
       "name": "Resolve dependency 1/2",
       "description": "Requires gcloud\n",
       "type": "execute-command",
@@ -48,7 +48,7 @@
       "elevation_required": false
     },
     {
-      "id": "70b26ea7-153b-478b-8c11-15ab31147ad4",
+      "id": "783197c2-c106-4925-afa6-8061e1523f85",
       "name": "Re-check dependency 1/2",
       "description": "Requires gcloud\n",
       "type": "execute-command",
@@ -59,7 +59,7 @@
       "elevation_required": false
     },
     {
-      "id": "21237a98-17b1-4af4-a598-383116cf359c",
+      "id": "b2f4d0b2-6c8e-498b-b837-f142069600da",
       "name": "Check dependency 2/2",
       "description": "Check if user is logged in \n",
       "type": "execute-command",
@@ -70,7 +70,7 @@
       "elevation_required": false
     },
     {
-      "id": "8ba98f55-7e38-42ff-ba8f-b72e411844eb",
+      "id": "04e0924a-4280-4d89-ad25-1956e5dd97fd",
       "name": "Resolve dependency 2/2",
       "description": "Check if user is logged in \n",
       "type": "execute-command",
@@ -81,7 +81,7 @@
       "elevation_required": false
     },
     {
-      "id": "a5575f83-45ed-4f07-91fb-995853d12a37",
+      "id": "1204b44b-1a2c-4701-a0f2-1267dcbb5735",
       "name": "Re-check dependency 2/2",
       "description": "Check if user is logged in \n",
       "type": "execute-command",
@@ -94,61 +94,67 @@
   ],
   "flows": [
     {
-      "s": "4937e537-27bb-425d-ad8a-978653a84333",
+      "s": "97123abf-f191-4691-a685-c5d96cb20093",
       "p": "on-success",
-      "o": "c540bf0e-9516-4cc2-813b-10e5782d504c"
+      "o": "a923bb14-b16b-442d-8abd-16ad93bc51ce"
     },
     {
-      "s": "4937e537-27bb-425d-ad8a-978653a84333",
+      "s": "97123abf-f191-4691-a685-c5d96cb20093",
       "p": "on-failure",
-      "o": "c540bf0e-9516-4cc2-813b-10e5782d504c"
+      "o": "a923bb14-b16b-442d-8abd-16ad93bc51ce"
     },
     {
-      "s": "ee216db9-4ed2-4f98-a430-137063c35192",
+      "s": "569c7cc2-24f0-4ec6-b88e-45b71d15c70c",
       "p": "on-success",
-      "o": "4937e537-27bb-425d-ad8a-978653a84333"
+      "o": "97123abf-f191-4691-a685-c5d96cb20093"
     },
     {
-      "s": "ee216db9-4ed2-4f98-a430-137063c35192",
+      "s": "569c7cc2-24f0-4ec6-b88e-45b71d15c70c",
       "p": "on-failure",
-      "o": "a2a7f3b0-ca1a-42bb-823c-993a0455256e"
+      "o": "1b37a705-dd1b-4a5d-8590-f06e32eac96e"
     },
     {
-      "s": "a2a7f3b0-ca1a-42bb-823c-993a0455256e",
+      "s": "1b37a705-dd1b-4a5d-8590-f06e32eac96e",
       "p": "on-success",
-      "o": "70b26ea7-153b-478b-8c11-15ab31147ad4"
+      "o": "783197c2-c106-4925-afa6-8061e1523f85"
     },
     {
-      "s": "70b26ea7-153b-478b-8c11-15ab31147ad4",
+      "s": "783197c2-c106-4925-afa6-8061e1523f85",
       "p": "on-failure",
-      "o": "4937e537-27bb-425d-ad8a-978653a84333"
+      "o": "97123abf-f191-4691-a685-c5d96cb20093"
     },
     {
-      "s": "21237a98-17b1-4af4-a598-383116cf359c",
+      "s": "b2f4d0b2-6c8e-498b-b837-f142069600da",
       "p": "on-success",
-      "o": "4937e537-27bb-425d-ad8a-978653a84333"
+      "o": "97123abf-f191-4691-a685-c5d96cb20093"
     },
     {
-      "s": "21237a98-17b1-4af4-a598-383116cf359c",
+      "s": "b2f4d0b2-6c8e-498b-b837-f142069600da",
       "p": "on-failure",
-      "o": "8ba98f55-7e38-42ff-ba8f-b72e411844eb"
+      "o": "04e0924a-4280-4d89-ad25-1956e5dd97fd"
     },
     {
-      "s": "8ba98f55-7e38-42ff-ba8f-b72e411844eb",
+      "s": "04e0924a-4280-4d89-ad25-1956e5dd97fd",
       "p": "on-success",
-      "o": "a5575f83-45ed-4f07-91fb-995853d12a37"
+      "o": "1204b44b-1a2c-4701-a0f2-1267dcbb5735"
     },
     {
-      "s": "a5575f83-45ed-4f07-91fb-995853d12a37",
+      "s": "1204b44b-1a2c-4701-a0f2-1267dcbb5735",
       "p": "on-failure",
-      "o": "4937e537-27bb-425d-ad8a-978653a84333"
+      "o": "97123abf-f191-4691-a685-c5d96cb20093"
     }
   ],
   "tags": [
-    "T1078.004",
-    "atomic-red-team"
+    "T1078",
+    "T1078.004"
   ],
   "input_arguments": [
+    {
+      "name": "output-key-file",
+      "type": "string",
+      "description": "Email of the service account",
+      "value": "gcp-art-service-account-1.json"
+    },
     {
       "name": "project-id",
       "type": "string",
@@ -166,12 +172,6 @@
       "type": "string",
       "description": "Email of the service account",
       "value": "gcp-art-service-account-1@art-project-1.iam.gserviceaccount.com"
-    },
-    {
-      "name": "output-key-file",
-      "type": "string",
-      "description": "Email of the service account",
-      "value": "gcp-art-service-account-1.json"
     }
   ]
 }

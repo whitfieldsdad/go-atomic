@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "06d9b592-7fd1-4152-8c40-192bb49851c7",
+      "id": "38ab2590-757d-4ba4-b355-1b22d9fc2d3e",
       "type": "execute-command",
       "data": {
         "command": "sudo rm #{journal_folder}/* #physically deletes the journal files, and not just their content\nsudo journalctl --vacuum-time=0 #clears the journal while still keeping the journal files in place\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "e625b5ac-0b76-4c5b-acf2-39d31a970f30",
+      "id": "e2315a5d-33b9-464c-91c3-0f4e323aeb88",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "stat #{journal_folder}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "827f29ad-ba74-47df-8ff2-e79a30c8e732",
+      "id": "8ce63c20-d4c3-446f-95fe-157ce200e11e",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "mkdir -p #{journal_folder} \u0026\u0026 touch #{journal_folder}/T1070_002.journal\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4ae30cf0-2e4a-4349-86d9-a49e3221979f",
+      "id": "ad4dc94f-1750-4fb6-87ca-76b9382e0804",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -46,34 +46,34 @@
         "command": "stat #{journal_folder}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "e625b5ac-0b76-4c5b-acf2-39d31a970f30",
+      "s": "e2315a5d-33b9-464c-91c3-0f4e323aeb88",
       "p": "on-success",
-      "o": "06d9b592-7fd1-4152-8c40-192bb49851c7"
+      "o": "38ab2590-757d-4ba4-b355-1b22d9fc2d3e"
     },
     {
-      "s": "e625b5ac-0b76-4c5b-acf2-39d31a970f30",
+      "s": "e2315a5d-33b9-464c-91c3-0f4e323aeb88",
       "p": "on-failure",
-      "o": "827f29ad-ba74-47df-8ff2-e79a30c8e732"
+      "o": "8ce63c20-d4c3-446f-95fe-157ce200e11e"
     },
     {
-      "s": "827f29ad-ba74-47df-8ff2-e79a30c8e732",
+      "s": "8ce63c20-d4c3-446f-95fe-157ce200e11e",
       "p": "on-success",
-      "o": "4ae30cf0-2e4a-4349-86d9-a49e3221979f"
+      "o": "ad4dc94f-1750-4fb6-87ca-76b9382e0804"
     },
     {
-      "s": "4ae30cf0-2e4a-4349-86d9-a49e3221979f",
+      "s": "ad4dc94f-1750-4fb6-87ca-76b9382e0804",
       "p": "on-failure",
-      "o": "06d9b592-7fd1-4152-8c40-192bb49851c7"
+      "o": "38ab2590-757d-4ba4-b355-1b22d9fc2d3e"
     }
   ],
   "tags": [
-    "T1070.002",
-    "atomic-red-team"
+    "T1070",
+    "T1070.002"
   ],
   "input_arguments": [
     {

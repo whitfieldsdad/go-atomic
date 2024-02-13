@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6a94d215-6488-4dd1-af09-adea73d8625a",
+      "id": "9dfd52b5-d088-4f6d-8be9-30fcaccd10aa",
       "type": "execute-command",
       "data": {
         "command": "for($i=0; $i -le #{query_volume}; $i++) { (Invoke-WebRequest \"#{doh_server}?name=#{subdomain}.$(Get-Random -Minimum 1 -Maximum 999999).#{domain}\u0026type=#{query_type}\" -UseBasicParsing).Content }\n",
@@ -17,22 +17,9 @@
     }
   ],
   "tags": [
-    "T1572",
-    "atomic-red-team"
+    "T1572"
   ],
   "input_arguments": [
-    {
-      "name": "query_volume",
-      "type": "integer",
-      "description": "Number of DNS queries to send",
-      "value": "1000"
-    },
-    {
-      "name": "domain",
-      "type": "string",
-      "description": "Default domain to simulate against",
-      "value": "127.0.0.1.xip.io"
-    },
     {
       "name": "doh_server",
       "type": "string",
@@ -50,6 +37,18 @@
       "type": "string",
       "description": "Subdomain prepended to the domain name",
       "value": "atomicredteam"
+    },
+    {
+      "name": "query_volume",
+      "type": "integer",
+      "description": "Number of DNS queries to send",
+      "value": "1000"
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "Default domain to simulate against",
+      "value": "127.0.0.1.xip.io"
     }
   ]
 }

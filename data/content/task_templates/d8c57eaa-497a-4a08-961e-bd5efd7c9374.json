@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "1b9a3ed0-77a3-4c4e-905a-cc2e197da33d",
+      "id": "6fa7f81e-fe0d-4730-9952-256fe5b603f6",
       "type": "execute-command",
       "data": {
         "command": "New-ItemProperty \"HKCU:\\Software\\Policies\\Microsoft\\Windows\\OOBE\" -Name DisablePrivacyExperience -PropertyType DWord -Value 1 -Force\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f19ae80c-6b80-4bca-b72f-fc1fd07dc66b",
+      "id": "e99dde6e-ed4c-4f3b-ac06-1493e3953579",
       "type": "execute-command",
       "data": {
         "command": "Remove-ItemProperty \"HKCU:\\Software\\Policies\\Microsoft\\Windows\\OOBE\" -Name DisablePrivacyExperience -Force -ErrorAction Ignore\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "1b9a3ed0-77a3-4c4e-905a-cc2e197da33d",
+      "s": "6fa7f81e-fe0d-4730-9952-256fe5b603f6",
       "p": "on-success",
-      "o": "f19ae80c-6b80-4bca-b72f-fc1fd07dc66b"
+      "o": "e99dde6e-ed4c-4f3b-ac06-1493e3953579"
     },
     {
-      "s": "1b9a3ed0-77a3-4c4e-905a-cc2e197da33d",
+      "s": "6fa7f81e-fe0d-4730-9952-256fe5b603f6",
       "p": "on-failure",
-      "o": "f19ae80c-6b80-4bca-b72f-fc1fd07dc66b"
+      "o": "e99dde6e-ed4c-4f3b-ac06-1493e3953579"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ]
 }

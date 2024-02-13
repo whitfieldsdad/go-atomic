@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "2730c850-d4d9-4888-a6d2-697e588ef2dc",
+      "id": "19986e81-da1a-456d-b07e-dce867a188e7",
       "type": "execute-command",
       "data": {
         "command": "Invoke-WebRequest -OutFile C:\\Users\\$env:username\\Desktop\\AnyDesk.exe https://download.anydesk.com/AnyDesk.exe\n$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\AnyDesk.exe\"\nStart-Process $file1 /S;\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "56724838-4ab0-4b56-9d75-95a9879319c7",
+      "id": "c5e85c71-5f16-4931-b7f1-e3863d64f59f",
       "type": "execute-command",
       "data": {
         "command": "$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\AnyDesk.exe\"\nRemove-Item $file1 -ErrorAction Ignore",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "2730c850-d4d9-4888-a6d2-697e588ef2dc",
+      "s": "19986e81-da1a-456d-b07e-dce867a188e7",
       "p": "on-success",
-      "o": "56724838-4ab0-4b56-9d75-95a9879319c7"
+      "o": "c5e85c71-5f16-4931-b7f1-e3863d64f59f"
     },
     {
-      "s": "2730c850-d4d9-4888-a6d2-697e588ef2dc",
+      "s": "19986e81-da1a-456d-b07e-dce867a188e7",
       "p": "on-failure",
-      "o": "56724838-4ab0-4b56-9d75-95a9879319c7"
+      "o": "c5e85c71-5f16-4931-b7f1-e3863d64f59f"
     }
   ],
   "tags": [
-    "T1219",
-    "atomic-red-team"
+    "T1219"
   ]
 }

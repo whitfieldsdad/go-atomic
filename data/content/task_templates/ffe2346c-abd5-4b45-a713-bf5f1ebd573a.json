@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "7c1b46c2-68db-4f09-a129-236eee65b8d0",
+      "id": "04c60f3d-8f91-4126-9131-9be27c6a0df4",
       "type": "execute-command",
       "data": {
         "command": "dd if=/dev/zero bs=1 count=1 \u003e\u003e #{file_to_pad} #adds null bytes\ndd if=/dev/random bs=1 count=1 \u003e\u003e #{file_to_pad} #adds high-quality random data\ndd if=/dev/urandom bs=1 count=1 \u003e\u003e #{file_to_pad} #adds low-quality random data\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "7d48494d-c466-481a-94ed-04b653afe080",
+      "id": "5cb06b2a-2fc9-4ad5-b7bd-029dbb0a0a7a",
       "type": "execute-command",
       "data": {
         "command": "rm #{file_to_pad}\n",
@@ -26,7 +26,7 @@
       "elevation_required": false
     },
     {
-      "id": "c494f59b-d563-45a0-912b-9ca9cabb2dde",
+      "id": "2761a65b-64d5-4527-a223-370d8c1f6ef7",
       "name": "Check dependency 1/1",
       "description": "The binary must exist on disk at specified location (#{file_to_pad})\n",
       "type": "execute-command",
@@ -37,7 +37,7 @@
       "elevation_required": false
     },
     {
-      "id": "72eaf3fd-dd45-4586-8e71-0a058dfb5ec2",
+      "id": "03f9b7ef-4891-4ad9-a341-ad5b9ac5c73d",
       "name": "Resolve dependency 1/1",
       "description": "The binary must exist on disk at specified location (#{file_to_pad})\n",
       "type": "execute-command",
@@ -48,7 +48,7 @@
       "elevation_required": false
     },
     {
-      "id": "9e42b902-a7af-4310-8b2a-f196bc96caaa",
+      "id": "ca1a6ecd-3993-4f00-b446-558d263cbce3",
       "name": "Re-check dependency 1/1",
       "description": "The binary must exist on disk at specified location (#{file_to_pad})\n",
       "type": "execute-command",
@@ -61,39 +61,39 @@
   ],
   "flows": [
     {
-      "s": "7c1b46c2-68db-4f09-a129-236eee65b8d0",
+      "s": "04c60f3d-8f91-4126-9131-9be27c6a0df4",
       "p": "on-success",
-      "o": "7d48494d-c466-481a-94ed-04b653afe080"
+      "o": "5cb06b2a-2fc9-4ad5-b7bd-029dbb0a0a7a"
     },
     {
-      "s": "7c1b46c2-68db-4f09-a129-236eee65b8d0",
+      "s": "04c60f3d-8f91-4126-9131-9be27c6a0df4",
       "p": "on-failure",
-      "o": "7d48494d-c466-481a-94ed-04b653afe080"
+      "o": "5cb06b2a-2fc9-4ad5-b7bd-029dbb0a0a7a"
     },
     {
-      "s": "c494f59b-d563-45a0-912b-9ca9cabb2dde",
+      "s": "2761a65b-64d5-4527-a223-370d8c1f6ef7",
       "p": "on-success",
-      "o": "7c1b46c2-68db-4f09-a129-236eee65b8d0"
+      "o": "04c60f3d-8f91-4126-9131-9be27c6a0df4"
     },
     {
-      "s": "c494f59b-d563-45a0-912b-9ca9cabb2dde",
+      "s": "2761a65b-64d5-4527-a223-370d8c1f6ef7",
       "p": "on-failure",
-      "o": "72eaf3fd-dd45-4586-8e71-0a058dfb5ec2"
+      "o": "03f9b7ef-4891-4ad9-a341-ad5b9ac5c73d"
     },
     {
-      "s": "72eaf3fd-dd45-4586-8e71-0a058dfb5ec2",
+      "s": "03f9b7ef-4891-4ad9-a341-ad5b9ac5c73d",
       "p": "on-success",
-      "o": "9e42b902-a7af-4310-8b2a-f196bc96caaa"
+      "o": "ca1a6ecd-3993-4f00-b446-558d263cbce3"
     },
     {
-      "s": "9e42b902-a7af-4310-8b2a-f196bc96caaa",
+      "s": "ca1a6ecd-3993-4f00-b446-558d263cbce3",
       "p": "on-failure",
-      "o": "7c1b46c2-68db-4f09-a129-236eee65b8d0"
+      "o": "04c60f3d-8f91-4126-9131-9be27c6a0df4"
     }
   ],
   "tags": [
-    "T1027.001",
-    "atomic-red-team"
+    "T1027",
+    "T1027.001"
   ],
   "input_arguments": [
     {

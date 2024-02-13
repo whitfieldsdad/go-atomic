@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "644b428f-03cc-40f7-b443-e8e02aed4b15",
+      "id": "c2f1e85b-c43b-4e9a-99d7-97be19a8f69f",
       "type": "execute-command",
       "data": {
         "command": "$orgValue =(Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name ConsentPromptBehaviorAdmin).ConsentPromptBehaviorAdmin\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name ConsentPromptBehaviorAdmin -Value 0 -Type Dword -Force",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "61dc2b68-a902-4dff-af00-e944709eb84d",
+      "id": "36d6d698-bf46-412f-af26-5f0d714d5d3a",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name ConsentPromptBehaviorAdmin -Value $orgValue -Type Dword -Force\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "644b428f-03cc-40f7-b443-e8e02aed4b15",
+      "s": "c2f1e85b-c43b-4e9a-99d7-97be19a8f69f",
       "p": "on-success",
-      "o": "61dc2b68-a902-4dff-af00-e944709eb84d"
+      "o": "36d6d698-bf46-412f-af26-5f0d714d5d3a"
     },
     {
-      "s": "644b428f-03cc-40f7-b443-e8e02aed4b15",
+      "s": "c2f1e85b-c43b-4e9a-99d7-97be19a8f69f",
       "p": "on-failure",
-      "o": "61dc2b68-a902-4dff-af00-e944709eb84d"
+      "o": "36d6d698-bf46-412f-af26-5f0d714d5d3a"
     }
   ],
   "tags": [
-    "T1548.002",
-    "atomic-red-team"
+    "T1548",
+    "T1548.002"
   ]
 }

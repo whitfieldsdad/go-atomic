@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "d92a255a-a37b-4983-96d5-b1e81ee507de",
+      "id": "984d7519-8115-461f-82ef-3a341dcfdffb",
       "type": "execute-command",
       "data": {
         "command": "New-ItemProperty \"HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-Windows Defender/Operational\" -Name Enabled  -PropertyType DWord -Value 0 -Force\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5ad5fd4c-5fe4-4bc3-a1ce-228aff2c3b69",
+      "id": "ca7316c9-275a-4021-8c5e-7b31a38fb931",
       "type": "execute-command",
       "data": {
         "command": "Remove-ItemProperty \"HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-Windows Defender/Operational\" -Name Enabled -Force -ErrorAction Ignore\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "d92a255a-a37b-4983-96d5-b1e81ee507de",
+      "s": "984d7519-8115-461f-82ef-3a341dcfdffb",
       "p": "on-success",
-      "o": "5ad5fd4c-5fe4-4bc3-a1ce-228aff2c3b69"
+      "o": "ca7316c9-275a-4021-8c5e-7b31a38fb931"
     },
     {
-      "s": "d92a255a-a37b-4983-96d5-b1e81ee507de",
+      "s": "984d7519-8115-461f-82ef-3a341dcfdffb",
       "p": "on-failure",
-      "o": "5ad5fd4c-5fe4-4bc3-a1ce-228aff2c3b69"
+      "o": "ca7316c9-275a-4021-8c5e-7b31a38fb931"
     }
   ],
   "tags": [
-    "T1562.006",
-    "atomic-red-team"
+    "T1562",
+    "T1562.006"
   ]
 }

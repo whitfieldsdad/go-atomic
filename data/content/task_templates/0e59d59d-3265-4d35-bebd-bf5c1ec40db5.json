@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "75f5dc80-fdcb-4966-bcee-01e79d6395cb",
+      "id": "65385798-cb24-47ff-98d7-8be73a666f8f",
       "type": "execute-command",
       "data": {
         "command": "PROMPT_COMMAND='history -a \u003e(tee -a ~/.bash_history |logger -t \"$USER[$$] $SSH_CONNECTION \")'\necho \"\\$PROMPT_COMMAND=$PROMPT_COMMAND\"\ntail /var/log/syslog\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "9d4e5732-7ad6-4f76-8178-e816d381de14",
+      "id": "e1c76ec5-fc12-49ec-aab3-d9c3fb8cc3d7",
       "type": "execute-command",
       "data": {
         "command": "unset PROMPT_COMMAND\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "52be239f-15b8-4e44-8f81-5a6c51830d08",
+      "id": "83b1b803-c9b8-403b-ab7e-f8b74e085e79",
       "name": "Check dependency 1/1",
       "description": "This test requires to be run in a bash shell and that logger and tee are installed.\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if [ \"$(echo $SHELL)\" != \"/bin/bash\" ]; then echo -e \"\\n***** Bash not running! *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v logger)\" ]; then echo -e \"\\n***** logger NOT installed *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v tee)\" ]; then echo -e \"\\n***** tee NOT installed *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "e1811fc2-ebe5-4ec4-a8c3-cf1aa58e1c68",
+      "id": "e0046e41-7deb-4a2d-8838-432b7ea39f6e",
       "name": "Resolve dependency 1/1",
       "description": "This test requires to be run in a bash shell and that logger and tee are installed.\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo \"\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "cf7c9603-8385-47d8-864d-d0248e7a9910",
+      "id": "8fd90ace-bc04-4d45-95c5-f34c0107747c",
       "name": "Re-check dependency 1/1",
       "description": "This test requires to be run in a bash shell and that logger and tee are installed.\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "if [ \"$(echo $SHELL)\" != \"/bin/bash\" ]; then echo -e \"\\n***** Bash not running! *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v logger)\" ]; then echo -e \"\\n***** logger NOT installed *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v tee)\" ]; then echo -e \"\\n***** tee NOT installed *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "75f5dc80-fdcb-4966-bcee-01e79d6395cb",
+      "s": "65385798-cb24-47ff-98d7-8be73a666f8f",
       "p": "on-success",
-      "o": "9d4e5732-7ad6-4f76-8178-e816d381de14"
+      "o": "e1c76ec5-fc12-49ec-aab3-d9c3fb8cc3d7"
     },
     {
-      "s": "75f5dc80-fdcb-4966-bcee-01e79d6395cb",
+      "s": "65385798-cb24-47ff-98d7-8be73a666f8f",
       "p": "on-failure",
-      "o": "9d4e5732-7ad6-4f76-8178-e816d381de14"
+      "o": "e1c76ec5-fc12-49ec-aab3-d9c3fb8cc3d7"
     },
     {
-      "s": "52be239f-15b8-4e44-8f81-5a6c51830d08",
+      "s": "83b1b803-c9b8-403b-ab7e-f8b74e085e79",
       "p": "on-success",
-      "o": "75f5dc80-fdcb-4966-bcee-01e79d6395cb"
+      "o": "65385798-cb24-47ff-98d7-8be73a666f8f"
     },
     {
-      "s": "52be239f-15b8-4e44-8f81-5a6c51830d08",
+      "s": "83b1b803-c9b8-403b-ab7e-f8b74e085e79",
       "p": "on-failure",
-      "o": "e1811fc2-ebe5-4ec4-a8c3-cf1aa58e1c68"
+      "o": "e0046e41-7deb-4a2d-8838-432b7ea39f6e"
     },
     {
-      "s": "e1811fc2-ebe5-4ec4-a8c3-cf1aa58e1c68",
+      "s": "e0046e41-7deb-4a2d-8838-432b7ea39f6e",
       "p": "on-success",
-      "o": "cf7c9603-8385-47d8-864d-d0248e7a9910"
+      "o": "8fd90ace-bc04-4d45-95c5-f34c0107747c"
     },
     {
-      "s": "cf7c9603-8385-47d8-864d-d0248e7a9910",
+      "s": "8fd90ace-bc04-4d45-95c5-f34c0107747c",
       "p": "on-failure",
-      "o": "75f5dc80-fdcb-4966-bcee-01e79d6395cb"
+      "o": "65385798-cb24-47ff-98d7-8be73a666f8f"
     }
   ],
   "tags": [
-    "T1056.001",
-    "atomic-red-team"
+    "T1056",
+    "T1056.001"
   ]
 }

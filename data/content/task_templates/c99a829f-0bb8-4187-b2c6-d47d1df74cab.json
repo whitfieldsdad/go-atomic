@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "f4973eaf-2911-4549-b743-bf529fef32c9",
+      "id": "a0febbc4-37e5-436f-9ec5-00e772ba3c7b",
       "type": "execute-command",
       "data": {
         "command": "timeout --preserve-status #{timeout} whois -h #{remote_host} -p #{remote_port} \"#{query}\" \u003e #{output_file}\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "46498c5b-1e4d-4aca-a452-b5bf490ddfcc",
+      "id": "1553a6de-b493-4abf-a2b7-d4ac3e744772",
       "type": "execute-command",
       "data": {
         "command": "rm -f #{output_file}\n",
@@ -26,7 +26,7 @@
       "elevation_required": false
     },
     {
-      "id": "71e8c5e0-c595-4a18-a27d-13f4c709ce1f",
+      "id": "9559691c-d4bf-4b71-82dd-6e871c3f8b05",
       "name": "Check dependency 1/1",
       "description": "The whois and timeout commands must be present\n",
       "type": "execute-command",
@@ -37,7 +37,7 @@
       "elevation_required": false
     },
     {
-      "id": "78c856ee-1540-4c33-9231-fedab705dee8",
+      "id": "65e4b753-aab8-4992-9944-fed7cd067436",
       "name": "Resolve dependency 1/1",
       "description": "The whois and timeout commands must be present\n",
       "type": "execute-command",
@@ -48,7 +48,7 @@
       "elevation_required": false
     },
     {
-      "id": "add21651-2bde-4e59-9ff8-c9f30e06027c",
+      "id": "74acc4c6-e833-4b34-8a92-941eacd6b40b",
       "name": "Re-check dependency 1/1",
       "description": "The whois and timeout commands must be present\n",
       "type": "execute-command",
@@ -61,41 +61,46 @@
   ],
   "flows": [
     {
-      "s": "f4973eaf-2911-4549-b743-bf529fef32c9",
+      "s": "a0febbc4-37e5-436f-9ec5-00e772ba3c7b",
       "p": "on-success",
-      "o": "46498c5b-1e4d-4aca-a452-b5bf490ddfcc"
+      "o": "1553a6de-b493-4abf-a2b7-d4ac3e744772"
     },
     {
-      "s": "f4973eaf-2911-4549-b743-bf529fef32c9",
+      "s": "a0febbc4-37e5-436f-9ec5-00e772ba3c7b",
       "p": "on-failure",
-      "o": "46498c5b-1e4d-4aca-a452-b5bf490ddfcc"
+      "o": "1553a6de-b493-4abf-a2b7-d4ac3e744772"
     },
     {
-      "s": "71e8c5e0-c595-4a18-a27d-13f4c709ce1f",
+      "s": "9559691c-d4bf-4b71-82dd-6e871c3f8b05",
       "p": "on-success",
-      "o": "f4973eaf-2911-4549-b743-bf529fef32c9"
+      "o": "a0febbc4-37e5-436f-9ec5-00e772ba3c7b"
     },
     {
-      "s": "71e8c5e0-c595-4a18-a27d-13f4c709ce1f",
+      "s": "9559691c-d4bf-4b71-82dd-6e871c3f8b05",
       "p": "on-failure",
-      "o": "78c856ee-1540-4c33-9231-fedab705dee8"
+      "o": "65e4b753-aab8-4992-9944-fed7cd067436"
     },
     {
-      "s": "78c856ee-1540-4c33-9231-fedab705dee8",
+      "s": "65e4b753-aab8-4992-9944-fed7cd067436",
       "p": "on-success",
-      "o": "add21651-2bde-4e59-9ff8-c9f30e06027c"
+      "o": "74acc4c6-e833-4b34-8a92-941eacd6b40b"
     },
     {
-      "s": "add21651-2bde-4e59-9ff8-c9f30e06027c",
+      "s": "74acc4c6-e833-4b34-8a92-941eacd6b40b",
       "p": "on-failure",
-      "o": "f4973eaf-2911-4549-b743-bf529fef32c9"
+      "o": "a0febbc4-37e5-436f-9ec5-00e772ba3c7b"
     }
   ],
   "tags": [
-    "T1105",
-    "atomic-red-team"
+    "T1105"
   ],
   "input_arguments": [
+    {
+      "name": "remote_port",
+      "type": "integer",
+      "description": "Remote port to connect to",
+      "value": "8443"
+    },
     {
       "name": "output_file",
       "type": "path",
@@ -119,12 +124,6 @@
       "type": "string",
       "description": "Remote hostname or IP address",
       "value": "localhost"
-    },
-    {
-      "name": "remote_port",
-      "type": "integer",
-      "description": "Remote port to connect to",
-      "value": "8443"
     }
   ]
 }

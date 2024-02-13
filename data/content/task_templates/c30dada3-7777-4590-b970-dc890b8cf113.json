@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "a1dd734d-6573-4b56-afaa-a9333dedb6b6",
+      "id": "2ed08b93-effb-44e0-8e7c-637989983828",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\UX Configuration\" /v Notification_Suppress /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "8f61e727-a3a1-4914-a87e-d6ea3d2fd617",
+      "id": "15ca9f3d-5805-482d-b414-f70af27da280",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\UX Configuration\" /v Notification_Suppress /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "a1dd734d-6573-4b56-afaa-a9333dedb6b6",
+      "s": "2ed08b93-effb-44e0-8e7c-637989983828",
       "p": "on-success",
-      "o": "8f61e727-a3a1-4914-a87e-d6ea3d2fd617"
+      "o": "15ca9f3d-5805-482d-b414-f70af27da280"
     },
     {
-      "s": "a1dd734d-6573-4b56-afaa-a9333dedb6b6",
+      "s": "2ed08b93-effb-44e0-8e7c-637989983828",
       "p": "on-failure",
-      "o": "8f61e727-a3a1-4914-a87e-d6ea3d2fd617"
+      "o": "15ca9f3d-5805-482d-b414-f70af27da280"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

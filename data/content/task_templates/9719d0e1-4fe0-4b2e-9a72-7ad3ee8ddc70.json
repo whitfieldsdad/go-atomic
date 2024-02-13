@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "a3f44001-fda7-4677-8258-552aa98fbe29",
+      "id": "e4e18f7b-dc06-4ca8-bec5-7420a7678b37",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v AutoAdminLogon /t REG_DWORD /d 1 /f\nreg add \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v DefaultUserName /t REG_SZ /d Administrator /f\nreg add \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v DefaultDomainName /t REG_SZ /d contoso.com /f\nreg add \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v DefaultPassword /t REG_SZ /d password1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4c6f9152-893e-4dea-9130-dd114afda722",
+      "id": "27ca8642-760b-4202-aa5f-0de12dfe34c1",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v AutoAdminLogon /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v DefaultUserName /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v DefaultDomainName /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v DefaultPassword /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "a3f44001-fda7-4677-8258-552aa98fbe29",
+      "s": "e4e18f7b-dc06-4ca8-bec5-7420a7678b37",
       "p": "on-success",
-      "o": "4c6f9152-893e-4dea-9130-dd114afda722"
+      "o": "27ca8642-760b-4202-aa5f-0de12dfe34c1"
     },
     {
-      "s": "a3f44001-fda7-4677-8258-552aa98fbe29",
+      "s": "e4e18f7b-dc06-4ca8-bec5-7420a7678b37",
       "p": "on-failure",
-      "o": "4c6f9152-893e-4dea-9130-dd114afda722"
+      "o": "27ca8642-760b-4202-aa5f-0de12dfe34c1"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ]
 }

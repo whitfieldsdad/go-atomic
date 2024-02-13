@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "be7441f3-78f0-46f5-9a21-6004dd7ec5d1",
+      "id": "a6b3151c-7839-4067-aadf-65709234798f",
       "type": "execute-command",
       "data": {
         "command": "python3 -c 'import base64; import subprocess; xor_decrypt = lambda text, key: \"\".join([chr(c ^ ord(k)) for c, k in zip(base64.b64decode(text.encode()), key)]); command = \"#{encrypted_command}\"; key = \"#{xor_key}\"; exec = xor_decrypt(command, key); subprocess.call(exec, shell=True)'",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "49898acd-ca42-4bca-aba8-27b8490d4340",
+      "id": "43f52c25-47dc-4b26-a4df-ce1627ece520",
       "name": "Check dependency 1/1",
       "description": "Python3 must be installed",
       "type": "execute-command",
@@ -28,7 +28,7 @@
       "elevation_required": false
     },
     {
-      "id": "7321fd30-fc1f-462e-bbd1-50e46cd385eb",
+      "id": "8d5707be-730e-4ad1-8cfd-68194e444bb2",
       "name": "Resolve dependency 1/1",
       "description": "Python3 must be installed",
       "type": "execute-command",
@@ -39,7 +39,7 @@
       "elevation_required": false
     },
     {
-      "id": "795b5416-7533-48d3-ad32-1c94ae64fa51",
+      "id": "653cc5d1-9253-4064-b216-a079a599d4e9",
       "name": "Re-check dependency 1/1",
       "description": "Python3 must be installed",
       "type": "execute-command",
@@ -52,29 +52,28 @@
   ],
   "flows": [
     {
-      "s": "49898acd-ca42-4bca-aba8-27b8490d4340",
+      "s": "43f52c25-47dc-4b26-a4df-ce1627ece520",
       "p": "on-success",
-      "o": "be7441f3-78f0-46f5-9a21-6004dd7ec5d1"
+      "o": "a6b3151c-7839-4067-aadf-65709234798f"
     },
     {
-      "s": "49898acd-ca42-4bca-aba8-27b8490d4340",
+      "s": "43f52c25-47dc-4b26-a4df-ce1627ece520",
       "p": "on-failure",
-      "o": "7321fd30-fc1f-462e-bbd1-50e46cd385eb"
+      "o": "8d5707be-730e-4ad1-8cfd-68194e444bb2"
     },
     {
-      "s": "7321fd30-fc1f-462e-bbd1-50e46cd385eb",
+      "s": "8d5707be-730e-4ad1-8cfd-68194e444bb2",
       "p": "on-success",
-      "o": "795b5416-7533-48d3-ad32-1c94ae64fa51"
+      "o": "653cc5d1-9253-4064-b216-a079a599d4e9"
     },
     {
-      "s": "795b5416-7533-48d3-ad32-1c94ae64fa51",
+      "s": "653cc5d1-9253-4064-b216-a079a599d4e9",
       "p": "on-failure",
-      "o": "be7441f3-78f0-46f5-9a21-6004dd7ec5d1"
+      "o": "a6b3151c-7839-4067-aadf-65709234798f"
     }
   ],
   "tags": [
-    "T1140",
-    "atomic-red-team"
+    "T1140"
   ],
   "input_arguments": [
     {

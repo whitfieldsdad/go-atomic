@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "c371e62f-e92c-4afd-97ca-67571f90f565",
+      "id": "7fe75c99-7c28-48c7-a4df-74a2d5e86c7b",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\" /v \"NoAutoUpdate\" /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "9ad36625-b912-4661-aeb7-5189cf79f2bc",
+      "id": "b536d341-65a1-4629-83c0-00a86cb3d67d",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\" /v \"NoAutoUpdate\" /t REG_DWORD /d 0 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "c371e62f-e92c-4afd-97ca-67571f90f565",
+      "s": "7fe75c99-7c28-48c7-a4df-74a2d5e86c7b",
       "p": "on-success",
-      "o": "9ad36625-b912-4661-aeb7-5189cf79f2bc"
+      "o": "b536d341-65a1-4629-83c0-00a86cb3d67d"
     },
     {
-      "s": "c371e62f-e92c-4afd-97ca-67571f90f565",
+      "s": "7fe75c99-7c28-48c7-a4df-74a2d5e86c7b",
       "p": "on-failure",
-      "o": "9ad36625-b912-4661-aeb7-5189cf79f2bc"
+      "o": "b536d341-65a1-4629-83c0-00a86cb3d67d"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

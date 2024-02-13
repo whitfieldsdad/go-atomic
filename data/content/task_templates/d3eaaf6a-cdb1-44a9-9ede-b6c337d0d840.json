@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f363c6f7-4c19-4eb7-85e0-e85237bead79",
+      "id": "5fdefe05-982d-4f7f-a19b-75618e8b18cf",
       "type": "execute-command",
       "data": {
         "command": "Invoke-ATHHTMLApplication -ScriptEngine #{script_engine} -InlineProtocolHandler #{protocol_handler} -MSHTAFilePath #{mshta_file_path}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "5eba15fc-beae-40c2-bf85-8c8ace38635a",
+      "id": "c4651928-f04e-4f05-a438-36ed1d04bc79",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "5d5519dd-cefa-419e-886b-1afe55ee99b0",
+      "id": "46ebf5c9-d6d9-47b9-b914-1fce4feabf39",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "862752b4-5f52-4609-a27f-974ba8b28c87",
+      "id": "79cccc35-250a-44f7-9442-a8d3b1e5ff0a",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
       "type": "execute-command",
@@ -51,37 +51,31 @@
   ],
   "flows": [
     {
-      "s": "5eba15fc-beae-40c2-bf85-8c8ace38635a",
+      "s": "c4651928-f04e-4f05-a438-36ed1d04bc79",
       "p": "on-success",
-      "o": "f363c6f7-4c19-4eb7-85e0-e85237bead79"
+      "o": "5fdefe05-982d-4f7f-a19b-75618e8b18cf"
     },
     {
-      "s": "5eba15fc-beae-40c2-bf85-8c8ace38635a",
+      "s": "c4651928-f04e-4f05-a438-36ed1d04bc79",
       "p": "on-failure",
-      "o": "5d5519dd-cefa-419e-886b-1afe55ee99b0"
+      "o": "46ebf5c9-d6d9-47b9-b914-1fce4feabf39"
     },
     {
-      "s": "5d5519dd-cefa-419e-886b-1afe55ee99b0",
+      "s": "46ebf5c9-d6d9-47b9-b914-1fce4feabf39",
       "p": "on-success",
-      "o": "862752b4-5f52-4609-a27f-974ba8b28c87"
+      "o": "79cccc35-250a-44f7-9442-a8d3b1e5ff0a"
     },
     {
-      "s": "862752b4-5f52-4609-a27f-974ba8b28c87",
+      "s": "79cccc35-250a-44f7-9442-a8d3b1e5ff0a",
       "p": "on-failure",
-      "o": "f363c6f7-4c19-4eb7-85e0-e85237bead79"
+      "o": "5fdefe05-982d-4f7f-a19b-75618e8b18cf"
     }
   ],
   "tags": [
-    "T1218.005",
-    "atomic-red-team"
+    "T1218",
+    "T1218.005"
   ],
   "input_arguments": [
-    {
-      "name": "protocol_handler",
-      "type": "string",
-      "description": "Protocol Handler to use",
-      "value": "About"
-    },
     {
       "name": "mshta_file_path",
       "type": "path",
@@ -93,6 +87,12 @@
       "type": "string",
       "description": "Script Engine to use",
       "value": "JScript"
+    },
+    {
+      "name": "protocol_handler",
+      "type": "string",
+      "description": "Protocol Handler to use",
+      "value": "About"
     }
   ]
 }

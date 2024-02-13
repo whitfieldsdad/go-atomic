@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "50b71d90-1bc5-4d74-a61e-392afda3a267",
+      "id": "58b2eb72-5146-40a6-8f2d-6668a806a7ea",
       "type": "execute-command",
       "data": {
         "command": "$VM = \"#{vm_name}\"\nNew-VM -Name $VM -Generation 2\nSet-VMFirmware $VM -EnableSecureBoot Off\nStart-VM $VM",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "dbdb4705-39a0-4d23-a27d-6cbad2cc2a69",
+      "id": "60d7d652-5a4c-4875-9fb0-e0e92a165357",
       "type": "execute-command",
       "data": {
         "command": "Stop-VM $VM -Force\nRemove-VM $VM -Force",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "70cf8c28-d5e0-4583-868c-3ce74b6ee891",
+      "id": "66ca1ae8-4741-41d5-a425-e917137709db",
       "name": "Check dependency 1/1",
       "description": "Hyper-V must be enabled on the system\nChecks whether Hyper-V is enabled. If not, enables Hyper-V and forces a required restart\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).State = \"Enabled\") {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f818f90c-1f94-4670-8f9d-08c4f5a7ab6d",
+      "id": "056e4a15-176a-4894-9212-9906e9d0f62c",
       "name": "Resolve dependency 1/1",
       "description": "Hyper-V must be enabled on the system\nChecks whether Hyper-V is enabled. If not, enables Hyper-V and forces a required restart\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -Force\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "db1270bf-d079-41cf-97c9-2d6292385001",
+      "id": "d3ab31e1-f0cb-472c-8d83-08fd89a8bdb8",
       "name": "Re-check dependency 1/1",
       "description": "Hyper-V must be enabled on the system\nChecks whether Hyper-V is enabled. If not, enables Hyper-V and forces a required restart\n",
       "type": "execute-command",
@@ -55,44 +55,44 @@
         "command": "if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).State = \"Enabled\") {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "50b71d90-1bc5-4d74-a61e-392afda3a267",
+      "s": "58b2eb72-5146-40a6-8f2d-6668a806a7ea",
       "p": "on-success",
-      "o": "dbdb4705-39a0-4d23-a27d-6cbad2cc2a69"
+      "o": "60d7d652-5a4c-4875-9fb0-e0e92a165357"
     },
     {
-      "s": "50b71d90-1bc5-4d74-a61e-392afda3a267",
+      "s": "58b2eb72-5146-40a6-8f2d-6668a806a7ea",
       "p": "on-failure",
-      "o": "dbdb4705-39a0-4d23-a27d-6cbad2cc2a69"
+      "o": "60d7d652-5a4c-4875-9fb0-e0e92a165357"
     },
     {
-      "s": "70cf8c28-d5e0-4583-868c-3ce74b6ee891",
+      "s": "66ca1ae8-4741-41d5-a425-e917137709db",
       "p": "on-success",
-      "o": "50b71d90-1bc5-4d74-a61e-392afda3a267"
+      "o": "58b2eb72-5146-40a6-8f2d-6668a806a7ea"
     },
     {
-      "s": "70cf8c28-d5e0-4583-868c-3ce74b6ee891",
+      "s": "66ca1ae8-4741-41d5-a425-e917137709db",
       "p": "on-failure",
-      "o": "f818f90c-1f94-4670-8f9d-08c4f5a7ab6d"
+      "o": "056e4a15-176a-4894-9212-9906e9d0f62c"
     },
     {
-      "s": "f818f90c-1f94-4670-8f9d-08c4f5a7ab6d",
+      "s": "056e4a15-176a-4894-9212-9906e9d0f62c",
       "p": "on-success",
-      "o": "db1270bf-d079-41cf-97c9-2d6292385001"
+      "o": "d3ab31e1-f0cb-472c-8d83-08fd89a8bdb8"
     },
     {
-      "s": "db1270bf-d079-41cf-97c9-2d6292385001",
+      "s": "d3ab31e1-f0cb-472c-8d83-08fd89a8bdb8",
       "p": "on-failure",
-      "o": "50b71d90-1bc5-4d74-a61e-392afda3a267"
+      "o": "58b2eb72-5146-40a6-8f2d-6668a806a7ea"
     }
   ],
   "tags": [
-    "T1564.006",
-    "atomic-red-team"
+    "T1564",
+    "T1564.006"
   ],
   "input_arguments": [
     {

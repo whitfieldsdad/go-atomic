@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6443be1f-9bc2-4b71-a5d8-0ef4ceb4005d",
+      "id": "e63e17fe-71cf-42a1-931c-57d7b363d5f5",
       "type": "execute-command",
       "data": {
         "command": "findstr /S cpassword %logonserver%\\sysvol\\*.xml\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "05997114-9a6a-428b-85b7-82644b16bf37",
+      "id": "c35b5b48-6dd8-451a-9f53-412c8a96c38c",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "ae19948a-1d2c-4ad7-8349-1f08095d5e2a",
+      "id": "fdc2b682-cf18-4baf-a97c-665c687de42d",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "b2f2db1f-8d11-4f5f-b9d2-4138496b75b9",
+      "id": "8f992286-c499-4889-a013-e46b0a08bcca",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -51,28 +51,28 @@
   ],
   "flows": [
     {
-      "s": "05997114-9a6a-428b-85b7-82644b16bf37",
+      "s": "c35b5b48-6dd8-451a-9f53-412c8a96c38c",
       "p": "on-success",
-      "o": "6443be1f-9bc2-4b71-a5d8-0ef4ceb4005d"
+      "o": "e63e17fe-71cf-42a1-931c-57d7b363d5f5"
     },
     {
-      "s": "05997114-9a6a-428b-85b7-82644b16bf37",
+      "s": "c35b5b48-6dd8-451a-9f53-412c8a96c38c",
       "p": "on-failure",
-      "o": "ae19948a-1d2c-4ad7-8349-1f08095d5e2a"
+      "o": "fdc2b682-cf18-4baf-a97c-665c687de42d"
     },
     {
-      "s": "ae19948a-1d2c-4ad7-8349-1f08095d5e2a",
+      "s": "fdc2b682-cf18-4baf-a97c-665c687de42d",
       "p": "on-success",
-      "o": "b2f2db1f-8d11-4f5f-b9d2-4138496b75b9"
+      "o": "8f992286-c499-4889-a013-e46b0a08bcca"
     },
     {
-      "s": "b2f2db1f-8d11-4f5f-b9d2-4138496b75b9",
+      "s": "8f992286-c499-4889-a013-e46b0a08bcca",
       "p": "on-failure",
-      "o": "6443be1f-9bc2-4b71-a5d8-0ef4ceb4005d"
+      "o": "e63e17fe-71cf-42a1-931c-57d7b363d5f5"
     }
   ],
   "tags": [
-    "T1552.006",
-    "atomic-red-team"
+    "T1552",
+    "T1552.006"
   ]
 }

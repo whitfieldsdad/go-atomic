@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "9b932666-3c6c-40e7-90b3-c16574ebf2de",
+      "id": "e92edd57-31c2-4408-8304-a82e21c01b04",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKCU\\Software\\Policies\\Microsoft\\Windows\\OOBE\" /v DisablePrivacyExperience /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ea6690f0-529b-4f0e-aa73-329d4a0b57ff",
+      "id": "6623aa0c-c894-4957-90eb-b45e825f30f0",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKCU\\Software\\Policies\\Microsoft\\Windows\\OOBE\" /v DisablePrivacyExperience /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "9b932666-3c6c-40e7-90b3-c16574ebf2de",
+      "s": "e92edd57-31c2-4408-8304-a82e21c01b04",
       "p": "on-success",
-      "o": "ea6690f0-529b-4f0e-aa73-329d4a0b57ff"
+      "o": "6623aa0c-c894-4957-90eb-b45e825f30f0"
     },
     {
-      "s": "9b932666-3c6c-40e7-90b3-c16574ebf2de",
+      "s": "e92edd57-31c2-4408-8304-a82e21c01b04",
       "p": "on-failure",
-      "o": "ea6690f0-529b-4f0e-aa73-329d4a0b57ff"
+      "o": "6623aa0c-c894-4957-90eb-b45e825f30f0"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ]
 }

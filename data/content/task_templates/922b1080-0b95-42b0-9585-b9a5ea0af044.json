@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "9c882aa8-cbb8-4607-b12b-011500ed1bff",
+      "id": "7dc03d52-69d9-4597-b1df-eee8f696efec",
       "type": "execute-command",
       "data": {
         "command": "mkdir #{output_folder}\nfind #{search_path} -name id_rsa 2\u003e/dev/null -exec rsync -R {} #{output_folder} \\;\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "42a72b55-c1ab-46b3-bd78-99fe4fd73ffd",
+      "id": "7b88b29c-7cf6-416e-8cc1-7e616e5631c1",
       "type": "execute-command",
       "data": {
         "command": "rm -rf #{output_folder}\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "4542c097-2d42-4cec-a685-4658beb7eccb",
+      "id": "c0deb118-e931-48b0-8e74-9fcc694ae774",
       "name": "Check dependency 1/1",
       "description": "Check if rsync is installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "975791d2-f1cc-4631-badf-790b76d161e7",
+      "id": "4e1c7fb8-3383-41a0-a133-8b1ebc7c7deb",
       "name": "Resolve dependency 1/1",
       "description": "Check if rsync is installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "8c5454c5-c024-4f45-85ab-dfe8b378667c",
+      "id": "5dca8685-4d38-4570-96c5-5910133c3f5f",
       "name": "Re-check dependency 1/1",
       "description": "Check if rsync is installed.\n",
       "type": "execute-command",
@@ -60,52 +60,52 @@
   ],
   "flows": [
     {
-      "s": "9c882aa8-cbb8-4607-b12b-011500ed1bff",
+      "s": "7dc03d52-69d9-4597-b1df-eee8f696efec",
       "p": "on-success",
-      "o": "42a72b55-c1ab-46b3-bd78-99fe4fd73ffd"
+      "o": "7b88b29c-7cf6-416e-8cc1-7e616e5631c1"
     },
     {
-      "s": "9c882aa8-cbb8-4607-b12b-011500ed1bff",
+      "s": "7dc03d52-69d9-4597-b1df-eee8f696efec",
       "p": "on-failure",
-      "o": "42a72b55-c1ab-46b3-bd78-99fe4fd73ffd"
+      "o": "7b88b29c-7cf6-416e-8cc1-7e616e5631c1"
     },
     {
-      "s": "4542c097-2d42-4cec-a685-4658beb7eccb",
+      "s": "c0deb118-e931-48b0-8e74-9fcc694ae774",
       "p": "on-success",
-      "o": "9c882aa8-cbb8-4607-b12b-011500ed1bff"
+      "o": "7dc03d52-69d9-4597-b1df-eee8f696efec"
     },
     {
-      "s": "4542c097-2d42-4cec-a685-4658beb7eccb",
+      "s": "c0deb118-e931-48b0-8e74-9fcc694ae774",
       "p": "on-failure",
-      "o": "975791d2-f1cc-4631-badf-790b76d161e7"
+      "o": "4e1c7fb8-3383-41a0-a133-8b1ebc7c7deb"
     },
     {
-      "s": "975791d2-f1cc-4631-badf-790b76d161e7",
+      "s": "4e1c7fb8-3383-41a0-a133-8b1ebc7c7deb",
       "p": "on-success",
-      "o": "8c5454c5-c024-4f45-85ab-dfe8b378667c"
+      "o": "5dca8685-4d38-4570-96c5-5910133c3f5f"
     },
     {
-      "s": "8c5454c5-c024-4f45-85ab-dfe8b378667c",
+      "s": "5dca8685-4d38-4570-96c5-5910133c3f5f",
       "p": "on-failure",
-      "o": "9c882aa8-cbb8-4607-b12b-011500ed1bff"
+      "o": "7dc03d52-69d9-4597-b1df-eee8f696efec"
     }
   ],
   "tags": [
-    "T1552.004",
-    "atomic-red-team"
+    "T1552",
+    "T1552.004"
   ],
   "input_arguments": [
-    {
-      "name": "search_path",
-      "type": "path",
-      "description": "Path where to start searching from.",
-      "value": "/"
-    },
     {
       "name": "output_folder",
       "type": "path",
       "description": "Output folder containing copies of SSH private key files",
       "value": "/tmp/art-staging"
+    },
+    {
+      "name": "search_path",
+      "type": "path",
+      "description": "Path where to start searching from.",
+      "value": "/"
     }
   ]
 }

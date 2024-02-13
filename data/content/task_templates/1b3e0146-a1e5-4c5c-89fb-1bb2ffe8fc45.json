@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "9c007de3-92e1-4e07-8b2a-18a27ba236e5",
+      "id": "5aa72344-73a3-4b42-ae69-487d66d42e11",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\" -Name DisableAntiSpyware -Value 1\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "6269efdf-35ac-40de-81a8-9f3cddcfca1c",
+      "id": "85f82cb2-8163-41eb-85f7-e547d58d4769",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\" -Name DisableAntiSpyware -Value 0\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "9c007de3-92e1-4e07-8b2a-18a27ba236e5",
+      "s": "5aa72344-73a3-4b42-ae69-487d66d42e11",
       "p": "on-success",
-      "o": "6269efdf-35ac-40de-81a8-9f3cddcfca1c"
+      "o": "85f82cb2-8163-41eb-85f7-e547d58d4769"
     },
     {
-      "s": "9c007de3-92e1-4e07-8b2a-18a27ba236e5",
+      "s": "5aa72344-73a3-4b42-ae69-487d66d42e11",
       "p": "on-failure",
-      "o": "6269efdf-35ac-40de-81a8-9f3cddcfca1c"
+      "o": "85f82cb2-8163-41eb-85f7-e547d58d4769"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ]
 }

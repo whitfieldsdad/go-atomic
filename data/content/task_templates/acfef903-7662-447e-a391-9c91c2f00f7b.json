@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "92d352f7-32f6-45c6-906c-038cd7384736",
+      "id": "852d7d8a-4b24-4f81-8e68-31ee5d9e8e12",
       "type": "execute-command",
       "data": {
         "command": "New-Item -ItemType Directory -path \"#{new_startup_folder}\"\nCopy-Item -path \"#{payload}\" -destination \"#{new_startup_folder}\"\nSet-ItemProperty -Path  \"HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\" -Name \"Common Startup\" -Value \"#{new_startup_folder}\"\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "6523c735-0a67-41aa-a673-751ea6d67aa6",
+      "id": "d68f540e-a570-4a7c-98a2-4943d34336c1",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty -Path  \"HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\" -Name \"Common Startup\" -Value \"%ProgramData%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\"\nRemove-Item \"#{new_startup_folder}\" -Recurse -Force\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "92d352f7-32f6-45c6-906c-038cd7384736",
+      "s": "852d7d8a-4b24-4f81-8e68-31ee5d9e8e12",
       "p": "on-success",
-      "o": "6523c735-0a67-41aa-a673-751ea6d67aa6"
+      "o": "d68f540e-a570-4a7c-98a2-4943d34336c1"
     },
     {
-      "s": "92d352f7-32f6-45c6-906c-038cd7384736",
+      "s": "852d7d8a-4b24-4f81-8e68-31ee5d9e8e12",
       "p": "on-failure",
-      "o": "6523c735-0a67-41aa-a673-751ea6d67aa6"
+      "o": "d68f540e-a570-4a7c-98a2-4943d34336c1"
     }
   ],
   "tags": [
-    "T1547.001",
-    "atomic-red-team"
+    "T1547",
+    "T1547.001"
   ],
   "input_arguments": [
     {

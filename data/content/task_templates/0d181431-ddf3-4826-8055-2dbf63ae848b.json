@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "620058f7-b23f-4e99-bd6d-59adf2291484",
+      "id": "13702644-7a05-4aa1-8a7e-bc3f74de1a3b",
       "type": "execute-command",
       "data": {
         "command": "Out-ATHPowerShellCommandLineParameter -CommandLineSwitchType #{command_line_switch_type} -EncodedCommandParamVariation #{encoded_command_param_variation} -UseEncodedArguments -EncodedArgumentsParamVariation #{encoded_arguments_param_variation} -Execute -ErrorAction Stop",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "1828e0b0-4d1d-4d3b-9b0c-f049d3f3578d",
+      "id": "379b9281-3eb4-4917-949e-8852c719f6d9",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "8bc1dfb1-8e43-47a9-afa2-9af52918296e",
+      "id": "3cc4edad-696b-42b5-b849-b2779fc9366a",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "e38a5be2-e1f1-4611-b329-49c83af606f2",
+      "id": "70e224b3-4206-4a86-91f1-066cd205a49a",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
       "type": "execute-command",
@@ -51,37 +51,31 @@
   ],
   "flows": [
     {
-      "s": "1828e0b0-4d1d-4d3b-9b0c-f049d3f3578d",
+      "s": "379b9281-3eb4-4917-949e-8852c719f6d9",
       "p": "on-success",
-      "o": "620058f7-b23f-4e99-bd6d-59adf2291484"
+      "o": "13702644-7a05-4aa1-8a7e-bc3f74de1a3b"
     },
     {
-      "s": "1828e0b0-4d1d-4d3b-9b0c-f049d3f3578d",
+      "s": "379b9281-3eb4-4917-949e-8852c719f6d9",
       "p": "on-failure",
-      "o": "8bc1dfb1-8e43-47a9-afa2-9af52918296e"
+      "o": "3cc4edad-696b-42b5-b849-b2779fc9366a"
     },
     {
-      "s": "8bc1dfb1-8e43-47a9-afa2-9af52918296e",
+      "s": "3cc4edad-696b-42b5-b849-b2779fc9366a",
       "p": "on-success",
-      "o": "e38a5be2-e1f1-4611-b329-49c83af606f2"
+      "o": "70e224b3-4206-4a86-91f1-066cd205a49a"
     },
     {
-      "s": "e38a5be2-e1f1-4611-b329-49c83af606f2",
+      "s": "70e224b3-4206-4a86-91f1-066cd205a49a",
       "p": "on-failure",
-      "o": "620058f7-b23f-4e99-bd6d-59adf2291484"
+      "o": "13702644-7a05-4aa1-8a7e-bc3f74de1a3b"
     }
   ],
   "tags": [
-    "T1059.001",
-    "atomic-red-team"
+    "T1059",
+    "T1059.001"
   ],
   "input_arguments": [
-    {
-      "name": "encoded_command_param_variation",
-      "type": "string",
-      "description": "The \"EncodedCommand\" parameter variation to use",
-      "value": "E"
-    },
     {
       "name": "command_line_switch_type",
       "type": "string",
@@ -93,6 +87,12 @@
       "type": "string",
       "description": "The \"EncodedArguments\" parameter variation to use",
       "value": "EncodedArguments"
+    },
+    {
+      "name": "encoded_command_param_variation",
+      "type": "string",
+      "description": "The \"EncodedCommand\" parameter variation to use",
+      "value": "E"
     }
   ]
 }

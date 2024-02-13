@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "0d84cb5b-00df-41eb-bcfc-61efd13ceb34",
+      "id": "9421e060-258d-4aad-929c-4ee8f10df65d",
       "type": "execute-command",
       "data": {
         "command": "tcpdump -c 5 -nnni #{interface}\ntshark -c 5 -i #{interface}\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "7b59574b-13c6-49d0-83c8-070c7688d1d6",
+      "id": "bea9f707-d9dc-48e6-8849-86d5f1e97482",
       "name": "Check dependency 1/1",
       "description": "Check if at least one of tcpdump or tshark is installed.\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "if [ ! -x \"$(command -v tcpdump)\" ] \u0026\u0026 [ ! -x \"$(command -v tshark)\" ]; then exit 1; else exit 0; fi;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b232a0b5-f920-421a-a974-79a42ce72fa9",
+      "id": "055106da-1058-4e5a-8003-0b94a5e17fb8",
       "name": "Resolve dependency 1/1",
       "description": "Check if at least one of tcpdump or tshark is installed.\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "(which yum \u0026\u0026 yum -y install epel-release tcpdump tshark)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y tcpdump tshark)\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f52d3867-cbea-42ea-9057-048ca7845b66",
+      "id": "d8d320d5-b11d-4a98-82a2-4987357ee858",
       "name": "Re-check dependency 1/1",
       "description": "Check if at least one of tcpdump or tshark is installed.\n",
       "type": "execute-command",
@@ -46,34 +46,33 @@
         "command": "if [ ! -x \"$(command -v tcpdump)\" ] \u0026\u0026 [ ! -x \"$(command -v tshark)\" ]; then exit 1; else exit 0; fi;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "7b59574b-13c6-49d0-83c8-070c7688d1d6",
+      "s": "bea9f707-d9dc-48e6-8849-86d5f1e97482",
       "p": "on-success",
-      "o": "0d84cb5b-00df-41eb-bcfc-61efd13ceb34"
+      "o": "9421e060-258d-4aad-929c-4ee8f10df65d"
     },
     {
-      "s": "7b59574b-13c6-49d0-83c8-070c7688d1d6",
+      "s": "bea9f707-d9dc-48e6-8849-86d5f1e97482",
       "p": "on-failure",
-      "o": "b232a0b5-f920-421a-a974-79a42ce72fa9"
+      "o": "055106da-1058-4e5a-8003-0b94a5e17fb8"
     },
     {
-      "s": "b232a0b5-f920-421a-a974-79a42ce72fa9",
+      "s": "055106da-1058-4e5a-8003-0b94a5e17fb8",
       "p": "on-success",
-      "o": "f52d3867-cbea-42ea-9057-048ca7845b66"
+      "o": "d8d320d5-b11d-4a98-82a2-4987357ee858"
     },
     {
-      "s": "f52d3867-cbea-42ea-9057-048ca7845b66",
+      "s": "d8d320d5-b11d-4a98-82a2-4987357ee858",
       "p": "on-failure",
-      "o": "0d84cb5b-00df-41eb-bcfc-61efd13ceb34"
+      "o": "9421e060-258d-4aad-929c-4ee8f10df65d"
     }
   ],
   "tags": [
-    "T1040",
-    "atomic-red-team"
+    "T1040"
   ],
   "input_arguments": [
     {

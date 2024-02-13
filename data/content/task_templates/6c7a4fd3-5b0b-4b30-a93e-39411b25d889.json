@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "2bd07420-bdb2-466f-8290-ea8072dd7182",
+      "id": "e271cb19-4e2b-4032-844d-f79e4d0dcd5e",
       "type": "execute-command",
       "data": {
         "command": "C:\\Windows\\System32\\inetsrv\\appcmd.exe list apppool /@t:*\nC:\\Windows\\System32\\inetsrv\\appcmd.exe list apppool /@text:*\nC:\\Windows\\System32\\inetsrv\\appcmd.exe list apppool /text:*",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "44dffddf-77c2-4c5b-ab0d-0b12c1524bef",
+      "id": "2aa8a4aa-9293-40a8-a147-75c06a0a66eb",
       "name": "Check dependency 1/1",
       "description": "IIS must be installed prior to running the test",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "if ((Get-WindowsFeature Web-Server).InstallState -eq \"Installed\") {exit 0} else {exit 1}",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "3ba2f475-bff4-44bc-ae2b-c4438bf55e94",
+      "id": "e0135745-0c8e-4514-bba7-78e722538f91",
       "name": "Resolve dependency 1/1",
       "description": "IIS must be installed prior to running the test",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "Install-WindowsFeature -name Web-Server -IncludeManagementTools",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "68e8f376-342e-491b-b489-e54be56e5f72",
+      "id": "8bb33340-9249-45c5-975f-dd45503a9e0c",
       "name": "Re-check dependency 1/1",
       "description": "IIS must be installed prior to running the test",
       "type": "execute-command",
@@ -46,33 +46,32 @@
         "command": "if ((Get-WindowsFeature Web-Server).InstallState -eq \"Installed\") {exit 0} else {exit 1}",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "44dffddf-77c2-4c5b-ab0d-0b12c1524bef",
+      "s": "2aa8a4aa-9293-40a8-a147-75c06a0a66eb",
       "p": "on-success",
-      "o": "2bd07420-bdb2-466f-8290-ea8072dd7182"
+      "o": "e271cb19-4e2b-4032-844d-f79e4d0dcd5e"
     },
     {
-      "s": "44dffddf-77c2-4c5b-ab0d-0b12c1524bef",
+      "s": "2aa8a4aa-9293-40a8-a147-75c06a0a66eb",
       "p": "on-failure",
-      "o": "3ba2f475-bff4-44bc-ae2b-c4438bf55e94"
+      "o": "e0135745-0c8e-4514-bba7-78e722538f91"
     },
     {
-      "s": "3ba2f475-bff4-44bc-ae2b-c4438bf55e94",
+      "s": "e0135745-0c8e-4514-bba7-78e722538f91",
       "p": "on-success",
-      "o": "68e8f376-342e-491b-b489-e54be56e5f72"
+      "o": "8bb33340-9249-45c5-975f-dd45503a9e0c"
     },
     {
-      "s": "68e8f376-342e-491b-b489-e54be56e5f72",
+      "s": "8bb33340-9249-45c5-975f-dd45503a9e0c",
       "p": "on-failure",
-      "o": "2bd07420-bdb2-466f-8290-ea8072dd7182"
+      "o": "e271cb19-4e2b-4032-844d-f79e4d0dcd5e"
     }
   ],
   "tags": [
-    "T1003",
-    "atomic-red-team"
+    "T1003"
   ]
 }

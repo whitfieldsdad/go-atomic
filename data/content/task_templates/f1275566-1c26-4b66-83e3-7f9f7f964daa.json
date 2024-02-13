@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "3aab414f-5e8e-4bd7-804e-2a708abdba70",
+      "id": "831ab20c-d599-494e-bcc2-337ae1a15cb4",
       "type": "execute-command",
       "data": {
         "command": "dscl . -create /Users/AtomicUser\ndscl . -create /Users/AtomicUser UserShell /bin/bash\ndscl . -create /Users/AtomicUser RealName \"Atomic User\"\ndscl . -create /Users/AtomicUser UniqueID 503\ndscl . -create /Users/AtomicUser PrimaryGroupID 503\ndscl . -create /Users/AtomicUser NFSHomeDirectory /Local/Users/AtomicUser\ndscl . -passwd /Users/AtomicUser mySecretPassword\ndscl . -append /Groups/admin GroupMembership AtomicUser",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "969785aa-a250-411d-9e60-26ee64953e83",
+      "id": "d388116e-0c23-4be1-bfaa-6efd00433e54",
       "type": "execute-command",
       "data": {
         "command": "sudo dscl . -delete /Users/AtomicUser",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "3aab414f-5e8e-4bd7-804e-2a708abdba70",
+      "s": "831ab20c-d599-494e-bcc2-337ae1a15cb4",
       "p": "on-success",
-      "o": "969785aa-a250-411d-9e60-26ee64953e83"
+      "o": "d388116e-0c23-4be1-bfaa-6efd00433e54"
     },
     {
-      "s": "3aab414f-5e8e-4bd7-804e-2a708abdba70",
+      "s": "831ab20c-d599-494e-bcc2-337ae1a15cb4",
       "p": "on-failure",
-      "o": "969785aa-a250-411d-9e60-26ee64953e83"
+      "o": "d388116e-0c23-4be1-bfaa-6efd00433e54"
     }
   ],
   "tags": [
-    "T1078.003",
-    "atomic-red-team"
+    "T1078",
+    "T1078.003"
   ]
 }

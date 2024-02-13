@@ -1,18 +1,18 @@
 package atomic
 
-type TaskQuery struct {
-	TaskIds           []string `json:"ids"`
-	TaskTemplateIds   []string `json:"template_ids"`
-	Tags              []string `json:"tags"`
-	Platforms         []string `json:"platforms"`
-	ElevationRequired *bool    `json:"elevation_required"`
+type TaskTemplateQuery struct {
+	TaskTemplateIds    []string `json:"template_ids"`
+	AttackTechniqueIds []string `json:"attack_technique_ids"`
+	Tags               []string `json:"tags"`
+	Platforms          []string `json:"platforms"`
+	ElevationRequired  *bool    `json:"elevation_required"`
 }
 
-func (q TaskQuery) MatchesTask(t Task) bool {
-	if len(q.TaskIds) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern([]string{t.Id}, q.TaskIds) {
+func (q TaskTemplateQuery) Matches(t TaskTemplate) bool {
+	if len(q.TaskTemplateIds) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern([]string{t.Id}, q.TaskTemplateIds) {
 		return false
 	}
-	if len(q.TaskTemplateIds) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern([]string{t.TemplateId}, q.TaskTemplateIds) {
+	if len(q.AttackTechniqueIds) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern(t.GetAttackTechniqueIds(), q.AttackTechniqueIds) {
 		return false
 	}
 	if len(q.Tags) > 0 && !AnyStringMatchesAnyCaseInsensitivePattern(t.GetTags(), q.Tags) {

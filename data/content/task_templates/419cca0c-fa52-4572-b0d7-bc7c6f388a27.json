@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "cc5bca24-f55d-41a1-a705-ab489ee02bd7",
+      "id": "f055e039-446b-48ec-86c5-387a5b165fcd",
       "type": "execute-command",
       "data": {
         "command": "tail /var/log/ufw.log\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "6d7a2565-74d8-44bb-b83b-d58043f4cd5f",
+      "id": "e66f4b85-e3f5-44b2-88ad-131d8a6d5095",
       "name": "Check dependency 1/1",
       "description": "Check if /var/log/ufw.log exists.\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "if [ ! -f \"/var/log/ufw.log\" ]; then echo -e \"\\n***** ufw NOT logging *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "968b19b8-14ce-41f5-bb5c-7b66ef0014a5",
+      "id": "6cdcfbbe-2299-4a31-97c2-29f07fb47b0b",
       "name": "Resolve dependency 1/1",
       "description": "Check if /var/log/ufw.log exists.\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "echo \"\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "71565c90-de15-4928-9859-55dd4c3ff08a",
+      "id": "d68fcbe4-43ae-4f64-9080-d128f64b61bc",
       "name": "Re-check dependency 1/1",
       "description": "Check if /var/log/ufw.log exists.\n",
       "type": "execute-command",
@@ -46,33 +46,33 @@
         "command": "if [ ! -f \"/var/log/ufw.log\" ]; then echo -e \"\\n***** ufw NOT logging *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "6d7a2565-74d8-44bb-b83b-d58043f4cd5f",
+      "s": "e66f4b85-e3f5-44b2-88ad-131d8a6d5095",
       "p": "on-success",
-      "o": "cc5bca24-f55d-41a1-a705-ab489ee02bd7"
+      "o": "f055e039-446b-48ec-86c5-387a5b165fcd"
     },
     {
-      "s": "6d7a2565-74d8-44bb-b83b-d58043f4cd5f",
+      "s": "e66f4b85-e3f5-44b2-88ad-131d8a6d5095",
       "p": "on-failure",
-      "o": "968b19b8-14ce-41f5-bb5c-7b66ef0014a5"
+      "o": "6cdcfbbe-2299-4a31-97c2-29f07fb47b0b"
     },
     {
-      "s": "968b19b8-14ce-41f5-bb5c-7b66ef0014a5",
+      "s": "6cdcfbbe-2299-4a31-97c2-29f07fb47b0b",
       "p": "on-success",
-      "o": "71565c90-de15-4928-9859-55dd4c3ff08a"
+      "o": "d68fcbe4-43ae-4f64-9080-d128f64b61bc"
     },
     {
-      "s": "71565c90-de15-4928-9859-55dd4c3ff08a",
+      "s": "d68fcbe4-43ae-4f64-9080-d128f64b61bc",
       "p": "on-failure",
-      "o": "cc5bca24-f55d-41a1-a705-ab489ee02bd7"
+      "o": "f055e039-446b-48ec-86c5-387a5b165fcd"
     }
   ],
   "tags": [
-    "T1562.004",
-    "atomic-red-team"
+    "T1562",
+    "T1562.004"
   ]
 }

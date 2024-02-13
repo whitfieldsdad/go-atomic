@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "d6d5aca4-c254-457e-9e74-6545b00a097e",
+      "id": "0f08226b-b6a0-40d1-b862-647a32b3ad3d",
       "type": "execute-command",
       "data": {
         "command": "$x = Get-Random -Minimum 2 -Maximum 99\n$y = Get-Random -Minimum 2 -Maximum 99\n$z = Get-Random -Minimum 2 -Maximum 99\n$w = Get-Random -Minimum 2 -Maximum 99\n\nImport-Module ActiveDirectory\n$account = \"#{account_prefix}-$x$y$z\"\nNew-ADUser -Name $account -GivenName \"Test\" -DisplayName $account -SamAccountName $account -Surname $account -Enabled:$False #{create_args}\nAdd-ADGroupMember \"#{group}\" $account\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "06a0f67b-5f30-4614-b0f5-530e1c54347b",
+      "id": "505418d5-2907-4113-ae25-b3bee3b6bcab",
       "type": "execute-command",
       "data": {
         "command": "Get-ADUser -LDAPFilter \"(\u0026(samaccountname=#{account_prefix}-*)(givenName=Test))\" | Remove-ADUser -Confirm:$False\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "18028a1f-40f5-4b55-b8e9-038ebdd0477a",
+      "id": "783c3775-1179-4565-bcbb-051bafa7b4d9",
       "name": "Check dependency 1/1",
       "description": "PS Module ActiveDirectory\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "2e75ca99-b0c7-4f49-97ff-201cc7ad68bc",
+      "id": "d8e1d572-aa61-45ab-948c-635bfb3f2c24",
       "name": "Resolve dependency 1/1",
       "description": "PS Module ActiveDirectory\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "53741251-deed-408b-907e-4f50083e5b2f",
+      "id": "c93c485f-3693-410b-b778-37660081b706",
       "name": "Re-check dependency 1/1",
       "description": "PS Module ActiveDirectory\n",
       "type": "execute-command",
@@ -60,41 +60,46 @@
   ],
   "flows": [
     {
-      "s": "d6d5aca4-c254-457e-9e74-6545b00a097e",
+      "s": "0f08226b-b6a0-40d1-b862-647a32b3ad3d",
       "p": "on-success",
-      "o": "06a0f67b-5f30-4614-b0f5-530e1c54347b"
+      "o": "505418d5-2907-4113-ae25-b3bee3b6bcab"
     },
     {
-      "s": "d6d5aca4-c254-457e-9e74-6545b00a097e",
+      "s": "0f08226b-b6a0-40d1-b862-647a32b3ad3d",
       "p": "on-failure",
-      "o": "06a0f67b-5f30-4614-b0f5-530e1c54347b"
+      "o": "505418d5-2907-4113-ae25-b3bee3b6bcab"
     },
     {
-      "s": "18028a1f-40f5-4b55-b8e9-038ebdd0477a",
+      "s": "783c3775-1179-4565-bcbb-051bafa7b4d9",
       "p": "on-success",
-      "o": "d6d5aca4-c254-457e-9e74-6545b00a097e"
+      "o": "0f08226b-b6a0-40d1-b862-647a32b3ad3d"
     },
     {
-      "s": "18028a1f-40f5-4b55-b8e9-038ebdd0477a",
+      "s": "783c3775-1179-4565-bcbb-051bafa7b4d9",
       "p": "on-failure",
-      "o": "2e75ca99-b0c7-4f49-97ff-201cc7ad68bc"
+      "o": "d8e1d572-aa61-45ab-948c-635bfb3f2c24"
     },
     {
-      "s": "2e75ca99-b0c7-4f49-97ff-201cc7ad68bc",
+      "s": "d8e1d572-aa61-45ab-948c-635bfb3f2c24",
       "p": "on-success",
-      "o": "53741251-deed-408b-907e-4f50083e5b2f"
+      "o": "c93c485f-3693-410b-b778-37660081b706"
     },
     {
-      "s": "53741251-deed-408b-907e-4f50083e5b2f",
+      "s": "c93c485f-3693-410b-b778-37660081b706",
       "p": "on-failure",
-      "o": "d6d5aca4-c254-457e-9e74-6545b00a097e"
+      "o": "0f08226b-b6a0-40d1-b862-647a32b3ad3d"
     }
   ],
   "tags": [
-    "T1098",
-    "atomic-red-team"
+    "T1098"
   ],
   "input_arguments": [
+    {
+      "name": "create_args",
+      "type": "string",
+      "description": "Additional string appended to New-ADUser call",
+      "value": ""
+    },
     {
       "name": "account_prefix",
       "type": "string",
@@ -106,12 +111,6 @@
       "type": "string",
       "description": "Name of the group to alter",
       "value": "Domain Admins"
-    },
-    {
-      "name": "create_args",
-      "type": "string",
-      "description": "Additional string appended to New-ADUser call",
-      "value": ""
     }
   ]
 }

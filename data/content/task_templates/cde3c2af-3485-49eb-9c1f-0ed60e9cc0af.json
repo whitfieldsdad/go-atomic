@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "29356bd1-b7b9-416a-8438-0a2e2f12fad4",
+      "id": "822e38d2-fc77-4d95-901f-c021399e78b1",
       "type": "execute-command",
       "data": {
         "command": "test -e #{input_file} \u0026\u0026 gzip -k #{input_file} || (echo '#{input_content}' \u003e\u003e #{input_file}; gzip -k #{input_file})\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "cc255be9-46c3-4e2f-a633-927aec7be0fd",
+      "id": "ec6ca2ba-0c86-422f-aa9b-194bcc48d289",
       "type": "execute-command",
       "data": {
         "command": "rm -f #{input_file}.gz\n",
@@ -28,32 +28,32 @@
   ],
   "flows": [
     {
-      "s": "29356bd1-b7b9-416a-8438-0a2e2f12fad4",
+      "s": "822e38d2-fc77-4d95-901f-c021399e78b1",
       "p": "on-success",
-      "o": "cc255be9-46c3-4e2f-a633-927aec7be0fd"
+      "o": "ec6ca2ba-0c86-422f-aa9b-194bcc48d289"
     },
     {
-      "s": "29356bd1-b7b9-416a-8438-0a2e2f12fad4",
+      "s": "822e38d2-fc77-4d95-901f-c021399e78b1",
       "p": "on-failure",
-      "o": "cc255be9-46c3-4e2f-a633-927aec7be0fd"
+      "o": "ec6ca2ba-0c86-422f-aa9b-194bcc48d289"
     }
   ],
   "tags": [
-    "T1560.001",
-    "atomic-red-team"
+    "T1560",
+    "T1560.001"
   ],
   "input_arguments": [
-    {
-      "name": "input_file",
-      "type": "path",
-      "description": "Path that should be compressed",
-      "value": "$HOME/victim-gzip.txt"
-    },
     {
       "name": "input_content",
       "type": "string",
       "description": "contents of compressed files if file does not already exist. default contains test credit card and social security number",
       "value": "confidential! SSN: 078-05-1120 - CCN: 4000 1234 5678 9101"
+    },
+    {
+      "name": "input_file",
+      "type": "path",
+      "description": "Path that should be compressed",
+      "value": "$HOME/victim-gzip.txt"
     }
   ]
 }

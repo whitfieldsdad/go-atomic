@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "626d78bd-5f75-4536-a06a-7e4808b02a39",
+      "id": "01d19f83-f5f7-4ec3-956d-fdc5545b5816",
       "type": "execute-command",
       "data": {
         "command": "service syslogd stop\nsysrc syslogd_enable=\"NO\"\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "94b95919-1e99-4041-9780-e00f81b02895",
+      "id": "ee318e57-6d91-4733-b899-cd320e73141f",
       "type": "execute-command",
       "data": {
         "command": "sysrc syslogd_enable=\"YES\"\nservice syslogd start\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "626d78bd-5f75-4536-a06a-7e4808b02a39",
+      "s": "01d19f83-f5f7-4ec3-956d-fdc5545b5816",
       "p": "on-success",
-      "o": "94b95919-1e99-4041-9780-e00f81b02895"
+      "o": "ee318e57-6d91-4733-b899-cd320e73141f"
     },
     {
-      "s": "626d78bd-5f75-4536-a06a-7e4808b02a39",
+      "s": "01d19f83-f5f7-4ec3-956d-fdc5545b5816",
       "p": "on-failure",
-      "o": "94b95919-1e99-4041-9780-e00f81b02895"
+      "o": "ee318e57-6d91-4733-b899-cd320e73141f"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ]
 }

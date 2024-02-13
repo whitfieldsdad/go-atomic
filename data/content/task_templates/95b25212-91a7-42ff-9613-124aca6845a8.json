@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "bee2929e-86e4-45b4-b9d7-8cc010648002",
+      "id": "6a8636eb-0743-4250-98aa-2653d77ee02e",
       "type": "execute-command",
       "data": {
         "command": "reg  add HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\ModuleLogging /v EnableModuleLogging /t REG_DWORD /d 0 /f\nreg  add HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging /v EnableScriptBlockLogging /t REG_DWORD /d 0 /f\nreg  add HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription /v EnableTranscripting /t REG_DWORD /d 0 /f\nreg  add HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell /v EnableScripts /t REG_DWORD /d 0 /f\nREM do a little cleanup immediately to avoid execution issues with later tests\nreg delete HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell /v EnableScripts /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "0c786ba5-1335-4a9f-be7f-ddf1d786f13c",
+      "id": "61b9888c-395a-4468-8f21-05b080fb1207",
       "type": "execute-command",
       "data": {
         "command": "reg delete HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\ModuleLogging /v EnableModuleLogging /f \u003enul 2\u003e\u00261\nreg delete HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging /v EnableScriptBlockLogging /f \u003enul 2\u003e\u00261\nreg delete HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription /v EnableTranscripting /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "bee2929e-86e4-45b4-b9d7-8cc010648002",
+      "s": "6a8636eb-0743-4250-98aa-2653d77ee02e",
       "p": "on-success",
-      "o": "0c786ba5-1335-4a9f-be7f-ddf1d786f13c"
+      "o": "61b9888c-395a-4468-8f21-05b080fb1207"
     },
     {
-      "s": "bee2929e-86e4-45b4-b9d7-8cc010648002",
+      "s": "6a8636eb-0743-4250-98aa-2653d77ee02e",
       "p": "on-failure",
-      "o": "0c786ba5-1335-4a9f-be7f-ddf1d786f13c"
+      "o": "61b9888c-395a-4468-8f21-05b080fb1207"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

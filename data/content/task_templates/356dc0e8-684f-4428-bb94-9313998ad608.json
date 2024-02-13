@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "c3b523f4-335c-4d00-b5e3-a26d0f1696ea",
+      "id": "45328b26-0cdb-4ba1-abe3-0d3a99200a99",
       "type": "execute-command",
       "data": {
         "command": "ENCODED=$(python3 -c 'import base64;enc=base64.b64encode(\"#{message}\".encode());print(enc.decode())')\npython3 -c \"import base64;dec=base64.b64decode(\\\"$ENCODED\\\");print(dec.decode())\"\npython3 -c \"import base64 as d;dec=d.b64decode(\\\"$ENCODED\\\");print(dec.decode())\"\npython3 -c \"from base64 import b64decode;dec=b64decode(\\\"$ENCODED\\\");print(dec.decode())\"\npython3 -c \"from base64 import b64decode as d;dec=d(\\\"$ENCODED\\\");print(dec.decode())\"\necho $ENCODED | python3 -c \"import base64,sys;dec=base64.b64decode(sys.stdin.read());print(dec.decode())\"\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 python3 -c \"import base64;dec=base64.b64decode(open('#{encoded_file}').read());print(dec.decode())\"\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "06b0fa29-c606-4885-972b-1ca53cfe91f7",
+      "id": "ed9b9405-59cc-44e0-a997-18d399990212",
       "name": "Check dependency 1/1",
       "description": "Python must be present\n",
       "type": "execute-command",
@@ -28,7 +28,7 @@
       "elevation_required": false
     },
     {
-      "id": "981774d7-2ffb-4bee-a7c7-cf40f7066160",
+      "id": "28a16146-a939-4631-8dfc-cdcf9e582ba0",
       "name": "Resolve dependency 1/1",
       "description": "Python must be present\n",
       "type": "execute-command",
@@ -39,7 +39,7 @@
       "elevation_required": false
     },
     {
-      "id": "0a147a88-f434-4161-9f80-258e18dee9d5",
+      "id": "f59504ac-5948-463c-a398-4ed966b0ee96",
       "name": "Re-check dependency 1/1",
       "description": "Python must be present\n",
       "type": "execute-command",
@@ -52,29 +52,28 @@
   ],
   "flows": [
     {
-      "s": "06b0fa29-c606-4885-972b-1ca53cfe91f7",
+      "s": "ed9b9405-59cc-44e0-a997-18d399990212",
       "p": "on-success",
-      "o": "c3b523f4-335c-4d00-b5e3-a26d0f1696ea"
+      "o": "45328b26-0cdb-4ba1-abe3-0d3a99200a99"
     },
     {
-      "s": "06b0fa29-c606-4885-972b-1ca53cfe91f7",
+      "s": "ed9b9405-59cc-44e0-a997-18d399990212",
       "p": "on-failure",
-      "o": "981774d7-2ffb-4bee-a7c7-cf40f7066160"
+      "o": "28a16146-a939-4631-8dfc-cdcf9e582ba0"
     },
     {
-      "s": "981774d7-2ffb-4bee-a7c7-cf40f7066160",
+      "s": "28a16146-a939-4631-8dfc-cdcf9e582ba0",
       "p": "on-success",
-      "o": "0a147a88-f434-4161-9f80-258e18dee9d5"
+      "o": "f59504ac-5948-463c-a398-4ed966b0ee96"
     },
     {
-      "s": "0a147a88-f434-4161-9f80-258e18dee9d5",
+      "s": "f59504ac-5948-463c-a398-4ed966b0ee96",
       "p": "on-failure",
-      "o": "c3b523f4-335c-4d00-b5e3-a26d0f1696ea"
+      "o": "45328b26-0cdb-4ba1-abe3-0d3a99200a99"
     }
   ],
   "tags": [
-    "T1140",
-    "atomic-red-team"
+    "T1140"
   ],
   "input_arguments": [
     {

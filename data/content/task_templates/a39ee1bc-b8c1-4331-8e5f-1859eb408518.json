@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "329884db-65ab-46f5-b4a5-7bc3a920ca8d",
+      "id": "1a18b898-5a00-425a-9469-9c18720244bb",
       "type": "execute-command",
       "data": {
         "command": "pw useradd #{username} -s /usr/sbin/nologin -d /nonexistent -c evil_account\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "c001cb8a-a41d-41db-99d4-7e716bd41c1c",
+      "id": "5781a9cd-de0e-4fad-b592-99e3d3f4baf4",
       "type": "execute-command",
       "data": {
         "command": "rmuser -y #{username}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "329884db-65ab-46f5-b4a5-7bc3a920ca8d",
+      "s": "1a18b898-5a00-425a-9469-9c18720244bb",
       "p": "on-success",
-      "o": "c001cb8a-a41d-41db-99d4-7e716bd41c1c"
+      "o": "5781a9cd-de0e-4fad-b592-99e3d3f4baf4"
     },
     {
-      "s": "329884db-65ab-46f5-b4a5-7bc3a920ca8d",
+      "s": "1a18b898-5a00-425a-9469-9c18720244bb",
       "p": "on-failure",
-      "o": "c001cb8a-a41d-41db-99d4-7e716bd41c1c"
+      "o": "5781a9cd-de0e-4fad-b592-99e3d3f4baf4"
     }
   ],
   "tags": [
-    "T1136.001",
-    "atomic-red-team"
+    "T1136",
+    "T1136.001"
   ],
   "input_arguments": [
     {

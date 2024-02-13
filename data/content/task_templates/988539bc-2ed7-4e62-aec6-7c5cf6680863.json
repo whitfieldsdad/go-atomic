@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ec2aab7d-280b-42bf-ac60-df22bc22a9b5",
+      "id": "b89e0bfb-75f5-42c8-8577-970eae8c032e",
       "type": "execute-command",
       "data": {
         "command": "Add-Type -AssemblyName System.IdentityModel\n$ComputerFQDN=$env:LogonServer.trimStart('\\') + \".\" + $env:UserDnsDomain\nNew-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList \"HTTP/$ComputerFQDN\" \n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "af84719a-52b0-491f-9126-4b086d2a1ef0",
+      "id": "4ccfd719-a070-4d42-bd2c-a72363033501",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "6d88d640-25de-4321-887f-c109420213ba",
+      "id": "03e5d6df-f0e9-4d16-ab2c-e3f7db62c3eb",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "9eeba9d3-78aa-4faa-8ada-f5f696f4ff13",
+      "id": "6b781fce-c1f7-43b6-a30c-56eaa959c013",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -51,28 +51,28 @@
   ],
   "flows": [
     {
-      "s": "af84719a-52b0-491f-9126-4b086d2a1ef0",
+      "s": "4ccfd719-a070-4d42-bd2c-a72363033501",
       "p": "on-success",
-      "o": "ec2aab7d-280b-42bf-ac60-df22bc22a9b5"
+      "o": "b89e0bfb-75f5-42c8-8577-970eae8c032e"
     },
     {
-      "s": "af84719a-52b0-491f-9126-4b086d2a1ef0",
+      "s": "4ccfd719-a070-4d42-bd2c-a72363033501",
       "p": "on-failure",
-      "o": "6d88d640-25de-4321-887f-c109420213ba"
+      "o": "03e5d6df-f0e9-4d16-ab2c-e3f7db62c3eb"
     },
     {
-      "s": "6d88d640-25de-4321-887f-c109420213ba",
+      "s": "03e5d6df-f0e9-4d16-ab2c-e3f7db62c3eb",
       "p": "on-success",
-      "o": "9eeba9d3-78aa-4faa-8ada-f5f696f4ff13"
+      "o": "6b781fce-c1f7-43b6-a30c-56eaa959c013"
     },
     {
-      "s": "9eeba9d3-78aa-4faa-8ada-f5f696f4ff13",
+      "s": "6b781fce-c1f7-43b6-a30c-56eaa959c013",
       "p": "on-failure",
-      "o": "ec2aab7d-280b-42bf-ac60-df22bc22a9b5"
+      "o": "b89e0bfb-75f5-42c8-8577-970eae8c032e"
     }
   ],
   "tags": [
-    "T1558.003",
-    "atomic-red-team"
+    "T1558",
+    "T1558.003"
   ]
 }

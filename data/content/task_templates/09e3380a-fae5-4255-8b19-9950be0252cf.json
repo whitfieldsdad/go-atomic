@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "d66ca0fe-7f57-430a-914c-e511ade925dd",
+      "id": "adb6f9e1-11d3-454f-b0e7-79b072b73879",
       "type": "execute-command",
       "data": {
         "command": "pw useradd art -g wheel -s /bin/sh\necho $(openssl passwd -1 art) | pw mod user testuser1 -h 0\npw lock art\npw usermod art -e +1d\npw unlock art\npw user mod art -e +99d\nsu art\nwhoami\nexit\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f52aa891-2827-47fb-9528-1cccf184573d",
+      "id": "c0ff9a36-5073-4a7d-89f9-e95a811a7124",
       "type": "execute-command",
       "data": {
         "command": "rmuser -y art \n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "d66ca0fe-7f57-430a-914c-e511ade925dd",
+      "s": "adb6f9e1-11d3-454f-b0e7-79b072b73879",
       "p": "on-success",
-      "o": "f52aa891-2827-47fb-9528-1cccf184573d"
+      "o": "c0ff9a36-5073-4a7d-89f9-e95a811a7124"
     },
     {
-      "s": "d66ca0fe-7f57-430a-914c-e511ade925dd",
+      "s": "adb6f9e1-11d3-454f-b0e7-79b072b73879",
       "p": "on-failure",
-      "o": "f52aa891-2827-47fb-9528-1cccf184573d"
+      "o": "c0ff9a36-5073-4a7d-89f9-e95a811a7124"
     }
   ],
   "tags": [
-    "T1078.003",
-    "atomic-red-team"
+    "T1078",
+    "T1078.003"
   ]
 }

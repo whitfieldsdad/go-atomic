@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "7a73a71c-44fa-4e8c-8508-17f6d8ec75b1",
+      "id": "14f9186a-6e33-4c36-8dab-6abac9e8c1dd",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoControlPanel /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "81c6f106-a9df-421f-ada2-ef15b990a383",
+      "id": "2e9be3b6-4e1f-4966-83e4-1b1bcb4a1003",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoControlPanel /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "7a73a71c-44fa-4e8c-8508-17f6d8ec75b1",
+      "s": "14f9186a-6e33-4c36-8dab-6abac9e8c1dd",
       "p": "on-success",
-      "o": "81c6f106-a9df-421f-ada2-ef15b990a383"
+      "o": "2e9be3b6-4e1f-4966-83e4-1b1bcb4a1003"
     },
     {
-      "s": "7a73a71c-44fa-4e8c-8508-17f6d8ec75b1",
+      "s": "14f9186a-6e33-4c36-8dab-6abac9e8c1dd",
       "p": "on-failure",
-      "o": "81c6f106-a9df-421f-ada2-ef15b990a383"
+      "o": "2e9be3b6-4e1f-4966-83e4-1b1bcb4a1003"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

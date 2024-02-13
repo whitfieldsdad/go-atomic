@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "98d77f79-9f90-4b8e-b82c-291599546dd2",
+      "id": "6b66f04a-7e5c-4bfd-9283-65a7ff401eb1",
       "type": "execute-command",
       "data": {
         "command": "for %i in (C$ IPC$ ADMIN$) do net share %i /delete",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "6209d62d-6157-4309-ab2b-c24ec7d9c300",
+      "id": "dad19003-bcb4-4b56-bcd1-160d74125887",
       "type": "execute-command",
       "data": {
         "command": "net share ADMIN$ /UNLIMITED \u003enul 2\u003e\u00261\nnet share C$=C:\\ \u003enul 2\u003e\u00261\nnet share IPC$ \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "98d77f79-9f90-4b8e-b82c-291599546dd2",
+      "s": "6b66f04a-7e5c-4bfd-9283-65a7ff401eb1",
       "p": "on-success",
-      "o": "6209d62d-6157-4309-ab2b-c24ec7d9c300"
+      "o": "dad19003-bcb4-4b56-bcd1-160d74125887"
     },
     {
-      "s": "98d77f79-9f90-4b8e-b82c-291599546dd2",
+      "s": "6b66f04a-7e5c-4bfd-9283-65a7ff401eb1",
       "p": "on-failure",
-      "o": "6209d62d-6157-4309-ab2b-c24ec7d9c300"
+      "o": "dad19003-bcb4-4b56-bcd1-160d74125887"
     }
   ],
   "tags": [
-    "T1070.005",
-    "atomic-red-team"
+    "T1070",
+    "T1070.005"
   ]
 }

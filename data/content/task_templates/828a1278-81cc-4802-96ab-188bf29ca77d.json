@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "e2951709-ddf9-4e51-a836-9ed6e3197f44",
+      "id": "b8b8adff-4d64-4449-84fe-7a32cc3e64b7",
       "type": "execute-command",
       "data": {
         "command": "sudo systemctl stop falcon-sensor.service\nsudo systemctl disable falcon-sensor.service\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "0d723127-82ea-4d61-969b-b567e5bf25aa",
+      "id": "20b0ade4-eb3f-4984-a46a-e5002f576e45",
       "type": "execute-command",
       "data": {
         "command": "sudo systemctl enable falcon-sensor.service\nsudo systemctl start falcon-sensor.service\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "e2951709-ddf9-4e51-a836-9ed6e3197f44",
+      "s": "b8b8adff-4d64-4449-84fe-7a32cc3e64b7",
       "p": "on-success",
-      "o": "0d723127-82ea-4d61-969b-b567e5bf25aa"
+      "o": "20b0ade4-eb3f-4984-a46a-e5002f576e45"
     },
     {
-      "s": "e2951709-ddf9-4e51-a836-9ed6e3197f44",
+      "s": "b8b8adff-4d64-4449-84fe-7a32cc3e64b7",
       "p": "on-failure",
-      "o": "0d723127-82ea-4d61-969b-b567e5bf25aa"
+      "o": "20b0ade4-eb3f-4984-a46a-e5002f576e45"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ]
 }

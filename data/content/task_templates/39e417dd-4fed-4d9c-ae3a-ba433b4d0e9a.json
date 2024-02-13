@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "ee3f3be7-6a48-4ada-aee5-93b8d7bd5569",
+      "id": "62a9f045-8d48-49c8-8b13-02fb996411da",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty \"HKLM:\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\{C9E9A340-D1F1-11D0-821E-444553540600}\" \"StubPath\" \"#{payload}\" -Force\n\u0026 $env:SYSTEMROOT\\system32\\runonce.exe /AlternateShellStartup",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "607dd9e3-291d-4edb-a6cd-7baf8c064e59",
+      "id": "8ddaa446-93c2-4815-8584-58ee76bc3ebf",
       "type": "execute-command",
       "data": {
         "command": "Remove-ItemProperty \"HKLM:\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\{C9E9A340-D1F1-11D0-821E-444553540600}\" -Name \"StubPath\" -Force\nRemove-ItemProperty \"HKCU:\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\{C9E9A340-D1F1-11D0-821E-444553540600}\" -Name \"Version\" -Force",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "ee3f3be7-6a48-4ada-aee5-93b8d7bd5569",
+      "s": "62a9f045-8d48-49c8-8b13-02fb996411da",
       "p": "on-success",
-      "o": "607dd9e3-291d-4edb-a6cd-7baf8c064e59"
+      "o": "8ddaa446-93c2-4815-8584-58ee76bc3ebf"
     },
     {
-      "s": "ee3f3be7-6a48-4ada-aee5-93b8d7bd5569",
+      "s": "62a9f045-8d48-49c8-8b13-02fb996411da",
       "p": "on-failure",
-      "o": "607dd9e3-291d-4edb-a6cd-7baf8c064e59"
+      "o": "8ddaa446-93c2-4815-8584-58ee76bc3ebf"
     }
   ],
   "tags": [
-    "T1547.014",
-    "atomic-red-team"
+    "T1547",
+    "T1547.014"
   ],
   "input_arguments": [
     {

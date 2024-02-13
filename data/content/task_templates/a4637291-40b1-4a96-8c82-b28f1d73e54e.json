@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "b2ed879c-3e31-4e78-9e0c-cc8f6c681977",
+      "id": "ae5d792b-9454-4f1f-8fb7-c9628bc969f8",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v HideSCAHealth /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "fdee59e6-ce60-4977-9bc0-4758b57a9c70",
+      "id": "e0940578-9849-4d71-a36a-4732d5bab9ce",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v HideSCAHealth /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "b2ed879c-3e31-4e78-9e0c-cc8f6c681977",
+      "s": "ae5d792b-9454-4f1f-8fb7-c9628bc969f8",
       "p": "on-success",
-      "o": "fdee59e6-ce60-4977-9bc0-4758b57a9c70"
+      "o": "e0940578-9849-4d71-a36a-4732d5bab9ce"
     },
     {
-      "s": "b2ed879c-3e31-4e78-9e0c-cc8f6c681977",
+      "s": "ae5d792b-9454-4f1f-8fb7-c9628bc969f8",
       "p": "on-failure",
-      "o": "fdee59e6-ce60-4977-9bc0-4758b57a9c70"
+      "o": "e0940578-9849-4d71-a36a-4732d5bab9ce"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

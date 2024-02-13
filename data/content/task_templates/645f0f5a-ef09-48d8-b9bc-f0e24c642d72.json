@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "3aa90d90-5132-42a5-8b56-6c6161f83f8d",
+      "id": "62b03e18-f75c-4020-bec1-64d1a92f0cd8",
       "type": "execute-command",
       "data": {
         "command": "7z a -p #{file_password} -mhe=on #{encrypted_file_name} #{input_file_path}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "4059688d-df71-4538-9fb2-b7b198153a22",
+      "id": "80a9e3ef-63ea-40f0-88a6-1a49c997ab26",
       "type": "execute-command",
       "data": {
         "command": "rm #{encrypted_file_name}\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "fc436af7-eb4e-49ca-832d-70896bddbe59",
+      "id": "00144725-fdc3-4d08-9f48-138669137bc1",
       "name": "Check dependency 1/1",
       "description": "Check if 7z command exists on the machine\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "3a60f1a3-c078-4a97-983f-c76d6c1c5d53",
+      "id": "cfa47aed-d46d-4ca9-a5c2-61a8f12c5b85",
       "name": "Resolve dependency 1/1",
       "description": "Check if 7z command exists on the machine\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "2c4e4b92-1102-49ae-87ab-0f2751480a93",
+      "id": "a0e152b9-c405-45d3-b80b-8a8baeedfe38",
       "name": "Re-check dependency 1/1",
       "description": "Check if 7z command exists on the machine\n",
       "type": "execute-command",
@@ -60,47 +60,40 @@
   ],
   "flows": [
     {
-      "s": "3aa90d90-5132-42a5-8b56-6c6161f83f8d",
+      "s": "62b03e18-f75c-4020-bec1-64d1a92f0cd8",
       "p": "on-success",
-      "o": "4059688d-df71-4538-9fb2-b7b198153a22"
+      "o": "80a9e3ef-63ea-40f0-88a6-1a49c997ab26"
     },
     {
-      "s": "3aa90d90-5132-42a5-8b56-6c6161f83f8d",
+      "s": "62b03e18-f75c-4020-bec1-64d1a92f0cd8",
       "p": "on-failure",
-      "o": "4059688d-df71-4538-9fb2-b7b198153a22"
+      "o": "80a9e3ef-63ea-40f0-88a6-1a49c997ab26"
     },
     {
-      "s": "fc436af7-eb4e-49ca-832d-70896bddbe59",
+      "s": "00144725-fdc3-4d08-9f48-138669137bc1",
       "p": "on-success",
-      "o": "3aa90d90-5132-42a5-8b56-6c6161f83f8d"
+      "o": "62b03e18-f75c-4020-bec1-64d1a92f0cd8"
     },
     {
-      "s": "fc436af7-eb4e-49ca-832d-70896bddbe59",
+      "s": "00144725-fdc3-4d08-9f48-138669137bc1",
       "p": "on-failure",
-      "o": "3a60f1a3-c078-4a97-983f-c76d6c1c5d53"
+      "o": "cfa47aed-d46d-4ca9-a5c2-61a8f12c5b85"
     },
     {
-      "s": "3a60f1a3-c078-4a97-983f-c76d6c1c5d53",
+      "s": "cfa47aed-d46d-4ca9-a5c2-61a8f12c5b85",
       "p": "on-success",
-      "o": "2c4e4b92-1102-49ae-87ab-0f2751480a93"
+      "o": "a0e152b9-c405-45d3-b80b-8a8baeedfe38"
     },
     {
-      "s": "2c4e4b92-1102-49ae-87ab-0f2751480a93",
+      "s": "a0e152b9-c405-45d3-b80b-8a8baeedfe38",
       "p": "on-failure",
-      "o": "3aa90d90-5132-42a5-8b56-6c6161f83f8d"
+      "o": "62b03e18-f75c-4020-bec1-64d1a92f0cd8"
     }
   ],
   "tags": [
-    "T1486",
-    "atomic-red-team"
+    "T1486"
   ],
   "input_arguments": [
-    {
-      "name": "encrypted_file_name",
-      "type": "string",
-      "description": "Name of the archive to be created",
-      "value": "ARTArchive.7z"
-    },
     {
       "name": "input_file_path",
       "type": "path",
@@ -112,6 +105,12 @@
       "type": "string",
       "description": "Password to be provided for archiving the file",
       "value": "ARTPass"
+    },
+    {
+      "name": "encrypted_file_name",
+      "type": "string",
+      "description": "Name of the archive to be created",
+      "value": "ARTArchive.7z"
     }
   ]
 }

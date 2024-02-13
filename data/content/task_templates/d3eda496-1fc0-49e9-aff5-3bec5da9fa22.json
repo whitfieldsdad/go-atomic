@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "a7774607-a42c-441a-b25d-ad70e57abc03",
+      "id": "f9a597c3-bace-43d0-a433-c60e55424730",
       "type": "execute-command",
       "data": {
         "command": "systemd-run --unit=Atomic-Red-Team --on-calendar '*:0/1' /bin/sh -c 'echo \"$(date) $(whoami)\" \u003e\u003e/tmp/log'\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "dacf4f0c-4b02-4658-8e5a-aba5e471b2b0",
+      "id": "7dbb02e6-5def-449b-bb05-db28818a59e3",
       "type": "execute-command",
       "data": {
         "command": "systemctl stop Atomic-Red-Team.service\nsystemctl stop Atomic-Red-Team.timer\nrm /tmp/log\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "817760d1-9688-4539-8e8e-2ce37a347136",
+      "id": "cd52b5a2-ada6-43b2-891c-9c97875ae5e5",
       "name": "Check dependency 1/1",
       "description": "Check if systemd-run exists on the machine\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if [ -x \"$(command -v systemd-run)\" ]; then exit 0; else exit 1; fi;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "02a39c98-269a-4826-bbbd-1f96a549f9c9",
+      "id": "bbdbacbd-2734-477d-9d64-f9a80b1b5028",
       "name": "Resolve dependency 1/1",
       "description": "Check if systemd-run exists on the machine\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo \"Install systemd on the machine.\"; exit 1;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "eee261e8-1fff-472b-a692-8b408b93cce2",
+      "id": "43550832-f14a-4bac-b460-c90b2eeef8cb",
       "name": "Re-check dependency 1/1",
       "description": "Check if systemd-run exists on the machine\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "if [ -x \"$(command -v systemd-run)\" ]; then exit 0; else exit 1; fi;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "a7774607-a42c-441a-b25d-ad70e57abc03",
+      "s": "f9a597c3-bace-43d0-a433-c60e55424730",
       "p": "on-success",
-      "o": "dacf4f0c-4b02-4658-8e5a-aba5e471b2b0"
+      "o": "7dbb02e6-5def-449b-bb05-db28818a59e3"
     },
     {
-      "s": "a7774607-a42c-441a-b25d-ad70e57abc03",
+      "s": "f9a597c3-bace-43d0-a433-c60e55424730",
       "p": "on-failure",
-      "o": "dacf4f0c-4b02-4658-8e5a-aba5e471b2b0"
+      "o": "7dbb02e6-5def-449b-bb05-db28818a59e3"
     },
     {
-      "s": "817760d1-9688-4539-8e8e-2ce37a347136",
+      "s": "cd52b5a2-ada6-43b2-891c-9c97875ae5e5",
       "p": "on-success",
-      "o": "a7774607-a42c-441a-b25d-ad70e57abc03"
+      "o": "f9a597c3-bace-43d0-a433-c60e55424730"
     },
     {
-      "s": "817760d1-9688-4539-8e8e-2ce37a347136",
+      "s": "cd52b5a2-ada6-43b2-891c-9c97875ae5e5",
       "p": "on-failure",
-      "o": "02a39c98-269a-4826-bbbd-1f96a549f9c9"
+      "o": "bbdbacbd-2734-477d-9d64-f9a80b1b5028"
     },
     {
-      "s": "02a39c98-269a-4826-bbbd-1f96a549f9c9",
+      "s": "bbdbacbd-2734-477d-9d64-f9a80b1b5028",
       "p": "on-success",
-      "o": "eee261e8-1fff-472b-a692-8b408b93cce2"
+      "o": "43550832-f14a-4bac-b460-c90b2eeef8cb"
     },
     {
-      "s": "eee261e8-1fff-472b-a692-8b408b93cce2",
+      "s": "43550832-f14a-4bac-b460-c90b2eeef8cb",
       "p": "on-failure",
-      "o": "a7774607-a42c-441a-b25d-ad70e57abc03"
+      "o": "f9a597c3-bace-43d0-a433-c60e55424730"
     }
   ],
   "tags": [
-    "T1053.006",
-    "atomic-red-team"
+    "T1053",
+    "T1053.006"
   ]
 }

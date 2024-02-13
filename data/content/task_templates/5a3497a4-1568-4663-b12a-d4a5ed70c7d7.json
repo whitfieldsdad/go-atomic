@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e46ebad3-2262-40ca-899d-602f484aab76",
+      "id": "7d559d73-2a25-4b1f-867e-fe78b87ec3d4",
       "type": "execute-command",
       "data": {
         "command": "$SamAccountName = '#{username}'\n$AccountPassword = ConvertTo-SecureString '#{password}' -AsPlainText -Force\nAdd-Type -AssemblyName System.DirectoryServices.AccountManagement\n$Context = New-Object -TypeName System.DirectoryServices.AccountManagement.PrincipalContext -ArgumentList ([System.DirectoryServices.AccountManagement.ContextType]::Domain)\n$User = New-Object -TypeName System.DirectoryServices.AccountManagement.UserPrincipal -ArgumentList ($Context)\n$User.SamAccountName = $SamAccountName\n$TempCred = New-Object System.Management.Automation.PSCredential('a', $AccountPassword)\n$User.SetPassword($TempCred.GetNetworkCredential().Password)\n$User.Enabled = $True\n$User.PasswordNotRequired = $False\n$User.DisplayName = $SamAccountName\n$User.Save()\n$User\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "2ec8d99f-ad98-4e1c-be3f-1e935c89050c",
+      "id": "eaa3ad4f-08b4-44c9-833e-50bc84fd80dd",
       "type": "execute-command",
       "data": {
         "command": "cmd /c \"net user #{username} /del \u003enul 2\u003e\u00261\"\n",
@@ -27,19 +27,19 @@
   ],
   "flows": [
     {
-      "s": "e46ebad3-2262-40ca-899d-602f484aab76",
+      "s": "7d559d73-2a25-4b1f-867e-fe78b87ec3d4",
       "p": "on-success",
-      "o": "2ec8d99f-ad98-4e1c-be3f-1e935c89050c"
+      "o": "eaa3ad4f-08b4-44c9-833e-50bc84fd80dd"
     },
     {
-      "s": "e46ebad3-2262-40ca-899d-602f484aab76",
+      "s": "7d559d73-2a25-4b1f-867e-fe78b87ec3d4",
       "p": "on-failure",
-      "o": "2ec8d99f-ad98-4e1c-be3f-1e935c89050c"
+      "o": "eaa3ad4f-08b4-44c9-833e-50bc84fd80dd"
     }
   ],
   "tags": [
-    "T1136.002",
-    "atomic-red-team"
+    "T1136",
+    "T1136.002"
   ],
   "input_arguments": [
     {

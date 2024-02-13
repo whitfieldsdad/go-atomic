@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "d7342db2-7c8b-40a8-b9ea-bbbfb4106c21",
+      "id": "23e48537-efca-4240-91c4-b42bda99d5f4",
       "type": "execute-command",
       "data": {
         "command": "wmic.exe /Namespace:\\\\root\\Microsoft\\Windows\\Defender class MSFT_MpPreference call Add ExclusionPath=\\\"ATOMICREDTEAM\\\"\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "210ed56d-ec3a-434d-b8ad-ee62c4564a48",
+      "id": "b05e6a74-d397-4683-a3b1-790b7cb6b9fa",
       "type": "execute-command",
       "data": {
         "command": "wmic.exe /Namespace:\\\\root\\Microsoft\\Windows\\Defender class MSFT_MpPreference call Remove ExclusionPath=\\\"ATOMICREDTEAM\\\"\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "d7342db2-7c8b-40a8-b9ea-bbbfb4106c21",
+      "s": "23e48537-efca-4240-91c4-b42bda99d5f4",
       "p": "on-success",
-      "o": "210ed56d-ec3a-434d-b8ad-ee62c4564a48"
+      "o": "b05e6a74-d397-4683-a3b1-790b7cb6b9fa"
     },
     {
-      "s": "d7342db2-7c8b-40a8-b9ea-bbbfb4106c21",
+      "s": "23e48537-efca-4240-91c4-b42bda99d5f4",
       "p": "on-failure",
-      "o": "210ed56d-ec3a-434d-b8ad-ee62c4564a48"
+      "o": "b05e6a74-d397-4683-a3b1-790b7cb6b9fa"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ]
 }

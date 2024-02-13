@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ce15ca35-1ba7-4f2c-8b39-c7ffdd0d1983",
+      "id": "74e58cfc-7021-4d31-8cad-3aa7e0a1ad9f",
       "type": "execute-command",
       "data": {
         "command": "$which_openssl genrsa -out #{private_key_path} #{encryption_bit_size}\n$which_openssl rsa -in #{private_key_path} -pubout -out #{public_key_path}\n$which_openssl rsautl -encrypt -inkey #{public_key_path} -pubin -in #{input_file_path} -out #{encrypted_file_path}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "cbe12827-940b-416b-9ea6-cdf06a1ae1c6",
+      "id": "032b5e7c-12bc-4c09-8899-abfe667bedb2",
       "type": "execute-command",
       "data": {
         "command": "$which_openssl rsautl -decrypt -inkey #{private_key_path} -in #{encrypted_file_path}\nrm #{encrypted_file_path}\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "e3e9743d-cf56-47ff-a67f-1715e1655164",
+      "id": "1e0563fd-0af0-4337-9fbd-86d427c688aa",
       "name": "Check dependency 1/1",
       "description": "Finds where openssl is located\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "4c661534-a117-4d09-a058-a959c5e849f4",
+      "id": "50f0ab10-8d84-47ff-b774-d77e33d1f0ca",
       "name": "Resolve dependency 1/1",
       "description": "Finds where openssl is located\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "54d2dde1-25be-46d7-b987-c5f52246a680",
+      "id": "01c6b390-9f36-4124-8d2a-41aded8a1706",
       "name": "Re-check dependency 1/1",
       "description": "Finds where openssl is located\n",
       "type": "execute-command",
@@ -60,39 +60,38 @@
   ],
   "flows": [
     {
-      "s": "ce15ca35-1ba7-4f2c-8b39-c7ffdd0d1983",
+      "s": "74e58cfc-7021-4d31-8cad-3aa7e0a1ad9f",
       "p": "on-success",
-      "o": "cbe12827-940b-416b-9ea6-cdf06a1ae1c6"
+      "o": "032b5e7c-12bc-4c09-8899-abfe667bedb2"
     },
     {
-      "s": "ce15ca35-1ba7-4f2c-8b39-c7ffdd0d1983",
+      "s": "74e58cfc-7021-4d31-8cad-3aa7e0a1ad9f",
       "p": "on-failure",
-      "o": "cbe12827-940b-416b-9ea6-cdf06a1ae1c6"
+      "o": "032b5e7c-12bc-4c09-8899-abfe667bedb2"
     },
     {
-      "s": "e3e9743d-cf56-47ff-a67f-1715e1655164",
+      "s": "1e0563fd-0af0-4337-9fbd-86d427c688aa",
       "p": "on-success",
-      "o": "ce15ca35-1ba7-4f2c-8b39-c7ffdd0d1983"
+      "o": "74e58cfc-7021-4d31-8cad-3aa7e0a1ad9f"
     },
     {
-      "s": "e3e9743d-cf56-47ff-a67f-1715e1655164",
+      "s": "1e0563fd-0af0-4337-9fbd-86d427c688aa",
       "p": "on-failure",
-      "o": "4c661534-a117-4d09-a058-a959c5e849f4"
+      "o": "50f0ab10-8d84-47ff-b774-d77e33d1f0ca"
     },
     {
-      "s": "4c661534-a117-4d09-a058-a959c5e849f4",
+      "s": "50f0ab10-8d84-47ff-b774-d77e33d1f0ca",
       "p": "on-success",
-      "o": "54d2dde1-25be-46d7-b987-c5f52246a680"
+      "o": "01c6b390-9f36-4124-8d2a-41aded8a1706"
     },
     {
-      "s": "54d2dde1-25be-46d7-b987-c5f52246a680",
+      "s": "01c6b390-9f36-4124-8d2a-41aded8a1706",
       "p": "on-failure",
-      "o": "ce15ca35-1ba7-4f2c-8b39-c7ffdd0d1983"
+      "o": "74e58cfc-7021-4d31-8cad-3aa7e0a1ad9f"
     }
   ],
   "tags": [
-    "T1486",
-    "atomic-red-team"
+    "T1486"
   ],
   "input_arguments": [
     {

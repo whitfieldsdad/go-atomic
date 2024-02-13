@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "3f5a3787-4026-4803-8040-dba21511eaaa",
+      "id": "cc264834-caa8-480c-8cb1-dfb487265383",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v DisableLockWorkstation /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5b25d683-e371-4d1b-b7a9-40a558ff08d8",
+      "id": "74fe08fd-8c8f-45e3-bd60-e23dfbdb9aea",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v DisableLockWorkstation /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "3f5a3787-4026-4803-8040-dba21511eaaa",
+      "s": "cc264834-caa8-480c-8cb1-dfb487265383",
       "p": "on-success",
-      "o": "5b25d683-e371-4d1b-b7a9-40a558ff08d8"
+      "o": "74fe08fd-8c8f-45e3-bd60-e23dfbdb9aea"
     },
     {
-      "s": "3f5a3787-4026-4803-8040-dba21511eaaa",
+      "s": "cc264834-caa8-480c-8cb1-dfb487265383",
       "p": "on-failure",
-      "o": "5b25d683-e371-4d1b-b7a9-40a558ff08d8"
+      "o": "74fe08fd-8c8f-45e3-bd60-e23dfbdb9aea"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

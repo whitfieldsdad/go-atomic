@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "7124dd88-4751-4d34-bf39-c57bd3a9ad9c",
+      "id": "bc84f94e-fd75-4288-83a7-0142bd002869",
       "type": "execute-command",
       "data": {
         "command": "if (!(Test-Path -Path \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\")){\n  New-Item -ItemType Key -Path  \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\"\n}\nSet-ItemProperty -Path  \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\" -Name \"#{target_key_value_name}\" -Value \"#{payload}\"\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "63d15bca-2394-4370-a9cf-8019535cf5bc",
+      "id": "d8ba8cc6-3217-4e9e-bddf-fc9ccd9e3a43",
       "type": "execute-command",
       "data": {
         "command": "Remove-ItemProperty -Path  \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\" -Name \"#{target_key_value_name}\"",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "7124dd88-4751-4d34-bf39-c57bd3a9ad9c",
+      "s": "bc84f94e-fd75-4288-83a7-0142bd002869",
       "p": "on-success",
-      "o": "63d15bca-2394-4370-a9cf-8019535cf5bc"
+      "o": "d8ba8cc6-3217-4e9e-bddf-fc9ccd9e3a43"
     },
     {
-      "s": "7124dd88-4751-4d34-bf39-c57bd3a9ad9c",
+      "s": "bc84f94e-fd75-4288-83a7-0142bd002869",
       "p": "on-failure",
-      "o": "63d15bca-2394-4370-a9cf-8019535cf5bc"
+      "o": "d8ba8cc6-3217-4e9e-bddf-fc9ccd9e3a43"
     }
   ],
   "tags": [
-    "T1547.001",
-    "atomic-red-team"
+    "T1547",
+    "T1547.001"
   ],
   "input_arguments": [
     {

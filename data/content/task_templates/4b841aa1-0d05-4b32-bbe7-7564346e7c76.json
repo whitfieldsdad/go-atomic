@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "cc731c1b-3a53-44a9-8723-6c0a0021618c",
+      "id": "87e72166-06c9-497e-be33-9631d993a451",
       "type": "execute-command",
       "data": {
         "command": "IF EXIST \"%temp%\\Windows_Defender_Scheduled_Scan.xml\" ( schtasks /delete /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Scheduled Scan\" /f )\nIF EXIST \"%temp%\\Windows_Defender_Cleanup.xml\" ( schtasks /delete /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cleanup\" /f )\nIF EXIST \"%temp%\\Windows_Defender_Verification.xml\" ( schtasks /delete /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Verification\" /f )\nIF EXIST \"%temp%\\Windows_Defender_Cache_Maintenance.xml\" ( schtasks /delete /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cache Maintenance\" /f )\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d9685cca-74cb-400a-ba52-9970d752805e",
+      "id": "9ddfd90c-00cd-4908-a403-f95a997beb13",
       "type": "execute-command",
       "data": {
         "command": "schtasks /create /xml \"%temp%\\Windows_Defender_Scheduled_Scan.xml\" /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Scheduled Scan\" /f\nschtasks /create /xml \"%temp%\\Windows_Defender_Cleanup.xml\" /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cleanup\" /f\nschtasks /create /xml \"%temp%\\Windows_Defender_Verification.xml\" /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Verification\" /f\nschtasks /create /xml \"%temp%\\Windows_Defender_Cache_Maintenance.xml\" /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cache Maintenance\" /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4a911e2d-3ada-45df-a62c-8c0d96d0cbea",
+      "id": "01fc36ac-1674-40de-8215-98d17eb17849",
       "name": "Check dependency 1/1",
       "description": "The Windows Defender scheduled tasks must be backed up first\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "IF EXIST \"%temp%\\Windows_Defender_Scheduled_Scan.xml\" ( EXIT 0 ) ELSE ( EXIT 1 )\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "592faa88-57c6-4cad-97af-54721716058f",
+      "id": "ab88394d-2f50-46f7-911e-3ae374735fad",
       "name": "Resolve dependency 1/1",
       "description": "The Windows Defender scheduled tasks must be backed up first\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "schtasks /query /xml /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Scheduled Scan\" \u003e \"%temp%\\Windows_Defender_Scheduled_Scan.xml\"\nschtasks /query /xml /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cleanup\" \u003e \"%temp%\\Windows_Defender_Cleanup.xml\"\nschtasks /query /xml /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Verification\" \u003e \"%temp%\\Windows_Defender_Verification.xml\"\nschtasks /query /xml /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cache Maintenance\" \u003e \"%temp%\\Windows_Defender_Cache_Maintenance.xml\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "421cfe47-f413-4509-8a6f-f278da02ffb1",
+      "id": "e5d86455-b016-4c46-98e8-f0f5cb12882f",
       "name": "Re-check dependency 1/1",
       "description": "The Windows Defender scheduled tasks must be backed up first\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "IF EXIST \"%temp%\\Windows_Defender_Scheduled_Scan.xml\" ( EXIT 0 ) ELSE ( EXIT 1 )\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "cc731c1b-3a53-44a9-8723-6c0a0021618c",
+      "s": "87e72166-06c9-497e-be33-9631d993a451",
       "p": "on-success",
-      "o": "d9685cca-74cb-400a-ba52-9970d752805e"
+      "o": "9ddfd90c-00cd-4908-a403-f95a997beb13"
     },
     {
-      "s": "cc731c1b-3a53-44a9-8723-6c0a0021618c",
+      "s": "87e72166-06c9-497e-be33-9631d993a451",
       "p": "on-failure",
-      "o": "d9685cca-74cb-400a-ba52-9970d752805e"
+      "o": "9ddfd90c-00cd-4908-a403-f95a997beb13"
     },
     {
-      "s": "4a911e2d-3ada-45df-a62c-8c0d96d0cbea",
+      "s": "01fc36ac-1674-40de-8215-98d17eb17849",
       "p": "on-success",
-      "o": "cc731c1b-3a53-44a9-8723-6c0a0021618c"
+      "o": "87e72166-06c9-497e-be33-9631d993a451"
     },
     {
-      "s": "4a911e2d-3ada-45df-a62c-8c0d96d0cbea",
+      "s": "01fc36ac-1674-40de-8215-98d17eb17849",
       "p": "on-failure",
-      "o": "592faa88-57c6-4cad-97af-54721716058f"
+      "o": "ab88394d-2f50-46f7-911e-3ae374735fad"
     },
     {
-      "s": "592faa88-57c6-4cad-97af-54721716058f",
+      "s": "ab88394d-2f50-46f7-911e-3ae374735fad",
       "p": "on-success",
-      "o": "421cfe47-f413-4509-8a6f-f278da02ffb1"
+      "o": "e5d86455-b016-4c46-98e8-f0f5cb12882f"
     },
     {
-      "s": "421cfe47-f413-4509-8a6f-f278da02ffb1",
+      "s": "e5d86455-b016-4c46-98e8-f0f5cb12882f",
       "p": "on-failure",
-      "o": "cc731c1b-3a53-44a9-8723-6c0a0021618c"
+      "o": "87e72166-06c9-497e-be33-9631d993a451"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ]
 }

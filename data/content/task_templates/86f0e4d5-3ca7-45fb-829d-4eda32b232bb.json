@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "06ac53e1-609e-4897-b559-e2089b4c12d9",
+      "id": "dc9c13ab-4b4c-4791-9d8e-788f3e28c63d",
       "type": "execute-command",
       "data": {
         "command": "sudo shred -u -z -n 3 #{system_log_path}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "2d81400a-33ff-4bf5-ac9b-1cee5cf91e12",
+      "id": "fd8b7b29-e9a0-41df-af46-45d455a98ed1",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "stat #{system_log_path}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4ac689dd-e8b2-4e2a-b596-88287a407c0d",
+      "id": "734dd5d1-c31f-4c5a-b2ba-cf5e9613de11",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "touch #{system_log_path}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "212162fb-646a-4f2d-b4d2-d6d7dd4e1d74",
+      "id": "c65cc5b9-a3e6-47a3-91d1-79de3b0ac59e",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -46,34 +46,34 @@
         "command": "stat #{system_log_path}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "2d81400a-33ff-4bf5-ac9b-1cee5cf91e12",
+      "s": "fd8b7b29-e9a0-41df-af46-45d455a98ed1",
       "p": "on-success",
-      "o": "06ac53e1-609e-4897-b559-e2089b4c12d9"
+      "o": "dc9c13ab-4b4c-4791-9d8e-788f3e28c63d"
     },
     {
-      "s": "2d81400a-33ff-4bf5-ac9b-1cee5cf91e12",
+      "s": "fd8b7b29-e9a0-41df-af46-45d455a98ed1",
       "p": "on-failure",
-      "o": "4ac689dd-e8b2-4e2a-b596-88287a407c0d"
+      "o": "734dd5d1-c31f-4c5a-b2ba-cf5e9613de11"
     },
     {
-      "s": "4ac689dd-e8b2-4e2a-b596-88287a407c0d",
+      "s": "734dd5d1-c31f-4c5a-b2ba-cf5e9613de11",
       "p": "on-success",
-      "o": "212162fb-646a-4f2d-b4d2-d6d7dd4e1d74"
+      "o": "c65cc5b9-a3e6-47a3-91d1-79de3b0ac59e"
     },
     {
-      "s": "212162fb-646a-4f2d-b4d2-d6d7dd4e1d74",
+      "s": "c65cc5b9-a3e6-47a3-91d1-79de3b0ac59e",
       "p": "on-failure",
-      "o": "06ac53e1-609e-4897-b559-e2089b4c12d9"
+      "o": "dc9c13ab-4b4c-4791-9d8e-788f3e28c63d"
     }
   ],
   "tags": [
-    "T1070.002",
-    "atomic-red-team"
+    "T1070",
+    "T1070.002"
   ],
   "input_arguments": [
     {

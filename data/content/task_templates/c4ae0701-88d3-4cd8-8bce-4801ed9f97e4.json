@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "e6688caf-6bab-4307-adaf-e10db9b59004",
+      "id": "fb3e1c26-6508-4487-b192-0910e9516b88",
       "type": "execute-command",
       "data": {
         "command": "echo \"# THIS IS A COMMENT\" \u003e\u003e /etc/ufw/sysctl.conf\ngrep \"# THIS IS A COMMENT\" /etc/ufw/sysctl.conf\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "defd0278-fdc2-4bde-bcae-113021dee41b",
+      "id": "9459478f-818d-4132-9fff-9b0955763419",
       "type": "execute-command",
       "data": {
         "command": "sed -i 's/# THIS IS A COMMENT//g' /etc/ufw/sysctl.conf\ncat /etc/ufw/sysctl.conf\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "00185542-294e-4f1a-b2f1-cd993e34cd1a",
+      "id": "4874e379-0f26-49c0-909c-ddf7bbe400e1",
       "name": "Check dependency 1/1",
       "description": "Check if /etc/ufw/sysctl.conf exists.\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if [ ! -f \"/etc/ufw/sysctl.conf\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d6d0a9d4-5c1d-4d15-8e82-3c6ad37e25b6",
+      "id": "b8475b64-4cea-4729-b5c8-bcc0ffbc85b2",
       "name": "Resolve dependency 1/1",
       "description": "Check if /etc/ufw/sysctl.conf exists.\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo \"\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b474815e-ae7c-4d57-8f9a-e5476aa64624",
+      "id": "3a9eef62-858d-4377-afe9-633ea088046a",
       "name": "Re-check dependency 1/1",
       "description": "Check if /etc/ufw/sysctl.conf exists.\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "if [ ! -f \"/etc/ufw/sysctl.conf\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "e6688caf-6bab-4307-adaf-e10db9b59004",
+      "s": "fb3e1c26-6508-4487-b192-0910e9516b88",
       "p": "on-success",
-      "o": "defd0278-fdc2-4bde-bcae-113021dee41b"
+      "o": "9459478f-818d-4132-9fff-9b0955763419"
     },
     {
-      "s": "e6688caf-6bab-4307-adaf-e10db9b59004",
+      "s": "fb3e1c26-6508-4487-b192-0910e9516b88",
       "p": "on-failure",
-      "o": "defd0278-fdc2-4bde-bcae-113021dee41b"
+      "o": "9459478f-818d-4132-9fff-9b0955763419"
     },
     {
-      "s": "00185542-294e-4f1a-b2f1-cd993e34cd1a",
+      "s": "4874e379-0f26-49c0-909c-ddf7bbe400e1",
       "p": "on-success",
-      "o": "e6688caf-6bab-4307-adaf-e10db9b59004"
+      "o": "fb3e1c26-6508-4487-b192-0910e9516b88"
     },
     {
-      "s": "00185542-294e-4f1a-b2f1-cd993e34cd1a",
+      "s": "4874e379-0f26-49c0-909c-ddf7bbe400e1",
       "p": "on-failure",
-      "o": "d6d0a9d4-5c1d-4d15-8e82-3c6ad37e25b6"
+      "o": "b8475b64-4cea-4729-b5c8-bcc0ffbc85b2"
     },
     {
-      "s": "d6d0a9d4-5c1d-4d15-8e82-3c6ad37e25b6",
+      "s": "b8475b64-4cea-4729-b5c8-bcc0ffbc85b2",
       "p": "on-success",
-      "o": "b474815e-ae7c-4d57-8f9a-e5476aa64624"
+      "o": "3a9eef62-858d-4377-afe9-633ea088046a"
     },
     {
-      "s": "b474815e-ae7c-4d57-8f9a-e5476aa64624",
+      "s": "3a9eef62-858d-4377-afe9-633ea088046a",
       "p": "on-failure",
-      "o": "e6688caf-6bab-4307-adaf-e10db9b59004"
+      "o": "fb3e1c26-6508-4487-b192-0910e9516b88"
     }
   ],
   "tags": [
-    "T1562.004",
-    "atomic-red-team"
+    "T1562",
+    "T1562.004"
   ]
 }

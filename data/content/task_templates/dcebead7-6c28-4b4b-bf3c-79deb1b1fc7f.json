@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "3db81dbc-9f1b-40ac-8849-bb7264fe52b1",
+      "id": "d72d619a-9f2a-4a43-8109-e37c8ad9befa",
       "type": "execute-command",
       "data": {
         "command": "vssadmin.exe create shadow /for=#{drive_letter}\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "a10b2fee-72fe-46e1-a65d-0e81fee3f287",
+      "id": "ce9262f3-a75c-46ab-beee-b7dde39889a5",
       "name": "Check dependency 1/1",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "bce79fc3-adbe-42e2-ad76-c3e4481a2718",
+      "id": "fc53ce2d-9973-47d4-9293-d7cb863722ef",
       "name": "Resolve dependency 1/1",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "echo Sorry, Promoting this machine to a Domain Controller must be done manually\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "bd1e2fe7-3521-47e6-8f50-d2e4500a0f2c",
+      "id": "72c81d9e-840b-4a6e-95d1-782df9795939",
       "name": "Re-check dependency 1/1",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
@@ -46,34 +46,34 @@
         "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "a10b2fee-72fe-46e1-a65d-0e81fee3f287",
+      "s": "ce9262f3-a75c-46ab-beee-b7dde39889a5",
       "p": "on-success",
-      "o": "3db81dbc-9f1b-40ac-8849-bb7264fe52b1"
+      "o": "d72d619a-9f2a-4a43-8109-e37c8ad9befa"
     },
     {
-      "s": "a10b2fee-72fe-46e1-a65d-0e81fee3f287",
+      "s": "ce9262f3-a75c-46ab-beee-b7dde39889a5",
       "p": "on-failure",
-      "o": "bce79fc3-adbe-42e2-ad76-c3e4481a2718"
+      "o": "fc53ce2d-9973-47d4-9293-d7cb863722ef"
     },
     {
-      "s": "bce79fc3-adbe-42e2-ad76-c3e4481a2718",
+      "s": "fc53ce2d-9973-47d4-9293-d7cb863722ef",
       "p": "on-success",
-      "o": "bd1e2fe7-3521-47e6-8f50-d2e4500a0f2c"
+      "o": "72c81d9e-840b-4a6e-95d1-782df9795939"
     },
     {
-      "s": "bd1e2fe7-3521-47e6-8f50-d2e4500a0f2c",
+      "s": "72c81d9e-840b-4a6e-95d1-782df9795939",
       "p": "on-failure",
-      "o": "3db81dbc-9f1b-40ac-8849-bb7264fe52b1"
+      "o": "d72d619a-9f2a-4a43-8109-e37c8ad9befa"
     }
   ],
   "tags": [
-    "T1003.003",
-    "atomic-red-team"
+    "T1003",
+    "T1003.003"
   ],
   "input_arguments": [
     {

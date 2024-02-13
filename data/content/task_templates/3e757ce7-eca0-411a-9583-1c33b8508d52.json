@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "fb740b21-90f2-43fb-9b4c-23de807a3103",
+      "id": "2740130b-d203-4930-bf0a-9ff611514597",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v HideSCANetwork /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "efe3bb99-488e-4f0e-be89-fc5b44972bf7",
+      "id": "461342f6-337e-49ee-87bd-ede574801b1d",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v HideSCANetwork /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "fb740b21-90f2-43fb-9b4c-23de807a3103",
+      "s": "2740130b-d203-4930-bf0a-9ff611514597",
       "p": "on-success",
-      "o": "efe3bb99-488e-4f0e-be89-fc5b44972bf7"
+      "o": "461342f6-337e-49ee-87bd-ede574801b1d"
     },
     {
-      "s": "fb740b21-90f2-43fb-9b4c-23de807a3103",
+      "s": "2740130b-d203-4930-bf0a-9ff611514597",
       "p": "on-failure",
-      "o": "efe3bb99-488e-4f0e-be89-fc5b44972bf7"
+      "o": "461342f6-337e-49ee-87bd-ede574801b1d"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

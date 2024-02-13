@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f318c33c-3811-47df-9522-d2bb14477b8c",
+      "id": "9e0bc916-da59-48da-9892-76ce2622603e",
       "type": "execute-command",
       "data": {
         "command": "SCHTASKS /Create /SC ONCE /TN spawn /TR #{task_command} /ST #{time}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "9379bd93-f863-4468-b13f-7fe0a4626a76",
+      "id": "9d4fb688-367a-4bdf-b4ff-e34fa2fb2fa8",
       "type": "execute-command",
       "data": {
         "command": "SCHTASKS /Delete /TN spawn /F \u003enul 2\u003e\u00261\n",
@@ -27,32 +27,32 @@
   ],
   "flows": [
     {
-      "s": "f318c33c-3811-47df-9522-d2bb14477b8c",
+      "s": "9e0bc916-da59-48da-9892-76ce2622603e",
       "p": "on-success",
-      "o": "9379bd93-f863-4468-b13f-7fe0a4626a76"
+      "o": "9d4fb688-367a-4bdf-b4ff-e34fa2fb2fa8"
     },
     {
-      "s": "f318c33c-3811-47df-9522-d2bb14477b8c",
+      "s": "9e0bc916-da59-48da-9892-76ce2622603e",
       "p": "on-failure",
-      "o": "9379bd93-f863-4468-b13f-7fe0a4626a76"
+      "o": "9d4fb688-367a-4bdf-b4ff-e34fa2fb2fa8"
     }
   ],
   "tags": [
-    "T1053.005",
-    "atomic-red-team"
+    "T1053",
+    "T1053.005"
   ],
   "input_arguments": [
-    {
-      "name": "time",
-      "type": "string",
-      "description": "What time 24 Hour",
-      "value": "20:10"
-    },
     {
       "name": "task_command",
       "type": "string",
       "description": "What you want to execute",
       "value": "C:\\windows\\system32\\cmd.exe"
+    },
+    {
+      "name": "time",
+      "type": "string",
+      "description": "What time 24 Hour",
+      "value": "20:10"
     }
   ]
 }

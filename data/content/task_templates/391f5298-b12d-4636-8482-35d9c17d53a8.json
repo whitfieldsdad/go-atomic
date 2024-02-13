@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "5e6763e3-8df6-45a9-8aae-e2662f90a1db",
+      "id": "4c28d39f-fe3b-4248-8b2b-d28b290987fb",
       "type": "execute-command",
       "data": {
         "command": "which_python=`which python || which python3`\n$which_python -c \"import gzip;input_file=open('#{path_to_input_file}', 'rb');content=input_file.read();input_file.close();output_file=gzip.GzipFile('#{path_to_output_file}','wb',compresslevel=6);output_file.write(content);output_file.close();\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "9327d546-9f8b-4f82-a956-838fcac2c322",
+      "id": "de63e2c1-c80e-4ddf-a866-a9eb83f89ed7",
       "type": "execute-command",
       "data": {
         "command": "rm #{path_to_output_file}\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "01f7ee34-ff8d-4603-8dc8-b1d221e6f1d4",
+      "id": "ef53ae80-2385-4032-ba3f-0b705ef6d5cb",
       "name": "Check dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "9880f93e-c1e9-488d-aa83-ff0914b9f0eb",
+      "id": "0e9bf6c7-0b0c-4817-b376-d9ef2b934ffe",
       "name": "Resolve dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "a11479ee-5fa8-4764-94f9-0a81123b9e47",
+      "id": "c65720bd-611a-4600-b3c8-ed3daa57f2cb",
       "name": "Re-check dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
@@ -60,39 +60,39 @@
   ],
   "flows": [
     {
-      "s": "5e6763e3-8df6-45a9-8aae-e2662f90a1db",
+      "s": "4c28d39f-fe3b-4248-8b2b-d28b290987fb",
       "p": "on-success",
-      "o": "9327d546-9f8b-4f82-a956-838fcac2c322"
+      "o": "de63e2c1-c80e-4ddf-a866-a9eb83f89ed7"
     },
     {
-      "s": "5e6763e3-8df6-45a9-8aae-e2662f90a1db",
+      "s": "4c28d39f-fe3b-4248-8b2b-d28b290987fb",
       "p": "on-failure",
-      "o": "9327d546-9f8b-4f82-a956-838fcac2c322"
+      "o": "de63e2c1-c80e-4ddf-a866-a9eb83f89ed7"
     },
     {
-      "s": "01f7ee34-ff8d-4603-8dc8-b1d221e6f1d4",
+      "s": "ef53ae80-2385-4032-ba3f-0b705ef6d5cb",
       "p": "on-success",
-      "o": "5e6763e3-8df6-45a9-8aae-e2662f90a1db"
+      "o": "4c28d39f-fe3b-4248-8b2b-d28b290987fb"
     },
     {
-      "s": "01f7ee34-ff8d-4603-8dc8-b1d221e6f1d4",
+      "s": "ef53ae80-2385-4032-ba3f-0b705ef6d5cb",
       "p": "on-failure",
-      "o": "9880f93e-c1e9-488d-aa83-ff0914b9f0eb"
+      "o": "0e9bf6c7-0b0c-4817-b376-d9ef2b934ffe"
     },
     {
-      "s": "9880f93e-c1e9-488d-aa83-ff0914b9f0eb",
+      "s": "0e9bf6c7-0b0c-4817-b376-d9ef2b934ffe",
       "p": "on-success",
-      "o": "a11479ee-5fa8-4764-94f9-0a81123b9e47"
+      "o": "c65720bd-611a-4600-b3c8-ed3daa57f2cb"
     },
     {
-      "s": "a11479ee-5fa8-4764-94f9-0a81123b9e47",
+      "s": "c65720bd-611a-4600-b3c8-ed3daa57f2cb",
       "p": "on-failure",
-      "o": "5e6763e3-8df6-45a9-8aae-e2662f90a1db"
+      "o": "4c28d39f-fe3b-4248-8b2b-d28b290987fb"
     }
   ],
   "tags": [
-    "T1560.002",
-    "atomic-red-team"
+    "T1560",
+    "T1560.002"
   ],
   "input_arguments": [
     {

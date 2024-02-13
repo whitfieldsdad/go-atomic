@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "6387ff42-aaf5-4d12-a82d-c8854a811b64",
+      "id": "6be79174-5bc0-42c6-a3e1-3f8f8bbd4cb5",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity\" /v \"Enabled\" /t REG_DWORD /d 0 /f\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "1dda716b-56a8-4ebb-b697-6d50e3b7ba5f",
+      "id": "6a9d6da5-7e22-436f-8b4b-6d3aeea35b19",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\" /v \"EnableVirtualizationBasedSecurity\" /f\nreg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\" /v \"RequirePlatformSecurityFeatures\" /f\nreg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\" /v \"Locked\" /f\nreg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity\" /v \"Enabled\" /f\nreg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity\" /v \"Locked\" /f\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "bcb8a58a-04c4-4401-b195-abc9266388c8",
+      "id": "1662a6c7-4447-4737-beee-8ffe1461fffd",
       "name": "Check dependency 1/1",
       "description": "HVCI must be enabled\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if (((cmd.exe /c \"reg query \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\" /v \"EnableVirtualizationBasedSecurity\" 2\u003e nul | findstr EnableVirtualizationBasedSecurity 2\u003e nul\") -and (cmd.exe /c \"reg query \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\" /v \"RequirePlatformSecurityFeatures\" 2\u003e nul | findstr RequirePlatformSecurityFeatures 2\u003e nul\") -and (cmd.exe /c \"reg query \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\" /v \"Locked\" 2\u003e nul | findstr Locked 2\u003e nul\") -and (cmd.exe /c \"reg query \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity\" /v \"Enabled\" 2\u003e nul | findstr Enabled 2\u003e nul\") -and (cmd.exe /c \"reg query \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity\" /v \"Locked\" 2\u003e nul | findstr Locked 2\u003e nul\"))) { exit 0 } else { exit 1 }\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "fc57a240-d89d-44f7-9834-89c74455fd15",
+      "id": "4e2ac852-91c1-475f-b002-0ddb94e859c6",
       "name": "Resolve dependency 1/1",
       "description": "HVCI must be enabled\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "reg add \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\" /v \"EnableVirtualizationBasedSecurity\" /t REG_DWORD /d 1 /f\nreg add \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\" /v \"RequirePlatformSecurityFeatures\" /t REG_DWORD /d 1 /f\nreg add \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\" /v \"Locked\" /t REG_DWORD /d 0 /f\nreg add \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity\" /v \"Enabled\" /t REG_DWORD /d 1 /f\nreg add \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity\" /v \"Locked\" /t REG_DWORD /d 0 /f\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b833b9ed-843e-4181-bfed-a7f09a8fdf13",
+      "id": "3609fe9f-e192-49e1-af59-e7e139e186ae",
       "name": "Re-check dependency 1/1",
       "description": "HVCI must be enabled\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "if (((cmd.exe /c \"reg query \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\" /v \"EnableVirtualizationBasedSecurity\" 2\u003e nul | findstr EnableVirtualizationBasedSecurity 2\u003e nul\") -and (cmd.exe /c \"reg query \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\" /v \"RequirePlatformSecurityFeatures\" 2\u003e nul | findstr RequirePlatformSecurityFeatures 2\u003e nul\") -and (cmd.exe /c \"reg query \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\" /v \"Locked\" 2\u003e nul | findstr Locked 2\u003e nul\") -and (cmd.exe /c \"reg query \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity\" /v \"Enabled\" 2\u003e nul | findstr Enabled 2\u003e nul\") -and (cmd.exe /c \"reg query \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity\" /v \"Locked\" 2\u003e nul | findstr Locked 2\u003e nul\"))) { exit 0 } else { exit 1 }\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "6387ff42-aaf5-4d12-a82d-c8854a811b64",
+      "s": "6be79174-5bc0-42c6-a3e1-3f8f8bbd4cb5",
       "p": "on-success",
-      "o": "1dda716b-56a8-4ebb-b697-6d50e3b7ba5f"
+      "o": "6a9d6da5-7e22-436f-8b4b-6d3aeea35b19"
     },
     {
-      "s": "6387ff42-aaf5-4d12-a82d-c8854a811b64",
+      "s": "6be79174-5bc0-42c6-a3e1-3f8f8bbd4cb5",
       "p": "on-failure",
-      "o": "1dda716b-56a8-4ebb-b697-6d50e3b7ba5f"
+      "o": "6a9d6da5-7e22-436f-8b4b-6d3aeea35b19"
     },
     {
-      "s": "bcb8a58a-04c4-4401-b195-abc9266388c8",
+      "s": "1662a6c7-4447-4737-beee-8ffe1461fffd",
       "p": "on-success",
-      "o": "6387ff42-aaf5-4d12-a82d-c8854a811b64"
+      "o": "6be79174-5bc0-42c6-a3e1-3f8f8bbd4cb5"
     },
     {
-      "s": "bcb8a58a-04c4-4401-b195-abc9266388c8",
+      "s": "1662a6c7-4447-4737-beee-8ffe1461fffd",
       "p": "on-failure",
-      "o": "fc57a240-d89d-44f7-9834-89c74455fd15"
+      "o": "4e2ac852-91c1-475f-b002-0ddb94e859c6"
     },
     {
-      "s": "fc57a240-d89d-44f7-9834-89c74455fd15",
+      "s": "4e2ac852-91c1-475f-b002-0ddb94e859c6",
       "p": "on-success",
-      "o": "b833b9ed-843e-4181-bfed-a7f09a8fdf13"
+      "o": "3609fe9f-e192-49e1-af59-e7e139e186ae"
     },
     {
-      "s": "b833b9ed-843e-4181-bfed-a7f09a8fdf13",
+      "s": "3609fe9f-e192-49e1-af59-e7e139e186ae",
       "p": "on-failure",
-      "o": "6387ff42-aaf5-4d12-a82d-c8854a811b64"
+      "o": "6be79174-5bc0-42c6-a3e1-3f8f8bbd4cb5"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ]
 }

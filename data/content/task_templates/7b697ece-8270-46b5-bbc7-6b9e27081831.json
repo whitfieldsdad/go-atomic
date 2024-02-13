@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "4584f73e-34bd-460c-9e99-fc83c7d7c632",
+      "id": "b9f34e84-88ef-4eb2-aa88-28a27d3c394b",
       "type": "execute-command",
       "data": {
         "command": "echo \"# THIS IS A COMMENT\" \u003e\u003e /etc/default/ufw\ngrep \"# THIS IS A COMMENT\" /etc/default/ufw\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "826c8db6-b04c-4af5-b530-48f790babf76",
+      "id": "149de904-2737-4043-a3e8-640ac51546e8",
       "type": "execute-command",
       "data": {
         "command": "sed -i 's/# THIS IS A COMMENT//g' /etc/default/ufw\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "a4effcdc-23b6-491d-8ce7-e4e801f2b343",
+      "id": "f6254683-a5a1-4696-9f05-c89014f18fb1",
       "name": "Check dependency 1/1",
       "description": "Check if /etc/default/ufw exists.\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if [ ! -f \"/etc/default/ufw\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "3c699c52-fbce-407e-bc2d-d70b78845c9b",
+      "id": "dacebc7b-442f-493f-9964-14828700b2de",
       "name": "Resolve dependency 1/1",
       "description": "Check if /etc/default/ufw exists.\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo \"\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "eb1fb9a0-7790-4f80-a6c7-66498862eaee",
+      "id": "c60cca66-fd3d-48d6-9972-83efaac7c644",
       "name": "Re-check dependency 1/1",
       "description": "Check if /etc/default/ufw exists.\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "if [ ! -f \"/etc/default/ufw\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "4584f73e-34bd-460c-9e99-fc83c7d7c632",
+      "s": "b9f34e84-88ef-4eb2-aa88-28a27d3c394b",
       "p": "on-success",
-      "o": "826c8db6-b04c-4af5-b530-48f790babf76"
+      "o": "149de904-2737-4043-a3e8-640ac51546e8"
     },
     {
-      "s": "4584f73e-34bd-460c-9e99-fc83c7d7c632",
+      "s": "b9f34e84-88ef-4eb2-aa88-28a27d3c394b",
       "p": "on-failure",
-      "o": "826c8db6-b04c-4af5-b530-48f790babf76"
+      "o": "149de904-2737-4043-a3e8-640ac51546e8"
     },
     {
-      "s": "a4effcdc-23b6-491d-8ce7-e4e801f2b343",
+      "s": "f6254683-a5a1-4696-9f05-c89014f18fb1",
       "p": "on-success",
-      "o": "4584f73e-34bd-460c-9e99-fc83c7d7c632"
+      "o": "b9f34e84-88ef-4eb2-aa88-28a27d3c394b"
     },
     {
-      "s": "a4effcdc-23b6-491d-8ce7-e4e801f2b343",
+      "s": "f6254683-a5a1-4696-9f05-c89014f18fb1",
       "p": "on-failure",
-      "o": "3c699c52-fbce-407e-bc2d-d70b78845c9b"
+      "o": "dacebc7b-442f-493f-9964-14828700b2de"
     },
     {
-      "s": "3c699c52-fbce-407e-bc2d-d70b78845c9b",
+      "s": "dacebc7b-442f-493f-9964-14828700b2de",
       "p": "on-success",
-      "o": "eb1fb9a0-7790-4f80-a6c7-66498862eaee"
+      "o": "c60cca66-fd3d-48d6-9972-83efaac7c644"
     },
     {
-      "s": "eb1fb9a0-7790-4f80-a6c7-66498862eaee",
+      "s": "c60cca66-fd3d-48d6-9972-83efaac7c644",
       "p": "on-failure",
-      "o": "4584f73e-34bd-460c-9e99-fc83c7d7c632"
+      "o": "b9f34e84-88ef-4eb2-aa88-28a27d3c394b"
     }
   ],
   "tags": [
-    "T1562.004",
-    "atomic-red-team"
+    "T1562",
+    "T1562.004"
   ]
 }

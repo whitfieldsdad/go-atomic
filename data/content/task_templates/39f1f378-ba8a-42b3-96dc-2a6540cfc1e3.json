@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "9bd7413e-b11b-45ed-8b36-9d6367770085",
+      "id": "5abfaeee-8ab9-4ea8-aade-4199662b9fe3",
       "type": "execute-command",
       "data": {
         "command": "reg add HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Winlogon /t REG_DWORD /v AllowMultipleTSSessions /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ec3827d5-9970-441a-95d6-c86cf12fde01",
+      "id": "ca8d6c0f-b093-418f-9e17-ea8dda204429",
       "type": "execute-command",
       "data": {
         "command": "reg delete HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Winlogon /v AllowMultipleTSSessions /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "9bd7413e-b11b-45ed-8b36-9d6367770085",
+      "s": "5abfaeee-8ab9-4ea8-aade-4199662b9fe3",
       "p": "on-success",
-      "o": "ec3827d5-9970-441a-95d6-c86cf12fde01"
+      "o": "ca8d6c0f-b093-418f-9e17-ea8dda204429"
     },
     {
-      "s": "9bd7413e-b11b-45ed-8b36-9d6367770085",
+      "s": "5abfaeee-8ab9-4ea8-aade-4199662b9fe3",
       "p": "on-failure",
-      "o": "ec3827d5-9970-441a-95d6-c86cf12fde01"
+      "o": "ca8d6c0f-b093-418f-9e17-ea8dda204429"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

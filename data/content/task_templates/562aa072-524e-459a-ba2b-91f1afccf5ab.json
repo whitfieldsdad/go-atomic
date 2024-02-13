@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "eb2ebd43-24e5-4da1-9071-32f395d6d83c",
+      "id": "9f7dabc3-e8cd-441a-a681-f1c7645c129c",
       "type": "execute-command",
       "data": {
         "command": "echo \"dn: CN=Admin User,CN=Users,DC=#{domain},DC=#{top_level_domain}\\nchangetype: add\\nobjectClass: top\\nobjectClass: person\\nobjectClass: organizationalPerson\\nobjectClass: user\\ncn: Admin User\\nsn: User\\ngivenName: Atomic User\\nuserPrincipalName: adminuser@#{domain}.#{top_level_domain}\\nsAMAccountName: adminuser\\nuserAccountControl: 512\\nuserPassword: {CLEARTEXT}s3CureP4ssword123!\\nmemberOf: CN=Domain Admins,CN=Users,DC=#{domain},DC=#{top_level_domain}\" \u003e tempadmin.ldif\necho ldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif\nldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "d2183fea-05ba-4a02-bd93-23e403a55ad4",
+      "id": "7a17ca75-8dd9-4556-a5b8-ed50bf6ceb09",
       "type": "execute-command",
       "data": {
         "command": "echo removing Atomic User (temporary user)\necho \"dn: cn=Atomic User,cn=Users,dc=scwxscratch,dc=dev\\nchangetype: delete\" \u003e deleteuser.ldif\nldapmodify -H ldap://#{domain_controller}:389 -x -D #{admin_user} -w #{admin_password} -f deleteuser.ldif\nrm deleteuser.ldif\nrm tempadmin.ldif\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "d98b7bdf-ec06-448b-b77a-1fc39a2ad877",
+      "id": "c07e7b23-efc1-457c-8b5d-2b324b59a283",
       "name": "Check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "e1f551d5-954b-4778-80bc-89f7d77e569b",
+      "id": "b7213f94-76d6-4d5b-bc4a-4986e92acf36",
       "name": "Resolve dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "8e6905ed-3e09-4070-a334-9848ae552ed8",
+      "id": "4e9f3675-e543-4b3f-b319-75448c84e8f2",
       "name": "Re-check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available\n",
       "type": "execute-command",
@@ -60,39 +60,39 @@
   ],
   "flows": [
     {
-      "s": "eb2ebd43-24e5-4da1-9071-32f395d6d83c",
+      "s": "9f7dabc3-e8cd-441a-a681-f1c7645c129c",
       "p": "on-success",
-      "o": "d2183fea-05ba-4a02-bd93-23e403a55ad4"
+      "o": "7a17ca75-8dd9-4556-a5b8-ed50bf6ceb09"
     },
     {
-      "s": "eb2ebd43-24e5-4da1-9071-32f395d6d83c",
+      "s": "9f7dabc3-e8cd-441a-a681-f1c7645c129c",
       "p": "on-failure",
-      "o": "d2183fea-05ba-4a02-bd93-23e403a55ad4"
+      "o": "7a17ca75-8dd9-4556-a5b8-ed50bf6ceb09"
     },
     {
-      "s": "d98b7bdf-ec06-448b-b77a-1fc39a2ad877",
+      "s": "c07e7b23-efc1-457c-8b5d-2b324b59a283",
       "p": "on-success",
-      "o": "eb2ebd43-24e5-4da1-9071-32f395d6d83c"
+      "o": "9f7dabc3-e8cd-441a-a681-f1c7645c129c"
     },
     {
-      "s": "d98b7bdf-ec06-448b-b77a-1fc39a2ad877",
+      "s": "c07e7b23-efc1-457c-8b5d-2b324b59a283",
       "p": "on-failure",
-      "o": "e1f551d5-954b-4778-80bc-89f7d77e569b"
+      "o": "b7213f94-76d6-4d5b-bc4a-4986e92acf36"
     },
     {
-      "s": "e1f551d5-954b-4778-80bc-89f7d77e569b",
+      "s": "b7213f94-76d6-4d5b-bc4a-4986e92acf36",
       "p": "on-success",
-      "o": "8e6905ed-3e09-4070-a334-9848ae552ed8"
+      "o": "4e9f3675-e543-4b3f-b319-75448c84e8f2"
     },
     {
-      "s": "8e6905ed-3e09-4070-a334-9848ae552ed8",
+      "s": "4e9f3675-e543-4b3f-b319-75448c84e8f2",
       "p": "on-failure",
-      "o": "eb2ebd43-24e5-4da1-9071-32f395d6d83c"
+      "o": "9f7dabc3-e8cd-441a-a681-f1c7645c129c"
     }
   ],
   "tags": [
-    "T1136.002",
-    "atomic-red-team"
+    "T1136",
+    "T1136.002"
   ],
   "input_arguments": [
     {

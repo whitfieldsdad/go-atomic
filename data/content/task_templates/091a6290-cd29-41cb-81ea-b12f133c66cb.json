@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "765bda9d-b267-4f95-99e3-3dad9a5d0272",
+      "id": "0ccf94d8-fbb5-498d-9e98-c22bb94276f6",
       "type": "execute-command",
       "data": {
         "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\nGet-AdvancedSetting -Entity #{vm_host} -Name 'Security.AccountLockFailures' | Set-AdvancedSetting -Value '0' -Confirm:$false\nDisconnect-VIServer -Confirm:$false\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ab1bea52-f3a6-4d0b-8ded-17284dd2ea7e",
+      "id": "e364a065-dd1b-44e3-849d-225807026c2c",
       "name": "Check dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "$RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable\nif (-not $RequiredModule) {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "1fe46f11-1efc-4dba-b6f0-5d30618ec7ad",
+      "id": "ecb304a4-c9ea-4141-a7ff-eeb0dae892ae",
       "name": "Resolve dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "Install-Module -Name VMware.PowerCLI -Confirm:$false\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "fa271ae6-9bee-46d8-b6d2-9125fa298629",
+      "id": "a037d572-df09-4217-9f4a-f3b56a41a92f",
       "name": "Re-check dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
@@ -46,34 +46,34 @@
         "command": "$RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable\nif (-not $RequiredModule) {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "ab1bea52-f3a6-4d0b-8ded-17284dd2ea7e",
+      "s": "e364a065-dd1b-44e3-849d-225807026c2c",
       "p": "on-success",
-      "o": "765bda9d-b267-4f95-99e3-3dad9a5d0272"
+      "o": "0ccf94d8-fbb5-498d-9e98-c22bb94276f6"
     },
     {
-      "s": "ab1bea52-f3a6-4d0b-8ded-17284dd2ea7e",
+      "s": "e364a065-dd1b-44e3-849d-225807026c2c",
       "p": "on-failure",
-      "o": "1fe46f11-1efc-4dba-b6f0-5d30618ec7ad"
+      "o": "ecb304a4-c9ea-4141-a7ff-eeb0dae892ae"
     },
     {
-      "s": "1fe46f11-1efc-4dba-b6f0-5d30618ec7ad",
+      "s": "ecb304a4-c9ea-4141-a7ff-eeb0dae892ae",
       "p": "on-success",
-      "o": "fa271ae6-9bee-46d8-b6d2-9125fa298629"
+      "o": "a037d572-df09-4217-9f4a-f3b56a41a92f"
     },
     {
-      "s": "fa271ae6-9bee-46d8-b6d2-9125fa298629",
+      "s": "a037d572-df09-4217-9f4a-f3b56a41a92f",
       "p": "on-failure",
-      "o": "765bda9d-b267-4f95-99e3-3dad9a5d0272"
+      "o": "0ccf94d8-fbb5-498d-9e98-c22bb94276f6"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ],
   "input_arguments": [
     {

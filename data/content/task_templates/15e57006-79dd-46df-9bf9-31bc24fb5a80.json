@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "ace98b74-fc51-476d-9dd1-02a06c50da51",
+      "id": "84650923-8a23-434c-8436-56a018ac7fcc",
       "type": "execute-command",
       "data": {
         "command": "netsh advfirewall firewall add rule name=\"atomic testing\" action=allow dir=in protocol=TCP localport=450 \n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "94e01c43-1ec4-4549-9923-20435f371a29",
+      "id": "73b898a9-2e6c-4826-9163-78c97aee08f0",
       "type": "execute-command",
       "data": {
         "command": "netsh advfirewall firewall delete rule name=\"atomic testing\" protocol=TCP localport=450 \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "ace98b74-fc51-476d-9dd1-02a06c50da51",
+      "s": "84650923-8a23-434c-8436-56a018ac7fcc",
       "p": "on-success",
-      "o": "94e01c43-1ec4-4549-9923-20435f371a29"
+      "o": "73b898a9-2e6c-4826-9163-78c97aee08f0"
     },
     {
-      "s": "ace98b74-fc51-476d-9dd1-02a06c50da51",
+      "s": "84650923-8a23-434c-8436-56a018ac7fcc",
       "p": "on-failure",
-      "o": "94e01c43-1ec4-4549-9923-20435f371a29"
+      "o": "73b898a9-2e6c-4826-9163-78c97aee08f0"
     }
   ],
   "tags": [
-    "T1562.004",
-    "atomic-red-team"
+    "T1562",
+    "T1562.004"
   ]
 }

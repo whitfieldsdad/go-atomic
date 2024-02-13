@@ -8,39 +8,39 @@
   ],
   "steps": [
     {
-      "id": "2a59f763-84d5-4326-8dbd-1cca495d7506",
+      "id": "4ff13c13-3e7c-46cb-90d8-46662c4ed62a",
       "type": "execute-command",
       "data": {
         "command": "NOW=$(date +%m%d%H%M%Y)\ndate 010100001971\ntouch #{target_filename}\ndate \"$NOW\"\nstat #{target_filename}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "88fe5425-1902-4ae3-8430-879618c4a547",
+      "id": "e8b14aff-beb4-48b0-9ae3-70f64fe0ce72",
       "type": "execute-command",
       "data": {
         "command": "rm -f #{target_filename}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "2a59f763-84d5-4326-8dbd-1cca495d7506",
+      "s": "4ff13c13-3e7c-46cb-90d8-46662c4ed62a",
       "p": "on-success",
-      "o": "88fe5425-1902-4ae3-8430-879618c4a547"
+      "o": "e8b14aff-beb4-48b0-9ae3-70f64fe0ce72"
     },
     {
-      "s": "2a59f763-84d5-4326-8dbd-1cca495d7506",
+      "s": "4ff13c13-3e7c-46cb-90d8-46662c4ed62a",
       "p": "on-failure",
-      "o": "88fe5425-1902-4ae3-8430-879618c4a547"
+      "o": "e8b14aff-beb4-48b0-9ae3-70f64fe0ce72"
     }
   ],
   "tags": [
-    "T1070.006",
-    "atomic-red-team"
+    "T1070",
+    "T1070.006"
   ],
   "input_arguments": [
     {

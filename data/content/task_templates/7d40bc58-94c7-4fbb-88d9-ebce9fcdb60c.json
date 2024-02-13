@@ -7,47 +7,41 @@
   ],
   "steps": [
     {
-      "id": "0cb68f8c-6730-4527-a902-6e589f248fc4",
+      "id": "7bf7beed-c06b-44dc-b769-1d50d7b5c999",
       "type": "execute-command",
       "data": {
         "command": "if [ -f \"/etc/#{syslog_config_file_name}\" ];\nthen sed -i '$ a #art_test_1562_006_2' /etc/#{syslog_config_file_name}\nfi\nif [ -f \"/etc/#{rsyslog_config_file_name}\" ];\nthen sed -i '$ a #art_test_1562_006_2' /etc/#{rsyslog_config_file_name}\nfi\nif [ -f \"/etc/syslog-ng/#{syslog_ng_config_file_name}\" ];\nthen sed -i '$ a #art_test_1562_006_2' /etc/syslog-ng/#{syslog_ng_config_file_name}\nfi\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "2067cfbd-e339-43c2-b44c-a42be40d8336",
+      "id": "ae70b685-b4b5-4a12-82ac-78e4c139a531",
       "type": "execute-command",
       "data": {
         "command": "if [ -f \"/etc/#{syslog_config_file_name}\" ];\nthen sed -i '$ d' /etc/#{syslog_config_file_name}\nfi\nif [ -f \"/etc/#{rsyslog_config_file_name}\" ];\nthen sed -i '$ d' /etc/#{rsyslog_config_file_name}\nfi\nif [ -f \"/etc/syslog-ng/#{syslog_ng_config_file_name}\" ];\nthen sed -i '$ d' /etc/syslog-ng/#{syslog_ng_config_file_name}\nfi\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "0cb68f8c-6730-4527-a902-6e589f248fc4",
+      "s": "7bf7beed-c06b-44dc-b769-1d50d7b5c999",
       "p": "on-success",
-      "o": "2067cfbd-e339-43c2-b44c-a42be40d8336"
+      "o": "ae70b685-b4b5-4a12-82ac-78e4c139a531"
     },
     {
-      "s": "0cb68f8c-6730-4527-a902-6e589f248fc4",
+      "s": "7bf7beed-c06b-44dc-b769-1d50d7b5c999",
       "p": "on-failure",
-      "o": "2067cfbd-e339-43c2-b44c-a42be40d8336"
+      "o": "ae70b685-b4b5-4a12-82ac-78e4c139a531"
     }
   ],
   "tags": [
-    "T1562.006",
-    "atomic-red-team"
+    "T1562",
+    "T1562.006"
   ],
   "input_arguments": [
-    {
-      "name": "syslog_config_file_name",
-      "type": "string",
-      "description": "The name of the syslog configuration file to be changed",
-      "value": "syslog.conf"
-    },
     {
       "name": "rsyslog_config_file_name",
       "type": "string",
@@ -59,6 +53,12 @@
       "type": "string",
       "description": "The name of the syslog-ng configuration file to be changed",
       "value": "syslog-ng.conf"
+    },
+    {
+      "name": "syslog_config_file_name",
+      "type": "string",
+      "description": "The name of the syslog configuration file to be changed",
+      "value": "syslog.conf"
     }
   ]
 }

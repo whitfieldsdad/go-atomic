@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "075319a4-68a8-4000-a7c0-c66ae6fcc126",
+      "id": "0d10f0dc-98bb-4202-b1a7-14b2945949fb",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\" /v \"DoNotConnectToWindowsUpdateInternetLocations\" /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "96156176-5896-44ea-9bbd-1df7629473fb",
+      "id": "0483157f-d8ae-4a4f-9919-7476d9e0c5ed",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\" /v \"DoNotConnectToWindowsUpdateInternetLocations\" /t REG_DWORD /d 0 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "075319a4-68a8-4000-a7c0-c66ae6fcc126",
+      "s": "0d10f0dc-98bb-4202-b1a7-14b2945949fb",
       "p": "on-success",
-      "o": "96156176-5896-44ea-9bbd-1df7629473fb"
+      "o": "0483157f-d8ae-4a4f-9919-7476d9e0c5ed"
     },
     {
-      "s": "075319a4-68a8-4000-a7c0-c66ae6fcc126",
+      "s": "0d10f0dc-98bb-4202-b1a7-14b2945949fb",
       "p": "on-failure",
-      "o": "96156176-5896-44ea-9bbd-1df7629473fb"
+      "o": "0483157f-d8ae-4a4f-9919-7476d9e0c5ed"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

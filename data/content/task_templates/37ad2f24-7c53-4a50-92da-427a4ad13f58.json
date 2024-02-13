@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "cdedf78c-7f9d-44a6-a5d2-4ee51f165573",
+      "id": "783df829-d45f-4548-a0ed-fa371ab9a567",
       "type": "execute-command",
       "data": {
         "command": "useradd --create-home --shell /bin/bash art\nsu --login art\necho 'echo \"Atomic Red Team was here... T1546.004\" \u003e\u003e $HOME/art.txt' \u003e\u003e $HOME/.bash_logout\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "03731649-e117-4f6e-b160-bd45053239fc",
+      "id": "862c3a3f-e52c-4d67-9bae-bf17a087e301",
       "type": "execute-command",
       "data": {
         "command": "userdel -fr art\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "cdedf78c-7f9d-44a6-a5d2-4ee51f165573",
+      "s": "783df829-d45f-4548-a0ed-fa371ab9a567",
       "p": "on-success",
-      "o": "03731649-e117-4f6e-b160-bd45053239fc"
+      "o": "862c3a3f-e52c-4d67-9bae-bf17a087e301"
     },
     {
-      "s": "cdedf78c-7f9d-44a6-a5d2-4ee51f165573",
+      "s": "783df829-d45f-4548-a0ed-fa371ab9a567",
       "p": "on-failure",
-      "o": "03731649-e117-4f6e-b160-bd45053239fc"
+      "o": "862c3a3f-e52c-4d67-9bae-bf17a087e301"
     }
   ],
   "tags": [
-    "T1546.004",
-    "atomic-red-team"
+    "T1546",
+    "T1546.004"
   ]
 }

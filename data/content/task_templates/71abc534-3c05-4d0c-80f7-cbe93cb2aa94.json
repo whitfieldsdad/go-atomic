@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "213b2a0a-84f5-4b0e-901e-f163e539b9cc",
+      "id": "63f83205-14b6-4253-b65c-0e9be1d0811f",
       "type": "execute-command",
       "data": {
         "command": "copy %windir%\\system32\\certutil.exe %temp%\\tcm.tmp\n%temp%\\tcm.tmp -encode #{executable} %temp%\\T1140_calc2.txt\n%temp%\\tcm.tmp -decode %temp%\\T1140_calc2.txt %temp%\\T1140_calc2_decoded.exe\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "5d4bb7d3-5285-4583-b422-2bcbe50bc661",
+      "id": "40126a78-f994-49a5-b606-669f66dc12a3",
       "type": "execute-command",
       "data": {
         "command": "del %temp%\\tcm.tmp \u003enul 2\u003e\u00261\ndel %temp%\\T1140_calc2.txt \u003enul 2\u003e\u00261\ndel %temp%\\T1140_calc2_decoded.exe \u003enul 2\u003e\u00261\n",
@@ -27,19 +27,18 @@
   ],
   "flows": [
     {
-      "s": "213b2a0a-84f5-4b0e-901e-f163e539b9cc",
+      "s": "63f83205-14b6-4253-b65c-0e9be1d0811f",
       "p": "on-success",
-      "o": "5d4bb7d3-5285-4583-b422-2bcbe50bc661"
+      "o": "40126a78-f994-49a5-b606-669f66dc12a3"
     },
     {
-      "s": "213b2a0a-84f5-4b0e-901e-f163e539b9cc",
+      "s": "63f83205-14b6-4253-b65c-0e9be1d0811f",
       "p": "on-failure",
-      "o": "5d4bb7d3-5285-4583-b422-2bcbe50bc661"
+      "o": "40126a78-f994-49a5-b606-669f66dc12a3"
     }
   ],
   "tags": [
-    "T1140",
-    "atomic-red-team"
+    "T1140"
   ],
   "input_arguments": [
     {

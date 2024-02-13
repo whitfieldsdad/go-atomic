@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "7f26cc80-f062-4cde-af0f-cebe9dcdd15c",
+      "id": "4c6bb8d4-add6-4853-8e14-778ea8f78995",
       "type": "execute-command",
       "data": {
         "command": "kubectl create -f src/cronjob.yaml -n #{namespace}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "f1de0c19-3307-445b-b750-e5f5e6531426",
+      "id": "1caa43f0-7a19-4660-bb0d-3b3d5bdc0ed1",
       "type": "execute-command",
       "data": {
         "command": "kubectl delete cronjob art -n #{namespace}\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "2231479d-ce90-4cea-aff4-13b6393d1917",
+      "id": "1dd812b5-3faf-4c74-b235-8adb36108061",
       "name": "Check dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "a3aaf291-337b-4c3c-bd26-b212ef890433",
+      "id": "2b1e5f72-c871-455d-9b99-5ea2e5690bb9",
       "name": "Resolve dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "42d3cdc1-085a-4411-bc9b-702c06624f34",
+      "id": "e01572bc-6273-4329-b54d-345af1689e6f",
       "name": "Re-check dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
@@ -60,39 +60,39 @@
   ],
   "flows": [
     {
-      "s": "7f26cc80-f062-4cde-af0f-cebe9dcdd15c",
+      "s": "4c6bb8d4-add6-4853-8e14-778ea8f78995",
       "p": "on-success",
-      "o": "f1de0c19-3307-445b-b750-e5f5e6531426"
+      "o": "1caa43f0-7a19-4660-bb0d-3b3d5bdc0ed1"
     },
     {
-      "s": "7f26cc80-f062-4cde-af0f-cebe9dcdd15c",
+      "s": "4c6bb8d4-add6-4853-8e14-778ea8f78995",
       "p": "on-failure",
-      "o": "f1de0c19-3307-445b-b750-e5f5e6531426"
+      "o": "1caa43f0-7a19-4660-bb0d-3b3d5bdc0ed1"
     },
     {
-      "s": "2231479d-ce90-4cea-aff4-13b6393d1917",
+      "s": "1dd812b5-3faf-4c74-b235-8adb36108061",
       "p": "on-success",
-      "o": "7f26cc80-f062-4cde-af0f-cebe9dcdd15c"
+      "o": "4c6bb8d4-add6-4853-8e14-778ea8f78995"
     },
     {
-      "s": "2231479d-ce90-4cea-aff4-13b6393d1917",
+      "s": "1dd812b5-3faf-4c74-b235-8adb36108061",
       "p": "on-failure",
-      "o": "a3aaf291-337b-4c3c-bd26-b212ef890433"
+      "o": "2b1e5f72-c871-455d-9b99-5ea2e5690bb9"
     },
     {
-      "s": "a3aaf291-337b-4c3c-bd26-b212ef890433",
+      "s": "2b1e5f72-c871-455d-9b99-5ea2e5690bb9",
       "p": "on-success",
-      "o": "42d3cdc1-085a-4411-bc9b-702c06624f34"
+      "o": "e01572bc-6273-4329-b54d-345af1689e6f"
     },
     {
-      "s": "42d3cdc1-085a-4411-bc9b-702c06624f34",
+      "s": "e01572bc-6273-4329-b54d-345af1689e6f",
       "p": "on-failure",
-      "o": "7f26cc80-f062-4cde-af0f-cebe9dcdd15c"
+      "o": "4c6bb8d4-add6-4853-8e14-778ea8f78995"
     }
   ],
   "tags": [
-    "T1053.007",
-    "atomic-red-team"
+    "T1053",
+    "T1053.007"
   ],
   "input_arguments": [
     {

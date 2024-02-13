@@ -7,18 +7,18 @@
   ],
   "steps": [
     {
-      "id": "983bc6b3-e3c3-4d7d-81b9-2a330d9f0c7b",
+      "id": "78270b4c-4813-4325-9439-960489a1b34c",
       "type": "execute-command",
       "data": {
         "command": "if (Test-Path \"#{falcond_path}\") {. \"#{falcond_path}\" /repair /uninstall /quiet } else { Get-ChildItem -Path \"C:\\ProgramData\\Package Cache\" -Include \"WindowsSensor.exe\" -Recurse | % { $sig=$(Get-AuthenticodeSignature -FilePath $_.FullName); if ($sig.Status -eq \"Valid\" -and $sig.SignerCertificate.DnsNameList -eq \"CrowdStrike, Inc.\") { . \"$_\" /repair /uninstall /quiet; break;}}}",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ],
   "input_arguments": [
     {

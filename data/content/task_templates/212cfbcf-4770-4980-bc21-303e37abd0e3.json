@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "44ea0c3a-ebbb-4af1-b840-b447888255cf",
+      "id": "88381dd2-6fa1-4dda-8629-f51a413eee4e",
       "type": "execute-command",
       "data": {
         "command": "sed -i '$ a #art_test_1562_006_1' /etc/audisp/#{audisp_config_file_name}\nif [ -f \"/etc/#{auditd_config_file_name}\" ];\nthen sed -i '$ a #art_test_1562_006_1' /etc/#{auditd_config_file_name}\nelse sed -i '$ a #art_test_1562_006_1' /etc/audit/#{auditd_config_file_name}\nfi \nsed -i '$ a #art_test_1562_006_1' /etc/#{libaudit_config_file_name}\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "25159f2b-f1fb-4cba-aa1b-f63fc2a7cdf3",
+      "id": "6986a0a8-4b06-4d29-89ed-e31bf87f8e9d",
       "type": "execute-command",
       "data": {
         "command": "sed -i '$ d' /etc/audisp/#{audisp_config_file_name}\nif [ -f \"/etc/#{auditd_config_file_name}\" ];\nthen sed -i '$ d' /etc/#{auditd_config_file_name}\nelse sed -i '$ d' /etc/audit/#{auditd_config_file_name}\nfi\nsed -i '$ d' /etc/#{libaudit_config_file_name}\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "44ea0c3a-ebbb-4af1-b840-b447888255cf",
+      "s": "88381dd2-6fa1-4dda-8629-f51a413eee4e",
       "p": "on-success",
-      "o": "25159f2b-f1fb-4cba-aa1b-f63fc2a7cdf3"
+      "o": "6986a0a8-4b06-4d29-89ed-e31bf87f8e9d"
     },
     {
-      "s": "44ea0c3a-ebbb-4af1-b840-b447888255cf",
+      "s": "88381dd2-6fa1-4dda-8629-f51a413eee4e",
       "p": "on-failure",
-      "o": "25159f2b-f1fb-4cba-aa1b-f63fc2a7cdf3"
+      "o": "6986a0a8-4b06-4d29-89ed-e31bf87f8e9d"
     }
   ],
   "tags": [
-    "T1562.006",
-    "atomic-red-team"
+    "T1562",
+    "T1562.006"
   ],
   "input_arguments": [
     {

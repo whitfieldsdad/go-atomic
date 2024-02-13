@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "a01dc9f2-b2cc-4fe5-9494-ab2081f9765e",
+      "id": "7e0f7cd1-a84d-448d-9e2b-0bc95c757ba1",
       "type": "execute-command",
       "data": {
         "command": "schtasks /create /ru system /sc daily /tr \"cmd /c powershell.exe -ep bypass -file c:\\T1036.004_NonExistingScript.ps1\" /tn win32times /f\nschtasks /query /tn win32times\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "8480f531-8fcd-4930-bd08-b32f41469ce9",
+      "id": "bbe471a4-bb16-4d59-a554-78834a6788e2",
       "type": "execute-command",
       "data": {
         "command": "schtasks /tn win32times /delete /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "a01dc9f2-b2cc-4fe5-9494-ab2081f9765e",
+      "s": "7e0f7cd1-a84d-448d-9e2b-0bc95c757ba1",
       "p": "on-success",
-      "o": "8480f531-8fcd-4930-bd08-b32f41469ce9"
+      "o": "bbe471a4-bb16-4d59-a554-78834a6788e2"
     },
     {
-      "s": "a01dc9f2-b2cc-4fe5-9494-ab2081f9765e",
+      "s": "7e0f7cd1-a84d-448d-9e2b-0bc95c757ba1",
       "p": "on-failure",
-      "o": "8480f531-8fcd-4930-bd08-b32f41469ce9"
+      "o": "bbe471a4-bb16-4d59-a554-78834a6788e2"
     }
   ],
   "tags": [
-    "T1036.004",
-    "atomic-red-team"
+    "T1036",
+    "T1036.004"
   ]
 }

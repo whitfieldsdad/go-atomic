@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "55dc44f1-ae0b-4020-b982-59b4d79c4115",
+      "id": "53dd2297-42ab-4199-b3a8-cbb6c8a2ccde",
       "type": "execute-command",
       "data": {
         "command": "filename='/etc/rc.local';if [ ! -f $filename ];then sudo touch $filename;else sudo cp $filename /etc/rc.local.original;fi\n[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 alias python3=python3.9 \u0026\u0026 printf '#\\!/usr/local/bin/bash' | sudo tee /etc/rc.local || printf '#!/bin/bash' | sudo tee /etc/rc.local\necho \"\\npython3 -c \\\"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBtb2RpZnlpbmcgcmMubG9jYWwgPiAvdG1wL1QxMDM3LjAwNC5yYy5sb2NhbCcpCgo='))\\\"\" | sudo tee -a /etc/rc.local\nprintf 'exit 0' | sudo tee -a /etc/rc.local\nsudo chmod +x /etc/rc.local\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "87bd1140-b6f6-4669-aa41-e7750dc38196",
+      "id": "09fc0d43-893f-4b23-8364-84835b1060c5",
       "type": "execute-command",
       "data": {
         "command": "origfilename='/etc/rc.local.original';if [ ! -f $origfilename ];then sudo rm /etc/rc.local;else sudo cp $origfilename /etc/rc.local \u0026\u0026 sudo rm $origfilename;fi\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "55dc44f1-ae0b-4020-b982-59b4d79c4115",
+      "s": "53dd2297-42ab-4199-b3a8-cbb6c8a2ccde",
       "p": "on-success",
-      "o": "87bd1140-b6f6-4669-aa41-e7750dc38196"
+      "o": "09fc0d43-893f-4b23-8364-84835b1060c5"
     },
     {
-      "s": "55dc44f1-ae0b-4020-b982-59b4d79c4115",
+      "s": "53dd2297-42ab-4199-b3a8-cbb6c8a2ccde",
       "p": "on-failure",
-      "o": "87bd1140-b6f6-4669-aa41-e7750dc38196"
+      "o": "09fc0d43-893f-4b23-8364-84835b1060c5"
     }
   ],
   "tags": [
-    "T1037.004",
-    "atomic-red-team"
+    "T1037",
+    "T1037.004"
   ]
 }

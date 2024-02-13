@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "39be66be-51f0-4ca5-b6b4-1e755791913a",
+      "id": "c471e226-af06-42bd-8ddc-e4c7344f88e5",
       "type": "execute-command",
       "data": {
         "command": "New-LocalUser -Name \"Administrator \" -NoPassword",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d0899604-1a7e-4478-973d-850c9ce5264e",
+      "id": "62bfe376-7ecf-4aea-aed9-ccddf1397941",
       "type": "execute-command",
       "data": {
         "command": "Remove-LocalUser -Name \"Administrator \" 2\u003e\u00261 | out-null",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "39be66be-51f0-4ca5-b6b4-1e755791913a",
+      "s": "c471e226-af06-42bd-8ddc-e4c7344f88e5",
       "p": "on-success",
-      "o": "d0899604-1a7e-4478-973d-850c9ce5264e"
+      "o": "62bfe376-7ecf-4aea-aed9-ccddf1397941"
     },
     {
-      "s": "39be66be-51f0-4ca5-b6b4-1e755791913a",
+      "s": "c471e226-af06-42bd-8ddc-e4c7344f88e5",
       "p": "on-failure",
-      "o": "d0899604-1a7e-4478-973d-850c9ce5264e"
+      "o": "62bfe376-7ecf-4aea-aed9-ccddf1397941"
     }
   ],
   "tags": [
-    "T1564",
-    "atomic-red-team"
+    "T1564"
   ]
 }

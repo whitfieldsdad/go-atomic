@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "c0d6893f-930a-4b4c-ad86-eb3b078c9508",
+      "id": "f093ccf3-1301-4d29-b1f0-10c0103be532",
       "type": "execute-command",
       "data": {
         "command": "(([adsisearcher]'(objectcategory=organizationalunit)').FindAll()).Path | %{if(([ADSI]\"$_\").gPlink){Write-Host \"[+] OU Path:\"([ADSI]\"$_\").Path;$a=((([ADSI]\"$_\").gplink) -replace \"[[;]\" -split \"]\");for($i=0;$i -lt $a.length;$i++){if($a[$i]){Write-Host \"Policy Path[$i]:\"([ADSI]($a[$i]).Substring(0,$a[$i].length-1)).Path;Write-Host \"Policy Name[$i]:\"([ADSI]($a[$i]).Substring(0,$a[$i].length-1)).DisplayName} };Write-Output \"`n\" }}\n",
@@ -17,7 +17,7 @@
     }
   ],
   "tags": [
-    "T1087.002",
-    "atomic-red-team"
+    "T1087",
+    "T1087.002"
   ]
 }

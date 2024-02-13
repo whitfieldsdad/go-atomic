@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "203eeced-8681-4b16-ae4b-3c20dd170c55",
+      "id": "b6c4a142-cb0a-489f-9bd9-35f4e507b959",
       "type": "execute-command",
       "data": {
         "command": "fsutil usn deletejournal /D C:\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b13e5329-53fe-4522-a176-13a25392e756",
+      "id": "4ec0e2e8-45f4-46a0-93e7-248cef72a814",
       "type": "execute-command",
       "data": {
         "command": "fsutil usn createjournal m=1000 a=100 c:\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "203eeced-8681-4b16-ae4b-3c20dd170c55",
+      "s": "b6c4a142-cb0a-489f-9bd9-35f4e507b959",
       "p": "on-success",
-      "o": "b13e5329-53fe-4522-a176-13a25392e756"
+      "o": "4ec0e2e8-45f4-46a0-93e7-248cef72a814"
     },
     {
-      "s": "203eeced-8681-4b16-ae4b-3c20dd170c55",
+      "s": "b6c4a142-cb0a-489f-9bd9-35f4e507b959",
       "p": "on-failure",
-      "o": "b13e5329-53fe-4522-a176-13a25392e756"
+      "o": "4ec0e2e8-45f4-46a0-93e7-248cef72a814"
     }
   ],
   "tags": [
-    "T1070",
-    "atomic-red-team"
+    "T1070"
   ]
 }

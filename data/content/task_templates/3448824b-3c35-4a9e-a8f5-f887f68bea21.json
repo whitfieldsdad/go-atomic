@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "503d6e59-ca82-4649-8eba-c4f3efb0af09",
+      "id": "a53ee527-8f56-49da-82a4-2a09907747fb",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Terminal Server Client\\Default\" /va /f\nreg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Terminal Server Client\\Servers\" /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d9851641-13f0-4fa4-956c-8099cf98ae39",
+      "id": "08b5eb60-97eb-4ed7-ba53-8c755930e1d4",
       "name": "Check dependency 1/1",
       "description": "Must have the \"MR9\" Remote Desktop Connection history Key \n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "if ((Get-ItemProperty -Path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\Default\\\").MR9) {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5128e5b1-2848-4b64-a073-02ce9134dcb8",
+      "id": "5888f316-b853-45e4-8516-f98b18fb44b0",
       "name": "Resolve dependency 1/1",
       "description": "Must have the \"MR9\" Remote Desktop Connection history Key \n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "New-Item -path \"HKCU:\\SOFTWARE\\Microsoft\\\" -name \"Terminal Server Client\"  -ErrorAction Ignore\nNew-Item -path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\\" -name \"Default\" -ErrorAction Ignore\nNew-Itemproperty -path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\Default\" -name \"MR9\" -value \"127.0.0.1\"  -PropertyType \"String\" -ErrorAction Ignore\nNew-Item -path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\\" -name \"Servers\" -ErrorAction Ignore\nNew-Item -path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\Servers\" -name \"Redcanary\" -ErrorAction Ignore\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "c184e634-2e1d-4761-a347-469ec596c718",
+      "id": "18cb6d10-332f-4050-9b4d-a70ee1f42742",
       "name": "Re-check dependency 1/1",
       "description": "Must have the \"MR9\" Remote Desktop Connection history Key \n",
       "type": "execute-command",
@@ -46,33 +46,32 @@
         "command": "if ((Get-ItemProperty -Path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\Default\\\").MR9) {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "d9851641-13f0-4fa4-956c-8099cf98ae39",
+      "s": "08b5eb60-97eb-4ed7-ba53-8c755930e1d4",
       "p": "on-success",
-      "o": "503d6e59-ca82-4649-8eba-c4f3efb0af09"
+      "o": "a53ee527-8f56-49da-82a4-2a09907747fb"
     },
     {
-      "s": "d9851641-13f0-4fa4-956c-8099cf98ae39",
+      "s": "08b5eb60-97eb-4ed7-ba53-8c755930e1d4",
       "p": "on-failure",
-      "o": "5128e5b1-2848-4b64-a073-02ce9134dcb8"
+      "o": "5888f316-b853-45e4-8516-f98b18fb44b0"
     },
     {
-      "s": "5128e5b1-2848-4b64-a073-02ce9134dcb8",
+      "s": "5888f316-b853-45e4-8516-f98b18fb44b0",
       "p": "on-success",
-      "o": "c184e634-2e1d-4761-a347-469ec596c718"
+      "o": "18cb6d10-332f-4050-9b4d-a70ee1f42742"
     },
     {
-      "s": "c184e634-2e1d-4761-a347-469ec596c718",
+      "s": "18cb6d10-332f-4050-9b4d-a70ee1f42742",
       "p": "on-failure",
-      "o": "503d6e59-ca82-4649-8eba-c4f3efb0af09"
+      "o": "a53ee527-8f56-49da-82a4-2a09907747fb"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

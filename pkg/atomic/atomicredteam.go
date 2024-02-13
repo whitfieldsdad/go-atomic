@@ -81,10 +81,14 @@ func (t AtomicRedTeamTest) GetTaskTemplate() (*TaskTemplate, error) {
 		args = append(args, arg)
 	}
 
-	tags := []string{
-		t.AttackTechniqueId,
-		"atomic-red-team",
+	tags := make([]string, 0)
+	if strings.Contains(t.AttackTechniqueId, ".") {
+		parentTechniqueId := strings.Split(t.AttackTechniqueId, ".")[0]
+		tags = append(tags, parentTechniqueId, t.AttackTechniqueId)
+	} else {
+		tags = append(tags, t.AttackTechniqueId)
 	}
+
 	steps := make([]Step, 0)
 	flows := make([]Flow, 0)
 
@@ -93,6 +97,7 @@ func (t AtomicRedTeamTest) GetTaskTemplate() (*TaskTemplate, error) {
 	if err != nil {
 		return nil, err
 	}
+	testStep.ElevationRequired = t.Executor.ElevationRequired
 	steps = append(steps, *testStep)
 
 	if t.Executor.CleanupCommand != "" {
@@ -100,6 +105,7 @@ func (t AtomicRedTeamTest) GetTaskTemplate() (*TaskTemplate, error) {
 		if err != nil {
 			return nil, err
 		}
+		cleanupStep.ElevationRequired = t.Executor.ElevationRequired
 		flows = append(flows, NewFlow(testStep.Id, FlowTypeOnSuccess, cleanupStep.Id))
 		flows = append(flows, NewFlow(testStep.Id, FlowTypeOnFailure, cleanupStep.Id))
 		steps = append(steps, *cleanupStep)
@@ -115,6 +121,7 @@ func (t AtomicRedTeamTest) GetTaskTemplate() (*TaskTemplate, error) {
 			}
 			a.Name = fmt.Sprintf("Check dependency %d/%d", i+1, n)
 			a.Description = d.Description
+			a.ElevationRequired = t.Executor.ElevationRequired
 
 			b, err := NewExecuteCommandStep(d.GetPrereqCommand, d.ExecutorName)
 			if err != nil {
@@ -122,6 +129,7 @@ func (t AtomicRedTeamTest) GetTaskTemplate() (*TaskTemplate, error) {
 			}
 			b.Name = fmt.Sprintf("Resolve dependency %d/%d", i+1, n)
 			b.Description = d.Description
+			b.ElevationRequired = t.Executor.ElevationRequired
 
 			c, err := NewExecuteCommandStep(d.PrereqCommand, d.ExecutorName)
 			if err != nil {
@@ -129,6 +137,7 @@ func (t AtomicRedTeamTest) GetTaskTemplate() (*TaskTemplate, error) {
 			}
 			c.Name = fmt.Sprintf("Re-check dependency %d/%d", i+1, n)
 			c.Description = d.Description
+			c.ElevationRequired = t.Executor.ElevationRequired
 
 			steps = append(steps, *a, *b, *c)
 			flows = append(flows, NewFlow(a.Id, FlowTypeOnSuccess, testStep.Id))

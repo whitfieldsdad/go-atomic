@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "02a9df37-69af-4d77-9793-8bf2789d5025",
+      "id": "747a63f5-e7c1-49e2-8957-431a8cc78d23",
       "type": "execute-command",
       "data": {
         "command": "kubectl create -f #{path} -n #{namespace}\n# wait 3 seconds for the instance to come up\nsleep 3\nkubectl exec -n #{namespace} busybox -- #{command}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "b0914595-e3d9-4371-a40f-76a88157f26b",
+      "id": "aeba0a2c-1b26-4f57-b0b7-b75b66ec9e43",
       "type": "execute-command",
       "data": {
         "command": "kubectl delete pod busybox -n #{namespace}\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "0e1ca87d-ef62-40c8-ac64-24078e0eff8a",
+      "id": "43006da2-21fa-4996-80be-49d1dc197d8a",
       "name": "Check dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "91d270f4-ab8f-446d-bcad-7a2de6bf4e92",
+      "id": "f3b78f42-b10c-483f-9ef4-dff68f0ad13d",
       "name": "Resolve dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "8af7f1af-4b12-4e82-a9fa-3f7d5542e377",
+      "id": "993d4e6e-5a70-4f17-be2c-0e7cb3578df4",
       "name": "Re-check dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
@@ -60,39 +60,38 @@
   ],
   "flows": [
     {
-      "s": "02a9df37-69af-4d77-9793-8bf2789d5025",
+      "s": "747a63f5-e7c1-49e2-8957-431a8cc78d23",
       "p": "on-success",
-      "o": "b0914595-e3d9-4371-a40f-76a88157f26b"
+      "o": "aeba0a2c-1b26-4f57-b0b7-b75b66ec9e43"
     },
     {
-      "s": "02a9df37-69af-4d77-9793-8bf2789d5025",
+      "s": "747a63f5-e7c1-49e2-8957-431a8cc78d23",
       "p": "on-failure",
-      "o": "b0914595-e3d9-4371-a40f-76a88157f26b"
+      "o": "aeba0a2c-1b26-4f57-b0b7-b75b66ec9e43"
     },
     {
-      "s": "0e1ca87d-ef62-40c8-ac64-24078e0eff8a",
+      "s": "43006da2-21fa-4996-80be-49d1dc197d8a",
       "p": "on-success",
-      "o": "02a9df37-69af-4d77-9793-8bf2789d5025"
+      "o": "747a63f5-e7c1-49e2-8957-431a8cc78d23"
     },
     {
-      "s": "0e1ca87d-ef62-40c8-ac64-24078e0eff8a",
+      "s": "43006da2-21fa-4996-80be-49d1dc197d8a",
       "p": "on-failure",
-      "o": "91d270f4-ab8f-446d-bcad-7a2de6bf4e92"
+      "o": "f3b78f42-b10c-483f-9ef4-dff68f0ad13d"
     },
     {
-      "s": "91d270f4-ab8f-446d-bcad-7a2de6bf4e92",
+      "s": "f3b78f42-b10c-483f-9ef4-dff68f0ad13d",
       "p": "on-success",
-      "o": "8af7f1af-4b12-4e82-a9fa-3f7d5542e377"
+      "o": "993d4e6e-5a70-4f17-be2c-0e7cb3578df4"
     },
     {
-      "s": "8af7f1af-4b12-4e82-a9fa-3f7d5542e377",
+      "s": "993d4e6e-5a70-4f17-be2c-0e7cb3578df4",
       "p": "on-failure",
-      "o": "02a9df37-69af-4d77-9793-8bf2789d5025"
+      "o": "747a63f5-e7c1-49e2-8957-431a8cc78d23"
     }
   ],
   "tags": [
-    "T1609",
-    "atomic-red-team"
+    "T1609"
   ],
   "input_arguments": [
     {

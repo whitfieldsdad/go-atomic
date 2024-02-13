@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "4f3c065e-6204-48ed-83b1-399874ad45c2",
+      "id": "0cd30d5b-f837-4e8e-a914-bfeeb708b442",
       "type": "execute-command",
       "data": {
         "command": "psexec.py '#{domain}/#{username}:#{password}@#{remote_host}' '#{command}'\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "c94ddf79-7b6b-4a1e-add6-fec24d7d184a",
+      "id": "5417e145-7ef0-40b2-9183-4bd8cbca5c11",
       "name": "Check dependency 1/1",
       "description": "psexec.py (Impacket)\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "74166283-f8e7-4bee-ab8e-579f4219b766",
+      "id": "a5fc71a5-b3db-4eaa-b595-7471f565464e",
       "name": "Resolve dependency 1/1",
       "description": "psexec.py (Impacket)\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "68f6bd13-8696-49b9-9787-5cf0cd838bee",
+      "id": "3a6b3982-b2a7-49fd-af66-b5a9d6d6e3ca",
       "name": "Re-check dependency 1/1",
       "description": "psexec.py (Impacket)\n",
       "type": "execute-command",
@@ -51,43 +51,31 @@
   ],
   "flows": [
     {
-      "s": "c94ddf79-7b6b-4a1e-add6-fec24d7d184a",
+      "s": "5417e145-7ef0-40b2-9183-4bd8cbca5c11",
       "p": "on-success",
-      "o": "4f3c065e-6204-48ed-83b1-399874ad45c2"
+      "o": "0cd30d5b-f837-4e8e-a914-bfeeb708b442"
     },
     {
-      "s": "c94ddf79-7b6b-4a1e-add6-fec24d7d184a",
+      "s": "5417e145-7ef0-40b2-9183-4bd8cbca5c11",
       "p": "on-failure",
-      "o": "74166283-f8e7-4bee-ab8e-579f4219b766"
+      "o": "a5fc71a5-b3db-4eaa-b595-7471f565464e"
     },
     {
-      "s": "74166283-f8e7-4bee-ab8e-579f4219b766",
+      "s": "a5fc71a5-b3db-4eaa-b595-7471f565464e",
       "p": "on-success",
-      "o": "68f6bd13-8696-49b9-9787-5cf0cd838bee"
+      "o": "3a6b3982-b2a7-49fd-af66-b5a9d6d6e3ca"
     },
     {
-      "s": "68f6bd13-8696-49b9-9787-5cf0cd838bee",
+      "s": "3a6b3982-b2a7-49fd-af66-b5a9d6d6e3ca",
       "p": "on-failure",
-      "o": "4f3c065e-6204-48ed-83b1-399874ad45c2"
+      "o": "0cd30d5b-f837-4e8e-a914-bfeeb708b442"
     }
   ],
   "tags": [
-    "T1569.002",
-    "atomic-red-team"
+    "T1569",
+    "T1569.002"
   ],
   "input_arguments": [
-    {
-      "name": "domain",
-      "type": "string",
-      "description": "Target domain",
-      "value": ""
-    },
-    {
-      "name": "password",
-      "type": "string",
-      "description": "Password",
-      "value": "P@ssw0rd1"
-    },
     {
       "name": "command",
       "type": "string",
@@ -105,6 +93,18 @@
       "type": "string",
       "description": "Username",
       "value": "Administrator"
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "Target domain",
+      "value": ""
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password",
+      "value": "P@ssw0rd1"
     }
   ]
 }

@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "902865cc-3c52-43e2-ab23-dd85ff3bc940",
+      "id": "71394cfe-1e1a-48b7-bc3f-4835f545ae05",
       "type": "execute-command",
       "data": {
         "command": "sudo sed -i 's/Storage=auto/Storage=none/' /etc/systemd/journald.conf\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5be16213-fa7b-4c8a-9109-472ed6f19561",
+      "id": "487095b6-1cde-4462-9a7e-0459481f205b",
       "type": "execute-command",
       "data": {
         "command": "sudo sed -i 's/Storage=none/Storage=auto/' /etc/systemd/journald.conf #re-enables storage of journal data\nsudo systemctl restart systemd-journald #restart the journal service\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "902865cc-3c52-43e2-ab23-dd85ff3bc940",
+      "s": "71394cfe-1e1a-48b7-bc3f-4835f545ae05",
       "p": "on-success",
-      "o": "5be16213-fa7b-4c8a-9109-472ed6f19561"
+      "o": "487095b6-1cde-4462-9a7e-0459481f205b"
     },
     {
-      "s": "902865cc-3c52-43e2-ab23-dd85ff3bc940",
+      "s": "71394cfe-1e1a-48b7-bc3f-4835f545ae05",
       "p": "on-failure",
-      "o": "5be16213-fa7b-4c8a-9109-472ed6f19561"
+      "o": "487095b6-1cde-4462-9a7e-0459481f205b"
     }
   ],
   "tags": [
-    "T1562",
-    "atomic-red-team"
+    "T1562"
   ]
 }

@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "86a53268-696e-4076-8d69-10b5a3d10aa0",
+      "id": "5af14ad8-8c41-4153-be54-f0c65932461c",
       "type": "execute-command",
       "data": {
         "command": "certutil -addstore my #{pfx_path}\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "39f1a3ce-e336-4a51-b2c1-45cfea91ab11",
+      "id": "7378fd81-8fb0-4c3a-8448-f855d9c40264",
       "type": "execute-command",
       "data": {
         "command": "try {\n$cert = Import-Certificate -FilePath #{pfx_path} -CertStoreLocation Cert:\\LocalMachine\\My\nGet-ChildItem Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\nGet-ChildItem Cert:\\LocalMachine\\Root\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\n} catch { }\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "68ebb251-8d83-4314-aab0-7da508ed32dc",
+      "id": "6d801ecd-2b13-499c-abc9-2c418eb1edde",
       "name": "Check dependency 1/1",
       "description": "Certificate must exist at specified location (#{pfx_path})\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if (Test-Path #{pfx_path}) { exit 0 } else { exit 1 }\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ecbab7b7-8515-4209-9719-9382028894e8",
+      "id": "18ed050a-3fd8-463c-9fa8-859fc3955737",
       "name": "Resolve dependency 1/1",
       "description": "Certificate must exist at specified location (#{pfx_path})\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "$cert = New-SelfSignedCertificate -DnsName atomicredteam.com -CertStoreLocation cert:\\LocalMachine\\My\nExport-Certificate -Type CERT -Cert  Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -FilePath #{pfx_path}\nGet-ChildItem Cert:\\LocalMachine\\My\\$($cert.Thumbprint) | Remove-Item\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4570aa96-2a77-438c-87e8-ce5e82271494",
+      "id": "f80ac975-ab15-4b4b-832c-4e0cf0a4e3d1",
       "name": "Re-check dependency 1/1",
       "description": "Certificate must exist at specified location (#{pfx_path})\n",
       "type": "execute-command",
@@ -55,44 +55,44 @@
         "command": "if (Test-Path #{pfx_path}) { exit 0 } else { exit 1 }\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "86a53268-696e-4076-8d69-10b5a3d10aa0",
+      "s": "5af14ad8-8c41-4153-be54-f0c65932461c",
       "p": "on-success",
-      "o": "39f1a3ce-e336-4a51-b2c1-45cfea91ab11"
+      "o": "7378fd81-8fb0-4c3a-8448-f855d9c40264"
     },
     {
-      "s": "86a53268-696e-4076-8d69-10b5a3d10aa0",
+      "s": "5af14ad8-8c41-4153-be54-f0c65932461c",
       "p": "on-failure",
-      "o": "39f1a3ce-e336-4a51-b2c1-45cfea91ab11"
+      "o": "7378fd81-8fb0-4c3a-8448-f855d9c40264"
     },
     {
-      "s": "68ebb251-8d83-4314-aab0-7da508ed32dc",
+      "s": "6d801ecd-2b13-499c-abc9-2c418eb1edde",
       "p": "on-success",
-      "o": "86a53268-696e-4076-8d69-10b5a3d10aa0"
+      "o": "5af14ad8-8c41-4153-be54-f0c65932461c"
     },
     {
-      "s": "68ebb251-8d83-4314-aab0-7da508ed32dc",
+      "s": "6d801ecd-2b13-499c-abc9-2c418eb1edde",
       "p": "on-failure",
-      "o": "ecbab7b7-8515-4209-9719-9382028894e8"
+      "o": "18ed050a-3fd8-463c-9fa8-859fc3955737"
     },
     {
-      "s": "ecbab7b7-8515-4209-9719-9382028894e8",
+      "s": "18ed050a-3fd8-463c-9fa8-859fc3955737",
       "p": "on-success",
-      "o": "4570aa96-2a77-438c-87e8-ce5e82271494"
+      "o": "f80ac975-ab15-4b4b-832c-4e0cf0a4e3d1"
     },
     {
-      "s": "4570aa96-2a77-438c-87e8-ce5e82271494",
+      "s": "f80ac975-ab15-4b4b-832c-4e0cf0a4e3d1",
       "p": "on-failure",
-      "o": "86a53268-696e-4076-8d69-10b5a3d10aa0"
+      "o": "5af14ad8-8c41-4153-be54-f0c65932461c"
     }
   ],
   "tags": [
-    "T1553.004",
-    "atomic-red-team"
+    "T1553",
+    "T1553.004"
   ],
   "input_arguments": [
     {

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "918805c3-1631-4860-a2ce-ea61b51d185c",
+      "id": "be085c31-9f8e-4336-8b0b-7c629844218f",
       "type": "execute-command",
       "data": {
         "command": "copy-item \"$env:windir\\System32\\cmd.exe\" -destination \"$env:allusersprofile\\cmd.exe\"\nstart-process \"$env:allusersprofile\\cmd.exe\"\nsleep -s 5 \nstop-process -name \"cmd\" | out-null",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "e0fc17d5-9e64-43f5-ae44-03797eda7aa8",
+      "id": "22abaa0d-384e-4d61-acce-1abfd8c9829a",
       "type": "execute-command",
       "data": {
         "command": "remove-item \"$env:allusersprofile\\cmd.exe\" -force -erroraction silentlycontinue",
@@ -27,18 +27,17 @@
   ],
   "flows": [
     {
-      "s": "918805c3-1631-4860-a2ce-ea61b51d185c",
+      "s": "be085c31-9f8e-4336-8b0b-7c629844218f",
       "p": "on-success",
-      "o": "e0fc17d5-9e64-43f5-ae44-03797eda7aa8"
+      "o": "22abaa0d-384e-4d61-acce-1abfd8c9829a"
     },
     {
-      "s": "918805c3-1631-4860-a2ce-ea61b51d185c",
+      "s": "be085c31-9f8e-4336-8b0b-7c629844218f",
       "p": "on-failure",
-      "o": "e0fc17d5-9e64-43f5-ae44-03797eda7aa8"
+      "o": "22abaa0d-384e-4d61-acce-1abfd8c9829a"
     }
   ],
   "tags": [
-    "T1036",
-    "atomic-red-team"
+    "T1036"
   ]
 }

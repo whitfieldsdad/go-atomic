@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "676eafe5-1812-4ff7-9226-93848d754687",
+      "id": "38b46953-12e2-473b-a008-d8c01aff4ede",
       "type": "execute-command",
       "data": {
         "command": "gcloud config set project #{project-id}\ngcloud logging logs delete projects/#{project-id}/logs/cloudaudit.googleapis.com%2Factivity --quiet\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "f38413d1-9947-441f-abe2-ead13b4d6cc0",
+      "id": "953393f5-7e52-41ec-ad75-f31a68731f3a",
       "name": "Check dependency 1/2",
       "description": "Requires gcloud\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "d996e85c-0a48-4243-be9a-d9c94277c40a",
+      "id": "f8b5bd01-33ab-48ae-80d9-4e96377207ff",
       "name": "Resolve dependency 1/2",
       "description": "Requires gcloud\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "a2250d33-6300-4be4-919b-942050dc16f0",
+      "id": "be445886-8e87-4f72-8b4b-783f0c337db0",
       "name": "Re-check dependency 1/2",
       "description": "Requires gcloud\n",
       "type": "execute-command",
@@ -49,7 +49,7 @@
       "elevation_required": false
     },
     {
-      "id": "6aebece5-a1f1-4078-981e-604dc2b0c72d",
+      "id": "5f2d8c87-2958-43cd-86b1-016a0bfa8782",
       "name": "Check dependency 2/2",
       "description": "Check if user is logged in \n",
       "type": "execute-command",
@@ -60,7 +60,7 @@
       "elevation_required": false
     },
     {
-      "id": "674a0b58-5e28-4169-9198-fbd963cc11ce",
+      "id": "17717dc1-3ff4-4a98-a0be-bc5c44ff5981",
       "name": "Resolve dependency 2/2",
       "description": "Check if user is logged in \n",
       "type": "execute-command",
@@ -71,7 +71,7 @@
       "elevation_required": false
     },
     {
-      "id": "4999160c-3813-4c5c-b324-8953c0ed7db8",
+      "id": "8abd2ffe-8b41-4190-bcb5-346b991313d9",
       "name": "Re-check dependency 2/2",
       "description": "Check if user is logged in \n",
       "type": "execute-command",
@@ -84,49 +84,49 @@
   ],
   "flows": [
     {
-      "s": "f38413d1-9947-441f-abe2-ead13b4d6cc0",
+      "s": "953393f5-7e52-41ec-ad75-f31a68731f3a",
       "p": "on-success",
-      "o": "676eafe5-1812-4ff7-9226-93848d754687"
+      "o": "38b46953-12e2-473b-a008-d8c01aff4ede"
     },
     {
-      "s": "f38413d1-9947-441f-abe2-ead13b4d6cc0",
+      "s": "953393f5-7e52-41ec-ad75-f31a68731f3a",
       "p": "on-failure",
-      "o": "d996e85c-0a48-4243-be9a-d9c94277c40a"
+      "o": "f8b5bd01-33ab-48ae-80d9-4e96377207ff"
     },
     {
-      "s": "d996e85c-0a48-4243-be9a-d9c94277c40a",
+      "s": "f8b5bd01-33ab-48ae-80d9-4e96377207ff",
       "p": "on-success",
-      "o": "a2250d33-6300-4be4-919b-942050dc16f0"
+      "o": "be445886-8e87-4f72-8b4b-783f0c337db0"
     },
     {
-      "s": "a2250d33-6300-4be4-919b-942050dc16f0",
+      "s": "be445886-8e87-4f72-8b4b-783f0c337db0",
       "p": "on-failure",
-      "o": "676eafe5-1812-4ff7-9226-93848d754687"
+      "o": "38b46953-12e2-473b-a008-d8c01aff4ede"
     },
     {
-      "s": "6aebece5-a1f1-4078-981e-604dc2b0c72d",
+      "s": "5f2d8c87-2958-43cd-86b1-016a0bfa8782",
       "p": "on-success",
-      "o": "676eafe5-1812-4ff7-9226-93848d754687"
+      "o": "38b46953-12e2-473b-a008-d8c01aff4ede"
     },
     {
-      "s": "6aebece5-a1f1-4078-981e-604dc2b0c72d",
+      "s": "5f2d8c87-2958-43cd-86b1-016a0bfa8782",
       "p": "on-failure",
-      "o": "674a0b58-5e28-4169-9198-fbd963cc11ce"
+      "o": "17717dc1-3ff4-4a98-a0be-bc5c44ff5981"
     },
     {
-      "s": "674a0b58-5e28-4169-9198-fbd963cc11ce",
+      "s": "17717dc1-3ff4-4a98-a0be-bc5c44ff5981",
       "p": "on-success",
-      "o": "4999160c-3813-4c5c-b324-8953c0ed7db8"
+      "o": "8abd2ffe-8b41-4190-bcb5-346b991313d9"
     },
     {
-      "s": "4999160c-3813-4c5c-b324-8953c0ed7db8",
+      "s": "8abd2ffe-8b41-4190-bcb5-346b991313d9",
       "p": "on-failure",
-      "o": "676eafe5-1812-4ff7-9226-93848d754687"
+      "o": "38b46953-12e2-473b-a008-d8c01aff4ede"
     }
   ],
   "tags": [
-    "T1562.008",
-    "atomic-red-team"
+    "T1562",
+    "T1562.008"
   ],
   "input_arguments": [
     {

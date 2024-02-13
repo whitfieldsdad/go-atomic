@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "1e55693f-6b93-4a3d-b79a-e3efb26aa7ed",
+      "id": "3035c2fc-1162-4a41-83d0-a3da13a68dd3",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v HideSCAPower /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "fd19be42-03f1-4c2b-9463-439de9f5b3f3",
+      "id": "5667c774-b76f-43a7-bbf7-dbcee575a4dd",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v HideSCAPower /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "1e55693f-6b93-4a3d-b79a-e3efb26aa7ed",
+      "s": "3035c2fc-1162-4a41-83d0-a3da13a68dd3",
       "p": "on-success",
-      "o": "fd19be42-03f1-4c2b-9463-439de9f5b3f3"
+      "o": "5667c774-b76f-43a7-bbf7-dbcee575a4dd"
     },
     {
-      "s": "1e55693f-6b93-4a3d-b79a-e3efb26aa7ed",
+      "s": "3035c2fc-1162-4a41-83d0-a3da13a68dd3",
       "p": "on-failure",
-      "o": "fd19be42-03f1-4c2b-9463-439de9f5b3f3"
+      "o": "5667c774-b76f-43a7-bbf7-dbcee575a4dd"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

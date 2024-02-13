@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "a626d8f9-4089-4405-9c7e-444a81e7ba99",
+      "id": "6a748917-7a79-4fc4-86c7-dec0db192b4e",
       "type": "execute-command",
       "data": {
         "command": "$termsrvDll = \"C:\\Windows\\System32\\termsrv.dll\"\n\n$ACL = Get-Acl $termsrvDll\n$permission = \"Administrators\",\"FullControl\",\"Allow\"\n$accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule $permission\n$ACL.SetAccessRule($accessRule)\nSet-Acl -Path $termsrvDll -AclObject $ACL\n\nCopy-Item -Path $termsrvDll -Destination \"$HOME\\AtomicTest.dll\"\n\n$newServiceDll = \"$HOME\\AtomicTest.dll\"\n\n$registryPath = \"HKLM:\\System\\CurrentControlSet\\services\\TermService\\Parameters\"\n\n# Check if the registry key exists\nif (Test-Path -Path $registryPath) {\n    # Modify the ServiceDll value in the registry\n    Set-ItemProperty -Path $registryPath -Name \"ServiceDll\" -Value $newServiceDll\n    Write-Host \"ServiceDll value in the registry has been updated to: $newServiceDll\"\n} else {\n    Write-Host \"Registry key not found. Make sure the 'TermService\\Parameters' key exists.\"\n}",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "99167d4e-cda1-4e15-86bd-fc9b77843e57",
+      "id": "2572f727-4a75-44bd-a685-93830d6b2aa9",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty -Path \"HKLM:\\System\\CurrentControlSet\\services\\TermService\\Parameters\" -Name \"ServiceDll\" -Value \"C:\\Windows\\System32\\termsrv.dll\"",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "a626d8f9-4089-4405-9c7e-444a81e7ba99",
+      "s": "6a748917-7a79-4fc4-86c7-dec0db192b4e",
       "p": "on-success",
-      "o": "99167d4e-cda1-4e15-86bd-fc9b77843e57"
+      "o": "2572f727-4a75-44bd-a685-93830d6b2aa9"
     },
     {
-      "s": "a626d8f9-4089-4405-9c7e-444a81e7ba99",
+      "s": "6a748917-7a79-4fc4-86c7-dec0db192b4e",
       "p": "on-failure",
-      "o": "99167d4e-cda1-4e15-86bd-fc9b77843e57"
+      "o": "2572f727-4a75-44bd-a685-93830d6b2aa9"
     }
   ],
   "tags": [
-    "T1505.005",
-    "atomic-red-team"
+    "T1505",
+    "T1505.005"
   ]
 }

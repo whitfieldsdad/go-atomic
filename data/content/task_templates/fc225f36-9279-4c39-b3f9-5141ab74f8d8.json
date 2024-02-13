@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "7fe30492-553b-4da0-9b3a-a73f3f1f0f93",
+      "id": "fb80155e-3114-4d85-993e-19edbdf3146f",
       "type": "execute-command",
       "data": {
         "command": "setenforce 0\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "9aff1896-306c-4ce6-ba46-6a2fffb5b6e4",
+      "id": "02e974dd-804e-42b6-b2ce-607b8eb0b4f7",
       "type": "execute-command",
       "data": {
         "command": "setenforce 1\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d895de9f-b599-41a5-91a2-115fc83bd03b",
+      "id": "0ff67669-a82b-4ebb-b14c-382b58cff357",
       "name": "Check dependency 1/1",
       "description": "SELinux must be installed\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "which setenforce\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "76e3c2de-0600-429a-8790-aa648a394947",
+      "id": "ee4fa524-d0ce-4ef4-9e5b-c38d8195dd56",
       "name": "Resolve dependency 1/1",
       "description": "SELinux must be installed\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo \"SELinux is not installed\"; exit 1\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "977d99bc-bbe8-45d6-b01b-9d92b111384a",
+      "id": "02130f64-4212-4d8b-9e73-675f47c793ae",
       "name": "Re-check dependency 1/1",
       "description": "SELinux must be installed\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "which setenforce\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "7fe30492-553b-4da0-9b3a-a73f3f1f0f93",
+      "s": "fb80155e-3114-4d85-993e-19edbdf3146f",
       "p": "on-success",
-      "o": "9aff1896-306c-4ce6-ba46-6a2fffb5b6e4"
+      "o": "02e974dd-804e-42b6-b2ce-607b8eb0b4f7"
     },
     {
-      "s": "7fe30492-553b-4da0-9b3a-a73f3f1f0f93",
+      "s": "fb80155e-3114-4d85-993e-19edbdf3146f",
       "p": "on-failure",
-      "o": "9aff1896-306c-4ce6-ba46-6a2fffb5b6e4"
+      "o": "02e974dd-804e-42b6-b2ce-607b8eb0b4f7"
     },
     {
-      "s": "d895de9f-b599-41a5-91a2-115fc83bd03b",
+      "s": "0ff67669-a82b-4ebb-b14c-382b58cff357",
       "p": "on-success",
-      "o": "7fe30492-553b-4da0-9b3a-a73f3f1f0f93"
+      "o": "fb80155e-3114-4d85-993e-19edbdf3146f"
     },
     {
-      "s": "d895de9f-b599-41a5-91a2-115fc83bd03b",
+      "s": "0ff67669-a82b-4ebb-b14c-382b58cff357",
       "p": "on-failure",
-      "o": "76e3c2de-0600-429a-8790-aa648a394947"
+      "o": "ee4fa524-d0ce-4ef4-9e5b-c38d8195dd56"
     },
     {
-      "s": "76e3c2de-0600-429a-8790-aa648a394947",
+      "s": "ee4fa524-d0ce-4ef4-9e5b-c38d8195dd56",
       "p": "on-success",
-      "o": "977d99bc-bbe8-45d6-b01b-9d92b111384a"
+      "o": "02130f64-4212-4d8b-9e73-675f47c793ae"
     },
     {
-      "s": "977d99bc-bbe8-45d6-b01b-9d92b111384a",
+      "s": "02130f64-4212-4d8b-9e73-675f47c793ae",
       "p": "on-failure",
-      "o": "7fe30492-553b-4da0-9b3a-a73f3f1f0f93"
+      "o": "fb80155e-3114-4d85-993e-19edbdf3146f"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ]
 }

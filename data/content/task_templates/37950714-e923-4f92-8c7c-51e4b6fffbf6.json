@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "c5c6a73f-cbbf-4d52-9af2-6addeb49f0f3",
+      "id": "da4f574d-f6b9-4b50-861c-3a08ade58182",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\" /v \"MaxConnectionsPerServer\" /t REG_DWORD /d 10 /f\nreg add \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\" /v \"MaxConnectionsPer1_0Server\" /t REG_DWORD /d 10 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "74c01d47-3c73-4d28-b008-760c200f7e51",
+      "id": "50fd606e-9145-42fd-ae2e-744376e9c636",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\" /v \"MaxConnectionsPerServer\" /f\nreg delete \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\" /v \"MaxConnectionsPer1_0Server\" /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "c5c6a73f-cbbf-4d52-9af2-6addeb49f0f3",
+      "s": "da4f574d-f6b9-4b50-861c-3a08ade58182",
       "p": "on-success",
-      "o": "74c01d47-3c73-4d28-b008-760c200f7e51"
+      "o": "50fd606e-9145-42fd-ae2e-744376e9c636"
     },
     {
-      "s": "c5c6a73f-cbbf-4d52-9af2-6addeb49f0f3",
+      "s": "da4f574d-f6b9-4b50-861c-3a08ade58182",
       "p": "on-failure",
-      "o": "74c01d47-3c73-4d28-b008-760c200f7e51"
+      "o": "50fd606e-9145-42fd-ae2e-744376e9c636"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

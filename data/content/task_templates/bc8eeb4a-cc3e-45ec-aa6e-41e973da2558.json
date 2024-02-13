@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "1cb14fd4-07a6-4d91-8cad-d909959ae43c",
+      "id": "23d34510-2cfd-46a1-9ca3-76844dce3b83",
       "type": "execute-command",
       "data": {
         "command": "sudo find /var/log -name '#{system_log_name1}.*' -exec rm {} \\; #using \"rm\" execution\nsudo find /var/log/ -name \"#{system_log_name2}.*\" -exec shred -u -z -n 3 {} \\; #using \"shred\" execution\nsudo find /var/log/ -name \"#{system_log_name3}.*\" -exec unlink {} \\; #using \"unlink\" execution\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "dc983d8d-594b-47c6-a0f3-f7d9a2fd3333",
+      "id": "e4a4877e-533f-46d1-9453-4a8fb10dcc5c",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "stat /var/log/#{system_log_name1} /var/log/#{system_log_name2} /var/log/#{system_log_name3}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "50580f58-793e-43ad-adf9-a0bbb6a7eeb2",
+      "id": "f9168c6f-fff5-4533-845f-3e3a03ebb7d9",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "touch /var/log/#{system_log_name1} /var/log/#{system_log_name2} /var/log/#{system_log_name3}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b7c9c479-aaca-4469-8ad8-767ca7730167",
+      "id": "af2648ba-4f7c-44da-9505-7b111a6b8a05",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -46,42 +46,36 @@
         "command": "stat /var/log/#{system_log_name1} /var/log/#{system_log_name2} /var/log/#{system_log_name3}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "dc983d8d-594b-47c6-a0f3-f7d9a2fd3333",
+      "s": "e4a4877e-533f-46d1-9453-4a8fb10dcc5c",
       "p": "on-success",
-      "o": "1cb14fd4-07a6-4d91-8cad-d909959ae43c"
+      "o": "23d34510-2cfd-46a1-9ca3-76844dce3b83"
     },
     {
-      "s": "dc983d8d-594b-47c6-a0f3-f7d9a2fd3333",
+      "s": "e4a4877e-533f-46d1-9453-4a8fb10dcc5c",
       "p": "on-failure",
-      "o": "50580f58-793e-43ad-adf9-a0bbb6a7eeb2"
+      "o": "f9168c6f-fff5-4533-845f-3e3a03ebb7d9"
     },
     {
-      "s": "50580f58-793e-43ad-adf9-a0bbb6a7eeb2",
+      "s": "f9168c6f-fff5-4533-845f-3e3a03ebb7d9",
       "p": "on-success",
-      "o": "b7c9c479-aaca-4469-8ad8-767ca7730167"
+      "o": "af2648ba-4f7c-44da-9505-7b111a6b8a05"
     },
     {
-      "s": "b7c9c479-aaca-4469-8ad8-767ca7730167",
+      "s": "af2648ba-4f7c-44da-9505-7b111a6b8a05",
       "p": "on-failure",
-      "o": "1cb14fd4-07a6-4d91-8cad-d909959ae43c"
+      "o": "23d34510-2cfd-46a1-9ca3-76844dce3b83"
     }
   ],
   "tags": [
-    "T1070.002",
-    "atomic-red-team"
+    "T1070",
+    "T1070.002"
   ],
   "input_arguments": [
-    {
-      "name": "system_log_name1",
-      "type": "string",
-      "description": "name or prefix of system log to delete.",
-      "value": "system.log"
-    },
     {
       "name": "system_log_name2",
       "type": "string",
@@ -93,6 +87,12 @@
       "type": "string",
       "description": "name or prefix of system log to delete.",
       "value": "system.log.98.gz"
+    },
+    {
+      "name": "system_log_name1",
+      "type": "string",
+      "description": "name or prefix of system log to delete.",
+      "value": "system.log"
     }
   ]
 }

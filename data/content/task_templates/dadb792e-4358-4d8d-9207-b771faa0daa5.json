@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "87b8133a-2492-4d24-9c77-0d27b06e1a7d",
+      "id": "0f991d31-a4ec-4a9e-88b7-e001d04e9bf9",
       "type": "execute-command",
       "data": {
         "command": "attrib.exe +h #{file_to_modify}\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "259ad177-a1d7-4b75-8340-22d284c3057a",
+      "id": "456dc536-0211-4426-8a75-afdc8796c1d4",
       "type": "execute-command",
       "data": {
         "command": "del /A:H #{file_to_modify} \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "78d48396-fc50-4712-ad28-8abb529ad223",
+      "id": "cfae572c-9681-44cc-a7d7-d6dc643b29cd",
       "name": "Check dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "IF EXIST #{file_to_modify} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "211846d0-563b-42e3-a1ba-c24d69e7b8a2",
+      "id": "1972b36c-1d99-433c-af7f-e559cf3ef662",
       "name": "Resolve dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo system_Attrib_T1564.001 \u003e\u003e #{file_to_modify}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b3f0104a-1346-451d-952f-f4f31598449e",
+      "id": "2c1fde78-bace-4fef-9b0d-126d85261ad0",
       "name": "Re-check dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
       "type": "execute-command",
@@ -55,44 +55,44 @@
         "command": "IF EXIST #{file_to_modify} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "87b8133a-2492-4d24-9c77-0d27b06e1a7d",
+      "s": "0f991d31-a4ec-4a9e-88b7-e001d04e9bf9",
       "p": "on-success",
-      "o": "259ad177-a1d7-4b75-8340-22d284c3057a"
+      "o": "456dc536-0211-4426-8a75-afdc8796c1d4"
     },
     {
-      "s": "87b8133a-2492-4d24-9c77-0d27b06e1a7d",
+      "s": "0f991d31-a4ec-4a9e-88b7-e001d04e9bf9",
       "p": "on-failure",
-      "o": "259ad177-a1d7-4b75-8340-22d284c3057a"
+      "o": "456dc536-0211-4426-8a75-afdc8796c1d4"
     },
     {
-      "s": "78d48396-fc50-4712-ad28-8abb529ad223",
+      "s": "cfae572c-9681-44cc-a7d7-d6dc643b29cd",
       "p": "on-success",
-      "o": "87b8133a-2492-4d24-9c77-0d27b06e1a7d"
+      "o": "0f991d31-a4ec-4a9e-88b7-e001d04e9bf9"
     },
     {
-      "s": "78d48396-fc50-4712-ad28-8abb529ad223",
+      "s": "cfae572c-9681-44cc-a7d7-d6dc643b29cd",
       "p": "on-failure",
-      "o": "211846d0-563b-42e3-a1ba-c24d69e7b8a2"
+      "o": "1972b36c-1d99-433c-af7f-e559cf3ef662"
     },
     {
-      "s": "211846d0-563b-42e3-a1ba-c24d69e7b8a2",
+      "s": "1972b36c-1d99-433c-af7f-e559cf3ef662",
       "p": "on-success",
-      "o": "b3f0104a-1346-451d-952f-f4f31598449e"
+      "o": "2c1fde78-bace-4fef-9b0d-126d85261ad0"
     },
     {
-      "s": "b3f0104a-1346-451d-952f-f4f31598449e",
+      "s": "2c1fde78-bace-4fef-9b0d-126d85261ad0",
       "p": "on-failure",
-      "o": "87b8133a-2492-4d24-9c77-0d27b06e1a7d"
+      "o": "0f991d31-a4ec-4a9e-88b7-e001d04e9bf9"
     }
   ],
   "tags": [
-    "T1564.001",
-    "atomic-red-team"
+    "T1564",
+    "T1564.001"
   ],
   "input_arguments": [
     {

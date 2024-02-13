@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "f155cebe-8d39-4513-9f97-dda9c3a23237",
+      "id": "15c3cce7-df11-44df-a8a5-f5ca1d5d650c",
       "type": "execute-command",
       "data": {
         "command": "set -x\nsudo kextload #{module_path}\nkextstat 2\u003e/dev/null | grep SoftRAID\nsudo kextunload #{module_path}\nsudo kmutil load -p #{module_path}\nkextstat 2\u003e/dev/null | grep SoftRAID\nsudo kmutil unload -p #{module_path}\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "6f43cad9-b7a5-4fc8-9818-dad13e5d4aae",
+      "id": "84da7bf8-55df-4c83-95c0-161a3af7acf4",
       "name": "Check dependency 1/1",
       "description": "The kernel module must exist on disk at specified location\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "if [ -d #{module_path} ] ; then exit 0; else exit 1 ; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4e9906f3-3068-4c3d-afcc-a2d7702ed22d",
+      "id": "7526b2eb-de19-40f8-8d24-3d01afbcd183",
       "name": "Resolve dependency 1/1",
       "description": "The kernel module must exist on disk at specified location\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "exit 1\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f988e0a0-18df-489a-863f-4903dff46f96",
+      "id": "bd13be86-b1a7-4275-8e67-f07d790bb7fb",
       "name": "Re-check dependency 1/1",
       "description": "The kernel module must exist on disk at specified location\n",
       "type": "execute-command",
@@ -46,34 +46,34 @@
         "command": "if [ -d #{module_path} ] ; then exit 0; else exit 1 ; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "6f43cad9-b7a5-4fc8-9818-dad13e5d4aae",
+      "s": "84da7bf8-55df-4c83-95c0-161a3af7acf4",
       "p": "on-success",
-      "o": "f155cebe-8d39-4513-9f97-dda9c3a23237"
+      "o": "15c3cce7-df11-44df-a8a5-f5ca1d5d650c"
     },
     {
-      "s": "6f43cad9-b7a5-4fc8-9818-dad13e5d4aae",
+      "s": "84da7bf8-55df-4c83-95c0-161a3af7acf4",
       "p": "on-failure",
-      "o": "4e9906f3-3068-4c3d-afcc-a2d7702ed22d"
+      "o": "7526b2eb-de19-40f8-8d24-3d01afbcd183"
     },
     {
-      "s": "4e9906f3-3068-4c3d-afcc-a2d7702ed22d",
+      "s": "7526b2eb-de19-40f8-8d24-3d01afbcd183",
       "p": "on-success",
-      "o": "f988e0a0-18df-489a-863f-4903dff46f96"
+      "o": "bd13be86-b1a7-4275-8e67-f07d790bb7fb"
     },
     {
-      "s": "f988e0a0-18df-489a-863f-4903dff46f96",
+      "s": "bd13be86-b1a7-4275-8e67-f07d790bb7fb",
       "p": "on-failure",
-      "o": "f155cebe-8d39-4513-9f97-dda9c3a23237"
+      "o": "15c3cce7-df11-44df-a8a5-f5ca1d5d650c"
     }
   ],
   "tags": [
-    "T1547.006",
-    "atomic-red-team"
+    "T1547",
+    "T1547.006"
   ],
   "input_arguments": [
     {

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "bfe64566-171e-48b0-9548-eb480ad25f2f",
+      "id": "407d92a4-102b-4932-82c1-49673e6ed11d",
       "type": "execute-command",
       "data": {
         "command": "cp $HISTFILE $HISTFILE.OLD\nif ((${#HISTFILE[@]})); then echo $HISTFILE; fi\necho \"\" \u003e $HISTFILE\nif [ $(wc -c \u003c$HISTFILE) -gt 1 ]; then echo \"$HISTFILE is larger than 1k\"; fi\nls -la $HISTFILE \ncat $HISTFILE\nhistory -c \nif [ $(history |wc -l) -eq 1 ]; then echo \"History cache cleared\"; fi\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "1baa9de4-cab9-4592-8149-65c65110f5b0",
+      "id": "8b4533b2-fcc1-48b1-a91e-987637cdbf5f",
       "type": "execute-command",
       "data": {
         "command": "mv -f $HISTFILE.OLD $HISTFILE \n",
@@ -27,18 +27,18 @@
   ],
   "flows": [
     {
-      "s": "bfe64566-171e-48b0-9548-eb480ad25f2f",
+      "s": "407d92a4-102b-4932-82c1-49673e6ed11d",
       "p": "on-success",
-      "o": "1baa9de4-cab9-4592-8149-65c65110f5b0"
+      "o": "8b4533b2-fcc1-48b1-a91e-987637cdbf5f"
     },
     {
-      "s": "bfe64566-171e-48b0-9548-eb480ad25f2f",
+      "s": "407d92a4-102b-4932-82c1-49673e6ed11d",
       "p": "on-failure",
-      "o": "1baa9de4-cab9-4592-8149-65c65110f5b0"
+      "o": "8b4533b2-fcc1-48b1-a91e-987637cdbf5f"
     }
   ],
   "tags": [
-    "T1562.003",
-    "atomic-red-team"
+    "T1562",
+    "T1562.003"
   ]
 }

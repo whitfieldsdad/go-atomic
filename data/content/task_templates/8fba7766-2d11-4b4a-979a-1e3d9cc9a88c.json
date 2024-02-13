@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "5584fe0d-d59b-40da-a00f-5051014142c1",
+      "id": "1f93c334-54a8-408c-9939-69875b6f08af",
       "type": "execute-command",
       "data": {
         "command": "sudo launchctl unload /Library/LaunchDaemons/com.carbonblack.daemon.plist\nsudo launchctl unload /Library/LaunchDaemons/com.carbonblack.defense.daemon.plist\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "8ca88859-d6c2-4f6d-8b4a-718936bc354c",
+      "id": "40e214a8-d6b9-43af-9daf-5a4ea41944a5",
       "type": "execute-command",
       "data": {
         "command": "sudo launchctl load -w /Library/LaunchDaemons/com.carbonblack.daemon.plist\nsudo launchctl load -w /Library/LaunchDaemons/com.carbonblack.defense.daemon.plist\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "5584fe0d-d59b-40da-a00f-5051014142c1",
+      "s": "1f93c334-54a8-408c-9939-69875b6f08af",
       "p": "on-success",
-      "o": "8ca88859-d6c2-4f6d-8b4a-718936bc354c"
+      "o": "40e214a8-d6b9-43af-9daf-5a4ea41944a5"
     },
     {
-      "s": "5584fe0d-d59b-40da-a00f-5051014142c1",
+      "s": "1f93c334-54a8-408c-9939-69875b6f08af",
       "p": "on-failure",
-      "o": "8ca88859-d6c2-4f6d-8b4a-718936bc354c"
+      "o": "40e214a8-d6b9-43af-9daf-5a4ea41944a5"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ]
 }

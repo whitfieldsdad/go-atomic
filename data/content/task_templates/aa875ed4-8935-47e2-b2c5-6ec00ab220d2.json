@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "b09ea0d9-8f70-4b41-9671-baf34f912e4f",
+      "id": "b73550e0-dfb1-4e38-9b7a-bbc847877a2f",
       "type": "execute-command",
       "data": {
         "command": "sc stop WinDefend\nsc config WinDefend start=disabled\nsc query WinDefend\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "a1df941f-8e34-479a-9b36-7d8226a9e39b",
+      "id": "1c88b10e-04f7-45bf-8ac5-653d98da615f",
       "type": "execute-command",
       "data": {
         "command": "sc start WinDefend \u003enul 2\u003e\u00261\nsc config WinDefend start=enabled \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "b09ea0d9-8f70-4b41-9671-baf34f912e4f",
+      "s": "b73550e0-dfb1-4e38-9b7a-bbc847877a2f",
       "p": "on-success",
-      "o": "a1df941f-8e34-479a-9b36-7d8226a9e39b"
+      "o": "1c88b10e-04f7-45bf-8ac5-653d98da615f"
     },
     {
-      "s": "b09ea0d9-8f70-4b41-9671-baf34f912e4f",
+      "s": "b73550e0-dfb1-4e38-9b7a-bbc847877a2f",
       "p": "on-failure",
-      "o": "a1df941f-8e34-479a-9b36-7d8226a9e39b"
+      "o": "1c88b10e-04f7-45bf-8ac5-653d98da615f"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ]
 }

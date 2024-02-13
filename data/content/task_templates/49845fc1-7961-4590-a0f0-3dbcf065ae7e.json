@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1a0485af-0556-4034-b3c0-679e9a7c5b57",
+      "id": "278e0f24-557c-4ede-b891-b2e59896988c",
       "type": "execute-command",
       "data": {
         "command": "del %TEMP%\\PrintBrm.zip \u003enul 2\u003e\u00261 \n#{Path_PrintBrm} -b -d #{Path_unc}  -f %TEMP%\\PrintBrm.zip -O FORCE\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "0fe4a9bb-7921-4926-840f-c835905c6b5d",
+      "id": "3bdfedf7-a035-4701-ac99-6a1fec94f646",
       "type": "execute-command",
       "data": {
         "command": "del %TEMP%\\PrintBrm.zip \u003enul 2\u003e\u00261\n",
@@ -27,32 +27,31 @@
   ],
   "flows": [
     {
-      "s": "1a0485af-0556-4034-b3c0-679e9a7c5b57",
+      "s": "278e0f24-557c-4ede-b891-b2e59896988c",
       "p": "on-success",
-      "o": "0fe4a9bb-7921-4926-840f-c835905c6b5d"
+      "o": "3bdfedf7-a035-4701-ac99-6a1fec94f646"
     },
     {
-      "s": "1a0485af-0556-4034-b3c0-679e9a7c5b57",
+      "s": "278e0f24-557c-4ede-b891-b2e59896988c",
       "p": "on-failure",
-      "o": "0fe4a9bb-7921-4926-840f-c835905c6b5d"
+      "o": "3bdfedf7-a035-4701-ac99-6a1fec94f646"
     }
   ],
   "tags": [
-    "T1105",
-    "atomic-red-team"
+    "T1105"
   ],
   "input_arguments": [
-    {
-      "name": "Path_unc",
-      "type": "path",
-      "description": "Path to the UNC folder",
-      "value": "\\\\127.0.0.1\\c$\\AtomicRedTeam\\atomics\\T1105\\src\\"
-    },
     {
       "name": "Path_PrintBrm",
       "type": "path",
       "description": "Path to PrintBrm.exe",
       "value": "C:\\Windows\\System32\\spool\\tools\\PrintBrm.exe"
+    },
+    {
+      "name": "Path_unc",
+      "type": "path",
+      "description": "Path to the UNC folder",
+      "value": "\\\\127.0.0.1\\c$\\AtomicRedTeam\\atomics\\T1105\\src\\"
     }
   ]
 }

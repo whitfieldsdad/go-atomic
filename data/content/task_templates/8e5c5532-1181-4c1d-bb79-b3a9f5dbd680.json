@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e9a24ccc-e8f8-4a7a-b433-c401f5091765",
+      "id": "cd770f92-a13a-46d7-997f-46680278007c",
       "type": "execute-command",
       "data": {
         "command": "Add-Content -Path #{ads_file} -Value 'Write-Host \"Stream Data Executed\"' -Stream 'streamCommand'\n$streamcommand = Get-Content -Path #{ads_file} -Stream 'streamcommand'\nInvoke-Expression $streamcommand\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "a12d58e4-e2e4-4056-877f-cd28f12e7d86",
+      "id": "d9f6ec68-eee0-4911-a54a-751e215e8cad",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item #{ads_file} -Force -ErrorAction Ignore\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "cf5128be-e2b2-486f-84ea-f066dc128bf7",
+      "id": "b2c24101-50ec-41ff-a2d6-89a83913e134",
       "name": "Check dependency 1/1",
       "description": "Homedrive must be an NTFS drive\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "7b7e1909-fab9-4eaa-a250-5578a1dbe72a",
+      "id": "e3c26207-0397-47e7-8f3c-5ea3e1ac96e4",
       "name": "Resolve dependency 1/1",
       "description": "Homedrive must be an NTFS drive\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "32628195-c440-4a72-b8dc-dbbb830ad2fe",
+      "id": "4cfa3a7a-3685-4d50-aaa2-eacdab16f8a7",
       "name": "Re-check dependency 1/1",
       "description": "Homedrive must be an NTFS drive\n",
       "type": "execute-command",
@@ -60,39 +60,39 @@
   ],
   "flows": [
     {
-      "s": "e9a24ccc-e8f8-4a7a-b433-c401f5091765",
+      "s": "cd770f92-a13a-46d7-997f-46680278007c",
       "p": "on-success",
-      "o": "a12d58e4-e2e4-4056-877f-cd28f12e7d86"
+      "o": "d9f6ec68-eee0-4911-a54a-751e215e8cad"
     },
     {
-      "s": "e9a24ccc-e8f8-4a7a-b433-c401f5091765",
+      "s": "cd770f92-a13a-46d7-997f-46680278007c",
       "p": "on-failure",
-      "o": "a12d58e4-e2e4-4056-877f-cd28f12e7d86"
+      "o": "d9f6ec68-eee0-4911-a54a-751e215e8cad"
     },
     {
-      "s": "cf5128be-e2b2-486f-84ea-f066dc128bf7",
+      "s": "b2c24101-50ec-41ff-a2d6-89a83913e134",
       "p": "on-success",
-      "o": "e9a24ccc-e8f8-4a7a-b433-c401f5091765"
+      "o": "cd770f92-a13a-46d7-997f-46680278007c"
     },
     {
-      "s": "cf5128be-e2b2-486f-84ea-f066dc128bf7",
+      "s": "b2c24101-50ec-41ff-a2d6-89a83913e134",
       "p": "on-failure",
-      "o": "7b7e1909-fab9-4eaa-a250-5578a1dbe72a"
+      "o": "e3c26207-0397-47e7-8f3c-5ea3e1ac96e4"
     },
     {
-      "s": "7b7e1909-fab9-4eaa-a250-5578a1dbe72a",
+      "s": "e3c26207-0397-47e7-8f3c-5ea3e1ac96e4",
       "p": "on-success",
-      "o": "32628195-c440-4a72-b8dc-dbbb830ad2fe"
+      "o": "4cfa3a7a-3685-4d50-aaa2-eacdab16f8a7"
     },
     {
-      "s": "32628195-c440-4a72-b8dc-dbbb830ad2fe",
+      "s": "4cfa3a7a-3685-4d50-aaa2-eacdab16f8a7",
       "p": "on-failure",
-      "o": "e9a24ccc-e8f8-4a7a-b433-c401f5091765"
+      "o": "cd770f92-a13a-46d7-997f-46680278007c"
     }
   ],
   "tags": [
-    "T1059.001",
-    "atomic-red-team"
+    "T1059",
+    "T1059.001"
   ],
   "input_arguments": [
     {

@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "884be892-28f4-49e2-8f26-8d44c384e9b7",
+      "id": "553de660-97b0-4d17-9160-30a77e74727e",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v shutdownwithoutlogon /t REG_DWORD /d 0 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4d047416-be54-429c-84e2-b428099f7b11",
+      "id": "19a04589-e731-429d-ad34-d8325b251ad5",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v shutdownwithoutlogon /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "884be892-28f4-49e2-8f26-8d44c384e9b7",
+      "s": "553de660-97b0-4d17-9160-30a77e74727e",
       "p": "on-success",
-      "o": "4d047416-be54-429c-84e2-b428099f7b11"
+      "o": "19a04589-e731-429d-ad34-d8325b251ad5"
     },
     {
-      "s": "884be892-28f4-49e2-8f26-8d44c384e9b7",
+      "s": "553de660-97b0-4d17-9160-30a77e74727e",
       "p": "on-failure",
-      "o": "4d047416-be54-429c-84e2-b428099f7b11"
+      "o": "19a04589-e731-429d-ad34-d8325b251ad5"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

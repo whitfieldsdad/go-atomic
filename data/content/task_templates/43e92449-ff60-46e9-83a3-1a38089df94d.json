@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "7d73474e-01e1-48b4-866e-dddf32a6ce9f",
+      "id": "e9d642f9-b557-464b-873e-10b42e71af8b",
       "type": "execute-command",
       "data": {
         "command": "Install-TransportAgent -Name #{transport_agent_identity} -TransportAgentFactory #{class_factory} -AssemblyPath #{dll_path}\nEnable-TransportAgent #{transport_agent_identity}\nGet-TransportAgent | Format-List Name,Enabled\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f6d5b6ab-2f94-4c30-9131-f720c32d3fbc",
+      "id": "fac8c117-54c5-4d5d-9e75-21f887d13684",
       "type": "execute-command",
       "data": {
         "command": "if(Get-Command \"Get-TransportAgent\" -ErrorAction Ignore){\n  Disable-TransportAgent #{transport_agent_identity}\n  Uninstall-TransportAgent #{transport_agent_identity}\n  Get-TransportAgent\n}\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "af74d8b5-66ba-4564-a347-f6de6385619d",
+      "id": "d6aed929-c160-497a-a017-ad2effa3562b",
       "name": "Check dependency 1/1",
       "description": "Microsoft Exchange SnapIn must be installed\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "Get-TransportAgent -TransportService FrontEnd\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "26aaf7c8-da23-49fe-883f-fa23452f458d",
+      "id": "25a06e24-066d-4150-ab04-e5220bedc4dd",
       "name": "Resolve dependency 1/1",
       "description": "Microsoft Exchange SnapIn must be installed\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "ca315223-fdc0-446f-91ff-1de06c63d45a",
+      "id": "3ed3a89c-b329-4146-8487-0fe5d086f933",
       "name": "Re-check dependency 1/1",
       "description": "Microsoft Exchange SnapIn must be installed\n",
       "type": "execute-command",
@@ -55,46 +55,52 @@
         "command": "Get-TransportAgent -TransportService FrontEnd\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "7d73474e-01e1-48b4-866e-dddf32a6ce9f",
+      "s": "e9d642f9-b557-464b-873e-10b42e71af8b",
       "p": "on-success",
-      "o": "f6d5b6ab-2f94-4c30-9131-f720c32d3fbc"
+      "o": "fac8c117-54c5-4d5d-9e75-21f887d13684"
     },
     {
-      "s": "7d73474e-01e1-48b4-866e-dddf32a6ce9f",
+      "s": "e9d642f9-b557-464b-873e-10b42e71af8b",
       "p": "on-failure",
-      "o": "f6d5b6ab-2f94-4c30-9131-f720c32d3fbc"
+      "o": "fac8c117-54c5-4d5d-9e75-21f887d13684"
     },
     {
-      "s": "af74d8b5-66ba-4564-a347-f6de6385619d",
+      "s": "d6aed929-c160-497a-a017-ad2effa3562b",
       "p": "on-success",
-      "o": "7d73474e-01e1-48b4-866e-dddf32a6ce9f"
+      "o": "e9d642f9-b557-464b-873e-10b42e71af8b"
     },
     {
-      "s": "af74d8b5-66ba-4564-a347-f6de6385619d",
+      "s": "d6aed929-c160-497a-a017-ad2effa3562b",
       "p": "on-failure",
-      "o": "26aaf7c8-da23-49fe-883f-fa23452f458d"
+      "o": "25a06e24-066d-4150-ab04-e5220bedc4dd"
     },
     {
-      "s": "26aaf7c8-da23-49fe-883f-fa23452f458d",
+      "s": "25a06e24-066d-4150-ab04-e5220bedc4dd",
       "p": "on-success",
-      "o": "ca315223-fdc0-446f-91ff-1de06c63d45a"
+      "o": "3ed3a89c-b329-4146-8487-0fe5d086f933"
     },
     {
-      "s": "ca315223-fdc0-446f-91ff-1de06c63d45a",
+      "s": "3ed3a89c-b329-4146-8487-0fe5d086f933",
       "p": "on-failure",
-      "o": "7d73474e-01e1-48b4-866e-dddf32a6ce9f"
+      "o": "e9d642f9-b557-464b-873e-10b42e71af8b"
     }
   ],
   "tags": [
-    "T1505.002",
-    "atomic-red-team"
+    "T1505",
+    "T1505.002"
   ],
   "input_arguments": [
+    {
+      "name": "transport_agent_identity",
+      "type": "string",
+      "description": "Friendly name of transport agent once installed.",
+      "value": "Security Interop Agent"
+    },
     {
       "name": "class_factory",
       "type": "string",
@@ -106,12 +112,6 @@
       "type": "path",
       "description": "Path of DLL to use as transport agent.",
       "value": "c:\\program files\\microsoft\\Exchange Server\\v15\\bin\\Microsoft.Exchange.Security.Interop.dll"
-    },
-    {
-      "name": "transport_agent_identity",
-      "type": "string",
-      "description": "Friendly name of transport agent once installed.",
-      "value": "Security Interop Agent"
     }
   ]
 }

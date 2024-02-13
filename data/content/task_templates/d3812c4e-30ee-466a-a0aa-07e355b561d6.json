@@ -7,39 +7,38 @@
   ],
   "steps": [
     {
-      "id": "68ccf8f9-9095-40ca-a8c2-f3cc954686d4",
+      "id": "0ffed456-a578-4b56-9e84-658f8f4da729",
       "type": "execute-command",
       "data": {
         "command": "sysadminctl -deleteUser #{user_account} #enter admin password\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "a6af4fad-4244-451c-8b7e-3afa9f883537",
+      "id": "8e3b8a9f-178c-444b-bee3-ac1dcef04cf6",
       "type": "execute-command",
       "data": {
         "command": "sysadminctl -addUser #{user_account} -fullName \"#{user_name}\" -password #{user_password}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "68ccf8f9-9095-40ca-a8c2-f3cc954686d4",
+      "s": "0ffed456-a578-4b56-9e84-658f8f4da729",
       "p": "on-success",
-      "o": "a6af4fad-4244-451c-8b7e-3afa9f883537"
+      "o": "8e3b8a9f-178c-444b-bee3-ac1dcef04cf6"
     },
     {
-      "s": "68ccf8f9-9095-40ca-a8c2-f3cc954686d4",
+      "s": "0ffed456-a578-4b56-9e84-658f8f4da729",
       "p": "on-failure",
-      "o": "a6af4fad-4244-451c-8b7e-3afa9f883537"
+      "o": "8e3b8a9f-178c-444b-bee3-ac1dcef04cf6"
     }
   ],
   "tags": [
-    "T1531",
-    "atomic-red-team"
+    "T1531"
   ],
   "input_arguments": [
     {

@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "8c25c52b-ebe0-4f5a-bd21-61af38f3a473",
+      "id": "7a1ba275-5500-414f-bbf2-008b9ebdee9c",
       "type": "execute-command",
       "data": {
         "command": "osascript -e 'tell application \"Finder\" to delete POSIX file \"#{system_log_path}\"'\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "947035aa-2c6e-49d3-a9de-6b2ac8772b5f",
+      "id": "32e66656-3c5a-4cab-b125-e71fa3d043f6",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "stat #{system_log_path}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "c2ad31c0-0fe5-40d0-bc58-fddf14cb48c6",
+      "id": "4b6b3f74-70fc-4552-9626-c1a67f9f8854",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "touch #{system_log_path}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "790a6ede-18af-49b9-9d0a-34e77848cc7e",
+      "id": "abb29261-b57e-4915-a71c-3e53a23c8092",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -46,34 +46,34 @@
         "command": "stat #{system_log_path}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "947035aa-2c6e-49d3-a9de-6b2ac8772b5f",
+      "s": "32e66656-3c5a-4cab-b125-e71fa3d043f6",
       "p": "on-success",
-      "o": "8c25c52b-ebe0-4f5a-bd21-61af38f3a473"
+      "o": "7a1ba275-5500-414f-bbf2-008b9ebdee9c"
     },
     {
-      "s": "947035aa-2c6e-49d3-a9de-6b2ac8772b5f",
+      "s": "32e66656-3c5a-4cab-b125-e71fa3d043f6",
       "p": "on-failure",
-      "o": "c2ad31c0-0fe5-40d0-bc58-fddf14cb48c6"
+      "o": "4b6b3f74-70fc-4552-9626-c1a67f9f8854"
     },
     {
-      "s": "c2ad31c0-0fe5-40d0-bc58-fddf14cb48c6",
+      "s": "4b6b3f74-70fc-4552-9626-c1a67f9f8854",
       "p": "on-success",
-      "o": "790a6ede-18af-49b9-9d0a-34e77848cc7e"
+      "o": "abb29261-b57e-4915-a71c-3e53a23c8092"
     },
     {
-      "s": "790a6ede-18af-49b9-9d0a-34e77848cc7e",
+      "s": "abb29261-b57e-4915-a71c-3e53a23c8092",
       "p": "on-failure",
-      "o": "8c25c52b-ebe0-4f5a-bd21-61af38f3a473"
+      "o": "7a1ba275-5500-414f-bbf2-008b9ebdee9c"
     }
   ],
   "tags": [
-    "T1070.002",
-    "atomic-red-team"
+    "T1070",
+    "T1070.002"
   ],
   "input_arguments": [
     {

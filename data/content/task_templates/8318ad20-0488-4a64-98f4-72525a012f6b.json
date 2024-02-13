@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "91f8e13d-ce01-4a84-8e2e-06f9acc01472",
+      "id": "ed243b0b-e560-404b-9901-78b9400cdd9f",
       "type": "execute-command",
       "data": {
         "command": "$typicalPath = \"HKLM:\\SOFTWARE\\Classes\\.wav\\OpenWithProgIds\"; $randomBytes = New-Object Byte[] 0x1000; (New-Object Random).NextBytes($randomBytes); New-ItemProperty -Path $typicalPath -Name \"AtomicSnake\" -Value $randomBytes -PropertyType Binary -Force | Out-Null\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "2ea11da8-7f50-421d-bada-5095739c77ef",
+      "id": "443691a4-dd3b-44f4-9afc-ff36ef4ddade",
       "type": "execute-command",
       "data": {
         "command": "$typicalPath = \"HKLM:\\SOFTWARE\\Classes\\.wav\\OpenWithProgIds\"; Remove-ItemProperty -Path $typicalPath -Name \"AtomicSnake\" -ErrorAction SilentlyContinue | Out-Null\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "91f8e13d-ce01-4a84-8e2e-06f9acc01472",
+      "s": "ed243b0b-e560-404b-9901-78b9400cdd9f",
       "p": "on-success",
-      "o": "2ea11da8-7f50-421d-bada-5095739c77ef"
+      "o": "443691a4-dd3b-44f4-9afc-ff36ef4ddade"
     },
     {
-      "s": "91f8e13d-ce01-4a84-8e2e-06f9acc01472",
+      "s": "ed243b0b-e560-404b-9901-78b9400cdd9f",
       "p": "on-failure",
-      "o": "2ea11da8-7f50-421d-bada-5095739c77ef"
+      "o": "443691a4-dd3b-44f4-9afc-ff36ef4ddade"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

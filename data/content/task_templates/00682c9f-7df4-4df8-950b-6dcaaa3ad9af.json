@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "a6d1f58f-1d3c-4eed-9c71-52040d63ebcf",
+      "id": "acb9443b-116e-4f2c-bdb0-a6a9b42968a1",
       "type": "execute-command",
       "data": {
         "command": " c:\\windows\\system32\\cmd.exe /c cd /d #{script_path} \u0026 echo Set objShell = CreateObject(\"WScript.Shell\"):Set objExec = objShell.Exec(\"whoami\"):Set objExec = Nothing:Set objShell = Nothing \u003e #{script_name}.vbs \u0026 #{script_name}.vbs",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "624a4cf6-92cb-40eb-af6b-33493b1bf362",
+      "id": "617f61a9-6a45-46f7-a15d-92f2d3d112b4",
       "type": "execute-command",
       "data": {
         "command": "del \"#{script_name}.vbs\" \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "a6d1f58f-1d3c-4eed-9c71-52040d63ebcf",
+      "s": "acb9443b-116e-4f2c-bdb0-a6a9b42968a1",
       "p": "on-success",
-      "o": "624a4cf6-92cb-40eb-af6b-33493b1bf362"
+      "o": "617f61a9-6a45-46f7-a15d-92f2d3d112b4"
     },
     {
-      "s": "a6d1f58f-1d3c-4eed-9c71-52040d63ebcf",
+      "s": "acb9443b-116e-4f2c-bdb0-a6a9b42968a1",
       "p": "on-failure",
-      "o": "624a4cf6-92cb-40eb-af6b-33493b1bf362"
+      "o": "617f61a9-6a45-46f7-a15d-92f2d3d112b4"
     }
   ],
   "tags": [
-    "T1059.003",
-    "atomic-red-team"
+    "T1059",
+    "T1059.003"
   ],
   "input_arguments": [
     {

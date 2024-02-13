@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "ca2bba35-4b27-4b3c-8b18-f24e93fe57bc",
+      "id": "c03155ee-4ff5-4cbd-9041-2141eef90b44",
       "type": "execute-command",
       "data": {
         "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 pw useradd art -g wheel -s /bin/csh || useradd -s /bin/bash art\ncat /etc/passwd |grep ^art\nchsh -s /bin/sh art\ncat /etc/passwd |grep ^art\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "2950b57b-3b0f-442b-a8c6-48e2a0c895fd",
+      "id": "610fd1e3-2755-498f-bfa4-7db4180a1007",
       "type": "execute-command",
       "data": {
         "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 rmuser -y art || userdel art\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "64e27dbf-a24a-4377-85cc-d795dd191862",
+      "id": "4dced721-b5f7-433c-8807-efe9eb5a85a9",
       "name": "Check dependency 1/1",
       "description": "chsh - change login shell, must be installed\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if [ -f /usr/bin/chsh ]; then echo \"exit 0\"; else echo \"exit 1\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "cda1d42d-721a-40d7-bdf5-4fcb9821cf3d",
+      "id": "fbd65917-a671-4e32-bc63-0a88d19f9b8c",
       "name": "Resolve dependency 1/1",
       "description": "chsh - change login shell, must be installed\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo \"Automated installer not implemented yet, please install chsh manually\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "80c201ce-225b-431a-b326-d4f19be58e17",
+      "id": "de731cff-a02a-4a17-b97c-2aaaec0578f6",
       "name": "Re-check dependency 1/1",
       "description": "chsh - change login shell, must be installed\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "if [ -f /usr/bin/chsh ]; then echo \"exit 0\"; else echo \"exit 1\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "ca2bba35-4b27-4b3c-8b18-f24e93fe57bc",
+      "s": "c03155ee-4ff5-4cbd-9041-2141eef90b44",
       "p": "on-success",
-      "o": "2950b57b-3b0f-442b-a8c6-48e2a0c895fd"
+      "o": "610fd1e3-2755-498f-bfa4-7db4180a1007"
     },
     {
-      "s": "ca2bba35-4b27-4b3c-8b18-f24e93fe57bc",
+      "s": "c03155ee-4ff5-4cbd-9041-2141eef90b44",
       "p": "on-failure",
-      "o": "2950b57b-3b0f-442b-a8c6-48e2a0c895fd"
+      "o": "610fd1e3-2755-498f-bfa4-7db4180a1007"
     },
     {
-      "s": "64e27dbf-a24a-4377-85cc-d795dd191862",
+      "s": "4dced721-b5f7-433c-8807-efe9eb5a85a9",
       "p": "on-success",
-      "o": "ca2bba35-4b27-4b3c-8b18-f24e93fe57bc"
+      "o": "c03155ee-4ff5-4cbd-9041-2141eef90b44"
     },
     {
-      "s": "64e27dbf-a24a-4377-85cc-d795dd191862",
+      "s": "4dced721-b5f7-433c-8807-efe9eb5a85a9",
       "p": "on-failure",
-      "o": "cda1d42d-721a-40d7-bdf5-4fcb9821cf3d"
+      "o": "fbd65917-a671-4e32-bc63-0a88d19f9b8c"
     },
     {
-      "s": "cda1d42d-721a-40d7-bdf5-4fcb9821cf3d",
+      "s": "fbd65917-a671-4e32-bc63-0a88d19f9b8c",
       "p": "on-success",
-      "o": "80c201ce-225b-431a-b326-d4f19be58e17"
+      "o": "de731cff-a02a-4a17-b97c-2aaaec0578f6"
     },
     {
-      "s": "80c201ce-225b-431a-b326-d4f19be58e17",
+      "s": "de731cff-a02a-4a17-b97c-2aaaec0578f6",
       "p": "on-failure",
-      "o": "ca2bba35-4b27-4b3c-8b18-f24e93fe57bc"
+      "o": "c03155ee-4ff5-4cbd-9041-2141eef90b44"
     }
   ],
   "tags": [
-    "T1059.004",
-    "atomic-red-team"
+    "T1059",
+    "T1059.004"
   ]
 }

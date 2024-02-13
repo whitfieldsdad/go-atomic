@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "0eccae43-872e-4a07-99d7-5d58afba5133",
+      "id": "f290a9d4-4af9-4763-b1cb-f7743ce14592",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v DisableTaskmgr /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "6e5b5e7b-a8b3-41d3-9494-29664fb23957",
+      "id": "af217088-8b74-4eca-84ee-194046ca639e",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v DisableTaskmgr /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "0eccae43-872e-4a07-99d7-5d58afba5133",
+      "s": "f290a9d4-4af9-4763-b1cb-f7743ce14592",
       "p": "on-success",
-      "o": "6e5b5e7b-a8b3-41d3-9494-29664fb23957"
+      "o": "af217088-8b74-4eca-84ee-194046ca639e"
     },
     {
-      "s": "0eccae43-872e-4a07-99d7-5d58afba5133",
+      "s": "f290a9d4-4af9-4763-b1cb-f7743ce14592",
       "p": "on-failure",
-      "o": "6e5b5e7b-a8b3-41d3-9494-29664fb23957"
+      "o": "af217088-8b74-4eca-84ee-194046ca639e"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

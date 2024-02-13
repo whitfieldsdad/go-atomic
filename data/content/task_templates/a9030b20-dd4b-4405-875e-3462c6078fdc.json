@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "c9b7ef35-eb2d-40df-9385-8ef04e793ae5",
+      "id": "cdf5f9a4-3654-47f1-a006-e03407846188",
       "type": "execute-command",
       "data": {
         "command": "powershell -c \"get-eventlog 'Security' | where {$_.Message -like '*SYSTEM*'} | export-csv $env:temp\\T1654_events.txt\"",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5b060a58-b995-4cf8-8d5e-2d8c2dd8324e",
+      "id": "b4eedad9-24c0-4890-963e-636a0623cae6",
       "type": "execute-command",
       "data": {
         "command": "powershell -c \"remove-item $env:temp\\T1654_events.txt -ErrorAction Ignore\"",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "c9b7ef35-eb2d-40df-9385-8ef04e793ae5",
+      "s": "cdf5f9a4-3654-47f1-a006-e03407846188",
       "p": "on-success",
-      "o": "5b060a58-b995-4cf8-8d5e-2d8c2dd8324e"
+      "o": "b4eedad9-24c0-4890-963e-636a0623cae6"
     },
     {
-      "s": "c9b7ef35-eb2d-40df-9385-8ef04e793ae5",
+      "s": "cdf5f9a4-3654-47f1-a006-e03407846188",
       "p": "on-failure",
-      "o": "5b060a58-b995-4cf8-8d5e-2d8c2dd8324e"
+      "o": "b4eedad9-24c0-4890-963e-636a0623cae6"
     }
   ],
   "tags": [
-    "T1654",
-    "atomic-red-team"
+    "T1654"
   ]
 }

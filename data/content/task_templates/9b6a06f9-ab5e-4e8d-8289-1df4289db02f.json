@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "8e4e1d4f-eeee-42ca-8d2f-9d94f5fa13cd",
+      "id": "83ef36ff-5bd7-4498-af18-dd2da2615c88",
       "type": "execute-command",
       "data": {
         "command": "New-ItemProperty -Path HKLM:\"\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Custom\" -Name \"AtomicRedTeamT1546.011\" -Value \"AtomicRedTeamT1546.011\"\nNew-ItemProperty -Path HKLM:\"\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\InstalledSDB\" -Name \"AtomicRedTeamT1546.011\" -Value \"AtomicRedTeamT1546.011\"\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "63094d57-6fd3-41c5-b4e6-17bff71aaa82",
+      "id": "8ca76a45-9d5d-4ebf-8c5f-cc656f6db908",
       "type": "execute-command",
       "data": {
         "command": "Remove-ItemProperty -Path HKLM:\"\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Custom\" -Name \"AtomicRedTeamT1546.011\" -ErrorAction Ignore\nRemove-ItemProperty -Path HKLM:\"\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\InstalledSDB\" -Name \"AtomicRedTeamT1546.011\" -ErrorAction Ignore\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "8e4e1d4f-eeee-42ca-8d2f-9d94f5fa13cd",
+      "s": "83ef36ff-5bd7-4498-af18-dd2da2615c88",
       "p": "on-success",
-      "o": "63094d57-6fd3-41c5-b4e6-17bff71aaa82"
+      "o": "8ca76a45-9d5d-4ebf-8c5f-cc656f6db908"
     },
     {
-      "s": "8e4e1d4f-eeee-42ca-8d2f-9d94f5fa13cd",
+      "s": "83ef36ff-5bd7-4498-af18-dd2da2615c88",
       "p": "on-failure",
-      "o": "63094d57-6fd3-41c5-b4e6-17bff71aaa82"
+      "o": "8ca76a45-9d5d-4ebf-8c5f-cc656f6db908"
     }
   ],
   "tags": [
-    "T1546.011",
-    "atomic-red-team"
+    "T1546",
+    "T1546.011"
   ]
 }

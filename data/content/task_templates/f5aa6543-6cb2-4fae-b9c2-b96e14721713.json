@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "d0ee2ff2-4048-4ae0-89ba-5acd6f4639e8",
+      "id": "d6045485-8477-46dd-bfe1-e74732055089",
       "type": "execute-command",
       "data": {
         "command": "testcat(){ (while read line; do echo $line \u003e\u003e #{output_file}; done \u003c $1) }\n[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 testcat /etc/master.passwd\ntestcat /etc/passwd\ntestcat /etc/shadow\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "26fe6bf0-57e1-4cd0-81c9-bab7e7a569cd",
+      "id": "8deb3cad-a3bb-43b6-8874-74c9f6ae2b58",
       "type": "execute-command",
       "data": {
         "command": "rm -f #{output_file}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "d0ee2ff2-4048-4ae0-89ba-5acd6f4639e8",
+      "s": "d6045485-8477-46dd-bfe1-e74732055089",
       "p": "on-success",
-      "o": "26fe6bf0-57e1-4cd0-81c9-bab7e7a569cd"
+      "o": "8deb3cad-a3bb-43b6-8874-74c9f6ae2b58"
     },
     {
-      "s": "d0ee2ff2-4048-4ae0-89ba-5acd6f4639e8",
+      "s": "d6045485-8477-46dd-bfe1-e74732055089",
       "p": "on-failure",
-      "o": "26fe6bf0-57e1-4cd0-81c9-bab7e7a569cd"
+      "o": "8deb3cad-a3bb-43b6-8874-74c9f6ae2b58"
     }
   ],
   "tags": [
-    "T1003.008",
-    "atomic-red-team"
+    "T1003",
+    "T1003.008"
   ],
   "input_arguments": [
     {

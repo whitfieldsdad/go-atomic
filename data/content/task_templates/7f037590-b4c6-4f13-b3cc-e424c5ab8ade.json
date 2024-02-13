@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "d44011ee-7ebd-48e3-bf6a-aeee086c7a4a",
+      "id": "26296cfa-1446-4a64-90f8-b09be2c227d2",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v HideSCAVolume /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5a8af907-ed64-439a-a6a3-a63f30c7d1d7",
+      "id": "28e67e39-e706-48c3-b7d8-56aa412999b4",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v HideSCAVolume /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "d44011ee-7ebd-48e3-bf6a-aeee086c7a4a",
+      "s": "26296cfa-1446-4a64-90f8-b09be2c227d2",
       "p": "on-success",
-      "o": "5a8af907-ed64-439a-a6a3-a63f30c7d1d7"
+      "o": "28e67e39-e706-48c3-b7d8-56aa412999b4"
     },
     {
-      "s": "d44011ee-7ebd-48e3-bf6a-aeee086c7a4a",
+      "s": "26296cfa-1446-4a64-90f8-b09be2c227d2",
       "p": "on-failure",
-      "o": "5a8af907-ed64-439a-a6a3-a63f30c7d1d7"
+      "o": "28e67e39-e706-48c3-b7d8-56aa412999b4"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

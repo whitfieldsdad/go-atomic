@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "65383ec8-a40e-40dd-9c68-3b4bfa8918cc",
+      "id": "336f9f36-1ca7-476e-aade-8a55f4581983",
       "type": "execute-command",
       "data": {
         "command": "if [ \"$(uname)\" = 'FreeBSD' ]; then cmd=\"netstat -Sp tcp\"; else cmd=\"netstat -ant\"; fi;\nif [ -x \"$(command -v arp)\" ]; then arp -a; else echo \"arp is missing from the machine. skipping...\"; fi;\nif [ -x \"$(command -v ifconfig)\" ]; then ifconfig; else echo \"ifconfig is missing from the machine. skipping...\"; fi;\nif [ -x \"$(command -v ip)\" ]; then ip addr; else echo \"ip is missing from the machine. skipping...\"; fi;\nif [ -x \"$(command -v netstat)\" ]; then $cmd | awk '{print $NF}' | grep -v '[[:lower:]]' | sort | uniq -c; else echo \"netstat is missing from the machine. skipping...\"; fi;\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "3bae07d8-006d-4dd8-848e-3f51e8e964c5",
+      "id": "70074f76-2609-417b-a0c9-43d4b70a51f0",
       "name": "Check dependency 1/1",
       "description": "Check if arp command exists on the machine\n",
       "type": "execute-command",
@@ -28,7 +28,7 @@
       "elevation_required": false
     },
     {
-      "id": "43357ee4-7c55-485a-bd10-148822696ddf",
+      "id": "f1872cef-d413-4db8-b433-a067b05bc288",
       "name": "Resolve dependency 1/1",
       "description": "Check if arp command exists on the machine\n",
       "type": "execute-command",
@@ -39,7 +39,7 @@
       "elevation_required": false
     },
     {
-      "id": "6493636d-159c-42d1-a584-fec620545c68",
+      "id": "cfa32a69-4231-4a73-b028-d7f725820fd1",
       "name": "Re-check dependency 1/1",
       "description": "Check if arp command exists on the machine\n",
       "type": "execute-command",
@@ -52,28 +52,27 @@
   ],
   "flows": [
     {
-      "s": "3bae07d8-006d-4dd8-848e-3f51e8e964c5",
+      "s": "70074f76-2609-417b-a0c9-43d4b70a51f0",
       "p": "on-success",
-      "o": "65383ec8-a40e-40dd-9c68-3b4bfa8918cc"
+      "o": "336f9f36-1ca7-476e-aade-8a55f4581983"
     },
     {
-      "s": "3bae07d8-006d-4dd8-848e-3f51e8e964c5",
+      "s": "70074f76-2609-417b-a0c9-43d4b70a51f0",
       "p": "on-failure",
-      "o": "43357ee4-7c55-485a-bd10-148822696ddf"
+      "o": "f1872cef-d413-4db8-b433-a067b05bc288"
     },
     {
-      "s": "43357ee4-7c55-485a-bd10-148822696ddf",
+      "s": "f1872cef-d413-4db8-b433-a067b05bc288",
       "p": "on-success",
-      "o": "6493636d-159c-42d1-a584-fec620545c68"
+      "o": "cfa32a69-4231-4a73-b028-d7f725820fd1"
     },
     {
-      "s": "6493636d-159c-42d1-a584-fec620545c68",
+      "s": "cfa32a69-4231-4a73-b028-d7f725820fd1",
       "p": "on-failure",
-      "o": "65383ec8-a40e-40dd-9c68-3b4bfa8918cc"
+      "o": "336f9f36-1ca7-476e-aade-8a55f4581983"
     }
   ],
   "tags": [
-    "T1016",
-    "atomic-red-team"
+    "T1016"
   ]
 }

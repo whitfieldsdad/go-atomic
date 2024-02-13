@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "7e8bacb7-11cb-442f-97bd-a4b43b63224f",
+      "id": "e1099ff0-e66b-4f61-ae06-0ad5ba280d15",
       "type": "execute-command",
       "data": {
         "command": "net user /add \"#{username}\" \"#{password}\"\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "62f235f7-ad1c-4cb3-8449-ae8c1fc6712a",
+      "id": "49d30998-46b5-4199-afe9-cbb0da9730e1",
       "type": "execute-command",
       "data": {
         "command": "net user /del \"#{username}\" \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "7e8bacb7-11cb-442f-97bd-a4b43b63224f",
+      "s": "e1099ff0-e66b-4f61-ae06-0ad5ba280d15",
       "p": "on-success",
-      "o": "62f235f7-ad1c-4cb3-8449-ae8c1fc6712a"
+      "o": "49d30998-46b5-4199-afe9-cbb0da9730e1"
     },
     {
-      "s": "7e8bacb7-11cb-442f-97bd-a4b43b63224f",
+      "s": "e1099ff0-e66b-4f61-ae06-0ad5ba280d15",
       "p": "on-failure",
-      "o": "62f235f7-ad1c-4cb3-8449-ae8c1fc6712a"
+      "o": "49d30998-46b5-4199-afe9-cbb0da9730e1"
     }
   ],
   "tags": [
-    "T1136.001",
-    "atomic-red-team"
+    "T1136",
+    "T1136.001"
   ],
   "input_arguments": [
     {

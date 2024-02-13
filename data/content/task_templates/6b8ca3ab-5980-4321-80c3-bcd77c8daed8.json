@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "a9053407-16d6-4355-83b1-07b856337db9",
+      "id": "be9b554d-8ac5-48cc-a47e-6f0927a815fe",
       "type": "execute-command",
       "data": {
         "command": "if [ -f \"/etc/#{syslog_config_file_name}\" ];\nthen echo '#art_test_1562_006_2' \u003e\u003e /etc/#{syslog_config_file_name}\nfi\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "8506bb7a-406c-4556-bcc2-e524053ebc76",
+      "id": "2727fb2b-9ae5-4bd0-954d-bc12691e6b1b",
       "type": "execute-command",
       "data": {
         "command": "if [ -f \"/etc/#{syslog_config_file_name}\" ];\nthen sed -i \"\" '/#art_test_1562_006_2/d' /etc/#{syslog_config_file_name}\nfi\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "a9053407-16d6-4355-83b1-07b856337db9",
+      "s": "be9b554d-8ac5-48cc-a47e-6f0927a815fe",
       "p": "on-success",
-      "o": "8506bb7a-406c-4556-bcc2-e524053ebc76"
+      "o": "2727fb2b-9ae5-4bd0-954d-bc12691e6b1b"
     },
     {
-      "s": "a9053407-16d6-4355-83b1-07b856337db9",
+      "s": "be9b554d-8ac5-48cc-a47e-6f0927a815fe",
       "p": "on-failure",
-      "o": "8506bb7a-406c-4556-bcc2-e524053ebc76"
+      "o": "2727fb2b-9ae5-4bd0-954d-bc12691e6b1b"
     }
   ],
   "tags": [
-    "T1562.006",
-    "atomic-red-team"
+    "T1562",
+    "T1562.006"
   ],
   "input_arguments": [
     {

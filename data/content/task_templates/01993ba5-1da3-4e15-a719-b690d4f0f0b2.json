@@ -7,52 +7,52 @@
   ],
   "steps": [
     {
-      "id": "909b76e8-2001-4d3e-b827-2eb75bbdc30d",
+      "id": "a6bae45b-407f-4ae9-b010-94ec71594fc8",
       "type": "execute-command",
       "data": {
         "command": "dscl . -create /Users/#{username}\ndscl . -create /Users/#{username} UserShell /bin/zsh\ndscl . -create /Users/#{username} RealName \"#{realname}\"\ndscl . -create /Users/#{username} UniqueID \"1010\"\ndscl . -create /Users/#{username} PrimaryGroupID 80\ndscl . -create /Users/#{username} NFSHomeDirectory /Users/#{username}\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "7e95a0ba-a21c-477b-a411-dd14695cdc28",
+      "id": "7292db9a-38f0-4b55-91e3-df4df72d1902",
       "type": "execute-command",
       "data": {
         "command": "dscl . -delete /Users/#{username}\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "909b76e8-2001-4d3e-b827-2eb75bbdc30d",
+      "s": "a6bae45b-407f-4ae9-b010-94ec71594fc8",
       "p": "on-success",
-      "o": "7e95a0ba-a21c-477b-a411-dd14695cdc28"
+      "o": "7292db9a-38f0-4b55-91e3-df4df72d1902"
     },
     {
-      "s": "909b76e8-2001-4d3e-b827-2eb75bbdc30d",
+      "s": "a6bae45b-407f-4ae9-b010-94ec71594fc8",
       "p": "on-failure",
-      "o": "7e95a0ba-a21c-477b-a411-dd14695cdc28"
+      "o": "7292db9a-38f0-4b55-91e3-df4df72d1902"
     }
   ],
   "tags": [
-    "T1136.001",
-    "atomic-red-team"
+    "T1136",
+    "T1136.001"
   ],
   "input_arguments": [
-    {
-      "name": "realname",
-      "type": "string",
-      "description": "'realname' to record when creating the user",
-      "value": "Evil Account"
-    },
     {
       "name": "username",
       "type": "string",
       "description": "Username of the user to create",
       "value": "evil_user"
+    },
+    {
+      "name": "realname",
+      "type": "string",
+      "description": "'realname' to record when creating the user",
+      "value": "Evil Account"
     }
   ]
 }

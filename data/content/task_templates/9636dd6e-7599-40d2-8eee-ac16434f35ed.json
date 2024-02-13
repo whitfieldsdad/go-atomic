@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "f5bb9684-d981-4efc-bd4f-4bf6a373e974",
+      "id": "761d5a78-d575-4f92-9446-2813425fc7ba",
       "type": "execute-command",
       "data": {
         "command": "netsh advfirewall firewall add rule name=\"Open Port to Any\" dir=in protocol=tcp localport=#{local_port} action=allow profile=any",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "786c4cf5-8233-4bc5-9540-20fcc56166d5",
+      "id": "8a4ac73f-2c82-4f61-b617-984009f9f4b9",
       "type": "execute-command",
       "data": {
         "command": "netsh advfirewall firewall delete rule name=\"Open Port to Any\" | Out-Null",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "f5bb9684-d981-4efc-bd4f-4bf6a373e974",
+      "s": "761d5a78-d575-4f92-9446-2813425fc7ba",
       "p": "on-success",
-      "o": "786c4cf5-8233-4bc5-9540-20fcc56166d5"
+      "o": "8a4ac73f-2c82-4f61-b617-984009f9f4b9"
     },
     {
-      "s": "f5bb9684-d981-4efc-bd4f-4bf6a373e974",
+      "s": "761d5a78-d575-4f92-9446-2813425fc7ba",
       "p": "on-failure",
-      "o": "786c4cf5-8233-4bc5-9540-20fcc56166d5"
+      "o": "8a4ac73f-2c82-4f61-b617-984009f9f4b9"
     }
   ],
   "tags": [
-    "T1562.004",
-    "atomic-red-team"
+    "T1562",
+    "T1562.004"
   ],
   "input_arguments": [
     {

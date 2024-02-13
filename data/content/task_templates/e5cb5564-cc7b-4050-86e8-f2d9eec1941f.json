@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "96aeb153-1eb7-481c-83b4-db49adb22237",
+      "id": "db6abe26-ef99-4da7-83b5-412cbc03adac",
       "type": "execute-command",
       "data": {
         "command": "$examplePath = Join-Path $env:windir \"system32\\Com\"; if (-not (Test-Path $examplePath)) { New-Item -ItemType Directory -Path $examplePath | Out-Null }; $exampleName = \"comadmin.dat\"; $exampleFullPath = Join-Path $examplePath $exampleName; $randomBytes = New-Object Byte[] 0x1000; (New-Object Random).NextBytes($randomBytes); [System.IO.File]::WriteAllBytes($exampleFullPath, $randomBytes)\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "12e88ab9-3cd2-45fe-af11-de707bb53c7e",
+      "id": "f688d076-b410-45fa-ba9c-422a4db656c2",
       "type": "execute-command",
       "data": {
         "command": "$examplePath = Join-Path $env:windir \"system32\\Com\"; $exampleName = \"comadmin.dat\"; $exampleFullPath = Join-Path $examplePath $exampleName; if (Test-Path $exampleFullPath) { Remove-Item $exampleFullPath -Force }\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "96aeb153-1eb7-481c-83b4-db49adb22237",
+      "s": "db6abe26-ef99-4da7-83b5-412cbc03adac",
       "p": "on-success",
-      "o": "12e88ab9-3cd2-45fe-af11-de707bb53c7e"
+      "o": "f688d076-b410-45fa-ba9c-422a4db656c2"
     },
     {
-      "s": "96aeb153-1eb7-481c-83b4-db49adb22237",
+      "s": "db6abe26-ef99-4da7-83b5-412cbc03adac",
       "p": "on-failure",
-      "o": "12e88ab9-3cd2-45fe-af11-de707bb53c7e"
+      "o": "f688d076-b410-45fa-ba9c-422a4db656c2"
     }
   ],
   "tags": [
-    "T1547.006",
-    "atomic-red-team"
+    "T1547",
+    "T1547.006"
   ]
 }

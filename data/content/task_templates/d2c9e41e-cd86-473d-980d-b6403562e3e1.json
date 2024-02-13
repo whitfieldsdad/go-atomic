@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "30b57603-1cd6-49a6-84e9-6b45f52d4000",
+      "id": "3efe6da3-1f3d-4a2e-91fd-42662a2b06b5",
       "type": "execute-command",
       "data": {
         "command": "reg add HKLM64\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Reporting /v DisableEnhancedNotifications /t REG_DWORD /d 1 /f\nreg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Reporting /v DisableEnhancedNotifications /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "e121bc5d-f655-459a-be84-df10a258f547",
+      "id": "833dfe37-7e5f-4fee-b081-ef729c092599",
       "type": "execute-command",
       "data": {
         "command": "reg delete HKLM64\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Reporting /v DisableEnhancedNotifications /f \u003enul 2\u003e\u00261\nreg delete HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Reporting /v DisableEnhancedNotifications /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "30b57603-1cd6-49a6-84e9-6b45f52d4000",
+      "s": "3efe6da3-1f3d-4a2e-91fd-42662a2b06b5",
       "p": "on-success",
-      "o": "e121bc5d-f655-459a-be84-df10a258f547"
+      "o": "833dfe37-7e5f-4fee-b081-ef729c092599"
     },
     {
-      "s": "30b57603-1cd6-49a6-84e9-6b45f52d4000",
+      "s": "3efe6da3-1f3d-4a2e-91fd-42662a2b06b5",
       "p": "on-failure",
-      "o": "e121bc5d-f655-459a-be84-df10a258f547"
+      "o": "833dfe37-7e5f-4fee-b081-ef729c092599"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

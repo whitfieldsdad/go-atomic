@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "b38ee5bb-5b1b-435a-9c3e-a3988a9b5f97",
+      "id": "f76f5681-6877-4914-9416-92b036fd3765",
       "type": "execute-command",
       "data": {
         "command": "sc.exe create #{service_name} binPath= \"#{executable_command}\"\nsc.exe start #{service_name}\nsc.exe delete #{service_name}\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "1af59688-90ea-489d-9576-2101748915bc",
+      "id": "1477544b-8f44-41c6-9ba0-55b634cfe084",
       "type": "execute-command",
       "data": {
         "command": "del C:\\art-marker.txt \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "b38ee5bb-5b1b-435a-9c3e-a3988a9b5f97",
+      "s": "f76f5681-6877-4914-9416-92b036fd3765",
       "p": "on-success",
-      "o": "1af59688-90ea-489d-9576-2101748915bc"
+      "o": "1477544b-8f44-41c6-9ba0-55b634cfe084"
     },
     {
-      "s": "b38ee5bb-5b1b-435a-9c3e-a3988a9b5f97",
+      "s": "f76f5681-6877-4914-9416-92b036fd3765",
       "p": "on-failure",
-      "o": "1af59688-90ea-489d-9576-2101748915bc"
+      "o": "1477544b-8f44-41c6-9ba0-55b634cfe084"
     }
   ],
   "tags": [
-    "T1569.002",
-    "atomic-red-team"
+    "T1569",
+    "T1569.002"
   ],
   "input_arguments": [
     {

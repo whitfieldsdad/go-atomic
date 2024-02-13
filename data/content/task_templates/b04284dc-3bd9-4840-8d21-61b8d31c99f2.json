@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "dd7383ab-269a-4ed7-beef-121ea962360a",
+      "id": "0029b496-061c-4968-a66d-756bb26d45ff",
       "type": "execute-command",
       "data": {
         "command": "PS2=`logger -t \"$USER\" -f ~/.sh_history`\n$PS2\ntail /var/log/messages\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "87e4c840-69bd-43d5-892d-ca6b24e433c6",
+      "id": "0e876c92-3fff-46b1-ad02-6a7a42739503",
       "type": "execute-command",
       "data": {
         "command": "unset PS2\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4a1d172f-0f75-4ace-a905-2988026a6103",
+      "id": "f854b999-37f3-4850-a694-7e02a6bca519",
       "name": "Check dependency 1/1",
       "description": "This test requires to be run in a bash shell and that logger and tee are installed.\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if [ \"$(echo $SHELL)\" != \"/bin/sh\" ]; then echo -e \"\\n***** sh not running! *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v logger)\" ]; then echo -e \"\\n***** logger NOT installed *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "c29bc2b2-6401-4276-8106-58e1a7e73776",
+      "id": "95371cc9-9f92-4722-99c0-50a0dcb8b045",
       "name": "Resolve dependency 1/1",
       "description": "This test requires to be run in a bash shell and that logger and tee are installed.\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo \"\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "dfb28f2b-bbb3-42f7-a290-d2f36a0bf83f",
+      "id": "ffd466a9-1ef6-470a-957b-f240a23d4687",
       "name": "Re-check dependency 1/1",
       "description": "This test requires to be run in a bash shell and that logger and tee are installed.\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "if [ \"$(echo $SHELL)\" != \"/bin/sh\" ]; then echo -e \"\\n***** sh not running! *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v logger)\" ]; then echo -e \"\\n***** logger NOT installed *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "dd7383ab-269a-4ed7-beef-121ea962360a",
+      "s": "0029b496-061c-4968-a66d-756bb26d45ff",
       "p": "on-success",
-      "o": "87e4c840-69bd-43d5-892d-ca6b24e433c6"
+      "o": "0e876c92-3fff-46b1-ad02-6a7a42739503"
     },
     {
-      "s": "dd7383ab-269a-4ed7-beef-121ea962360a",
+      "s": "0029b496-061c-4968-a66d-756bb26d45ff",
       "p": "on-failure",
-      "o": "87e4c840-69bd-43d5-892d-ca6b24e433c6"
+      "o": "0e876c92-3fff-46b1-ad02-6a7a42739503"
     },
     {
-      "s": "4a1d172f-0f75-4ace-a905-2988026a6103",
+      "s": "f854b999-37f3-4850-a694-7e02a6bca519",
       "p": "on-success",
-      "o": "dd7383ab-269a-4ed7-beef-121ea962360a"
+      "o": "0029b496-061c-4968-a66d-756bb26d45ff"
     },
     {
-      "s": "4a1d172f-0f75-4ace-a905-2988026a6103",
+      "s": "f854b999-37f3-4850-a694-7e02a6bca519",
       "p": "on-failure",
-      "o": "c29bc2b2-6401-4276-8106-58e1a7e73776"
+      "o": "95371cc9-9f92-4722-99c0-50a0dcb8b045"
     },
     {
-      "s": "c29bc2b2-6401-4276-8106-58e1a7e73776",
+      "s": "95371cc9-9f92-4722-99c0-50a0dcb8b045",
       "p": "on-success",
-      "o": "dfb28f2b-bbb3-42f7-a290-d2f36a0bf83f"
+      "o": "ffd466a9-1ef6-470a-957b-f240a23d4687"
     },
     {
-      "s": "dfb28f2b-bbb3-42f7-a290-d2f36a0bf83f",
+      "s": "ffd466a9-1ef6-470a-957b-f240a23d4687",
       "p": "on-failure",
-      "o": "dd7383ab-269a-4ed7-beef-121ea962360a"
+      "o": "0029b496-061c-4968-a66d-756bb26d45ff"
     }
   ],
   "tags": [
-    "T1056.001",
-    "atomic-red-team"
+    "T1056",
+    "T1056.001"
   ]
 }

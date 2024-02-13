@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "6133af7c-3c2f-41b4-a8d3-df163e6c0de0",
+      "id": "d6c472c7-9144-4420-bf7c-c84b7cedc49f",
       "type": "execute-command",
       "data": {
         "command": "echo \"block in proto tcp from 1.2.3.4 to any\" | pfctl -a pf-rules -f -\npfctl -a pf-rules -s rules\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f4f136e2-f982-4759-bc57-358316211bfb",
+      "id": "e83c1277-cd47-4d15-9015-ad4aa2c7e8dc",
       "type": "execute-command",
       "data": {
         "command": "pfctl -a pf-rules -F rules\nsed -i \"\" '/anchor pf-rules/d'\npfctl -f /etc/pf.conf\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "bb60ce8f-2f38-4780-8225-3cba0c6566d8",
+      "id": "27522c5c-29f2-4f1f-a289-fd3e704e7443",
       "name": "Check dependency 1/1",
       "description": "Check if pf is installed on the machine and enabled.\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if [ ! -x \"$(command -v pfctl)\" ]; then echo -e \"\\n***** PF NOT installed *****\\n\"; exit 1; fi\nif [ \"$(kldstat -n pf)\" = \"\" ]; then echo -e \"\\n***** PF inactive *****\\n\"; exit 1; fi \n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d0acbab5-8e0d-41c8-b322-7f62c655c5a4",
+      "id": "5cb4d754-cd7f-421b-9072-1f9c036edfe1",
       "name": "Resolve dependency 1/1",
       "description": "Check if pf is installed on the machine and enabled.\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo \"anchor pf-rules \u003e\u003e /etc/pf.conf\"\npfctl -f /etc/pf.conf\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "9fa05562-2acd-462a-82b6-427a69c12bab",
+      "id": "37155dd7-aa68-40d4-86c6-44ea3fec3d9a",
       "name": "Re-check dependency 1/1",
       "description": "Check if pf is installed on the machine and enabled.\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "if [ ! -x \"$(command -v pfctl)\" ]; then echo -e \"\\n***** PF NOT installed *****\\n\"; exit 1; fi\nif [ \"$(kldstat -n pf)\" = \"\" ]; then echo -e \"\\n***** PF inactive *****\\n\"; exit 1; fi \n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "6133af7c-3c2f-41b4-a8d3-df163e6c0de0",
+      "s": "d6c472c7-9144-4420-bf7c-c84b7cedc49f",
       "p": "on-success",
-      "o": "f4f136e2-f982-4759-bc57-358316211bfb"
+      "o": "e83c1277-cd47-4d15-9015-ad4aa2c7e8dc"
     },
     {
-      "s": "6133af7c-3c2f-41b4-a8d3-df163e6c0de0",
+      "s": "d6c472c7-9144-4420-bf7c-c84b7cedc49f",
       "p": "on-failure",
-      "o": "f4f136e2-f982-4759-bc57-358316211bfb"
+      "o": "e83c1277-cd47-4d15-9015-ad4aa2c7e8dc"
     },
     {
-      "s": "bb60ce8f-2f38-4780-8225-3cba0c6566d8",
+      "s": "27522c5c-29f2-4f1f-a289-fd3e704e7443",
       "p": "on-success",
-      "o": "6133af7c-3c2f-41b4-a8d3-df163e6c0de0"
+      "o": "d6c472c7-9144-4420-bf7c-c84b7cedc49f"
     },
     {
-      "s": "bb60ce8f-2f38-4780-8225-3cba0c6566d8",
+      "s": "27522c5c-29f2-4f1f-a289-fd3e704e7443",
       "p": "on-failure",
-      "o": "d0acbab5-8e0d-41c8-b322-7f62c655c5a4"
+      "o": "5cb4d754-cd7f-421b-9072-1f9c036edfe1"
     },
     {
-      "s": "d0acbab5-8e0d-41c8-b322-7f62c655c5a4",
+      "s": "5cb4d754-cd7f-421b-9072-1f9c036edfe1",
       "p": "on-success",
-      "o": "9fa05562-2acd-462a-82b6-427a69c12bab"
+      "o": "37155dd7-aa68-40d4-86c6-44ea3fec3d9a"
     },
     {
-      "s": "9fa05562-2acd-462a-82b6-427a69c12bab",
+      "s": "37155dd7-aa68-40d4-86c6-44ea3fec3d9a",
       "p": "on-failure",
-      "o": "6133af7c-3c2f-41b4-a8d3-df163e6c0de0"
+      "o": "d6c472c7-9144-4420-bf7c-c84b7cedc49f"
     }
   ],
   "tags": [
-    "T1562.004",
-    "atomic-red-team"
+    "T1562",
+    "T1562.004"
   ]
 }

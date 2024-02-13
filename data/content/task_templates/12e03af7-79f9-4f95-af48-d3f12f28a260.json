@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "072d1fec-d874-4049-b549-10f13baa57a5",
+      "id": "da28e2a5-1c87-4e02-baec-4705ed9b3d5f",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\Notifications\" /v \"DisableNotifications\" /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "1f73ee43-0ac9-4fc2-ba08-300b4401fe9e",
+      "id": "c470214b-1ee3-4c92-a913-7b5057022f38",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\Notifications\" /v \"DisableNotifications\" /t REG_DWORD /d 0 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "072d1fec-d874-4049-b549-10f13baa57a5",
+      "s": "da28e2a5-1c87-4e02-baec-4705ed9b3d5f",
       "p": "on-success",
-      "o": "1f73ee43-0ac9-4fc2-ba08-300b4401fe9e"
+      "o": "c470214b-1ee3-4c92-a913-7b5057022f38"
     },
     {
-      "s": "072d1fec-d874-4049-b549-10f13baa57a5",
+      "s": "da28e2a5-1c87-4e02-baec-4705ed9b3d5f",
       "p": "on-failure",
-      "o": "1f73ee43-0ac9-4fc2-ba08-300b4401fe9e"
+      "o": "c470214b-1ee3-4c92-a913-7b5057022f38"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

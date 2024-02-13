@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "7effd006-58f7-46d5-9038-b543011d6af4",
+      "id": "e3968097-9437-47a3-a2ad-2ca5cecca005",
       "type": "execute-command",
       "data": {
         "command": "reg.exe ADD HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System /v EnableLUA /t REG_DWORD /d 0 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "e2ff9232-c8ae-43f9-82b8-72fe439942c8",
+      "id": "35904617-5d6f-4906-8bff-d2e8baa98239",
       "type": "execute-command",
       "data": {
         "command": "reg.exe ADD HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System /v EnableLUA /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "7effd006-58f7-46d5-9038-b543011d6af4",
+      "s": "e3968097-9437-47a3-a2ad-2ca5cecca005",
       "p": "on-success",
-      "o": "e2ff9232-c8ae-43f9-82b8-72fe439942c8"
+      "o": "35904617-5d6f-4906-8bff-d2e8baa98239"
     },
     {
-      "s": "7effd006-58f7-46d5-9038-b543011d6af4",
+      "s": "e3968097-9437-47a3-a2ad-2ca5cecca005",
       "p": "on-failure",
-      "o": "e2ff9232-c8ae-43f9-82b8-72fe439942c8"
+      "o": "35904617-5d6f-4906-8bff-d2e8baa98239"
     }
   ],
   "tags": [
-    "T1548.002",
-    "atomic-red-team"
+    "T1548",
+    "T1548.002"
   ]
 }

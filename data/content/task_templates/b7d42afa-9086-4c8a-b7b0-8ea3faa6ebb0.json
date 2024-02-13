@@ -8,39 +8,39 @@
   ],
   "steps": [
     {
-      "id": "77210bb3-0552-4ccc-a494-b52219bf6b3d",
+      "id": "53dd0c0d-2892-4583-8257-30b444be2f99",
       "type": "execute-command",
       "data": {
         "command": "echo \"#{command}\" \u003e /etc/cron.daily/#{cron_script_name}\necho \"#{command}\" \u003e /etc/cron.hourly/#{cron_script_name}\necho \"#{command}\" \u003e /etc/cron.monthly/#{cron_script_name}\necho \"#{command}\" \u003e /etc/cron.weekly/#{cron_script_name}\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "2d355ea1-4331-466a-887b-ceddf60db2eb",
+      "id": "1a457540-677f-4b10-a9c6-0dbb401a5d46",
       "type": "execute-command",
       "data": {
         "command": "rm /etc/cron.daily/#{cron_script_name}\nrm /etc/cron.hourly/#{cron_script_name}\nrm /etc/cron.monthly/#{cron_script_name}\nrm /etc/cron.weekly/#{cron_script_name}\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "77210bb3-0552-4ccc-a494-b52219bf6b3d",
+      "s": "53dd0c0d-2892-4583-8257-30b444be2f99",
       "p": "on-success",
-      "o": "2d355ea1-4331-466a-887b-ceddf60db2eb"
+      "o": "1a457540-677f-4b10-a9c6-0dbb401a5d46"
     },
     {
-      "s": "77210bb3-0552-4ccc-a494-b52219bf6b3d",
+      "s": "53dd0c0d-2892-4583-8257-30b444be2f99",
       "p": "on-failure",
-      "o": "2d355ea1-4331-466a-887b-ceddf60db2eb"
+      "o": "1a457540-677f-4b10-a9c6-0dbb401a5d46"
     }
   ],
   "tags": [
-    "T1053.003",
-    "atomic-red-team"
+    "T1053",
+    "T1053.003"
   ],
   "input_arguments": [
     {

@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "bc08462f-1a33-4707-b53b-c13ed8fb5468",
+      "id": "b01c0faa-9fb8-4a24-8773-9edf890f577a",
       "type": "execute-command",
       "data": {
         "command": "mv #{cert_filename} /usr/local/share/ca-certificates\necho sudo update-ca-certificates\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "55fabb87-178f-48fa-a0f9-cde87f9725e3",
+      "id": "0ce0bda2-83b0-4fa8-a006-b46ffdee5649",
       "name": "Check dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "if [ -f #{cert_filename} ]; then exit 0; else exit 1; fi;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "618c6414-3c6c-4fca-9875-89ae73e965ce",
+      "id": "0b45b247-b78a-49c3-95a6-4330b65d3f12",
       "name": "Resolve dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "if [ ! -f #{key_filename} ]; then openssl genrsa -out #{key_filename} 4096; fi;\nopenssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj \"/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com\" -out #{cert_filename}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "661f176b-4313-44fd-a6a8-b0762066e294",
+      "id": "b47408d2-16d9-4f60-a6cc-b3412605f6a5",
       "name": "Re-check dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
@@ -46,47 +46,47 @@
         "command": "if [ -f #{cert_filename} ]; then exit 0; else exit 1; fi;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "55fabb87-178f-48fa-a0f9-cde87f9725e3",
+      "s": "0ce0bda2-83b0-4fa8-a006-b46ffdee5649",
       "p": "on-success",
-      "o": "bc08462f-1a33-4707-b53b-c13ed8fb5468"
+      "o": "b01c0faa-9fb8-4a24-8773-9edf890f577a"
     },
     {
-      "s": "55fabb87-178f-48fa-a0f9-cde87f9725e3",
+      "s": "0ce0bda2-83b0-4fa8-a006-b46ffdee5649",
       "p": "on-failure",
-      "o": "618c6414-3c6c-4fca-9875-89ae73e965ce"
+      "o": "0b45b247-b78a-49c3-95a6-4330b65d3f12"
     },
     {
-      "s": "618c6414-3c6c-4fca-9875-89ae73e965ce",
+      "s": "0b45b247-b78a-49c3-95a6-4330b65d3f12",
       "p": "on-success",
-      "o": "661f176b-4313-44fd-a6a8-b0762066e294"
+      "o": "b47408d2-16d9-4f60-a6cc-b3412605f6a5"
     },
     {
-      "s": "661f176b-4313-44fd-a6a8-b0762066e294",
+      "s": "b47408d2-16d9-4f60-a6cc-b3412605f6a5",
       "p": "on-failure",
-      "o": "bc08462f-1a33-4707-b53b-c13ed8fb5468"
+      "o": "b01c0faa-9fb8-4a24-8773-9edf890f577a"
     }
   ],
   "tags": [
-    "T1553.004",
-    "atomic-red-team"
+    "T1553",
+    "T1553.004"
   ],
   "input_arguments": [
-    {
-      "name": "cert_filename",
-      "type": "path",
-      "description": "CA file name",
-      "value": "rootCA.crt"
-    },
     {
       "name": "key_filename",
       "type": "path",
       "description": "Key we create that is used to create the CA certificate",
       "value": "rootCA.key"
+    },
+    {
+      "name": "cert_filename",
+      "type": "path",
+      "description": "CA file name",
+      "value": "rootCA.crt"
     }
   ]
 }

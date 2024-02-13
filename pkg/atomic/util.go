@@ -1,6 +1,8 @@
 package atomic
 
-import "regexp"
+import (
+	"regexp"
+)
 
 var (
 	AttackTechniqueIdRegex = regexp.MustCompile("[Tt]\\d{4}(?:\\.\\d{3})?")

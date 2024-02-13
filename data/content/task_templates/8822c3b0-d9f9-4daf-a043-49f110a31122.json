@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "30a50083-9238-48a3-8466-43e78a1f61bd",
+      "id": "2361ca37-b2ad-4bb6-8ddf-a003922663e9",
       "type": "execute-command",
       "data": {
         "command": "aws iam create-group --group-name #{username}\naws iam add-user-to-group --user-name #{username} --group-name #{username}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "d1b57b4f-a8c5-4ee7-849d-7f3ed2942350",
+      "id": "e47747c7-dd9c-496e-9ab3-001f756fd029",
       "type": "execute-command",
       "data": {
         "command": "aws iam remove-user-from-group --user-name #{username} --group-name #{username}\naws iam delete-group --group-name #{username}\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "c0be9bdd-3861-4c98-b508-a1dd9a0f79e7",
+      "id": "2beb423b-fc7a-43de-b6b7-53e32fcdcfe6",
       "name": "Check dependency 1/1",
       "description": "Check if the user exists, we can only add a user to a group if the user exists.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "a9ff51d5-de6a-446b-b960-fccca74f9b24",
+      "id": "575ffa3e-0c55-446c-aaa0-26cd020f8815",
       "name": "Resolve dependency 1/1",
       "description": "Check if the user exists, we can only add a user to a group if the user exists.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "2f793fc7-56fc-4100-92d8-a95adc706a8c",
+      "id": "4db62282-9d55-4f0c-b20a-ce7ba77c0402",
       "name": "Re-check dependency 1/1",
       "description": "Check if the user exists, we can only add a user to a group if the user exists.\n",
       "type": "execute-command",
@@ -60,39 +60,38 @@
   ],
   "flows": [
     {
-      "s": "30a50083-9238-48a3-8466-43e78a1f61bd",
+      "s": "2361ca37-b2ad-4bb6-8ddf-a003922663e9",
       "p": "on-success",
-      "o": "d1b57b4f-a8c5-4ee7-849d-7f3ed2942350"
+      "o": "e47747c7-dd9c-496e-9ab3-001f756fd029"
     },
     {
-      "s": "30a50083-9238-48a3-8466-43e78a1f61bd",
+      "s": "2361ca37-b2ad-4bb6-8ddf-a003922663e9",
       "p": "on-failure",
-      "o": "d1b57b4f-a8c5-4ee7-849d-7f3ed2942350"
+      "o": "e47747c7-dd9c-496e-9ab3-001f756fd029"
     },
     {
-      "s": "c0be9bdd-3861-4c98-b508-a1dd9a0f79e7",
+      "s": "2beb423b-fc7a-43de-b6b7-53e32fcdcfe6",
       "p": "on-success",
-      "o": "30a50083-9238-48a3-8466-43e78a1f61bd"
+      "o": "2361ca37-b2ad-4bb6-8ddf-a003922663e9"
     },
     {
-      "s": "c0be9bdd-3861-4c98-b508-a1dd9a0f79e7",
+      "s": "2beb423b-fc7a-43de-b6b7-53e32fcdcfe6",
       "p": "on-failure",
-      "o": "a9ff51d5-de6a-446b-b960-fccca74f9b24"
+      "o": "575ffa3e-0c55-446c-aaa0-26cd020f8815"
     },
     {
-      "s": "a9ff51d5-de6a-446b-b960-fccca74f9b24",
+      "s": "575ffa3e-0c55-446c-aaa0-26cd020f8815",
       "p": "on-success",
-      "o": "2f793fc7-56fc-4100-92d8-a95adc706a8c"
+      "o": "4db62282-9d55-4f0c-b20a-ce7ba77c0402"
     },
     {
-      "s": "2f793fc7-56fc-4100-92d8-a95adc706a8c",
+      "s": "4db62282-9d55-4f0c-b20a-ce7ba77c0402",
       "p": "on-failure",
-      "o": "30a50083-9238-48a3-8466-43e78a1f61bd"
+      "o": "2361ca37-b2ad-4bb6-8ddf-a003922663e9"
     }
   ],
   "tags": [
-    "T1098",
-    "atomic-red-team"
+    "T1098"
   ],
   "input_arguments": [
     {

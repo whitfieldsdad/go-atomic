@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "c6fab4f5-91e0-4b93-b6d4-c4e36029ccf5",
+      "id": "720c0d88-22a8-473c-9d6b-726cac841ad9",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\" /v \"NoAutoRebootWithLoggedOnUsers\" /t REG_DWORD /d 1 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5c529500-74a4-434c-ae91-1fea9fbbd3aa",
+      "id": "bf12bc37-ea2d-494e-b650-dfe442845b58",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\" /v \"NoAutoRebootWithLoggedOnUsers\" /t REG_DWORD /d 0 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "c6fab4f5-91e0-4b93-b6d4-c4e36029ccf5",
+      "s": "720c0d88-22a8-473c-9d6b-726cac841ad9",
       "p": "on-success",
-      "o": "5c529500-74a4-434c-ae91-1fea9fbbd3aa"
+      "o": "bf12bc37-ea2d-494e-b650-dfe442845b58"
     },
     {
-      "s": "c6fab4f5-91e0-4b93-b6d4-c4e36029ccf5",
+      "s": "720c0d88-22a8-473c-9d6b-726cac841ad9",
       "p": "on-failure",
-      "o": "5c529500-74a4-434c-ae91-1fea9fbbd3aa"
+      "o": "bf12bc37-ea2d-494e-b650-dfe442845b58"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

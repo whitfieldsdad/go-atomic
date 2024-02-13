@@ -57,3 +57,38 @@ To import tests from a tarball file:
 wget -O- -q "https://api.github.com/repos/redcanaryco/atomic-red-team/tarball" > atomic-red-team.tar.gz
 go run main.go task-templates -w data/content/ generate atomic-red-team.tar.gz
 ```
+
+#### Listing and counting task templates
+
+You can list task templates as follows:
+
+```bash
+go run main.go task-templates -w data/content/ list
+```
+
+To list task templates matching a particular set of search criteria:
+
+```bash
+go run main.go task-templates -w data/content/ list --auto
+go run main.go task-templates -w data/content/ list --elevation-required=true
+go run main.go task-templates -w data/content/ list --elevation-required=false
+go run main.go task-templates -w data/content/ list --tag T1057
+go run main.go task-templates -w data/content/ list --attack-technique-id T1057
+go run main.go task-templates -w data/content/ list --attack-tactic-id TA0007
+go run main.go task-templates -w data/content/ list --platform windows
+go run main.go task-templates -w data/content/ list --platform linux
+go run main.go task-templates -w data/content/ list --platform darwin
+```
+
+To count task templates matching a particular set of search criteria:
+
+```bash
+go run main.go task-templates -w data/content/ count
+go run main.go task-templates -w data/content/ count --auto
+go run main.go task-templates -w data/content/ count --tag T1003
+```
+
+```text
+1109
+```
+

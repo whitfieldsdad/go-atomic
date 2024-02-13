@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "60b51de2-cc8b-4459-b129-596723e5580f",
+      "id": "f1e343b0-e173-47b9-8330-f54666b0d8a3",
       "type": "execute-command",
       "data": {
         "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nSet-MailboxAuditBypassAssociation -Identity \"#{target_email}\" -AuditBypassEnabled $true\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "6f22b857-6e2b-4121-ade4-713e29cd76ab",
+      "id": "1cf3df13-8acf-40d2-a9ee-b5a4307a81a0",
       "type": "execute-command",
       "data": {
         "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nSet-MailboxAuditBypassAssociation -Identity \"#{target_email}\" -AuditBypassEnabled $false\nDisconnect-ExchangeOnline -Confirm:$false\n",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "738cdbd6-4fce-4413-94b9-d8c673c4ea23",
+      "id": "4fa44aa7-f14a-4695-be1b-c168b744da1f",
       "name": "Check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "5d902b92-9ab4-48ee-a102-eee111847de9",
+      "id": "0f0ea0f9-e857-49d0-b7c8-acaf08018d54",
       "name": "Resolve dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "58953c01-956e-4856-a5f7-0548ca2481ea",
+      "id": "3fa54af1-9b0e-428f-a695-3c7637b3e3b1",
       "name": "Re-check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -60,41 +60,47 @@
   ],
   "flows": [
     {
-      "s": "60b51de2-cc8b-4459-b129-596723e5580f",
+      "s": "f1e343b0-e173-47b9-8330-f54666b0d8a3",
       "p": "on-success",
-      "o": "6f22b857-6e2b-4121-ade4-713e29cd76ab"
+      "o": "1cf3df13-8acf-40d2-a9ee-b5a4307a81a0"
     },
     {
-      "s": "60b51de2-cc8b-4459-b129-596723e5580f",
+      "s": "f1e343b0-e173-47b9-8330-f54666b0d8a3",
       "p": "on-failure",
-      "o": "6f22b857-6e2b-4121-ade4-713e29cd76ab"
+      "o": "1cf3df13-8acf-40d2-a9ee-b5a4307a81a0"
     },
     {
-      "s": "738cdbd6-4fce-4413-94b9-d8c673c4ea23",
+      "s": "4fa44aa7-f14a-4695-be1b-c168b744da1f",
       "p": "on-success",
-      "o": "60b51de2-cc8b-4459-b129-596723e5580f"
+      "o": "f1e343b0-e173-47b9-8330-f54666b0d8a3"
     },
     {
-      "s": "738cdbd6-4fce-4413-94b9-d8c673c4ea23",
+      "s": "4fa44aa7-f14a-4695-be1b-c168b744da1f",
       "p": "on-failure",
-      "o": "5d902b92-9ab4-48ee-a102-eee111847de9"
+      "o": "0f0ea0f9-e857-49d0-b7c8-acaf08018d54"
     },
     {
-      "s": "5d902b92-9ab4-48ee-a102-eee111847de9",
+      "s": "0f0ea0f9-e857-49d0-b7c8-acaf08018d54",
       "p": "on-success",
-      "o": "58953c01-956e-4856-a5f7-0548ca2481ea"
+      "o": "3fa54af1-9b0e-428f-a695-3c7637b3e3b1"
     },
     {
-      "s": "58953c01-956e-4856-a5f7-0548ca2481ea",
+      "s": "3fa54af1-9b0e-428f-a695-3c7637b3e3b1",
       "p": "on-failure",
-      "o": "60b51de2-cc8b-4459-b129-596723e5580f"
+      "o": "f1e343b0-e173-47b9-8330-f54666b0d8a3"
     }
   ],
   "tags": [
-    "T1562.008",
-    "atomic-red-team"
+    "T1562",
+    "T1562.008"
   ],
   "input_arguments": [
+    {
+      "name": "password",
+      "type": "string",
+      "description": "office-365 password",
+      "value": "o365_password_test"
+    },
     {
       "name": "target_email",
       "type": "string",
@@ -106,12 +112,6 @@
       "type": "string",
       "description": "office-365 username",
       "value": "o365_user_test"
-    },
-    {
-      "name": "password",
-      "type": "string",
-      "description": "office-365 password",
-      "value": "o365_password_test"
     }
   ]
 }

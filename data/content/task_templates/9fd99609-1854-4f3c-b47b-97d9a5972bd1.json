@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "345c2da5-52c5-40b9-8d8f-cd0c8836313e",
+      "id": "215a5dbd-738b-4e06-9c8e-95570d6f5cc6",
       "type": "execute-command",
       "data": {
         "command": "systemctl stop ufw\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "7c393212-8c67-4cfa-ae91-d5595ded77ee",
+      "id": "598e99a0-20c4-460f-bb4b-b5bba90300bd",
       "type": "execute-command",
       "data": {
         "command": "systemctl start ufw\nsystemctl status ufw\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "fec0065a-fe99-484d-afa1-0119ea31909a",
+      "id": "46093890-c702-48c2-867b-2f4462cc85b2",
       "name": "Check dependency 1/1",
       "description": "Check if systemctl and ufw is installed on the machine.\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if [ ! -x \"$(command -v systemctl)\" ]; then echo -e \"\\n***** systemctl NOT installed *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f85debf3-3cf0-4705-af2f-ecd669eec3e3",
+      "id": "ccaa368c-28c3-4053-aaaf-3f2ecd3b43af",
       "name": "Resolve dependency 1/1",
       "description": "Check if systemctl and ufw is installed on the machine.\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo \"\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "6c1b57f9-cd22-4e67-bbea-75ca517fbc5e",
+      "id": "6f817649-1239-4590-bf1a-4ae71eb4566f",
       "name": "Re-check dependency 1/1",
       "description": "Check if systemctl and ufw is installed on the machine.\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "if [ ! -x \"$(command -v systemctl)\" ]; then echo -e \"\\n***** systemctl NOT installed *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "345c2da5-52c5-40b9-8d8f-cd0c8836313e",
+      "s": "215a5dbd-738b-4e06-9c8e-95570d6f5cc6",
       "p": "on-success",
-      "o": "7c393212-8c67-4cfa-ae91-d5595ded77ee"
+      "o": "598e99a0-20c4-460f-bb4b-b5bba90300bd"
     },
     {
-      "s": "345c2da5-52c5-40b9-8d8f-cd0c8836313e",
+      "s": "215a5dbd-738b-4e06-9c8e-95570d6f5cc6",
       "p": "on-failure",
-      "o": "7c393212-8c67-4cfa-ae91-d5595ded77ee"
+      "o": "598e99a0-20c4-460f-bb4b-b5bba90300bd"
     },
     {
-      "s": "fec0065a-fe99-484d-afa1-0119ea31909a",
+      "s": "46093890-c702-48c2-867b-2f4462cc85b2",
       "p": "on-success",
-      "o": "345c2da5-52c5-40b9-8d8f-cd0c8836313e"
+      "o": "215a5dbd-738b-4e06-9c8e-95570d6f5cc6"
     },
     {
-      "s": "fec0065a-fe99-484d-afa1-0119ea31909a",
+      "s": "46093890-c702-48c2-867b-2f4462cc85b2",
       "p": "on-failure",
-      "o": "f85debf3-3cf0-4705-af2f-ecd669eec3e3"
+      "o": "ccaa368c-28c3-4053-aaaf-3f2ecd3b43af"
     },
     {
-      "s": "f85debf3-3cf0-4705-af2f-ecd669eec3e3",
+      "s": "ccaa368c-28c3-4053-aaaf-3f2ecd3b43af",
       "p": "on-success",
-      "o": "6c1b57f9-cd22-4e67-bbea-75ca517fbc5e"
+      "o": "6f817649-1239-4590-bf1a-4ae71eb4566f"
     },
     {
-      "s": "6c1b57f9-cd22-4e67-bbea-75ca517fbc5e",
+      "s": "6f817649-1239-4590-bf1a-4ae71eb4566f",
       "p": "on-failure",
-      "o": "345c2da5-52c5-40b9-8d8f-cd0c8836313e"
+      "o": "215a5dbd-738b-4e06-9c8e-95570d6f5cc6"
     }
   ],
   "tags": [
-    "T1562.004",
-    "atomic-red-team"
+    "T1562",
+    "T1562.004"
   ]
 }

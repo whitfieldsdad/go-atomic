@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "28ea7920-97fe-4ffa-9574-4f19ba28a3ef",
+      "id": "9c5d98ef-901d-4247-afd2-9a16ffd09fc0",
       "type": "execute-command",
       "data": {
         "command": "touch #{file_to_setuid}\nchown root #{file_to_setuid}\nchmod u+xs #{file_to_setuid}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f5f49be0-4976-4aee-bc92-8be075125a95",
+      "id": "bbf36769-5a7c-4a53-964a-2f7caf0ee8b3",
       "type": "execute-command",
       "data": {
         "command": "rm #{file_to_setuid}\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "28ea7920-97fe-4ffa-9574-4f19ba28a3ef",
+      "s": "9c5d98ef-901d-4247-afd2-9a16ffd09fc0",
       "p": "on-success",
-      "o": "f5f49be0-4976-4aee-bc92-8be075125a95"
+      "o": "bbf36769-5a7c-4a53-964a-2f7caf0ee8b3"
     },
     {
-      "s": "28ea7920-97fe-4ffa-9574-4f19ba28a3ef",
+      "s": "9c5d98ef-901d-4247-afd2-9a16ffd09fc0",
       "p": "on-failure",
-      "o": "f5f49be0-4976-4aee-bc92-8be075125a95"
+      "o": "bbf36769-5a7c-4a53-964a-2f7caf0ee8b3"
     }
   ],
   "tags": [
-    "T1548.001",
-    "atomic-red-team"
+    "T1548",
+    "T1548.001"
   ],
   "input_arguments": [
     {

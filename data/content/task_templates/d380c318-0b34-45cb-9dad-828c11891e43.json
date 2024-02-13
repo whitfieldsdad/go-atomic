@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "0ef7452b-aaa2-4e91-b264-4f31bee94b45",
+      "id": "9cce248c-9bbe-49f9-b879-778e70a882e9",
       "type": "execute-command",
       "data": {
         "command": "$file = Get-Item $env:temp\\T1564.001-10.txt -Force\n$file.attributes='System'\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b1edbe45-8ef4-42f4-b4d7-a070e3d803df",
+      "id": "b293c98b-addd-4b20-9f3d-dc108937b4c3",
       "type": "execute-command",
       "data": {
         "command": "cmd /c 'del /A:H #{file_to_modify} \u003enul 2\u003e\u00261'\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5eb35afd-5967-4816-acee-5d945b5a5c0f",
+      "id": "8b0fb703-2017-44fe-bbf8-933a586029b9",
       "name": "Check dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "IF EXIST #{file_to_modify} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "c9ee9ecd-2e32-454c-8467-2b289ab52741",
+      "id": "aa540583-ed7d-41b7-9866-158e21aedf5f",
       "name": "Resolve dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo system_Attrib_T1564.001-10 \u003e\u003e #{file_to_modify}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "7ecbf61c-2791-4f61-a17a-50ae76f35c69",
+      "id": "e381f0ae-1174-4de5-adab-16d0ace72dd2",
       "name": "Re-check dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
       "type": "execute-command",
@@ -55,44 +55,44 @@
         "command": "IF EXIST #{file_to_modify} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "0ef7452b-aaa2-4e91-b264-4f31bee94b45",
+      "s": "9cce248c-9bbe-49f9-b879-778e70a882e9",
       "p": "on-success",
-      "o": "b1edbe45-8ef4-42f4-b4d7-a070e3d803df"
+      "o": "b293c98b-addd-4b20-9f3d-dc108937b4c3"
     },
     {
-      "s": "0ef7452b-aaa2-4e91-b264-4f31bee94b45",
+      "s": "9cce248c-9bbe-49f9-b879-778e70a882e9",
       "p": "on-failure",
-      "o": "b1edbe45-8ef4-42f4-b4d7-a070e3d803df"
+      "o": "b293c98b-addd-4b20-9f3d-dc108937b4c3"
     },
     {
-      "s": "5eb35afd-5967-4816-acee-5d945b5a5c0f",
+      "s": "8b0fb703-2017-44fe-bbf8-933a586029b9",
       "p": "on-success",
-      "o": "0ef7452b-aaa2-4e91-b264-4f31bee94b45"
+      "o": "9cce248c-9bbe-49f9-b879-778e70a882e9"
     },
     {
-      "s": "5eb35afd-5967-4816-acee-5d945b5a5c0f",
+      "s": "8b0fb703-2017-44fe-bbf8-933a586029b9",
       "p": "on-failure",
-      "o": "c9ee9ecd-2e32-454c-8467-2b289ab52741"
+      "o": "aa540583-ed7d-41b7-9866-158e21aedf5f"
     },
     {
-      "s": "c9ee9ecd-2e32-454c-8467-2b289ab52741",
+      "s": "aa540583-ed7d-41b7-9866-158e21aedf5f",
       "p": "on-success",
-      "o": "7ecbf61c-2791-4f61-a17a-50ae76f35c69"
+      "o": "e381f0ae-1174-4de5-adab-16d0ace72dd2"
     },
     {
-      "s": "7ecbf61c-2791-4f61-a17a-50ae76f35c69",
+      "s": "e381f0ae-1174-4de5-adab-16d0ace72dd2",
       "p": "on-failure",
-      "o": "0ef7452b-aaa2-4e91-b264-4f31bee94b45"
+      "o": "9cce248c-9bbe-49f9-b879-778e70a882e9"
     }
   ],
   "tags": [
-    "T1564.001",
-    "atomic-red-team"
+    "T1564",
+    "T1564.001"
   ],
   "input_arguments": [
     {

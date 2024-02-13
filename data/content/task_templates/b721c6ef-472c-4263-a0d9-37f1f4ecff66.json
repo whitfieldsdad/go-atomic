@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "eb7bd720-7ef4-4960-b38f-1481dec5ce64",
+      "id": "4ec6d830-8581-40e5-bf1f-94649154d0da",
       "type": "execute-command",
       "data": {
         "command": "sc create win32times binPath= \"cmd /c start c:\\T1036.004_NonExistingScript.ps1\"\nsc qc win32times\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "fe1d2c08-4447-4098-96de-2b7b1ca274f7",
+      "id": "f7d4708b-5988-4aeb-b60c-19da6ee6ca1e",
       "type": "execute-command",
       "data": {
         "command": "sc delete win32times\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "eb7bd720-7ef4-4960-b38f-1481dec5ce64",
+      "s": "4ec6d830-8581-40e5-bf1f-94649154d0da",
       "p": "on-success",
-      "o": "fe1d2c08-4447-4098-96de-2b7b1ca274f7"
+      "o": "f7d4708b-5988-4aeb-b60c-19da6ee6ca1e"
     },
     {
-      "s": "eb7bd720-7ef4-4960-b38f-1481dec5ce64",
+      "s": "4ec6d830-8581-40e5-bf1f-94649154d0da",
       "p": "on-failure",
-      "o": "fe1d2c08-4447-4098-96de-2b7b1ca274f7"
+      "o": "f7d4708b-5988-4aeb-b60c-19da6ee6ca1e"
     }
   ],
   "tags": [
-    "T1036.004",
-    "atomic-red-team"
+    "T1036",
+    "T1036.004"
   ]
 }

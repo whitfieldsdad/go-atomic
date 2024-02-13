@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "b4371724-6281-41e2-a2cf-d05529a62237",
+      "id": "2b32b55a-2d22-4e77-92b9-9e65e865ba7b",
       "type": "execute-command",
       "data": {
         "command": "$x = Get-Random -Minimum 2 -Maximum 9999\n$y = Get-Random -Minimum 2 -Maximum 9999\n$z = Get-Random -Minimum 2 -Maximum 9999\n$w = Get-Random -Minimum 2 -Maximum 9999\nWrite-Host HaHa_$x$y$z\n\n$fmm = Get-LocalGroupMember -Group Administrators |?{ $_.ObjectClass -match \"User\" -and $_.PrincipalSource -match \"Local\"} | Select Name\n\nforeach($member in $fmm) {\n    if($member -like \"*Administrator*\") {\n        $account = $member.Name.Split(\"\\\")[-1] # strip computername\\\n        $originalDescription = (Get-LocalUser -Name $account).Description\n        Set-LocalUser -Name $account -Description \"atr:$account;$originalDescription\".Substring(0,48) # Keep original name in description\n        Rename-LocalUser -Name $account -NewName \"HaHa_$x$y$z\" # Required due to length limitation\n        Write-Host \"Successfully Renamed $account Account on \" $Env:COMPUTERNAME\n        }\n    }\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "93d79bb2-cb57-4def-9111-e2299b544574",
+      "id": "ee1992f0-fb38-4187-849a-f27a96dbd88f",
       "type": "execute-command",
       "data": {
         "command": "$list = Get-LocalUser |?{$_.Description -like \"atr:*\"}\nforeach($u in $list) {\n  $u.Description -match \"atr:(?\u003cName\u003e[^;]+);(?\u003cDescription\u003e.*)\"\n  Set-LocalUser -Name $u.Name -Description $Matches.Description\n  Rename-LocalUser -Name $u.Name -NewName $Matches.Name\n  Write-Host \"Successfully Reverted Account $($u.Name) to $($Matches.Name) on \" $Env:COMPUTERNAME\n}\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "b4371724-6281-41e2-a2cf-d05529a62237",
+      "s": "2b32b55a-2d22-4e77-92b9-9e65e865ba7b",
       "p": "on-success",
-      "o": "93d79bb2-cb57-4def-9111-e2299b544574"
+      "o": "ee1992f0-fb38-4187-849a-f27a96dbd88f"
     },
     {
-      "s": "b4371724-6281-41e2-a2cf-d05529a62237",
+      "s": "2b32b55a-2d22-4e77-92b9-9e65e865ba7b",
       "p": "on-failure",
-      "o": "93d79bb2-cb57-4def-9111-e2299b544574"
+      "o": "ee1992f0-fb38-4187-849a-f27a96dbd88f"
     }
   ],
   "tags": [
-    "T1098",
-    "atomic-red-team"
+    "T1098"
   ]
 }

@@ -7,39 +7,38 @@
   ],
   "steps": [
     {
-      "id": "3a50d473-4012-4606-85c5-dfe47548302d",
+      "id": "42d2655d-3270-4848-bbb9-5308bcf84770",
       "type": "execute-command",
       "data": {
         "command": "$Class = New-Object Management.ManagementClass(New-Object Management.ManagementPath(\"Win32_Process\"))\n$NewClass = $Class.Derive(\"#{new_class}\")\n$NewClass.Put()\nInvoke-WmiMethod -Path #{new_class} -Name create -ArgumentList #{process_to_execute}\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5b165020-1b0c-430c-8093-64f139f86583",
+      "id": "03c715d0-4d0d-40ff-a064-c902e5f6fa02",
       "type": "execute-command",
       "data": {
         "command": "$CleanupClass = New-Object Management.ManagementClass(New-Object Management.ManagementPath(\"#{new_class}\"))\ntry { $CleanupClass.Delete() } catch {}\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "3a50d473-4012-4606-85c5-dfe47548302d",
+      "s": "42d2655d-3270-4848-bbb9-5308bcf84770",
       "p": "on-success",
-      "o": "5b165020-1b0c-430c-8093-64f139f86583"
+      "o": "03c715d0-4d0d-40ff-a064-c902e5f6fa02"
     },
     {
-      "s": "3a50d473-4012-4606-85c5-dfe47548302d",
+      "s": "42d2655d-3270-4848-bbb9-5308bcf84770",
       "p": "on-failure",
-      "o": "5b165020-1b0c-430c-8093-64f139f86583"
+      "o": "03c715d0-4d0d-40ff-a064-c902e5f6fa02"
     }
   ],
   "tags": [
-    "T1047",
-    "atomic-red-team"
+    "T1047"
   ],
   "input_arguments": [
     {

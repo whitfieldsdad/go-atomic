@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b6300863-cb13-41f0-904a-d4272acc0104",
+      "id": "761d2ad2-d7df-4dfc-a4ce-ca7ce1fdeab9",
       "type": "execute-command",
       "data": {
         "command": "Get-ADObject -LDAPFilter '(UserAccountControl:1.2.840.113556.1.4.803:=#{uac_prop})' -Server #{domain}\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "e16af9f6-a0bf-47f4-a443-f4748c892604",
+      "id": "15e81159-9cd3-40cc-afe5-1b39a4984ebf",
       "name": "Check dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "3d91d4db-eaa2-4b8c-aa38-91df709a1cac",
+      "id": "73bf5afc-d4ad-4ba7-a336-f3c0d68c0457",
       "name": "Resolve dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "fa12ac32-e5c5-486b-aa55-7d5c8799a24d",
+      "id": "a5f682a7-e6f4-430e-ab78-8a1c7c9939aa",
       "name": "Re-check dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
@@ -51,29 +51,29 @@
   ],
   "flows": [
     {
-      "s": "e16af9f6-a0bf-47f4-a443-f4748c892604",
+      "s": "15e81159-9cd3-40cc-afe5-1b39a4984ebf",
       "p": "on-success",
-      "o": "b6300863-cb13-41f0-904a-d4272acc0104"
+      "o": "761d2ad2-d7df-4dfc-a4ce-ca7ce1fdeab9"
     },
     {
-      "s": "e16af9f6-a0bf-47f4-a443-f4748c892604",
+      "s": "15e81159-9cd3-40cc-afe5-1b39a4984ebf",
       "p": "on-failure",
-      "o": "3d91d4db-eaa2-4b8c-aa38-91df709a1cac"
+      "o": "73bf5afc-d4ad-4ba7-a336-f3c0d68c0457"
     },
     {
-      "s": "3d91d4db-eaa2-4b8c-aa38-91df709a1cac",
+      "s": "73bf5afc-d4ad-4ba7-a336-f3c0d68c0457",
       "p": "on-success",
-      "o": "fa12ac32-e5c5-486b-aa55-7d5c8799a24d"
+      "o": "a5f682a7-e6f4-430e-ab78-8a1c7c9939aa"
     },
     {
-      "s": "fa12ac32-e5c5-486b-aa55-7d5c8799a24d",
+      "s": "a5f682a7-e6f4-430e-ab78-8a1c7c9939aa",
       "p": "on-failure",
-      "o": "b6300863-cb13-41f0-904a-d4272acc0104"
+      "o": "761d2ad2-d7df-4dfc-a4ce-ca7ce1fdeab9"
     }
   ],
   "tags": [
-    "T1087.002",
-    "atomic-red-team"
+    "T1087",
+    "T1087.002"
   ],
   "input_arguments": [
     {

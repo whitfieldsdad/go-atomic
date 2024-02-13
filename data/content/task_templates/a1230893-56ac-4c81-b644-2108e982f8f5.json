@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "e1d8a38a-0b52-4975-8edf-37cf7a50b7cf",
+      "id": "e0be6bae-a71b-4d49-9df9-36a3e3128571",
       "type": "execute-command",
       "data": {
         "command": "net.exe stop #{service_name}\nsc.exe config #{service_name} start= disabled\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b34eb972-7db0-420d-8126-52e1642f4efe",
+      "id": "e57e94ed-77be-4279-9e47-46de39f0892d",
       "type": "execute-command",
       "data": {
         "command": "sc.exe config #{service_name} start= auto \u003enul 2\u003e\u00261\nnet.exe start #{service_name} \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "e1d8a38a-0b52-4975-8edf-37cf7a50b7cf",
+      "s": "e0be6bae-a71b-4d49-9df9-36a3e3128571",
       "p": "on-success",
-      "o": "b34eb972-7db0-420d-8126-52e1642f4efe"
+      "o": "e57e94ed-77be-4279-9e47-46de39f0892d"
     },
     {
-      "s": "e1d8a38a-0b52-4975-8edf-37cf7a50b7cf",
+      "s": "e0be6bae-a71b-4d49-9df9-36a3e3128571",
       "p": "on-failure",
-      "o": "b34eb972-7db0-420d-8126-52e1642f4efe"
+      "o": "e57e94ed-77be-4279-9e47-46de39f0892d"
     }
   ],
   "tags": [
-    "T1562.001",
-    "atomic-red-team"
+    "T1562",
+    "T1562.001"
   ],
   "input_arguments": [
     {

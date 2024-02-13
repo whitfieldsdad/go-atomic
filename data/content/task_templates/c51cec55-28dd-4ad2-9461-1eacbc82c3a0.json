@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "23af9830-2b2b-428f-bcb2-246578e4e406",
+      "id": "637816e4-b6e5-471b-8e5b-b9b17562cd88",
       "type": "execute-command",
       "data": {
         "command": "zip #{output_file} #{input_files}\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "7ecf7839-479c-42eb-b027-9f5525881043",
+      "id": "ce218340-927d-44b2-8059-a4c142560184",
       "type": "execute-command",
       "data": {
         "command": "rm -f #{output_file}\n",
@@ -26,7 +26,7 @@
       "elevation_required": false
     },
     {
-      "id": "b9bce85b-ae0d-4262-b6bd-74440d661105",
+      "id": "18dfebef-baf5-4938-8ff7-ee24cbc5af8b",
       "name": "Check dependency 1/1",
       "description": "Files to zip must exist (#{input_files})\n",
       "type": "execute-command",
@@ -37,7 +37,7 @@
       "elevation_required": false
     },
     {
-      "id": "da1d2256-1f0b-4d93-99a5-1aa1218f87ad",
+      "id": "6c4383fe-f233-4f19-90dc-de82eb329481",
       "name": "Resolve dependency 1/1",
       "description": "Files to zip must exist (#{input_files})\n",
       "type": "execute-command",
@@ -48,7 +48,7 @@
       "elevation_required": false
     },
     {
-      "id": "f1f88c0c-39c3-4e61-8cc4-23f5eed60af9",
+      "id": "dea799a2-4ffd-4787-987f-bc79bdb9f739",
       "name": "Re-check dependency 1/1",
       "description": "Files to zip must exist (#{input_files})\n",
       "type": "execute-command",
@@ -61,52 +61,52 @@
   ],
   "flows": [
     {
-      "s": "23af9830-2b2b-428f-bcb2-246578e4e406",
+      "s": "637816e4-b6e5-471b-8e5b-b9b17562cd88",
       "p": "on-success",
-      "o": "7ecf7839-479c-42eb-b027-9f5525881043"
+      "o": "ce218340-927d-44b2-8059-a4c142560184"
     },
     {
-      "s": "23af9830-2b2b-428f-bcb2-246578e4e406",
+      "s": "637816e4-b6e5-471b-8e5b-b9b17562cd88",
       "p": "on-failure",
-      "o": "7ecf7839-479c-42eb-b027-9f5525881043"
+      "o": "ce218340-927d-44b2-8059-a4c142560184"
     },
     {
-      "s": "b9bce85b-ae0d-4262-b6bd-74440d661105",
+      "s": "18dfebef-baf5-4938-8ff7-ee24cbc5af8b",
       "p": "on-success",
-      "o": "23af9830-2b2b-428f-bcb2-246578e4e406"
+      "o": "637816e4-b6e5-471b-8e5b-b9b17562cd88"
     },
     {
-      "s": "b9bce85b-ae0d-4262-b6bd-74440d661105",
+      "s": "18dfebef-baf5-4938-8ff7-ee24cbc5af8b",
       "p": "on-failure",
-      "o": "da1d2256-1f0b-4d93-99a5-1aa1218f87ad"
+      "o": "6c4383fe-f233-4f19-90dc-de82eb329481"
     },
     {
-      "s": "da1d2256-1f0b-4d93-99a5-1aa1218f87ad",
+      "s": "6c4383fe-f233-4f19-90dc-de82eb329481",
       "p": "on-success",
-      "o": "f1f88c0c-39c3-4e61-8cc4-23f5eed60af9"
+      "o": "dea799a2-4ffd-4787-987f-bc79bdb9f739"
     },
     {
-      "s": "f1f88c0c-39c3-4e61-8cc4-23f5eed60af9",
+      "s": "dea799a2-4ffd-4787-987f-bc79bdb9f739",
       "p": "on-failure",
-      "o": "23af9830-2b2b-428f-bcb2-246578e4e406"
+      "o": "637816e4-b6e5-471b-8e5b-b9b17562cd88"
     }
   ],
   "tags": [
-    "T1560.001",
-    "atomic-red-team"
+    "T1560",
+    "T1560.001"
   ],
   "input_arguments": [
-    {
-      "name": "output_file",
-      "type": "path",
-      "description": "Path that should be output as a zip archive",
-      "value": "$HOME/data.zip"
-    },
     {
       "name": "input_files",
       "type": "path",
       "description": "Path that should be compressed into our output file, may include wildcards",
       "value": "/var/log/{w,b}tmp"
+    },
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path that should be output as a zip archive",
+      "value": "$HOME/data.zip"
     }
   ]
 }

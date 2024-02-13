@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "02752ec4-c44e-4c73-8e14-d3e5a35a8245",
+      "id": "578a1a02-3a46-472f-99fd-b14569044569",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" \"Shell\" \"explorer.exe, #{binary_to_execute}\" -Force\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "c6fef618-fda1-465d-8638-f09279cc2a33",
+      "id": "f2eee7e8-8fb4-4677-b195-2381663ddeeb",
       "type": "execute-command",
       "data": {
         "command": "Remove-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" -Name \"Shell\" -Force -ErrorAction Ignore\n",
@@ -27,19 +27,19 @@
   ],
   "flows": [
     {
-      "s": "02752ec4-c44e-4c73-8e14-d3e5a35a8245",
+      "s": "578a1a02-3a46-472f-99fd-b14569044569",
       "p": "on-success",
-      "o": "c6fef618-fda1-465d-8638-f09279cc2a33"
+      "o": "f2eee7e8-8fb4-4677-b195-2381663ddeeb"
     },
     {
-      "s": "02752ec4-c44e-4c73-8e14-d3e5a35a8245",
+      "s": "578a1a02-3a46-472f-99fd-b14569044569",
       "p": "on-failure",
-      "o": "c6fef618-fda1-465d-8638-f09279cc2a33"
+      "o": "f2eee7e8-8fb4-4677-b195-2381663ddeeb"
     }
   ],
   "tags": [
-    "T1547.004",
-    "atomic-red-team"
+    "T1547",
+    "T1547.004"
   ],
   "input_arguments": [
     {

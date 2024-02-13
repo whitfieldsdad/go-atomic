@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "73336c99-7c87-4aeb-88b0-25ace0a1bbdf",
+      "id": "62c2e42b-0b6b-4d1e-aec7-ed3abf0c96c4",
       "type": "execute-command",
       "data": {
         "command": "reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced /v ShowSuperHidden /t REG_DWORD /d 0 /f\nreg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced /v Hidden /t REG_DWORD /d 0 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d2e3b726-7246-43cf-8df9-4d895b5fd461",
+      "id": "bdf6e635-bd25-4eb7-a0e6-b27027189712",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\" /v ShowSuperHidden /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\" /v Hidden /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "73336c99-7c87-4aeb-88b0-25ace0a1bbdf",
+      "s": "62c2e42b-0b6b-4d1e-aec7-ed3abf0c96c4",
       "p": "on-success",
-      "o": "d2e3b726-7246-43cf-8df9-4d895b5fd461"
+      "o": "bdf6e635-bd25-4eb7-a0e6-b27027189712"
     },
     {
-      "s": "73336c99-7c87-4aeb-88b0-25ace0a1bbdf",
+      "s": "62c2e42b-0b6b-4d1e-aec7-ed3abf0c96c4",
       "p": "on-failure",
-      "o": "d2e3b726-7246-43cf-8df9-4d895b5fd461"
+      "o": "bdf6e635-bd25-4eb7-a0e6-b27027189712"
     }
   ],
   "tags": [
-    "T1564.001",
-    "atomic-red-team"
+    "T1564",
+    "T1564.001"
   ]
 }

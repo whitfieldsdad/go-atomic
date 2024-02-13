@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "ade26f79-fa44-4e05-9ec8-f9552df237db",
+      "id": "efd80803-a368-4ae4-a117-8b447b165d18",
       "type": "execute-command",
       "data": {
         "command": "$oldvalue = $(Get-ItemProperty HKLM:\\System\\CurrentControlSet\\Control\\Lsa -Name 'Security Packages' | Select-Object -ExpandProperty 'Security Packages');\nSet-ItemProperty -Path \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\" -Name 'Security Packages old' -Value \"$oldvalue\";\n$newvalue = \"AtomicTest.dll\";\nSet-ItemProperty HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Lsa -Name 'Security Packages' -Value $newvalue\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "edc1d75f-a85b-411d-8268-f5e2acd32051",
+      "id": "33ff3b59-d91c-47ef-b270-41acf28931c1",
       "type": "execute-command",
       "data": {
         "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\" -Name 'Security Packages old' | Select-Object -ExpandProperty 'Security Packages old');\nSet-ItemProperty -Path HKLM:\\System\\CurrentControlSet\\Control\\Lsa -Name 'Security Packages' -Value \"$oldvalue\";\nRemove-ItemProperty -Path  \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\" -Name 'Security Packages old';",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "ade26f79-fa44-4e05-9ec8-f9552df237db",
+      "s": "efd80803-a368-4ae4-a117-8b447b165d18",
       "p": "on-success",
-      "o": "edc1d75f-a85b-411d-8268-f5e2acd32051"
+      "o": "33ff3b59-d91c-47ef-b270-41acf28931c1"
     },
     {
-      "s": "ade26f79-fa44-4e05-9ec8-f9552df237db",
+      "s": "efd80803-a368-4ae4-a117-8b447b165d18",
       "p": "on-failure",
-      "o": "edc1d75f-a85b-411d-8268-f5e2acd32051"
+      "o": "33ff3b59-d91c-47ef-b270-41acf28931c1"
     }
   ],
   "tags": [
-    "T1547.005",
-    "atomic-red-team"
+    "T1547",
+    "T1547.005"
   ]
 }

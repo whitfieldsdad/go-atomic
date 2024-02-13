@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "04f279de-2190-4e61-bbb9-676b6f536b61",
+      "id": "72266bc0-5be9-4982-83bc-ca92fc4a3491",
       "type": "execute-command",
       "data": {
         "command": "password=$(openssl passwd -1 art)\n([ \"$(uname)\" = 'Linux' ] \u0026\u0026 useradd --shell /bin/bash --create-home --password $password art) || (pw useradd art -g wheel -s /bin/sh \u0026\u0026 (echo $password | pw mod user testuser1 -h 0))\nsu art -c \"whoami; exit\"\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "f761d8fa-3c82-49cc-85c4-9d7ac9116b2b",
+      "id": "c15597b9-a8d1-4fbc-9f87-f0eaedefd5dc",
       "type": "execute-command",
       "data": {
         "command": "[ \"$(uname)\" = 'Linux' ] \u0026\u0026 userdel art -rf || rmuser -y art\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "04f279de-2190-4e61-bbb9-676b6f536b61",
+      "s": "72266bc0-5be9-4982-83bc-ca92fc4a3491",
       "p": "on-success",
-      "o": "f761d8fa-3c82-49cc-85c4-9d7ac9116b2b"
+      "o": "c15597b9-a8d1-4fbc-9f87-f0eaedefd5dc"
     },
     {
-      "s": "04f279de-2190-4e61-bbb9-676b6f536b61",
+      "s": "72266bc0-5be9-4982-83bc-ca92fc4a3491",
       "p": "on-failure",
-      "o": "f761d8fa-3c82-49cc-85c4-9d7ac9116b2b"
+      "o": "c15597b9-a8d1-4fbc-9f87-f0eaedefd5dc"
     }
   ],
   "tags": [
-    "T1078.003",
-    "atomic-red-team"
+    "T1078",
+    "T1078.003"
   ]
 }

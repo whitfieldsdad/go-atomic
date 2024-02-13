@@ -7,25 +7,25 @@
   ],
   "steps": [
     {
-      "id": "18a4dff5-349b-4723-8689-0c7836ee1bf9",
+      "id": "19d09435-3191-4736-ace7-25d30170b0cd",
       "type": "execute-command",
       "data": {
         "command": "iptables-save \u003e /tmp/iptables.rules\niptables -F\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "d457e7e8-6682-4872-b9c7-fa9758942e07",
+      "id": "8aed75a1-e68a-47d9-8aad-d8e7f199e518",
       "type": "execute-command",
       "data": {
         "command": "iptables-restore \u003c /tmp/iptables.rules\n",
         "command_type": "sh"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "597f8075-f1b6-4820-b730-0132fee2edc6",
+      "id": "e698a1b7-a65c-4c0f-81d2-d6d9dc048622",
       "name": "Check dependency 1/1",
       "description": "Check if iptables is installed on the machine.\n",
       "type": "execute-command",
@@ -33,10 +33,10 @@
         "command": "if [ ! -x \"$(command -v iptables)\" ]; then echo -e \"\\n***** iptables NOT installed *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "b8967fac-1c53-4926-8467-74daf6c74b4a",
+      "id": "304a9c46-6a41-433b-b1e8-888d8f868dff",
       "name": "Resolve dependency 1/1",
       "description": "Check if iptables is installed on the machine.\n",
       "type": "execute-command",
@@ -44,10 +44,10 @@
         "command": "echo \"\"\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "53e0ebee-40c3-42c2-a031-f043426becc3",
+      "id": "f006a728-22f3-42fa-840b-e62e7e0bb2cb",
       "name": "Re-check dependency 1/1",
       "description": "Check if iptables is installed on the machine.\n",
       "type": "execute-command",
@@ -55,43 +55,43 @@
         "command": "if [ ! -x \"$(command -v iptables)\" ]; then echo -e \"\\n***** iptables NOT installed *****\\n\"; exit 1; fi\n",
         "command_type": ""
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "18a4dff5-349b-4723-8689-0c7836ee1bf9",
+      "s": "19d09435-3191-4736-ace7-25d30170b0cd",
       "p": "on-success",
-      "o": "d457e7e8-6682-4872-b9c7-fa9758942e07"
+      "o": "8aed75a1-e68a-47d9-8aad-d8e7f199e518"
     },
     {
-      "s": "18a4dff5-349b-4723-8689-0c7836ee1bf9",
+      "s": "19d09435-3191-4736-ace7-25d30170b0cd",
       "p": "on-failure",
-      "o": "d457e7e8-6682-4872-b9c7-fa9758942e07"
+      "o": "8aed75a1-e68a-47d9-8aad-d8e7f199e518"
     },
     {
-      "s": "597f8075-f1b6-4820-b730-0132fee2edc6",
+      "s": "e698a1b7-a65c-4c0f-81d2-d6d9dc048622",
       "p": "on-success",
-      "o": "18a4dff5-349b-4723-8689-0c7836ee1bf9"
+      "o": "19d09435-3191-4736-ace7-25d30170b0cd"
     },
     {
-      "s": "597f8075-f1b6-4820-b730-0132fee2edc6",
+      "s": "e698a1b7-a65c-4c0f-81d2-d6d9dc048622",
       "p": "on-failure",
-      "o": "b8967fac-1c53-4926-8467-74daf6c74b4a"
+      "o": "304a9c46-6a41-433b-b1e8-888d8f868dff"
     },
     {
-      "s": "b8967fac-1c53-4926-8467-74daf6c74b4a",
+      "s": "304a9c46-6a41-433b-b1e8-888d8f868dff",
       "p": "on-success",
-      "o": "53e0ebee-40c3-42c2-a031-f043426becc3"
+      "o": "f006a728-22f3-42fa-840b-e62e7e0bb2cb"
     },
     {
-      "s": "53e0ebee-40c3-42c2-a031-f043426becc3",
+      "s": "f006a728-22f3-42fa-840b-e62e7e0bb2cb",
       "p": "on-failure",
-      "o": "18a4dff5-349b-4723-8689-0c7836ee1bf9"
+      "o": "19d09435-3191-4736-ace7-25d30170b0cd"
     }
   ],
   "tags": [
-    "T1562.004",
-    "atomic-red-team"
+    "T1562",
+    "T1562.004"
   ]
 }

@@ -7,38 +7,37 @@
   ],
   "steps": [
     {
-      "id": "6f64d593-8d1a-4214-add8-3fb76b3d45fc",
+      "id": "c2de7bdb-6deb-4bac-8e77-1cc1b22bf3ea",
       "type": "execute-command",
       "data": {
         "command": "reg add HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\PushNotifications /v ToastEnabled /t REG_DWORD /d 0 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "089d5326-beed-4b4f-bce9-33a5d198c334",
+      "id": "efb0bb29-2b50-4be3-8633-4c6bd4fdf015",
       "type": "execute-command",
       "data": {
         "command": "reg delete HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\PushNotifications /v ToastEnabled /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "6f64d593-8d1a-4214-add8-3fb76b3d45fc",
+      "s": "c2de7bdb-6deb-4bac-8e77-1cc1b22bf3ea",
       "p": "on-success",
-      "o": "089d5326-beed-4b4f-bce9-33a5d198c334"
+      "o": "efb0bb29-2b50-4be3-8633-4c6bd4fdf015"
     },
     {
-      "s": "6f64d593-8d1a-4214-add8-3fb76b3d45fc",
+      "s": "c2de7bdb-6deb-4bac-8e77-1cc1b22bf3ea",
       "p": "on-failure",
-      "o": "089d5326-beed-4b4f-bce9-33a5d198c334"
+      "o": "efb0bb29-2b50-4be3-8633-4c6bd4fdf015"
     }
   ],
   "tags": [
-    "T1112",
-    "atomic-red-team"
+    "T1112"
   ]
 }

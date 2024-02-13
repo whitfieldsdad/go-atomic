@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "f2df89d2-343a-43da-8ac0-629a98d6da46",
+      "id": "f6d09bdf-79b5-455d-8ca6-751ad6cdc135",
       "type": "execute-command",
       "data": {
         "command": "for ip in $(seq #{start_host} #{stop_host}); do ping -c 1 #{subnet}.$ip; [ $? -eq 0 ] \u0026\u0026 echo \"#{subnet}.$ip UP\" || : ; done\n",
@@ -18,16 +18,9 @@
     }
   ],
   "tags": [
-    "T1018",
-    "atomic-red-team"
+    "T1018"
   ],
   "input_arguments": [
-    {
-      "name": "subnet",
-      "type": "string",
-      "description": "Subnet used for ping sweep.",
-      "value": "192.168.1"
-    },
     {
       "name": "start_host",
       "type": "string",
@@ -39,6 +32,12 @@
       "type": "string",
       "description": "Subnet used for ping sweep.",
       "value": "254"
+    },
+    {
+      "name": "subnet",
+      "type": "string",
+      "description": "Subnet used for ping sweep.",
+      "value": "192.168.1"
     }
   ]
 }

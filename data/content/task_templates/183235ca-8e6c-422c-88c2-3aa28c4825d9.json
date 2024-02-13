@@ -7,31 +7,30 @@
   ],
   "steps": [
     {
-      "id": "80d96daa-4ce2-4762-b4db-5ab6898c01ef",
+      "id": "bd6e8b9c-166d-4e20-bfe2-b9d3f09c6d15",
       "type": "execute-command",
       "data": {
         "command": "NET USE * '#{remote_path}' /TRANSPORT:QUIC /SKIPCERTCHECK\ncopy '#{local_file}' '*:\\'\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "tags": [
-    "T1570",
-    "atomic-red-team"
+    "T1570"
   ],
   "input_arguments": [
-    {
-      "name": "local_file",
-      "type": "path",
-      "description": "The local file to be transferred",
-      "value": "C:\\path\\to\\file.txt"
-    },
     {
       "name": "remote_path",
       "type": "string",
       "description": "The UNC path to the share on the file server",
       "value": "\\\\example.com\\sales"
+    },
+    {
+      "name": "local_file",
+      "type": "path",
+      "description": "The local file to be transferred",
+      "value": "C:\\path\\to\\file.txt"
     }
   ]
 }

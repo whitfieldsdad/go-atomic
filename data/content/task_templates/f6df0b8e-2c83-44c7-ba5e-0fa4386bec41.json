@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "591d12fa-1efb-465d-b436-88e5b8f080ae",
+      "id": "b61e5a3d-1f3a-4ba5-a201-f16731c392de",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-Windows Defender/Operational\" /v Enabled /t REG_DWORD /d 0 /f\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "3782d428-4ccd-40f0-ae60-9432e1983051",
+      "id": "d0ac002d-88a6-4a89-a73b-4b4ed2d66cb8",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-Windows Defender/Operational\" /v Enabled /f \u003enul 2\u003e\u00261\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "591d12fa-1efb-465d-b436-88e5b8f080ae",
+      "s": "b61e5a3d-1f3a-4ba5-a201-f16731c392de",
       "p": "on-success",
-      "o": "3782d428-4ccd-40f0-ae60-9432e1983051"
+      "o": "d0ac002d-88a6-4a89-a73b-4b4ed2d66cb8"
     },
     {
-      "s": "591d12fa-1efb-465d-b436-88e5b8f080ae",
+      "s": "b61e5a3d-1f3a-4ba5-a201-f16731c392de",
       "p": "on-failure",
-      "o": "3782d428-4ccd-40f0-ae60-9432e1983051"
+      "o": "d0ac002d-88a6-4a89-a73b-4b4ed2d66cb8"
     }
   ],
   "tags": [
-    "T1562.006",
-    "atomic-red-team"
+    "T1562",
+    "T1562.006"
   ]
 }

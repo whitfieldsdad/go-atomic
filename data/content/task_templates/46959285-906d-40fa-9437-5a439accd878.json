@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "945722a0-b327-4087-b943-b432fae2027c",
+      "id": "ddc3498a-0d13-46bc-870a-7edfcf7c93cc",
       "type": "execute-command",
       "data": {
         "command": "find #{search_path} -name id_rsa 2\u003e/dev/null \u003e\u003e #{output_file}\nexit 0\n",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "59773f14-95ee-4584-ad1e-8cd6bd6e65d7",
+      "id": "6b674511-6b4a-483b-a59b-59e9e7f0740d",
       "type": "execute-command",
       "data": {
         "command": "rm #{output_file}\n",
@@ -28,32 +28,32 @@
   ],
   "flows": [
     {
-      "s": "945722a0-b327-4087-b943-b432fae2027c",
+      "s": "ddc3498a-0d13-46bc-870a-7edfcf7c93cc",
       "p": "on-success",
-      "o": "59773f14-95ee-4584-ad1e-8cd6bd6e65d7"
+      "o": "6b674511-6b4a-483b-a59b-59e9e7f0740d"
     },
     {
-      "s": "945722a0-b327-4087-b943-b432fae2027c",
+      "s": "ddc3498a-0d13-46bc-870a-7edfcf7c93cc",
       "p": "on-failure",
-      "o": "59773f14-95ee-4584-ad1e-8cd6bd6e65d7"
+      "o": "6b674511-6b4a-483b-a59b-59e9e7f0740d"
     }
   ],
   "tags": [
-    "T1552.004",
-    "atomic-red-team"
+    "T1552",
+    "T1552.004"
   ],
   "input_arguments": [
-    {
-      "name": "search_path",
-      "type": "path",
-      "description": "Path where to start searching from.",
-      "value": "/"
-    },
     {
       "name": "output_file",
       "type": "path",
       "description": "Output file containing locations of SSH key files",
       "value": "/tmp/keyfile_locations.txt"
+    },
+    {
+      "name": "search_path",
+      "type": "path",
+      "description": "Path where to start searching from.",
+      "value": "/"
     }
   ]
 }

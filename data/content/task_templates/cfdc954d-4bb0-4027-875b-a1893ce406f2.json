@@ -7,38 +7,38 @@
   ],
   "steps": [
     {
-      "id": "910726cd-ebf1-4bbf-ad37-7d3cebf1f24b",
+      "id": "e6048af1-16e7-4163-9b18-acab3c3b0885",
       "type": "execute-command",
       "data": {
         "command": "$Shell = New-Object -ComObject (\"WScript.Shell\")\n$ShortCut = $Shell.CreateShortcut(\"$env:APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\T1547.009.lnk\")\n$ShortCut.TargetPath=\"cmd.exe\"\n$ShortCut.WorkingDirectory = \"C:\\Windows\\System32\";\n$ShortCut.WindowStyle = 1;\n$ShortCut.Description = \"T1547.009.\";\n$ShortCut.Save()\n\n$Shell = New-Object -ComObject (\"WScript.Shell\")\n$ShortCut = $Shell.CreateShortcut(\"$env:ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\T1547.009.lnk\")\n$ShortCut.TargetPath=\"cmd.exe\"\n$ShortCut.WorkingDirectory = \"C:\\Windows\\System32\";\n$ShortCut.WindowStyle = 1;\n$ShortCut.Description = \"T1547.009.\";\n$ShortCut.Save()\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "bce2fe29-c0d8-4d48-95c3-f50b658df9c7",
+      "id": "7e5889a6-4fba-4ce5-9c7c-eb5fa5171dae",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item \"$env:APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\T1547.009.lnk\" -ErrorAction Ignore\nRemove-Item \"$env:ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\T1547.009.lnk\" -ErrorAction Ignore\n",
         "command_type": "powershell"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "910726cd-ebf1-4bbf-ad37-7d3cebf1f24b",
+      "s": "e6048af1-16e7-4163-9b18-acab3c3b0885",
       "p": "on-success",
-      "o": "bce2fe29-c0d8-4d48-95c3-f50b658df9c7"
+      "o": "7e5889a6-4fba-4ce5-9c7c-eb5fa5171dae"
     },
     {
-      "s": "910726cd-ebf1-4bbf-ad37-7d3cebf1f24b",
+      "s": "e6048af1-16e7-4163-9b18-acab3c3b0885",
       "p": "on-failure",
-      "o": "bce2fe29-c0d8-4d48-95c3-f50b658df9c7"
+      "o": "7e5889a6-4fba-4ce5-9c7c-eb5fa5171dae"
     }
   ],
   "tags": [
-    "T1547.009",
-    "atomic-red-team"
+    "T1547",
+    "T1547.009"
   ]
 }

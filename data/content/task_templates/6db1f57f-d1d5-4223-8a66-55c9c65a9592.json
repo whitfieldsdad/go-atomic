@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "aefc3a0d-0d77-4564-a4ac-98271e5f3917",
+      "id": "b463231b-eb01-46d9-8ea4-4883721c6763",
       "type": "execute-command",
       "data": {
         "command": "for /l %i in (#{start_host},1,#{stop_host}) do ping -n 1 -w 100 #{subnet}.%i  \n",
@@ -17,10 +17,15 @@
     }
   ],
   "tags": [
-    "T1018",
-    "atomic-red-team"
+    "T1018"
   ],
   "input_arguments": [
+    {
+      "name": "start_host",
+      "type": "string",
+      "description": "Last octet starting value for ping sweep.",
+      "value": "1"
+    },
     {
       "name": "stop_host",
       "type": "string",
@@ -32,12 +37,6 @@
       "type": "string",
       "description": "Subnet used for ping sweep.",
       "value": "192.168.1"
-    },
-    {
-      "name": "start_host",
-      "type": "string",
-      "description": "Last octet starting value for ping sweep.",
-      "value": "1"
     }
   ]
 }

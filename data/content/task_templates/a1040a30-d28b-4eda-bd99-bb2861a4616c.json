@@ -7,39 +7,39 @@
   ],
   "steps": [
     {
-      "id": "9aa60d0d-0a14-480f-b6b0-0962f671f45c",
+      "id": "788be705-1c1e-4c75-bb8e-69ab7cecfacc",
       "type": "execute-command",
       "data": {
         "command": "useradd -g 0 -M -d /root -s /bin/bash #{username}\nif [ $(cat /etc/os-release | grep -i 'Name=\"ubuntu\"') ]; then echo \"#{username}:#{password}\" | sudo chpasswd; else echo \"#{password}\" | passwd --stdin #{username}; fi;\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "4f1808d6-b905-4c05-a4bc-b2aca2284f90",
+      "id": "1f4d2301-cea9-49a9-9642-985f55b81601",
       "type": "execute-command",
       "data": {
         "command": "userdel #{username}\n",
         "command_type": "bash"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "9aa60d0d-0a14-480f-b6b0-0962f671f45c",
+      "s": "788be705-1c1e-4c75-bb8e-69ab7cecfacc",
       "p": "on-success",
-      "o": "4f1808d6-b905-4c05-a4bc-b2aca2284f90"
+      "o": "1f4d2301-cea9-49a9-9642-985f55b81601"
     },
     {
-      "s": "9aa60d0d-0a14-480f-b6b0-0962f671f45c",
+      "s": "788be705-1c1e-4c75-bb8e-69ab7cecfacc",
       "p": "on-failure",
-      "o": "4f1808d6-b905-4c05-a4bc-b2aca2284f90"
+      "o": "1f4d2301-cea9-49a9-9642-985f55b81601"
     }
   ],
   "tags": [
-    "T1136.001",
-    "atomic-red-team"
+    "T1136",
+    "T1136.001"
   ],
   "input_arguments": [
     {

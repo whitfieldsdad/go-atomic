@@ -7,47 +7,41 @@
   ],
   "steps": [
     {
-      "id": "71648db2-f9a4-4d7d-adf6-2518897bc7da",
+      "id": "f0b9f340-ac30-4c4c-b2d4-7455806345a8",
       "type": "execute-command",
       "data": {
         "command": "assoc #{extension_to_change}=#{target_extension_handler}\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     },
     {
-      "id": "42fc57e7-795e-40b4-9010-14a234dc2e7a",
+      "id": "23666b20-cf80-4f07-8852-2bfdf3ee44f7",
       "type": "execute-command",
       "data": {
         "command": "assoc  #{extension_to_change}=#{original_extension_handler}\n",
         "command_type": "command_prompt"
       },
-      "elevation_required": false
+      "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "71648db2-f9a4-4d7d-adf6-2518897bc7da",
+      "s": "f0b9f340-ac30-4c4c-b2d4-7455806345a8",
       "p": "on-success",
-      "o": "42fc57e7-795e-40b4-9010-14a234dc2e7a"
+      "o": "23666b20-cf80-4f07-8852-2bfdf3ee44f7"
     },
     {
-      "s": "71648db2-f9a4-4d7d-adf6-2518897bc7da",
+      "s": "f0b9f340-ac30-4c4c-b2d4-7455806345a8",
       "p": "on-failure",
-      "o": "42fc57e7-795e-40b4-9010-14a234dc2e7a"
+      "o": "23666b20-cf80-4f07-8852-2bfdf3ee44f7"
     }
   ],
   "tags": [
-    "T1546.001",
-    "atomic-red-team"
+    "T1546",
+    "T1546.001"
   ],
   "input_arguments": [
-    {
-      "name": "original_extension_handler",
-      "type": "string",
-      "description": "File Extension To Revert",
-      "value": "htafile"
-    },
     {
       "name": "target_extension_handler",
       "type": "path",
@@ -59,6 +53,12 @@
       "type": "string",
       "description": "File Extension To Hijack",
       "value": ".hta"
+    },
+    {
+      "name": "original_extension_handler",
+      "type": "string",
+      "description": "File Extension To Revert",
+      "value": "htafile"
     }
   ]
 }
