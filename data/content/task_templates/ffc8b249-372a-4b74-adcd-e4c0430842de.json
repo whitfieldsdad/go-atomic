@@ -8,19 +8,19 @@
   ],
   "steps": [
     {
-      "id": "6803df9b-0003-4401-9cd2-6a034d03d61c",
+      "id": "50b037fa-e04e-40bc-aa78-1e6def641c08",
       "type": "execute-command",
       "data": {
-        "command": "ls -a \u003e\u003e #{output_file}\nif [ -d /Library/Preferences/ ]; then ls -la /Library/Preferences/ \u003e #{output_file}; fi;\nfile */* *\u003e\u003e #{output_file}\ncat #{output_file} 2\u003e/dev/null\nfind . -type f\nls -R | grep \":$\" | sed -e 's/:$//' -e 's/[^-][^\\/]*\\//--/g' -e 's/^/ /' -e 's/-/|/'\nlocate *\nwhich sh\n",
+        "command": "ls -a \u003e\u003e #{output_file}\nif [ -d /Library/Preferences/ ]; then ls -la /Library/Preferences/ \u003e #{output_file}; fi;\nfile */* *\u003e\u003e #{output_file}\ncat #{output_file} 2\u003e/dev/null\nfind . -type f\nls -R | grep \":$\" | sed -e 's/:$//' -e 's/[^-][^\\/]*\\//--/g' -e 's/^/ /' -e 's/-/|/'\nlocate *\nwhich sh",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "6bc9f614-d1ad-42e7-bede-417b73203ec0",
+      "id": "b6d77879-10b3-43c0-8075-856e12a2ee8f",
       "type": "execute-command",
       "data": {
-        "command": "rm #{output_file}\n",
+        "command": "rm #{output_file}",
         "command_type": "sh"
       },
       "elevation_required": false
@@ -28,14 +28,14 @@
   ],
   "flows": [
     {
-      "s": "6803df9b-0003-4401-9cd2-6a034d03d61c",
+      "s": "50b037fa-e04e-40bc-aa78-1e6def641c08",
       "p": "on-success",
-      "o": "6bc9f614-d1ad-42e7-bede-417b73203ec0"
+      "o": "b6d77879-10b3-43c0-8075-856e12a2ee8f"
     },
     {
-      "s": "6803df9b-0003-4401-9cd2-6a034d03d61c",
+      "s": "50b037fa-e04e-40bc-aa78-1e6def641c08",
       "p": "on-failure",
-      "o": "6bc9f614-d1ad-42e7-bede-417b73203ec0"
+      "o": "b6d77879-10b3-43c0-8075-856e12a2ee8f"
     }
   ],
   "tags": [

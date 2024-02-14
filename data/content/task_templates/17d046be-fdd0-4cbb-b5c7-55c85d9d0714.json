@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "722b2298-abd4-47ba-b519-254d3afbd8e6",
+      "id": "a2b23ce7-9c7b-4ddf-9abd-f5be21f2afdd",
       "type": "execute-command",
       "data": {
-        "command": "Import-Module ExchangeOnlineManagement\n$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nAdd-MailboxPermission -Identity \"#{delegate_target}\" -User \"#{operator_mailbox}\" -AccessRights FullAccess -InheritanceType All\nDisconnect-ExchangeOnline -Confirm:$false\n",
+        "command": "Import-Module ExchangeOnlineManagement\n$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nAdd-MailboxPermission -Identity \"#{delegate_target}\" -User \"#{operator_mailbox}\" -AccessRights FullAccess -InheritanceType All\nDisconnect-ExchangeOnline -Confirm:$false",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "d6b99150-86a1-452b-a8b3-a6bf79d8b9f2",
+      "id": "27e40b20-966a-48fe-aec9-3a8a48a5138c",
       "type": "execute-command",
       "data": {
-        "command": "Import-Module ExchangeOnlineManagement\n$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nRemove-MailboxPermission -Identity \"#{delegate_target}\" -User \"#{operator_mailbox}\" -AccessRights FullAccess -InheritanceType All -Confirm:$false\nDisconnect-ExchangeOnline -Confirm:$false\n",
+        "command": "Import-Module ExchangeOnlineManagement\n$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nRemove-MailboxPermission -Identity \"#{delegate_target}\" -User \"#{operator_mailbox}\" -AccessRights FullAccess -InheritanceType All -Confirm:$false\nDisconnect-ExchangeOnline -Confirm:$false",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "9a5f0bc2-7f7b-4668-84e7-7e7b7a601831",
+      "id": "ae70ca68-bb82-4ee9-a09a-191f7ece1c96",
       "name": "Check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n",
-        "command_type": ""
+        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "e1f43518-60a6-4580-9706-f7a6a8f87fb6",
+      "id": "485b7d46-aad8-4804-960c-eccf9956bec0",
       "name": "Resolve dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name ExchangeOnlineManagement         \n",
-        "command_type": ""
+        "command": "Install-Module -Name ExchangeOnlineManagement",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "488c0b4a-5d6f-4abd-8b58-92a1189482ce",
+      "id": "488d66db-4661-42ee-96a8-5b9b6ffdfdad",
       "name": "Re-check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n",
-        "command_type": ""
+        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "722b2298-abd4-47ba-b519-254d3afbd8e6",
+      "s": "a2b23ce7-9c7b-4ddf-9abd-f5be21f2afdd",
       "p": "on-success",
-      "o": "d6b99150-86a1-452b-a8b3-a6bf79d8b9f2"
+      "o": "27e40b20-966a-48fe-aec9-3a8a48a5138c"
     },
     {
-      "s": "722b2298-abd4-47ba-b519-254d3afbd8e6",
+      "s": "a2b23ce7-9c7b-4ddf-9abd-f5be21f2afdd",
       "p": "on-failure",
-      "o": "d6b99150-86a1-452b-a8b3-a6bf79d8b9f2"
+      "o": "27e40b20-966a-48fe-aec9-3a8a48a5138c"
     },
     {
-      "s": "9a5f0bc2-7f7b-4668-84e7-7e7b7a601831",
+      "s": "ae70ca68-bb82-4ee9-a09a-191f7ece1c96",
       "p": "on-success",
-      "o": "722b2298-abd4-47ba-b519-254d3afbd8e6"
+      "o": "a2b23ce7-9c7b-4ddf-9abd-f5be21f2afdd"
     },
     {
-      "s": "9a5f0bc2-7f7b-4668-84e7-7e7b7a601831",
+      "s": "ae70ca68-bb82-4ee9-a09a-191f7ece1c96",
       "p": "on-failure",
-      "o": "e1f43518-60a6-4580-9706-f7a6a8f87fb6"
+      "o": "485b7d46-aad8-4804-960c-eccf9956bec0"
     },
     {
-      "s": "e1f43518-60a6-4580-9706-f7a6a8f87fb6",
+      "s": "485b7d46-aad8-4804-960c-eccf9956bec0",
       "p": "on-success",
-      "o": "488c0b4a-5d6f-4abd-8b58-92a1189482ce"
+      "o": "488d66db-4661-42ee-96a8-5b9b6ffdfdad"
     },
     {
-      "s": "488c0b4a-5d6f-4abd-8b58-92a1189482ce",
+      "s": "488d66db-4661-42ee-96a8-5b9b6ffdfdad",
       "p": "on-failure",
-      "o": "722b2298-abd4-47ba-b519-254d3afbd8e6"
+      "o": "a2b23ce7-9c7b-4ddf-9abd-f5be21f2afdd"
     }
   ],
   "tags": [

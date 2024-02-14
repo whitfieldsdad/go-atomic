@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "a1fb4b28-1199-4ebf-84b1-ff93ce177670",
+      "id": "eee35b64-1ab9-45b1-bf5d-3f257c01ef77",
       "type": "execute-command",
       "data": {
-        "command": "az login\n$userprincipalname = \"#{userprincipalname}\"\n$username = \"#{username}\"      \n$password = \"#{password}\"\naz ad user create --display-name $username --password $password --user-principal-name $userprincipalname\naz ad user list --filter \"displayname eq 'atomicredteam'\"     ",
+        "command": "az login\n$userprincipalname = \"#{userprincipalname}\"\n$username = \"#{username}\"      \n$password = \"#{password}\"\naz ad user create --display-name $username --password $password --user-principal-name $userprincipalname\naz ad user list --filter \"displayname eq 'atomicredteam'\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "833da049-6f84-4f0d-8b59-58f59216153c",
+      "id": "3f0d72d6-403e-4830-8993-4aa03fa6bd96",
       "type": "execute-command",
       "data": {
         "command": "az ad user delete --id",
@@ -25,175 +25,175 @@
       "elevation_required": false
     },
     {
-      "id": "cb245e27-62ba-487e-a141-b0c746e25829",
+      "id": "4f3c4e7d-bfb7-4c25-bf11-6e6efc2a495c",
       "name": "Check dependency 1/3",
       "description": "Check if Azure CLI is installed and install manually",
       "type": "execute-command",
       "data": {
         "command": "az account list",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "03147e53-7598-495a-ab0e-d9001dc346ed",
+      "id": "2726b9a6-c2bd-46db-a470-605e5fd35491",
       "name": "Resolve dependency 1/3",
       "description": "Check if Azure CLI is installed and install manually",
       "type": "execute-command",
       "data": {
         "command": "echo \"use the following to install the Azure CLI manually https://aka.ms/installazurecliwindows\"",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "f6bbf7d8-1f7d-4108-95d3-58da8147737a",
+      "id": "fd2adb19-de29-48aa-9c42-3945d2dae15d",
       "name": "Re-check dependency 1/3",
       "description": "Check if Azure CLI is installed and install manually",
       "type": "execute-command",
       "data": {
         "command": "az account list",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "d9fdf6b2-cfe6-4d44-b82c-9f7e9d935eee",
+      "id": "75672875-ac66-4bf2-8240-b3244bb3efea",
       "name": "Check dependency 2/3",
       "description": "Check if Azure CLI is installed and install via PowerShell",
       "type": "execute-command",
       "data": {
         "command": "az account list",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "d822c9b7-b90e-4ab3-8729-eab500cb80d0",
+      "id": "72227f50-30b9-437c-93b0-345a3780c087",
       "name": "Resolve dependency 2/3",
       "description": "Check if Azure CLI is installed and install via PowerShell",
       "type": "execute-command",
       "data": {
         "command": "echo \"use the following to install the Azure CLI $ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'; Remove-Item .\\AzureCLI.msi\"",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "2cb17bbf-e434-4642-af13-1b04db72204a",
+      "id": "50cbaec2-9a9d-42bb-8ec6-0bcc45fe2758",
       "name": "Re-check dependency 2/3",
       "description": "Check if Azure CLI is installed and install via PowerShell",
       "type": "execute-command",
       "data": {
         "command": "az account list",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "1acc9e1b-8e00-4746-bd62-a6bc0c05c4a3",
+      "id": "da6add1a-6647-431c-a57c-480ce8eff1ca",
       "name": "Check dependency 3/3",
       "description": "Update the userprincipalname to meet your requirements",
       "type": "execute-command",
       "data": {
         "command": "Update the input arguments so the userprincipalname value is accurate for your environment",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "344669f6-bc06-458c-a956-110214c7c6ae",
+      "id": "0a0feeef-ac15-4f17-8c32-23686aa37a1f",
       "name": "Resolve dependency 3/3",
       "description": "Update the userprincipalname to meet your requirements",
       "type": "execute-command",
       "data": {
         "command": "echo \"Update the input arguments in the .yaml file so that the userprincipalname value is accurate for your environment\"",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "94313530-7fae-41b1-9e50-6cdb4d15a006",
+      "id": "0e4cdd7e-37ff-45a9-994d-97a6b2f7e77c",
       "name": "Re-check dependency 3/3",
       "description": "Update the userprincipalname to meet your requirements",
       "type": "execute-command",
       "data": {
         "command": "Update the input arguments so the userprincipalname value is accurate for your environment",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "a1fb4b28-1199-4ebf-84b1-ff93ce177670",
+      "s": "eee35b64-1ab9-45b1-bf5d-3f257c01ef77",
       "p": "on-success",
-      "o": "833da049-6f84-4f0d-8b59-58f59216153c"
+      "o": "3f0d72d6-403e-4830-8993-4aa03fa6bd96"
     },
     {
-      "s": "a1fb4b28-1199-4ebf-84b1-ff93ce177670",
+      "s": "eee35b64-1ab9-45b1-bf5d-3f257c01ef77",
       "p": "on-failure",
-      "o": "833da049-6f84-4f0d-8b59-58f59216153c"
+      "o": "3f0d72d6-403e-4830-8993-4aa03fa6bd96"
     },
     {
-      "s": "cb245e27-62ba-487e-a141-b0c746e25829",
+      "s": "4f3c4e7d-bfb7-4c25-bf11-6e6efc2a495c",
       "p": "on-success",
-      "o": "a1fb4b28-1199-4ebf-84b1-ff93ce177670"
+      "o": "eee35b64-1ab9-45b1-bf5d-3f257c01ef77"
     },
     {
-      "s": "cb245e27-62ba-487e-a141-b0c746e25829",
+      "s": "4f3c4e7d-bfb7-4c25-bf11-6e6efc2a495c",
       "p": "on-failure",
-      "o": "03147e53-7598-495a-ab0e-d9001dc346ed"
+      "o": "2726b9a6-c2bd-46db-a470-605e5fd35491"
     },
     {
-      "s": "03147e53-7598-495a-ab0e-d9001dc346ed",
+      "s": "2726b9a6-c2bd-46db-a470-605e5fd35491",
       "p": "on-success",
-      "o": "f6bbf7d8-1f7d-4108-95d3-58da8147737a"
+      "o": "fd2adb19-de29-48aa-9c42-3945d2dae15d"
     },
     {
-      "s": "f6bbf7d8-1f7d-4108-95d3-58da8147737a",
+      "s": "fd2adb19-de29-48aa-9c42-3945d2dae15d",
       "p": "on-failure",
-      "o": "a1fb4b28-1199-4ebf-84b1-ff93ce177670"
+      "o": "eee35b64-1ab9-45b1-bf5d-3f257c01ef77"
     },
     {
-      "s": "d9fdf6b2-cfe6-4d44-b82c-9f7e9d935eee",
+      "s": "75672875-ac66-4bf2-8240-b3244bb3efea",
       "p": "on-success",
-      "o": "a1fb4b28-1199-4ebf-84b1-ff93ce177670"
+      "o": "eee35b64-1ab9-45b1-bf5d-3f257c01ef77"
     },
     {
-      "s": "d9fdf6b2-cfe6-4d44-b82c-9f7e9d935eee",
+      "s": "75672875-ac66-4bf2-8240-b3244bb3efea",
       "p": "on-failure",
-      "o": "d822c9b7-b90e-4ab3-8729-eab500cb80d0"
+      "o": "72227f50-30b9-437c-93b0-345a3780c087"
     },
     {
-      "s": "d822c9b7-b90e-4ab3-8729-eab500cb80d0",
+      "s": "72227f50-30b9-437c-93b0-345a3780c087",
       "p": "on-success",
-      "o": "2cb17bbf-e434-4642-af13-1b04db72204a"
+      "o": "50cbaec2-9a9d-42bb-8ec6-0bcc45fe2758"
     },
     {
-      "s": "2cb17bbf-e434-4642-af13-1b04db72204a",
+      "s": "50cbaec2-9a9d-42bb-8ec6-0bcc45fe2758",
       "p": "on-failure",
-      "o": "a1fb4b28-1199-4ebf-84b1-ff93ce177670"
+      "o": "eee35b64-1ab9-45b1-bf5d-3f257c01ef77"
     },
     {
-      "s": "1acc9e1b-8e00-4746-bd62-a6bc0c05c4a3",
+      "s": "da6add1a-6647-431c-a57c-480ce8eff1ca",
       "p": "on-success",
-      "o": "a1fb4b28-1199-4ebf-84b1-ff93ce177670"
+      "o": "eee35b64-1ab9-45b1-bf5d-3f257c01ef77"
     },
     {
-      "s": "1acc9e1b-8e00-4746-bd62-a6bc0c05c4a3",
+      "s": "da6add1a-6647-431c-a57c-480ce8eff1ca",
       "p": "on-failure",
-      "o": "344669f6-bc06-458c-a956-110214c7c6ae"
+      "o": "0a0feeef-ac15-4f17-8c32-23686aa37a1f"
     },
     {
-      "s": "344669f6-bc06-458c-a956-110214c7c6ae",
+      "s": "0a0feeef-ac15-4f17-8c32-23686aa37a1f",
       "p": "on-success",
-      "o": "94313530-7fae-41b1-9e50-6cdb4d15a006"
+      "o": "0e4cdd7e-37ff-45a9-994d-97a6b2f7e77c"
     },
     {
-      "s": "94313530-7fae-41b1-9e50-6cdb4d15a006",
+      "s": "0e4cdd7e-37ff-45a9-994d-97a6b2f7e77c",
       "p": "on-failure",
-      "o": "a1fb4b28-1199-4ebf-84b1-ff93ce177670"
+      "o": "eee35b64-1ab9-45b1-bf5d-3f257c01ef77"
     }
   ],
   "tags": [

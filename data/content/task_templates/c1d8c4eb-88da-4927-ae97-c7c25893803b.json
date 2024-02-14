@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "cafa86f2-fe4c-442e-97db-068112c1bb9c",
+      "id": "26910a69-d67b-4526-b148-fd7ca8d13902",
       "type": "execute-command",
       "data": {
-        "command": "echo \"# THIS IS A COMMENT\" \u003e\u003e /etc/ufw/ufw.conf\ngrep \"# THIS IS A COMMENT\" /etc/ufw/ufw.conf\n",
+        "command": "echo \"# THIS IS A COMMENT\" \u003e\u003e /etc/ufw/ufw.conf\ngrep \"# THIS IS A COMMENT\" /etc/ufw/ufw.conf",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "c7009c99-e074-4756-b19a-3ef1c2e0cc98",
+      "id": "bcf6c472-52bf-47c2-b4d0-0ae1ed737842",
       "type": "execute-command",
       "data": {
-        "command": "sed -i 's/# THIS IS A COMMENT//g' /etc/ufw/ufw.conf\ncat /etc/ufw/ufw.conf\n",
+        "command": "sed -i 's/# THIS IS A COMMENT//g' /etc/ufw/ufw.conf\ncat /etc/ufw/ufw.conf",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "f78e2db6-bba5-49ef-986e-3974a509e11c",
+      "id": "e0b1040e-33c4-443f-8fc6-a84d478d3277",
       "name": "Check dependency 1/1",
       "description": "Check if /etc/ufw/ufw.conf exists.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -f \"/etc/ufw/ufw.conf\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ ! -f \"/etc/ufw/ufw.conf\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "4eac7213-b978-4707-8fd3-c0a5afab142e",
+      "id": "ebbe6378-994b-4f3c-8418-8356b22d3bcf",
       "name": "Resolve dependency 1/1",
       "description": "Check if /etc/ufw/ufw.conf exists.\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"\"\n",
-        "command_type": ""
+        "command": "echo \"\"",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "ef76ebb4-fcb7-4cd3-a554-8834d5e20be4",
+      "id": "1afc43cc-b3ee-4a63-9688-a78746e337cb",
       "name": "Re-check dependency 1/1",
       "description": "Check if /etc/ufw/ufw.conf exists.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -f \"/etc/ufw/ufw.conf\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ ! -f \"/etc/ufw/ufw.conf\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "cafa86f2-fe4c-442e-97db-068112c1bb9c",
+      "s": "26910a69-d67b-4526-b148-fd7ca8d13902",
       "p": "on-success",
-      "o": "c7009c99-e074-4756-b19a-3ef1c2e0cc98"
+      "o": "bcf6c472-52bf-47c2-b4d0-0ae1ed737842"
     },
     {
-      "s": "cafa86f2-fe4c-442e-97db-068112c1bb9c",
+      "s": "26910a69-d67b-4526-b148-fd7ca8d13902",
       "p": "on-failure",
-      "o": "c7009c99-e074-4756-b19a-3ef1c2e0cc98"
+      "o": "bcf6c472-52bf-47c2-b4d0-0ae1ed737842"
     },
     {
-      "s": "f78e2db6-bba5-49ef-986e-3974a509e11c",
+      "s": "e0b1040e-33c4-443f-8fc6-a84d478d3277",
       "p": "on-success",
-      "o": "cafa86f2-fe4c-442e-97db-068112c1bb9c"
+      "o": "26910a69-d67b-4526-b148-fd7ca8d13902"
     },
     {
-      "s": "f78e2db6-bba5-49ef-986e-3974a509e11c",
+      "s": "e0b1040e-33c4-443f-8fc6-a84d478d3277",
       "p": "on-failure",
-      "o": "4eac7213-b978-4707-8fd3-c0a5afab142e"
+      "o": "ebbe6378-994b-4f3c-8418-8356b22d3bcf"
     },
     {
-      "s": "4eac7213-b978-4707-8fd3-c0a5afab142e",
+      "s": "ebbe6378-994b-4f3c-8418-8356b22d3bcf",
       "p": "on-success",
-      "o": "ef76ebb4-fcb7-4cd3-a554-8834d5e20be4"
+      "o": "1afc43cc-b3ee-4a63-9688-a78746e337cb"
     },
     {
-      "s": "ef76ebb4-fcb7-4cd3-a554-8834d5e20be4",
+      "s": "1afc43cc-b3ee-4a63-9688-a78746e337cb",
       "p": "on-failure",
-      "o": "cafa86f2-fe4c-442e-97db-068112c1bb9c"
+      "o": "26910a69-d67b-4526-b148-fd7ca8d13902"
     }
   ],
   "tags": [

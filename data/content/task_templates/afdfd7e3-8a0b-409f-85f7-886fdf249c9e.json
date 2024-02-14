@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "efd80803-a368-4ae4-a117-8b447b165d18",
+      "id": "6beddd90-f102-47ed-a88c-fe979fade4bc",
       "type": "execute-command",
       "data": {
-        "command": "$oldvalue = $(Get-ItemProperty HKLM:\\System\\CurrentControlSet\\Control\\Lsa -Name 'Security Packages' | Select-Object -ExpandProperty 'Security Packages');\nSet-ItemProperty -Path \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\" -Name 'Security Packages old' -Value \"$oldvalue\";\n$newvalue = \"AtomicTest.dll\";\nSet-ItemProperty HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Lsa -Name 'Security Packages' -Value $newvalue\n",
+        "command": "$oldvalue = $(Get-ItemProperty HKLM:\\System\\CurrentControlSet\\Control\\Lsa -Name 'Security Packages' | Select-Object -ExpandProperty 'Security Packages');\nSet-ItemProperty -Path \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\" -Name 'Security Packages old' -Value \"$oldvalue\";\n$newvalue = \"AtomicTest.dll\";\nSet-ItemProperty HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Lsa -Name 'Security Packages' -Value $newvalue",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "33ff3b59-d91c-47ef-b270-41acf28931c1",
+      "id": "26cc402b-f8f6-448a-9e4d-a91b855fccca",
       "type": "execute-command",
       "data": {
         "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\" -Name 'Security Packages old' | Select-Object -ExpandProperty 'Security Packages old');\nSet-ItemProperty -Path HKLM:\\System\\CurrentControlSet\\Control\\Lsa -Name 'Security Packages' -Value \"$oldvalue\";\nRemove-ItemProperty -Path  \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\" -Name 'Security Packages old';",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "efd80803-a368-4ae4-a117-8b447b165d18",
+      "s": "6beddd90-f102-47ed-a88c-fe979fade4bc",
       "p": "on-success",
-      "o": "33ff3b59-d91c-47ef-b270-41acf28931c1"
+      "o": "26cc402b-f8f6-448a-9e4d-a91b855fccca"
     },
     {
-      "s": "efd80803-a368-4ae4-a117-8b447b165d18",
+      "s": "6beddd90-f102-47ed-a88c-fe979fade4bc",
       "p": "on-failure",
-      "o": "33ff3b59-d91c-47ef-b270-41acf28931c1"
+      "o": "26cc402b-f8f6-448a-9e4d-a91b855fccca"
     }
   ],
   "tags": [

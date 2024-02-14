@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "b2b5258a-edd8-4b2c-ae31-34012d41a533",
+      "id": "e138a1d5-7cac-4712-964e-41c69d029ac0",
       "type": "execute-command",
       "data": {
-        "command": "mkdir #{output_folder}\nntdsutil \"ac i ntds\" \"ifm\" \"create full #{output_folder}\" q q\n",
+        "command": "mkdir #{output_folder}\nntdsutil \"ac i ntds\" \"ifm\" \"create full #{output_folder}\" q q",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "1df4b4d5-96f1-4971-a45e-07827c43c72d",
+      "id": "a121ed3c-378f-400e-a4fa-a39866165c97",
       "type": "execute-command",
       "data": {
-        "command": "rmdir /q /s #{output_folder} \u003enul 2\u003e\u00261\n",
+        "command": "rmdir /q /s #{output_folder} \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "26b78690-d4ae-4069-972b-51c5faef7e8b",
+      "id": "1e9b675b-bf13-4b0b-8cf3-3488b992dfc3",
       "name": "Check dependency 1/1",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
       "data": {
-        "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT\n",
-        "command_type": ""
+        "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "dab141cf-60f2-4fdc-8537-721b509e5e1e",
+      "id": "0beb9a44-bb89-44ee-a405-736f562b0d5f",
       "name": "Resolve dependency 1/1",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
       "data": {
-        "command": "echo Sorry, Promoting this machine to a Domain Controller must be done manually\n",
-        "command_type": ""
+        "command": "echo Sorry, Promoting this machine to a Domain Controller must be done manually",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "2af0c9df-18e6-4148-baa1-c8f241862a80",
+      "id": "c3002662-8dad-45db-acbb-63b0d2f5ef8e",
       "name": "Re-check dependency 1/1",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
       "data": {
-        "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT\n",
-        "command_type": ""
+        "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "b2b5258a-edd8-4b2c-ae31-34012d41a533",
+      "s": "e138a1d5-7cac-4712-964e-41c69d029ac0",
       "p": "on-success",
-      "o": "1df4b4d5-96f1-4971-a45e-07827c43c72d"
+      "o": "a121ed3c-378f-400e-a4fa-a39866165c97"
     },
     {
-      "s": "b2b5258a-edd8-4b2c-ae31-34012d41a533",
+      "s": "e138a1d5-7cac-4712-964e-41c69d029ac0",
       "p": "on-failure",
-      "o": "1df4b4d5-96f1-4971-a45e-07827c43c72d"
+      "o": "a121ed3c-378f-400e-a4fa-a39866165c97"
     },
     {
-      "s": "26b78690-d4ae-4069-972b-51c5faef7e8b",
+      "s": "1e9b675b-bf13-4b0b-8cf3-3488b992dfc3",
       "p": "on-success",
-      "o": "b2b5258a-edd8-4b2c-ae31-34012d41a533"
+      "o": "e138a1d5-7cac-4712-964e-41c69d029ac0"
     },
     {
-      "s": "26b78690-d4ae-4069-972b-51c5faef7e8b",
+      "s": "1e9b675b-bf13-4b0b-8cf3-3488b992dfc3",
       "p": "on-failure",
-      "o": "dab141cf-60f2-4fdc-8537-721b509e5e1e"
+      "o": "0beb9a44-bb89-44ee-a405-736f562b0d5f"
     },
     {
-      "s": "dab141cf-60f2-4fdc-8537-721b509e5e1e",
+      "s": "0beb9a44-bb89-44ee-a405-736f562b0d5f",
       "p": "on-success",
-      "o": "2af0c9df-18e6-4148-baa1-c8f241862a80"
+      "o": "c3002662-8dad-45db-acbb-63b0d2f5ef8e"
     },
     {
-      "s": "2af0c9df-18e6-4148-baa1-c8f241862a80",
+      "s": "c3002662-8dad-45db-acbb-63b0d2f5ef8e",
       "p": "on-failure",
-      "o": "b2b5258a-edd8-4b2c-ae31-34012d41a533"
+      "o": "e138a1d5-7cac-4712-964e-41c69d029ac0"
     }
   ],
   "tags": [

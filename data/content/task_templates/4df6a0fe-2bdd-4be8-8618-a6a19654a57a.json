@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "5521951d-c3eb-4f4c-82ca-19c738fa7481",
+      "id": "b6a826ed-2688-4d8a-bd66-27b7e7a6cddd",
       "type": "execute-command",
       "data": {
-        "command": "sudo sh -c \"echo Defaults \"'!'\"tty_tickets \u003e\u003e /usr/local/etc/sudoers\"\nsudo visudo -c -f /usr/local/etc/sudoers\n",
+        "command": "sudo sh -c \"echo Defaults \"'!'\"tty_tickets \u003e\u003e /usr/local/etc/sudoers\"\nsudo visudo -c -f /usr/local/etc/sudoers",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "8c186a7e-ef56-4f6a-b890-47c591b4ae01",
+      "id": "bc4948aa-bc5b-48a6-97a4-246145254f45",
       "name": "Check dependency 1/1",
       "description": "Check if sudo is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v sudo)\" ]; then exit 1; else exit 0; fi;\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v sudo)\" ]; then exit 1; else exit 0; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "cad7c133-b288-4741-b785-04993f86f539",
+      "id": "f563dd34-ace8-4f71-85eb-b362cf50a3fc",
       "name": "Resolve dependency 1/1",
       "description": "Check if sudo is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "(which pkg \u0026\u0026 pkg install -y sudo)\n",
-        "command_type": ""
+        "command": "(which pkg \u0026\u0026 pkg install -y sudo)",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "87518bc6-630d-48d4-9830-b7e3151a3d07",
+      "id": "68965deb-0f1e-46a0-95d7-f524ecf665b4",
       "name": "Re-check dependency 1/1",
       "description": "Check if sudo is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v sudo)\" ]; then exit 1; else exit 0; fi;\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v sudo)\" ]; then exit 1; else exit 0; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "8c186a7e-ef56-4f6a-b890-47c591b4ae01",
+      "s": "bc4948aa-bc5b-48a6-97a4-246145254f45",
       "p": "on-success",
-      "o": "5521951d-c3eb-4f4c-82ca-19c738fa7481"
+      "o": "b6a826ed-2688-4d8a-bd66-27b7e7a6cddd"
     },
     {
-      "s": "8c186a7e-ef56-4f6a-b890-47c591b4ae01",
+      "s": "bc4948aa-bc5b-48a6-97a4-246145254f45",
       "p": "on-failure",
-      "o": "cad7c133-b288-4741-b785-04993f86f539"
+      "o": "f563dd34-ace8-4f71-85eb-b362cf50a3fc"
     },
     {
-      "s": "cad7c133-b288-4741-b785-04993f86f539",
+      "s": "f563dd34-ace8-4f71-85eb-b362cf50a3fc",
       "p": "on-success",
-      "o": "87518bc6-630d-48d4-9830-b7e3151a3d07"
+      "o": "68965deb-0f1e-46a0-95d7-f524ecf665b4"
     },
     {
-      "s": "87518bc6-630d-48d4-9830-b7e3151a3d07",
+      "s": "68965deb-0f1e-46a0-95d7-f524ecf665b4",
       "p": "on-failure",
-      "o": "5521951d-c3eb-4f4c-82ca-19c738fa7481"
+      "o": "b6a826ed-2688-4d8a-bd66-27b7e7a6cddd"
     }
   ],
   "tags": [

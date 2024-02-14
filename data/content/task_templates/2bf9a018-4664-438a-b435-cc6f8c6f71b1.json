@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "7947ee81-5fb3-4526-8435-295187a31987",
+      "id": "c2d4af8e-ffd2-420a-930f-c6099d7a32c1",
       "type": "execute-command",
       "data": {
-        "command": "sudo -l      \nsudo cat /usr/local/etc/sudoers\nsudo ee /usr/local/etc/sudoers\n",
+        "command": "sudo -l      \nsudo cat /usr/local/etc/sudoers\nsudo ee /usr/local/etc/sudoers",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "24a31f94-8af3-4d98-8fec-a5ec00b428ad",
+      "id": "740863b4-91bd-4311-ad73-ed8d24790461",
       "name": "Check dependency 1/1",
       "description": "Check if sudo is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v sudo)\" ]; then exit 1; else exit 0; fi;\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v sudo)\" ]; then exit 1; else exit 0; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "55186700-0ee2-4fd2-baa6-30336faaa4e2",
+      "id": "73714051-4c7e-4c33-aa2f-bc931ca0c3ce",
       "name": "Resolve dependency 1/1",
       "description": "Check if sudo is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "(which pkg \u0026\u0026 pkg install -y sudo)\n",
-        "command_type": ""
+        "command": "(which pkg \u0026\u0026 pkg install -y sudo)",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "a9153c6a-c65b-4b81-a00d-93f9ded4e137",
+      "id": "d6b9bb17-36bf-4844-95f2-6306d5a50292",
       "name": "Re-check dependency 1/1",
       "description": "Check if sudo is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v sudo)\" ]; then exit 1; else exit 0; fi;\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v sudo)\" ]; then exit 1; else exit 0; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "24a31f94-8af3-4d98-8fec-a5ec00b428ad",
+      "s": "740863b4-91bd-4311-ad73-ed8d24790461",
       "p": "on-success",
-      "o": "7947ee81-5fb3-4526-8435-295187a31987"
+      "o": "c2d4af8e-ffd2-420a-930f-c6099d7a32c1"
     },
     {
-      "s": "24a31f94-8af3-4d98-8fec-a5ec00b428ad",
+      "s": "740863b4-91bd-4311-ad73-ed8d24790461",
       "p": "on-failure",
-      "o": "55186700-0ee2-4fd2-baa6-30336faaa4e2"
+      "o": "73714051-4c7e-4c33-aa2f-bc931ca0c3ce"
     },
     {
-      "s": "55186700-0ee2-4fd2-baa6-30336faaa4e2",
+      "s": "73714051-4c7e-4c33-aa2f-bc931ca0c3ce",
       "p": "on-success",
-      "o": "a9153c6a-c65b-4b81-a00d-93f9ded4e137"
+      "o": "d6b9bb17-36bf-4844-95f2-6306d5a50292"
     },
     {
-      "s": "a9153c6a-c65b-4b81-a00d-93f9ded4e137",
+      "s": "d6b9bb17-36bf-4844-95f2-6306d5a50292",
       "p": "on-failure",
-      "o": "7947ee81-5fb3-4526-8435-295187a31987"
+      "o": "c2d4af8e-ffd2-420a-930f-c6099d7a32c1"
     }
   ],
   "tags": [

@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "6792f290-4771-441f-ba78-97d8a7ab9bff",
+      "id": "e2e230e4-7b90-46e8-87c7-cbe8746b5200",
       "type": "execute-command",
       "data": {
-        "command": "$RemovableDrives=@()\n$RemovableDrives = Get-WmiObject -Class Win32_LogicalDisk -filter \"drivetype=2\" | select-object -expandproperty DeviceID\nForEach ($Drive in $RemovableDrives)\n{\nwrite-host \"Removable Drive Found:\" $Drive\nNew-Item -Path $Drive/T1091Test1.txt -ItemType \"file\" -Force -Value \"T1091 Test 1 has created this file to simulate malware spread to removable drives.\"\n}\n",
+        "command": "$RemovableDrives=@()\n$RemovableDrives = Get-WmiObject -Class Win32_LogicalDisk -filter \"drivetype=2\" | select-object -expandproperty DeviceID\nForEach ($Drive in $RemovableDrives)\n{\nwrite-host \"Removable Drive Found:\" $Drive\nNew-Item -Path $Drive/T1091Test1.txt -ItemType \"file\" -Force -Value \"T1091 Test 1 has created this file to simulate malware spread to removable drives.\"\n}",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "51d76bf5-3275-4c05-90dc-60e0da2c8eeb",
+      "id": "9a6f2300-2c02-4d00-95ed-f0e2dad8a2ff",
       "type": "execute-command",
       "data": {
-        "command": "$RemovableDrives = Get-WmiObject -Class Win32_LogicalDisk -filter \"drivetype=2\" | select-object -expandproperty DeviceID\nForEach ($Drive in $RemovableDrives)\n{\nRemove-Item -Path $Drive\\T1091Test1.txt -Force -ErrorAction Ignore\n}\n",
+        "command": "$RemovableDrives = Get-WmiObject -Class Win32_LogicalDisk -filter \"drivetype=2\" | select-object -expandproperty DeviceID\nForEach ($Drive in $RemovableDrives)\n{\nRemove-Item -Path $Drive\\T1091Test1.txt -Force -ErrorAction Ignore\n}",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "6792f290-4771-441f-ba78-97d8a7ab9bff",
+      "s": "e2e230e4-7b90-46e8-87c7-cbe8746b5200",
       "p": "on-success",
-      "o": "51d76bf5-3275-4c05-90dc-60e0da2c8eeb"
+      "o": "9a6f2300-2c02-4d00-95ed-f0e2dad8a2ff"
     },
     {
-      "s": "6792f290-4771-441f-ba78-97d8a7ab9bff",
+      "s": "e2e230e4-7b90-46e8-87c7-cbe8746b5200",
       "p": "on-failure",
-      "o": "51d76bf5-3275-4c05-90dc-60e0da2c8eeb"
+      "o": "9a6f2300-2c02-4d00-95ed-f0e2dad8a2ff"
     }
   ],
   "tags": [

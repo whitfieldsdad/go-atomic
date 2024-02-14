@@ -28,8 +28,7 @@ build: windows linux darwin
 	du -sh bin/*
 
 update:
-	wget https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/enterprise-attack/enterprise-attack.json -O ./data/stix2/mitre-attack-enterprise.json
-	wget https://api.github.com/repos/redcanaryco/atomic-red-team/tarball -O ./data/atomic-red-team/atomic-red-team.tar.gz
+	go run main.go task-templates -w data/content generate $(ATOMIC_RED_TEAM_PATH)/atomics
 
 test:
 	go test -v ./...

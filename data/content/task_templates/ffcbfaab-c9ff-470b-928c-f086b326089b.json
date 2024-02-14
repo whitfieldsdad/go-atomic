@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "6160a7f8-f131-46e4-b80d-66bad7fccb93",
+      "id": "d2625b36-711b-4d7c-bcb9-47ed3a74354a",
       "type": "execute-command",
       "data": {
-        "command": "$orgLegalNoticeCaption = (Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeCaption).LegalNoticeCaption\n$orgLegalNoticeText = (Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeText).LegalNoticeText\n$newLegalNoticeCaption = \"#{legal_notice_caption}\"\n$newLegalNoticeText = \"#{legal_notice_text}\"\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeCaption -Value $newLegalNoticeCaption -Type String -Force\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeText -Value $newLegalNoticeText -Type String -Force      ",
+        "command": "$orgLegalNoticeCaption = (Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeCaption).LegalNoticeCaption\n$orgLegalNoticeText = (Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeText).LegalNoticeText\n$newLegalNoticeCaption = \"#{legal_notice_caption}\"\n$newLegalNoticeText = \"#{legal_notice_text}\"\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeCaption -Value $newLegalNoticeCaption -Type String -Force\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeText -Value $newLegalNoticeText -Type String -Force",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "638770d3-164f-4e7b-b084-8c02f4b1385c",
+      "id": "4764dc9f-cd29-4d06-b9e7-e00cb883821c",
       "type": "execute-command",
       "data": {
-        "command": "Set-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeCaption -Value $orgLegalNoticeCaption -Type String -Force\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeText -Value $orgLegalNoticeText -Type String -Force\n",
+        "command": "Set-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeCaption -Value $orgLegalNoticeCaption -Type String -Force\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeText -Value $orgLegalNoticeText -Type String -Force",
         "command_type": "powershell"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "6160a7f8-f131-46e4-b80d-66bad7fccb93",
+      "s": "d2625b36-711b-4d7c-bcb9-47ed3a74354a",
       "p": "on-success",
-      "o": "638770d3-164f-4e7b-b084-8c02f4b1385c"
+      "o": "4764dc9f-cd29-4d06-b9e7-e00cb883821c"
     },
     {
-      "s": "6160a7f8-f131-46e4-b80d-66bad7fccb93",
+      "s": "d2625b36-711b-4d7c-bcb9-47ed3a74354a",
       "p": "on-failure",
-      "o": "638770d3-164f-4e7b-b084-8c02f4b1385c"
+      "o": "4764dc9f-cd29-4d06-b9e7-e00cb883821c"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "legal_notice_caption",
-      "type": "string",
-      "description": "Title of ransom message",
-      "value": "PYSA"
-    },
-    {
       "name": "legal_notice_text",
       "type": "string",
       "description": "Body of ransom message",
       "value": "Hi Company, every byte on any types of your devices was encrypted. Don't try to use backups because it were encrypted too. To get all your data contact us:xxxx@onionmail.org"
+    },
+    {
+      "name": "legal_notice_caption",
+      "type": "string",
+      "description": "Title of ransom message",
+      "value": "PYSA"
     }
   ]
 }

@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "22b95204-2934-4654-b371-35a93f90ee32",
+      "id": "00c20c51-a8ef-49d0-b6c3-d63a6b41830f",
       "type": "execute-command",
       "data": {
-        "command": "set-WebConfigurationProperty -PSPath \"IIS:\\Sites\\#{website_name}\\\" -filter \"system.webServer/httpLogging\" -name dontLog -value $true\n",
+        "command": "set-WebConfigurationProperty -PSPath \"IIS:\\Sites\\#{website_name}\\\" -filter \"system.webServer/httpLogging\" -name dontLog -value $true",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "2ac0f1d1-db08-4084-b3c0-9e8a7cbe5d8c",
+      "id": "29d7f8e4-6a11-48ab-b255-fd29e5066781",
       "type": "execute-command",
       "data": {
-        "command": "if(Test-Path \"C:\\Windows\\System32\\inetsrv\\appcmd.exe\"){\n  C:\\Windows\\System32\\inetsrv\\appcmd.exe set config \"#{website_name}\" /section:httplogging /dontLog:false *\u003e$null\n}\n",
+        "command": "if(Test-Path \"C:\\Windows\\System32\\inetsrv\\appcmd.exe\"){\n  C:\\Windows\\System32\\inetsrv\\appcmd.exe set config \"#{website_name}\" /section:httplogging /dontLog:false *\u003e$null\n}",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "22b95204-2934-4654-b371-35a93f90ee32",
+      "s": "00c20c51-a8ef-49d0-b6c3-d63a6b41830f",
       "p": "on-success",
-      "o": "2ac0f1d1-db08-4084-b3c0-9e8a7cbe5d8c"
+      "o": "29d7f8e4-6a11-48ab-b255-fd29e5066781"
     },
     {
-      "s": "22b95204-2934-4654-b371-35a93f90ee32",
+      "s": "00c20c51-a8ef-49d0-b6c3-d63a6b41830f",
       "p": "on-failure",
-      "o": "2ac0f1d1-db08-4084-b3c0-9e8a7cbe5d8c"
+      "o": "29d7f8e4-6a11-48ab-b255-fd29e5066781"
     }
   ],
   "tags": [

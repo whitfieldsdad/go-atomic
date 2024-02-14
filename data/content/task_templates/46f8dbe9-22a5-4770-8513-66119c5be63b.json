@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "761d2ad2-d7df-4dfc-a4ce-ca7ce1fdeab9",
+      "id": "2c8045c5-ee29-4a81-a3fa-fbb09433e283",
       "type": "execute-command",
       "data": {
-        "command": "Get-ADObject -LDAPFilter '(UserAccountControl:1.2.840.113556.1.4.803:=#{uac_prop})' -Server #{domain}\n",
+        "command": "Get-ADObject -LDAPFilter '(UserAccountControl:1.2.840.113556.1.4.803:=#{uac_prop})' -Server #{domain}",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "15e81159-9cd3-40cc-afe5-1b39a4984ebf",
+      "id": "950607ee-40c5-4921-9035-af92a599ac05",
       "name": "Check dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "Try {\n    Import-Module ActiveDirectory -ErrorAction Stop | Out-Null\n    exit 0\n}\nCatch {\n    exit 1\n}\n",
-        "command_type": ""
+        "command": "Try {\n    Import-Module ActiveDirectory -ErrorAction Stop | Out-Null\n    exit 0\n}\nCatch {\n    exit 1\n}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "73bf5afc-d4ad-4ba7-a336-f3c0d68c0457",
+      "id": "5cd86be9-366f-4a64-98e3-1039614a2d95",
       "name": "Resolve dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if((Get-CimInstance -ClassName Win32_OperatingSystem).ProductType -eq 1) {\n  Add-WindowsCapability -Name (Get-WindowsCapability -Name RSAT.ActiveDirectory.DS* -Online).Name -Online\n} else {\n  Install-WindowsFeature RSAT-AD-PowerShell\n}\n",
-        "command_type": ""
+        "command": "if((Get-CimInstance -ClassName Win32_OperatingSystem).ProductType -eq 1) {\n  Add-WindowsCapability -Name (Get-WindowsCapability -Name RSAT.ActiveDirectory.DS* -Online).Name -Online\n} else {\n  Install-WindowsFeature RSAT-AD-PowerShell\n}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "a5f682a7-e6f4-430e-ab78-8a1c7c9939aa",
+      "id": "1de2e350-af89-411d-b7e2-2c82ae2d59f7",
       "name": "Re-check dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "Try {\n    Import-Module ActiveDirectory -ErrorAction Stop | Out-Null\n    exit 0\n}\nCatch {\n    exit 1\n}\n",
-        "command_type": ""
+        "command": "Try {\n    Import-Module ActiveDirectory -ErrorAction Stop | Out-Null\n    exit 0\n}\nCatch {\n    exit 1\n}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "15e81159-9cd3-40cc-afe5-1b39a4984ebf",
+      "s": "950607ee-40c5-4921-9035-af92a599ac05",
       "p": "on-success",
-      "o": "761d2ad2-d7df-4dfc-a4ce-ca7ce1fdeab9"
+      "o": "2c8045c5-ee29-4a81-a3fa-fbb09433e283"
     },
     {
-      "s": "15e81159-9cd3-40cc-afe5-1b39a4984ebf",
+      "s": "950607ee-40c5-4921-9035-af92a599ac05",
       "p": "on-failure",
-      "o": "73bf5afc-d4ad-4ba7-a336-f3c0d68c0457"
+      "o": "5cd86be9-366f-4a64-98e3-1039614a2d95"
     },
     {
-      "s": "73bf5afc-d4ad-4ba7-a336-f3c0d68c0457",
+      "s": "5cd86be9-366f-4a64-98e3-1039614a2d95",
       "p": "on-success",
-      "o": "a5f682a7-e6f4-430e-ab78-8a1c7c9939aa"
+      "o": "1de2e350-af89-411d-b7e2-2c82ae2d59f7"
     },
     {
-      "s": "a5f682a7-e6f4-430e-ab78-8a1c7c9939aa",
+      "s": "1de2e350-af89-411d-b7e2-2c82ae2d59f7",
       "p": "on-failure",
-      "o": "761d2ad2-d7df-4dfc-a4ce-ca7ce1fdeab9"
+      "o": "2c8045c5-ee29-4a81-a3fa-fbb09433e283"
     }
   ],
   "tags": [

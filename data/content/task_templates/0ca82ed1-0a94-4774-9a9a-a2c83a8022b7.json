@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "7d591d9f-a919-49d6-9d95-6bc9b9ec1320",
+      "id": "d77498c7-2310-493d-be24-75f9ce49772a",
       "type": "execute-command",
       "data": {
-        "command": "service pf stop\nservice pf disable\n",
+        "command": "service pf stop\nservice pf disable",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "550406cc-bc06-428f-ab3b-530770483fd1",
+      "id": "c42e9d95-8bcd-406f-9363-ee4f655dbd7b",
       "type": "execute-command",
       "data": {
-        "command": "service pf enable\nservice pf start\nservice pf status\n",
+        "command": "service pf enable\nservice pf start\nservice pf status",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "bf87fd35-41ca-4155-a23c-f92a9253e155",
+      "id": "a9eaaf6b-11ac-456a-b013-c08d96700c73",
       "name": "Check dependency 1/1",
       "description": "Check if pfctl is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v pfctl)\" ]; then echo -e \"\\n***** PF NOT installed *****\\n\"; exit 1; fi\nif [ \"$(kldstat -n pf)\" = \"\" ]; then echo -e \"\\n***** PF inactive *****\\n\"; exit 1; fi \n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v pfctl)\" ]; then echo -e \"\\n***** PF NOT installed *****\\n\"; exit 1; fi\nif [ \"$(kldstat -n pf)\" = \"\" ]; then echo -e \"\\n***** PF inactive *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "90488076-2b2b-43c2-969f-432d8f5a012a",
+      "id": "9dd8c16e-8b87-425c-878f-ed83ad9c1e33",
       "name": "Resolve dependency 1/1",
       "description": "Check if pfctl is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"\"\n",
-        "command_type": ""
+        "command": "echo \"\"",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "ca3f921c-3cd6-4975-8a5b-c011d1e53db7",
+      "id": "81d907da-da94-4a07-8fb2-8f9d7261975f",
       "name": "Re-check dependency 1/1",
       "description": "Check if pfctl is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v pfctl)\" ]; then echo -e \"\\n***** PF NOT installed *****\\n\"; exit 1; fi\nif [ \"$(kldstat -n pf)\" = \"\" ]; then echo -e \"\\n***** PF inactive *****\\n\"; exit 1; fi \n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v pfctl)\" ]; then echo -e \"\\n***** PF NOT installed *****\\n\"; exit 1; fi\nif [ \"$(kldstat -n pf)\" = \"\" ]; then echo -e \"\\n***** PF inactive *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "7d591d9f-a919-49d6-9d95-6bc9b9ec1320",
+      "s": "d77498c7-2310-493d-be24-75f9ce49772a",
       "p": "on-success",
-      "o": "550406cc-bc06-428f-ab3b-530770483fd1"
+      "o": "c42e9d95-8bcd-406f-9363-ee4f655dbd7b"
     },
     {
-      "s": "7d591d9f-a919-49d6-9d95-6bc9b9ec1320",
+      "s": "d77498c7-2310-493d-be24-75f9ce49772a",
       "p": "on-failure",
-      "o": "550406cc-bc06-428f-ab3b-530770483fd1"
+      "o": "c42e9d95-8bcd-406f-9363-ee4f655dbd7b"
     },
     {
-      "s": "bf87fd35-41ca-4155-a23c-f92a9253e155",
+      "s": "a9eaaf6b-11ac-456a-b013-c08d96700c73",
       "p": "on-success",
-      "o": "7d591d9f-a919-49d6-9d95-6bc9b9ec1320"
+      "o": "d77498c7-2310-493d-be24-75f9ce49772a"
     },
     {
-      "s": "bf87fd35-41ca-4155-a23c-f92a9253e155",
+      "s": "a9eaaf6b-11ac-456a-b013-c08d96700c73",
       "p": "on-failure",
-      "o": "90488076-2b2b-43c2-969f-432d8f5a012a"
+      "o": "9dd8c16e-8b87-425c-878f-ed83ad9c1e33"
     },
     {
-      "s": "90488076-2b2b-43c2-969f-432d8f5a012a",
+      "s": "9dd8c16e-8b87-425c-878f-ed83ad9c1e33",
       "p": "on-success",
-      "o": "ca3f921c-3cd6-4975-8a5b-c011d1e53db7"
+      "o": "81d907da-da94-4a07-8fb2-8f9d7261975f"
     },
     {
-      "s": "ca3f921c-3cd6-4975-8a5b-c011d1e53db7",
+      "s": "81d907da-da94-4a07-8fb2-8f9d7261975f",
       "p": "on-failure",
-      "o": "7d591d9f-a919-49d6-9d95-6bc9b9ec1320"
+      "o": "d77498c7-2310-493d-be24-75f9ce49772a"
     }
   ],
   "tags": [

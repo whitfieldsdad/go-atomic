@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "848205f6-cee2-4e3e-bf33-0fb03fb70231",
+      "id": "30915b58-1f4e-457f-ab23-8d5207d4bf54",
       "type": "execute-command",
       "data": {
-        "command": "sudo security add-trusted-cert -d -r trustRoot -k \"/Library/Keychains/System.keychain\" \"#{cert_filename}\"\n",
+        "command": "sudo security add-trusted-cert -d -r trustRoot -k \"/Library/Keychains/System.keychain\" \"#{cert_filename}\"",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "9bc733bb-0db4-4873-bd86-e22ab972e9c9",
+      "id": "bc9de4d5-91da-4b55-8eb6-57400f49391e",
       "name": "Check dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f #{cert_filename} ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -f #{cert_filename} ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "1d2ab138-f1b1-410a-97d9-69f8bec28bfc",
+      "id": "b790283b-e8be-45fb-9355-af9870215fab",
       "name": "Resolve dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -f #{key_filename} ]; then openssl genrsa -out #{key_filename} 4096; fi;\nopenssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj \"/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com\" -out #{cert_filename}\n",
-        "command_type": ""
+        "command": "if [ ! -f #{key_filename} ]; then openssl genrsa -out #{key_filename} 4096; fi;\nopenssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj \"/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com\" -out #{cert_filename}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "f8bfab47-ad39-4f5d-a602-79897c7ac954",
+      "id": "3d923f69-99e1-44e2-a07f-e1236d866b95",
       "name": "Re-check dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f #{cert_filename} ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -f #{cert_filename} ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "9bc733bb-0db4-4873-bd86-e22ab972e9c9",
+      "s": "bc9de4d5-91da-4b55-8eb6-57400f49391e",
       "p": "on-success",
-      "o": "848205f6-cee2-4e3e-bf33-0fb03fb70231"
+      "o": "30915b58-1f4e-457f-ab23-8d5207d4bf54"
     },
     {
-      "s": "9bc733bb-0db4-4873-bd86-e22ab972e9c9",
+      "s": "bc9de4d5-91da-4b55-8eb6-57400f49391e",
       "p": "on-failure",
-      "o": "1d2ab138-f1b1-410a-97d9-69f8bec28bfc"
+      "o": "b790283b-e8be-45fb-9355-af9870215fab"
     },
     {
-      "s": "1d2ab138-f1b1-410a-97d9-69f8bec28bfc",
+      "s": "b790283b-e8be-45fb-9355-af9870215fab",
       "p": "on-success",
-      "o": "f8bfab47-ad39-4f5d-a602-79897c7ac954"
+      "o": "3d923f69-99e1-44e2-a07f-e1236d866b95"
     },
     {
-      "s": "f8bfab47-ad39-4f5d-a602-79897c7ac954",
+      "s": "3d923f69-99e1-44e2-a07f-e1236d866b95",
       "p": "on-failure",
-      "o": "848205f6-cee2-4e3e-bf33-0fb03fb70231"
+      "o": "30915b58-1f4e-457f-ab23-8d5207d4bf54"
     }
   ],
   "tags": [

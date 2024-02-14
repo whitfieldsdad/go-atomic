@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "5af14ad8-8c41-4153-be54-f0c65932461c",
+      "id": "33ccb4fb-a8a8-46db-ac7b-841749aebb73",
       "type": "execute-command",
       "data": {
-        "command": "certutil -addstore my #{pfx_path}\n",
+        "command": "certutil -addstore my #{pfx_path}",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "7378fd81-8fb0-4c3a-8448-f855d9c40264",
+      "id": "9dc34622-bb1f-41f5-9767-16c96331607f",
       "type": "execute-command",
       "data": {
-        "command": "try {\n$cert = Import-Certificate -FilePath #{pfx_path} -CertStoreLocation Cert:\\LocalMachine\\My\nGet-ChildItem Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\nGet-ChildItem Cert:\\LocalMachine\\Root\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\n} catch { }\n",
+        "command": "try {\n$cert = Import-Certificate -FilePath #{pfx_path} -CertStoreLocation Cert:\\LocalMachine\\My\nGet-ChildItem Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\nGet-ChildItem Cert:\\LocalMachine\\Root\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\n} catch { }",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "6d801ecd-2b13-499c-abc9-2c418eb1edde",
+      "id": "01739c99-c82e-4615-ac6b-f3c54ce1d923",
       "name": "Check dependency 1/1",
       "description": "Certificate must exist at specified location (#{pfx_path})\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path #{pfx_path}) { exit 0 } else { exit 1 }\n",
-        "command_type": ""
+        "command": "if (Test-Path #{pfx_path}) { exit 0 } else { exit 1 }",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "18ed050a-3fd8-463c-9fa8-859fc3955737",
+      "id": "fd55b5c7-3b54-4051-8fff-e36c5b17b549",
       "name": "Resolve dependency 1/1",
       "description": "Certificate must exist at specified location (#{pfx_path})\n",
       "type": "execute-command",
       "data": {
-        "command": "$cert = New-SelfSignedCertificate -DnsName atomicredteam.com -CertStoreLocation cert:\\LocalMachine\\My\nExport-Certificate -Type CERT -Cert  Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -FilePath #{pfx_path}\nGet-ChildItem Cert:\\LocalMachine\\My\\$($cert.Thumbprint) | Remove-Item\n",
-        "command_type": ""
+        "command": "$cert = New-SelfSignedCertificate -DnsName atomicredteam.com -CertStoreLocation cert:\\LocalMachine\\My\nExport-Certificate -Type CERT -Cert  Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -FilePath #{pfx_path}\nGet-ChildItem Cert:\\LocalMachine\\My\\$($cert.Thumbprint) | Remove-Item",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "f80ac975-ab15-4b4b-832c-4e0cf0a4e3d1",
+      "id": "1e6a5c16-88ee-46ee-96fd-11c807fe940c",
       "name": "Re-check dependency 1/1",
       "description": "Certificate must exist at specified location (#{pfx_path})\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path #{pfx_path}) { exit 0 } else { exit 1 }\n",
-        "command_type": ""
+        "command": "if (Test-Path #{pfx_path}) { exit 0 } else { exit 1 }",
+        "command_type": "powershell"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "5af14ad8-8c41-4153-be54-f0c65932461c",
+      "s": "33ccb4fb-a8a8-46db-ac7b-841749aebb73",
       "p": "on-success",
-      "o": "7378fd81-8fb0-4c3a-8448-f855d9c40264"
+      "o": "9dc34622-bb1f-41f5-9767-16c96331607f"
     },
     {
-      "s": "5af14ad8-8c41-4153-be54-f0c65932461c",
+      "s": "33ccb4fb-a8a8-46db-ac7b-841749aebb73",
       "p": "on-failure",
-      "o": "7378fd81-8fb0-4c3a-8448-f855d9c40264"
+      "o": "9dc34622-bb1f-41f5-9767-16c96331607f"
     },
     {
-      "s": "6d801ecd-2b13-499c-abc9-2c418eb1edde",
+      "s": "01739c99-c82e-4615-ac6b-f3c54ce1d923",
       "p": "on-success",
-      "o": "5af14ad8-8c41-4153-be54-f0c65932461c"
+      "o": "33ccb4fb-a8a8-46db-ac7b-841749aebb73"
     },
     {
-      "s": "6d801ecd-2b13-499c-abc9-2c418eb1edde",
+      "s": "01739c99-c82e-4615-ac6b-f3c54ce1d923",
       "p": "on-failure",
-      "o": "18ed050a-3fd8-463c-9fa8-859fc3955737"
+      "o": "fd55b5c7-3b54-4051-8fff-e36c5b17b549"
     },
     {
-      "s": "18ed050a-3fd8-463c-9fa8-859fc3955737",
+      "s": "fd55b5c7-3b54-4051-8fff-e36c5b17b549",
       "p": "on-success",
-      "o": "f80ac975-ab15-4b4b-832c-4e0cf0a4e3d1"
+      "o": "1e6a5c16-88ee-46ee-96fd-11c807fe940c"
     },
     {
-      "s": "f80ac975-ab15-4b4b-832c-4e0cf0a4e3d1",
+      "s": "1e6a5c16-88ee-46ee-96fd-11c807fe940c",
       "p": "on-failure",
-      "o": "5af14ad8-8c41-4153-be54-f0c65932461c"
+      "o": "33ccb4fb-a8a8-46db-ac7b-841749aebb73"
     }
   ],
   "tags": [

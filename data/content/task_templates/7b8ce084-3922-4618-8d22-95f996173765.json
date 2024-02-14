@@ -7,93 +7,99 @@
   ],
   "steps": [
     {
-      "id": "3b21e199-243a-4b9a-853d-bae8d4c932ac",
+      "id": "de1dea3d-23e1-4f8c-91e0-4cfeb5371043",
       "type": "execute-command",
       "data": {
-        "command": "echo \"#{pwd_for_encrypted_file}\" | $which_gpg --batch --yes --passphrase-fd 0 --cipher-algo #{encryption_alg} -o #{encrypted_file_path} -c #{input_file_path}\n",
+        "command": "echo \"#{pwd_for_encrypted_file}\" | $which_gpg --batch --yes --passphrase-fd 0 --cipher-algo #{encryption_alg} -o #{encrypted_file_path} -c #{input_file_path}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "f2333a75-2bc8-46e0-acb5-1f7cd3879947",
+      "id": "a1df1712-0ffa-4a49-83d9-8c17cf841687",
       "type": "execute-command",
       "data": {
-        "command": "rm #{encrypted_file_path}\n",
+        "command": "rm #{encrypted_file_path}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "b405f514-3a61-4508-a936-9502900d1621",
+      "id": "5f3d4578-6c61-4e56-bbc6-8e974acdac8b",
       "name": "Check dependency 1/1",
       "description": "Finds where gpg is located\n",
       "type": "execute-command",
       "data": {
-        "command": "which_gpg=`which gpg`\n",
-        "command_type": ""
+        "command": "which_gpg=`which gpg`",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "5b1d39df-bfe4-472d-9a20-08c69b2ba4e8",
+      "id": "96369e12-4b5b-48f2-87d0-52f63cb43f11",
       "name": "Resolve dependency 1/1",
       "description": "Finds where gpg is located\n",
       "type": "execute-command",
       "data": {
-        "command": "(which pkg \u0026\u0026 pkg install -y gnupg)||(which yum \u0026\u0026 yum -y install epel-release gpg)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y gpg)\n",
-        "command_type": ""
+        "command": "(which pkg \u0026\u0026 pkg install -y gnupg)||(which yum \u0026\u0026 yum -y install epel-release gpg)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y gpg)",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "8f1dfdf6-bcd2-498b-ba4c-1b51f18d4e4c",
+      "id": "e40b6e7a-76ca-48ef-983c-25d87ad44583",
       "name": "Re-check dependency 1/1",
       "description": "Finds where gpg is located\n",
       "type": "execute-command",
       "data": {
-        "command": "which_gpg=`which gpg`\n",
-        "command_type": ""
+        "command": "which_gpg=`which gpg`",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "3b21e199-243a-4b9a-853d-bae8d4c932ac",
+      "s": "de1dea3d-23e1-4f8c-91e0-4cfeb5371043",
       "p": "on-success",
-      "o": "f2333a75-2bc8-46e0-acb5-1f7cd3879947"
+      "o": "a1df1712-0ffa-4a49-83d9-8c17cf841687"
     },
     {
-      "s": "3b21e199-243a-4b9a-853d-bae8d4c932ac",
+      "s": "de1dea3d-23e1-4f8c-91e0-4cfeb5371043",
       "p": "on-failure",
-      "o": "f2333a75-2bc8-46e0-acb5-1f7cd3879947"
+      "o": "a1df1712-0ffa-4a49-83d9-8c17cf841687"
     },
     {
-      "s": "b405f514-3a61-4508-a936-9502900d1621",
+      "s": "5f3d4578-6c61-4e56-bbc6-8e974acdac8b",
       "p": "on-success",
-      "o": "3b21e199-243a-4b9a-853d-bae8d4c932ac"
+      "o": "de1dea3d-23e1-4f8c-91e0-4cfeb5371043"
     },
     {
-      "s": "b405f514-3a61-4508-a936-9502900d1621",
+      "s": "5f3d4578-6c61-4e56-bbc6-8e974acdac8b",
       "p": "on-failure",
-      "o": "5b1d39df-bfe4-472d-9a20-08c69b2ba4e8"
+      "o": "96369e12-4b5b-48f2-87d0-52f63cb43f11"
     },
     {
-      "s": "5b1d39df-bfe4-472d-9a20-08c69b2ba4e8",
+      "s": "96369e12-4b5b-48f2-87d0-52f63cb43f11",
       "p": "on-success",
-      "o": "8f1dfdf6-bcd2-498b-ba4c-1b51f18d4e4c"
+      "o": "e40b6e7a-76ca-48ef-983c-25d87ad44583"
     },
     {
-      "s": "8f1dfdf6-bcd2-498b-ba4c-1b51f18d4e4c",
+      "s": "e40b6e7a-76ca-48ef-983c-25d87ad44583",
       "p": "on-failure",
-      "o": "3b21e199-243a-4b9a-853d-bae8d4c932ac"
+      "o": "de1dea3d-23e1-4f8c-91e0-4cfeb5371043"
     }
   ],
   "tags": [
     "T1486"
   ],
   "input_arguments": [
+    {
+      "name": "input_file_path",
+      "type": "path",
+      "description": "path to the file that you want to encrypt",
+      "value": "/etc/passwd"
+    },
     {
       "name": "encryption_alg",
       "type": "string",
@@ -111,12 +117,6 @@
       "type": "path",
       "description": "path to the encrypted file",
       "value": "/tmp/passwd.gpg"
-    },
-    {
-      "name": "input_file_path",
-      "type": "path",
-      "description": "path to the file that you want to encrypt",
-      "value": "/etc/passwd"
     }
   ]
 }

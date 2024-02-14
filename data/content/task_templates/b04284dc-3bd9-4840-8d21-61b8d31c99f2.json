@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "0029b496-061c-4968-a66d-756bb26d45ff",
+      "id": "67066b29-9782-437a-af5a-d5ab9f48de4c",
       "type": "execute-command",
       "data": {
-        "command": "PS2=`logger -t \"$USER\" -f ~/.sh_history`\n$PS2\ntail /var/log/messages\n",
+        "command": "PS2=`logger -t \"$USER\" -f ~/.sh_history`\n$PS2\ntail /var/log/messages",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "0e876c92-3fff-46b1-ad02-6a7a42739503",
+      "id": "6f4be356-e269-4025-9ed3-8d1860484e24",
       "type": "execute-command",
       "data": {
-        "command": "unset PS2\n",
+        "command": "unset PS2",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "f854b999-37f3-4850-a694-7e02a6bca519",
+      "id": "8e09d670-825a-4ab4-8f0f-81ee03475e82",
       "name": "Check dependency 1/1",
       "description": "This test requires to be run in a bash shell and that logger and tee are installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ \"$(echo $SHELL)\" != \"/bin/sh\" ]; then echo -e \"\\n***** sh not running! *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v logger)\" ]; then echo -e \"\\n***** logger NOT installed *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ \"$(echo $SHELL)\" != \"/bin/sh\" ]; then echo -e \"\\n***** sh not running! *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v logger)\" ]; then echo -e \"\\n***** logger NOT installed *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "95371cc9-9f92-4722-99c0-50a0dcb8b045",
+      "id": "62bd0fd8-6a2a-47b3-ad23-8b2e37d7df76",
       "name": "Resolve dependency 1/1",
       "description": "This test requires to be run in a bash shell and that logger and tee are installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"\"\n",
-        "command_type": ""
+        "command": "echo \"\"",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "ffd466a9-1ef6-470a-957b-f240a23d4687",
+      "id": "b20da941-aa21-4086-8ddf-48ce4bb9ad82",
       "name": "Re-check dependency 1/1",
       "description": "This test requires to be run in a bash shell and that logger and tee are installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ \"$(echo $SHELL)\" != \"/bin/sh\" ]; then echo -e \"\\n***** sh not running! *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v logger)\" ]; then echo -e \"\\n***** logger NOT installed *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ \"$(echo $SHELL)\" != \"/bin/sh\" ]; then echo -e \"\\n***** sh not running! *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v logger)\" ]; then echo -e \"\\n***** logger NOT installed *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "0029b496-061c-4968-a66d-756bb26d45ff",
+      "s": "67066b29-9782-437a-af5a-d5ab9f48de4c",
       "p": "on-success",
-      "o": "0e876c92-3fff-46b1-ad02-6a7a42739503"
+      "o": "6f4be356-e269-4025-9ed3-8d1860484e24"
     },
     {
-      "s": "0029b496-061c-4968-a66d-756bb26d45ff",
+      "s": "67066b29-9782-437a-af5a-d5ab9f48de4c",
       "p": "on-failure",
-      "o": "0e876c92-3fff-46b1-ad02-6a7a42739503"
+      "o": "6f4be356-e269-4025-9ed3-8d1860484e24"
     },
     {
-      "s": "f854b999-37f3-4850-a694-7e02a6bca519",
+      "s": "8e09d670-825a-4ab4-8f0f-81ee03475e82",
       "p": "on-success",
-      "o": "0029b496-061c-4968-a66d-756bb26d45ff"
+      "o": "67066b29-9782-437a-af5a-d5ab9f48de4c"
     },
     {
-      "s": "f854b999-37f3-4850-a694-7e02a6bca519",
+      "s": "8e09d670-825a-4ab4-8f0f-81ee03475e82",
       "p": "on-failure",
-      "o": "95371cc9-9f92-4722-99c0-50a0dcb8b045"
+      "o": "62bd0fd8-6a2a-47b3-ad23-8b2e37d7df76"
     },
     {
-      "s": "95371cc9-9f92-4722-99c0-50a0dcb8b045",
+      "s": "62bd0fd8-6a2a-47b3-ad23-8b2e37d7df76",
       "p": "on-success",
-      "o": "ffd466a9-1ef6-470a-957b-f240a23d4687"
+      "o": "b20da941-aa21-4086-8ddf-48ce4bb9ad82"
     },
     {
-      "s": "ffd466a9-1ef6-470a-957b-f240a23d4687",
+      "s": "b20da941-aa21-4086-8ddf-48ce4bb9ad82",
       "p": "on-failure",
-      "o": "0029b496-061c-4968-a66d-756bb26d45ff"
+      "o": "67066b29-9782-437a-af5a-d5ab9f48de4c"
     }
   ],
   "tags": [

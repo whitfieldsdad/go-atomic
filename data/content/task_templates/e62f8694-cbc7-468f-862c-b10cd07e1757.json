@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "7a1ba275-5500-414f-bbf2-008b9ebdee9c",
+      "id": "94c6f776-c6e5-43c0-910b-2de38bd76502",
       "type": "execute-command",
       "data": {
-        "command": "osascript -e 'tell application \"Finder\" to delete POSIX file \"#{system_log_path}\"'\n",
+        "command": "osascript -e 'tell application \"Finder\" to delete POSIX file \"#{system_log_path}\"'",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "32e66656-3c5a-4cab-b125-e71fa3d043f6",
+      "id": "0451b2a7-8bc4-4575-ac93-a5fe54a0e3ea",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "stat #{system_log_path}\n",
-        "command_type": ""
+        "command": "stat #{system_log_path}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "4b6b3f74-70fc-4552-9626-c1a67f9f8854",
+      "id": "9982db4a-780a-4cae-962a-76a0165f4022",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "touch #{system_log_path}\n",
-        "command_type": ""
+        "command": "touch #{system_log_path}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "abb29261-b57e-4915-a71c-3e53a23c8092",
+      "id": "668e4833-cdbb-4440-8f4e-4f0f8734ca3d",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "stat #{system_log_path}\n",
-        "command_type": ""
+        "command": "stat #{system_log_path}",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "32e66656-3c5a-4cab-b125-e71fa3d043f6",
+      "s": "0451b2a7-8bc4-4575-ac93-a5fe54a0e3ea",
       "p": "on-success",
-      "o": "7a1ba275-5500-414f-bbf2-008b9ebdee9c"
+      "o": "94c6f776-c6e5-43c0-910b-2de38bd76502"
     },
     {
-      "s": "32e66656-3c5a-4cab-b125-e71fa3d043f6",
+      "s": "0451b2a7-8bc4-4575-ac93-a5fe54a0e3ea",
       "p": "on-failure",
-      "o": "4b6b3f74-70fc-4552-9626-c1a67f9f8854"
+      "o": "9982db4a-780a-4cae-962a-76a0165f4022"
     },
     {
-      "s": "4b6b3f74-70fc-4552-9626-c1a67f9f8854",
+      "s": "9982db4a-780a-4cae-962a-76a0165f4022",
       "p": "on-success",
-      "o": "abb29261-b57e-4915-a71c-3e53a23c8092"
+      "o": "668e4833-cdbb-4440-8f4e-4f0f8734ca3d"
     },
     {
-      "s": "abb29261-b57e-4915-a71c-3e53a23c8092",
+      "s": "668e4833-cdbb-4440-8f4e-4f0f8734ca3d",
       "p": "on-failure",
-      "o": "7a1ba275-5500-414f-bbf2-008b9ebdee9c"
+      "o": "94c6f776-c6e5-43c0-910b-2de38bd76502"
     }
   ],
   "tags": [

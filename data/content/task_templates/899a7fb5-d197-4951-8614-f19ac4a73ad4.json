@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "28ceb8d6-3e96-431a-bea1-615289c40708",
+      "id": "f5a9460e-4999-4759-9a95-faefa3d4aa7b",
       "type": "execute-command",
       "data": {
-        "command": "iptables-save \u003e /tmp/iptables.rules\niptables -D OUTPUT -p tcp --dport 21 -j DROP\n",
+        "command": "iptables-save \u003e /tmp/iptables.rules\niptables -D OUTPUT -p tcp --dport 21 -j DROP",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "81118267-6c04-49c2-81cd-4391c393cd91",
+      "id": "5895b308-6fe3-42eb-92be-eac90e975864",
       "type": "execute-command",
       "data": {
-        "command": "iptables-restore \u003c /tmp/iptables.rules\n",
+        "command": "iptables-restore \u003c /tmp/iptables.rules",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "2d640b46-01b8-4f0d-90e6-d56368e07d50",
+      "id": "036b97a6-5d9c-4fd1-852e-8558748381c1",
       "name": "Check dependency 1/1",
       "description": "Check if iptables is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v iptables)\" ]; then echo -e \"\\n***** iptables NOT installed *****\\n\"; exit 1; fi\nif ! echo \"$(iptables -L)\" | grep -q \"DROP .*dpt:ftp\"; then echo -e \"\\n***** this firewall rule is NOT activated *****\\n***** activate it by executing \\\"iptables -A OUTPUT -p tcp --dport 21 -j DROP\\\" *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v iptables)\" ]; then echo -e \"\\n***** iptables NOT installed *****\\n\"; exit 1; fi\nif ! echo \"$(iptables -L)\" | grep -q \"DROP .*dpt:ftp\"; then echo -e \"\\n***** this firewall rule is NOT activated *****\\n***** activate it by executing \\\"iptables -A OUTPUT -p tcp --dport 21 -j DROP\\\" *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "6d425b3f-cf28-4973-8fbb-60788767d324",
+      "id": "d2a5b943-b03a-4cae-8e67-cc4693ad7d11",
       "name": "Resolve dependency 1/1",
       "description": "Check if iptables is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"\"\n",
-        "command_type": ""
+        "command": "echo \"\"",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "adaf06b5-c54f-4765-8bcc-303a154856ca",
+      "id": "99d7c73d-ba00-4e87-8c7c-db526fbb216f",
       "name": "Re-check dependency 1/1",
       "description": "Check if iptables is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v iptables)\" ]; then echo -e \"\\n***** iptables NOT installed *****\\n\"; exit 1; fi\nif ! echo \"$(iptables -L)\" | grep -q \"DROP .*dpt:ftp\"; then echo -e \"\\n***** this firewall rule is NOT activated *****\\n***** activate it by executing \\\"iptables -A OUTPUT -p tcp --dport 21 -j DROP\\\" *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v iptables)\" ]; then echo -e \"\\n***** iptables NOT installed *****\\n\"; exit 1; fi\nif ! echo \"$(iptables -L)\" | grep -q \"DROP .*dpt:ftp\"; then echo -e \"\\n***** this firewall rule is NOT activated *****\\n***** activate it by executing \\\"iptables -A OUTPUT -p tcp --dport 21 -j DROP\\\" *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "28ceb8d6-3e96-431a-bea1-615289c40708",
+      "s": "f5a9460e-4999-4759-9a95-faefa3d4aa7b",
       "p": "on-success",
-      "o": "81118267-6c04-49c2-81cd-4391c393cd91"
+      "o": "5895b308-6fe3-42eb-92be-eac90e975864"
     },
     {
-      "s": "28ceb8d6-3e96-431a-bea1-615289c40708",
+      "s": "f5a9460e-4999-4759-9a95-faefa3d4aa7b",
       "p": "on-failure",
-      "o": "81118267-6c04-49c2-81cd-4391c393cd91"
+      "o": "5895b308-6fe3-42eb-92be-eac90e975864"
     },
     {
-      "s": "2d640b46-01b8-4f0d-90e6-d56368e07d50",
+      "s": "036b97a6-5d9c-4fd1-852e-8558748381c1",
       "p": "on-success",
-      "o": "28ceb8d6-3e96-431a-bea1-615289c40708"
+      "o": "f5a9460e-4999-4759-9a95-faefa3d4aa7b"
     },
     {
-      "s": "2d640b46-01b8-4f0d-90e6-d56368e07d50",
+      "s": "036b97a6-5d9c-4fd1-852e-8558748381c1",
       "p": "on-failure",
-      "o": "6d425b3f-cf28-4973-8fbb-60788767d324"
+      "o": "d2a5b943-b03a-4cae-8e67-cc4693ad7d11"
     },
     {
-      "s": "6d425b3f-cf28-4973-8fbb-60788767d324",
+      "s": "d2a5b943-b03a-4cae-8e67-cc4693ad7d11",
       "p": "on-success",
-      "o": "adaf06b5-c54f-4765-8bcc-303a154856ca"
+      "o": "99d7c73d-ba00-4e87-8c7c-db526fbb216f"
     },
     {
-      "s": "adaf06b5-c54f-4765-8bcc-303a154856ca",
+      "s": "99d7c73d-ba00-4e87-8c7c-db526fbb216f",
       "p": "on-failure",
-      "o": "28ceb8d6-3e96-431a-bea1-615289c40708"
+      "o": "f5a9460e-4999-4759-9a95-faefa3d4aa7b"
     }
   ],
   "tags": [

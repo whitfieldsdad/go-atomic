@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "215a5dbd-738b-4e06-9c8e-95570d6f5cc6",
+      "id": "a11a3dde-3b23-46d6-986d-9ab7ff0980a2",
       "type": "execute-command",
       "data": {
-        "command": "systemctl stop ufw\n",
+        "command": "systemctl stop ufw",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "598e99a0-20c4-460f-bb4b-b5bba90300bd",
+      "id": "3d1e3c7f-758e-4628-8c7b-3dae74ae7af0",
       "type": "execute-command",
       "data": {
-        "command": "systemctl start ufw\nsystemctl status ufw\n",
+        "command": "systemctl start ufw\nsystemctl status ufw",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "46093890-c702-48c2-867b-2f4462cc85b2",
+      "id": "836f2187-1dca-4d17-9e03-671ab553aa50",
       "name": "Check dependency 1/1",
       "description": "Check if systemctl and ufw is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v systemctl)\" ]; then echo -e \"\\n***** systemctl NOT installed *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v systemctl)\" ]; then echo -e \"\\n***** systemctl NOT installed *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "ccaa368c-28c3-4053-aaaf-3f2ecd3b43af",
+      "id": "77c63d9a-4dd0-41d3-b36a-8f5e52d2662c",
       "name": "Resolve dependency 1/1",
       "description": "Check if systemctl and ufw is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"\"\n",
-        "command_type": ""
+        "command": "echo \"\"",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "6f817649-1239-4590-bf1a-4ae71eb4566f",
+      "id": "0aa308b7-e207-4d66-bd3e-2442567e8cef",
       "name": "Re-check dependency 1/1",
       "description": "Check if systemctl and ufw is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v systemctl)\" ]; then echo -e \"\\n***** systemctl NOT installed *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v systemctl)\" ]; then echo -e \"\\n***** systemctl NOT installed *****\\n\"; exit 1; fi\nif [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "215a5dbd-738b-4e06-9c8e-95570d6f5cc6",
+      "s": "a11a3dde-3b23-46d6-986d-9ab7ff0980a2",
       "p": "on-success",
-      "o": "598e99a0-20c4-460f-bb4b-b5bba90300bd"
+      "o": "3d1e3c7f-758e-4628-8c7b-3dae74ae7af0"
     },
     {
-      "s": "215a5dbd-738b-4e06-9c8e-95570d6f5cc6",
+      "s": "a11a3dde-3b23-46d6-986d-9ab7ff0980a2",
       "p": "on-failure",
-      "o": "598e99a0-20c4-460f-bb4b-b5bba90300bd"
+      "o": "3d1e3c7f-758e-4628-8c7b-3dae74ae7af0"
     },
     {
-      "s": "46093890-c702-48c2-867b-2f4462cc85b2",
+      "s": "836f2187-1dca-4d17-9e03-671ab553aa50",
       "p": "on-success",
-      "o": "215a5dbd-738b-4e06-9c8e-95570d6f5cc6"
+      "o": "a11a3dde-3b23-46d6-986d-9ab7ff0980a2"
     },
     {
-      "s": "46093890-c702-48c2-867b-2f4462cc85b2",
+      "s": "836f2187-1dca-4d17-9e03-671ab553aa50",
       "p": "on-failure",
-      "o": "ccaa368c-28c3-4053-aaaf-3f2ecd3b43af"
+      "o": "77c63d9a-4dd0-41d3-b36a-8f5e52d2662c"
     },
     {
-      "s": "ccaa368c-28c3-4053-aaaf-3f2ecd3b43af",
+      "s": "77c63d9a-4dd0-41d3-b36a-8f5e52d2662c",
       "p": "on-success",
-      "o": "6f817649-1239-4590-bf1a-4ae71eb4566f"
+      "o": "0aa308b7-e207-4d66-bd3e-2442567e8cef"
     },
     {
-      "s": "6f817649-1239-4590-bf1a-4ae71eb4566f",
+      "s": "0aa308b7-e207-4d66-bd3e-2442567e8cef",
       "p": "on-failure",
-      "o": "215a5dbd-738b-4e06-9c8e-95570d6f5cc6"
+      "o": "a11a3dde-3b23-46d6-986d-9ab7ff0980a2"
     }
   ],
   "tags": [

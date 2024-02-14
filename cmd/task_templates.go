@@ -41,7 +41,7 @@ var listTaskTemplatesCmd = &cobra.Command{
 		}
 		query, err := getTaskTemplateQuery(flags)
 		if err != nil {
-			log.Fatalf("Failed to get task query: %s", err)
+			log.Fatalf("Failed to get task template query: %s", err)
 		}
 		templates, err := client.ListTaskTemplates(query)
 		if err != nil {
@@ -64,13 +64,13 @@ var countTaskTemplatesCmd = &cobra.Command{
 		}
 		query, err := getTaskTemplateQuery(flags)
 		if err != nil {
-			log.Fatalf("Failed to get task query: %s", err)
+			log.Fatalf("Failed to get task template query: %s", err)
 		}
-		total, err := client.CountTaskTemplates(query)
+		count, err := client.CountTaskTemplates(query)
 		if err != nil {
 			log.Fatalf("Failed to count task templates: %s", err)
 		}
-		fmt.Println(total)
+		fmt.Printf("%d\n", count)
 	},
 }
 
@@ -86,24 +86,9 @@ var runTaskTemplatesCmd = &cobra.Command{
 		}
 		query, err := getTaskTemplateQuery(flags)
 		if err != nil {
-			log.Fatalf("Failed to get task query: %s", err)
+			log.Fatalf("Failed to get task template query: %s", err)
 		}
-		templates, err := client.ListTaskTemplates(query)
-		if err != nil {
-			log.Fatalf("Failed to list task templates: %s", err)
-		}
-		for _, template := range templates {
-			task, err := template.GetTask(nil)
-			if err != nil {
-				log.Fatalf("Failed to get task: %s", err)
-				continue
-			}
-			result, err := task.Run(cmd.Context())
-			if err != nil {
-				log.Fatalf("Failed to run task: %s", err)
-			}
-			fmt.Println(result)
-		}
+		client.RunTaskTemplates(cmd.Context(), query, nil)
 	},
 }
 

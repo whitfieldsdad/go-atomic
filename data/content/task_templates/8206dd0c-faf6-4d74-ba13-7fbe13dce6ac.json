@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "1d554f95-6ef2-42d6-8749-8b904344b757",
+      "id": "76278cbb-4424-4c95-9320-409c3c8d1529",
       "type": "execute-command",
       "data": {
-        "command": "xwd -root -out #{output_file}\nxwud -in #{output_file}\n",
+        "command": "xwd -root -out #{output_file}\nxwud -in #{output_file}",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "d9e6c3b9-691b-4980-9e49-689c83725fef",
+      "id": "053ca8af-69b4-491e-810e-7d8301d45219",
       "type": "execute-command",
       "data": {
-        "command": "rm #{output_file}\n",
+        "command": "rm #{output_file}",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "01a466d1-b4be-4eb8-a79c-b0da1390f0c5",
+      "id": "495675ce-e041-40dd-a1c2-1bd614b44e67",
       "name": "Check dependency 1/1",
       "description": "Package with XWD and XWUD must exist on device\n",
       "type": "execute-command",
       "data": {
-        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "c9aeaf93-daf3-4fea-9ebb-472105c3a067",
+      "id": "6c4f953d-1189-426a-a3bf-b10f662ab422",
       "name": "Resolve dependency 1/1",
       "description": "Package with XWD and XWUD must exist on device\n",
       "type": "execute-command",
       "data": {
-        "command": "sudo #{package_installer} \n",
-        "command_type": ""
+        "command": "sudo #{package_installer}",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "b039405c-146d-4d2b-97f2-c97a43f86849",
+      "id": "0c0fb78c-f18b-47bc-9fcf-5ab235a5732d",
       "name": "Re-check dependency 1/1",
       "description": "Package with XWD and XWUD must exist on device\n",
       "type": "execute-command",
       "data": {
-        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi",
+        "command_type": "bash"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "1d554f95-6ef2-42d6-8749-8b904344b757",
+      "s": "76278cbb-4424-4c95-9320-409c3c8d1529",
       "p": "on-success",
-      "o": "d9e6c3b9-691b-4980-9e49-689c83725fef"
+      "o": "053ca8af-69b4-491e-810e-7d8301d45219"
     },
     {
-      "s": "1d554f95-6ef2-42d6-8749-8b904344b757",
+      "s": "76278cbb-4424-4c95-9320-409c3c8d1529",
       "p": "on-failure",
-      "o": "d9e6c3b9-691b-4980-9e49-689c83725fef"
+      "o": "053ca8af-69b4-491e-810e-7d8301d45219"
     },
     {
-      "s": "01a466d1-b4be-4eb8-a79c-b0da1390f0c5",
+      "s": "495675ce-e041-40dd-a1c2-1bd614b44e67",
       "p": "on-success",
-      "o": "1d554f95-6ef2-42d6-8749-8b904344b757"
+      "o": "76278cbb-4424-4c95-9320-409c3c8d1529"
     },
     {
-      "s": "01a466d1-b4be-4eb8-a79c-b0da1390f0c5",
+      "s": "495675ce-e041-40dd-a1c2-1bd614b44e67",
       "p": "on-failure",
-      "o": "c9aeaf93-daf3-4fea-9ebb-472105c3a067"
+      "o": "6c4f953d-1189-426a-a3bf-b10f662ab422"
     },
     {
-      "s": "c9aeaf93-daf3-4fea-9ebb-472105c3a067",
+      "s": "6c4f953d-1189-426a-a3bf-b10f662ab422",
       "p": "on-success",
-      "o": "b039405c-146d-4d2b-97f2-c97a43f86849"
+      "o": "0c0fb78c-f18b-47bc-9fcf-5ab235a5732d"
     },
     {
-      "s": "b039405c-146d-4d2b-97f2-c97a43f86849",
+      "s": "0c0fb78c-f18b-47bc-9fcf-5ab235a5732d",
       "p": "on-failure",
-      "o": "1d554f95-6ef2-42d6-8749-8b904344b757"
+      "o": "76278cbb-4424-4c95-9320-409c3c8d1529"
     }
   ],
   "tags": [

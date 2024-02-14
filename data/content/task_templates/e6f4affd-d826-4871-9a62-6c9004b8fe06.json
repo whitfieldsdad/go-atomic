@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "dafcf5b3-b14e-4d34-b5b0-ecf8dbc4c803",
+      "id": "7ba77e00-1241-402c-b2ff-5f0f5e9f7f91",
       "type": "execute-command",
       "data": {
-        "command": "setspn -T #{domain_name} -Q */*\n",
+        "command": "setspn -T #{domain_name} -Q */*",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "21c767ab-19e4-44da-ad08-8538b125e6d6",
+      "id": "c8b3cee2-22a5-424b-a461-86f046fa7783",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
       "data": {
-        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "3fa7264c-2ccd-4852-a596-6eed2dcb1cab",
+      "id": "9a558061-f63c-41aa-8427-d2c55e92c51e",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
       "data": {
-        "command": "Write-Host Joining this computer to a domain must be done manually\n",
-        "command_type": ""
+        "command": "Write-Host Joining this computer to a domain must be done manually",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "e203f1f7-4be7-4769-b754-8d763a780b7a",
+      "id": "237aea02-48a0-4877-a7a6-ac7f6f673649",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
       "data": {
-        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "21c767ab-19e4-44da-ad08-8538b125e6d6",
+      "s": "c8b3cee2-22a5-424b-a461-86f046fa7783",
       "p": "on-success",
-      "o": "dafcf5b3-b14e-4d34-b5b0-ecf8dbc4c803"
+      "o": "7ba77e00-1241-402c-b2ff-5f0f5e9f7f91"
     },
     {
-      "s": "21c767ab-19e4-44da-ad08-8538b125e6d6",
+      "s": "c8b3cee2-22a5-424b-a461-86f046fa7783",
       "p": "on-failure",
-      "o": "3fa7264c-2ccd-4852-a596-6eed2dcb1cab"
+      "o": "9a558061-f63c-41aa-8427-d2c55e92c51e"
     },
     {
-      "s": "3fa7264c-2ccd-4852-a596-6eed2dcb1cab",
+      "s": "9a558061-f63c-41aa-8427-d2c55e92c51e",
       "p": "on-success",
-      "o": "e203f1f7-4be7-4769-b754-8d763a780b7a"
+      "o": "237aea02-48a0-4877-a7a6-ac7f6f673649"
     },
     {
-      "s": "e203f1f7-4be7-4769-b754-8d763a780b7a",
+      "s": "237aea02-48a0-4877-a7a6-ac7f6f673649",
       "p": "on-failure",
-      "o": "dafcf5b3-b14e-4d34-b5b0-ecf8dbc4c803"
+      "o": "7ba77e00-1241-402c-b2ff-5f0f5e9f7f91"
     }
   ],
   "tags": [

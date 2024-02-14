@@ -8,87 +8,87 @@
   ],
   "steps": [
     {
-      "id": "0e77b0b0-4e33-4f70-aa9a-7821ae5f578d",
+      "id": "f0e7eb45-be6d-4c7f-a09f-070dd5dd0a2c",
       "type": "execute-command",
       "data": {
-        "command": "touch -acmr #{reference_file_path} #{target_file_path}\n",
+        "command": "touch -acmr #{reference_file_path} #{target_file_path}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "5326c4e4-01a2-457a-a7e5-13dda5245b90",
+      "id": "e8fd0c3e-4049-4417-aebd-119887a9c3ee",
       "type": "execute-command",
       "data": {
-        "command": "rm -f #{target_file_path}\n",
+        "command": "rm -f #{target_file_path}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "d3b326c0-359d-4918-936c-bd06902f5a63",
+      "id": "826a50fc-72c7-49d6-bfec-d6d60e0e814a",
       "name": "Check dependency 1/1",
       "description": "The file must exist in order to be timestomped\n",
       "type": "execute-command",
       "data": {
-        "command": "test -e #{target_file_path} \u0026\u0026 exit 0 || exit 1\n",
-        "command_type": ""
+        "command": "test -e #{target_file_path} \u0026\u0026 exit 0 || exit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "fcabdd12-a4cf-4731-a041-d20caf7d3c61",
+      "id": "ec05436d-ecd0-45eb-956b-40fdce795dd6",
       "name": "Resolve dependency 1/1",
       "description": "The file must exist in order to be timestomped\n",
       "type": "execute-command",
       "data": {
-        "command": "echo 'T1070.006 reference file timestomp test' \u003e #{target_file_path}\n",
-        "command_type": ""
+        "command": "echo 'T1070.006 reference file timestomp test' \u003e #{target_file_path}",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "60e0ac81-6b3f-492c-8144-f3b4411482ea",
+      "id": "ebcc130c-7516-446b-83a8-07fb99f8436b",
       "name": "Re-check dependency 1/1",
       "description": "The file must exist in order to be timestomped\n",
       "type": "execute-command",
       "data": {
-        "command": "test -e #{target_file_path} \u0026\u0026 exit 0 || exit 1\n",
-        "command_type": ""
+        "command": "test -e #{target_file_path} \u0026\u0026 exit 0 || exit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "0e77b0b0-4e33-4f70-aa9a-7821ae5f578d",
+      "s": "f0e7eb45-be6d-4c7f-a09f-070dd5dd0a2c",
       "p": "on-success",
-      "o": "5326c4e4-01a2-457a-a7e5-13dda5245b90"
+      "o": "e8fd0c3e-4049-4417-aebd-119887a9c3ee"
     },
     {
-      "s": "0e77b0b0-4e33-4f70-aa9a-7821ae5f578d",
+      "s": "f0e7eb45-be6d-4c7f-a09f-070dd5dd0a2c",
       "p": "on-failure",
-      "o": "5326c4e4-01a2-457a-a7e5-13dda5245b90"
+      "o": "e8fd0c3e-4049-4417-aebd-119887a9c3ee"
     },
     {
-      "s": "d3b326c0-359d-4918-936c-bd06902f5a63",
+      "s": "826a50fc-72c7-49d6-bfec-d6d60e0e814a",
       "p": "on-success",
-      "o": "0e77b0b0-4e33-4f70-aa9a-7821ae5f578d"
+      "o": "f0e7eb45-be6d-4c7f-a09f-070dd5dd0a2c"
     },
     {
-      "s": "d3b326c0-359d-4918-936c-bd06902f5a63",
+      "s": "826a50fc-72c7-49d6-bfec-d6d60e0e814a",
       "p": "on-failure",
-      "o": "fcabdd12-a4cf-4731-a041-d20caf7d3c61"
+      "o": "ec05436d-ecd0-45eb-956b-40fdce795dd6"
     },
     {
-      "s": "fcabdd12-a4cf-4731-a041-d20caf7d3c61",
+      "s": "ec05436d-ecd0-45eb-956b-40fdce795dd6",
       "p": "on-success",
-      "o": "60e0ac81-6b3f-492c-8144-f3b4411482ea"
+      "o": "ebcc130c-7516-446b-83a8-07fb99f8436b"
     },
     {
-      "s": "60e0ac81-6b3f-492c-8144-f3b4411482ea",
+      "s": "ebcc130c-7516-446b-83a8-07fb99f8436b",
       "p": "on-failure",
-      "o": "0e77b0b0-4e33-4f70-aa9a-7821ae5f578d"
+      "o": "f0e7eb45-be6d-4c7f-a09f-070dd5dd0a2c"
     }
   ],
   "tags": [

@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "babd3d00-5287-46e8-9db7-69f0c9df2fbe",
+      "id": "5c9298e6-4363-4546-9cd9-1b5d6d5880fc",
       "type": "execute-command",
       "data": {
-        "command": "attrib.exe -r #{file_or_folder}\\*.* /s\n",
+        "command": "attrib.exe -r #{file_or_folder}\\*.* /s",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "933b1173-7d62-45ba-ac91-48b3eca30414",
+      "id": "d35924b2-0b86-4500-acb8-e5b86c980cab",
       "name": "Check dependency 1/1",
       "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
       "type": "execute-command",
       "data": {
-        "command": "IF EXIST #{file_or_folder} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
-        "command_type": ""
+        "command": "IF EXIST #{file_or_folder} ( EXIT 0 ) ELSE ( EXIT 1 )",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "ba0c4618-c349-4845-8aab-8cdf3229e9d1",
+      "id": "8df03769-09ad-4080-bdae-8cdea08a49aa",
       "name": "Resolve dependency 1/1",
       "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
       "type": "execute-command",
       "data": {
-        "command": "mkdir #{file_or_folder}\necho T1222.001_attrib1 \u003e\u003e #{file_or_folder}\\T1222.001_attrib1.txt\necho T1222.001_attrib2 \u003e\u003e #{file_or_folder}\\T1222.001_attrib2.txt\nattrib.exe +r #{file_or_folder}\\T1222.001_attrib1.txt\nattrib.exe +r #{file_or_folder}\\T1222.001_attrib2.txt\n",
-        "command_type": ""
+        "command": "mkdir #{file_or_folder}\necho T1222.001_attrib1 \u003e\u003e #{file_or_folder}\\T1222.001_attrib1.txt\necho T1222.001_attrib2 \u003e\u003e #{file_or_folder}\\T1222.001_attrib2.txt\nattrib.exe +r #{file_or_folder}\\T1222.001_attrib1.txt\nattrib.exe +r #{file_or_folder}\\T1222.001_attrib2.txt",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "77cbd646-a948-4a32-822e-87fdb1aed0c9",
+      "id": "c05a9ed7-fd25-44dd-b600-fc0f7fd7bccb",
       "name": "Re-check dependency 1/1",
       "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
       "type": "execute-command",
       "data": {
-        "command": "IF EXIST #{file_or_folder} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
-        "command_type": ""
+        "command": "IF EXIST #{file_or_folder} ( EXIT 0 ) ELSE ( EXIT 1 )",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "933b1173-7d62-45ba-ac91-48b3eca30414",
+      "s": "d35924b2-0b86-4500-acb8-e5b86c980cab",
       "p": "on-success",
-      "o": "babd3d00-5287-46e8-9db7-69f0c9df2fbe"
+      "o": "5c9298e6-4363-4546-9cd9-1b5d6d5880fc"
     },
     {
-      "s": "933b1173-7d62-45ba-ac91-48b3eca30414",
+      "s": "d35924b2-0b86-4500-acb8-e5b86c980cab",
       "p": "on-failure",
-      "o": "ba0c4618-c349-4845-8aab-8cdf3229e9d1"
+      "o": "8df03769-09ad-4080-bdae-8cdea08a49aa"
     },
     {
-      "s": "ba0c4618-c349-4845-8aab-8cdf3229e9d1",
+      "s": "8df03769-09ad-4080-bdae-8cdea08a49aa",
       "p": "on-success",
-      "o": "77cbd646-a948-4a32-822e-87fdb1aed0c9"
+      "o": "c05a9ed7-fd25-44dd-b600-fc0f7fd7bccb"
     },
     {
-      "s": "77cbd646-a948-4a32-822e-87fdb1aed0c9",
+      "s": "c05a9ed7-fd25-44dd-b600-fc0f7fd7bccb",
       "p": "on-failure",
-      "o": "babd3d00-5287-46e8-9db7-69f0c9df2fbe"
+      "o": "5c9298e6-4363-4546-9cd9-1b5d6d5880fc"
     }
   ],
   "tags": [

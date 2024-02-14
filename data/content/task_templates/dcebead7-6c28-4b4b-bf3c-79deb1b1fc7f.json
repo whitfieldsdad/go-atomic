@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "d72d619a-9f2a-4a43-8109-e37c8ad9befa",
+      "id": "3770f592-feab-4f0d-8fc1-69b979d5038f",
       "type": "execute-command",
       "data": {
-        "command": "vssadmin.exe create shadow /for=#{drive_letter}\n",
+        "command": "vssadmin.exe create shadow /for=#{drive_letter}",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "ce9262f3-a75c-46ab-beee-b7dde39889a5",
+      "id": "3628d9c5-dfdc-4e2c-9d2a-8d8dbe0264e9",
       "name": "Check dependency 1/1",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
       "data": {
-        "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT\n",
-        "command_type": ""
+        "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "fc53ce2d-9973-47d4-9293-d7cb863722ef",
+      "id": "e522e6bf-b7bc-455c-b982-ad666de34fe5",
       "name": "Resolve dependency 1/1",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
       "data": {
-        "command": "echo Sorry, Promoting this machine to a Domain Controller must be done manually\n",
-        "command_type": ""
+        "command": "echo Sorry, Promoting this machine to a Domain Controller must be done manually",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "72c81d9e-840b-4a6e-95d1-782df9795939",
+      "id": "df753afd-11ac-4546-a60d-9cdb6b34c35a",
       "name": "Re-check dependency 1/1",
       "description": "Target must be a Domain Controller\n",
       "type": "execute-command",
       "data": {
-        "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT\n",
-        "command_type": ""
+        "command": "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions  /v ProductType | findstr LanmanNT",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "ce9262f3-a75c-46ab-beee-b7dde39889a5",
+      "s": "3628d9c5-dfdc-4e2c-9d2a-8d8dbe0264e9",
       "p": "on-success",
-      "o": "d72d619a-9f2a-4a43-8109-e37c8ad9befa"
+      "o": "3770f592-feab-4f0d-8fc1-69b979d5038f"
     },
     {
-      "s": "ce9262f3-a75c-46ab-beee-b7dde39889a5",
+      "s": "3628d9c5-dfdc-4e2c-9d2a-8d8dbe0264e9",
       "p": "on-failure",
-      "o": "fc53ce2d-9973-47d4-9293-d7cb863722ef"
+      "o": "e522e6bf-b7bc-455c-b982-ad666de34fe5"
     },
     {
-      "s": "fc53ce2d-9973-47d4-9293-d7cb863722ef",
+      "s": "e522e6bf-b7bc-455c-b982-ad666de34fe5",
       "p": "on-success",
-      "o": "72c81d9e-840b-4a6e-95d1-782df9795939"
+      "o": "df753afd-11ac-4546-a60d-9cdb6b34c35a"
     },
     {
-      "s": "72c81d9e-840b-4a6e-95d1-782df9795939",
+      "s": "df753afd-11ac-4546-a60d-9cdb6b34c35a",
       "p": "on-failure",
-      "o": "d72d619a-9f2a-4a43-8109-e37c8ad9befa"
+      "o": "3770f592-feab-4f0d-8fc1-69b979d5038f"
     }
   ],
   "tags": [

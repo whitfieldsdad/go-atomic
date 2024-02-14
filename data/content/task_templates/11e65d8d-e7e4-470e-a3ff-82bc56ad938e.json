@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "93931485-e2df-41d0-a713-4547a7b2dc53",
+      "id": "537a7b2c-9014-43c9-88d5-01d3b6099b98",
       "type": "execute-command",
       "data": {
-        "command": "detectorId=$(aws guardduty create-detector --enable --region \"#{region}\" | grep -oP '(?\u003c=\"DetectorId\": \")[^\"]*')\naws guardduty update-detector --no-enable --detector-id $detectorId\naws guardduty delete-detector --detector-id $detectorId\n",
+        "command": "detectorId=$(aws guardduty create-detector --enable --region \"#{region}\" | grep -oP '(?\u003c=\"DetectorId\": \")[^\"]*')\naws guardduty update-detector --no-enable --detector-id $detectorId\naws guardduty delete-detector --detector-id $detectorId",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "2dab867c-3edf-4811-b4f2-33b795a068f2",
+      "id": "97edf737-c047-4182-a361-ac3037ad1e5a",
       "type": "execute-command",
       "data": {
-        "command": "echo \"If test successfully ran, no cleanup required.\"\n",
+        "command": "echo \"If test successfully ran, no cleanup required.\"",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "b29dc448-8158-4749-942d-24472033d7ae",
+      "id": "33510870-151e-48f1-aee4-2e81300e9265",
       "name": "Check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "cat ~/.aws/credentials | grep \"default\"\n",
-        "command_type": ""
+        "command": "cat ~/.aws/credentials | grep \"default\"",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "c06f7ea7-e178-43b9-a495-98b26f10301b",
+      "id": "6f85a555-ad92-4fb0-9aaa-79d3de3a6824",
       "name": "Resolve dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"Please install the aws-cli and configure your AWS default profile using: aws configure\"\n",
-        "command_type": ""
+        "command": "echo \"Please install the aws-cli and configure your AWS default profile using: aws configure\"",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "7d2fe398-5071-473d-a335-e18248f7a418",
+      "id": "dca2decd-b0ba-4b1e-94d9-6a10c69e4fcf",
       "name": "Re-check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "cat ~/.aws/credentials | grep \"default\"\n",
-        "command_type": ""
+        "command": "cat ~/.aws/credentials | grep \"default\"",
+        "command_type": "bash"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "93931485-e2df-41d0-a713-4547a7b2dc53",
+      "s": "537a7b2c-9014-43c9-88d5-01d3b6099b98",
       "p": "on-success",
-      "o": "2dab867c-3edf-4811-b4f2-33b795a068f2"
+      "o": "97edf737-c047-4182-a361-ac3037ad1e5a"
     },
     {
-      "s": "93931485-e2df-41d0-a713-4547a7b2dc53",
+      "s": "537a7b2c-9014-43c9-88d5-01d3b6099b98",
       "p": "on-failure",
-      "o": "2dab867c-3edf-4811-b4f2-33b795a068f2"
+      "o": "97edf737-c047-4182-a361-ac3037ad1e5a"
     },
     {
-      "s": "b29dc448-8158-4749-942d-24472033d7ae",
+      "s": "33510870-151e-48f1-aee4-2e81300e9265",
       "p": "on-success",
-      "o": "93931485-e2df-41d0-a713-4547a7b2dc53"
+      "o": "537a7b2c-9014-43c9-88d5-01d3b6099b98"
     },
     {
-      "s": "b29dc448-8158-4749-942d-24472033d7ae",
+      "s": "33510870-151e-48f1-aee4-2e81300e9265",
       "p": "on-failure",
-      "o": "c06f7ea7-e178-43b9-a495-98b26f10301b"
+      "o": "6f85a555-ad92-4fb0-9aaa-79d3de3a6824"
     },
     {
-      "s": "c06f7ea7-e178-43b9-a495-98b26f10301b",
+      "s": "6f85a555-ad92-4fb0-9aaa-79d3de3a6824",
       "p": "on-success",
-      "o": "7d2fe398-5071-473d-a335-e18248f7a418"
+      "o": "dca2decd-b0ba-4b1e-94d9-6a10c69e4fcf"
     },
     {
-      "s": "7d2fe398-5071-473d-a335-e18248f7a418",
+      "s": "dca2decd-b0ba-4b1e-94d9-6a10c69e4fcf",
       "p": "on-failure",
-      "o": "93931485-e2df-41d0-a713-4547a7b2dc53"
+      "o": "537a7b2c-9014-43c9-88d5-01d3b6099b98"
     }
   ],
   "tags": [

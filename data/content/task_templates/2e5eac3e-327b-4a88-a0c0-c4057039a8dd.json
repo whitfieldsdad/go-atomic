@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "36f9e9dc-5c3a-4d49-86b5-bae80c3a2be1",
+      "id": "a2e8f1b2-e276-4577-8b0f-65dcdbb10d19",
       "type": "execute-command",
       "data": {
-        "command": "SCHTASKS /Create /S #{target} /RU #{user_name} /RP #{password} /TN \"Atomic task\" /TR \"#{task_command}\" /SC daily /ST #{time}\n",
+        "command": "SCHTASKS /Create /S #{target} /RU #{user_name} /RP #{password} /TN \"Atomic task\" /TR \"#{task_command}\" /SC daily /ST #{time}",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "384d55b9-98f0-4f5d-94f3-d0612765ab52",
+      "id": "11f5f2e3-73c3-4fef-9265-b96277ee605b",
       "type": "execute-command",
       "data": {
-        "command": "SCHTASKS /Delete /S #{target} /U #{user_name} /P #{password} /TN \"Atomic task\" /F \u003enul 2\u003e\u00261\n",
+        "command": "SCHTASKS /Delete /S #{target} /U #{user_name} /P #{password} /TN \"Atomic task\" /F \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "36f9e9dc-5c3a-4d49-86b5-bae80c3a2be1",
+      "s": "a2e8f1b2-e276-4577-8b0f-65dcdbb10d19",
       "p": "on-success",
-      "o": "384d55b9-98f0-4f5d-94f3-d0612765ab52"
+      "o": "11f5f2e3-73c3-4fef-9265-b96277ee605b"
     },
     {
-      "s": "36f9e9dc-5c3a-4d49-86b5-bae80c3a2be1",
+      "s": "a2e8f1b2-e276-4577-8b0f-65dcdbb10d19",
       "p": "on-failure",
-      "o": "384d55b9-98f0-4f5d-94f3-d0612765ab52"
+      "o": "11f5f2e3-73c3-4fef-9265-b96277ee605b"
     }
   ],
   "tags": [
@@ -42,6 +42,12 @@
     "T1053.005"
   ],
   "input_arguments": [
+    {
+      "name": "user_name",
+      "type": "string",
+      "description": "Username to authenticate with, format: DOMAIN\\User",
+      "value": "DOMAIN\\user"
+    },
     {
       "name": "password",
       "type": "string",
@@ -65,12 +71,6 @@
       "type": "string",
       "description": "Target",
       "value": "localhost"
-    },
-    {
-      "name": "user_name",
-      "type": "string",
-      "description": "Username to authenticate with, format: DOMAIN\\User",
-      "value": "DOMAIN\\user"
     }
   ]
 }

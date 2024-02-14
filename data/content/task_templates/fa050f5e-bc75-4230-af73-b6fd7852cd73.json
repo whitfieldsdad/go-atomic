@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "fe8869b1-62b9-4074-be92-c746f616fce4",
+      "id": "cc1f942c-21e6-4df6-ab87-3fbf1fcc0429",
       "type": "execute-command",
       "data": {
-        "command": "# Encoded payload in next command is the following \"Set-Content -path \"$env:SystemRoot/Temp/art-marker.txt\" -value \"Hello from the Atomic Red Team\"\"\nreg.exe add \"HKEY_CURRENT_USER\\Software\\Classes\\AtomicRedTeam\" /v ART /t REG_SZ /d \"U2V0LUNvbnRlbnQgLXBhdGggIiRlbnY6U3lzdGVtUm9vdC9UZW1wL2FydC1tYXJrZXIudHh0IiAtdmFsdWUgIkhlbGxvIGZyb20gdGhlIEF0b21pYyBSZWQgVGVhbSI=\" /f\niex ([Text.Encoding]::ASCII.GetString([Convert]::FromBase64String((gp 'HKCU:\\Software\\Classes\\AtomicRedTeam').ART)))\n",
+        "command": "# Encoded payload in next command is the following \"Set-Content -path \"$env:SystemRoot/Temp/art-marker.txt\" -value \"Hello from the Atomic Red Team\"\"\nreg.exe add \"HKEY_CURRENT_USER\\Software\\Classes\\AtomicRedTeam\" /v ART /t REG_SZ /d \"U2V0LUNvbnRlbnQgLXBhdGggIiRlbnY6U3lzdGVtUm9vdC9UZW1wL2FydC1tYXJrZXIudHh0IiAtdmFsdWUgIkhlbGxvIGZyb20gdGhlIEF0b21pYyBSZWQgVGVhbSI=\" /f\niex ([Text.Encoding]::ASCII.GetString([Convert]::FromBase64String((gp 'HKCU:\\Software\\Classes\\AtomicRedTeam').ART)))",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "ebe4e5f2-3482-41d4-840e-42fd3f6788fa",
+      "id": "e84f5672-6745-4d45-926d-cf1b2735ce6d",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item -path C:\\Windows\\Temp\\art-marker.txt -Force -ErrorAction Ignore\nRemove-Item HKCU:\\Software\\Classes\\AtomicRedTeam -Force -ErrorAction Ignore\n",
+        "command": "Remove-Item -path C:\\Windows\\Temp\\art-marker.txt -Force -ErrorAction Ignore\nRemove-Item HKCU:\\Software\\Classes\\AtomicRedTeam -Force -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "fe8869b1-62b9-4074-be92-c746f616fce4",
+      "s": "cc1f942c-21e6-4df6-ab87-3fbf1fcc0429",
       "p": "on-success",
-      "o": "ebe4e5f2-3482-41d4-840e-42fd3f6788fa"
+      "o": "e84f5672-6745-4d45-926d-cf1b2735ce6d"
     },
     {
-      "s": "fe8869b1-62b9-4074-be92-c746f616fce4",
+      "s": "cc1f942c-21e6-4df6-ab87-3fbf1fcc0429",
       "p": "on-failure",
-      "o": "ebe4e5f2-3482-41d4-840e-42fd3f6788fa"
+      "o": "e84f5672-6745-4d45-926d-cf1b2735ce6d"
     }
   ],
   "tags": [

@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "fb3e1c26-6508-4487-b192-0910e9516b88",
+      "id": "d0b69f5a-6948-4de8-ab4b-fa978e27b685",
       "type": "execute-command",
       "data": {
-        "command": "echo \"# THIS IS A COMMENT\" \u003e\u003e /etc/ufw/sysctl.conf\ngrep \"# THIS IS A COMMENT\" /etc/ufw/sysctl.conf\n",
+        "command": "echo \"# THIS IS A COMMENT\" \u003e\u003e /etc/ufw/sysctl.conf\ngrep \"# THIS IS A COMMENT\" /etc/ufw/sysctl.conf",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "9459478f-818d-4132-9fff-9b0955763419",
+      "id": "8ff75ae1-3e39-4dfa-ae68-3feb397a3a59",
       "type": "execute-command",
       "data": {
-        "command": "sed -i 's/# THIS IS A COMMENT//g' /etc/ufw/sysctl.conf\ncat /etc/ufw/sysctl.conf\n",
+        "command": "sed -i 's/# THIS IS A COMMENT//g' /etc/ufw/sysctl.conf\ncat /etc/ufw/sysctl.conf",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "4874e379-0f26-49c0-909c-ddf7bbe400e1",
+      "id": "9ad9ee62-6884-4252-bb1c-49bbbb5b9d40",
       "name": "Check dependency 1/1",
       "description": "Check if /etc/ufw/sysctl.conf exists.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -f \"/etc/ufw/sysctl.conf\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ ! -f \"/etc/ufw/sysctl.conf\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "b8475b64-4cea-4729-b5c8-bcc0ffbc85b2",
+      "id": "d0ce4578-0072-4b3d-be74-d1be01b75e15",
       "name": "Resolve dependency 1/1",
       "description": "Check if /etc/ufw/sysctl.conf exists.\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"\"\n",
-        "command_type": ""
+        "command": "echo \"\"",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "3a9eef62-858d-4377-afe9-633ea088046a",
+      "id": "fdf79d34-7ec0-4ffa-a22a-bc95752c226a",
       "name": "Re-check dependency 1/1",
       "description": "Check if /etc/ufw/sysctl.conf exists.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -f \"/etc/ufw/sysctl.conf\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ ! -f \"/etc/ufw/sysctl.conf\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "fb3e1c26-6508-4487-b192-0910e9516b88",
+      "s": "d0b69f5a-6948-4de8-ab4b-fa978e27b685",
       "p": "on-success",
-      "o": "9459478f-818d-4132-9fff-9b0955763419"
+      "o": "8ff75ae1-3e39-4dfa-ae68-3feb397a3a59"
     },
     {
-      "s": "fb3e1c26-6508-4487-b192-0910e9516b88",
+      "s": "d0b69f5a-6948-4de8-ab4b-fa978e27b685",
       "p": "on-failure",
-      "o": "9459478f-818d-4132-9fff-9b0955763419"
+      "o": "8ff75ae1-3e39-4dfa-ae68-3feb397a3a59"
     },
     {
-      "s": "4874e379-0f26-49c0-909c-ddf7bbe400e1",
+      "s": "9ad9ee62-6884-4252-bb1c-49bbbb5b9d40",
       "p": "on-success",
-      "o": "fb3e1c26-6508-4487-b192-0910e9516b88"
+      "o": "d0b69f5a-6948-4de8-ab4b-fa978e27b685"
     },
     {
-      "s": "4874e379-0f26-49c0-909c-ddf7bbe400e1",
+      "s": "9ad9ee62-6884-4252-bb1c-49bbbb5b9d40",
       "p": "on-failure",
-      "o": "b8475b64-4cea-4729-b5c8-bcc0ffbc85b2"
+      "o": "d0ce4578-0072-4b3d-be74-d1be01b75e15"
     },
     {
-      "s": "b8475b64-4cea-4729-b5c8-bcc0ffbc85b2",
+      "s": "d0ce4578-0072-4b3d-be74-d1be01b75e15",
       "p": "on-success",
-      "o": "3a9eef62-858d-4377-afe9-633ea088046a"
+      "o": "fdf79d34-7ec0-4ffa-a22a-bc95752c226a"
     },
     {
-      "s": "3a9eef62-858d-4377-afe9-633ea088046a",
+      "s": "fdf79d34-7ec0-4ffa-a22a-bc95752c226a",
       "p": "on-failure",
-      "o": "fb3e1c26-6508-4487-b192-0910e9516b88"
+      "o": "d0b69f5a-6948-4de8-ab4b-fa978e27b685"
     }
   ],
   "tags": [

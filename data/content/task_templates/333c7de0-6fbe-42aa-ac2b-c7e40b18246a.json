@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "e1b9954d-bd42-4c1e-97d6-95c766a010b2",
+      "id": "810a9fc6-9287-437d-a1e6-08f35113a92f",
       "type": "execute-command",
       "data": {
-        "command": "sc.exe create #{service_name} binPath= \"#{executable_command}\"\nsc sdset #{service_name} \"D:(D;;DCLCWPDTSD;;;IU)(D;;DCLCWPDTSD;;;SU)(D;;DCLCWPDTSD;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)\"\n",
+        "command": "sc.exe create #{service_name} binPath= \"#{executable_command}\"\nsc sdset #{service_name} \"D:(D;;DCLCWPDTSD;;;IU)(D;;DCLCWPDTSD;;;SU)(D;;DCLCWPDTSD;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)\"",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "67ba2206-715e-488a-b06b-c10f28760aba",
+      "id": "9fd0d92e-1eb4-4089-a5b9-55ac5ee886da",
       "type": "execute-command",
       "data": {
-        "command": "sc sdset #{service_name} \"D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)\"\nsc.exe delete #{service_name}\n",
+        "command": "sc sdset #{service_name} \"D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)\"\nsc.exe delete #{service_name}",
         "command_type": "command_prompt"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "e1b9954d-bd42-4c1e-97d6-95c766a010b2",
+      "s": "810a9fc6-9287-437d-a1e6-08f35113a92f",
       "p": "on-success",
-      "o": "67ba2206-715e-488a-b06b-c10f28760aba"
+      "o": "9fd0d92e-1eb4-4089-a5b9-55ac5ee886da"
     },
     {
-      "s": "e1b9954d-bd42-4c1e-97d6-95c766a010b2",
+      "s": "810a9fc6-9287-437d-a1e6-08f35113a92f",
       "p": "on-failure",
-      "o": "67ba2206-715e-488a-b06b-c10f28760aba"
+      "o": "9fd0d92e-1eb4-4089-a5b9-55ac5ee886da"
     }
   ],
   "tags": [

@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "c46a4bad-23ef-4d6f-b287-d343c568fe46",
+      "id": "bb07dfd0-ec07-40be-b582-d4772a20bb22",
       "type": "execute-command",
       "data": {
-        "command": "which_python=`which python || which python3`\n$which_python -c \"from zipfile import ZipFile; ZipFile('#{path_to_output_file}', mode='w').write('#{path_to_input_file}')\" \n",
+        "command": "which_python=`which python || which python3`\n$which_python -c \"from zipfile import ZipFile; ZipFile('#{path_to_output_file}', mode='w').write('#{path_to_input_file}')\"",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "5cac00e3-7c12-43e8-8e99-d39869a4342d",
+      "id": "1aee9935-6f1f-437c-a834-df06775d2831",
       "type": "execute-command",
       "data": {
-        "command": "rm #{path_to_output_file}\n",
+        "command": "rm #{path_to_output_file}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "dafb896b-d102-4b48-bc99-ea39d80e015e",
+      "id": "a784eeab-2395-4b43-839d-ea7e7f2c86e6",
       "name": "Check dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
       "data": {
-        "command": "which python || which python3\n",
-        "command_type": ""
+        "command": "which python || which python3",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "62e21ce6-9fb3-400f-a8f5-e045a2246b3b",
+      "id": "59e23118-a334-4e5a-ba5b-0a5cb1bb5f24",
       "name": "Resolve dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"please install python to run this test\"; exit 1\n",
-        "command_type": ""
+        "command": "echo \"please install python to run this test\"; exit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "f27d5b08-20e2-4499-a28f-695aaea7d3b4",
+      "id": "db6bf02c-5342-4b20-b539-338856e60288",
       "name": "Re-check dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
       "data": {
-        "command": "which python || which python3\n",
-        "command_type": ""
+        "command": "which python || which python3",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "c46a4bad-23ef-4d6f-b287-d343c568fe46",
+      "s": "bb07dfd0-ec07-40be-b582-d4772a20bb22",
       "p": "on-success",
-      "o": "5cac00e3-7c12-43e8-8e99-d39869a4342d"
+      "o": "1aee9935-6f1f-437c-a834-df06775d2831"
     },
     {
-      "s": "c46a4bad-23ef-4d6f-b287-d343c568fe46",
+      "s": "bb07dfd0-ec07-40be-b582-d4772a20bb22",
       "p": "on-failure",
-      "o": "5cac00e3-7c12-43e8-8e99-d39869a4342d"
+      "o": "1aee9935-6f1f-437c-a834-df06775d2831"
     },
     {
-      "s": "dafb896b-d102-4b48-bc99-ea39d80e015e",
+      "s": "a784eeab-2395-4b43-839d-ea7e7f2c86e6",
       "p": "on-success",
-      "o": "c46a4bad-23ef-4d6f-b287-d343c568fe46"
+      "o": "bb07dfd0-ec07-40be-b582-d4772a20bb22"
     },
     {
-      "s": "dafb896b-d102-4b48-bc99-ea39d80e015e",
+      "s": "a784eeab-2395-4b43-839d-ea7e7f2c86e6",
       "p": "on-failure",
-      "o": "62e21ce6-9fb3-400f-a8f5-e045a2246b3b"
+      "o": "59e23118-a334-4e5a-ba5b-0a5cb1bb5f24"
     },
     {
-      "s": "62e21ce6-9fb3-400f-a8f5-e045a2246b3b",
+      "s": "59e23118-a334-4e5a-ba5b-0a5cb1bb5f24",
       "p": "on-success",
-      "o": "f27d5b08-20e2-4499-a28f-695aaea7d3b4"
+      "o": "db6bf02c-5342-4b20-b539-338856e60288"
     },
     {
-      "s": "f27d5b08-20e2-4499-a28f-695aaea7d3b4",
+      "s": "db6bf02c-5342-4b20-b539-338856e60288",
       "p": "on-failure",
-      "o": "c46a4bad-23ef-4d6f-b287-d343c568fe46"
+      "o": "bb07dfd0-ec07-40be-b582-d4772a20bb22"
     }
   ],
   "tags": [

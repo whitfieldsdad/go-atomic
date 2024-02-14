@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1debc41a-d40e-4a20-92d1-4f35cfef1a24",
+      "id": "5208c7a5-9684-436c-b114-176e5a8eec5a",
       "type": "execute-command",
       "data": {
         "command": "which_python=$(which python || which python3 || which python3.9 || which python2)\n$which_python -c \"import pty;pty.spawn('/bin/sh')\"\nexit\n$which_python -c \"import pty;pty.spawn('/bin/bash')\"\nexit",
@@ -16,59 +16,59 @@
       "elevation_required": false
     },
     {
-      "id": "39f23358-a155-4fbb-a209-6782b2f12d17",
+      "id": "82351a69-5768-4c53-8448-59296976a5ec",
       "name": "Check dependency 1/1",
       "description": "Verify if python is in the environment variable path and attempt to import requests library.\n",
       "type": "execute-command",
       "data": {
-        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?          \n",
-        "command_type": ""
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "4888607c-69f8-45fc-885e-5f99570bc8cd",
+      "id": "3d24d652-46b2-4b0c-b8d8-da8643aef86b",
       "name": "Resolve dependency 1/1",
       "description": "Verify if python is in the environment variable path and attempt to import requests library.\n",
       "type": "execute-command",
       "data": {
-        "command": "pip install requests\n",
-        "command_type": ""
+        "command": "pip install requests",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "af4d4f6d-ce48-4bd2-b478-3050601daeaf",
+      "id": "5246fdb5-d4be-4a07-9f6a-52210c5413ce",
       "name": "Re-check dependency 1/1",
       "description": "Verify if python is in the environment variable path and attempt to import requests library.\n",
       "type": "execute-command",
       "data": {
-        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?          \n",
-        "command_type": ""
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "39f23358-a155-4fbb-a209-6782b2f12d17",
+      "s": "82351a69-5768-4c53-8448-59296976a5ec",
       "p": "on-success",
-      "o": "1debc41a-d40e-4a20-92d1-4f35cfef1a24"
+      "o": "5208c7a5-9684-436c-b114-176e5a8eec5a"
     },
     {
-      "s": "39f23358-a155-4fbb-a209-6782b2f12d17",
+      "s": "82351a69-5768-4c53-8448-59296976a5ec",
       "p": "on-failure",
-      "o": "4888607c-69f8-45fc-885e-5f99570bc8cd"
+      "o": "3d24d652-46b2-4b0c-b8d8-da8643aef86b"
     },
     {
-      "s": "4888607c-69f8-45fc-885e-5f99570bc8cd",
+      "s": "3d24d652-46b2-4b0c-b8d8-da8643aef86b",
       "p": "on-success",
-      "o": "af4d4f6d-ce48-4bd2-b478-3050601daeaf"
+      "o": "5246fdb5-d4be-4a07-9f6a-52210c5413ce"
     },
     {
-      "s": "af4d4f6d-ce48-4bd2-b478-3050601daeaf",
+      "s": "5246fdb5-d4be-4a07-9f6a-52210c5413ce",
       "p": "on-failure",
-      "o": "1debc41a-d40e-4a20-92d1-4f35cfef1a24"
+      "o": "5208c7a5-9684-436c-b114-176e5a8eec5a"
     }
   ],
   "tags": [

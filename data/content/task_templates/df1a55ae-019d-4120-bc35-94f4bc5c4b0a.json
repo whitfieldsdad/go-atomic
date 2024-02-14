@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "29f31b74-a224-455c-9b23-f825a3869b4a",
+      "id": "e4ed7fba-dddd-4593-9c08-6784e978ea34",
       "type": "execute-command",
       "data": {
-        "command": "unamestr=$(uname)\nif [ \"$unamestr\" = 'Linux' ]; then echo -e \"e /etc/passwd\\n,p\\ne /etc/shadow\\n,p\\n\" | ed \u003e ${output_file}; elif [ \"$unamestr\" = 'FreeBSD' ]; then echo -e \"e /etc/passwd\\n,p\\ne /etc/master.passwd\\n,p\\ne /etc/shadow\\n,p\\n\" | ed \u003e ${output_file}; fi\n",
+        "command": "unamestr=$(uname)\nif [ \"$unamestr\" = 'Linux' ]; then echo -e \"e /etc/passwd\\n,p\\ne /etc/shadow\\n,p\\n\" | ed \u003e ${output_file}; elif [ \"$unamestr\" = 'FreeBSD' ]; then echo -e \"e /etc/passwd\\n,p\\ne /etc/master.passwd\\n,p\\ne /etc/shadow\\n,p\\n\" | ed \u003e ${output_file}; fi",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "40c3fb8a-5db1-447f-a516-3123c7f0df99",
+      "id": "29ed0906-f250-4840-b5d6-f693b10b94e9",
       "type": "execute-command",
       "data": {
-        "command": "rm -f #{output_file}\n",
+        "command": "rm -f #{output_file}",
         "command_type": "sh"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "29f31b74-a224-455c-9b23-f825a3869b4a",
+      "s": "e4ed7fba-dddd-4593-9c08-6784e978ea34",
       "p": "on-success",
-      "o": "40c3fb8a-5db1-447f-a516-3123c7f0df99"
+      "o": "29ed0906-f250-4840-b5d6-f693b10b94e9"
     },
     {
-      "s": "29f31b74-a224-455c-9b23-f825a3869b4a",
+      "s": "e4ed7fba-dddd-4593-9c08-6784e978ea34",
       "p": "on-failure",
-      "o": "40c3fb8a-5db1-447f-a516-3123c7f0df99"
+      "o": "29ed0906-f250-4840-b5d6-f693b10b94e9"
     }
   ],
   "tags": [

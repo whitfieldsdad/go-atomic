@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "77abec70-913d-4d30-987d-d3b5e0a1e36e",
+      "id": "b21907f2-2d91-4720-adad-7725d39e4429",
       "type": "execute-command",
       "data": {
-        "command": "cat /etc/security/pwquality.conf\n",
+        "command": "cat /etc/security/pwquality.conf",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "fb2d62a3-d759-4108-a288-181ed7f8fbf6",
+      "id": "538cbef9-25e5-4af4-8c21-aed3ab5eaeb0",
       "name": "Check dependency 1/1",
       "description": "System must be CentOS or RHEL v7\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ $(uname -a | grep -ioP 'el[0-9]' | grep -oP '[0-9]') -eq \"7\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ $(uname -a | grep -ioP 'el[0-9]' | grep -oP '[0-9]') -eq \"7\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "0761ca43-e359-4cb0-aa86-9a24616b85f6",
+      "id": "7940ecf8-d2fd-4292-b260-82d8f1dfcb2d",
       "name": "Resolve dependency 1/1",
       "description": "System must be CentOS or RHEL v7\n",
       "type": "execute-command",
       "data": {
-        "command": "echo Please run from CentOS or RHEL v7\n",
-        "command_type": ""
+        "command": "echo Please run from CentOS or RHEL v7",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "4aa89358-cfa9-423a-9526-7a1086641e47",
+      "id": "fa303dff-4b9e-4df0-a7e9-c9166992223e",
       "name": "Re-check dependency 1/1",
       "description": "System must be CentOS or RHEL v7\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ $(uname -a | grep -ioP 'el[0-9]' | grep -oP '[0-9]') -eq \"7\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ $(uname -a | grep -ioP 'el[0-9]' | grep -oP '[0-9]') -eq \"7\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "bash"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "fb2d62a3-d759-4108-a288-181ed7f8fbf6",
+      "s": "538cbef9-25e5-4af4-8c21-aed3ab5eaeb0",
       "p": "on-success",
-      "o": "77abec70-913d-4d30-987d-d3b5e0a1e36e"
+      "o": "b21907f2-2d91-4720-adad-7725d39e4429"
     },
     {
-      "s": "fb2d62a3-d759-4108-a288-181ed7f8fbf6",
+      "s": "538cbef9-25e5-4af4-8c21-aed3ab5eaeb0",
       "p": "on-failure",
-      "o": "0761ca43-e359-4cb0-aa86-9a24616b85f6"
+      "o": "7940ecf8-d2fd-4292-b260-82d8f1dfcb2d"
     },
     {
-      "s": "0761ca43-e359-4cb0-aa86-9a24616b85f6",
+      "s": "7940ecf8-d2fd-4292-b260-82d8f1dfcb2d",
       "p": "on-success",
-      "o": "4aa89358-cfa9-423a-9526-7a1086641e47"
+      "o": "fa303dff-4b9e-4df0-a7e9-c9166992223e"
     },
     {
-      "s": "4aa89358-cfa9-423a-9526-7a1086641e47",
+      "s": "fa303dff-4b9e-4df0-a7e9-c9166992223e",
       "p": "on-failure",
-      "o": "77abec70-913d-4d30-987d-d3b5e0a1e36e"
+      "o": "b21907f2-2d91-4720-adad-7725d39e4429"
     }
   ],
   "tags": [

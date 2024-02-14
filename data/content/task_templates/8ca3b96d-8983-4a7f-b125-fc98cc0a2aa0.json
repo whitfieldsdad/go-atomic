@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "62f7e84a-c281-47be-975c-4bede4d5bfec",
+      "id": "5e4458c9-d573-45c7-8c3e-7efe81db9b2a",
       "type": "execute-command",
       "data": {
-        "command": "Invoke-WebRequest -OutFile C:\\Users\\$env:username\\Desktop\\TeamViewer_Setup.exe https://download.teamviewer.com/download/TeamViewer_Setup.exe\n$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\TeamViewer_Setup.exe\"\nStart-Process -Wait $file1 /S; \nStart-Process 'C:\\Program Files (x86)\\TeamViewer\\TeamViewer.exe'\n",
+        "command": "Invoke-WebRequest -OutFile C:\\Users\\$env:username\\Desktop\\TeamViewer_Setup.exe https://download.teamviewer.com/download/TeamViewer_Setup.exe\n$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\TeamViewer_Setup.exe\"\nStart-Process -Wait $file1 /S; \nStart-Process 'C:\\Program Files (x86)\\TeamViewer\\TeamViewer.exe'",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "50ba6310-e1e8-43b9-9eb3-7ec269956817",
+      "id": "df90f325-0bb0-4297-abbe-79d679cc0ace",
       "type": "execute-command",
       "data": {
         "command": "$file = 'C:\\Program Files (x86)\\TeamViewer\\uninstall.exe'\nif(Test-Path $file){ Start-Process $file \"/S\" -ErrorAction Ignore | Out-Null }\n$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\TeamViewer_Setup.exe\"\nRemove-Item $file1 -ErrorAction Ignore | Out-Null",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "62f7e84a-c281-47be-975c-4bede4d5bfec",
+      "s": "5e4458c9-d573-45c7-8c3e-7efe81db9b2a",
       "p": "on-success",
-      "o": "50ba6310-e1e8-43b9-9eb3-7ec269956817"
+      "o": "df90f325-0bb0-4297-abbe-79d679cc0ace"
     },
     {
-      "s": "62f7e84a-c281-47be-975c-4bede4d5bfec",
+      "s": "5e4458c9-d573-45c7-8c3e-7efe81db9b2a",
       "p": "on-failure",
-      "o": "50ba6310-e1e8-43b9-9eb3-7ec269956817"
+      "o": "df90f325-0bb0-4297-abbe-79d679cc0ace"
     }
   ],
   "tags": [

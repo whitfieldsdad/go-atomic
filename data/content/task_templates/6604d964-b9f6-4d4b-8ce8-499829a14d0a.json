@@ -8,68 +8,68 @@
   ],
   "steps": [
     {
-      "id": "5d2df17d-6f02-459f-b0b8-717aabca0bec",
+      "id": "74148787-50fe-463a-8a41-f159ef711cce",
       "type": "execute-command",
       "data": {
-        "command": "ENCODED=$(perl -e \"use MIME::Base64;print(encode_base64('#{message}'));\")\nperl -le \"use MIME::Base64;print(decode_base64('$ENCODED'));\"\necho $ENCODED | perl -le 'use MIME::Base64;print(decode_base64(\u003cSTDIN\u003e));'\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 perl -le 'use MIME::Base64;open($f,\"\u003c\",\"#{encoded_file}\");print(decode_base64(\u003c$f\u003e));'\n",
+        "command": "ENCODED=$(perl -e \"use MIME::Base64;print(encode_base64('#{message}'));\")\nperl -le \"use MIME::Base64;print(decode_base64('$ENCODED'));\"\necho $ENCODED | perl -le 'use MIME::Base64;print(decode_base64(\u003cSTDIN\u003e));'\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 perl -le 'use MIME::Base64;open($f,\"\u003c\",\"#{encoded_file}\");print(decode_base64(\u003c$f\u003e));'",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "bf73652f-4291-447c-9f03-8029a5454b4c",
+      "id": "8b76b6b3-90de-4c9b-9e31-52826f97d3aa",
       "name": "Check dependency 1/1",
       "description": "Perl must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "which perl\n",
-        "command_type": ""
+        "command": "which perl",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "63c49a6e-bb71-49c3-98ba-9af7d7df4a25",
+      "id": "fd59aa2d-8ed7-4aac-85d1-48c1d4977fc8",
       "name": "Resolve dependency 1/1",
       "description": "Perl must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"Please install Perl\"\n",
-        "command_type": ""
+        "command": "echo \"Please install Perl\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "82dbbd1a-004e-4a1a-9a79-b4cf0d35ad09",
+      "id": "41f7bfe5-1629-4351-aa2e-3147cf404789",
       "name": "Re-check dependency 1/1",
       "description": "Perl must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "which perl\n",
-        "command_type": ""
+        "command": "which perl",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "bf73652f-4291-447c-9f03-8029a5454b4c",
+      "s": "8b76b6b3-90de-4c9b-9e31-52826f97d3aa",
       "p": "on-success",
-      "o": "5d2df17d-6f02-459f-b0b8-717aabca0bec"
+      "o": "74148787-50fe-463a-8a41-f159ef711cce"
     },
     {
-      "s": "bf73652f-4291-447c-9f03-8029a5454b4c",
+      "s": "8b76b6b3-90de-4c9b-9e31-52826f97d3aa",
       "p": "on-failure",
-      "o": "63c49a6e-bb71-49c3-98ba-9af7d7df4a25"
+      "o": "fd59aa2d-8ed7-4aac-85d1-48c1d4977fc8"
     },
     {
-      "s": "63c49a6e-bb71-49c3-98ba-9af7d7df4a25",
+      "s": "fd59aa2d-8ed7-4aac-85d1-48c1d4977fc8",
       "p": "on-success",
-      "o": "82dbbd1a-004e-4a1a-9a79-b4cf0d35ad09"
+      "o": "41f7bfe5-1629-4351-aa2e-3147cf404789"
     },
     {
-      "s": "82dbbd1a-004e-4a1a-9a79-b4cf0d35ad09",
+      "s": "41f7bfe5-1629-4351-aa2e-3147cf404789",
       "p": "on-failure",
-      "o": "5d2df17d-6f02-459f-b0b8-717aabca0bec"
+      "o": "74148787-50fe-463a-8a41-f159ef711cce"
     }
   ],
   "tags": [
@@ -77,16 +77,16 @@
   ],
   "input_arguments": [
     {
-      "name": "message",
-      "type": "string",
-      "description": "Message to print to the screen",
-      "value": "Hello from Atomic Red Team test T1140!"
-    },
-    {
       "name": "encoded_file",
       "type": "path",
       "description": "File to temporarily save encoded text",
       "value": "/tmp/T1140.encoded"
+    },
+    {
+      "name": "message",
+      "type": "string",
+      "description": "Message to print to the screen",
+      "value": "Hello from Atomic Red Team test T1140!"
     }
   ]
 }

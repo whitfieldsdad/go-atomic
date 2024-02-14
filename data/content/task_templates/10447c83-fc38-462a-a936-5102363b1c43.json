@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "42d2655d-3270-4848-bbb9-5308bcf84770",
+      "id": "89d2df7c-42d4-4a06-afe9-a3036eb5975f",
       "type": "execute-command",
       "data": {
-        "command": "$Class = New-Object Management.ManagementClass(New-Object Management.ManagementPath(\"Win32_Process\"))\n$NewClass = $Class.Derive(\"#{new_class}\")\n$NewClass.Put()\nInvoke-WmiMethod -Path #{new_class} -Name create -ArgumentList #{process_to_execute}\n",
+        "command": "$Class = New-Object Management.ManagementClass(New-Object Management.ManagementPath(\"Win32_Process\"))\n$NewClass = $Class.Derive(\"#{new_class}\")\n$NewClass.Put()\nInvoke-WmiMethod -Path #{new_class} -Name create -ArgumentList #{process_to_execute}",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "03c715d0-4d0d-40ff-a064-c902e5f6fa02",
+      "id": "70b25507-c9cd-4334-886b-0879297b2ecc",
       "type": "execute-command",
       "data": {
-        "command": "$CleanupClass = New-Object Management.ManagementClass(New-Object Management.ManagementPath(\"#{new_class}\"))\ntry { $CleanupClass.Delete() } catch {}\n",
+        "command": "$CleanupClass = New-Object Management.ManagementClass(New-Object Management.ManagementPath(\"#{new_class}\"))\ntry { $CleanupClass.Delete() } catch {}",
         "command_type": "powershell"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "42d2655d-3270-4848-bbb9-5308bcf84770",
+      "s": "89d2df7c-42d4-4a06-afe9-a3036eb5975f",
       "p": "on-success",
-      "o": "03c715d0-4d0d-40ff-a064-c902e5f6fa02"
+      "o": "70b25507-c9cd-4334-886b-0879297b2ecc"
     },
     {
-      "s": "42d2655d-3270-4848-bbb9-5308bcf84770",
+      "s": "89d2df7c-42d4-4a06-afe9-a3036eb5975f",
       "p": "on-failure",
-      "o": "03c715d0-4d0d-40ff-a064-c902e5f6fa02"
+      "o": "70b25507-c9cd-4334-886b-0879297b2ecc"
     }
   ],
   "tags": [

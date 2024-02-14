@@ -8,87 +8,87 @@
   ],
   "steps": [
     {
-      "id": "d9703a9d-0ccb-4bee-a78e-f8a3cf35a7b4",
+      "id": "e1373985-222b-456e-a466-cd2e5719f185",
       "type": "execute-command",
       "data": {
-        "command": "cd #{folder_path}; split -b 5000000 #{file_name}\nls -l #{folder_path}\n",
+        "command": "cd #{folder_path}; split -b 5000000 #{file_name}\nls -l #{folder_path}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "ea7b9694-a758-4615-a77a-ff1859fa3f4d",
+      "id": "50a7c952-f3de-4b12-bb1b-3c19f123e85c",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f #{folder_path}/safe_to_delete ]; then rm -rf #{folder_path}; fi;\n",
+        "command": "if [ -f #{folder_path}/safe_to_delete ]; then rm -rf #{folder_path}; fi;",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "4db60020-d6b1-4729-a174-b723510697b3",
+      "id": "7d708435-4807-4e36-acff-2ccc4e732d90",
       "name": "Check dependency 1/1",
       "description": "The file must exist for the test to run.",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -f #{folder_path}/#{file_name} ]; then exit 1; else exit 0; fi;\n",
-        "command_type": ""
+        "command": "if [ ! -f #{folder_path}/#{file_name} ]; then exit 1; else exit 0; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "358e3c7b-77f1-4f32-b6e0-ed98b01c2f7c",
+      "id": "73dde2bb-841a-4930-917a-f6a3cc60c0e0",
       "name": "Resolve dependency 1/1",
       "description": "The file must exist for the test to run.",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -d #{folder_path} ]; then mkdir -p #{folder_path}; touch #{folder_path}/safe_to_delete; fi; dd if=/dev/urandom of=#{folder_path}/#{file_name} bs=25000000 count=1\n",
-        "command_type": ""
+        "command": "if [ ! -d #{folder_path} ]; then mkdir -p #{folder_path}; touch #{folder_path}/safe_to_delete; fi; dd if=/dev/urandom of=#{folder_path}/#{file_name} bs=25000000 count=1",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "1cb3857e-feaf-43df-b488-87c239a2434c",
+      "id": "cdf2c402-9354-4968-8132-266a1c34cbfc",
       "name": "Re-check dependency 1/1",
       "description": "The file must exist for the test to run.",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -f #{folder_path}/#{file_name} ]; then exit 1; else exit 0; fi;\n",
-        "command_type": ""
+        "command": "if [ ! -f #{folder_path}/#{file_name} ]; then exit 1; else exit 0; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "d9703a9d-0ccb-4bee-a78e-f8a3cf35a7b4",
+      "s": "e1373985-222b-456e-a466-cd2e5719f185",
       "p": "on-success",
-      "o": "ea7b9694-a758-4615-a77a-ff1859fa3f4d"
+      "o": "50a7c952-f3de-4b12-bb1b-3c19f123e85c"
     },
     {
-      "s": "d9703a9d-0ccb-4bee-a78e-f8a3cf35a7b4",
+      "s": "e1373985-222b-456e-a466-cd2e5719f185",
       "p": "on-failure",
-      "o": "ea7b9694-a758-4615-a77a-ff1859fa3f4d"
+      "o": "50a7c952-f3de-4b12-bb1b-3c19f123e85c"
     },
     {
-      "s": "4db60020-d6b1-4729-a174-b723510697b3",
+      "s": "7d708435-4807-4e36-acff-2ccc4e732d90",
       "p": "on-success",
-      "o": "d9703a9d-0ccb-4bee-a78e-f8a3cf35a7b4"
+      "o": "e1373985-222b-456e-a466-cd2e5719f185"
     },
     {
-      "s": "4db60020-d6b1-4729-a174-b723510697b3",
+      "s": "7d708435-4807-4e36-acff-2ccc4e732d90",
       "p": "on-failure",
-      "o": "358e3c7b-77f1-4f32-b6e0-ed98b01c2f7c"
+      "o": "73dde2bb-841a-4930-917a-f6a3cc60c0e0"
     },
     {
-      "s": "358e3c7b-77f1-4f32-b6e0-ed98b01c2f7c",
+      "s": "73dde2bb-841a-4930-917a-f6a3cc60c0e0",
       "p": "on-success",
-      "o": "1cb3857e-feaf-43df-b488-87c239a2434c"
+      "o": "cdf2c402-9354-4968-8132-266a1c34cbfc"
     },
     {
-      "s": "1cb3857e-feaf-43df-b488-87c239a2434c",
+      "s": "cdf2c402-9354-4968-8132-266a1c34cbfc",
       "p": "on-failure",
-      "o": "d9703a9d-0ccb-4bee-a78e-f8a3cf35a7b4"
+      "o": "e1373985-222b-456e-a466-cd2e5719f185"
     }
   ],
   "tags": [

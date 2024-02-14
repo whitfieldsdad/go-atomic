@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "2a64bd3e-2e04-403a-8408-abf62df5813f",
+      "id": "d936b11a-0dc6-427d-a71d-1a9e3e7c9ae3",
       "type": "execute-command",
       "data": {
-        "command": "$termsrvDll = \"C:\\Windows\\System32\\termsrv.dll\"\n\n$ACL = Get-Acl $termsrvDll\n$permission = \"Administrators\",\"FullControl\",\"Allow\"\n$accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule $permission\n$ACL.SetAccessRule($accessRule)\nSet-Acl -Path $termsrvDll -AclObject $ACL\n\nCopy-Item -Path \"C:\\Windows\\System32\\termsrv.dll\" -Destination \"C:\\Windows\\System32\\termsrv_backup.dll\" -ErrorAction Ignore\nAdd-Content -Path \"C:\\Windows\\System32\\termsrv.dll\" -Value \"`n\" -NoNewline -ErrorAction Ignore\nMove-Item -Path \"C:\\Windows\\System32\\termsrv_backup.dll\" -Destination \"C:\\Windows\\System32\\termsrv.dll\" -Force -ErrorAction Ignore\n",
+        "command": "$termsrvDll = \"C:\\Windows\\System32\\termsrv.dll\"\n\n$ACL = Get-Acl $termsrvDll\n$permission = \"Administrators\",\"FullControl\",\"Allow\"\n$accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule $permission\n$ACL.SetAccessRule($accessRule)\nSet-Acl -Path $termsrvDll -AclObject $ACL\n\nCopy-Item -Path \"C:\\Windows\\System32\\termsrv.dll\" -Destination \"C:\\Windows\\System32\\termsrv_backup.dll\" -ErrorAction Ignore\nAdd-Content -Path \"C:\\Windows\\System32\\termsrv.dll\" -Value \"`n\" -NoNewline -ErrorAction Ignore\nMove-Item -Path \"C:\\Windows\\System32\\termsrv_backup.dll\" -Destination \"C:\\Windows\\System32\\termsrv.dll\" -Force -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "aabf5145-fe37-440e-bd87-aaac2094c7f1",
+      "id": "45f523e0-43b3-43d4-8223-f5ab99ecab7d",
       "type": "execute-command",
       "data": {
-        "command": "Move-Item -Path \"C:\\Windows\\System32\\termsrv_backup.dll\" -Destination \"C:\\Windows\\System32\\termsrv.dll\" -Force -ErrorAction Ignore\n",
+        "command": "Move-Item -Path \"C:\\Windows\\System32\\termsrv_backup.dll\" -Destination \"C:\\Windows\\System32\\termsrv.dll\" -Force -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "2a64bd3e-2e04-403a-8408-abf62df5813f",
+      "s": "d936b11a-0dc6-427d-a71d-1a9e3e7c9ae3",
       "p": "on-success",
-      "o": "aabf5145-fe37-440e-bd87-aaac2094c7f1"
+      "o": "45f523e0-43b3-43d4-8223-f5ab99ecab7d"
     },
     {
-      "s": "2a64bd3e-2e04-403a-8408-abf62df5813f",
+      "s": "d936b11a-0dc6-427d-a71d-1a9e3e7c9ae3",
       "p": "on-failure",
-      "o": "aabf5145-fe37-440e-bd87-aaac2094c7f1"
+      "o": "45f523e0-43b3-43d4-8223-f5ab99ecab7d"
     }
   ],
   "tags": [

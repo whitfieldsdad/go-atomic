@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "f95676cf-5f90-436a-8dd1-0f1ab85897f6",
+      "id": "62af84bd-bae7-4e1e-bdc3-cd3925c2c75a",
       "type": "execute-command",
       "data": {
-        "command": "echo \"# THIS IS A COMMENT\" \u003e\u003e /etc/ufw/user.rules\ngrep \"# THIS IS A COMMENT\" /etc/ufw/user.rules\n",
+        "command": "echo \"# THIS IS A COMMENT\" \u003e\u003e /etc/ufw/user.rules\ngrep \"# THIS IS A COMMENT\" /etc/ufw/user.rules",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "bdd83d9c-a8a3-4d85-8c9d-6ede3a4f9c79",
+      "id": "1e06f5fa-7227-4049-a268-e1bc3c8913cd",
       "type": "execute-command",
       "data": {
-        "command": "sed -i 's/# THIS IS A COMMENT//g' /etc/ufw/user.rules\n",
+        "command": "sed -i 's/# THIS IS A COMMENT//g' /etc/ufw/user.rules",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "9806983b-a681-4d86-98cd-3f86bfc6c056",
+      "id": "2cfa5e38-35a9-41ff-b2f6-e598c8f046ca",
       "name": "Check dependency 1/1",
       "description": "Check if /etc/ufw/user.rules exists.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -f \"/etc/ufw/user.rules\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ ! -f \"/etc/ufw/user.rules\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "7dad4b48-2f36-4e68-a2a9-36b344b316ab",
+      "id": "6fbd0db4-acfe-4367-a2b1-f281f122567b",
       "name": "Resolve dependency 1/1",
       "description": "Check if /etc/ufw/user.rules exists.\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"\"\n",
-        "command_type": ""
+        "command": "echo \"\"",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "85a6cf3a-8f1b-4a7a-8221-f18398809d32",
+      "id": "61276bc4-0c77-44eb-9a71-29fbd21e8f6d",
       "name": "Re-check dependency 1/1",
       "description": "Check if /etc/ufw/user.rules exists.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -f \"/etc/ufw/user.rules\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ ! -f \"/etc/ufw/user.rules\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "f95676cf-5f90-436a-8dd1-0f1ab85897f6",
+      "s": "62af84bd-bae7-4e1e-bdc3-cd3925c2c75a",
       "p": "on-success",
-      "o": "bdd83d9c-a8a3-4d85-8c9d-6ede3a4f9c79"
+      "o": "1e06f5fa-7227-4049-a268-e1bc3c8913cd"
     },
     {
-      "s": "f95676cf-5f90-436a-8dd1-0f1ab85897f6",
+      "s": "62af84bd-bae7-4e1e-bdc3-cd3925c2c75a",
       "p": "on-failure",
-      "o": "bdd83d9c-a8a3-4d85-8c9d-6ede3a4f9c79"
+      "o": "1e06f5fa-7227-4049-a268-e1bc3c8913cd"
     },
     {
-      "s": "9806983b-a681-4d86-98cd-3f86bfc6c056",
+      "s": "2cfa5e38-35a9-41ff-b2f6-e598c8f046ca",
       "p": "on-success",
-      "o": "f95676cf-5f90-436a-8dd1-0f1ab85897f6"
+      "o": "62af84bd-bae7-4e1e-bdc3-cd3925c2c75a"
     },
     {
-      "s": "9806983b-a681-4d86-98cd-3f86bfc6c056",
+      "s": "2cfa5e38-35a9-41ff-b2f6-e598c8f046ca",
       "p": "on-failure",
-      "o": "7dad4b48-2f36-4e68-a2a9-36b344b316ab"
+      "o": "6fbd0db4-acfe-4367-a2b1-f281f122567b"
     },
     {
-      "s": "7dad4b48-2f36-4e68-a2a9-36b344b316ab",
+      "s": "6fbd0db4-acfe-4367-a2b1-f281f122567b",
       "p": "on-success",
-      "o": "85a6cf3a-8f1b-4a7a-8221-f18398809d32"
+      "o": "61276bc4-0c77-44eb-9a71-29fbd21e8f6d"
     },
     {
-      "s": "85a6cf3a-8f1b-4a7a-8221-f18398809d32",
+      "s": "61276bc4-0c77-44eb-9a71-29fbd21e8f6d",
       "p": "on-failure",
-      "o": "f95676cf-5f90-436a-8dd1-0f1ab85897f6"
+      "o": "62af84bd-bae7-4e1e-bdc3-cd3925c2c75a"
     }
   ],
   "tags": [

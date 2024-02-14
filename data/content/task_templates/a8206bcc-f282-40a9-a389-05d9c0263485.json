@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "5a5461d2-7295-4562-b8d7-f9fe522bbc31",
+      "id": "265b263f-64aa-490b-a936-57f030bb3b5c",
       "type": "execute-command",
       "data": {
-        "command": "icacls.exe #{file_or_folder} /grant #{user_or_group}:F\n",
+        "command": "icacls.exe #{file_or_folder} /grant #{user_or_group}:F",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "3f90bf81-d846-4d6d-a48a-a92886a4eca0",
+      "id": "e57ad32b-da40-4e68-8097-c1f0c9e6b673",
       "name": "Check dependency 1/1",
       "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
       "type": "execute-command",
       "data": {
-        "command": "IF EXIST #{file_or_folder} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
-        "command_type": ""
+        "command": "IF EXIST #{file_or_folder} ( EXIT 0 ) ELSE ( EXIT 1 )",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "ee67c2d6-f886-424c-87fa-bf760920d7c9",
+      "id": "5fec0f95-fff2-4607-9e59-54b58291189d",
       "name": "Resolve dependency 1/1",
       "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
       "type": "execute-command",
       "data": {
-        "command": "mkdir #{file_or_folder}\necho T1222.001_cacls1 \u003e\u003e #{file_or_folder}\\T1222.001_cacls1.txt\necho T1222.001_cacls2 \u003e\u003e #{file_or_folder}\\T1222.001_cacls2.txt\n",
-        "command_type": ""
+        "command": "mkdir #{file_or_folder}\necho T1222.001_cacls1 \u003e\u003e #{file_or_folder}\\T1222.001_cacls1.txt\necho T1222.001_cacls2 \u003e\u003e #{file_or_folder}\\T1222.001_cacls2.txt",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "6bf4e6f9-1b68-43b1-bd4a-eb98f6614a1f",
+      "id": "a1037055-15c2-4e77-be0d-5615b29b225f",
       "name": "Re-check dependency 1/1",
       "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
       "type": "execute-command",
       "data": {
-        "command": "IF EXIST #{file_or_folder} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
-        "command_type": ""
+        "command": "IF EXIST #{file_or_folder} ( EXIT 0 ) ELSE ( EXIT 1 )",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "3f90bf81-d846-4d6d-a48a-a92886a4eca0",
+      "s": "e57ad32b-da40-4e68-8097-c1f0c9e6b673",
       "p": "on-success",
-      "o": "5a5461d2-7295-4562-b8d7-f9fe522bbc31"
+      "o": "265b263f-64aa-490b-a936-57f030bb3b5c"
     },
     {
-      "s": "3f90bf81-d846-4d6d-a48a-a92886a4eca0",
+      "s": "e57ad32b-da40-4e68-8097-c1f0c9e6b673",
       "p": "on-failure",
-      "o": "ee67c2d6-f886-424c-87fa-bf760920d7c9"
+      "o": "5fec0f95-fff2-4607-9e59-54b58291189d"
     },
     {
-      "s": "ee67c2d6-f886-424c-87fa-bf760920d7c9",
+      "s": "5fec0f95-fff2-4607-9e59-54b58291189d",
       "p": "on-success",
-      "o": "6bf4e6f9-1b68-43b1-bd4a-eb98f6614a1f"
+      "o": "a1037055-15c2-4e77-be0d-5615b29b225f"
     },
     {
-      "s": "6bf4e6f9-1b68-43b1-bd4a-eb98f6614a1f",
+      "s": "a1037055-15c2-4e77-be0d-5615b29b225f",
       "p": "on-failure",
-      "o": "5a5461d2-7295-4562-b8d7-f9fe522bbc31"
+      "o": "265b263f-64aa-490b-a936-57f030bb3b5c"
     }
   ],
   "tags": [

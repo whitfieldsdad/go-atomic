@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "c137a02d-1cbe-41a3-9117-7772a35416e4",
+      "id": "13061901-99e9-4046-ab3f-f32dee4b58e1",
       "type": "execute-command",
       "data": {
-        "command": "copy c:\\windows\\system32\\calc.exe 'C:\\users\\#{user}\\AppData\\local\\Microsoft\\WindowsApps\\foxprow.exe'\n$com = [System.Activator]::CreateInstance([type]::GetTypeFromProgID(\"Excel.Application\",\"#{computer_name}\"))\n$com.ActivateMicrosoftApp(\"5\")\n",
+        "command": "copy c:\\windows\\system32\\calc.exe 'C:\\users\\#{user}\\AppData\\local\\Microsoft\\WindowsApps\\foxprow.exe'\n$com = [System.Activator]::CreateInstance([type]::GetTypeFromProgID(\"Excel.Application\",\"#{computer_name}\"))\n$com.ActivateMicrosoftApp(\"5\")",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "358cc514-22aa-40cd-9615-c0a0feb8b901",
+      "id": "70245b79-76c2-4636-9935-56c663d5ff88",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item 'C:\\users\\#{user}\\AppData\\local\\Microsoft\\WindowsApps\\foxprow.exe'\n",
+        "command": "Remove-Item 'C:\\users\\#{user}\\AppData\\local\\Microsoft\\WindowsApps\\foxprow.exe'",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "e7f896dd-e458-4ab8-8dd0-2e83d0dc9842",
+      "id": "632a8f7a-c18b-4a24-bfc7-d20424a60f4e",
       "name": "Check dependency 1/1",
       "description": "Microsoft Excel must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "try {\n  New-Object -COMObject \"Excel.Application\" | Out-Null\n  Stop-Process -Name \"Excel\"\n  exit 0\n} catch { exit 1 }\n",
-        "command_type": ""
+        "command": "try {\n  New-Object -COMObject \"Excel.Application\" | Out-Null\n  Stop-Process -Name \"Excel\"\n  exit 0\n} catch { exit 1 }",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "cf294cc7-816f-4d84-b92f-ba410d23a270",
+      "id": "3df6cb75-e01e-4820-867c-28b533d04187",
       "name": "Resolve dependency 1/1",
       "description": "Microsoft Excel must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "Write-Host \"You will need to install Microsoft Excel manually to meet this requirement\"\n",
-        "command_type": ""
+        "command": "Write-Host \"You will need to install Microsoft Excel manually to meet this requirement\"",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "aeedb097-8f7a-4aac-aa40-455405f746f1",
+      "id": "79180b06-9b71-4a19-a232-89eb96164df3",
       "name": "Re-check dependency 1/1",
       "description": "Microsoft Excel must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "try {\n  New-Object -COMObject \"Excel.Application\" | Out-Null\n  Stop-Process -Name \"Excel\"\n  exit 0\n} catch { exit 1 }\n",
-        "command_type": ""
+        "command": "try {\n  New-Object -COMObject \"Excel.Application\" | Out-Null\n  Stop-Process -Name \"Excel\"\n  exit 0\n} catch { exit 1 }",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "c137a02d-1cbe-41a3-9117-7772a35416e4",
+      "s": "13061901-99e9-4046-ab3f-f32dee4b58e1",
       "p": "on-success",
-      "o": "358cc514-22aa-40cd-9615-c0a0feb8b901"
+      "o": "70245b79-76c2-4636-9935-56c663d5ff88"
     },
     {
-      "s": "c137a02d-1cbe-41a3-9117-7772a35416e4",
+      "s": "13061901-99e9-4046-ab3f-f32dee4b58e1",
       "p": "on-failure",
-      "o": "358cc514-22aa-40cd-9615-c0a0feb8b901"
+      "o": "70245b79-76c2-4636-9935-56c663d5ff88"
     },
     {
-      "s": "e7f896dd-e458-4ab8-8dd0-2e83d0dc9842",
+      "s": "632a8f7a-c18b-4a24-bfc7-d20424a60f4e",
       "p": "on-success",
-      "o": "c137a02d-1cbe-41a3-9117-7772a35416e4"
+      "o": "13061901-99e9-4046-ab3f-f32dee4b58e1"
     },
     {
-      "s": "e7f896dd-e458-4ab8-8dd0-2e83d0dc9842",
+      "s": "632a8f7a-c18b-4a24-bfc7-d20424a60f4e",
       "p": "on-failure",
-      "o": "cf294cc7-816f-4d84-b92f-ba410d23a270"
+      "o": "3df6cb75-e01e-4820-867c-28b533d04187"
     },
     {
-      "s": "cf294cc7-816f-4d84-b92f-ba410d23a270",
+      "s": "3df6cb75-e01e-4820-867c-28b533d04187",
       "p": "on-success",
-      "o": "aeedb097-8f7a-4aac-aa40-455405f746f1"
+      "o": "79180b06-9b71-4a19-a232-89eb96164df3"
     },
     {
-      "s": "aeedb097-8f7a-4aac-aa40-455405f746f1",
+      "s": "79180b06-9b71-4a19-a232-89eb96164df3",
       "p": "on-failure",
-      "o": "c137a02d-1cbe-41a3-9117-7772a35416e4"
+      "o": "13061901-99e9-4046-ab3f-f32dee4b58e1"
     }
   ],
   "tags": [
@@ -96,16 +96,16 @@
   ],
   "input_arguments": [
     {
-      "name": "computer_name",
-      "type": "string",
-      "description": "Hostname or IP",
-      "value": "localhost"
-    },
-    {
       "name": "user",
       "type": "string",
       "description": "Name of user",
       "value": "admin"
+    },
+    {
+      "name": "computer_name",
+      "type": "string",
+      "description": "Hostname or IP",
+      "value": "localhost"
     }
   ]
 }

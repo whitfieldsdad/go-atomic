@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "9a6f8830-1a79-4ef8-99ef-57afca59ba4f",
+      "id": "6ba71203-3faa-4b1a-b932-ef056b2a55b7",
       "type": "execute-command",
       "data": {
         "command": "Invoke-ATHRemoteFXvGPUDisablementCommand -ModuleName #{module_name} -ModulePath #{module_path}",
@@ -16,59 +16,59 @@
       "elevation_required": false
     },
     {
-      "id": "43608fc1-283d-4a2d-9d0d-30212c8c276b",
+      "id": "1adf809e-57d3-4ebe-9507-e4e7cc0a6404",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHRemoteFXvGPUDisablementCommand must be exported in the module.",
       "type": "execute-command",
       "data": {
         "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHRemoteFXvGPUDisablementCommand']) {exit 1} else {exit 0}",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "72bc6292-936e-407a-947d-06f9d6dd1bbf",
+      "id": "c8fa2d78-81fb-4267-bf97-1e64b97ba143",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHRemoteFXvGPUDisablementCommand must be exported in the module.",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force\n",
-        "command_type": ""
+        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "e0171ee2-52a5-46f2-b3b3-9b8f61b87266",
+      "id": "9babb09f-3dba-4162-93e9-f17b21ca3931",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHRemoteFXvGPUDisablementCommand must be exported in the module.",
       "type": "execute-command",
       "data": {
         "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHRemoteFXvGPUDisablementCommand']) {exit 1} else {exit 0}",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "43608fc1-283d-4a2d-9d0d-30212c8c276b",
+      "s": "1adf809e-57d3-4ebe-9507-e4e7cc0a6404",
       "p": "on-success",
-      "o": "9a6f8830-1a79-4ef8-99ef-57afca59ba4f"
+      "o": "6ba71203-3faa-4b1a-b932-ef056b2a55b7"
     },
     {
-      "s": "43608fc1-283d-4a2d-9d0d-30212c8c276b",
+      "s": "1adf809e-57d3-4ebe-9507-e4e7cc0a6404",
       "p": "on-failure",
-      "o": "72bc6292-936e-407a-947d-06f9d6dd1bbf"
+      "o": "c8fa2d78-81fb-4267-bf97-1e64b97ba143"
     },
     {
-      "s": "72bc6292-936e-407a-947d-06f9d6dd1bbf",
+      "s": "c8fa2d78-81fb-4267-bf97-1e64b97ba143",
       "p": "on-success",
-      "o": "e0171ee2-52a5-46f2-b3b3-9b8f61b87266"
+      "o": "9babb09f-3dba-4162-93e9-f17b21ca3931"
     },
     {
-      "s": "e0171ee2-52a5-46f2-b3b3-9b8f61b87266",
+      "s": "9babb09f-3dba-4162-93e9-f17b21ca3931",
       "p": "on-failure",
-      "o": "9a6f8830-1a79-4ef8-99ef-57afca59ba4f"
+      "o": "6ba71203-3faa-4b1a-b932-ef056b2a55b7"
     }
   ],
   "tags": [
@@ -76,16 +76,16 @@
   ],
   "input_arguments": [
     {
-      "name": "module_name",
-      "type": "string",
-      "description": "Specifies a temporary module name to use. If -ModuleName is not supplied, a 16-character random temporary module name is used. A PowerShell module can have any name. Because Get-VMRemoteFXPhysicalVideoAdapter abuses module load order, a module name must be specified.",
-      "value": "foo"
-    },
-    {
       "name": "module_path",
       "type": "string",
       "description": "Specifies an alternate, non-default PowerShell module path for RemoteFXvGPUDisablement.exe. If -ModulePath is not specified, the first entry in %PSModulePath% will be used. Typically, this is %USERPROFILE%\\Documents\\WindowsPowerShell\\Modules.",
       "value": "$PWD"
+    },
+    {
+      "name": "module_name",
+      "type": "string",
+      "description": "Specifies a temporary module name to use. If -ModuleName is not supplied, a 16-character random temporary module name is used. A PowerShell module can have any name. Because Get-VMRemoteFXPhysicalVideoAdapter abuses module load order, a module name must be specified.",
+      "value": "foo"
     }
   ]
 }

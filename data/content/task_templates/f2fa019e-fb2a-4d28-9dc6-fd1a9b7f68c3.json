@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "4c6bb8d4-add6-4853-8e14-778ea8f78995",
+      "id": "e1676e6f-40d1-4517-a7a6-9486a399b7d7",
       "type": "execute-command",
       "data": {
-        "command": "kubectl create -f src/cronjob.yaml -n #{namespace}\n",
+        "command": "kubectl create -f src/cronjob.yaml -n #{namespace}",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "1caa43f0-7a19-4660-bb0d-3b3d5bdc0ed1",
+      "id": "bbd1bffd-44d8-49e3-8643-a3f5532e728d",
       "type": "execute-command",
       "data": {
-        "command": "kubectl delete cronjob art -n #{namespace}\n",
+        "command": "kubectl delete cronjob art -n #{namespace}",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "1dd812b5-3faf-4c74-b235-8adb36108061",
+      "id": "9753a3c3-cd3f-49f1-a63f-12f3e211496a",
       "name": "Check dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "which kubectl\n",
-        "command_type": ""
+        "command": "which kubectl",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "2b1e5f72-c871-455d-9b99-5ea2e5690bb9",
+      "id": "28c78012-d227-4a95-97a2-beb64b2c11d1",
       "name": "Resolve dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"kubectl must be installed manually\"\n",
-        "command_type": ""
+        "command": "echo \"kubectl must be installed manually\"",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "e01572bc-6273-4329-b54d-345af1689e6f",
+      "id": "4ce1a9c2-f11b-4cc6-9a48-7ea5a8040a30",
       "name": "Re-check dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "which kubectl\n",
-        "command_type": ""
+        "command": "which kubectl",
+        "command_type": "bash"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "4c6bb8d4-add6-4853-8e14-778ea8f78995",
+      "s": "e1676e6f-40d1-4517-a7a6-9486a399b7d7",
       "p": "on-success",
-      "o": "1caa43f0-7a19-4660-bb0d-3b3d5bdc0ed1"
+      "o": "bbd1bffd-44d8-49e3-8643-a3f5532e728d"
     },
     {
-      "s": "4c6bb8d4-add6-4853-8e14-778ea8f78995",
+      "s": "e1676e6f-40d1-4517-a7a6-9486a399b7d7",
       "p": "on-failure",
-      "o": "1caa43f0-7a19-4660-bb0d-3b3d5bdc0ed1"
+      "o": "bbd1bffd-44d8-49e3-8643-a3f5532e728d"
     },
     {
-      "s": "1dd812b5-3faf-4c74-b235-8adb36108061",
+      "s": "9753a3c3-cd3f-49f1-a63f-12f3e211496a",
       "p": "on-success",
-      "o": "4c6bb8d4-add6-4853-8e14-778ea8f78995"
+      "o": "e1676e6f-40d1-4517-a7a6-9486a399b7d7"
     },
     {
-      "s": "1dd812b5-3faf-4c74-b235-8adb36108061",
+      "s": "9753a3c3-cd3f-49f1-a63f-12f3e211496a",
       "p": "on-failure",
-      "o": "2b1e5f72-c871-455d-9b99-5ea2e5690bb9"
+      "o": "28c78012-d227-4a95-97a2-beb64b2c11d1"
     },
     {
-      "s": "2b1e5f72-c871-455d-9b99-5ea2e5690bb9",
+      "s": "28c78012-d227-4a95-97a2-beb64b2c11d1",
       "p": "on-success",
-      "o": "e01572bc-6273-4329-b54d-345af1689e6f"
+      "o": "4ce1a9c2-f11b-4cc6-9a48-7ea5a8040a30"
     },
     {
-      "s": "e01572bc-6273-4329-b54d-345af1689e6f",
+      "s": "4ce1a9c2-f11b-4cc6-9a48-7ea5a8040a30",
       "p": "on-failure",
-      "o": "4c6bb8d4-add6-4853-8e14-778ea8f78995"
+      "o": "e1676e6f-40d1-4517-a7a6-9486a399b7d7"
     }
   ],
   "tags": [

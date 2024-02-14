@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "f3a8a1b7-23ae-4620-954f-b6dd8ac6ac71",
+      "id": "6404fe60-55d3-4b66-a214-471ab223f8bf",
       "type": "execute-command",
       "data": {
-        "command": "sudo sed -i \"#{index}s,^,#{pam_rule}\\n,g\" #{path_to_pam_conf}\n",
+        "command": "sudo sed -i \"#{index}s,^,#{pam_rule}\\n,g\" #{path_to_pam_conf}",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "90ecd021-0374-4d46-93a5-9a169ccdf40a",
+      "id": "4c3e7f18-5595-42d5-8e6d-43bc791b154e",
       "type": "execute-command",
       "data": {
-        "command": "sudo sed -i \"\\,#{pam_rule},d\" #{path_to_pam_conf}\n",
+        "command": "sudo sed -i \"\\,#{pam_rule},d\" #{path_to_pam_conf}",
         "command_type": "sh"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "f3a8a1b7-23ae-4620-954f-b6dd8ac6ac71",
+      "s": "6404fe60-55d3-4b66-a214-471ab223f8bf",
       "p": "on-success",
-      "o": "90ecd021-0374-4d46-93a5-9a169ccdf40a"
+      "o": "4c3e7f18-5595-42d5-8e6d-43bc791b154e"
     },
     {
-      "s": "f3a8a1b7-23ae-4620-954f-b6dd8ac6ac71",
+      "s": "6404fe60-55d3-4b66-a214-471ab223f8bf",
       "p": "on-failure",
-      "o": "90ecd021-0374-4d46-93a5-9a169ccdf40a"
+      "o": "4c3e7f18-5595-42d5-8e6d-43bc791b154e"
     }
   ],
   "tags": [
@@ -42,12 +42,6 @@
     "T1556.003"
   ],
   "input_arguments": [
-    {
-      "name": "index",
-      "type": "integer",
-      "description": "Index where the rule is inserted.",
-      "value": "1"
-    },
     {
       "name": "path_to_pam_conf",
       "type": "string",
@@ -59,6 +53,12 @@
       "type": "string",
       "description": "Rule to add to the PAM config.",
       "value": "auth sufficient pam_succeed_if.so uid \u003e= 0"
+    },
+    {
+      "name": "index",
+      "type": "integer",
+      "description": "Index where the rule is inserted.",
+      "value": "1"
     }
   ]
 }

@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "9ef02f1b-487c-4730-b6ea-152ce3fe3e03",
+      "id": "2994e5ed-7985-45aa-9abb-b2c5d57d9b92",
       "type": "execute-command",
       "data": {
-        "command": "New-Item \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\\AtomicRedTeam\" -Force\nSet-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\\AtomicRedTeam\" \"DllName\" \"#{binary_to_execute}\" -Type ExpandString -Force\nSet-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\\AtomicRedTeam\" \"Logon\" \"#{function_to_execute}\" -Force\nSet-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\\AtomicRedTeam\" \"Impersonate\" 1 -Type DWord -Force\nSet-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\\AtomicRedTeam\" \"Asynchronous\" 0 -Type DWord -Force\n",
+        "command": "New-Item \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\\AtomicRedTeam\" -Force\nSet-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\\AtomicRedTeam\" \"DllName\" \"#{binary_to_execute}\" -Type ExpandString -Force\nSet-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\\AtomicRedTeam\" \"Logon\" \"#{function_to_execute}\" -Force\nSet-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\\AtomicRedTeam\" \"Impersonate\" 1 -Type DWord -Force\nSet-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\\AtomicRedTeam\" \"Asynchronous\" 0 -Type DWord -Force",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "7944b2bf-6866-45a3-b210-2b51107d410c",
+      "id": "959de108-4601-4d7b-841d-09c5756da8c9",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\" -Force -ErrorAction Ignore\n",
+        "command": "Remove-Item \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\" -Force -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "9ef02f1b-487c-4730-b6ea-152ce3fe3e03",
+      "s": "2994e5ed-7985-45aa-9abb-b2c5d57d9b92",
       "p": "on-success",
-      "o": "7944b2bf-6866-45a3-b210-2b51107d410c"
+      "o": "959de108-4601-4d7b-841d-09c5756da8c9"
     },
     {
-      "s": "9ef02f1b-487c-4730-b6ea-152ce3fe3e03",
+      "s": "2994e5ed-7985-45aa-9abb-b2c5d57d9b92",
       "p": "on-failure",
-      "o": "7944b2bf-6866-45a3-b210-2b51107d410c"
+      "o": "959de108-4601-4d7b-841d-09c5756da8c9"
     }
   ],
   "tags": [

@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "d5910889-556a-4581-9084-355639a2d068",
+      "id": "14f5d273-0133-41be-8305-43fa402c496a",
       "type": "execute-command",
       "data": {
-        "command": "aws logs create-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Created ***\"\naws logs delete-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Deleted ***\"\n",
+        "command": "aws logs create-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Created ***\"\naws logs delete-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Deleted ***\"",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "ad1c7059-89fa-47f8-be15-a43b90bf6f85",
+      "id": "d785dac3-b840-47b0-ac40-e8c624dfac28",
       "name": "Check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "cat ~/.aws/credentials | grep \"default\"\n",
-        "command_type": ""
+        "command": "cat ~/.aws/credentials | grep \"default\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "a55bcc38-c0a7-40b5-848c-56eb80664eeb",
+      "id": "23b56be5-563b-4afd-98c9-df2dd6f62b2f",
       "name": "Resolve dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "echo Please install the aws-cli and configure your AWS defult profile using: aws configure\n",
-        "command_type": ""
+        "command": "echo Please install the aws-cli and configure your AWS defult profile using: aws configure",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "d7dcb272-412b-4510-ae24-c0027cafb6f9",
+      "id": "fd73604d-1d8f-45a9-92b8-0e03b5908c39",
       "name": "Re-check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "cat ~/.aws/credentials | grep \"default\"\n",
-        "command_type": ""
+        "command": "cat ~/.aws/credentials | grep \"default\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "ad1c7059-89fa-47f8-be15-a43b90bf6f85",
+      "s": "d785dac3-b840-47b0-ac40-e8c624dfac28",
       "p": "on-success",
-      "o": "d5910889-556a-4581-9084-355639a2d068"
+      "o": "14f5d273-0133-41be-8305-43fa402c496a"
     },
     {
-      "s": "ad1c7059-89fa-47f8-be15-a43b90bf6f85",
+      "s": "d785dac3-b840-47b0-ac40-e8c624dfac28",
       "p": "on-failure",
-      "o": "a55bcc38-c0a7-40b5-848c-56eb80664eeb"
+      "o": "23b56be5-563b-4afd-98c9-df2dd6f62b2f"
     },
     {
-      "s": "a55bcc38-c0a7-40b5-848c-56eb80664eeb",
+      "s": "23b56be5-563b-4afd-98c9-df2dd6f62b2f",
       "p": "on-success",
-      "o": "d7dcb272-412b-4510-ae24-c0027cafb6f9"
+      "o": "fd73604d-1d8f-45a9-92b8-0e03b5908c39"
     },
     {
-      "s": "d7dcb272-412b-4510-ae24-c0027cafb6f9",
+      "s": "fd73604d-1d8f-45a9-92b8-0e03b5908c39",
       "p": "on-failure",
-      "o": "d5910889-556a-4581-9084-355639a2d068"
+      "o": "14f5d273-0133-41be-8305-43fa402c496a"
     }
   ],
   "tags": [
@@ -77,16 +77,16 @@
   ],
   "input_arguments": [
     {
-      "name": "cloudwatch_log_group_name",
-      "type": "string",
-      "description": "Name of the cloudWatch log group",
-      "value": "log-test"
-    },
-    {
       "name": "region",
       "type": "string",
       "description": "Name of the region",
       "value": "us-east-1"
+    },
+    {
+      "name": "cloudwatch_log_group_name",
+      "type": "string",
+      "description": "Name of the cloudWatch log group",
+      "value": "log-test"
     }
   ]
 }

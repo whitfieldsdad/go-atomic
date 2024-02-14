@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "65103cff-dcbf-4d33-ae53-664e09369319",
+      "id": "30ba12c2-38e3-4bb3-beb4-0bab4b27b397",
       "type": "execute-command",
       "data": {
-        "command": "wmic /node:\"#{target_host}\" shadowcopy call create Volume=#{drive_letter}\n",
+        "command": "wmic /node:\"#{target_host}\" shadowcopy call create Volume=#{drive_letter}",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "5529259c-dc6c-480f-b7ce-3b75262527c0",
+      "id": "9c959450-3c5c-46de-b2a9-e80428a7ad00",
       "name": "Check dependency 1/1",
       "description": "Target must be a reachable Domain Controller, and current context must be domain admin\n",
       "type": "execute-command",
       "data": {
-        "command": "wmic /node:\"#{target_host}\" shadowcopy list brief\n",
-        "command_type": ""
+        "command": "wmic /node:\"#{target_host}\" shadowcopy list brief",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "a9c48484-293e-4f22-8fa3-0fbcde804653",
+      "id": "e2dca3aa-b3c2-485a-9b8b-b75c1eea7407",
       "name": "Resolve dependency 1/1",
       "description": "Target must be a reachable Domain Controller, and current context must be domain admin\n",
       "type": "execute-command",
       "data": {
-        "command": "echo Sorry, can't connect to target host, check: network, firewall or permissions (must be admin on target)\n",
-        "command_type": ""
+        "command": "echo Sorry, can't connect to target host, check: network, firewall or permissions (must be admin on target)",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "057c69eb-c6d2-4c31-8b25-60c06f0ff511",
+      "id": "0e07b8cf-cbe0-44ba-9171-20aac5b34892",
       "name": "Re-check dependency 1/1",
       "description": "Target must be a reachable Domain Controller, and current context must be domain admin\n",
       "type": "execute-command",
       "data": {
-        "command": "wmic /node:\"#{target_host}\" shadowcopy list brief\n",
-        "command_type": ""
+        "command": "wmic /node:\"#{target_host}\" shadowcopy list brief",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "5529259c-dc6c-480f-b7ce-3b75262527c0",
+      "s": "9c959450-3c5c-46de-b2a9-e80428a7ad00",
       "p": "on-success",
-      "o": "65103cff-dcbf-4d33-ae53-664e09369319"
+      "o": "30ba12c2-38e3-4bb3-beb4-0bab4b27b397"
     },
     {
-      "s": "5529259c-dc6c-480f-b7ce-3b75262527c0",
+      "s": "9c959450-3c5c-46de-b2a9-e80428a7ad00",
       "p": "on-failure",
-      "o": "a9c48484-293e-4f22-8fa3-0fbcde804653"
+      "o": "e2dca3aa-b3c2-485a-9b8b-b75c1eea7407"
     },
     {
-      "s": "a9c48484-293e-4f22-8fa3-0fbcde804653",
+      "s": "e2dca3aa-b3c2-485a-9b8b-b75c1eea7407",
       "p": "on-success",
-      "o": "057c69eb-c6d2-4c31-8b25-60c06f0ff511"
+      "o": "0e07b8cf-cbe0-44ba-9171-20aac5b34892"
     },
     {
-      "s": "057c69eb-c6d2-4c31-8b25-60c06f0ff511",
+      "s": "0e07b8cf-cbe0-44ba-9171-20aac5b34892",
       "p": "on-failure",
-      "o": "65103cff-dcbf-4d33-ae53-664e09369319"
+      "o": "30ba12c2-38e3-4bb3-beb4-0bab4b27b397"
     }
   ],
   "tags": [

@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "f9a597c3-bace-43d0-a433-c60e55424730",
+      "id": "5a4bf9be-1994-4d2a-829f-0031556878f7",
       "type": "execute-command",
       "data": {
-        "command": "systemd-run --unit=Atomic-Red-Team --on-calendar '*:0/1' /bin/sh -c 'echo \"$(date) $(whoami)\" \u003e\u003e/tmp/log'\n",
+        "command": "systemd-run --unit=Atomic-Red-Team --on-calendar '*:0/1' /bin/sh -c 'echo \"$(date) $(whoami)\" \u003e\u003e/tmp/log'",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "7dbb02e6-5def-449b-bb05-db28818a59e3",
+      "id": "c3caf782-ce97-49fe-adf7-38a6c7621ed7",
       "type": "execute-command",
       "data": {
-        "command": "systemctl stop Atomic-Red-Team.service\nsystemctl stop Atomic-Red-Team.timer\nrm /tmp/log\n",
+        "command": "systemctl stop Atomic-Red-Team.service\nsystemctl stop Atomic-Red-Team.timer\nrm /tmp/log",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "cd52b5a2-ada6-43b2-891c-9c97875ae5e5",
+      "id": "e611862f-3f1b-443e-8775-713b57d09b94",
       "name": "Check dependency 1/1",
       "description": "Check if systemd-run exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v systemd-run)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v systemd-run)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "bbdbacbd-2734-477d-9d64-f9a80b1b5028",
+      "id": "f36123ae-7243-4186-a8d5-1eb4474c529f",
       "name": "Resolve dependency 1/1",
       "description": "Check if systemd-run exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"Install systemd on the machine.\"; exit 1;\n",
-        "command_type": ""
+        "command": "echo \"Install systemd on the machine.\"; exit 1;",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "43550832-f14a-4bac-b460-c90b2eeef8cb",
+      "id": "1d7fbb3a-8115-4003-8f0e-4a805e5a9d7f",
       "name": "Re-check dependency 1/1",
       "description": "Check if systemd-run exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v systemd-run)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v systemd-run)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "f9a597c3-bace-43d0-a433-c60e55424730",
+      "s": "5a4bf9be-1994-4d2a-829f-0031556878f7",
       "p": "on-success",
-      "o": "7dbb02e6-5def-449b-bb05-db28818a59e3"
+      "o": "c3caf782-ce97-49fe-adf7-38a6c7621ed7"
     },
     {
-      "s": "f9a597c3-bace-43d0-a433-c60e55424730",
+      "s": "5a4bf9be-1994-4d2a-829f-0031556878f7",
       "p": "on-failure",
-      "o": "7dbb02e6-5def-449b-bb05-db28818a59e3"
+      "o": "c3caf782-ce97-49fe-adf7-38a6c7621ed7"
     },
     {
-      "s": "cd52b5a2-ada6-43b2-891c-9c97875ae5e5",
+      "s": "e611862f-3f1b-443e-8775-713b57d09b94",
       "p": "on-success",
-      "o": "f9a597c3-bace-43d0-a433-c60e55424730"
+      "o": "5a4bf9be-1994-4d2a-829f-0031556878f7"
     },
     {
-      "s": "cd52b5a2-ada6-43b2-891c-9c97875ae5e5",
+      "s": "e611862f-3f1b-443e-8775-713b57d09b94",
       "p": "on-failure",
-      "o": "bbdbacbd-2734-477d-9d64-f9a80b1b5028"
+      "o": "f36123ae-7243-4186-a8d5-1eb4474c529f"
     },
     {
-      "s": "bbdbacbd-2734-477d-9d64-f9a80b1b5028",
+      "s": "f36123ae-7243-4186-a8d5-1eb4474c529f",
       "p": "on-success",
-      "o": "43550832-f14a-4bac-b460-c90b2eeef8cb"
+      "o": "1d7fbb3a-8115-4003-8f0e-4a805e5a9d7f"
     },
     {
-      "s": "43550832-f14a-4bac-b460-c90b2eeef8cb",
+      "s": "1d7fbb3a-8115-4003-8f0e-4a805e5a9d7f",
       "p": "on-failure",
-      "o": "f9a597c3-bace-43d0-a433-c60e55424730"
+      "o": "5a4bf9be-1994-4d2a-829f-0031556878f7"
     }
   ],
   "tags": [

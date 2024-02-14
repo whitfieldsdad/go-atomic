@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "4fdba7cc-30ec-4edc-95bd-a99bb6015044",
+      "id": "2be2c662-44c2-48d7-a006-0607788ae7dc",
       "type": "execute-command",
       "data": {
-        "command": "$url = 'https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1566.001/bin/PhishingAttachment.xlsm'\n[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nInvoke-WebRequest -Uri $url -OutFile $env:TEMP\\PhishingAttachment.xlsm\n",
+        "command": "$url = 'https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1566.001/bin/PhishingAttachment.xlsm'\n[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nInvoke-WebRequest -Uri $url -OutFile $env:TEMP\\PhishingAttachment.xlsm",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "161e34e3-4e68-4c7b-9b6f-ec1926271856",
+      "id": "338e9c92-c557-4386-ba7b-95413c1467fd",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item $env:TEMP\\PhishingAttachment.xlsm -ErrorAction Ignore\n",
+        "command": "Remove-Item $env:TEMP\\PhishingAttachment.xlsm -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "4fdba7cc-30ec-4edc-95bd-a99bb6015044",
+      "s": "2be2c662-44c2-48d7-a006-0607788ae7dc",
       "p": "on-success",
-      "o": "161e34e3-4e68-4c7b-9b6f-ec1926271856"
+      "o": "338e9c92-c557-4386-ba7b-95413c1467fd"
     },
     {
-      "s": "4fdba7cc-30ec-4edc-95bd-a99bb6015044",
+      "s": "2be2c662-44c2-48d7-a006-0607788ae7dc",
       "p": "on-failure",
-      "o": "161e34e3-4e68-4c7b-9b6f-ec1926271856"
+      "o": "338e9c92-c557-4386-ba7b-95413c1467fd"
     }
   ],
   "tags": [

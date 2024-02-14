@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "9f7dabc3-e8cd-441a-a681-f1c7645c129c",
+      "id": "213240ea-66a0-4a87-96fe-e2f6179066f5",
       "type": "execute-command",
       "data": {
-        "command": "echo \"dn: CN=Admin User,CN=Users,DC=#{domain},DC=#{top_level_domain}\\nchangetype: add\\nobjectClass: top\\nobjectClass: person\\nobjectClass: organizationalPerson\\nobjectClass: user\\ncn: Admin User\\nsn: User\\ngivenName: Atomic User\\nuserPrincipalName: adminuser@#{domain}.#{top_level_domain}\\nsAMAccountName: adminuser\\nuserAccountControl: 512\\nuserPassword: {CLEARTEXT}s3CureP4ssword123!\\nmemberOf: CN=Domain Admins,CN=Users,DC=#{domain},DC=#{top_level_domain}\" \u003e tempadmin.ldif\necho ldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif\nldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif\n",
+        "command": "echo \"dn: CN=Admin User,CN=Users,DC=#{domain},DC=#{top_level_domain}\\nchangetype: add\\nobjectClass: top\\nobjectClass: person\\nobjectClass: organizationalPerson\\nobjectClass: user\\ncn: Admin User\\nsn: User\\ngivenName: Atomic User\\nuserPrincipalName: adminuser@#{domain}.#{top_level_domain}\\nsAMAccountName: adminuser\\nuserAccountControl: 512\\nuserPassword: {CLEARTEXT}s3CureP4ssword123!\\nmemberOf: CN=Domain Admins,CN=Users,DC=#{domain},DC=#{top_level_domain}\" \u003e tempadmin.ldif\necho ldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif\nldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "7a17ca75-8dd9-4556-a5b8-ed50bf6ceb09",
+      "id": "2834220e-4cfe-494a-bf9d-10fd95af28a7",
       "type": "execute-command",
       "data": {
-        "command": "echo removing Atomic User (temporary user)\necho \"dn: cn=Atomic User,cn=Users,dc=scwxscratch,dc=dev\\nchangetype: delete\" \u003e deleteuser.ldif\nldapmodify -H ldap://#{domain_controller}:389 -x -D #{admin_user} -w #{admin_password} -f deleteuser.ldif\nrm deleteuser.ldif\nrm tempadmin.ldif\n",
+        "command": "echo removing Atomic User (temporary user)\necho \"dn: cn=Atomic User,cn=Users,dc=scwxscratch,dc=dev\\nchangetype: delete\" \u003e deleteuser.ldif\nldapmodify -H ldap://#{domain_controller}:389 -x -D #{admin_user} -w #{admin_password} -f deleteuser.ldif\nrm deleteuser.ldif\nrm tempadmin.ldif",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "c07e7b23-efc1-457c-8b5d-2b324b59a283",
+      "id": "25ebdb39-4e4f-4db7-a5c6-1e29ef09ecf2",
       "name": "Check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available\n",
       "type": "execute-command",
       "data": {
-        "command": "which ldapadd \u0026\u0026 which ldapmodify\n",
-        "command_type": ""
+        "command": "which ldapadd \u0026\u0026 which ldapmodify",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "b7213f94-76d6-4d5b-bc4a-4986e92acf36",
+      "id": "bfb3f57e-509d-442d-b446-1399e9093a29",
       "name": "Resolve dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available\n",
       "type": "execute-command",
       "data": {
-        "command": "echo ldapadd or ldapmodify not found; exit 1\n",
-        "command_type": ""
+        "command": "echo ldapadd or ldapmodify not found; exit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "4e9f3675-e543-4b3f-b319-75448c84e8f2",
+      "id": "c4d0f3cd-f01c-4f93-8139-51ffe2aa3ce7",
       "name": "Re-check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available\n",
       "type": "execute-command",
       "data": {
-        "command": "which ldapadd \u0026\u0026 which ldapmodify\n",
-        "command_type": ""
+        "command": "which ldapadd \u0026\u0026 which ldapmodify",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "9f7dabc3-e8cd-441a-a681-f1c7645c129c",
+      "s": "213240ea-66a0-4a87-96fe-e2f6179066f5",
       "p": "on-success",
-      "o": "7a17ca75-8dd9-4556-a5b8-ed50bf6ceb09"
+      "o": "2834220e-4cfe-494a-bf9d-10fd95af28a7"
     },
     {
-      "s": "9f7dabc3-e8cd-441a-a681-f1c7645c129c",
+      "s": "213240ea-66a0-4a87-96fe-e2f6179066f5",
       "p": "on-failure",
-      "o": "7a17ca75-8dd9-4556-a5b8-ed50bf6ceb09"
+      "o": "2834220e-4cfe-494a-bf9d-10fd95af28a7"
     },
     {
-      "s": "c07e7b23-efc1-457c-8b5d-2b324b59a283",
+      "s": "25ebdb39-4e4f-4db7-a5c6-1e29ef09ecf2",
       "p": "on-success",
-      "o": "9f7dabc3-e8cd-441a-a681-f1c7645c129c"
+      "o": "213240ea-66a0-4a87-96fe-e2f6179066f5"
     },
     {
-      "s": "c07e7b23-efc1-457c-8b5d-2b324b59a283",
+      "s": "25ebdb39-4e4f-4db7-a5c6-1e29ef09ecf2",
       "p": "on-failure",
-      "o": "b7213f94-76d6-4d5b-bc4a-4986e92acf36"
+      "o": "bfb3f57e-509d-442d-b446-1399e9093a29"
     },
     {
-      "s": "b7213f94-76d6-4d5b-bc4a-4986e92acf36",
+      "s": "bfb3f57e-509d-442d-b446-1399e9093a29",
       "p": "on-success",
-      "o": "4e9f3675-e543-4b3f-b319-75448c84e8f2"
+      "o": "c4d0f3cd-f01c-4f93-8139-51ffe2aa3ce7"
     },
     {
-      "s": "4e9f3675-e543-4b3f-b319-75448c84e8f2",
+      "s": "c4d0f3cd-f01c-4f93-8139-51ffe2aa3ce7",
       "p": "on-failure",
-      "o": "9f7dabc3-e8cd-441a-a681-f1c7645c129c"
+      "o": "213240ea-66a0-4a87-96fe-e2f6179066f5"
     }
   ],
   "tags": [

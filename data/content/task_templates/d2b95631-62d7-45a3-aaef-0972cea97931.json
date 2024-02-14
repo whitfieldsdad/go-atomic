@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "d30d007d-eb48-407f-9819-b231bb642dd8",
+      "id": "01f9f1df-f0ad-4ca8-b41d-6226359802d7",
       "type": "execute-command",
       "data": {
-        "command": "useradd --shell /bin/bash --create-home --password $(openssl passwd -1 art) art\nusermod --lock art\nusermod --expiredate \"1\" art\nusermod --unlock art\nusermod --expiredate \"99999\" art\nsu art\nwhoami\nexit\n",
+        "command": "useradd --shell /bin/bash --create-home --password $(openssl passwd -1 art) art\nusermod --lock art\nusermod --expiredate \"1\" art\nusermod --unlock art\nusermod --expiredate \"99999\" art\nsu art\nwhoami\nexit",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "e37f332c-c37c-488b-beb7-b0709230863d",
+      "id": "c4d8dea7-cd88-48e2-9cd8-1c4f2e9b1808",
       "type": "execute-command",
       "data": {
-        "command": "userdel -r art \n",
+        "command": "userdel -r art",
         "command_type": "bash"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "d30d007d-eb48-407f-9819-b231bb642dd8",
+      "s": "01f9f1df-f0ad-4ca8-b41d-6226359802d7",
       "p": "on-success",
-      "o": "e37f332c-c37c-488b-beb7-b0709230863d"
+      "o": "c4d8dea7-cd88-48e2-9cd8-1c4f2e9b1808"
     },
     {
-      "s": "d30d007d-eb48-407f-9819-b231bb642dd8",
+      "s": "01f9f1df-f0ad-4ca8-b41d-6226359802d7",
       "p": "on-failure",
-      "o": "e37f332c-c37c-488b-beb7-b0709230863d"
+      "o": "c4d8dea7-cd88-48e2-9cd8-1c4f2e9b1808"
     }
   ],
   "tags": [

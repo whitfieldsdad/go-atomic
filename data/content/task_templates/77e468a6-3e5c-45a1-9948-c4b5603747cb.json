@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "cc02ef2c-4de6-4836-ac46-6c4575a6217c",
+      "id": "7ebb61d5-33f6-4937-9d89-3373b403e99a",
       "type": "execute-command",
       "data": {
-        "command": "smbstatus --shares\n",
+        "command": "smbstatus --shares",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "ae107d81-79ac-47d5-a4f2-2c4d15e14b05",
+      "id": "a063e64b-1397-41ad-a1dc-2be9d5bc50f6",
       "name": "Check dependency 1/1",
       "description": "Package with smbstatus (samba) must exist on device\n",
       "type": "execute-command",
       "data": {
-        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "77bc71d0-67eb-43ef-8a44-52f0a000a838",
+      "id": "7adf587b-2d96-4e74-8bf5-2664d03c0adb",
       "name": "Resolve dependency 1/1",
       "description": "Package with smbstatus (samba) must exist on device\n",
       "type": "execute-command",
       "data": {
-        "command": "#{package_installer} \n",
-        "command_type": ""
+        "command": "#{package_installer}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "aa65f052-5790-4f40-ace6-6518acaebd6f",
+      "id": "3480771e-0a8d-4f00-a88a-f420f85cba29",
       "name": "Re-check dependency 1/1",
       "description": "Package with smbstatus (samba) must exist on device\n",
       "type": "execute-command",
       "data": {
-        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "ae107d81-79ac-47d5-a4f2-2c4d15e14b05",
+      "s": "a063e64b-1397-41ad-a1dc-2be9d5bc50f6",
       "p": "on-success",
-      "o": "cc02ef2c-4de6-4836-ac46-6c4575a6217c"
+      "o": "7ebb61d5-33f6-4937-9d89-3373b403e99a"
     },
     {
-      "s": "ae107d81-79ac-47d5-a4f2-2c4d15e14b05",
+      "s": "a063e64b-1397-41ad-a1dc-2be9d5bc50f6",
       "p": "on-failure",
-      "o": "77bc71d0-67eb-43ef-8a44-52f0a000a838"
+      "o": "7adf587b-2d96-4e74-8bf5-2664d03c0adb"
     },
     {
-      "s": "77bc71d0-67eb-43ef-8a44-52f0a000a838",
+      "s": "7adf587b-2d96-4e74-8bf5-2664d03c0adb",
       "p": "on-success",
-      "o": "aa65f052-5790-4f40-ace6-6518acaebd6f"
+      "o": "3480771e-0a8d-4f00-a88a-f420f85cba29"
     },
     {
-      "s": "aa65f052-5790-4f40-ace6-6518acaebd6f",
+      "s": "3480771e-0a8d-4f00-a88a-f420f85cba29",
       "p": "on-failure",
-      "o": "cc02ef2c-4de6-4836-ac46-6c4575a6217c"
+      "o": "7ebb61d5-33f6-4937-9d89-3373b403e99a"
     }
   ],
   "tags": [
@@ -76,16 +76,16 @@
   ],
   "input_arguments": [
     {
-      "name": "package_installer",
-      "type": "string",
-      "description": "Package installer command. pkg install -y samba413",
-      "value": "(which pkg \u0026\u0026 pkg install -y samba413)"
-    },
-    {
       "name": "package_checker",
       "type": "string",
       "description": "Package checking command. pkg info -x samba",
       "value": "(pkg info -x samba \u0026\u003e/dev/null)"
+    },
+    {
+      "name": "package_installer",
+      "type": "string",
+      "description": "Package installer command. pkg install -y samba413",
+      "value": "(which pkg \u0026\u0026 pkg install -y samba413)"
     }
   ]
 }

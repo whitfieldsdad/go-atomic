@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "456ffc91-a1c5-4372-98a7-3e4bd6e9942a",
+      "id": "4b46f0a9-025d-4d82-bc8f-70bf02c4ea87",
       "type": "execute-command",
       "data": {
-        "command": "pw useradd #{username} -g 0 -d /root -s /bin/sh\necho \"#{password}\" | pw usermod #{username} -h 0\n",
+        "command": "pw useradd #{username} -g 0 -d /root -s /bin/sh\necho \"#{password}\" | pw usermod #{username} -h 0",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "daa308a6-93ed-45ff-90c4-93b3f876540f",
+      "id": "7085f86a-2bcf-4cef-ad32-0af2e3e8457d",
       "type": "execute-command",
       "data": {
-        "command": "pw userdel #{username}\n",
+        "command": "pw userdel #{username}",
         "command_type": "sh"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "456ffc91-a1c5-4372-98a7-3e4bd6e9942a",
+      "s": "4b46f0a9-025d-4d82-bc8f-70bf02c4ea87",
       "p": "on-success",
-      "o": "daa308a6-93ed-45ff-90c4-93b3f876540f"
+      "o": "7085f86a-2bcf-4cef-ad32-0af2e3e8457d"
     },
     {
-      "s": "456ffc91-a1c5-4372-98a7-3e4bd6e9942a",
+      "s": "4b46f0a9-025d-4d82-bc8f-70bf02c4ea87",
       "p": "on-failure",
-      "o": "daa308a6-93ed-45ff-90c4-93b3f876540f"
+      "o": "7085f86a-2bcf-4cef-ad32-0af2e3e8457d"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "username",
-      "type": "string",
-      "description": "Username of the user to create",
-      "value": "butter"
-    },
-    {
       "name": "password",
       "type": "string",
       "description": "Password of the user to create",
       "value": "BetterWithButter"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username of the user to create",
+      "value": "butter"
     }
   ]
 }

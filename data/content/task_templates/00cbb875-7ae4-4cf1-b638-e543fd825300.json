@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "2770b443-eea9-4763-8746-f31bfbd507dd",
+      "id": "0bec8748-a82e-4231-ab95-b76536076ada",
       "type": "execute-command",
       "data": {
-        "command": "cd $HOME\ncurl -O #{remote_url}/art\ncurl -O #{remote_url}/gta.db\ncurl -O #{remote_url}/sqlite_dump.sh\nchmod +x sqlite_dump.sh\nfind . ! -executable -exec bash -c 'if [[ \"$(head -c 15 {} | strings)\" == \"SQLite format 3\" ]]; then echo \"{}\"; ./sqlite_dump.sh {}; fi' \\;\n",
+        "command": "cd $HOME\ncurl -O #{remote_url}/art\ncurl -O #{remote_url}/gta.db\ncurl -O #{remote_url}/sqlite_dump.sh\nchmod +x sqlite_dump.sh\nfind . ! -executable -exec bash -c 'if [[ \"$(head -c 15 {} | strings)\" == \"SQLite format 3\" ]]; then echo \"{}\"; ./sqlite_dump.sh {}; fi' \\;",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "87af4a0d-4824-49c5-a094-6e933e4aa559",
+      "id": "11c86c3d-74b5-4756-a2e7-fc9aab38fb45",
       "type": "execute-command",
       "data": {
-        "command": "rm -f $HOME/.art\nrm -f $HOME/gta.db\nrm -f $HOME/sqlite_dump.sh \n",
+        "command": "rm -f $HOME/.art\nrm -f $HOME/gta.db\nrm -f $HOME/sqlite_dump.sh",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "43bb9680-679e-4ac6-8823-6f0853ea68bb",
+      "id": "b498d48a-9854-4d96-8dd2-50a042e525bb",
       "name": "Check dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v sqlite3)\" ]; then echo \"sqlite3 is installed\"; else echo \"sqlite3 is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v strings)\" ]; then echo \"strings is installed\"; else echo \"strings is NOT installed\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v sqlite3)\" ]; then echo \"sqlite3 is installed\"; else echo \"sqlite3 is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v strings)\" ]; then echo \"strings is installed\"; else echo \"strings is NOT installed\"; exit 1; fi",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "d2b28eeb-d832-4c17-ab36-fa3d4767a5ca",
+      "id": "a5ab43c5-0e29-436e-a47d-03c77079cbf8",
       "name": "Resolve dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if grep -iq \"debian\\|ubuntu\\|kali\\|mint\" /usr/lib/os-release; then apt update \u0026\u0026 apt install -y binutils curl sqlite3; fi\nif grep -iq \"rhel\\|fedora\\|centos\" /usr/lib/os-release; then yum update -y \u0026\u0026 yum install -y binutils curl sqlite-devel; fi\n",
-        "command_type": ""
+        "command": "if grep -iq \"debian\\|ubuntu\\|kali\\|mint\" /usr/lib/os-release; then apt update \u0026\u0026 apt install -y binutils curl sqlite3; fi\nif grep -iq \"rhel\\|fedora\\|centos\" /usr/lib/os-release; then yum update -y \u0026\u0026 yum install -y binutils curl sqlite-devel; fi",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "0f682259-0e99-42b7-96ba-1ad594e38285",
+      "id": "7e3b8fc9-6d6e-43c1-bc94-8b4d8a2b2859",
       "name": "Re-check dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v sqlite3)\" ]; then echo \"sqlite3 is installed\"; else echo \"sqlite3 is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v strings)\" ]; then echo \"strings is installed\"; else echo \"strings is NOT installed\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v sqlite3)\" ]; then echo \"sqlite3 is installed\"; else echo \"sqlite3 is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v strings)\" ]; then echo \"strings is installed\"; else echo \"strings is NOT installed\"; exit 1; fi",
+        "command_type": "bash"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "2770b443-eea9-4763-8746-f31bfbd507dd",
+      "s": "0bec8748-a82e-4231-ab95-b76536076ada",
       "p": "on-success",
-      "o": "87af4a0d-4824-49c5-a094-6e933e4aa559"
+      "o": "11c86c3d-74b5-4756-a2e7-fc9aab38fb45"
     },
     {
-      "s": "2770b443-eea9-4763-8746-f31bfbd507dd",
+      "s": "0bec8748-a82e-4231-ab95-b76536076ada",
       "p": "on-failure",
-      "o": "87af4a0d-4824-49c5-a094-6e933e4aa559"
+      "o": "11c86c3d-74b5-4756-a2e7-fc9aab38fb45"
     },
     {
-      "s": "43bb9680-679e-4ac6-8823-6f0853ea68bb",
+      "s": "b498d48a-9854-4d96-8dd2-50a042e525bb",
       "p": "on-success",
-      "o": "2770b443-eea9-4763-8746-f31bfbd507dd"
+      "o": "0bec8748-a82e-4231-ab95-b76536076ada"
     },
     {
-      "s": "43bb9680-679e-4ac6-8823-6f0853ea68bb",
+      "s": "b498d48a-9854-4d96-8dd2-50a042e525bb",
       "p": "on-failure",
-      "o": "d2b28eeb-d832-4c17-ab36-fa3d4767a5ca"
+      "o": "a5ab43c5-0e29-436e-a47d-03c77079cbf8"
     },
     {
-      "s": "d2b28eeb-d832-4c17-ab36-fa3d4767a5ca",
+      "s": "a5ab43c5-0e29-436e-a47d-03c77079cbf8",
       "p": "on-success",
-      "o": "0f682259-0e99-42b7-96ba-1ad594e38285"
+      "o": "7e3b8fc9-6d6e-43c1-bc94-8b4d8a2b2859"
     },
     {
-      "s": "0f682259-0e99-42b7-96ba-1ad594e38285",
+      "s": "7e3b8fc9-6d6e-43c1-bc94-8b4d8a2b2859",
       "p": "on-failure",
-      "o": "2770b443-eea9-4763-8746-f31bfbd507dd"
+      "o": "0bec8748-a82e-4231-ab95-b76536076ada"
     }
   ],
   "tags": [

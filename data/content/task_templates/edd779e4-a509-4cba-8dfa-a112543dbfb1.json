@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "15a2196a-1b82-447a-bad1-baa47057d1ad",
+      "id": "3c9165eb-e1cb-4847-9718-08d85deffb72",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item -Path #{folder_to_delete} -Recurse\n",
+        "command": "Remove-Item -Path #{folder_to_delete} -Recurse",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "fe0f8d8f-1553-4b9b-9732-ddbc96ffd5d9",
+      "id": "5ff7bcd4-7b3d-4325-86dc-30e8bdeb7995",
       "name": "Check dependency 1/1",
       "description": "The folder to delete must exist on disk at specified location (#{folder_to_delete})\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path #{folder_to_delete}) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path #{folder_to_delete}) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "94a9219a-6598-4928-b6cd-5a2ab50640e7",
+      "id": "21d801ed-92dd-4073-a4b0-c73ec0e5d262",
       "name": "Resolve dependency 1/1",
       "description": "The folder to delete must exist on disk at specified location (#{folder_to_delete})\n",
       "type": "execute-command",
       "data": {
-        "command": "New-Item -Path #{folder_to_delete} -Type Directory | Out-Null\n",
-        "command_type": ""
+        "command": "New-Item -Path #{folder_to_delete} -Type Directory | Out-Null",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "39efb278-3b56-4064-a9ca-a927c212dbdd",
+      "id": "03a96b92-4975-4ccc-abff-50030d3186cf",
       "name": "Re-check dependency 1/1",
       "description": "The folder to delete must exist on disk at specified location (#{folder_to_delete})\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path #{folder_to_delete}) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path #{folder_to_delete}) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "fe0f8d8f-1553-4b9b-9732-ddbc96ffd5d9",
+      "s": "5ff7bcd4-7b3d-4325-86dc-30e8bdeb7995",
       "p": "on-success",
-      "o": "15a2196a-1b82-447a-bad1-baa47057d1ad"
+      "o": "3c9165eb-e1cb-4847-9718-08d85deffb72"
     },
     {
-      "s": "fe0f8d8f-1553-4b9b-9732-ddbc96ffd5d9",
+      "s": "5ff7bcd4-7b3d-4325-86dc-30e8bdeb7995",
       "p": "on-failure",
-      "o": "94a9219a-6598-4928-b6cd-5a2ab50640e7"
+      "o": "21d801ed-92dd-4073-a4b0-c73ec0e5d262"
     },
     {
-      "s": "94a9219a-6598-4928-b6cd-5a2ab50640e7",
+      "s": "21d801ed-92dd-4073-a4b0-c73ec0e5d262",
       "p": "on-success",
-      "o": "39efb278-3b56-4064-a9ca-a927c212dbdd"
+      "o": "03a96b92-4975-4ccc-abff-50030d3186cf"
     },
     {
-      "s": "39efb278-3b56-4064-a9ca-a927c212dbdd",
+      "s": "03a96b92-4975-4ccc-abff-50030d3186cf",
       "p": "on-failure",
-      "o": "15a2196a-1b82-447a-bad1-baa47057d1ad"
+      "o": "3c9165eb-e1cb-4847-9718-08d85deffb72"
     }
   ],
   "tags": [

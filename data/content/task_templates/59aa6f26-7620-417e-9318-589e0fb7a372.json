@@ -7,140 +7,140 @@
   ],
   "steps": [
     {
-      "id": "54d72791-9f25-4ad1-a3bf-5060ad8c2eb0",
+      "id": "26b25083-8625-4f4c-b0b6-b52abb97e85f",
       "type": "execute-command",
       "data": {
-        "command": "docker build -t t1610 $PathtoAtomicsFolder/T1610/src/\ndocker run --name t1610_container --rm -itd t1610 bash /tmp/script.sh\n",
+        "command": "docker build -t t1610 $PathtoAtomicsFolder/T1610/src/\ndocker run --name t1610_container --rm -itd t1610 bash /tmp/script.sh",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "bbe08f4b-1791-4adb-8978-4af08e330754",
+      "id": "6c15a644-0cdb-48e3-8e4c-6d52345a250e",
       "type": "execute-command",
       "data": {
-        "command": "docker stop t1610_container\ndocker rmi -f t1610:latest \n",
+        "command": "docker stop t1610_container\ndocker rmi -f t1610:latest",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "0b39bd73-b0b2-4799-8127-99025d7ac209",
+      "id": "8cd8e5ef-8997-4bcb-892e-c2d7a7340def",
       "name": "Check dependency 1/2",
       "description": "Verify docker is installed.",
       "type": "execute-command",
       "data": {
-        "command": "which docker\n",
-        "command_type": ""
+        "command": "which docker",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "6e0a9bbc-affb-496f-a867-6bc74fc4670b",
+      "id": "10b7df20-fb90-4e0e-8e85-33c59a8940cf",
       "name": "Resolve dependency 1/2",
       "description": "Verify docker is installed.",
       "type": "execute-command",
       "data": {
-        "command": "if [ \"\" == \"`which docker`\" ]; then echo \"Docker Not Found\"; if [ -n \"`which apt-get`\" ]; then sudo apt-get -y install docker ; elif [ -n \"`which yum`\" ]; then sudo yum -y install docker ; fi ; else echo \"Docker installed\"; fi\n",
-        "command_type": ""
+        "command": "if [ \"\" == \"`which docker`\" ]; then echo \"Docker Not Found\"; if [ -n \"`which apt-get`\" ]; then sudo apt-get -y install docker ; elif [ -n \"`which yum`\" ]; then sudo yum -y install docker ; fi ; else echo \"Docker installed\"; fi",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "0b2074de-a029-41d2-b1b4-34fa1cdc28bb",
+      "id": "d19dfba9-5cfc-4b54-a855-a9c1785ce081",
       "name": "Re-check dependency 1/2",
       "description": "Verify docker is installed.",
       "type": "execute-command",
       "data": {
-        "command": "which docker\n",
-        "command_type": ""
+        "command": "which docker",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "0794a116-9082-46dc-970d-3a19cc88a711",
+      "id": "2f049d55-af5d-4237-8909-4b3c979ff4e2",
       "name": "Check dependency 2/2",
       "description": "Verify docker service is running.",
       "type": "execute-command",
       "data": {
-        "command": "sudo systemctl status docker  --no-pager\n",
-        "command_type": ""
+        "command": "sudo systemctl status docker  --no-pager",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "d66b5ad2-c17a-43a3-8c9c-5a02be296e99",
+      "id": "63e892b2-c273-4d58-93ca-e8bf4b72fba0",
       "name": "Resolve dependency 2/2",
       "description": "Verify docker service is running.",
       "type": "execute-command",
       "data": {
-        "command": "sudo systemctl start docker\n",
-        "command_type": ""
+        "command": "sudo systemctl start docker",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "672c6e09-3ba8-4ec7-9d91-c37afe43bc0a",
+      "id": "747991cf-20de-452b-99ab-f961cba279fd",
       "name": "Re-check dependency 2/2",
       "description": "Verify docker service is running.",
       "type": "execute-command",
       "data": {
-        "command": "sudo systemctl status docker  --no-pager\n",
-        "command_type": ""
+        "command": "sudo systemctl status docker  --no-pager",
+        "command_type": "bash"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "54d72791-9f25-4ad1-a3bf-5060ad8c2eb0",
+      "s": "26b25083-8625-4f4c-b0b6-b52abb97e85f",
       "p": "on-success",
-      "o": "bbe08f4b-1791-4adb-8978-4af08e330754"
+      "o": "6c15a644-0cdb-48e3-8e4c-6d52345a250e"
     },
     {
-      "s": "54d72791-9f25-4ad1-a3bf-5060ad8c2eb0",
+      "s": "26b25083-8625-4f4c-b0b6-b52abb97e85f",
       "p": "on-failure",
-      "o": "bbe08f4b-1791-4adb-8978-4af08e330754"
+      "o": "6c15a644-0cdb-48e3-8e4c-6d52345a250e"
     },
     {
-      "s": "0b39bd73-b0b2-4799-8127-99025d7ac209",
+      "s": "8cd8e5ef-8997-4bcb-892e-c2d7a7340def",
       "p": "on-success",
-      "o": "54d72791-9f25-4ad1-a3bf-5060ad8c2eb0"
+      "o": "26b25083-8625-4f4c-b0b6-b52abb97e85f"
     },
     {
-      "s": "0b39bd73-b0b2-4799-8127-99025d7ac209",
+      "s": "8cd8e5ef-8997-4bcb-892e-c2d7a7340def",
       "p": "on-failure",
-      "o": "6e0a9bbc-affb-496f-a867-6bc74fc4670b"
+      "o": "10b7df20-fb90-4e0e-8e85-33c59a8940cf"
     },
     {
-      "s": "6e0a9bbc-affb-496f-a867-6bc74fc4670b",
+      "s": "10b7df20-fb90-4e0e-8e85-33c59a8940cf",
       "p": "on-success",
-      "o": "0b2074de-a029-41d2-b1b4-34fa1cdc28bb"
+      "o": "d19dfba9-5cfc-4b54-a855-a9c1785ce081"
     },
     {
-      "s": "0b2074de-a029-41d2-b1b4-34fa1cdc28bb",
+      "s": "d19dfba9-5cfc-4b54-a855-a9c1785ce081",
       "p": "on-failure",
-      "o": "54d72791-9f25-4ad1-a3bf-5060ad8c2eb0"
+      "o": "26b25083-8625-4f4c-b0b6-b52abb97e85f"
     },
     {
-      "s": "0794a116-9082-46dc-970d-3a19cc88a711",
+      "s": "2f049d55-af5d-4237-8909-4b3c979ff4e2",
       "p": "on-success",
-      "o": "54d72791-9f25-4ad1-a3bf-5060ad8c2eb0"
+      "o": "26b25083-8625-4f4c-b0b6-b52abb97e85f"
     },
     {
-      "s": "0794a116-9082-46dc-970d-3a19cc88a711",
+      "s": "2f049d55-af5d-4237-8909-4b3c979ff4e2",
       "p": "on-failure",
-      "o": "d66b5ad2-c17a-43a3-8c9c-5a02be296e99"
+      "o": "63e892b2-c273-4d58-93ca-e8bf4b72fba0"
     },
     {
-      "s": "d66b5ad2-c17a-43a3-8c9c-5a02be296e99",
+      "s": "63e892b2-c273-4d58-93ca-e8bf4b72fba0",
       "p": "on-success",
-      "o": "672c6e09-3ba8-4ec7-9d91-c37afe43bc0a"
+      "o": "747991cf-20de-452b-99ab-f961cba279fd"
     },
     {
-      "s": "672c6e09-3ba8-4ec7-9d91-c37afe43bc0a",
+      "s": "747991cf-20de-452b-99ab-f961cba279fd",
       "p": "on-failure",
-      "o": "54d72791-9f25-4ad1-a3bf-5060ad8c2eb0"
+      "o": "26b25083-8625-4f4c-b0b6-b52abb97e85f"
     }
   ],
   "tags": [

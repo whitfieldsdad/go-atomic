@@ -8,86 +8,74 @@
   ],
   "steps": [
     {
-      "id": "418e3260-0e56-4c99-ab53-f93cbb182387",
+      "id": "56b42ea3-b7e0-435e-85fb-c26782f35a6e",
       "type": "execute-command",
       "data": {
-        "command": "echo #{bash_encoded} | base64 -d | bash\necho #{dash_encoded} | base64 -d | bash\necho #{fish_encoded} | base64 -d | bash\necho #{sh_encoded} | base64 -d | bash\n",
+        "command": "echo #{bash_encoded} | base64 -d | bash\necho #{dash_encoded} | base64 -d | bash\necho #{fish_encoded} | base64 -d | bash\necho #{sh_encoded} | base64 -d | bash",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "e69f8159-5a39-49eb-b8c5-3e73b1392496",
+      "id": "f78234b3-c6ae-46bc-bc3d-58e057076e81",
       "name": "Check dependency 1/1",
       "description": "base64 must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "which base64\n",
-        "command_type": ""
+        "command": "which base64",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "52319880-6f50-454c-864c-20e233ea246e",
+      "id": "53152cd4-8e8d-4016-9523-ee158373d2f5",
       "name": "Resolve dependency 1/1",
       "description": "base64 must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"please install base64\"\n",
-        "command_type": ""
+        "command": "echo \"please install base64\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "5b9d0fd1-478e-4651-bda3-616d91d39029",
+      "id": "5d983062-e29d-4ba0-a094-f821099b5d05",
       "name": "Re-check dependency 1/1",
       "description": "base64 must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "which base64\n",
-        "command_type": ""
+        "command": "which base64",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "e69f8159-5a39-49eb-b8c5-3e73b1392496",
+      "s": "f78234b3-c6ae-46bc-bc3d-58e057076e81",
       "p": "on-success",
-      "o": "418e3260-0e56-4c99-ab53-f93cbb182387"
+      "o": "56b42ea3-b7e0-435e-85fb-c26782f35a6e"
     },
     {
-      "s": "e69f8159-5a39-49eb-b8c5-3e73b1392496",
+      "s": "f78234b3-c6ae-46bc-bc3d-58e057076e81",
       "p": "on-failure",
-      "o": "52319880-6f50-454c-864c-20e233ea246e"
+      "o": "53152cd4-8e8d-4016-9523-ee158373d2f5"
     },
     {
-      "s": "52319880-6f50-454c-864c-20e233ea246e",
+      "s": "53152cd4-8e8d-4016-9523-ee158373d2f5",
       "p": "on-success",
-      "o": "5b9d0fd1-478e-4651-bda3-616d91d39029"
+      "o": "5d983062-e29d-4ba0-a094-f821099b5d05"
     },
     {
-      "s": "5b9d0fd1-478e-4651-bda3-616d91d39029",
+      "s": "5d983062-e29d-4ba0-a094-f821099b5d05",
       "p": "on-failure",
-      "o": "418e3260-0e56-4c99-ab53-f93cbb182387"
+      "o": "56b42ea3-b7e0-435e-85fb-c26782f35a6e"
     }
   ],
   "tags": [
     "T1140"
   ],
   "input_arguments": [
-    {
-      "name": "bash_encoded",
-      "type": "string",
-      "description": "Encoded",
-      "value": "IyEvYmluL2Jhc2gKZWNobyAiaHR0cHM6Ly93d3cueW91dHViZS5jb20vQGF0b21pY3NvbmFmcmlkYXkgRlRXIgo="
-    },
-    {
-      "name": "dash_encoded",
-      "type": "string",
-      "description": "Encoded",
-      "value": "IyEvYmluL2Rhc2gKZWNobyAiaHR0cHM6Ly93d3cueW91dHViZS5jb20vQGF0b21pY3NvbmFmcmlkYXkgRlRXIgo="
-    },
     {
       "name": "fish_encoded",
       "type": "string",
@@ -99,6 +87,18 @@
       "type": "string",
       "description": "Encoded",
       "value": "IyEvYmluL3NoCmVjaG8gImh0dHBzOi8vd3d3LnlvdXR1YmUuY29tL0BhdG9taWNzb25hZnJpZGF5IEZUVyIK"
+    },
+    {
+      "name": "bash_encoded",
+      "type": "string",
+      "description": "Encoded",
+      "value": "IyEvYmluL2Jhc2gKZWNobyAiaHR0cHM6Ly93d3cueW91dHViZS5jb20vQGF0b21pY3NvbmFmcmlkYXkgRlRXIgo="
+    },
+    {
+      "name": "dash_encoded",
+      "type": "string",
+      "description": "Encoded",
+      "value": "IyEvYmluL2Rhc2gKZWNobyAiaHR0cHM6Ly93d3cueW91dHViZS5jb20vQGF0b21pY3NvbmFmcmlkYXkgRlRXIgo="
     }
   ]
 }

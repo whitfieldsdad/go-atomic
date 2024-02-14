@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "15836af9-2f35-4f89-98a7-1132d8765228",
+      "id": "04592a64-90bb-4d73-9e04-7c36512fcc9c",
       "type": "execute-command",
       "data": {
-        "command": "$DirectorySearcher = New-Object System.DirectoryServices.DirectorySearcher(\"(ObjectCategory=Computer)\")\n$DirectorySearcher.PropertiesToLoad.Add(\"Name\")\n$Computers = $DirectorySearcher.findall()\nforeach ($Computer in $Computers) {\n  $Computer = $Computer.Properties.name\n  if (!$Computer) { Continue }\n  Write-Host $Computer}\n",
+        "command": "$DirectorySearcher = New-Object System.DirectoryServices.DirectorySearcher(\"(ObjectCategory=Computer)\")\n$DirectorySearcher.PropertiesToLoad.Add(\"Name\")\n$Computers = $DirectorySearcher.findall()\nforeach ($Computer in $Computers) {\n  $Computer = $Computer.Properties.name\n  if (!$Computer) { Continue }\n  Write-Host $Computer}",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "79b7bef2-e4c6-46f7-bc69-5117469f8114",
+      "id": "017af82b-882d-45b6-9aaa-47ea931e7d78",
       "name": "Check dependency 1/1",
       "description": "This PC must be joined to a domain.",
       "type": "execute-command",
       "data": {
         "command": "if ((Get-WmiObject -Class Win32_ComputerSystem).partofdomain -eq $true) {exit 0} else {exit 1}",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "01ed7b08-77ad-4811-822c-733d55b14e79",
+      "id": "041d0ded-7302-4882-a61f-43b289082155",
       "name": "Resolve dependency 1/1",
       "description": "This PC must be joined to a domain.",
       "type": "execute-command",
       "data": {
-        "command": "write-host \"This PC must be manually added to a domain.\" ",
-        "command_type": ""
+        "command": "write-host \"This PC must be manually added to a domain.\"",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "5848191e-696c-427f-a4e7-70a51e775b58",
+      "id": "a72b9435-d229-4500-9065-cbb4308f49b4",
       "name": "Re-check dependency 1/1",
       "description": "This PC must be joined to a domain.",
       "type": "execute-command",
       "data": {
         "command": "if ((Get-WmiObject -Class Win32_ComputerSystem).partofdomain -eq $true) {exit 0} else {exit 1}",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "79b7bef2-e4c6-46f7-bc69-5117469f8114",
+      "s": "017af82b-882d-45b6-9aaa-47ea931e7d78",
       "p": "on-success",
-      "o": "15836af9-2f35-4f89-98a7-1132d8765228"
+      "o": "04592a64-90bb-4d73-9e04-7c36512fcc9c"
     },
     {
-      "s": "79b7bef2-e4c6-46f7-bc69-5117469f8114",
+      "s": "017af82b-882d-45b6-9aaa-47ea931e7d78",
       "p": "on-failure",
-      "o": "01ed7b08-77ad-4811-822c-733d55b14e79"
+      "o": "041d0ded-7302-4882-a61f-43b289082155"
     },
     {
-      "s": "01ed7b08-77ad-4811-822c-733d55b14e79",
+      "s": "041d0ded-7302-4882-a61f-43b289082155",
       "p": "on-success",
-      "o": "5848191e-696c-427f-a4e7-70a51e775b58"
+      "o": "a72b9435-d229-4500-9065-cbb4308f49b4"
     },
     {
-      "s": "5848191e-696c-427f-a4e7-70a51e775b58",
+      "s": "a72b9435-d229-4500-9065-cbb4308f49b4",
       "p": "on-failure",
-      "o": "15836af9-2f35-4f89-98a7-1132d8765228"
+      "o": "04592a64-90bb-4d73-9e04-7c36512fcc9c"
     }
   ],
   "tags": [

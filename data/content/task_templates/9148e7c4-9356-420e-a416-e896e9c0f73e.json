@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "eaa662ad-7178-49fd-af85-ab83b576d3d0",
+      "id": "67c4a415-d767-43e6-8a07-1d0fc995f58d",
       "type": "execute-command",
       "data": {
-        "command": "powershell.exe -version 2 -Command Write-Host $PSVersion\n",
+        "command": "powershell.exe -version 2 -Command Write-Host $PSVersion",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "c6e695b8-8cba-4984-9ca9-7ce13bec324d",
+      "id": "6c4f1b12-609f-4b4f-9ee7-650f6599f3e3",
       "name": "Check dependency 1/1",
       "description": "PowerShell version 2 must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if(2 -in $PSVersionTable.PSCompatibleVersions.Major) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if(2 -in $PSVersionTable.PSCompatibleVersions.Major) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "29476e87-7752-43cd-83ea-2f3f54736ccc",
+      "id": "4af9632a-47f8-4f34-a0b3-83c643a147b1",
       "name": "Resolve dependency 1/1",
       "description": "PowerShell version 2 must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "Write-Host  Automated installer not implemented yet, please install PowerShell v2 manually\n",
-        "command_type": ""
+        "command": "Write-Host  Automated installer not implemented yet, please install PowerShell v2 manually",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "fb4f3c21-5f6e-4cfd-a05f-ed45b2cf21bf",
+      "id": "d2c24791-006d-4eab-94d1-27aa05051fd4",
       "name": "Re-check dependency 1/1",
       "description": "PowerShell version 2 must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if(2 -in $PSVersionTable.PSCompatibleVersions.Major) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if(2 -in $PSVersionTable.PSCompatibleVersions.Major) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "c6e695b8-8cba-4984-9ca9-7ce13bec324d",
+      "s": "6c4f1b12-609f-4b4f-9ee7-650f6599f3e3",
       "p": "on-success",
-      "o": "eaa662ad-7178-49fd-af85-ab83b576d3d0"
+      "o": "67c4a415-d767-43e6-8a07-1d0fc995f58d"
     },
     {
-      "s": "c6e695b8-8cba-4984-9ca9-7ce13bec324d",
+      "s": "6c4f1b12-609f-4b4f-9ee7-650f6599f3e3",
       "p": "on-failure",
-      "o": "29476e87-7752-43cd-83ea-2f3f54736ccc"
+      "o": "4af9632a-47f8-4f34-a0b3-83c643a147b1"
     },
     {
-      "s": "29476e87-7752-43cd-83ea-2f3f54736ccc",
+      "s": "4af9632a-47f8-4f34-a0b3-83c643a147b1",
       "p": "on-success",
-      "o": "fb4f3c21-5f6e-4cfd-a05f-ed45b2cf21bf"
+      "o": "d2c24791-006d-4eab-94d1-27aa05051fd4"
     },
     {
-      "s": "fb4f3c21-5f6e-4cfd-a05f-ed45b2cf21bf",
+      "s": "d2c24791-006d-4eab-94d1-27aa05051fd4",
       "p": "on-failure",
-      "o": "eaa662ad-7178-49fd-af85-ab83b576d3d0"
+      "o": "67c4a415-d767-43e6-8a07-1d0fc995f58d"
     }
   ],
   "tags": [

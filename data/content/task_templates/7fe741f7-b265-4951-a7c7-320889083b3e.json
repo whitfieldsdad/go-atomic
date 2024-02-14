@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "9421e060-258d-4aad-929c-4ee8f10df65d",
+      "id": "6faada10-5fa1-44f2-8a59-305b64eaa8bd",
       "type": "execute-command",
       "data": {
-        "command": "tcpdump -c 5 -nnni #{interface}\ntshark -c 5 -i #{interface}\n",
+        "command": "tcpdump -c 5 -nnni #{interface}\ntshark -c 5 -i #{interface}",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "bea9f707-d9dc-48e6-8849-86d5f1e97482",
+      "id": "deb89de6-6ed5-43bf-97c1-ed058fbc1a5a",
       "name": "Check dependency 1/1",
       "description": "Check if at least one of tcpdump or tshark is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v tcpdump)\" ] \u0026\u0026 [ ! -x \"$(command -v tshark)\" ]; then exit 1; else exit 0; fi;\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v tcpdump)\" ] \u0026\u0026 [ ! -x \"$(command -v tshark)\" ]; then exit 1; else exit 0; fi;",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "055106da-1058-4e5a-8003-0b94a5e17fb8",
+      "id": "d6368444-9600-4638-8acb-c688fc9f07e6",
       "name": "Resolve dependency 1/1",
       "description": "Check if at least one of tcpdump or tshark is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "(which yum \u0026\u0026 yum -y install epel-release tcpdump tshark)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y tcpdump tshark)\n",
-        "command_type": ""
+        "command": "(which yum \u0026\u0026 yum -y install epel-release tcpdump tshark)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y tcpdump tshark)",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "d8d320d5-b11d-4a98-82a2-4987357ee858",
+      "id": "63712875-6ebb-4d2b-92ee-a25741a13f3b",
       "name": "Re-check dependency 1/1",
       "description": "Check if at least one of tcpdump or tshark is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v tcpdump)\" ] \u0026\u0026 [ ! -x \"$(command -v tshark)\" ]; then exit 1; else exit 0; fi;\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v tcpdump)\" ] \u0026\u0026 [ ! -x \"$(command -v tshark)\" ]; then exit 1; else exit 0; fi;",
+        "command_type": "bash"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "bea9f707-d9dc-48e6-8849-86d5f1e97482",
+      "s": "deb89de6-6ed5-43bf-97c1-ed058fbc1a5a",
       "p": "on-success",
-      "o": "9421e060-258d-4aad-929c-4ee8f10df65d"
+      "o": "6faada10-5fa1-44f2-8a59-305b64eaa8bd"
     },
     {
-      "s": "bea9f707-d9dc-48e6-8849-86d5f1e97482",
+      "s": "deb89de6-6ed5-43bf-97c1-ed058fbc1a5a",
       "p": "on-failure",
-      "o": "055106da-1058-4e5a-8003-0b94a5e17fb8"
+      "o": "d6368444-9600-4638-8acb-c688fc9f07e6"
     },
     {
-      "s": "055106da-1058-4e5a-8003-0b94a5e17fb8",
+      "s": "d6368444-9600-4638-8acb-c688fc9f07e6",
       "p": "on-success",
-      "o": "d8d320d5-b11d-4a98-82a2-4987357ee858"
+      "o": "63712875-6ebb-4d2b-92ee-a25741a13f3b"
     },
     {
-      "s": "d8d320d5-b11d-4a98-82a2-4987357ee858",
+      "s": "63712875-6ebb-4d2b-92ee-a25741a13f3b",
       "p": "on-failure",
-      "o": "9421e060-258d-4aad-929c-4ee8f10df65d"
+      "o": "6faada10-5fa1-44f2-8a59-305b64eaa8bd"
     }
   ],
   "tags": [

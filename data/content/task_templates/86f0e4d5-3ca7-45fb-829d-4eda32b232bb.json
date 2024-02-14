@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "dc9c13ab-4b4c-4791-9d8e-788f3e28c63d",
+      "id": "33d7bf14-9270-4466-af1d-ec7eacdc5e84",
       "type": "execute-command",
       "data": {
-        "command": "sudo shred -u -z -n 3 #{system_log_path}\n",
+        "command": "sudo shred -u -z -n 3 #{system_log_path}",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "fd8b7b29-e9a0-41df-af46-45d455a98ed1",
+      "id": "98d1bbb3-5391-4f64-a185-44f0f811532d",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "stat #{system_log_path}\n",
-        "command_type": ""
+        "command": "stat #{system_log_path}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "734dd5d1-c31f-4c5a-b2ba-cf5e9613de11",
+      "id": "54238eb0-08f4-4b4b-aed7-14836ed81ac0",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "touch #{system_log_path}\n",
-        "command_type": ""
+        "command": "touch #{system_log_path}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "c65cc5b9-a3e6-47a3-91d1-79de3b0ac59e",
+      "id": "02f24a05-64f8-400b-9052-de3a4f80d85e",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "stat #{system_log_path}\n",
-        "command_type": ""
+        "command": "stat #{system_log_path}",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "fd8b7b29-e9a0-41df-af46-45d455a98ed1",
+      "s": "98d1bbb3-5391-4f64-a185-44f0f811532d",
       "p": "on-success",
-      "o": "dc9c13ab-4b4c-4791-9d8e-788f3e28c63d"
+      "o": "33d7bf14-9270-4466-af1d-ec7eacdc5e84"
     },
     {
-      "s": "fd8b7b29-e9a0-41df-af46-45d455a98ed1",
+      "s": "98d1bbb3-5391-4f64-a185-44f0f811532d",
       "p": "on-failure",
-      "o": "734dd5d1-c31f-4c5a-b2ba-cf5e9613de11"
+      "o": "54238eb0-08f4-4b4b-aed7-14836ed81ac0"
     },
     {
-      "s": "734dd5d1-c31f-4c5a-b2ba-cf5e9613de11",
+      "s": "54238eb0-08f4-4b4b-aed7-14836ed81ac0",
       "p": "on-success",
-      "o": "c65cc5b9-a3e6-47a3-91d1-79de3b0ac59e"
+      "o": "02f24a05-64f8-400b-9052-de3a4f80d85e"
     },
     {
-      "s": "c65cc5b9-a3e6-47a3-91d1-79de3b0ac59e",
+      "s": "02f24a05-64f8-400b-9052-de3a4f80d85e",
       "p": "on-failure",
-      "o": "dc9c13ab-4b4c-4791-9d8e-788f3e28c63d"
+      "o": "33d7bf14-9270-4466-af1d-ec7eacdc5e84"
     }
   ],
   "tags": [

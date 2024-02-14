@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "88381dd2-6fa1-4dda-8629-f51a413eee4e",
+      "id": "baf5e066-7542-4290-a8b9-9ad408d40a18",
       "type": "execute-command",
       "data": {
-        "command": "sed -i '$ a #art_test_1562_006_1' /etc/audisp/#{audisp_config_file_name}\nif [ -f \"/etc/#{auditd_config_file_name}\" ];\nthen sed -i '$ a #art_test_1562_006_1' /etc/#{auditd_config_file_name}\nelse sed -i '$ a #art_test_1562_006_1' /etc/audit/#{auditd_config_file_name}\nfi \nsed -i '$ a #art_test_1562_006_1' /etc/#{libaudit_config_file_name}\n",
+        "command": "sed -i '$ a #art_test_1562_006_1' /etc/audisp/#{audisp_config_file_name}\nif [ -f \"/etc/#{auditd_config_file_name}\" ];\nthen sed -i '$ a #art_test_1562_006_1' /etc/#{auditd_config_file_name}\nelse sed -i '$ a #art_test_1562_006_1' /etc/audit/#{auditd_config_file_name}\nfi \nsed -i '$ a #art_test_1562_006_1' /etc/#{libaudit_config_file_name}",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "6986a0a8-4b06-4d29-89ed-e31bf87f8e9d",
+      "id": "5f0ed64c-6a8d-46e7-b7b3-04f01dcaa45b",
       "type": "execute-command",
       "data": {
-        "command": "sed -i '$ d' /etc/audisp/#{audisp_config_file_name}\nif [ -f \"/etc/#{auditd_config_file_name}\" ];\nthen sed -i '$ d' /etc/#{auditd_config_file_name}\nelse sed -i '$ d' /etc/audit/#{auditd_config_file_name}\nfi\nsed -i '$ d' /etc/#{libaudit_config_file_name}\n",
+        "command": "sed -i '$ d' /etc/audisp/#{audisp_config_file_name}\nif [ -f \"/etc/#{auditd_config_file_name}\" ];\nthen sed -i '$ d' /etc/#{auditd_config_file_name}\nelse sed -i '$ d' /etc/audit/#{auditd_config_file_name}\nfi\nsed -i '$ d' /etc/#{libaudit_config_file_name}",
         "command_type": "bash"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "88381dd2-6fa1-4dda-8629-f51a413eee4e",
+      "s": "baf5e066-7542-4290-a8b9-9ad408d40a18",
       "p": "on-success",
-      "o": "6986a0a8-4b06-4d29-89ed-e31bf87f8e9d"
+      "o": "5f0ed64c-6a8d-46e7-b7b3-04f01dcaa45b"
     },
     {
-      "s": "88381dd2-6fa1-4dda-8629-f51a413eee4e",
+      "s": "baf5e066-7542-4290-a8b9-9ad408d40a18",
       "p": "on-failure",
-      "o": "6986a0a8-4b06-4d29-89ed-e31bf87f8e9d"
+      "o": "5f0ed64c-6a8d-46e7-b7b3-04f01dcaa45b"
     }
   ],
   "tags": [
@@ -42,12 +42,6 @@
     "T1562.006"
   ],
   "input_arguments": [
-    {
-      "name": "libaudit_config_file_name",
-      "type": "string",
-      "description": "The name of the libaudit configuration file to be changed",
-      "value": "libaudit.conf"
-    },
     {
       "name": "audisp_config_file_name",
       "type": "string",
@@ -59,6 +53,12 @@
       "type": "string",
       "description": "The name of the auditd configuration file to be changed",
       "value": "auditd.conf"
+    },
+    {
+      "name": "libaudit_config_file_name",
+      "type": "string",
+      "description": "The name of the libaudit configuration file to be changed",
+      "value": "libaudit.conf"
     }
   ]
 }

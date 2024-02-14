@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "fe76ffbd-88b6-4cdd-bb1d-7a793106cd91",
+      "id": "46ade04a-d04f-44be-9788-bba389d243d2",
       "type": "execute-command",
       "data": {
-        "command": "auditctl -a always,exit -F arch=b64 -S execve -k CMDS \nauditctl -a always,exit -F arch=b32 -S execve -k CMDS\nwhoami; ausearch -i --start $(date +\"%d/%m/%y %H:%M:%S\") \n",
+        "command": "auditctl -a always,exit -F arch=b64 -S execve -k CMDS \nauditctl -a always,exit -F arch=b32 -S execve -k CMDS\nwhoami; ausearch -i --start $(date +\"%d/%m/%y %H:%M:%S\")",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "8ef3d635-6896-46e4-b04d-a79442de0641",
+      "id": "a62b5b95-03a5-4f73-88dd-7aa66b00d47f",
       "type": "execute-command",
       "data": {
-        "command": "systemctl restart auditd\n",
+        "command": "systemctl restart auditd",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "ab48235b-fb5d-446e-ba56-5e3d922f2ff9",
+      "id": "bcb50891-7b0f-4549-95d1-d57684178ad9",
       "name": "Check dependency 1/1",
       "description": "This test requires sshd and auditd\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v auditd)\" ]; then echo -e \"\\n***** auditd NOT installed *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v auditd)\" ]; then echo -e \"\\n***** auditd NOT installed *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "aa0f17f8-2d43-4c5e-939e-b5edada62ac8",
+      "id": "e90015de-bea3-4c72-b1e2-d4f59e7ffd1c",
       "name": "Resolve dependency 1/1",
       "description": "This test requires sshd and auditd\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"\"\n",
-        "command_type": ""
+        "command": "echo \"\"",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "7261c9d3-895d-4c52-9f36-7aac8a49728d",
+      "id": "8220139a-16fc-480a-a436-6ff38dc06979",
       "name": "Re-check dependency 1/1",
       "description": "This test requires sshd and auditd\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v auditd)\" ]; then echo -e \"\\n***** auditd NOT installed *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v auditd)\" ]; then echo -e \"\\n***** auditd NOT installed *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "fe76ffbd-88b6-4cdd-bb1d-7a793106cd91",
+      "s": "46ade04a-d04f-44be-9788-bba389d243d2",
       "p": "on-success",
-      "o": "8ef3d635-6896-46e4-b04d-a79442de0641"
+      "o": "a62b5b95-03a5-4f73-88dd-7aa66b00d47f"
     },
     {
-      "s": "fe76ffbd-88b6-4cdd-bb1d-7a793106cd91",
+      "s": "46ade04a-d04f-44be-9788-bba389d243d2",
       "p": "on-failure",
-      "o": "8ef3d635-6896-46e4-b04d-a79442de0641"
+      "o": "a62b5b95-03a5-4f73-88dd-7aa66b00d47f"
     },
     {
-      "s": "ab48235b-fb5d-446e-ba56-5e3d922f2ff9",
+      "s": "bcb50891-7b0f-4549-95d1-d57684178ad9",
       "p": "on-success",
-      "o": "fe76ffbd-88b6-4cdd-bb1d-7a793106cd91"
+      "o": "46ade04a-d04f-44be-9788-bba389d243d2"
     },
     {
-      "s": "ab48235b-fb5d-446e-ba56-5e3d922f2ff9",
+      "s": "bcb50891-7b0f-4549-95d1-d57684178ad9",
       "p": "on-failure",
-      "o": "aa0f17f8-2d43-4c5e-939e-b5edada62ac8"
+      "o": "e90015de-bea3-4c72-b1e2-d4f59e7ffd1c"
     },
     {
-      "s": "aa0f17f8-2d43-4c5e-939e-b5edada62ac8",
+      "s": "e90015de-bea3-4c72-b1e2-d4f59e7ffd1c",
       "p": "on-success",
-      "o": "7261c9d3-895d-4c52-9f36-7aac8a49728d"
+      "o": "8220139a-16fc-480a-a436-6ff38dc06979"
     },
     {
-      "s": "7261c9d3-895d-4c52-9f36-7aac8a49728d",
+      "s": "8220139a-16fc-480a-a436-6ff38dc06979",
       "p": "on-failure",
-      "o": "fe76ffbd-88b6-4cdd-bb1d-7a793106cd91"
+      "o": "46ade04a-d04f-44be-9788-bba389d243d2"
     }
   ],
   "tags": [

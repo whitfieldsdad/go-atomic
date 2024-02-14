@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "739bf1da-34a8-4433-8b65-a02b1ab714db",
+      "id": "31c14cfc-877e-4e1f-a993-ecd70dbe1fbb",
       "type": "execute-command",
       "data": {
-        "command": "Import-Module AADInternals -Force\nExport-AADIntADFSCertificates\nGet-ChildItem | Where-Object {$_ -like \"ADFS*\"}\nWrite-Host \"`nCertificates retrieved successfully\"\n",
+        "command": "Import-Module AADInternals -Force\nExport-AADIntADFSCertificates\nGet-ChildItem | Where-Object {$_ -like \"ADFS*\"}\nWrite-Host \"`nCertificates retrieved successfully\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "555abd12-49b5-4f88-b6f2-e4f5d038cddb",
+      "id": "ee55e08b-ea34-4579-81f4-5a98b0c74dcb",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item -Path \".\\ADFS_encryption.pfx\" -ErrorAction Ignore\nRemove-Item -Path \".\\ADFS_signing.pfx\" -ErrorAction Ignore\n",
+        "command": "Remove-Item -Path \".\\ADFS_encryption.pfx\" -ErrorAction Ignore\nRemove-Item -Path \".\\ADFS_signing.pfx\" -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "ca754e1b-423b-4a23-bc0c-57a63fbd614b",
+      "id": "a6f534da-1400-4baa-8c3e-6399ee5028cc",
       "name": "Check dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Get-Module AADInternals) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Get-Module AADInternals) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "e7b755a5-3677-44ba-a2b3-1bc75556a9d9",
+      "id": "1889fa4d-9189-472e-a232-f8c8ab1beb19",
       "name": "Resolve dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name AADInternals -Force\n",
-        "command_type": ""
+        "command": "Install-Module -Name AADInternals -Force",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "7ffe7f77-046e-4200-a084-a93fac509995",
+      "id": "d6af78ea-b18d-4ab8-8667-450aa5469842",
       "name": "Re-check dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Get-Module AADInternals) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Get-Module AADInternals) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "739bf1da-34a8-4433-8b65-a02b1ab714db",
+      "s": "31c14cfc-877e-4e1f-a993-ecd70dbe1fbb",
       "p": "on-success",
-      "o": "555abd12-49b5-4f88-b6f2-e4f5d038cddb"
+      "o": "ee55e08b-ea34-4579-81f4-5a98b0c74dcb"
     },
     {
-      "s": "739bf1da-34a8-4433-8b65-a02b1ab714db",
+      "s": "31c14cfc-877e-4e1f-a993-ecd70dbe1fbb",
       "p": "on-failure",
-      "o": "555abd12-49b5-4f88-b6f2-e4f5d038cddb"
+      "o": "ee55e08b-ea34-4579-81f4-5a98b0c74dcb"
     },
     {
-      "s": "ca754e1b-423b-4a23-bc0c-57a63fbd614b",
+      "s": "a6f534da-1400-4baa-8c3e-6399ee5028cc",
       "p": "on-success",
-      "o": "739bf1da-34a8-4433-8b65-a02b1ab714db"
+      "o": "31c14cfc-877e-4e1f-a993-ecd70dbe1fbb"
     },
     {
-      "s": "ca754e1b-423b-4a23-bc0c-57a63fbd614b",
+      "s": "a6f534da-1400-4baa-8c3e-6399ee5028cc",
       "p": "on-failure",
-      "o": "e7b755a5-3677-44ba-a2b3-1bc75556a9d9"
+      "o": "1889fa4d-9189-472e-a232-f8c8ab1beb19"
     },
     {
-      "s": "e7b755a5-3677-44ba-a2b3-1bc75556a9d9",
+      "s": "1889fa4d-9189-472e-a232-f8c8ab1beb19",
       "p": "on-success",
-      "o": "7ffe7f77-046e-4200-a084-a93fac509995"
+      "o": "d6af78ea-b18d-4ab8-8667-450aa5469842"
     },
     {
-      "s": "7ffe7f77-046e-4200-a084-a93fac509995",
+      "s": "d6af78ea-b18d-4ab8-8667-450aa5469842",
       "p": "on-failure",
-      "o": "739bf1da-34a8-4433-8b65-a02b1ab714db"
+      "o": "31c14cfc-877e-4e1f-a993-ecd70dbe1fbb"
     }
   ],
   "tags": [

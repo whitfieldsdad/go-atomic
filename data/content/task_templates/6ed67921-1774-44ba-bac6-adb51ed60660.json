@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e22de555-3c74-4b8f-aa1e-abf58f14ecad",
+      "id": "a3a00638-2543-41a6-a466-c96e546eb2d8",
       "type": "execute-command",
       "data": {
         "command": "copy \\\\#{remote}\\C$\\#{share_file} %TEMP%\\#{local_file}",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "4eddaa3c-5f18-4427-bba4-49fa53d007c6",
+      "id": "6311b932-a28f-46ca-a5e1-792d8d7ff925",
       "type": "execute-command",
       "data": {
         "command": "del \\\\#{remote}\\C$\\#{share_file}\ndel %TEMP%\\#{local_file}",
@@ -25,122 +25,122 @@
       "elevation_required": true
     },
     {
-      "id": "9a2a36b2-42e8-4021-9039-c45569bcf84f",
+      "id": "05941392-f167-452e-8a0a-9920494d15bc",
       "name": "Check dependency 1/2",
       "description": "Administrative share must exist on #{remote}\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path \"\\\\#{remote}\\C$\") {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path \"\\\\#{remote}\\C$\") {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "147503c7-6b76-43ef-a0df-3c79771e7a71",
+      "id": "6f1fd53f-0854-432b-828d-2a035f433ad8",
       "name": "Resolve dependency 1/2",
       "description": "Administrative share must exist on #{remote}\n",
       "type": "execute-command",
       "data": {
-        "command": "Write-Host 'Please Enable \"C$\" share on #{remote}'\n",
-        "command_type": ""
+        "command": "Write-Host 'Please Enable \"C$\" share on #{remote}'",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "8107589e-7a48-4744-a078-0d7ccefa8d36",
+      "id": "d9919975-d473-4592-ae41-2fe051c32285",
       "name": "Re-check dependency 1/2",
       "description": "Administrative share must exist on #{remote}\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path \"\\\\#{remote}\\C$\") {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path \"\\\\#{remote}\\C$\") {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "c92028da-d34c-4628-b737-04aadc266f9a",
+      "id": "81b3f3a4-3d0b-43aa-b1d3-5728afaf2f66",
       "name": "Check dependency 2/2",
       "description": "\"\\\\#{remote}\\C$\\#{share_file}\" must exist on #{remote}\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path \"\\\\#{remote}\\C$\\#{share_file}\") {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path \"\\\\#{remote}\\C$\\#{share_file}\") {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "e27f1780-6c01-4b87-b23b-dc2713d70921",
+      "id": "cad03823-21fc-4433-9eca-40d16a1e11bc",
       "name": "Resolve dependency 2/2",
       "description": "\"\\\\#{remote}\\C$\\#{share_file}\" must exist on #{remote}\n",
       "type": "execute-command",
       "data": {
-        "command": "Out-File -FilePath \"\\\\#{remote}\\C$\\#{share_file}\"\n",
-        "command_type": ""
+        "command": "Out-File -FilePath \"\\\\#{remote}\\C$\\#{share_file}\"",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "439f37c9-01c3-4110-8be2-d13aedb57ed8",
+      "id": "fc046599-fcc7-4cc0-aeee-8a83c3e3b0cf",
       "name": "Re-check dependency 2/2",
       "description": "\"\\\\#{remote}\\C$\\#{share_file}\" must exist on #{remote}\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path \"\\\\#{remote}\\C$\\#{share_file}\") {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path \"\\\\#{remote}\\C$\\#{share_file}\") {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "e22de555-3c74-4b8f-aa1e-abf58f14ecad",
+      "s": "a3a00638-2543-41a6-a466-c96e546eb2d8",
       "p": "on-success",
-      "o": "4eddaa3c-5f18-4427-bba4-49fa53d007c6"
+      "o": "6311b932-a28f-46ca-a5e1-792d8d7ff925"
     },
     {
-      "s": "e22de555-3c74-4b8f-aa1e-abf58f14ecad",
+      "s": "a3a00638-2543-41a6-a466-c96e546eb2d8",
       "p": "on-failure",
-      "o": "4eddaa3c-5f18-4427-bba4-49fa53d007c6"
+      "o": "6311b932-a28f-46ca-a5e1-792d8d7ff925"
     },
     {
-      "s": "9a2a36b2-42e8-4021-9039-c45569bcf84f",
+      "s": "05941392-f167-452e-8a0a-9920494d15bc",
       "p": "on-success",
-      "o": "e22de555-3c74-4b8f-aa1e-abf58f14ecad"
+      "o": "a3a00638-2543-41a6-a466-c96e546eb2d8"
     },
     {
-      "s": "9a2a36b2-42e8-4021-9039-c45569bcf84f",
+      "s": "05941392-f167-452e-8a0a-9920494d15bc",
       "p": "on-failure",
-      "o": "147503c7-6b76-43ef-a0df-3c79771e7a71"
+      "o": "6f1fd53f-0854-432b-828d-2a035f433ad8"
     },
     {
-      "s": "147503c7-6b76-43ef-a0df-3c79771e7a71",
+      "s": "6f1fd53f-0854-432b-828d-2a035f433ad8",
       "p": "on-success",
-      "o": "8107589e-7a48-4744-a078-0d7ccefa8d36"
+      "o": "d9919975-d473-4592-ae41-2fe051c32285"
     },
     {
-      "s": "8107589e-7a48-4744-a078-0d7ccefa8d36",
+      "s": "d9919975-d473-4592-ae41-2fe051c32285",
       "p": "on-failure",
-      "o": "e22de555-3c74-4b8f-aa1e-abf58f14ecad"
+      "o": "a3a00638-2543-41a6-a466-c96e546eb2d8"
     },
     {
-      "s": "c92028da-d34c-4628-b737-04aadc266f9a",
+      "s": "81b3f3a4-3d0b-43aa-b1d3-5728afaf2f66",
       "p": "on-success",
-      "o": "e22de555-3c74-4b8f-aa1e-abf58f14ecad"
+      "o": "a3a00638-2543-41a6-a466-c96e546eb2d8"
     },
     {
-      "s": "c92028da-d34c-4628-b737-04aadc266f9a",
+      "s": "81b3f3a4-3d0b-43aa-b1d3-5728afaf2f66",
       "p": "on-failure",
-      "o": "e27f1780-6c01-4b87-b23b-dc2713d70921"
+      "o": "cad03823-21fc-4433-9eca-40d16a1e11bc"
     },
     {
-      "s": "e27f1780-6c01-4b87-b23b-dc2713d70921",
+      "s": "cad03823-21fc-4433-9eca-40d16a1e11bc",
       "p": "on-success",
-      "o": "439f37c9-01c3-4110-8be2-d13aedb57ed8"
+      "o": "fc046599-fcc7-4cc0-aeee-8a83c3e3b0cf"
     },
     {
-      "s": "439f37c9-01c3-4110-8be2-d13aedb57ed8",
+      "s": "fc046599-fcc7-4cc0-aeee-8a83c3e3b0cf",
       "p": "on-failure",
-      "o": "e22de555-3c74-4b8f-aa1e-abf58f14ecad"
+      "o": "a3a00638-2543-41a6-a466-c96e546eb2d8"
     }
   ],
   "tags": [

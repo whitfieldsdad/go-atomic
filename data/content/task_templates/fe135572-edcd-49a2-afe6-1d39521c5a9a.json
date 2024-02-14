@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "5154b3ab-89af-4527-ae45-6f3d36db4edf",
+      "id": "542d5c22-e7e8-4716-be3d-06e712408566",
       "type": "execute-command",
       "data": {
-        "command": "ufw disable\n",
+        "command": "ufw disable",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "055465df-e0b4-417d-8061-844b3c713eb9",
+      "id": "275229de-3d7c-46d4-9f8d-70a9f3194e0e",
       "type": "execute-command",
       "data": {
-        "command": "ufw enable\nufw status verbose\n",
+        "command": "ufw enable\nufw status verbose",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "4d183d76-3ffd-46d5-9ec3-070d7b4da3fb",
+      "id": "6e9c321d-22af-460c-9626-e84cebdf563a",
       "name": "Check dependency 1/1",
       "description": "Check if ufw is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "f2984209-328d-4b35-97f7-21db552ef14a",
+      "id": "1b81a1ef-229d-4b7f-bde3-4282c3598bc1",
       "name": "Resolve dependency 1/1",
       "description": "Check if ufw is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"\"\n",
-        "command_type": ""
+        "command": "echo \"\"",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "a687f598-866d-495e-af77-ebd45c697e2c",
+      "id": "baed7446-3e4c-45dc-8d54-24bac594afec",
       "name": "Re-check dependency 1/1",
       "description": "Check if ufw is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "5154b3ab-89af-4527-ae45-6f3d36db4edf",
+      "s": "542d5c22-e7e8-4716-be3d-06e712408566",
       "p": "on-success",
-      "o": "055465df-e0b4-417d-8061-844b3c713eb9"
+      "o": "275229de-3d7c-46d4-9f8d-70a9f3194e0e"
     },
     {
-      "s": "5154b3ab-89af-4527-ae45-6f3d36db4edf",
+      "s": "542d5c22-e7e8-4716-be3d-06e712408566",
       "p": "on-failure",
-      "o": "055465df-e0b4-417d-8061-844b3c713eb9"
+      "o": "275229de-3d7c-46d4-9f8d-70a9f3194e0e"
     },
     {
-      "s": "4d183d76-3ffd-46d5-9ec3-070d7b4da3fb",
+      "s": "6e9c321d-22af-460c-9626-e84cebdf563a",
       "p": "on-success",
-      "o": "5154b3ab-89af-4527-ae45-6f3d36db4edf"
+      "o": "542d5c22-e7e8-4716-be3d-06e712408566"
     },
     {
-      "s": "4d183d76-3ffd-46d5-9ec3-070d7b4da3fb",
+      "s": "6e9c321d-22af-460c-9626-e84cebdf563a",
       "p": "on-failure",
-      "o": "f2984209-328d-4b35-97f7-21db552ef14a"
+      "o": "1b81a1ef-229d-4b7f-bde3-4282c3598bc1"
     },
     {
-      "s": "f2984209-328d-4b35-97f7-21db552ef14a",
+      "s": "1b81a1ef-229d-4b7f-bde3-4282c3598bc1",
       "p": "on-success",
-      "o": "a687f598-866d-495e-af77-ebd45c697e2c"
+      "o": "baed7446-3e4c-45dc-8d54-24bac594afec"
     },
     {
-      "s": "a687f598-866d-495e-af77-ebd45c697e2c",
+      "s": "baed7446-3e4c-45dc-8d54-24bac594afec",
       "p": "on-failure",
-      "o": "5154b3ab-89af-4527-ae45-6f3d36db4edf"
+      "o": "542d5c22-e7e8-4716-be3d-06e712408566"
     }
   ],
   "tags": [

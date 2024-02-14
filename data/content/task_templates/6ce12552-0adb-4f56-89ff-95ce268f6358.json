@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "492e4288-49fe-44c6-b8c2-a68c957c98ec",
+      "id": "4e6a1bf9-2208-487e-81f6-ab654640b17e",
       "type": "execute-command",
       "data": {
-        "command": "cat /etc/pam.d/system-auth\ncat /etc/security/pwquality.conf\n",
+        "command": "cat /etc/pam.d/system-auth\ncat /etc/security/pwquality.conf",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "cbe0cd97-fd72-447b-828a-c6e628679d65",
+      "id": "2068a943-a1cd-4741-971e-284312ce05f1",
       "name": "Check dependency 1/1",
       "description": "System must be CentOS or RHEL v6\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ $(rpm -q --queryformat '%{VERSION}') -eq \"6\" ]; then exit /b 0; else exit /b 1; fi;\n",
-        "command_type": ""
+        "command": "if [ $(rpm -q --queryformat '%{VERSION}') -eq \"6\" ]; then exit /b 0; else exit /b 1; fi;",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "32094bbd-bac3-4f40-a552-a454eba134dd",
+      "id": "84d151ae-4aeb-4f50-ade5-5138bd635988",
       "name": "Resolve dependency 1/1",
       "description": "System must be CentOS or RHEL v6\n",
       "type": "execute-command",
       "data": {
-        "command": "echo Please run from CentOS or RHEL v6\n",
-        "command_type": ""
+        "command": "echo Please run from CentOS or RHEL v6",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "37867a2c-3091-4d68-9950-3a859beb2301",
+      "id": "511164f7-0ca5-4f93-b21a-66a467f583cb",
       "name": "Re-check dependency 1/1",
       "description": "System must be CentOS or RHEL v6\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ $(rpm -q --queryformat '%{VERSION}') -eq \"6\" ]; then exit /b 0; else exit /b 1; fi;\n",
-        "command_type": ""
+        "command": "if [ $(rpm -q --queryformat '%{VERSION}') -eq \"6\" ]; then exit /b 0; else exit /b 1; fi;",
+        "command_type": "bash"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "cbe0cd97-fd72-447b-828a-c6e628679d65",
+      "s": "2068a943-a1cd-4741-971e-284312ce05f1",
       "p": "on-success",
-      "o": "492e4288-49fe-44c6-b8c2-a68c957c98ec"
+      "o": "4e6a1bf9-2208-487e-81f6-ab654640b17e"
     },
     {
-      "s": "cbe0cd97-fd72-447b-828a-c6e628679d65",
+      "s": "2068a943-a1cd-4741-971e-284312ce05f1",
       "p": "on-failure",
-      "o": "32094bbd-bac3-4f40-a552-a454eba134dd"
+      "o": "84d151ae-4aeb-4f50-ade5-5138bd635988"
     },
     {
-      "s": "32094bbd-bac3-4f40-a552-a454eba134dd",
+      "s": "84d151ae-4aeb-4f50-ade5-5138bd635988",
       "p": "on-success",
-      "o": "37867a2c-3091-4d68-9950-3a859beb2301"
+      "o": "511164f7-0ca5-4f93-b21a-66a467f583cb"
     },
     {
-      "s": "37867a2c-3091-4d68-9950-3a859beb2301",
+      "s": "511164f7-0ca5-4f93-b21a-66a467f583cb",
       "p": "on-failure",
-      "o": "492e4288-49fe-44c6-b8c2-a68c957c98ec"
+      "o": "4e6a1bf9-2208-487e-81f6-ab654640b17e"
     }
   ],
   "tags": [

@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "b9f34e84-88ef-4eb2-aa88-28a27d3c394b",
+      "id": "e2c04b86-ca73-4af9-8fec-39ee005d316f",
       "type": "execute-command",
       "data": {
-        "command": "echo \"# THIS IS A COMMENT\" \u003e\u003e /etc/default/ufw\ngrep \"# THIS IS A COMMENT\" /etc/default/ufw\n",
+        "command": "echo \"# THIS IS A COMMENT\" \u003e\u003e /etc/default/ufw\ngrep \"# THIS IS A COMMENT\" /etc/default/ufw",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "149de904-2737-4043-a3e8-640ac51546e8",
+      "id": "cd5938dd-ee94-431e-a513-2e768468527b",
       "type": "execute-command",
       "data": {
-        "command": "sed -i 's/# THIS IS A COMMENT//g' /etc/default/ufw\n",
+        "command": "sed -i 's/# THIS IS A COMMENT//g' /etc/default/ufw",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "f6254683-a5a1-4696-9f05-c89014f18fb1",
+      "id": "0071e84e-cd39-4603-8d99-d8df71b7c24b",
       "name": "Check dependency 1/1",
       "description": "Check if /etc/default/ufw exists.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -f \"/etc/default/ufw\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ ! -f \"/etc/default/ufw\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "dacebc7b-442f-493f-9964-14828700b2de",
+      "id": "a9fe5841-a14d-439e-8312-9ac06b433d89",
       "name": "Resolve dependency 1/1",
       "description": "Check if /etc/default/ufw exists.\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"\"\n",
-        "command_type": ""
+        "command": "echo \"\"",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "c60cca66-fd3d-48d6-9972-83efaac7c644",
+      "id": "e372a4e9-f558-4e70-a976-b5f4d6a6e3ac",
       "name": "Re-check dependency 1/1",
       "description": "Check if /etc/default/ufw exists.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -f \"/etc/default/ufw\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ ! -f \"/etc/default/ufw\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "b9f34e84-88ef-4eb2-aa88-28a27d3c394b",
+      "s": "e2c04b86-ca73-4af9-8fec-39ee005d316f",
       "p": "on-success",
-      "o": "149de904-2737-4043-a3e8-640ac51546e8"
+      "o": "cd5938dd-ee94-431e-a513-2e768468527b"
     },
     {
-      "s": "b9f34e84-88ef-4eb2-aa88-28a27d3c394b",
+      "s": "e2c04b86-ca73-4af9-8fec-39ee005d316f",
       "p": "on-failure",
-      "o": "149de904-2737-4043-a3e8-640ac51546e8"
+      "o": "cd5938dd-ee94-431e-a513-2e768468527b"
     },
     {
-      "s": "f6254683-a5a1-4696-9f05-c89014f18fb1",
+      "s": "0071e84e-cd39-4603-8d99-d8df71b7c24b",
       "p": "on-success",
-      "o": "b9f34e84-88ef-4eb2-aa88-28a27d3c394b"
+      "o": "e2c04b86-ca73-4af9-8fec-39ee005d316f"
     },
     {
-      "s": "f6254683-a5a1-4696-9f05-c89014f18fb1",
+      "s": "0071e84e-cd39-4603-8d99-d8df71b7c24b",
       "p": "on-failure",
-      "o": "dacebc7b-442f-493f-9964-14828700b2de"
+      "o": "a9fe5841-a14d-439e-8312-9ac06b433d89"
     },
     {
-      "s": "dacebc7b-442f-493f-9964-14828700b2de",
+      "s": "a9fe5841-a14d-439e-8312-9ac06b433d89",
       "p": "on-success",
-      "o": "c60cca66-fd3d-48d6-9972-83efaac7c644"
+      "o": "e372a4e9-f558-4e70-a976-b5f4d6a6e3ac"
     },
     {
-      "s": "c60cca66-fd3d-48d6-9972-83efaac7c644",
+      "s": "e372a4e9-f558-4e70-a976-b5f4d6a6e3ac",
       "p": "on-failure",
-      "o": "b9f34e84-88ef-4eb2-aa88-28a27d3c394b"
+      "o": "e2c04b86-ca73-4af9-8fec-39ee005d316f"
     }
   ],
   "tags": [

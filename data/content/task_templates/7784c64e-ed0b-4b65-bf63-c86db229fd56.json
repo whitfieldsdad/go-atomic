@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "19d09435-3191-4736-ace7-25d30170b0cd",
+      "id": "e3d0b58f-695b-41a3-900b-058ff4d33438",
       "type": "execute-command",
       "data": {
-        "command": "iptables-save \u003e /tmp/iptables.rules\niptables -F\n",
+        "command": "iptables-save \u003e /tmp/iptables.rules\niptables -F",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "8aed75a1-e68a-47d9-8aad-d8e7f199e518",
+      "id": "6e834ae8-874d-4f57-98cc-e5880f9c14bc",
       "type": "execute-command",
       "data": {
-        "command": "iptables-restore \u003c /tmp/iptables.rules\n",
+        "command": "iptables-restore \u003c /tmp/iptables.rules",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "e698a1b7-a65c-4c0f-81d2-d6d9dc048622",
+      "id": "a6e0a7d0-439f-452e-8332-5ea76c96c761",
       "name": "Check dependency 1/1",
       "description": "Check if iptables is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v iptables)\" ]; then echo -e \"\\n***** iptables NOT installed *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v iptables)\" ]; then echo -e \"\\n***** iptables NOT installed *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "304a9c46-6a41-433b-b1e8-888d8f868dff",
+      "id": "246c47ce-6cd6-42cb-938f-6c7263bce3fa",
       "name": "Resolve dependency 1/1",
       "description": "Check if iptables is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"\"\n",
-        "command_type": ""
+        "command": "echo \"\"",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "f006a728-22f3-42fa-840b-e62e7e0bb2cb",
+      "id": "b0cde8a3-b36b-4f61-92c4-f6dbe95457ec",
       "name": "Re-check dependency 1/1",
       "description": "Check if iptables is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v iptables)\" ]; then echo -e \"\\n***** iptables NOT installed *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v iptables)\" ]; then echo -e \"\\n***** iptables NOT installed *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "19d09435-3191-4736-ace7-25d30170b0cd",
+      "s": "e3d0b58f-695b-41a3-900b-058ff4d33438",
       "p": "on-success",
-      "o": "8aed75a1-e68a-47d9-8aad-d8e7f199e518"
+      "o": "6e834ae8-874d-4f57-98cc-e5880f9c14bc"
     },
     {
-      "s": "19d09435-3191-4736-ace7-25d30170b0cd",
+      "s": "e3d0b58f-695b-41a3-900b-058ff4d33438",
       "p": "on-failure",
-      "o": "8aed75a1-e68a-47d9-8aad-d8e7f199e518"
+      "o": "6e834ae8-874d-4f57-98cc-e5880f9c14bc"
     },
     {
-      "s": "e698a1b7-a65c-4c0f-81d2-d6d9dc048622",
+      "s": "a6e0a7d0-439f-452e-8332-5ea76c96c761",
       "p": "on-success",
-      "o": "19d09435-3191-4736-ace7-25d30170b0cd"
+      "o": "e3d0b58f-695b-41a3-900b-058ff4d33438"
     },
     {
-      "s": "e698a1b7-a65c-4c0f-81d2-d6d9dc048622",
+      "s": "a6e0a7d0-439f-452e-8332-5ea76c96c761",
       "p": "on-failure",
-      "o": "304a9c46-6a41-433b-b1e8-888d8f868dff"
+      "o": "246c47ce-6cd6-42cb-938f-6c7263bce3fa"
     },
     {
-      "s": "304a9c46-6a41-433b-b1e8-888d8f868dff",
+      "s": "246c47ce-6cd6-42cb-938f-6c7263bce3fa",
       "p": "on-success",
-      "o": "f006a728-22f3-42fa-840b-e62e7e0bb2cb"
+      "o": "b0cde8a3-b36b-4f61-92c4-f6dbe95457ec"
     },
     {
-      "s": "f006a728-22f3-42fa-840b-e62e7e0bb2cb",
+      "s": "b0cde8a3-b36b-4f61-92c4-f6dbe95457ec",
       "p": "on-failure",
-      "o": "19d09435-3191-4736-ace7-25d30170b0cd"
+      "o": "e3d0b58f-695b-41a3-900b-058ff4d33438"
     }
   ],
   "tags": [

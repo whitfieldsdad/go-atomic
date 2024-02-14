@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "b6ddbefa-3f7f-4657-9993-586b49f24459",
+      "id": "e38b9919-d7b2-4dac-b8b1-14e72acae9e3",
       "type": "execute-command",
       "data": {
-        "command": "echo \"dn: cn=Atomic User, cn=Users,dc=#{domain},dc=#{top_level_domain}\\nobjectClass: person\\ncn: Atomic User\\nsn: User\" \u003e tempadmin.ldif\necho ldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif\nldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif\n",
+        "command": "echo \"dn: cn=Atomic User, cn=Users,dc=#{domain},dc=#{top_level_domain}\\nobjectClass: person\\ncn: Atomic User\\nsn: User\" \u003e tempadmin.ldif\necho ldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif\nldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "f68a0252-24c9-49c1-9360-5644ee9874ea",
+      "id": "4c22f8ef-82ff-41da-9b06-6c403f27ebc1",
       "type": "execute-command",
       "data": {
-        "command": "echo removing Atomic User (temporary user)\necho \"dn: cn=Atomic User,cn=Users,dc=scwxscratch,dc=dev\\nchangetype: delete\" \u003e deleteuser.ldif\nldapmodify -H ldap://#{domain_controller}:389 -x -D #{admin_user} -w #{admin_password} -f deleteuser.ldif\nrm deleteuser.ldif\nrm tempadmin.ldif\n",
+        "command": "echo removing Atomic User (temporary user)\necho \"dn: cn=Atomic User,cn=Users,dc=scwxscratch,dc=dev\\nchangetype: delete\" \u003e deleteuser.ldif\nldapmodify -H ldap://#{domain_controller}:389 -x -D #{admin_user} -w #{admin_password} -f deleteuser.ldif\nrm deleteuser.ldif\nrm tempadmin.ldif",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "4a7125d5-5393-46a0-8c4a-0279fc7b4932",
+      "id": "878414a7-fc6b-40c4-a81b-009e4b3152ac",
       "name": "Check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapadd, ldapmodify\n",
       "type": "execute-command",
       "data": {
-        "command": "which ldapadd\nwhich ldapmodify\n",
-        "command_type": ""
+        "command": "which ldapadd\nwhich ldapmodify",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "6471cee6-69b1-4daf-b471-210c3d854655",
+      "id": "5eac6a0d-1de0-46d8-a14d-08a3b15789d6",
       "name": "Resolve dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapadd, ldapmodify\n",
       "type": "execute-command",
       "data": {
-        "command": "echo ldapadd or ldapmodify not found; exit 1\n",
-        "command_type": ""
+        "command": "echo ldapadd or ldapmodify not found; exit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "8be6823c-b7c3-4e75-b240-cbb756aa9e36",
+      "id": "2e3356f6-9c1f-421b-84aa-2aa4750d809e",
       "name": "Re-check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapadd, ldapmodify\n",
       "type": "execute-command",
       "data": {
-        "command": "which ldapadd\nwhich ldapmodify\n",
-        "command_type": ""
+        "command": "which ldapadd\nwhich ldapmodify",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "b6ddbefa-3f7f-4657-9993-586b49f24459",
+      "s": "e38b9919-d7b2-4dac-b8b1-14e72acae9e3",
       "p": "on-success",
-      "o": "f68a0252-24c9-49c1-9360-5644ee9874ea"
+      "o": "4c22f8ef-82ff-41da-9b06-6c403f27ebc1"
     },
     {
-      "s": "b6ddbefa-3f7f-4657-9993-586b49f24459",
+      "s": "e38b9919-d7b2-4dac-b8b1-14e72acae9e3",
       "p": "on-failure",
-      "o": "f68a0252-24c9-49c1-9360-5644ee9874ea"
+      "o": "4c22f8ef-82ff-41da-9b06-6c403f27ebc1"
     },
     {
-      "s": "4a7125d5-5393-46a0-8c4a-0279fc7b4932",
+      "s": "878414a7-fc6b-40c4-a81b-009e4b3152ac",
       "p": "on-success",
-      "o": "b6ddbefa-3f7f-4657-9993-586b49f24459"
+      "o": "e38b9919-d7b2-4dac-b8b1-14e72acae9e3"
     },
     {
-      "s": "4a7125d5-5393-46a0-8c4a-0279fc7b4932",
+      "s": "878414a7-fc6b-40c4-a81b-009e4b3152ac",
       "p": "on-failure",
-      "o": "6471cee6-69b1-4daf-b471-210c3d854655"
+      "o": "5eac6a0d-1de0-46d8-a14d-08a3b15789d6"
     },
     {
-      "s": "6471cee6-69b1-4daf-b471-210c3d854655",
+      "s": "5eac6a0d-1de0-46d8-a14d-08a3b15789d6",
       "p": "on-success",
-      "o": "8be6823c-b7c3-4e75-b240-cbb756aa9e36"
+      "o": "2e3356f6-9c1f-421b-84aa-2aa4750d809e"
     },
     {
-      "s": "8be6823c-b7c3-4e75-b240-cbb756aa9e36",
+      "s": "2e3356f6-9c1f-421b-84aa-2aa4750d809e",
       "p": "on-failure",
-      "o": "b6ddbefa-3f7f-4657-9993-586b49f24459"
+      "o": "e38b9919-d7b2-4dac-b8b1-14e72acae9e3"
     }
   ],
   "tags": [
@@ -95,12 +95,6 @@
     "T1136.002"
   ],
   "input_arguments": [
-    {
-      "name": "domain_controller",
-      "type": "string",
-      "description": "Name of the domain_controller machine, defined in etc/hosts",
-      "value": "adVM"
-    },
     {
       "name": "domain",
       "type": "string",
@@ -124,6 +118,12 @@
       "type": "string",
       "description": "password of the user",
       "value": "s3CurePssw0rD!"
+    },
+    {
+      "name": "domain_controller",
+      "type": "string",
+      "description": "Name of the domain_controller machine, defined in etc/hosts",
+      "value": "adVM"
     }
   ]
 }

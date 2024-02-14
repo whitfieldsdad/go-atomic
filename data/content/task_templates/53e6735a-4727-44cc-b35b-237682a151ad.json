@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "f672e560-4b8b-45ff-8a4a-9607f96242ff",
+      "id": "c14e51d7-9bfd-4bac-bfc6-a853ad52e9d7",
       "type": "execute-command",
       "data": {
-        "command": "$which_7z a -p#{pwd_for_encrypted_file} #{encrypted_file_path} #{input_file_path}\n",
+        "command": "$which_7z a -p#{pwd_for_encrypted_file} #{encrypted_file_path} #{input_file_path}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "17b871d0-fdcd-41ee-852c-eb4c26cc0719",
+      "id": "87e935a2-ac36-41ed-8b15-73c0a54a9e8e",
       "type": "execute-command",
       "data": {
-        "command": "$which_7z e #{encrypted_file_path}\nrm #{encrypted_file_path}\n",
+        "command": "$which_7z e #{encrypted_file_path}\nrm #{encrypted_file_path}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "ada31352-dbe5-4bd0-91e1-271ac8c2a9ae",
+      "id": "5b1a4d37-8d3f-40b0-978b-6d7de0637115",
       "name": "Check dependency 1/1",
       "description": "Finds where 7z is located\n",
       "type": "execute-command",
       "data": {
-        "command": "which_7z=`which 7z`\n",
-        "command_type": ""
+        "command": "which_7z=`which 7z`",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "d7b65dd0-8681-4f18-89b6-2a9e51119952",
+      "id": "b715426d-817e-4afc-8270-8f0090ad0e8d",
       "name": "Resolve dependency 1/1",
       "description": "Finds where 7z is located\n",
       "type": "execute-command",
       "data": {
-        "command": "(which pkg \u0026\u0026 pkg install -y 7-zip)\n",
-        "command_type": ""
+        "command": "(which pkg \u0026\u0026 pkg install -y 7-zip)",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "08c1e52a-2da9-4458-88f5-f68ce037e35b",
+      "id": "27c4df52-b330-42e5-b3c1-9c102f862341",
       "name": "Re-check dependency 1/1",
       "description": "Finds where 7z is located\n",
       "type": "execute-command",
       "data": {
-        "command": "which_7z=`which 7z`\n",
-        "command_type": ""
+        "command": "which_7z=`which 7z`",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "f672e560-4b8b-45ff-8a4a-9607f96242ff",
+      "s": "c14e51d7-9bfd-4bac-bfc6-a853ad52e9d7",
       "p": "on-success",
-      "o": "17b871d0-fdcd-41ee-852c-eb4c26cc0719"
+      "o": "87e935a2-ac36-41ed-8b15-73c0a54a9e8e"
     },
     {
-      "s": "f672e560-4b8b-45ff-8a4a-9607f96242ff",
+      "s": "c14e51d7-9bfd-4bac-bfc6-a853ad52e9d7",
       "p": "on-failure",
-      "o": "17b871d0-fdcd-41ee-852c-eb4c26cc0719"
+      "o": "87e935a2-ac36-41ed-8b15-73c0a54a9e8e"
     },
     {
-      "s": "ada31352-dbe5-4bd0-91e1-271ac8c2a9ae",
+      "s": "5b1a4d37-8d3f-40b0-978b-6d7de0637115",
       "p": "on-success",
-      "o": "f672e560-4b8b-45ff-8a4a-9607f96242ff"
+      "o": "c14e51d7-9bfd-4bac-bfc6-a853ad52e9d7"
     },
     {
-      "s": "ada31352-dbe5-4bd0-91e1-271ac8c2a9ae",
+      "s": "5b1a4d37-8d3f-40b0-978b-6d7de0637115",
       "p": "on-failure",
-      "o": "d7b65dd0-8681-4f18-89b6-2a9e51119952"
+      "o": "b715426d-817e-4afc-8270-8f0090ad0e8d"
     },
     {
-      "s": "d7b65dd0-8681-4f18-89b6-2a9e51119952",
+      "s": "b715426d-817e-4afc-8270-8f0090ad0e8d",
       "p": "on-success",
-      "o": "08c1e52a-2da9-4458-88f5-f68ce037e35b"
+      "o": "27c4df52-b330-42e5-b3c1-9c102f862341"
     },
     {
-      "s": "08c1e52a-2da9-4458-88f5-f68ce037e35b",
+      "s": "27c4df52-b330-42e5-b3c1-9c102f862341",
       "p": "on-failure",
-      "o": "f672e560-4b8b-45ff-8a4a-9607f96242ff"
+      "o": "c14e51d7-9bfd-4bac-bfc6-a853ad52e9d7"
     }
   ],
   "tags": [

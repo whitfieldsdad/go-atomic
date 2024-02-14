@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1c8f3e7b-c921-40f9-b394-c8f6a9bafe69",
+      "id": "8a969d90-4b8b-4369-94e3-7639dc2fe96b",
       "type": "execute-command",
       "data": {
         "command": "ldapdomaindump -u #{username} -p #{password} #{target_ip} -o /tmp/T1087",
@@ -16,237 +16,237 @@
       "elevation_required": false
     },
     {
-      "id": "842e855a-6123-4cba-a80a-a8fef28fee44",
+      "id": "077b1df7-50de-41bf-877e-f26a3f029312",
       "type": "execute-command",
       "data": {
-        "command": "rm -rf /tmp/T1087/ 2\u003e/dev/null \n",
+        "command": "rm -rf /tmp/T1087/ 2\u003e/dev/null",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "7313ecc3-bb81-4f8f-9158-05c30e76cf36",
+      "id": "bdd94224-c5a3-4e90-8290-0915fcafd218",
       "name": "Check dependency 1/4",
       "description": "Python3 must be installed",
       "type": "execute-command",
       "data": {
         "command": "if [ -x \"$(command -v python3 --version)\" ]; then exit 0; else exit 1; fi;",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "af9d7cdd-bcce-4eb1-a971-da75d34f4520",
+      "id": "53ccd6d6-6f63-47b2-aaa8-e1d2111964d3",
       "name": "Resolve dependency 1/4",
       "description": "Python3 must be installed",
       "type": "execute-command",
       "data": {
         "command": "sudo apt-get -y install python3",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "e5a09869-ed1f-4503-acca-2c12f2dddac5",
+      "id": "eefa4800-7507-4af0-b3b4-0b8ac351f92c",
       "name": "Re-check dependency 1/4",
       "description": "Python3 must be installed",
       "type": "execute-command",
       "data": {
         "command": "if [ -x \"$(command -v python3 --version)\" ]; then exit 0; else exit 1; fi;",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "74ec0ee1-ddf3-4008-9d04-94b6237e446d",
+      "id": "a68cf7a5-ad45-441a-b7b7-f4c1d9a1c437",
       "name": "Check dependency 2/4",
       "description": "Pip must be installed",
       "type": "execute-command",
       "data": {
         "command": "if [ -x \"$(command -v pip --version)\" ]; then exit 0; else exit 1; fi;",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "044773b9-b369-451f-bd68-43c20de1e5a4",
+      "id": "3a3dd932-72eb-4e70-851d-f131bfcf92d7",
       "name": "Resolve dependency 2/4",
       "description": "Pip must be installed",
       "type": "execute-command",
       "data": {
         "command": "wget -O /tmp/get-pip.py https://bootstrap.pypa.io/pip/3.6/get-pip.py\npython3 /tmp/get-pip.py",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "9e6288f4-e4a8-42eb-98b7-d06aba60a71c",
+      "id": "17caf343-9a20-4385-8d9b-659e93131668",
       "name": "Re-check dependency 2/4",
       "description": "Pip must be installed",
       "type": "execute-command",
       "data": {
         "command": "if [ -x \"$(command -v pip --version)\" ]; then exit 0; else exit 1; fi;",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "5639cbaf-3f85-4eff-886c-b3154626cf1c",
+      "id": "43d9a030-c548-47b1-a725-6062d7aca1f2",
       "name": "Check dependency 3/4",
       "description": "The ldapdomaindump module must be installed",
       "type": "execute-command",
       "data": {
         "command": "python3 -c 'import ldapdomaindump' 2\u003e/dev/null",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "aa46f16e-a6f6-445c-8c71-4b74cc9d56e9",
+      "id": "dc2353c8-f4bf-4aa8-9c65-a8fa26632e79",
       "name": "Resolve dependency 3/4",
       "description": "The ldapdomaindump module must be installed",
       "type": "execute-command",
       "data": {
         "command": "pip install ldapdomaindump",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "d4ca62f1-d0b3-4238-959d-2bbdf611800b",
+      "id": "7a45d055-c645-4238-94ba-c6544b4b8f04",
       "name": "Re-check dependency 3/4",
       "description": "The ldapdomaindump module must be installed",
       "type": "execute-command",
       "data": {
         "command": "python3 -c 'import ldapdomaindump' 2\u003e/dev/null",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "9399d54d-faa2-4239-af17-5b2a2f8731cc",
+      "id": "1d7941c2-030f-4027-9bbf-194d5e23fdc5",
       "name": "Check dependency 4/4",
       "description": "The future module must be installed",
       "type": "execute-command",
       "data": {
         "command": "python3 -c 'import future' 2\u003e/dev/null",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "5d86545c-e12c-4981-a327-0ab470ade259",
+      "id": "c66309e3-6794-4425-873e-79c0fbfab045",
       "name": "Resolve dependency 4/4",
       "description": "The future module must be installed",
       "type": "execute-command",
       "data": {
         "command": "pip install future",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "192e8d17-67b4-4d2d-8595-6da6c27c204d",
+      "id": "ab8e6bc0-8122-47c8-8496-9200e057e6ab",
       "name": "Re-check dependency 4/4",
       "description": "The future module must be installed",
       "type": "execute-command",
       "data": {
         "command": "python3 -c 'import future' 2\u003e/dev/null",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "1c8f3e7b-c921-40f9-b394-c8f6a9bafe69",
+      "s": "8a969d90-4b8b-4369-94e3-7639dc2fe96b",
       "p": "on-success",
-      "o": "842e855a-6123-4cba-a80a-a8fef28fee44"
+      "o": "077b1df7-50de-41bf-877e-f26a3f029312"
     },
     {
-      "s": "1c8f3e7b-c921-40f9-b394-c8f6a9bafe69",
+      "s": "8a969d90-4b8b-4369-94e3-7639dc2fe96b",
       "p": "on-failure",
-      "o": "842e855a-6123-4cba-a80a-a8fef28fee44"
+      "o": "077b1df7-50de-41bf-877e-f26a3f029312"
     },
     {
-      "s": "7313ecc3-bb81-4f8f-9158-05c30e76cf36",
+      "s": "bdd94224-c5a3-4e90-8290-0915fcafd218",
       "p": "on-success",
-      "o": "1c8f3e7b-c921-40f9-b394-c8f6a9bafe69"
+      "o": "8a969d90-4b8b-4369-94e3-7639dc2fe96b"
     },
     {
-      "s": "7313ecc3-bb81-4f8f-9158-05c30e76cf36",
+      "s": "bdd94224-c5a3-4e90-8290-0915fcafd218",
       "p": "on-failure",
-      "o": "af9d7cdd-bcce-4eb1-a971-da75d34f4520"
+      "o": "53ccd6d6-6f63-47b2-aaa8-e1d2111964d3"
     },
     {
-      "s": "af9d7cdd-bcce-4eb1-a971-da75d34f4520",
+      "s": "53ccd6d6-6f63-47b2-aaa8-e1d2111964d3",
       "p": "on-success",
-      "o": "e5a09869-ed1f-4503-acca-2c12f2dddac5"
+      "o": "eefa4800-7507-4af0-b3b4-0b8ac351f92c"
     },
     {
-      "s": "e5a09869-ed1f-4503-acca-2c12f2dddac5",
+      "s": "eefa4800-7507-4af0-b3b4-0b8ac351f92c",
       "p": "on-failure",
-      "o": "1c8f3e7b-c921-40f9-b394-c8f6a9bafe69"
+      "o": "8a969d90-4b8b-4369-94e3-7639dc2fe96b"
     },
     {
-      "s": "74ec0ee1-ddf3-4008-9d04-94b6237e446d",
+      "s": "a68cf7a5-ad45-441a-b7b7-f4c1d9a1c437",
       "p": "on-success",
-      "o": "1c8f3e7b-c921-40f9-b394-c8f6a9bafe69"
+      "o": "8a969d90-4b8b-4369-94e3-7639dc2fe96b"
     },
     {
-      "s": "74ec0ee1-ddf3-4008-9d04-94b6237e446d",
+      "s": "a68cf7a5-ad45-441a-b7b7-f4c1d9a1c437",
       "p": "on-failure",
-      "o": "044773b9-b369-451f-bd68-43c20de1e5a4"
+      "o": "3a3dd932-72eb-4e70-851d-f131bfcf92d7"
     },
     {
-      "s": "044773b9-b369-451f-bd68-43c20de1e5a4",
+      "s": "3a3dd932-72eb-4e70-851d-f131bfcf92d7",
       "p": "on-success",
-      "o": "9e6288f4-e4a8-42eb-98b7-d06aba60a71c"
+      "o": "17caf343-9a20-4385-8d9b-659e93131668"
     },
     {
-      "s": "9e6288f4-e4a8-42eb-98b7-d06aba60a71c",
+      "s": "17caf343-9a20-4385-8d9b-659e93131668",
       "p": "on-failure",
-      "o": "1c8f3e7b-c921-40f9-b394-c8f6a9bafe69"
+      "o": "8a969d90-4b8b-4369-94e3-7639dc2fe96b"
     },
     {
-      "s": "5639cbaf-3f85-4eff-886c-b3154626cf1c",
+      "s": "43d9a030-c548-47b1-a725-6062d7aca1f2",
       "p": "on-success",
-      "o": "1c8f3e7b-c921-40f9-b394-c8f6a9bafe69"
+      "o": "8a969d90-4b8b-4369-94e3-7639dc2fe96b"
     },
     {
-      "s": "5639cbaf-3f85-4eff-886c-b3154626cf1c",
+      "s": "43d9a030-c548-47b1-a725-6062d7aca1f2",
       "p": "on-failure",
-      "o": "aa46f16e-a6f6-445c-8c71-4b74cc9d56e9"
+      "o": "dc2353c8-f4bf-4aa8-9c65-a8fa26632e79"
     },
     {
-      "s": "aa46f16e-a6f6-445c-8c71-4b74cc9d56e9",
+      "s": "dc2353c8-f4bf-4aa8-9c65-a8fa26632e79",
       "p": "on-success",
-      "o": "d4ca62f1-d0b3-4238-959d-2bbdf611800b"
+      "o": "7a45d055-c645-4238-94ba-c6544b4b8f04"
     },
     {
-      "s": "d4ca62f1-d0b3-4238-959d-2bbdf611800b",
+      "s": "7a45d055-c645-4238-94ba-c6544b4b8f04",
       "p": "on-failure",
-      "o": "1c8f3e7b-c921-40f9-b394-c8f6a9bafe69"
+      "o": "8a969d90-4b8b-4369-94e3-7639dc2fe96b"
     },
     {
-      "s": "9399d54d-faa2-4239-af17-5b2a2f8731cc",
+      "s": "1d7941c2-030f-4027-9bbf-194d5e23fdc5",
       "p": "on-success",
-      "o": "1c8f3e7b-c921-40f9-b394-c8f6a9bafe69"
+      "o": "8a969d90-4b8b-4369-94e3-7639dc2fe96b"
     },
     {
-      "s": "9399d54d-faa2-4239-af17-5b2a2f8731cc",
+      "s": "1d7941c2-030f-4027-9bbf-194d5e23fdc5",
       "p": "on-failure",
-      "o": "5d86545c-e12c-4981-a327-0ab470ade259"
+      "o": "c66309e3-6794-4425-873e-79c0fbfab045"
     },
     {
-      "s": "5d86545c-e12c-4981-a327-0ab470ade259",
+      "s": "c66309e3-6794-4425-873e-79c0fbfab045",
       "p": "on-success",
-      "o": "192e8d17-67b4-4d2d-8595-6da6c27c204d"
+      "o": "ab8e6bc0-8122-47c8-8496-9200e057e6ab"
     },
     {
-      "s": "192e8d17-67b4-4d2d-8595-6da6c27c204d",
+      "s": "ab8e6bc0-8122-47c8-8496-9200e057e6ab",
       "p": "on-failure",
-      "o": "1c8f3e7b-c921-40f9-b394-c8f6a9bafe69"
+      "o": "8a969d90-4b8b-4369-94e3-7639dc2fe96b"
     }
   ],
   "tags": [
@@ -254,6 +254,12 @@
     "T1087.002"
   ],
   "input_arguments": [
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password to authenticate with",
+      "value": "password"
+    },
     {
       "name": "username",
       "type": "string",
@@ -265,12 +271,6 @@
       "type": "string",
       "description": "IP to connect to",
       "value": "127.0.0.1"
-    },
-    {
-      "name": "password",
-      "type": "string",
-      "description": "Password to authenticate with",
-      "value": "password"
     }
   ]
 }

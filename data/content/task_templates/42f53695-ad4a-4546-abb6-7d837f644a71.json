@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "9e0bc916-da59-48da-9892-76ce2622603e",
+      "id": "d02eaaaa-1668-44df-a41b-47de4bf40869",
       "type": "execute-command",
       "data": {
-        "command": "SCHTASKS /Create /SC ONCE /TN spawn /TR #{task_command} /ST #{time}\n",
+        "command": "SCHTASKS /Create /SC ONCE /TN spawn /TR #{task_command} /ST #{time}",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "9d4fb688-367a-4bdf-b4ff-e34fa2fb2fa8",
+      "id": "ff7b2e7a-a7ba-427f-b6f3-702a0ff0d912",
       "type": "execute-command",
       "data": {
-        "command": "SCHTASKS /Delete /TN spawn /F \u003enul 2\u003e\u00261\n",
+        "command": "SCHTASKS /Delete /TN spawn /F \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "9e0bc916-da59-48da-9892-76ce2622603e",
+      "s": "d02eaaaa-1668-44df-a41b-47de4bf40869",
       "p": "on-success",
-      "o": "9d4fb688-367a-4bdf-b4ff-e34fa2fb2fa8"
+      "o": "ff7b2e7a-a7ba-427f-b6f3-702a0ff0d912"
     },
     {
-      "s": "9e0bc916-da59-48da-9892-76ce2622603e",
+      "s": "d02eaaaa-1668-44df-a41b-47de4bf40869",
       "p": "on-failure",
-      "o": "9d4fb688-367a-4bdf-b4ff-e34fa2fb2fa8"
+      "o": "ff7b2e7a-a7ba-427f-b6f3-702a0ff0d912"
     }
   ],
   "tags": [

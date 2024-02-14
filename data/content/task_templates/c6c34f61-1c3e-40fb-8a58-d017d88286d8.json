@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "30f56c41-d2b5-4552-bf87-ce6b1ef8507b",
+      "id": "16390f35-df42-46b0-b7ff-be2736772464",
       "type": "execute-command",
       "data": {
-        "command": "$folderarray = @(\"Desktop\", \"Downloads\", \"Documents\", \"AppData/Local\", \"AppData/Roaming\")\nGet-ChildItem -Path $env:homedrive -ErrorAction SilentlyContinue | Out-File -append #{File_to_output}\nGet-ChildItem -Path $env:programfiles -erroraction silentlycontinue | Out-File -append #{File_to_output}\nGet-ChildItem -Path \"${env:ProgramFiles(x86)}\" -erroraction silentlycontinue | Out-File -append #{File_to_output}\n$UsersFolder = \"$env:homedrive\\Users\\\"\nforeach ($directory in Get-ChildItem -Path $UsersFolder -ErrorAction SilentlyContinue) \n{\nforeach ($secondarydirectory in $folderarray)\n {Get-ChildItem -Path \"$UsersFolder/$directory/$secondarydirectory\" -ErrorAction SilentlyContinue | Out-File -append #{File_to_output}}\n}\ncat #{File_to_output}\n",
+        "command": "$folderarray = @(\"Desktop\", \"Downloads\", \"Documents\", \"AppData/Local\", \"AppData/Roaming\")\nGet-ChildItem -Path $env:homedrive -ErrorAction SilentlyContinue | Out-File -append #{File_to_output}\nGet-ChildItem -Path $env:programfiles -erroraction silentlycontinue | Out-File -append #{File_to_output}\nGet-ChildItem -Path \"${env:ProgramFiles(x86)}\" -erroraction silentlycontinue | Out-File -append #{File_to_output}\n$UsersFolder = \"$env:homedrive\\Users\\\"\nforeach ($directory in Get-ChildItem -Path $UsersFolder -ErrorAction SilentlyContinue) \n{\nforeach ($secondarydirectory in $folderarray)\n {Get-ChildItem -Path \"$UsersFolder/$directory/$secondarydirectory\" -ErrorAction SilentlyContinue | Out-File -append #{File_to_output}}\n}\ncat #{File_to_output}",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "61394ca9-d150-4969-9dc8-e1a85ff1a5fa",
+      "id": "60b5fb1f-891a-46e0-b1fb-1dadc16be5b0",
       "type": "execute-command",
       "data": {
-        "command": "remove-item #{File_to_output} -ErrorAction SilentlyContinue\n",
+        "command": "remove-item #{File_to_output} -ErrorAction SilentlyContinue",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "30f56c41-d2b5-4552-bf87-ce6b1ef8507b",
+      "s": "16390f35-df42-46b0-b7ff-be2736772464",
       "p": "on-success",
-      "o": "61394ca9-d150-4969-9dc8-e1a85ff1a5fa"
+      "o": "60b5fb1f-891a-46e0-b1fb-1dadc16be5b0"
     },
     {
-      "s": "30f56c41-d2b5-4552-bf87-ce6b1ef8507b",
+      "s": "16390f35-df42-46b0-b7ff-be2736772464",
       "p": "on-failure",
-      "o": "61394ca9-d150-4969-9dc8-e1a85ff1a5fa"
+      "o": "60b5fb1f-891a-46e0-b1fb-1dadc16be5b0"
     }
   ],
   "tags": [

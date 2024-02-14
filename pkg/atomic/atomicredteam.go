@@ -19,7 +19,6 @@ type AtomicRedTeamDependency struct {
 	Description      string `yaml:"description"`
 	PrereqCommand    string `yaml:"prereq_command"`
 	GetPrereqCommand string `yaml:"get_prereq_command"`
-	ExecutorName     string `yaml:"-"`
 }
 
 type AtomicRedTeamExecutor struct {
@@ -114,8 +113,12 @@ func (t AtomicRedTeamTest) GetTaskTemplate() (*TaskTemplate, error) {
 	// Check, resolve, and re-check any dependencies before running the test or cleanup commands.
 	n := len(t.Dependencies)
 	if n > 0 {
+		dependencyExecutorName := t.DependencyExecutorName
+		if dependencyExecutorName == "" {
+			dependencyExecutorName = t.Executor.Name
+		}
 		for i, d := range t.Dependencies {
-			a, err := NewExecuteCommandStep(d.PrereqCommand, d.ExecutorName)
+			a, err := NewExecuteCommandStep(d.PrereqCommand, dependencyExecutorName)
 			if err != nil {
 				return nil, err
 			}
@@ -123,7 +126,7 @@ func (t AtomicRedTeamTest) GetTaskTemplate() (*TaskTemplate, error) {
 			a.Description = d.Description
 			a.ElevationRequired = t.Executor.ElevationRequired
 
-			b, err := NewExecuteCommandStep(d.GetPrereqCommand, d.ExecutorName)
+			b, err := NewExecuteCommandStep(d.GetPrereqCommand, dependencyExecutorName)
 			if err != nil {
 				return nil, err
 			}
@@ -131,7 +134,7 @@ func (t AtomicRedTeamTest) GetTaskTemplate() (*TaskTemplate, error) {
 			b.Description = d.Description
 			b.ElevationRequired = t.Executor.ElevationRequired
 
-			c, err := NewExecuteCommandStep(d.PrereqCommand, d.ExecutorName)
+			c, err := NewExecuteCommandStep(d.PrereqCommand, dependencyExecutorName)
 			if err != nil {
 				return nil, err
 			}
@@ -202,9 +205,6 @@ func parseAtomicRedTeamYAML(b []byte) (*AtomicRedTeamTestBundle, error) {
 			continue
 		}
 		test.AttackTechniqueId = bundle.AttackTechniqueId
-		for _, dependency := range test.Dependencies {
-			dependency.ExecutorName = test.DependencyExecutorName
-		}
 		for i, platform := range test.Platforms {
 			if platform == "macos" {
 				test.Platforms[i] = "darwin"

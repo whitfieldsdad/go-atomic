@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "33eb1583-cfc0-4906-9706-a4f3d5803bd4",
+      "id": "f0af98ca-80cf-4051-9447-dcedf6ccce47",
       "type": "execute-command",
       "data": {
-        "command": "import -window root #{output_file}\n",
+        "command": "import -window root #{output_file}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "349aab89-bdcc-452c-b54b-7e3c7fe335c3",
+      "id": "27de9899-66d1-4015-bcb2-c28907928fa1",
       "type": "execute-command",
       "data": {
-        "command": "rm #{output_file}\n",
+        "command": "rm #{output_file}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "5e9822f0-dc1c-47c8-a8c8-aa5c5a412f49",
+      "id": "b828d976-ad72-428c-8573-6f8cb09731a3",
       "name": "Check dependency 1/1",
       "description": "ImageMagick must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if import -help \u003e /dev/null 2\u003e\u00261; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if import -help \u003e /dev/null 2\u003e\u00261; then exit 0; else exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "ecc18308-38fc-47f3-97e5-d93c0b1cca70",
+      "id": "8588eb61-7878-4ddf-b144-8bfb9075b9e5",
       "name": "Resolve dependency 1/1",
       "description": "ImageMagick must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "pkg install -y ImageMagick7\n",
-        "command_type": ""
+        "command": "pkg install -y ImageMagick7",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "38a075b7-5cca-4906-b7ea-ea4f26f495ff",
+      "id": "a4af632f-8258-4d14-b09f-a55533808473",
       "name": "Re-check dependency 1/1",
       "description": "ImageMagick must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if import -help \u003e /dev/null 2\u003e\u00261; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if import -help \u003e /dev/null 2\u003e\u00261; then exit 0; else exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "33eb1583-cfc0-4906-9706-a4f3d5803bd4",
+      "s": "f0af98ca-80cf-4051-9447-dcedf6ccce47",
       "p": "on-success",
-      "o": "349aab89-bdcc-452c-b54b-7e3c7fe335c3"
+      "o": "27de9899-66d1-4015-bcb2-c28907928fa1"
     },
     {
-      "s": "33eb1583-cfc0-4906-9706-a4f3d5803bd4",
+      "s": "f0af98ca-80cf-4051-9447-dcedf6ccce47",
       "p": "on-failure",
-      "o": "349aab89-bdcc-452c-b54b-7e3c7fe335c3"
+      "o": "27de9899-66d1-4015-bcb2-c28907928fa1"
     },
     {
-      "s": "5e9822f0-dc1c-47c8-a8c8-aa5c5a412f49",
+      "s": "b828d976-ad72-428c-8573-6f8cb09731a3",
       "p": "on-success",
-      "o": "33eb1583-cfc0-4906-9706-a4f3d5803bd4"
+      "o": "f0af98ca-80cf-4051-9447-dcedf6ccce47"
     },
     {
-      "s": "5e9822f0-dc1c-47c8-a8c8-aa5c5a412f49",
+      "s": "b828d976-ad72-428c-8573-6f8cb09731a3",
       "p": "on-failure",
-      "o": "ecc18308-38fc-47f3-97e5-d93c0b1cca70"
+      "o": "8588eb61-7878-4ddf-b144-8bfb9075b9e5"
     },
     {
-      "s": "ecc18308-38fc-47f3-97e5-d93c0b1cca70",
+      "s": "8588eb61-7878-4ddf-b144-8bfb9075b9e5",
       "p": "on-success",
-      "o": "38a075b7-5cca-4906-b7ea-ea4f26f495ff"
+      "o": "a4af632f-8258-4d14-b09f-a55533808473"
     },
     {
-      "s": "38a075b7-5cca-4906-b7ea-ea4f26f495ff",
+      "s": "a4af632f-8258-4d14-b09f-a55533808473",
       "p": "on-failure",
-      "o": "33eb1583-cfc0-4906-9706-a4f3d5803bd4"
+      "o": "f0af98ca-80cf-4051-9447-dcedf6ccce47"
     }
   ],
   "tags": [

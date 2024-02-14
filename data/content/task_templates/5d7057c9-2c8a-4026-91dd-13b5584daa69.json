@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "5177ee45-aa90-4c5a-84cc-41034e7c3689",
+      "id": "4cee72e3-98f8-414c-a56c-0749a1cb0eed",
       "type": "execute-command",
       "data": {
-        "command": "[ -f /etc/locale.conf ] \u0026\u0026 cat /etc/locale.conf || cat /etc/default/locale\n",
+        "command": "[ -f /etc/locale.conf ] \u0026\u0026 cat /etc/locale.conf || cat /etc/default/locale",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "980938b7-4d71-4105-b210-75c7548c1b5e",
+      "id": "fb67f256-32b0-4d53-816a-915ea3a23d69",
       "name": "Check dependency 1/1",
       "description": "Check the location of the locale configuration file.\n",
       "type": "execute-command",
       "data": {
-        "command": "[ -f /etc/locale.conf ] || [ -f /etc/default/locale ] \u0026\u0026 exit 0 || exit 1\n",
-        "command_type": ""
+        "command": "[ -f /etc/locale.conf ] || [ -f /etc/default/locale ] \u0026\u0026 exit 0 || exit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "04ca48af-d373-4cfe-90c7-ef0bdcd8785b",
+      "id": "333938a9-5aff-41b4-85bc-dade2e9ad9f5",
       "name": "Resolve dependency 1/1",
       "description": "Check the location of the locale configuration file.\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"Test only valid for systems that have locale file\"\n",
-        "command_type": ""
+        "command": "echo \"Test only valid for systems that have locale file\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "1886ccc2-2311-4c88-a561-13d75c80bbdf",
+      "id": "d326817d-090d-451e-9b35-64da6988f790",
       "name": "Re-check dependency 1/1",
       "description": "Check the location of the locale configuration file.\n",
       "type": "execute-command",
       "data": {
-        "command": "[ -f /etc/locale.conf ] || [ -f /etc/default/locale ] \u0026\u0026 exit 0 || exit 1\n",
-        "command_type": ""
+        "command": "[ -f /etc/locale.conf ] || [ -f /etc/default/locale ] \u0026\u0026 exit 0 || exit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "980938b7-4d71-4105-b210-75c7548c1b5e",
+      "s": "fb67f256-32b0-4d53-816a-915ea3a23d69",
       "p": "on-success",
-      "o": "5177ee45-aa90-4c5a-84cc-41034e7c3689"
+      "o": "4cee72e3-98f8-414c-a56c-0749a1cb0eed"
     },
     {
-      "s": "980938b7-4d71-4105-b210-75c7548c1b5e",
+      "s": "fb67f256-32b0-4d53-816a-915ea3a23d69",
       "p": "on-failure",
-      "o": "04ca48af-d373-4cfe-90c7-ef0bdcd8785b"
+      "o": "333938a9-5aff-41b4-85bc-dade2e9ad9f5"
     },
     {
-      "s": "04ca48af-d373-4cfe-90c7-ef0bdcd8785b",
+      "s": "333938a9-5aff-41b4-85bc-dade2e9ad9f5",
       "p": "on-success",
-      "o": "1886ccc2-2311-4c88-a561-13d75c80bbdf"
+      "o": "d326817d-090d-451e-9b35-64da6988f790"
     },
     {
-      "s": "1886ccc2-2311-4c88-a561-13d75c80bbdf",
+      "s": "d326817d-090d-451e-9b35-64da6988f790",
       "p": "on-failure",
-      "o": "5177ee45-aa90-4c5a-84cc-41034e7c3689"
+      "o": "4cee72e3-98f8-414c-a56c-0749a1cb0eed"
     }
   ],
   "tags": [

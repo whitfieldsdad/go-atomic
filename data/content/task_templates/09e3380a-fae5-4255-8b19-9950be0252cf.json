@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "adb6f9e1-11d3-454f-b0e7-79b072b73879",
+      "id": "1950f000-0b8e-444a-9e4e-60deaee047f1",
       "type": "execute-command",
       "data": {
-        "command": "pw useradd art -g wheel -s /bin/sh\necho $(openssl passwd -1 art) | pw mod user testuser1 -h 0\npw lock art\npw usermod art -e +1d\npw unlock art\npw user mod art -e +99d\nsu art\nwhoami\nexit\n",
+        "command": "pw useradd art -g wheel -s /bin/sh\necho $(openssl passwd -1 art) | pw mod user testuser1 -h 0\npw lock art\npw usermod art -e +1d\npw unlock art\npw user mod art -e +99d\nsu art\nwhoami\nexit",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "c0ff9a36-5073-4a7d-89f9-e95a811a7124",
+      "id": "5e160687-800f-4da7-b385-9c9f73425ba5",
       "type": "execute-command",
       "data": {
-        "command": "rmuser -y art \n",
+        "command": "rmuser -y art",
         "command_type": "sh"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "adb6f9e1-11d3-454f-b0e7-79b072b73879",
+      "s": "1950f000-0b8e-444a-9e4e-60deaee047f1",
       "p": "on-success",
-      "o": "c0ff9a36-5073-4a7d-89f9-e95a811a7124"
+      "o": "5e160687-800f-4da7-b385-9c9f73425ba5"
     },
     {
-      "s": "adb6f9e1-11d3-454f-b0e7-79b072b73879",
+      "s": "1950f000-0b8e-444a-9e4e-60deaee047f1",
       "p": "on-failure",
-      "o": "c0ff9a36-5073-4a7d-89f9-e95a811a7124"
+      "o": "5e160687-800f-4da7-b385-9c9f73425ba5"
     }
   ],
   "tags": [

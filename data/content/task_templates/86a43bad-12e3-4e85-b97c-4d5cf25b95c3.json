@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ad8173a3-8aef-4855-8814-30ba11c98d11",
+      "id": "84278712-4544-4518-a661-de1ad4f34107",
       "type": "execute-command",
       "data": {
         "command": "Out-ATHPowerShellCommandLineParameter -CommandLineSwitchType #{command_line_switch_type} -EncodedCommandParamVariation #{encoded_command_param_variation} -Execute -ErrorAction Stop",
@@ -16,59 +16,59 @@
       "elevation_required": false
     },
     {
-      "id": "880f8728-d003-4684-9feb-4608582b1366",
+      "id": "6f460034-3def-4de0-bd7a-48f5e46ab95b",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
       "type": "execute-command",
       "data": {
         "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Out-ATHPowerShellCommandLineParameter']) {exit 1} else {exit 0}",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "03cf1dd0-f2b3-47ab-891f-f69519c802e4",
+      "id": "75944f81-2205-4d12-941a-c821c7345c2e",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force\n",
-        "command_type": ""
+        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "aad3b099-81d8-4974-9ffc-80d20421ad51",
+      "id": "025577fb-dc2a-4086-bfd8-03b2ab117019",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
       "type": "execute-command",
       "data": {
         "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Out-ATHPowerShellCommandLineParameter']) {exit 1} else {exit 0}",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "880f8728-d003-4684-9feb-4608582b1366",
+      "s": "6f460034-3def-4de0-bd7a-48f5e46ab95b",
       "p": "on-success",
-      "o": "ad8173a3-8aef-4855-8814-30ba11c98d11"
+      "o": "84278712-4544-4518-a661-de1ad4f34107"
     },
     {
-      "s": "880f8728-d003-4684-9feb-4608582b1366",
+      "s": "6f460034-3def-4de0-bd7a-48f5e46ab95b",
       "p": "on-failure",
-      "o": "03cf1dd0-f2b3-47ab-891f-f69519c802e4"
+      "o": "75944f81-2205-4d12-941a-c821c7345c2e"
     },
     {
-      "s": "03cf1dd0-f2b3-47ab-891f-f69519c802e4",
+      "s": "75944f81-2205-4d12-941a-c821c7345c2e",
       "p": "on-success",
-      "o": "aad3b099-81d8-4974-9ffc-80d20421ad51"
+      "o": "025577fb-dc2a-4086-bfd8-03b2ab117019"
     },
     {
-      "s": "aad3b099-81d8-4974-9ffc-80d20421ad51",
+      "s": "025577fb-dc2a-4086-bfd8-03b2ab117019",
       "p": "on-failure",
-      "o": "ad8173a3-8aef-4855-8814-30ba11c98d11"
+      "o": "84278712-4544-4518-a661-de1ad4f34107"
     }
   ],
   "tags": [
@@ -77,16 +77,16 @@
   ],
   "input_arguments": [
     {
-      "name": "encoded_command_param_variation",
-      "type": "string",
-      "description": "The \"EncodedCommand\" parameter variation to use",
-      "value": "E"
-    },
-    {
       "name": "command_line_switch_type",
       "type": "string",
       "description": "The type of supported command-line switch to use",
       "value": "Hyphen"
+    },
+    {
+      "name": "encoded_command_param_variation",
+      "type": "string",
+      "description": "The \"EncodedCommand\" parameter variation to use",
+      "value": "E"
     }
   ]
 }

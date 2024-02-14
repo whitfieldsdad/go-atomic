@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "12e04a80-c093-484e-9596-81aefed5348c",
+      "id": "61ac5bfd-83db-4dc4-a37f-74262cc4681f",
       "type": "execute-command",
       "data": {
-        "command": "aws iam get-account-password-policy\n",
+        "command": "aws iam get-account-password-policy",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "6cb07b62-2ead-463c-97ed-dc8db2dd75ae",
+      "id": "60c7aeb8-5a20-4127-a089-a34dc420600b",
       "name": "Check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "cat ~/.aws/credentials | grep \"default\"\n",
-        "command_type": ""
+        "command": "cat ~/.aws/credentials | grep \"default\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "485bbc7e-209b-4e28-837e-c52d0c4ebaa4",
+      "id": "b8c04528-1034-4c07-a2ee-aa70c1b273ff",
       "name": "Resolve dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "echo Please install the aws-cli and configure your AWS defult profile using: aws configure\n",
-        "command_type": ""
+        "command": "echo Please install the aws-cli and configure your AWS defult profile using: aws configure",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "7fe0c667-930e-47d7-81b0-52d42f7428fb",
+      "id": "a822d1b0-c70d-4082-b142-ad14c7441ef2",
       "name": "Re-check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "cat ~/.aws/credentials | grep \"default\"\n",
-        "command_type": ""
+        "command": "cat ~/.aws/credentials | grep \"default\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "6cb07b62-2ead-463c-97ed-dc8db2dd75ae",
+      "s": "60c7aeb8-5a20-4127-a089-a34dc420600b",
       "p": "on-success",
-      "o": "12e04a80-c093-484e-9596-81aefed5348c"
+      "o": "61ac5bfd-83db-4dc4-a37f-74262cc4681f"
     },
     {
-      "s": "6cb07b62-2ead-463c-97ed-dc8db2dd75ae",
+      "s": "60c7aeb8-5a20-4127-a089-a34dc420600b",
       "p": "on-failure",
-      "o": "485bbc7e-209b-4e28-837e-c52d0c4ebaa4"
+      "o": "b8c04528-1034-4c07-a2ee-aa70c1b273ff"
     },
     {
-      "s": "485bbc7e-209b-4e28-837e-c52d0c4ebaa4",
+      "s": "b8c04528-1034-4c07-a2ee-aa70c1b273ff",
       "p": "on-success",
-      "o": "7fe0c667-930e-47d7-81b0-52d42f7428fb"
+      "o": "a822d1b0-c70d-4082-b142-ad14c7441ef2"
     },
     {
-      "s": "7fe0c667-930e-47d7-81b0-52d42f7428fb",
+      "s": "a822d1b0-c70d-4082-b142-ad14c7441ef2",
       "p": "on-failure",
-      "o": "12e04a80-c093-484e-9596-81aefed5348c"
+      "o": "61ac5bfd-83db-4dc4-a37f-74262cc4681f"
     }
   ],
   "tags": [

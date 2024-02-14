@@ -8,105 +8,93 @@
   ],
   "steps": [
     {
-      "id": "a0febbc4-37e5-436f-9ec5-00e772ba3c7b",
+      "id": "fdef5403-146e-49a6-b553-0ee2f7c32760",
       "type": "execute-command",
       "data": {
-        "command": "timeout --preserve-status #{timeout} whois -h #{remote_host} -p #{remote_port} \"#{query}\" \u003e #{output_file}\n",
+        "command": "timeout --preserve-status #{timeout} whois -h #{remote_host} -p #{remote_port} \"#{query}\" \u003e #{output_file}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "1553a6de-b493-4abf-a2b7-d4ac3e744772",
+      "id": "bab8b235-4d3b-40a7-b477-0dc9ba1e680d",
       "type": "execute-command",
       "data": {
-        "command": "rm -f #{output_file}\n",
+        "command": "rm -f #{output_file}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "9559691c-d4bf-4b71-82dd-6e871c3f8b05",
+      "id": "add33eaa-9dee-48c8-aa1c-e1c2a0c01dca",
       "name": "Check dependency 1/1",
       "description": "The whois and timeout commands must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "which whois \u0026\u0026 which timeout\n",
-        "command_type": ""
+        "command": "which whois \u0026\u0026 which timeout",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "65e4b753-aab8-4992-9944-fed7cd067436",
+      "id": "56c057c0-297b-4a9c-add3-114eead9f736",
       "name": "Resolve dependency 1/1",
       "description": "The whois and timeout commands must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"Please install timeout and the whois package\"\n",
-        "command_type": ""
+        "command": "echo \"Please install timeout and the whois package\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "74acc4c6-e833-4b34-8a92-941eacd6b40b",
+      "id": "a0d98a42-9522-4771-ad7b-ed1cd9ee7788",
       "name": "Re-check dependency 1/1",
       "description": "The whois and timeout commands must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "which whois \u0026\u0026 which timeout\n",
-        "command_type": ""
+        "command": "which whois \u0026\u0026 which timeout",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "a0febbc4-37e5-436f-9ec5-00e772ba3c7b",
+      "s": "fdef5403-146e-49a6-b553-0ee2f7c32760",
       "p": "on-success",
-      "o": "1553a6de-b493-4abf-a2b7-d4ac3e744772"
+      "o": "bab8b235-4d3b-40a7-b477-0dc9ba1e680d"
     },
     {
-      "s": "a0febbc4-37e5-436f-9ec5-00e772ba3c7b",
+      "s": "fdef5403-146e-49a6-b553-0ee2f7c32760",
       "p": "on-failure",
-      "o": "1553a6de-b493-4abf-a2b7-d4ac3e744772"
+      "o": "bab8b235-4d3b-40a7-b477-0dc9ba1e680d"
     },
     {
-      "s": "9559691c-d4bf-4b71-82dd-6e871c3f8b05",
+      "s": "add33eaa-9dee-48c8-aa1c-e1c2a0c01dca",
       "p": "on-success",
-      "o": "a0febbc4-37e5-436f-9ec5-00e772ba3c7b"
+      "o": "fdef5403-146e-49a6-b553-0ee2f7c32760"
     },
     {
-      "s": "9559691c-d4bf-4b71-82dd-6e871c3f8b05",
+      "s": "add33eaa-9dee-48c8-aa1c-e1c2a0c01dca",
       "p": "on-failure",
-      "o": "65e4b753-aab8-4992-9944-fed7cd067436"
+      "o": "56c057c0-297b-4a9c-add3-114eead9f736"
     },
     {
-      "s": "65e4b753-aab8-4992-9944-fed7cd067436",
+      "s": "56c057c0-297b-4a9c-add3-114eead9f736",
       "p": "on-success",
-      "o": "74acc4c6-e833-4b34-8a92-941eacd6b40b"
+      "o": "a0d98a42-9522-4771-ad7b-ed1cd9ee7788"
     },
     {
-      "s": "74acc4c6-e833-4b34-8a92-941eacd6b40b",
+      "s": "a0d98a42-9522-4771-ad7b-ed1cd9ee7788",
       "p": "on-failure",
-      "o": "a0febbc4-37e5-436f-9ec5-00e772ba3c7b"
+      "o": "fdef5403-146e-49a6-b553-0ee2f7c32760"
     }
   ],
   "tags": [
     "T1105"
   ],
   "input_arguments": [
-    {
-      "name": "remote_port",
-      "type": "integer",
-      "description": "Remote port to connect to",
-      "value": "8443"
-    },
-    {
-      "name": "output_file",
-      "type": "path",
-      "description": "Path of file to save output to",
-      "value": "/tmp/T1105.whois.out"
-    },
     {
       "name": "query",
       "type": "string",
@@ -124,6 +112,18 @@
       "type": "string",
       "description": "Remote hostname or IP address",
       "value": "localhost"
+    },
+    {
+      "name": "remote_port",
+      "type": "integer",
+      "description": "Remote port to connect to",
+      "value": "8443"
+    },
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path of file to save output to",
+      "value": "/tmp/T1105.whois.out"
     }
   ]
 }

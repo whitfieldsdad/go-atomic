@@ -7,93 +7,99 @@
   ],
   "steps": [
     {
-      "id": "747a63f5-e7c1-49e2-8957-431a8cc78d23",
+      "id": "eedba617-b7fc-410e-8d14-36c0e79f6936",
       "type": "execute-command",
       "data": {
-        "command": "kubectl create -f #{path} -n #{namespace}\n# wait 3 seconds for the instance to come up\nsleep 3\nkubectl exec -n #{namespace} busybox -- #{command}\n",
+        "command": "kubectl create -f #{path} -n #{namespace}\n# wait 3 seconds for the instance to come up\nsleep 3\nkubectl exec -n #{namespace} busybox -- #{command}",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "aeba0a2c-1b26-4f57-b0b7-b75b66ec9e43",
+      "id": "87037e02-73c7-4457-a7be-a4cd7aa6bed9",
       "type": "execute-command",
       "data": {
-        "command": "kubectl delete pod busybox -n #{namespace}\n",
+        "command": "kubectl delete pod busybox -n #{namespace}",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "43006da2-21fa-4996-80be-49d1dc197d8a",
+      "id": "7b3c5ee3-008a-440a-9de9-2b281ae0ca04",
       "name": "Check dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "which kubectl\n",
-        "command_type": ""
+        "command": "which kubectl",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "f3b78f42-b10c-483f-9ef4-dff68f0ad13d",
+      "id": "48e73e95-23c2-4bca-b30e-e33908378bd9",
       "name": "Resolve dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"kubectl must be installed manually\"\n",
-        "command_type": ""
+        "command": "echo \"kubectl must be installed manually\"",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "993d4e6e-5a70-4f17-be2c-0e7cb3578df4",
+      "id": "813bb942-ec80-4aef-8ead-c2d5145b947e",
       "name": "Re-check dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "which kubectl\n",
-        "command_type": ""
+        "command": "which kubectl",
+        "command_type": "bash"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "747a63f5-e7c1-49e2-8957-431a8cc78d23",
+      "s": "eedba617-b7fc-410e-8d14-36c0e79f6936",
       "p": "on-success",
-      "o": "aeba0a2c-1b26-4f57-b0b7-b75b66ec9e43"
+      "o": "87037e02-73c7-4457-a7be-a4cd7aa6bed9"
     },
     {
-      "s": "747a63f5-e7c1-49e2-8957-431a8cc78d23",
+      "s": "eedba617-b7fc-410e-8d14-36c0e79f6936",
       "p": "on-failure",
-      "o": "aeba0a2c-1b26-4f57-b0b7-b75b66ec9e43"
+      "o": "87037e02-73c7-4457-a7be-a4cd7aa6bed9"
     },
     {
-      "s": "43006da2-21fa-4996-80be-49d1dc197d8a",
+      "s": "7b3c5ee3-008a-440a-9de9-2b281ae0ca04",
       "p": "on-success",
-      "o": "747a63f5-e7c1-49e2-8957-431a8cc78d23"
+      "o": "eedba617-b7fc-410e-8d14-36c0e79f6936"
     },
     {
-      "s": "43006da2-21fa-4996-80be-49d1dc197d8a",
+      "s": "7b3c5ee3-008a-440a-9de9-2b281ae0ca04",
       "p": "on-failure",
-      "o": "f3b78f42-b10c-483f-9ef4-dff68f0ad13d"
+      "o": "48e73e95-23c2-4bca-b30e-e33908378bd9"
     },
     {
-      "s": "f3b78f42-b10c-483f-9ef4-dff68f0ad13d",
+      "s": "48e73e95-23c2-4bca-b30e-e33908378bd9",
       "p": "on-success",
-      "o": "993d4e6e-5a70-4f17-be2c-0e7cb3578df4"
+      "o": "813bb942-ec80-4aef-8ead-c2d5145b947e"
     },
     {
-      "s": "993d4e6e-5a70-4f17-be2c-0e7cb3578df4",
+      "s": "813bb942-ec80-4aef-8ead-c2d5145b947e",
       "p": "on-failure",
-      "o": "747a63f5-e7c1-49e2-8957-431a8cc78d23"
+      "o": "eedba617-b7fc-410e-8d14-36c0e79f6936"
     }
   ],
   "tags": [
     "T1609"
   ],
   "input_arguments": [
+    {
+      "name": "path",
+      "type": "string",
+      "description": "Path to busybox.yaml file",
+      "value": "$PathtoAtomicsFolder/T1609/src/busybox.yaml"
+    },
     {
       "name": "namespace",
       "type": "string",
@@ -105,12 +111,6 @@
       "type": "string",
       "description": "Command to run",
       "value": "uname"
-    },
-    {
-      "name": "path",
-      "type": "string",
-      "description": "Path to busybox.yaml file",
-      "value": "$PathtoAtomicsFolder/T1609/src/busybox.yaml"
     }
   ]
 }

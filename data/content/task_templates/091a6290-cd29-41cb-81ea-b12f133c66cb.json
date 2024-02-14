@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "0ccf94d8-fbb5-498d-9e98-c22bb94276f6",
+      "id": "e850e285-96c1-446e-a0e8-1f61ba4aa106",
       "type": "execute-command",
       "data": {
-        "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\nGet-AdvancedSetting -Entity #{vm_host} -Name 'Security.AccountLockFailures' | Set-AdvancedSetting -Value '0' -Confirm:$false\nDisconnect-VIServer -Confirm:$false\n",
+        "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\nGet-AdvancedSetting -Entity #{vm_host} -Name 'Security.AccountLockFailures' | Set-AdvancedSetting -Value '0' -Confirm:$false\nDisconnect-VIServer -Confirm:$false",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "e364a065-dd1b-44e3-849d-225807026c2c",
+      "id": "224fb5c8-b729-49e4-879e-09ae26b6866e",
       "name": "Check dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "$RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable\nif (-not $RequiredModule) {exit 1}\n",
-        "command_type": ""
+        "command": "$RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable\nif (-not $RequiredModule) {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "ecb304a4-c9ea-4141-a7ff-eeb0dae892ae",
+      "id": "d1d81918-5ee9-4549-87ef-bbd3d8562ce8",
       "name": "Resolve dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name VMware.PowerCLI -Confirm:$false\n",
-        "command_type": ""
+        "command": "Install-Module -Name VMware.PowerCLI -Confirm:$false",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "a037d572-df09-4217-9f4a-f3b56a41a92f",
+      "id": "ea7993e3-acf8-4c9b-8424-b14ca5c56ffb",
       "name": "Re-check dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "$RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable\nif (-not $RequiredModule) {exit 1}\n",
-        "command_type": ""
+        "command": "$RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable\nif (-not $RequiredModule) {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "e364a065-dd1b-44e3-849d-225807026c2c",
+      "s": "224fb5c8-b729-49e4-879e-09ae26b6866e",
       "p": "on-success",
-      "o": "0ccf94d8-fbb5-498d-9e98-c22bb94276f6"
+      "o": "e850e285-96c1-446e-a0e8-1f61ba4aa106"
     },
     {
-      "s": "e364a065-dd1b-44e3-849d-225807026c2c",
+      "s": "224fb5c8-b729-49e4-879e-09ae26b6866e",
       "p": "on-failure",
-      "o": "ecb304a4-c9ea-4141-a7ff-eeb0dae892ae"
+      "o": "d1d81918-5ee9-4549-87ef-bbd3d8562ce8"
     },
     {
-      "s": "ecb304a4-c9ea-4141-a7ff-eeb0dae892ae",
+      "s": "d1d81918-5ee9-4549-87ef-bbd3d8562ce8",
       "p": "on-success",
-      "o": "a037d572-df09-4217-9f4a-f3b56a41a92f"
+      "o": "ea7993e3-acf8-4c9b-8424-b14ca5c56ffb"
     },
     {
-      "s": "a037d572-df09-4217-9f4a-f3b56a41a92f",
+      "s": "ea7993e3-acf8-4c9b-8424-b14ca5c56ffb",
       "p": "on-failure",
-      "o": "0ccf94d8-fbb5-498d-9e98-c22bb94276f6"
+      "o": "e850e285-96c1-446e-a0e8-1f61ba4aa106"
     }
   ],
   "tags": [
@@ -76,12 +76,6 @@
     "T1562.001"
   ],
   "input_arguments": [
-    {
-      "name": "vm_pass",
-      "type": "string",
-      "description": "Specify the privilege user password on ESXi Server",
-      "value": "pass"
-    },
     {
       "name": "vm_host",
       "type": "string",
@@ -93,6 +87,12 @@
       "type": "string",
       "description": "Specify the privilege user account on ESXi Server",
       "value": "root"
+    },
+    {
+      "name": "vm_pass",
+      "type": "string",
+      "description": "Specify the privilege user password on ESXi Server",
+      "value": "pass"
     }
   ]
 }

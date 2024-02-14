@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "eaccb713-76e9-4756-ae4b-658ae15e9a08",
+      "id": "cc893383-5c4c-4704-a697-92ca72cf380e",
       "type": "execute-command",
       "data": {
-        "command": "#{xordump_exe} -out #{output_file} -x 0x41\n",
+        "command": "#{xordump_exe} -out #{output_file} -x 0x41",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "9e779cee-605d-4c23-8fdb-f37116ab8271",
+      "id": "0b9969b3-943b-469d-8049-4516dea4f6fd",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item #{output_file} -ErrorAction Ignore\n",
+        "command": "Remove-Item #{output_file} -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "e7802e2b-acc1-48fe-a774-6621a421e0b5",
+      "id": "1e2f0204-34f4-4500-bf90-5a8f65640af8",
       "name": "Check dependency 1/1",
       "description": "Computer must have xordump.exe\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path '#{xordump_exe}') {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path '#{xordump_exe}') {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "3009c0af-0b1d-4497-8e6d-3fc0e55b4d3b",
+      "id": "5b1ea7e3-473f-4c0d-8f32-bc496875a83d",
       "name": "Resolve dependency 1/1",
       "description": "Computer must have xordump.exe\n",
       "type": "execute-command",
       "data": {
-        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nInvoke-WebRequest \"https://github.com/audibleblink/xordump/releases/download/v0.0.1/xordump.exe\" -OutFile #{xordump_exe}\n",
-        "command_type": ""
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nInvoke-WebRequest \"https://github.com/audibleblink/xordump/releases/download/v0.0.1/xordump.exe\" -OutFile #{xordump_exe}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "f919795d-c392-4ff9-9773-948ce652b705",
+      "id": "6e95ec75-33aa-4453-af90-fe1acd1b939c",
       "name": "Re-check dependency 1/1",
       "description": "Computer must have xordump.exe\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path '#{xordump_exe}') {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path '#{xordump_exe}') {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "eaccb713-76e9-4756-ae4b-658ae15e9a08",
+      "s": "cc893383-5c4c-4704-a697-92ca72cf380e",
       "p": "on-success",
-      "o": "9e779cee-605d-4c23-8fdb-f37116ab8271"
+      "o": "0b9969b3-943b-469d-8049-4516dea4f6fd"
     },
     {
-      "s": "eaccb713-76e9-4756-ae4b-658ae15e9a08",
+      "s": "cc893383-5c4c-4704-a697-92ca72cf380e",
       "p": "on-failure",
-      "o": "9e779cee-605d-4c23-8fdb-f37116ab8271"
+      "o": "0b9969b3-943b-469d-8049-4516dea4f6fd"
     },
     {
-      "s": "e7802e2b-acc1-48fe-a774-6621a421e0b5",
+      "s": "1e2f0204-34f4-4500-bf90-5a8f65640af8",
       "p": "on-success",
-      "o": "eaccb713-76e9-4756-ae4b-658ae15e9a08"
+      "o": "cc893383-5c4c-4704-a697-92ca72cf380e"
     },
     {
-      "s": "e7802e2b-acc1-48fe-a774-6621a421e0b5",
+      "s": "1e2f0204-34f4-4500-bf90-5a8f65640af8",
       "p": "on-failure",
-      "o": "3009c0af-0b1d-4497-8e6d-3fc0e55b4d3b"
+      "o": "5b1ea7e3-473f-4c0d-8f32-bc496875a83d"
     },
     {
-      "s": "3009c0af-0b1d-4497-8e6d-3fc0e55b4d3b",
+      "s": "5b1ea7e3-473f-4c0d-8f32-bc496875a83d",
       "p": "on-success",
-      "o": "f919795d-c392-4ff9-9773-948ce652b705"
+      "o": "6e95ec75-33aa-4453-af90-fe1acd1b939c"
     },
     {
-      "s": "f919795d-c392-4ff9-9773-948ce652b705",
+      "s": "6e95ec75-33aa-4453-af90-fe1acd1b939c",
       "p": "on-failure",
-      "o": "eaccb713-76e9-4756-ae4b-658ae15e9a08"
+      "o": "cc893383-5c4c-4704-a697-92ca72cf380e"
     }
   ],
   "tags": [

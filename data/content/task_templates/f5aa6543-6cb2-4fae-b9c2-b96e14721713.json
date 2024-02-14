@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "d6045485-8477-46dd-bfe1-e74732055089",
+      "id": "d7ef24a4-4833-41a5-83e6-a665da915aa8",
       "type": "execute-command",
       "data": {
-        "command": "testcat(){ (while read line; do echo $line \u003e\u003e #{output_file}; done \u003c $1) }\n[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 testcat /etc/master.passwd\ntestcat /etc/passwd\ntestcat /etc/shadow\n",
+        "command": "testcat(){ (while read line; do echo $line \u003e\u003e #{output_file}; done \u003c $1) }\n[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 testcat /etc/master.passwd\ntestcat /etc/passwd\ntestcat /etc/shadow",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "8deb3cad-a3bb-43b6-8874-74c9f6ae2b58",
+      "id": "9ff11bba-8aff-427c-9d65-b89f8a17af62",
       "type": "execute-command",
       "data": {
-        "command": "rm -f #{output_file}\n",
+        "command": "rm -f #{output_file}",
         "command_type": "sh"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "d6045485-8477-46dd-bfe1-e74732055089",
+      "s": "d7ef24a4-4833-41a5-83e6-a665da915aa8",
       "p": "on-success",
-      "o": "8deb3cad-a3bb-43b6-8874-74c9f6ae2b58"
+      "o": "9ff11bba-8aff-427c-9d65-b89f8a17af62"
     },
     {
-      "s": "d6045485-8477-46dd-bfe1-e74732055089",
+      "s": "d7ef24a4-4833-41a5-83e6-a665da915aa8",
       "p": "on-failure",
-      "o": "8deb3cad-a3bb-43b6-8874-74c9f6ae2b58"
+      "o": "9ff11bba-8aff-427c-9d65-b89f8a17af62"
     }
   ],
   "tags": [

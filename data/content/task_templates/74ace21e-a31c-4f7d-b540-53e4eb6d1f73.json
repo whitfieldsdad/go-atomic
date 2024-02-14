@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "5983779d-f491-4a8c-b916-d2e299948a0c",
+      "id": "e2a68232-0e57-42a1-9e31-311e82355499",
       "type": "execute-command",
       "data": {
-        "command": "reg add \"HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp\" /v PortNumber /t REG_DWORD /d #{NEW_Remote_Port} /f\nnetsh advfirewall firewall add rule name=\"RDPPORTLatest-TCP-In\" dir=in action=allow protocol=TCP localport=#{NEW_Remote_Port}\n",
+        "command": "reg add \"HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp\" /v PortNumber /t REG_DWORD /d #{NEW_Remote_Port} /f\nnetsh advfirewall firewall add rule name=\"RDPPORTLatest-TCP-In\" dir=in action=allow protocol=TCP localport=#{NEW_Remote_Port}",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "17be2011-e425-42bb-a3fa-20d9a625fa25",
+      "id": "9cdec970-e351-4284-9f4b-aa7383f5ee4a",
       "type": "execute-command",
       "data": {
-        "command": "reg add \"HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp\" /v PortNumber /t REG_DWORD /d #{OLD_Remote_Port} /f \u003enul 2\u003e\u00261\nnetsh advfirewall firewall delete rule name=\"RDPPORTLatest-TCP-In\" \u003enul 2\u003e\u00261\nnet stop TermService /y \u003enul 2\u003e\u00261\nnet start TermService \u003enul 2\u003e\u00261\n",
+        "command": "reg add \"HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp\" /v PortNumber /t REG_DWORD /d #{OLD_Remote_Port} /f \u003enul 2\u003e\u00261\nnetsh advfirewall firewall delete rule name=\"RDPPORTLatest-TCP-In\" \u003enul 2\u003e\u00261\nnet stop TermService /y \u003enul 2\u003e\u00261\nnet start TermService \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "5983779d-f491-4a8c-b916-d2e299948a0c",
+      "s": "e2a68232-0e57-42a1-9e31-311e82355499",
       "p": "on-success",
-      "o": "17be2011-e425-42bb-a3fa-20d9a625fa25"
+      "o": "9cdec970-e351-4284-9f4b-aa7383f5ee4a"
     },
     {
-      "s": "5983779d-f491-4a8c-b916-d2e299948a0c",
+      "s": "e2a68232-0e57-42a1-9e31-311e82355499",
       "p": "on-failure",
-      "o": "17be2011-e425-42bb-a3fa-20d9a625fa25"
+      "o": "9cdec970-e351-4284-9f4b-aa7383f5ee4a"
     }
   ],
   "tags": [

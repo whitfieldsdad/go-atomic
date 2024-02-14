@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "6e006e7f-ebb0-4336-969a-b38f3f808ede",
+      "id": "74a42475-d9e5-4628-99f3-d9580bebba53",
       "type": "execute-command",
       "data": {
-        "command": "$Action = New-ScheduledTaskAction -Execute \"cmd.exe\"\n$Trigger = New-ScheduledTaskTrigger -AtLogon\n$User = New-ScheduledTaskPrincipal -GroupId \"BUILTIN\\Administrators\" -RunLevel Highest\n$Set = New-ScheduledTaskSettingsSet\n$object = New-ScheduledTask -Action $Action -Principal $User -Trigger $Trigger -Settings $Set\nRegister-ScheduledTask AtomicTaskModifed -InputObject $object\n$NewAction = New-ScheduledTaskAction -Execute \"Notepad.exe\"\nSet-ScheduledTask \"AtomicTaskModifed\" -Action $NewAction\n",
+        "command": "$Action = New-ScheduledTaskAction -Execute \"cmd.exe\"\n$Trigger = New-ScheduledTaskTrigger -AtLogon\n$User = New-ScheduledTaskPrincipal -GroupId \"BUILTIN\\Administrators\" -RunLevel Highest\n$Set = New-ScheduledTaskSettingsSet\n$object = New-ScheduledTask -Action $Action -Principal $User -Trigger $Trigger -Settings $Set\nRegister-ScheduledTask AtomicTaskModifed -InputObject $object\n$NewAction = New-ScheduledTaskAction -Execute \"Notepad.exe\"\nSet-ScheduledTask \"AtomicTaskModifed\" -Action $NewAction",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "ea373fca-1f75-409c-885b-1af5318fd33b",
+      "id": "f955cf4d-1f2e-494b-8e0d-4db8b6d9c168",
       "type": "execute-command",
       "data": {
-        "command": "Unregister-ScheduledTask -TaskName \"AtomicTaskModifed\" -confirm:$false \u003e$null 2\u003e\u00261\n",
+        "command": "Unregister-ScheduledTask -TaskName \"AtomicTaskModifed\" -confirm:$false \u003e$null 2\u003e\u00261",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "6e006e7f-ebb0-4336-969a-b38f3f808ede",
+      "s": "74a42475-d9e5-4628-99f3-d9580bebba53",
       "p": "on-success",
-      "o": "ea373fca-1f75-409c-885b-1af5318fd33b"
+      "o": "f955cf4d-1f2e-494b-8e0d-4db8b6d9c168"
     },
     {
-      "s": "6e006e7f-ebb0-4336-969a-b38f3f808ede",
+      "s": "74a42475-d9e5-4628-99f3-d9580bebba53",
       "p": "on-failure",
-      "o": "ea373fca-1f75-409c-885b-1af5318fd33b"
+      "o": "f955cf4d-1f2e-494b-8e0d-4db8b6d9c168"
     }
   ],
   "tags": [

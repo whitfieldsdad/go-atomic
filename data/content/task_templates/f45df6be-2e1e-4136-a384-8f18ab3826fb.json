@@ -8,87 +8,87 @@
   ],
   "steps": [
     {
-      "id": "a99dc12f-06c8-4557-8c07-255da84656ff",
+      "id": "c21c528b-b202-434f-98b5-6f38094daa44",
       "type": "execute-command",
       "data": {
-        "command": "if [ \"$(uname)\" = 'FreeBSD' ]; then cmd=\"b64decode -r\"; else cmd=\"base64 -d\"; fi;\ncat /tmp/encoded.dat | $cmd \u003e /tmp/art.sh\nchmod +x /tmp/art.sh\n/tmp/art.sh\n",
+        "command": "if [ \"$(uname)\" = 'FreeBSD' ]; then cmd=\"b64decode -r\"; else cmd=\"base64 -d\"; fi;\ncat /tmp/encoded.dat | $cmd \u003e /tmp/art.sh\nchmod +x /tmp/art.sh\n/tmp/art.sh",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "44d2b117-d1fd-4919-8a73-e18f79442551",
+      "id": "5eeb82bf-050b-4e61-bec1-a52579f11778",
       "type": "execute-command",
       "data": {
-        "command": "rm /tmp/encoded.dat \nrm /tmp/art.sh\n",
+        "command": "rm /tmp/encoded.dat \nrm /tmp/art.sh",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "1ad37c4b-cff2-4aba-a955-b4d5bcb80c52",
+      "id": "e71d4fa8-8cce-4a93-8ff0-9f5785d6e3e9",
       "name": "Check dependency 1/1",
       "description": "encode the command into base64 file\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -e \"/tmp/encoded.dat\" ]; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -e \"/tmp/encoded.dat\" ]; then exit 0; else exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "75e4fe7e-91ee-40ab-929b-c5a0885c73d2",
+      "id": "2a17e48e-e853-44b7-93bd-23d5fb0e2d7b",
       "name": "Resolve dependency 1/1",
       "description": "encode the command into base64 file\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ \"$(uname)\" = 'FreeBSD' ]; then cmd=\"b64encode -r -\"; else cmd=\"base64\"; fi;\necho \"#{shell_command}\" | $cmd \u003e /tmp/encoded.dat\n",
-        "command_type": ""
+        "command": "if [ \"$(uname)\" = 'FreeBSD' ]; then cmd=\"b64encode -r -\"; else cmd=\"base64\"; fi;\necho \"#{shell_command}\" | $cmd \u003e /tmp/encoded.dat",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "31fa741f-3471-41d2-933c-8a591f8cf824",
+      "id": "10df3e4e-c971-4459-bc6c-e07296e2b807",
       "name": "Re-check dependency 1/1",
       "description": "encode the command into base64 file\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -e \"/tmp/encoded.dat\" ]; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -e \"/tmp/encoded.dat\" ]; then exit 0; else exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "a99dc12f-06c8-4557-8c07-255da84656ff",
+      "s": "c21c528b-b202-434f-98b5-6f38094daa44",
       "p": "on-success",
-      "o": "44d2b117-d1fd-4919-8a73-e18f79442551"
+      "o": "5eeb82bf-050b-4e61-bec1-a52579f11778"
     },
     {
-      "s": "a99dc12f-06c8-4557-8c07-255da84656ff",
+      "s": "c21c528b-b202-434f-98b5-6f38094daa44",
       "p": "on-failure",
-      "o": "44d2b117-d1fd-4919-8a73-e18f79442551"
+      "o": "5eeb82bf-050b-4e61-bec1-a52579f11778"
     },
     {
-      "s": "1ad37c4b-cff2-4aba-a955-b4d5bcb80c52",
+      "s": "e71d4fa8-8cce-4a93-8ff0-9f5785d6e3e9",
       "p": "on-success",
-      "o": "a99dc12f-06c8-4557-8c07-255da84656ff"
+      "o": "c21c528b-b202-434f-98b5-6f38094daa44"
     },
     {
-      "s": "1ad37c4b-cff2-4aba-a955-b4d5bcb80c52",
+      "s": "e71d4fa8-8cce-4a93-8ff0-9f5785d6e3e9",
       "p": "on-failure",
-      "o": "75e4fe7e-91ee-40ab-929b-c5a0885c73d2"
+      "o": "2a17e48e-e853-44b7-93bd-23d5fb0e2d7b"
     },
     {
-      "s": "75e4fe7e-91ee-40ab-929b-c5a0885c73d2",
+      "s": "2a17e48e-e853-44b7-93bd-23d5fb0e2d7b",
       "p": "on-success",
-      "o": "31fa741f-3471-41d2-933c-8a591f8cf824"
+      "o": "10df3e4e-c971-4459-bc6c-e07296e2b807"
     },
     {
-      "s": "31fa741f-3471-41d2-933c-8a591f8cf824",
+      "s": "10df3e4e-c971-4459-bc6c-e07296e2b807",
       "p": "on-failure",
-      "o": "a99dc12f-06c8-4557-8c07-255da84656ff"
+      "o": "c21c528b-b202-434f-98b5-6f38094daa44"
     }
   ],
   "tags": [

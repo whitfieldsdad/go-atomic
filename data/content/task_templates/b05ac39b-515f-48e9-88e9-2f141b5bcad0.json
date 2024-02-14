@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "8153d1df-4875-47d9-bdb4-7b0f9c54659f",
+      "id": "71fab3eb-e86e-4dbc-a6c0-89bc92f8a41c",
       "type": "execute-command",
       "data": {
-        "command": "mkdir #{output_folder}\nfind #{search_path} -type d -name '.gnupg' 2\u003e/dev/null -exec rsync -Rr {} #{output_folder} \\;\n",
+        "command": "mkdir #{output_folder}\nfind #{search_path} -type d -name '.gnupg' 2\u003e/dev/null -exec rsync -Rr {} #{output_folder} \\;",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "4ca7abdf-0a53-46ed-8db2-f7efbd569e43",
+      "id": "29a6936d-186a-473d-b7a2-b67a1e33ba78",
       "type": "execute-command",
       "data": {
-        "command": "rm -rf #{output_folder}\n",
+        "command": "rm -rf #{output_folder}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "85b86f5f-fb08-4f81-8c44-810b501bad47",
+      "id": "f4beaed4-3082-4d54-8013-414d08c68d9b",
       "name": "Check dependency 1/1",
       "description": "Check if rsync is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v rsync)\" ]; then exit 1; else exit 0; fi;\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v rsync)\" ]; then exit 1; else exit 0; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "961ce406-f96a-4cfc-ba36-27776ca1ea98",
+      "id": "dc8551aa-3368-4f9a-9b04-c2c4455de998",
       "name": "Resolve dependency 1/1",
       "description": "Check if rsync is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "(which pkg \u0026\u0026 pkg install -y rsync)\n",
-        "command_type": ""
+        "command": "(which pkg \u0026\u0026 pkg install -y rsync)",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "3c3fe8a8-9341-4511-a1ea-4379eb84e1d3",
+      "id": "20168741-c906-49c5-a6fb-7476b3d89792",
       "name": "Re-check dependency 1/1",
       "description": "Check if rsync is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v rsync)\" ]; then exit 1; else exit 0; fi;\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v rsync)\" ]; then exit 1; else exit 0; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "8153d1df-4875-47d9-bdb4-7b0f9c54659f",
+      "s": "71fab3eb-e86e-4dbc-a6c0-89bc92f8a41c",
       "p": "on-success",
-      "o": "4ca7abdf-0a53-46ed-8db2-f7efbd569e43"
+      "o": "29a6936d-186a-473d-b7a2-b67a1e33ba78"
     },
     {
-      "s": "8153d1df-4875-47d9-bdb4-7b0f9c54659f",
+      "s": "71fab3eb-e86e-4dbc-a6c0-89bc92f8a41c",
       "p": "on-failure",
-      "o": "4ca7abdf-0a53-46ed-8db2-f7efbd569e43"
+      "o": "29a6936d-186a-473d-b7a2-b67a1e33ba78"
     },
     {
-      "s": "85b86f5f-fb08-4f81-8c44-810b501bad47",
+      "s": "f4beaed4-3082-4d54-8013-414d08c68d9b",
       "p": "on-success",
-      "o": "8153d1df-4875-47d9-bdb4-7b0f9c54659f"
+      "o": "71fab3eb-e86e-4dbc-a6c0-89bc92f8a41c"
     },
     {
-      "s": "85b86f5f-fb08-4f81-8c44-810b501bad47",
+      "s": "f4beaed4-3082-4d54-8013-414d08c68d9b",
       "p": "on-failure",
-      "o": "961ce406-f96a-4cfc-ba36-27776ca1ea98"
+      "o": "dc8551aa-3368-4f9a-9b04-c2c4455de998"
     },
     {
-      "s": "961ce406-f96a-4cfc-ba36-27776ca1ea98",
+      "s": "dc8551aa-3368-4f9a-9b04-c2c4455de998",
       "p": "on-success",
-      "o": "3c3fe8a8-9341-4511-a1ea-4379eb84e1d3"
+      "o": "20168741-c906-49c5-a6fb-7476b3d89792"
     },
     {
-      "s": "3c3fe8a8-9341-4511-a1ea-4379eb84e1d3",
+      "s": "20168741-c906-49c5-a6fb-7476b3d89792",
       "p": "on-failure",
-      "o": "8153d1df-4875-47d9-bdb4-7b0f9c54659f"
+      "o": "71fab3eb-e86e-4dbc-a6c0-89bc92f8a41c"
     }
   ],
   "tags": [

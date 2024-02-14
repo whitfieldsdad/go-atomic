@@ -6,6 +6,13 @@ type TaskInvocation struct {
 	Id     string    `json:"id"`
 	Time   time.Time `json:"time"`
 	TaskId string    `json:"task_id"`
-	HostId string    `json:"host_id"`
-	UserId string    `json:"user_id"`
+}
+
+// TODO
+func NewTaskInvocation(taskId string) *TaskInvocation {
+	return &TaskInvocation{
+		Id:     NewUUID4(),
+		Time:   time.Now(),
+		TaskId: taskId,
+	}
 }

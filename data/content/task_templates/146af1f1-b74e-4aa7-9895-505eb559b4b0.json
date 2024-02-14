@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "0d492f5e-5faa-4d4d-8066-02a3b92e1365",
+      "id": "d7d9d2bb-f282-4458-ad89-290e9f52bfa5",
       "type": "execute-command",
       "data": {
-        "command": "try{$response = invoke-webrequest \"https://#{base_name}.blob.core.windows.net/#{container_name}/#{blob_name}\" -method \"GET\"}\ncatch [system.net.webexception]\n{if($_.Exception.Response -ne $null)\n{$Response = $_.Exception.Response.GetResponseStream()\n$ReadResponse = New-Object System.IO.StreamReader($Response)\n$ReadResponse.BaseStream.Position = 0\n$responseBody = $ReadResponse.ReadToEnd()}\nelse {$responseBody = \"The storage account could not be anonymously accessed.\"}}\n\"Response received for #{base_name}.blob.core.windows.net/#{container_name}/#{blob_name}: $responsebody\" | out-file -filepath #{output_file} -append\n",
+        "command": "try{$response = invoke-webrequest \"https://#{base_name}.blob.core.windows.net/#{container_name}/#{blob_name}\" -method \"GET\"}\ncatch [system.net.webexception]\n{if($_.Exception.Response -ne $null)\n{$Response = $_.Exception.Response.GetResponseStream()\n$ReadResponse = New-Object System.IO.StreamReader($Response)\n$ReadResponse.BaseStream.Position = 0\n$responseBody = $ReadResponse.ReadToEnd()}\nelse {$responseBody = \"The storage account could not be anonymously accessed.\"}}\n\"Response received for #{base_name}.blob.core.windows.net/#{container_name}/#{blob_name}: $responsebody\" | out-file -filepath #{output_file} -append",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "a171f968-97b8-4eb3-8f4a-7c60fe56fdda",
+      "id": "0f71c837-130f-479c-b188-98d00aed63d7",
       "type": "execute-command",
       "data": {
-        "command": "remove-item #{output_file} -erroraction silentlycontinue\n",
+        "command": "remove-item #{output_file} -erroraction silentlycontinue",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,26 +27,20 @@
   ],
   "flows": [
     {
-      "s": "0d492f5e-5faa-4d4d-8066-02a3b92e1365",
+      "s": "d7d9d2bb-f282-4458-ad89-290e9f52bfa5",
       "p": "on-success",
-      "o": "a171f968-97b8-4eb3-8f4a-7c60fe56fdda"
+      "o": "0f71c837-130f-479c-b188-98d00aed63d7"
     },
     {
-      "s": "0d492f5e-5faa-4d4d-8066-02a3b92e1365",
+      "s": "d7d9d2bb-f282-4458-ad89-290e9f52bfa5",
       "p": "on-failure",
-      "o": "a171f968-97b8-4eb3-8f4a-7c60fe56fdda"
+      "o": "0f71c837-130f-479c-b188-98d00aed63d7"
     }
   ],
   "tags": [
     "T1530"
   ],
   "input_arguments": [
-    {
-      "name": "blob_name",
-      "type": "string",
-      "description": "Blob name to search for (optional)",
-      "value": ""
-    },
     {
       "name": "base_name",
       "type": "string",
@@ -63,6 +57,12 @@
       "name": "container_name",
       "type": "string",
       "description": "Container name to search for (optional)",
+      "value": ""
+    },
+    {
+      "name": "blob_name",
+      "type": "string",
+      "description": "Blob name to search for (optional)",
       "value": ""
     }
   ]

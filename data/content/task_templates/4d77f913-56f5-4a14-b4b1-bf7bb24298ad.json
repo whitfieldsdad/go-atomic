@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "ed45e11d-6891-4fdd-83bf-e4fd36d0df64",
+      "id": "c71cd7fc-0119-47c2-a8ca-71017db5f847",
       "type": "execute-command",
       "data": {
-        "command": "Import-Module MSOnline\n$Password = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Password\nConnect-MsolService -Credential $Credential\nAdd-MsolRoleMember -RoleName \"Company Administrator\" -RoleMemberEmailAddress \"#{target_user}\"\n",
+        "command": "Import-Module MSOnline\n$Password = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Password\nConnect-MsolService -Credential $Credential\nAdd-MsolRoleMember -RoleName \"Company Administrator\" -RoleMemberEmailAddress \"#{target_user}\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "41b3ce56-c0b6-45fa-b3c6-2c82e0fb7a2d",
+      "id": "bfff06b6-2956-4681-b1a2-127330bcc8c4",
       "type": "execute-command",
       "data": {
-        "command": "Remove-MsolRoleMember -RoleName \"Company Administrator\" -RoleMemberType User -RoleMemberEmailAddress \"#{target_user}\"\n",
+        "command": "Remove-MsolRoleMember -RoleName \"Company Administrator\" -RoleMemberType User -RoleMemberEmailAddress \"#{target_user}\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "a179eb34-39c6-4293-8bf9-395dc5cd629b",
+      "id": "828094c5-e996-49c1-baa8-54baf42f2554",
       "name": "Check dependency 1/1",
       "description": "MSOnline module must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "try {if (Get-InstalledModule -Name MSOnline -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}\n",
-        "command_type": ""
+        "command": "try {if (Get-InstalledModule -Name MSOnline -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "658a3c9f-8caa-4dc6-a2d3-b27b86d5ed14",
+      "id": "e685e204-7595-44b4-bf45-f64d88cdd782",
       "name": "Resolve dependency 1/1",
       "description": "MSOnline module must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name MSOnline -Force\n",
-        "command_type": ""
+        "command": "Install-Module -Name MSOnline -Force",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "418a39cb-8628-46d7-aac5-21c2f2d4b60e",
+      "id": "2efe799e-e2d5-4eca-bfa7-c782e77757ed",
       "name": "Re-check dependency 1/1",
       "description": "MSOnline module must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "try {if (Get-InstalledModule -Name MSOnline -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}\n",
-        "command_type": ""
+        "command": "try {if (Get-InstalledModule -Name MSOnline -ErrorAction SilentlyContinue) {exit 0} else {exit 1}} catch {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "ed45e11d-6891-4fdd-83bf-e4fd36d0df64",
+      "s": "c71cd7fc-0119-47c2-a8ca-71017db5f847",
       "p": "on-success",
-      "o": "41b3ce56-c0b6-45fa-b3c6-2c82e0fb7a2d"
+      "o": "bfff06b6-2956-4681-b1a2-127330bcc8c4"
     },
     {
-      "s": "ed45e11d-6891-4fdd-83bf-e4fd36d0df64",
+      "s": "c71cd7fc-0119-47c2-a8ca-71017db5f847",
       "p": "on-failure",
-      "o": "41b3ce56-c0b6-45fa-b3c6-2c82e0fb7a2d"
+      "o": "bfff06b6-2956-4681-b1a2-127330bcc8c4"
     },
     {
-      "s": "a179eb34-39c6-4293-8bf9-395dc5cd629b",
+      "s": "828094c5-e996-49c1-baa8-54baf42f2554",
       "p": "on-success",
-      "o": "ed45e11d-6891-4fdd-83bf-e4fd36d0df64"
+      "o": "c71cd7fc-0119-47c2-a8ca-71017db5f847"
     },
     {
-      "s": "a179eb34-39c6-4293-8bf9-395dc5cd629b",
+      "s": "828094c5-e996-49c1-baa8-54baf42f2554",
       "p": "on-failure",
-      "o": "658a3c9f-8caa-4dc6-a2d3-b27b86d5ed14"
+      "o": "e685e204-7595-44b4-bf45-f64d88cdd782"
     },
     {
-      "s": "658a3c9f-8caa-4dc6-a2d3-b27b86d5ed14",
+      "s": "e685e204-7595-44b4-bf45-f64d88cdd782",
       "p": "on-success",
-      "o": "418a39cb-8628-46d7-aac5-21c2f2d4b60e"
+      "o": "2efe799e-e2d5-4eca-bfa7-c782e77757ed"
     },
     {
-      "s": "418a39cb-8628-46d7-aac5-21c2f2d4b60e",
+      "s": "2efe799e-e2d5-4eca-bfa7-c782e77757ed",
       "p": "on-failure",
-      "o": "ed45e11d-6891-4fdd-83bf-e4fd36d0df64"
+      "o": "c71cd7fc-0119-47c2-a8ca-71017db5f847"
     }
   ],
   "tags": [
@@ -95,6 +95,12 @@
     "T1098.003"
   ],
   "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Azure AD username",
+      "value": "jonh@contoso.com"
+    },
     {
       "name": "password",
       "type": "string",
@@ -106,12 +112,6 @@
       "type": "string",
       "description": "Name of the user who will be assigned the Company Admin role",
       "value": "default"
-    },
-    {
-      "name": "username",
-      "type": "string",
-      "description": "Azure AD username",
-      "value": "jonh@contoso.com"
     }
   ]
 }

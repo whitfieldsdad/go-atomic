@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "5f1723f4-826c-4cfc-88b0-947b34f4a627",
+      "id": "8642beca-fda3-4203-91f2-e1860119f8b3",
       "type": "execute-command",
       "data": {
-        "command": "REG ADD \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /V \"Atomic Red Team\" /t REG_SZ /F /D \"#{command_to_execute}\"\n",
+        "command": "REG ADD \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /V \"Atomic Red Team\" /t REG_SZ /F /D \"#{command_to_execute}\"",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "06e92a1a-76c1-46a2-8fce-80b3d8babbfc",
+      "id": "e204402b-84f2-41a2-a931-fb4f4af0fe0b",
       "type": "execute-command",
       "data": {
-        "command": "REG DELETE \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /V \"Atomic Red Team\" /f \u003enul 2\u003e\u00261\n",
+        "command": "REG DELETE \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /V \"Atomic Red Team\" /f \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "5f1723f4-826c-4cfc-88b0-947b34f4a627",
+      "s": "8642beca-fda3-4203-91f2-e1860119f8b3",
       "p": "on-success",
-      "o": "06e92a1a-76c1-46a2-8fce-80b3d8babbfc"
+      "o": "e204402b-84f2-41a2-a931-fb4f4af0fe0b"
     },
     {
-      "s": "5f1723f4-826c-4cfc-88b0-947b34f4a627",
+      "s": "8642beca-fda3-4203-91f2-e1860119f8b3",
       "p": "on-failure",
-      "o": "06e92a1a-76c1-46a2-8fce-80b3d8babbfc"
+      "o": "e204402b-84f2-41a2-a931-fb4f4af0fe0b"
     }
   ],
   "tags": [

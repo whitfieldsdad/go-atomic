@@ -8,68 +8,68 @@
   ],
   "steps": [
     {
-      "id": "45328b26-0cdb-4ba1-abe3-0d3a99200a99",
+      "id": "365a2663-5d95-4b3f-aaed-087d8368d6bc",
       "type": "execute-command",
       "data": {
-        "command": "ENCODED=$(python3 -c 'import base64;enc=base64.b64encode(\"#{message}\".encode());print(enc.decode())')\npython3 -c \"import base64;dec=base64.b64decode(\\\"$ENCODED\\\");print(dec.decode())\"\npython3 -c \"import base64 as d;dec=d.b64decode(\\\"$ENCODED\\\");print(dec.decode())\"\npython3 -c \"from base64 import b64decode;dec=b64decode(\\\"$ENCODED\\\");print(dec.decode())\"\npython3 -c \"from base64 import b64decode as d;dec=d(\\\"$ENCODED\\\");print(dec.decode())\"\necho $ENCODED | python3 -c \"import base64,sys;dec=base64.b64decode(sys.stdin.read());print(dec.decode())\"\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 python3 -c \"import base64;dec=base64.b64decode(open('#{encoded_file}').read());print(dec.decode())\"\n",
+        "command": "ENCODED=$(python3 -c 'import base64;enc=base64.b64encode(\"#{message}\".encode());print(enc.decode())')\npython3 -c \"import base64;dec=base64.b64decode(\\\"$ENCODED\\\");print(dec.decode())\"\npython3 -c \"import base64 as d;dec=d.b64decode(\\\"$ENCODED\\\");print(dec.decode())\"\npython3 -c \"from base64 import b64decode;dec=b64decode(\\\"$ENCODED\\\");print(dec.decode())\"\npython3 -c \"from base64 import b64decode as d;dec=d(\\\"$ENCODED\\\");print(dec.decode())\"\necho $ENCODED | python3 -c \"import base64,sys;dec=base64.b64decode(sys.stdin.read());print(dec.decode())\"\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 python3 -c \"import base64;dec=base64.b64decode(open('#{encoded_file}').read());print(dec.decode())\"",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "ed9b9405-59cc-44e0-a997-18d399990212",
+      "id": "fa7795aa-e742-4e6d-a7ea-3ec43b5f0cd7",
       "name": "Check dependency 1/1",
       "description": "Python must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "which python3\n",
-        "command_type": ""
+        "command": "which python3",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "28a16146-a939-4631-8dfc-cdcf9e582ba0",
+      "id": "6d1e0d31-43eb-43fe-8492-08f1efc1f797",
       "name": "Resolve dependency 1/1",
       "description": "Python must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"Please install Python 3\"\n",
-        "command_type": ""
+        "command": "echo \"Please install Python 3\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "f59504ac-5948-463c-a398-4ed966b0ee96",
+      "id": "465b3844-7b7b-44ce-8e1a-ece930109c9b",
       "name": "Re-check dependency 1/1",
       "description": "Python must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "which python3\n",
-        "command_type": ""
+        "command": "which python3",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "ed9b9405-59cc-44e0-a997-18d399990212",
+      "s": "fa7795aa-e742-4e6d-a7ea-3ec43b5f0cd7",
       "p": "on-success",
-      "o": "45328b26-0cdb-4ba1-abe3-0d3a99200a99"
+      "o": "365a2663-5d95-4b3f-aaed-087d8368d6bc"
     },
     {
-      "s": "ed9b9405-59cc-44e0-a997-18d399990212",
+      "s": "fa7795aa-e742-4e6d-a7ea-3ec43b5f0cd7",
       "p": "on-failure",
-      "o": "28a16146-a939-4631-8dfc-cdcf9e582ba0"
+      "o": "6d1e0d31-43eb-43fe-8492-08f1efc1f797"
     },
     {
-      "s": "28a16146-a939-4631-8dfc-cdcf9e582ba0",
+      "s": "6d1e0d31-43eb-43fe-8492-08f1efc1f797",
       "p": "on-success",
-      "o": "f59504ac-5948-463c-a398-4ed966b0ee96"
+      "o": "465b3844-7b7b-44ce-8e1a-ece930109c9b"
     },
     {
-      "s": "f59504ac-5948-463c-a398-4ed966b0ee96",
+      "s": "465b3844-7b7b-44ce-8e1a-ece930109c9b",
       "p": "on-failure",
-      "o": "45328b26-0cdb-4ba1-abe3-0d3a99200a99"
+      "o": "365a2663-5d95-4b3f-aaed-087d8368d6bc"
     }
   ],
   "tags": [

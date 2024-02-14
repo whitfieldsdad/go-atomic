@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "d8c3c6b0-827c-453a-8ba1-f82bc77057eb",
+      "id": "22e524e7-5544-4e17-8703-dc28eb17c069",
       "type": "execute-command",
       "data": {
-        "command": "ldapsearch -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{user} -w #{password} -b \"CN=Users,DC=#{domain},DC=#{top_level_domain}\" \"(objectClass=group)\" -s sub -a always -z 1000 dn \n",
+        "command": "ldapsearch -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{user} -w #{password} -b \"CN=Users,DC=#{domain},DC=#{top_level_domain}\" \"(objectClass=group)\" -s sub -a always -z 1000 dn",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "493dc78b-9f97-42b8-bcef-2001b3a1b8b0",
+      "id": "70955479-ac88-4050-8716-cf8ce96266f9",
       "name": "Check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapsearch\n",
       "type": "execute-command",
       "data": {
-        "command": "which ldapsearch\n",
-        "command_type": ""
+        "command": "which ldapsearch",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "90fe8934-70b4-4b4d-ae87-cc9ddafa9b90",
+      "id": "cb274cfc-8387-4bd2-8610-19e9e22570ee",
       "name": "Resolve dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapsearch\n",
       "type": "execute-command",
       "data": {
-        "command": "echo missing ldapsearch command; exit 1\n",
-        "command_type": ""
+        "command": "echo missing ldapsearch command; exit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "0fd82c48-3034-46a3-bbe4-87f95a4d593a",
+      "id": "6f6afee7-827b-4381-839c-9b35fbedb92e",
       "name": "Re-check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapsearch\n",
       "type": "execute-command",
       "data": {
-        "command": "which ldapsearch\n",
-        "command_type": ""
+        "command": "which ldapsearch",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "493dc78b-9f97-42b8-bcef-2001b3a1b8b0",
+      "s": "70955479-ac88-4050-8716-cf8ce96266f9",
       "p": "on-success",
-      "o": "d8c3c6b0-827c-453a-8ba1-f82bc77057eb"
+      "o": "22e524e7-5544-4e17-8703-dc28eb17c069"
     },
     {
-      "s": "493dc78b-9f97-42b8-bcef-2001b3a1b8b0",
+      "s": "70955479-ac88-4050-8716-cf8ce96266f9",
       "p": "on-failure",
-      "o": "90fe8934-70b4-4b4d-ae87-cc9ddafa9b90"
+      "o": "cb274cfc-8387-4bd2-8610-19e9e22570ee"
     },
     {
-      "s": "90fe8934-70b4-4b4d-ae87-cc9ddafa9b90",
+      "s": "cb274cfc-8387-4bd2-8610-19e9e22570ee",
       "p": "on-success",
-      "o": "0fd82c48-3034-46a3-bbe4-87f95a4d593a"
+      "o": "6f6afee7-827b-4381-839c-9b35fbedb92e"
     },
     {
-      "s": "0fd82c48-3034-46a3-bbe4-87f95a4d593a",
+      "s": "6f6afee7-827b-4381-839c-9b35fbedb92e",
       "p": "on-failure",
-      "o": "d8c3c6b0-827c-453a-8ba1-f82bc77057eb"
+      "o": "22e524e7-5544-4e17-8703-dc28eb17c069"
     }
   ],
   "tags": [
@@ -76,12 +76,6 @@
     "T1069.002"
   ],
   "input_arguments": [
-    {
-      "name": "user",
-      "type": "string",
-      "description": "username@domain of a user",
-      "value": "user@example.com"
-    },
     {
       "name": "password",
       "type": "string",
@@ -99,6 +93,12 @@
       "type": "string",
       "description": "The top level domain (.com, .test, .remote, etc... following domain, minus the .)",
       "value": "com"
+    },
+    {
+      "name": "user",
+      "type": "string",
+      "description": "username@domain of a user",
+      "value": "user@example.com"
     }
   ]
 }

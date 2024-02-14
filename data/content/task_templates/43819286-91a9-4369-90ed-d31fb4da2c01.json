@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "2333ecb1-604b-447c-a451-0591664742b7",
+      "id": "764bf3cf-0e24-4987-a486-668ab6b7a67e",
       "type": "execute-command",
       "data": {
-        "command": "vssadmin.exe delete shadows /all /quiet\n",
+        "command": "vssadmin.exe delete shadows /all /quiet",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "644f0cec-fbb9-4e3d-a0f8-faad36f13fe8",
+      "id": "33e44ff1-677f-43b5-bc92-c8bea4b01f7c",
       "name": "Check dependency 1/1",
       "description": "Create volume shadow copy of C:\\ . This prereq command only works on Windows Server or Windows 8.\n",
       "type": "execute-command",
       "data": {
-        "command": "if(!(vssadmin.exe list shadows | findstr \"No items found that satisfy the query.\")) { exit 0 } else { exit 1 }\n",
-        "command_type": ""
+        "command": "if(!(vssadmin.exe list shadows | findstr \"No items found that satisfy the query.\")) { exit 0 } else { exit 1 }",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "166a1e8e-a111-4e74-b937-c1d9988dd2c4",
+      "id": "c9abeb26-f580-406d-9103-b43232a690bf",
       "name": "Resolve dependency 1/1",
       "description": "Create volume shadow copy of C:\\ . This prereq command only works on Windows Server or Windows 8.\n",
       "type": "execute-command",
       "data": {
-        "command": "vssadmin.exe create shadow /for=c:\n",
-        "command_type": ""
+        "command": "vssadmin.exe create shadow /for=c:",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "73b55dbf-6cc1-4dc3-ae0a-945c01db838e",
+      "id": "2317da84-fa39-48ba-ab82-ba42badb71ae",
       "name": "Re-check dependency 1/1",
       "description": "Create volume shadow copy of C:\\ . This prereq command only works on Windows Server or Windows 8.\n",
       "type": "execute-command",
       "data": {
-        "command": "if(!(vssadmin.exe list shadows | findstr \"No items found that satisfy the query.\")) { exit 0 } else { exit 1 }\n",
-        "command_type": ""
+        "command": "if(!(vssadmin.exe list shadows | findstr \"No items found that satisfy the query.\")) { exit 0 } else { exit 1 }",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "644f0cec-fbb9-4e3d-a0f8-faad36f13fe8",
+      "s": "33e44ff1-677f-43b5-bc92-c8bea4b01f7c",
       "p": "on-success",
-      "o": "2333ecb1-604b-447c-a451-0591664742b7"
+      "o": "764bf3cf-0e24-4987-a486-668ab6b7a67e"
     },
     {
-      "s": "644f0cec-fbb9-4e3d-a0f8-faad36f13fe8",
+      "s": "33e44ff1-677f-43b5-bc92-c8bea4b01f7c",
       "p": "on-failure",
-      "o": "166a1e8e-a111-4e74-b937-c1d9988dd2c4"
+      "o": "c9abeb26-f580-406d-9103-b43232a690bf"
     },
     {
-      "s": "166a1e8e-a111-4e74-b937-c1d9988dd2c4",
+      "s": "c9abeb26-f580-406d-9103-b43232a690bf",
       "p": "on-success",
-      "o": "73b55dbf-6cc1-4dc3-ae0a-945c01db838e"
+      "o": "2317da84-fa39-48ba-ab82-ba42badb71ae"
     },
     {
-      "s": "73b55dbf-6cc1-4dc3-ae0a-945c01db838e",
+      "s": "2317da84-fa39-48ba-ab82-ba42badb71ae",
       "p": "on-failure",
-      "o": "2333ecb1-604b-447c-a451-0591664742b7"
+      "o": "764bf3cf-0e24-4987-a486-668ab6b7a67e"
     }
   ],
   "tags": [

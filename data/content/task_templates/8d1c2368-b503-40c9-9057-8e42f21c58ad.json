@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "f5d2afe0-1256-4ef9-b22d-86ad58f734ee",
+      "id": "e3e36d63-0a3c-461c-b85a-02c750de4dad",
       "type": "execute-command",
       "data": {
-        "command": "aws iam create-user --user-name #{username}\n",
+        "command": "aws iam create-user --user-name #{username}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "33fe84ab-26f2-485e-832e-04ca6a8360af",
+      "id": "6548068d-6d6d-4c2c-8f26-9d5141edd3fb",
       "type": "execute-command",
       "data": {
-        "command": "aws iam delete-user --user-name #{username}\n",
+        "command": "aws iam delete-user --user-name #{username}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "bae73481-b47c-4466-bbaa-a42eae4992b0",
+      "id": "144f7ec3-4353-41cf-955a-6e4f7e48a01b",
       "name": "Check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "cat ~/.aws/credentials | grep \"default\"\n",
-        "command_type": ""
+        "command": "cat ~/.aws/credentials | grep \"default\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "506fb8bd-19de-4370-9cb6-ace2fae30d3a",
+      "id": "ff1613a6-7157-44f2-9955-9c110c502688",
       "name": "Resolve dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "echo Please install the aws-cli and configure your AWS defult profile using: aws configure\n",
-        "command_type": ""
+        "command": "echo Please install the aws-cli and configure your AWS defult profile using: aws configure",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "8bfd5a40-ae2e-4622-8b0e-f0f39195fe3b",
+      "id": "4d3343a6-0a65-472d-a7fd-a7ae94ca3c8e",
       "name": "Re-check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "cat ~/.aws/credentials | grep \"default\"\n",
-        "command_type": ""
+        "command": "cat ~/.aws/credentials | grep \"default\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "f5d2afe0-1256-4ef9-b22d-86ad58f734ee",
+      "s": "e3e36d63-0a3c-461c-b85a-02c750de4dad",
       "p": "on-success",
-      "o": "33fe84ab-26f2-485e-832e-04ca6a8360af"
+      "o": "6548068d-6d6d-4c2c-8f26-9d5141edd3fb"
     },
     {
-      "s": "f5d2afe0-1256-4ef9-b22d-86ad58f734ee",
+      "s": "e3e36d63-0a3c-461c-b85a-02c750de4dad",
       "p": "on-failure",
-      "o": "33fe84ab-26f2-485e-832e-04ca6a8360af"
+      "o": "6548068d-6d6d-4c2c-8f26-9d5141edd3fb"
     },
     {
-      "s": "bae73481-b47c-4466-bbaa-a42eae4992b0",
+      "s": "144f7ec3-4353-41cf-955a-6e4f7e48a01b",
       "p": "on-success",
-      "o": "f5d2afe0-1256-4ef9-b22d-86ad58f734ee"
+      "o": "e3e36d63-0a3c-461c-b85a-02c750de4dad"
     },
     {
-      "s": "bae73481-b47c-4466-bbaa-a42eae4992b0",
+      "s": "144f7ec3-4353-41cf-955a-6e4f7e48a01b",
       "p": "on-failure",
-      "o": "506fb8bd-19de-4370-9cb6-ace2fae30d3a"
+      "o": "ff1613a6-7157-44f2-9955-9c110c502688"
     },
     {
-      "s": "506fb8bd-19de-4370-9cb6-ace2fae30d3a",
+      "s": "ff1613a6-7157-44f2-9955-9c110c502688",
       "p": "on-success",
-      "o": "8bfd5a40-ae2e-4622-8b0e-f0f39195fe3b"
+      "o": "4d3343a6-0a65-472d-a7fd-a7ae94ca3c8e"
     },
     {
-      "s": "8bfd5a40-ae2e-4622-8b0e-f0f39195fe3b",
+      "s": "4d3343a6-0a65-472d-a7fd-a7ae94ca3c8e",
       "p": "on-failure",
-      "o": "f5d2afe0-1256-4ef9-b22d-86ad58f734ee"
+      "o": "e3e36d63-0a3c-461c-b85a-02c750de4dad"
     }
   ],
   "tags": [

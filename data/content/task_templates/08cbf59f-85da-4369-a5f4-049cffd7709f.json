@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "9e944919-0524-4c40-8304-99dda0942699",
+      "id": "99172ea9-9c8d-4c8a-82f0-eb7f4f1cc9c6",
       "type": "execute-command",
       "data": {
-        "command": "if [ $USER == \"root\" ]; then $which_ccencrypt #{root_input_file_path}; file #{root_input_file_path}.cpt; #{impact_command}; else $which_ccencrypt #{user_input_file_path}; file #{user_input_file_path}.cpt; #{impact_command}; fi\n",
+        "command": "if [ $USER == \"root\" ]; then $which_ccencrypt #{root_input_file_path}; file #{root_input_file_path}.cpt; #{impact_command}; else $which_ccencrypt #{user_input_file_path}; file #{user_input_file_path}.cpt; #{impact_command}; fi",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "9a62a5aa-1e89-4dda-b48b-eb1f54bc8177",
+      "id": "71477ec3-9a28-49bc-adfe-c4c06373c76b",
       "type": "execute-command",
       "data": {
-        "command": "if [ $USER == \"root\" ]; then mv #{cped_file_path} #{root_input_file_path}; else cp #{cped_file_path} #{user_input_file_path}; fi \n",
+        "command": "if [ $USER == \"root\" ]; then mv #{cped_file_path} #{root_input_file_path}; else cp #{cped_file_path} #{user_input_file_path}; fi",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "9199ea33-6ae9-4ef9-b46b-03a266c6ca52",
+      "id": "e5d775e7-129b-44c3-8230-840ca51ed1f9",
       "name": "Check dependency 1/1",
       "description": "Finds where ccencrypt and ccdecrypt is located and copies input file\n",
       "type": "execute-command",
       "data": {
-        "command": "which_ccencrypt=`which ccencrypt`\nwhich_ccdecrypt=`which ccdecrypt`\nif [ $USER == \"root\" ]; then cp #{root_input_file_path} #{cped_file_path}; else cp #{user_input_file_path} #{cped_file_path}; fi\n",
-        "command_type": ""
+        "command": "which_ccencrypt=`which ccencrypt`\nwhich_ccdecrypt=`which ccdecrypt`\nif [ $USER == \"root\" ]; then cp #{root_input_file_path} #{cped_file_path}; else cp #{user_input_file_path} #{cped_file_path}; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "4d08a65d-d854-4456-ab96-5edd99df1561",
+      "id": "e33c6cd9-4cc0-458b-81f5-64e41dc2b0c0",
       "name": "Resolve dependency 1/1",
       "description": "Finds where ccencrypt and ccdecrypt is located and copies input file\n",
       "type": "execute-command",
       "data": {
-        "command": "(which pkg \u0026\u0026 pkg install -y ccript)||(which yum \u0026\u0026 yum -y install epel-release ccrypt)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y ccrypt)\n",
-        "command_type": ""
+        "command": "(which pkg \u0026\u0026 pkg install -y ccript)||(which yum \u0026\u0026 yum -y install epel-release ccrypt)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y ccrypt)",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "b55c2986-9c3c-452c-a9b9-d1bce8ac822f",
+      "id": "b1e9610f-2e16-4a57-8577-2764a622e66d",
       "name": "Re-check dependency 1/1",
       "description": "Finds where ccencrypt and ccdecrypt is located and copies input file\n",
       "type": "execute-command",
       "data": {
-        "command": "which_ccencrypt=`which ccencrypt`\nwhich_ccdecrypt=`which ccdecrypt`\nif [ $USER == \"root\" ]; then cp #{root_input_file_path} #{cped_file_path}; else cp #{user_input_file_path} #{cped_file_path}; fi\n",
-        "command_type": ""
+        "command": "which_ccencrypt=`which ccencrypt`\nwhich_ccdecrypt=`which ccdecrypt`\nif [ $USER == \"root\" ]; then cp #{root_input_file_path} #{cped_file_path}; else cp #{user_input_file_path} #{cped_file_path}; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "9e944919-0524-4c40-8304-99dda0942699",
+      "s": "99172ea9-9c8d-4c8a-82f0-eb7f4f1cc9c6",
       "p": "on-success",
-      "o": "9a62a5aa-1e89-4dda-b48b-eb1f54bc8177"
+      "o": "71477ec3-9a28-49bc-adfe-c4c06373c76b"
     },
     {
-      "s": "9e944919-0524-4c40-8304-99dda0942699",
+      "s": "99172ea9-9c8d-4c8a-82f0-eb7f4f1cc9c6",
       "p": "on-failure",
-      "o": "9a62a5aa-1e89-4dda-b48b-eb1f54bc8177"
+      "o": "71477ec3-9a28-49bc-adfe-c4c06373c76b"
     },
     {
-      "s": "9199ea33-6ae9-4ef9-b46b-03a266c6ca52",
+      "s": "e5d775e7-129b-44c3-8230-840ca51ed1f9",
       "p": "on-success",
-      "o": "9e944919-0524-4c40-8304-99dda0942699"
+      "o": "99172ea9-9c8d-4c8a-82f0-eb7f4f1cc9c6"
     },
     {
-      "s": "9199ea33-6ae9-4ef9-b46b-03a266c6ca52",
+      "s": "e5d775e7-129b-44c3-8230-840ca51ed1f9",
       "p": "on-failure",
-      "o": "4d08a65d-d854-4456-ab96-5edd99df1561"
+      "o": "e33c6cd9-4cc0-458b-81f5-64e41dc2b0c0"
     },
     {
-      "s": "4d08a65d-d854-4456-ab96-5edd99df1561",
+      "s": "e33c6cd9-4cc0-458b-81f5-64e41dc2b0c0",
       "p": "on-success",
-      "o": "b55c2986-9c3c-452c-a9b9-d1bce8ac822f"
+      "o": "b1e9610f-2e16-4a57-8577-2764a622e66d"
     },
     {
-      "s": "b55c2986-9c3c-452c-a9b9-d1bce8ac822f",
+      "s": "b1e9610f-2e16-4a57-8577-2764a622e66d",
       "p": "on-failure",
-      "o": "9e944919-0524-4c40-8304-99dda0942699"
+      "o": "99172ea9-9c8d-4c8a-82f0-eb7f4f1cc9c6"
     }
   ],
   "tags": [

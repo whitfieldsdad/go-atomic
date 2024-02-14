@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "72266bc0-5be9-4982-83bc-ca92fc4a3491",
+      "id": "ab7e0468-34d6-4438-bb53-f3fd450422a8",
       "type": "execute-command",
       "data": {
-        "command": "password=$(openssl passwd -1 art)\n([ \"$(uname)\" = 'Linux' ] \u0026\u0026 useradd --shell /bin/bash --create-home --password $password art) || (pw useradd art -g wheel -s /bin/sh \u0026\u0026 (echo $password | pw mod user testuser1 -h 0))\nsu art -c \"whoami; exit\"\n",
+        "command": "password=$(openssl passwd -1 art)\n([ \"$(uname)\" = 'Linux' ] \u0026\u0026 useradd --shell /bin/bash --create-home --password $password art) || (pw useradd art -g wheel -s /bin/sh \u0026\u0026 (echo $password | pw mod user testuser1 -h 0))\nsu art -c \"whoami; exit\"",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "c15597b9-a8d1-4fbc-9f87-f0eaedefd5dc",
+      "id": "75a6a516-3cda-4218-aeef-46d9474d89d7",
       "type": "execute-command",
       "data": {
-        "command": "[ \"$(uname)\" = 'Linux' ] \u0026\u0026 userdel art -rf || rmuser -y art\n",
+        "command": "[ \"$(uname)\" = 'Linux' ] \u0026\u0026 userdel art -rf || rmuser -y art",
         "command_type": "bash"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "72266bc0-5be9-4982-83bc-ca92fc4a3491",
+      "s": "ab7e0468-34d6-4438-bb53-f3fd450422a8",
       "p": "on-success",
-      "o": "c15597b9-a8d1-4fbc-9f87-f0eaedefd5dc"
+      "o": "75a6a516-3cda-4218-aeef-46d9474d89d7"
     },
     {
-      "s": "72266bc0-5be9-4982-83bc-ca92fc4a3491",
+      "s": "ab7e0468-34d6-4438-bb53-f3fd450422a8",
       "p": "on-failure",
-      "o": "c15597b9-a8d1-4fbc-9f87-f0eaedefd5dc"
+      "o": "75a6a516-3cda-4218-aeef-46d9474d89d7"
     }
   ],
   "tags": [

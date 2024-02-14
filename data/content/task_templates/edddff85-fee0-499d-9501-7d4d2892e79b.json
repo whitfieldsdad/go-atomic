@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "5d334122-0997-4191-972b-d892d319ef19",
+      "id": "81b632fa-0205-4799-888f-5cf5719f6f08",
       "type": "execute-command",
       "data": {
-        "command": "New-Item -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -ItemType Directory -ErrorAction Ignore\nGet-ChildItem -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\" -Exclude copy | ForEach-Object { Copy-Item -Path $_.FullName -Destination \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -Recurse -Force -ErrorAction Ignore }\nGet-ChildItem -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -File | ForEach-Object { Add-Content -Path $_.FullName -Value \"Modification for Atomic Red Test\" -ErrorAction Ignore }\n",
+        "command": "New-Item -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -ItemType Directory -ErrorAction Ignore\nGet-ChildItem -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\" -Exclude copy | ForEach-Object { Copy-Item -Path $_.FullName -Destination \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -Recurse -Force -ErrorAction Ignore }\nGet-ChildItem -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -File | ForEach-Object { Add-Content -Path $_.FullName -Value \"Modification for Atomic Red Test\" -ErrorAction Ignore }",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "9a0d49fb-7894-4bf4-bae4-1f3c82c88e89",
+      "id": "313680f7-8cba-4644-b424-011c41d99116",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -Recurse -Force -ErrorAction Ignore\n",
+        "command": "Remove-Item -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -Recurse -Force -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "5d334122-0997-4191-972b-d892d319ef19",
+      "s": "81b632fa-0205-4799-888f-5cf5719f6f08",
       "p": "on-success",
-      "o": "9a0d49fb-7894-4bf4-bae4-1f3c82c88e89"
+      "o": "313680f7-8cba-4644-b424-011c41d99116"
     },
     {
-      "s": "5d334122-0997-4191-972b-d892d319ef19",
+      "s": "81b632fa-0205-4799-888f-5cf5719f6f08",
       "p": "on-failure",
-      "o": "9a0d49fb-7894-4bf4-bae4-1f3c82c88e89"
+      "o": "313680f7-8cba-4644-b424-011c41d99116"
     }
   ],
   "tags": [

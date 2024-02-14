@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "db6abe26-ef99-4da7-83b5-412cbc03adac",
+      "id": "2302b058-3abf-4a6a-9a56-e0783ea786a4",
       "type": "execute-command",
       "data": {
-        "command": "$examplePath = Join-Path $env:windir \"system32\\Com\"; if (-not (Test-Path $examplePath)) { New-Item -ItemType Directory -Path $examplePath | Out-Null }; $exampleName = \"comadmin.dat\"; $exampleFullPath = Join-Path $examplePath $exampleName; $randomBytes = New-Object Byte[] 0x1000; (New-Object Random).NextBytes($randomBytes); [System.IO.File]::WriteAllBytes($exampleFullPath, $randomBytes)\n",
+        "command": "$examplePath = Join-Path $env:windir \"system32\\Com\"; if (-not (Test-Path $examplePath)) { New-Item -ItemType Directory -Path $examplePath | Out-Null }; $exampleName = \"comadmin.dat\"; $exampleFullPath = Join-Path $examplePath $exampleName; $randomBytes = New-Object Byte[] 0x1000; (New-Object Random).NextBytes($randomBytes); [System.IO.File]::WriteAllBytes($exampleFullPath, $randomBytes)",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "f688d076-b410-45fa-ba9c-422a4db656c2",
+      "id": "bc17a988-dc2b-42e1-ba39-8e19876fb27b",
       "type": "execute-command",
       "data": {
-        "command": "$examplePath = Join-Path $env:windir \"system32\\Com\"; $exampleName = \"comadmin.dat\"; $exampleFullPath = Join-Path $examplePath $exampleName; if (Test-Path $exampleFullPath) { Remove-Item $exampleFullPath -Force }\n",
+        "command": "$examplePath = Join-Path $env:windir \"system32\\Com\"; $exampleName = \"comadmin.dat\"; $exampleFullPath = Join-Path $examplePath $exampleName; if (Test-Path $exampleFullPath) { Remove-Item $exampleFullPath -Force }",
         "command_type": "powershell"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "db6abe26-ef99-4da7-83b5-412cbc03adac",
+      "s": "2302b058-3abf-4a6a-9a56-e0783ea786a4",
       "p": "on-success",
-      "o": "f688d076-b410-45fa-ba9c-422a4db656c2"
+      "o": "bc17a988-dc2b-42e1-ba39-8e19876fb27b"
     },
     {
-      "s": "db6abe26-ef99-4da7-83b5-412cbc03adac",
+      "s": "2302b058-3abf-4a6a-9a56-e0783ea786a4",
       "p": "on-failure",
-      "o": "f688d076-b410-45fa-ba9c-422a4db656c2"
+      "o": "bc17a988-dc2b-42e1-ba39-8e19876fb27b"
     }
   ],
   "tags": [

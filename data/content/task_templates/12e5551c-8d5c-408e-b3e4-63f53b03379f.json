@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "71394cfe-1e1a-48b7-bc3f-4835f545ae05",
+      "id": "f44f06d7-5e81-48e0-b50a-5706884071c8",
       "type": "execute-command",
       "data": {
-        "command": "sudo sed -i 's/Storage=auto/Storage=none/' /etc/systemd/journald.conf\n",
+        "command": "sudo sed -i 's/Storage=auto/Storage=none/' /etc/systemd/journald.conf",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "487095b6-1cde-4462-9a7e-0459481f205b",
+      "id": "e301fd35-cba3-4453-8db5-e71c4fe2dbb7",
       "type": "execute-command",
       "data": {
-        "command": "sudo sed -i 's/Storage=none/Storage=auto/' /etc/systemd/journald.conf #re-enables storage of journal data\nsudo systemctl restart systemd-journald #restart the journal service\n",
+        "command": "sudo sed -i 's/Storage=none/Storage=auto/' /etc/systemd/journald.conf #re-enables storage of journal data\nsudo systemctl restart systemd-journald #restart the journal service",
         "command_type": "sh"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "71394cfe-1e1a-48b7-bc3f-4835f545ae05",
+      "s": "f44f06d7-5e81-48e0-b50a-5706884071c8",
       "p": "on-success",
-      "o": "487095b6-1cde-4462-9a7e-0459481f205b"
+      "o": "e301fd35-cba3-4453-8db5-e71c4fe2dbb7"
     },
     {
-      "s": "71394cfe-1e1a-48b7-bc3f-4835f545ae05",
+      "s": "f44f06d7-5e81-48e0-b50a-5706884071c8",
       "p": "on-failure",
-      "o": "487095b6-1cde-4462-9a7e-0459481f205b"
+      "o": "e301fd35-cba3-4453-8db5-e71c4fe2dbb7"
     }
   ],
   "tags": [

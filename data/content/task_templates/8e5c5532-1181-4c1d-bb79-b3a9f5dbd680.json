@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "cd770f92-a13a-46d7-997f-46680278007c",
+      "id": "d4832810-a050-4216-9ba3-13f683009b2c",
       "type": "execute-command",
       "data": {
-        "command": "Add-Content -Path #{ads_file} -Value 'Write-Host \"Stream Data Executed\"' -Stream 'streamCommand'\n$streamcommand = Get-Content -Path #{ads_file} -Stream 'streamcommand'\nInvoke-Expression $streamcommand\n",
+        "command": "Add-Content -Path #{ads_file} -Value 'Write-Host \"Stream Data Executed\"' -Stream 'streamCommand'\n$streamcommand = Get-Content -Path #{ads_file} -Stream 'streamcommand'\nInvoke-Expression $streamcommand",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "d9f6ec68-eee0-4911-a54a-751e215e8cad",
+      "id": "1fe2641e-5a10-41ee-9c47-56c23aaa11e4",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item #{ads_file} -Force -ErrorAction Ignore\n",
+        "command": "Remove-Item #{ads_file} -Force -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "b2c24101-50ec-41ff-a2d6-89a83913e134",
+      "id": "748e846a-6288-4c42-ba3f-69ee44571b11",
       "name": "Check dependency 1/1",
       "description": "Homedrive must be an NTFS drive\n",
       "type": "execute-command",
       "data": {
-        "command": "if((Get-Volume -DriveLetter $env:HOMEDRIVE[0]).FileSystem -contains \"NTFS\") {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if((Get-Volume -DriveLetter $env:HOMEDRIVE[0]).FileSystem -contains \"NTFS\") {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "e3c26207-0397-47e7-8f3c-5ea3e1ac96e4",
+      "id": "8e6bb7f5-a7e7-4aad-957c-9827a8f63932",
       "name": "Resolve dependency 1/1",
       "description": "Homedrive must be an NTFS drive\n",
       "type": "execute-command",
       "data": {
-        "command": "Write-Host Prereq's for this test cannot be met automatically\n",
-        "command_type": ""
+        "command": "Write-Host Prereq's for this test cannot be met automatically",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "4cfa3a7a-3685-4d50-aaa2-eacdab16f8a7",
+      "id": "d6459aa0-eef3-4cb1-94d3-3d7212bd1c81",
       "name": "Re-check dependency 1/1",
       "description": "Homedrive must be an NTFS drive\n",
       "type": "execute-command",
       "data": {
-        "command": "if((Get-Volume -DriveLetter $env:HOMEDRIVE[0]).FileSystem -contains \"NTFS\") {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if((Get-Volume -DriveLetter $env:HOMEDRIVE[0]).FileSystem -contains \"NTFS\") {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "cd770f92-a13a-46d7-997f-46680278007c",
+      "s": "d4832810-a050-4216-9ba3-13f683009b2c",
       "p": "on-success",
-      "o": "d9f6ec68-eee0-4911-a54a-751e215e8cad"
+      "o": "1fe2641e-5a10-41ee-9c47-56c23aaa11e4"
     },
     {
-      "s": "cd770f92-a13a-46d7-997f-46680278007c",
+      "s": "d4832810-a050-4216-9ba3-13f683009b2c",
       "p": "on-failure",
-      "o": "d9f6ec68-eee0-4911-a54a-751e215e8cad"
+      "o": "1fe2641e-5a10-41ee-9c47-56c23aaa11e4"
     },
     {
-      "s": "b2c24101-50ec-41ff-a2d6-89a83913e134",
+      "s": "748e846a-6288-4c42-ba3f-69ee44571b11",
       "p": "on-success",
-      "o": "cd770f92-a13a-46d7-997f-46680278007c"
+      "o": "d4832810-a050-4216-9ba3-13f683009b2c"
     },
     {
-      "s": "b2c24101-50ec-41ff-a2d6-89a83913e134",
+      "s": "748e846a-6288-4c42-ba3f-69ee44571b11",
       "p": "on-failure",
-      "o": "e3c26207-0397-47e7-8f3c-5ea3e1ac96e4"
+      "o": "8e6bb7f5-a7e7-4aad-957c-9827a8f63932"
     },
     {
-      "s": "e3c26207-0397-47e7-8f3c-5ea3e1ac96e4",
+      "s": "8e6bb7f5-a7e7-4aad-957c-9827a8f63932",
       "p": "on-success",
-      "o": "4cfa3a7a-3685-4d50-aaa2-eacdab16f8a7"
+      "o": "d6459aa0-eef3-4cb1-94d3-3d7212bd1c81"
     },
     {
-      "s": "4cfa3a7a-3685-4d50-aaa2-eacdab16f8a7",
+      "s": "d6459aa0-eef3-4cb1-94d3-3d7212bd1c81",
       "p": "on-failure",
-      "o": "cd770f92-a13a-46d7-997f-46680278007c"
+      "o": "d4832810-a050-4216-9ba3-13f683009b2c"
     }
   ],
   "tags": [

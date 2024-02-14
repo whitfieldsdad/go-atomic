@@ -8,87 +8,87 @@
   ],
   "steps": [
     {
-      "id": "04c60f3d-8f91-4126-9131-9be27c6a0df4",
+      "id": "9f210de5-3bb8-48c8-8c58-5b89ec0292f0",
       "type": "execute-command",
       "data": {
-        "command": "dd if=/dev/zero bs=1 count=1 \u003e\u003e #{file_to_pad} #adds null bytes\ndd if=/dev/random bs=1 count=1 \u003e\u003e #{file_to_pad} #adds high-quality random data\ndd if=/dev/urandom bs=1 count=1 \u003e\u003e #{file_to_pad} #adds low-quality random data\n",
+        "command": "dd if=/dev/zero bs=1 count=1 \u003e\u003e #{file_to_pad} #adds null bytes\ndd if=/dev/random bs=1 count=1 \u003e\u003e #{file_to_pad} #adds high-quality random data\ndd if=/dev/urandom bs=1 count=1 \u003e\u003e #{file_to_pad} #adds low-quality random data",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "5cb06b2a-2fc9-4ad5-b7bd-029dbb0a0a7a",
+      "id": "e2c229b4-2b51-4a8b-b8d9-82c97901c6d1",
       "type": "execute-command",
       "data": {
-        "command": "rm #{file_to_pad}\n",
+        "command": "rm #{file_to_pad}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "2761a65b-64d5-4527-a223-370d8c1f6ef7",
+      "id": "83797154-ce74-4ef4-a56a-bf00ce6a2703",
       "name": "Check dependency 1/1",
       "description": "The binary must exist on disk at specified location (#{file_to_pad})\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f #{file_to_pad} ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -f #{file_to_pad} ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "03f9b7ef-4891-4ad9-a341-ad5b9ac5c73d",
+      "id": "900d3c29-3ebd-41e8-a2be-2444294b72e7",
       "name": "Resolve dependency 1/1",
       "description": "The binary must exist on disk at specified location (#{file_to_pad})\n",
       "type": "execute-command",
       "data": {
-        "command": "cp /bin/ls #{file_to_pad}\n",
-        "command_type": ""
+        "command": "cp /bin/ls #{file_to_pad}",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "ca1a6ecd-3993-4f00-b446-558d263cbce3",
+      "id": "7dca4dc4-1db8-43e1-81ab-422987012a28",
       "name": "Re-check dependency 1/1",
       "description": "The binary must exist on disk at specified location (#{file_to_pad})\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f #{file_to_pad} ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -f #{file_to_pad} ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "04c60f3d-8f91-4126-9131-9be27c6a0df4",
+      "s": "9f210de5-3bb8-48c8-8c58-5b89ec0292f0",
       "p": "on-success",
-      "o": "5cb06b2a-2fc9-4ad5-b7bd-029dbb0a0a7a"
+      "o": "e2c229b4-2b51-4a8b-b8d9-82c97901c6d1"
     },
     {
-      "s": "04c60f3d-8f91-4126-9131-9be27c6a0df4",
+      "s": "9f210de5-3bb8-48c8-8c58-5b89ec0292f0",
       "p": "on-failure",
-      "o": "5cb06b2a-2fc9-4ad5-b7bd-029dbb0a0a7a"
+      "o": "e2c229b4-2b51-4a8b-b8d9-82c97901c6d1"
     },
     {
-      "s": "2761a65b-64d5-4527-a223-370d8c1f6ef7",
+      "s": "83797154-ce74-4ef4-a56a-bf00ce6a2703",
       "p": "on-success",
-      "o": "04c60f3d-8f91-4126-9131-9be27c6a0df4"
+      "o": "9f210de5-3bb8-48c8-8c58-5b89ec0292f0"
     },
     {
-      "s": "2761a65b-64d5-4527-a223-370d8c1f6ef7",
+      "s": "83797154-ce74-4ef4-a56a-bf00ce6a2703",
       "p": "on-failure",
-      "o": "03f9b7ef-4891-4ad9-a341-ad5b9ac5c73d"
+      "o": "900d3c29-3ebd-41e8-a2be-2444294b72e7"
     },
     {
-      "s": "03f9b7ef-4891-4ad9-a341-ad5b9ac5c73d",
+      "s": "900d3c29-3ebd-41e8-a2be-2444294b72e7",
       "p": "on-success",
-      "o": "ca1a6ecd-3993-4f00-b446-558d263cbce3"
+      "o": "7dca4dc4-1db8-43e1-81ab-422987012a28"
     },
     {
-      "s": "ca1a6ecd-3993-4f00-b446-558d263cbce3",
+      "s": "7dca4dc4-1db8-43e1-81ab-422987012a28",
       "p": "on-failure",
-      "o": "04c60f3d-8f91-4126-9131-9be27c6a0df4"
+      "o": "9f210de5-3bb8-48c8-8c58-5b89ec0292f0"
     }
   ],
   "tags": [

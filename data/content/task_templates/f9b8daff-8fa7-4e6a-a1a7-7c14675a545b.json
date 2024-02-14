@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "bd0218cc-cdf4-4078-b93b-135d627b9a7c",
+      "id": "60349971-118e-4a9e-9d7f-03bbd34334ef",
       "type": "execute-command",
       "data": {
-        "command": "Set-ItemProperty \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" \"Userinit\" \"Userinit.exe, #{binary_to_execute}\" -Force\n",
+        "command": "Set-ItemProperty \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" \"Userinit\" \"Userinit.exe, #{binary_to_execute}\" -Force",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "9c9e0076-489c-4abc-9740-9585eb676a92",
+      "id": "f4698464-312f-4a02-a9c1-9865651f55d6",
       "type": "execute-command",
       "data": {
-        "command": "Remove-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" -Name \"Userinit\" -Force -ErrorAction Ignore\n",
+        "command": "Remove-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" -Name \"Userinit\" -Force -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "bd0218cc-cdf4-4078-b93b-135d627b9a7c",
+      "s": "60349971-118e-4a9e-9d7f-03bbd34334ef",
       "p": "on-success",
-      "o": "9c9e0076-489c-4abc-9740-9585eb676a92"
+      "o": "f4698464-312f-4a02-a9c1-9865651f55d6"
     },
     {
-      "s": "bd0218cc-cdf4-4078-b93b-135d627b9a7c",
+      "s": "60349971-118e-4a9e-9d7f-03bbd34334ef",
       "p": "on-failure",
-      "o": "9c9e0076-489c-4abc-9740-9585eb676a92"
+      "o": "f4698464-312f-4a02-a9c1-9865651f55d6"
     }
   ],
   "tags": [

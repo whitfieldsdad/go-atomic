@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "e0be6bae-a71b-4d49-9df9-36a3e3128571",
+      "id": "bd789ea7-9e37-4999-b560-574d590a11b6",
       "type": "execute-command",
       "data": {
-        "command": "net.exe stop #{service_name}\nsc.exe config #{service_name} start= disabled\n",
+        "command": "net.exe stop #{service_name}\nsc.exe config #{service_name} start= disabled",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "e57e94ed-77be-4279-9e47-46de39f0892d",
+      "id": "9f73f79d-53fa-476f-ba97-6a06392d0bfb",
       "type": "execute-command",
       "data": {
-        "command": "sc.exe config #{service_name} start= auto \u003enul 2\u003e\u00261\nnet.exe start #{service_name} \u003enul 2\u003e\u00261\n",
+        "command": "sc.exe config #{service_name} start= auto \u003enul 2\u003e\u00261\nnet.exe start #{service_name} \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "e0be6bae-a71b-4d49-9df9-36a3e3128571",
+      "s": "bd789ea7-9e37-4999-b560-574d590a11b6",
       "p": "on-success",
-      "o": "e57e94ed-77be-4279-9e47-46de39f0892d"
+      "o": "9f73f79d-53fa-476f-ba97-6a06392d0bfb"
     },
     {
-      "s": "e0be6bae-a71b-4d49-9df9-36a3e3128571",
+      "s": "bd789ea7-9e37-4999-b560-574d590a11b6",
       "p": "on-failure",
-      "o": "e57e94ed-77be-4279-9e47-46de39f0892d"
+      "o": "9f73f79d-53fa-476f-ba97-6a06392d0bfb"
     }
   ],
   "tags": [

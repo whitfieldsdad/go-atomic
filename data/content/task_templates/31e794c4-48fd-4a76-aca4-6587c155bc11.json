@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "0d79499c-9da1-4db5-b242-227500f525fd",
+      "id": "5d63515f-c350-4164-8674-0dee8169ec82",
       "type": "execute-command",
       "data": {
-        "command": "kubectl get secrets --all-namespaces\n",
+        "command": "kubectl get secrets --all-namespaces",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "76d56dd8-6f85-4aa0-83cf-34386171eb0e",
+      "id": "c3a830b9-e0ac-4d2e-ad38-1e9fb830ea8d",
       "name": "Check dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "which kubectl\n",
-        "command_type": ""
+        "command": "which kubectl",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "54b9b35b-c34f-4312-a534-44d5e2fdd067",
+      "id": "dab1f138-b871-4584-8ac2-c7d148f2bcd7",
       "name": "Resolve dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"kubectl not installed, please install kubectl (https://kubernetes.io/docs/tasks/tools/)\"\n",
-        "command_type": ""
+        "command": "echo \"kubectl not installed, please install kubectl (https://kubernetes.io/docs/tasks/tools/)\"",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "f6b1e1e4-8da6-43ed-ae96-d43c72ad89ae",
+      "id": "2d58895b-b957-41a0-82b8-84d9ac0aa7c3",
       "name": "Re-check dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "which kubectl\n",
-        "command_type": ""
+        "command": "which kubectl",
+        "command_type": "bash"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "76d56dd8-6f85-4aa0-83cf-34386171eb0e",
+      "s": "c3a830b9-e0ac-4d2e-ad38-1e9fb830ea8d",
       "p": "on-success",
-      "o": "0d79499c-9da1-4db5-b242-227500f525fd"
+      "o": "5d63515f-c350-4164-8674-0dee8169ec82"
     },
     {
-      "s": "76d56dd8-6f85-4aa0-83cf-34386171eb0e",
+      "s": "c3a830b9-e0ac-4d2e-ad38-1e9fb830ea8d",
       "p": "on-failure",
-      "o": "54b9b35b-c34f-4312-a534-44d5e2fdd067"
+      "o": "dab1f138-b871-4584-8ac2-c7d148f2bcd7"
     },
     {
-      "s": "54b9b35b-c34f-4312-a534-44d5e2fdd067",
+      "s": "dab1f138-b871-4584-8ac2-c7d148f2bcd7",
       "p": "on-success",
-      "o": "f6b1e1e4-8da6-43ed-ae96-d43c72ad89ae"
+      "o": "2d58895b-b957-41a0-82b8-84d9ac0aa7c3"
     },
     {
-      "s": "f6b1e1e4-8da6-43ed-ae96-d43c72ad89ae",
+      "s": "2d58895b-b957-41a0-82b8-84d9ac0aa7c3",
       "p": "on-failure",
-      "o": "0d79499c-9da1-4db5-b242-227500f525fd"
+      "o": "5d63515f-c350-4164-8674-0dee8169ec82"
     }
   ],
   "tags": [

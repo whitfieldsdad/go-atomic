@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "d2e64a13-0b66-4fdb-a3be-160de9c1da6d",
+      "id": "e3ee04f4-2b84-40f8-96e7-e446538bf63f",
       "type": "execute-command",
       "data": {
-        "command": "$RunKey = \"#{reg_key_path}\"\nSet-ItemProperty -Path $RunKey -Name \"socks5_powershell\" -Value \"#{reg_key_value}\"\n",
+        "command": "$RunKey = \"#{reg_key_path}\"\nSet-ItemProperty -Path $RunKey -Name \"socks5_powershell\" -Value \"#{reg_key_value}\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "0100685f-64cb-4776-90d0-25bf022a3707",
+      "id": "8e52df13-0d20-4b7c-99d8-672e42a6e6d2",
       "type": "execute-command",
       "data": {
-        "command": "Remove-ItemProperty -Path #{reg_key_path} -Name \"socks5_powershell\" -Force -ErrorAction Ignore\n",
+        "command": "Remove-ItemProperty -Path #{reg_key_path} -Name \"socks5_powershell\" -Force -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "d2e64a13-0b66-4fdb-a3be-160de9c1da6d",
+      "s": "e3ee04f4-2b84-40f8-96e7-e446538bf63f",
       "p": "on-success",
-      "o": "0100685f-64cb-4776-90d0-25bf022a3707"
+      "o": "8e52df13-0d20-4b7c-99d8-672e42a6e6d2"
     },
     {
-      "s": "d2e64a13-0b66-4fdb-a3be-160de9c1da6d",
+      "s": "e3ee04f4-2b84-40f8-96e7-e446538bf63f",
       "p": "on-failure",
-      "o": "0100685f-64cb-4776-90d0-25bf022a3707"
+      "o": "8e52df13-0d20-4b7c-99d8-672e42a6e6d2"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "reg_key_value",
-      "type": "path",
-      "description": "Thing to Run",
-      "value": "powershell.exe -windowstyle hidden -ExecutionPolicy Bypass -File"
-    },
-    {
       "name": "reg_key_path",
       "type": "path",
       "description": "Path to registry key to update",
       "value": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+    },
+    {
+      "name": "reg_key_value",
+      "type": "path",
+      "description": "Thing to Run",
+      "value": "powershell.exe -windowstyle hidden -ExecutionPolicy Bypass -File"
     }
   ]
 }

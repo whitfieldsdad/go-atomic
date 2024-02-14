@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "3e0b4297-3141-456d-aa39-2ba330b3e1a0",
+      "id": "926d3388-abdd-4ba7-851a-64b63547c525",
       "type": "execute-command",
       "data": {
-        "command": "ldapsearch -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{user} -w #{password} -b \"CN=Users,DC=#{domain},DC=#{top_level_domain}\" -s sub -a always -z 1000 dn\n",
+        "command": "ldapsearch -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{user} -w #{password} -b \"CN=Users,DC=#{domain},DC=#{top_level_domain}\" -s sub -a always -z 1000 dn",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "a12a3d8a-6365-47bb-915f-f23640e30a60",
+      "id": "f4ca2c6f-6cac-401d-a937-e3d172771b86",
       "name": "Check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapsearch\n",
       "type": "execute-command",
       "data": {
-        "command": "which ldapsearch\n",
-        "command_type": ""
+        "command": "which ldapsearch",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "eb089918-9694-413d-a18d-68af4f98d0ee",
+      "id": "918a7335-7359-4cce-a78c-da0f515c5ca4",
       "name": "Resolve dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapsearch\n",
       "type": "execute-command",
       "data": {
-        "command": "echo ldapsearch not found\n",
-        "command_type": ""
+        "command": "echo ldapsearch not found",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "73851937-adb4-4969-b774-f2b328b202c5",
+      "id": "9ed40a27-4bca-4bb1-b480-94a478d9149e",
       "name": "Re-check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapsearch\n",
       "type": "execute-command",
       "data": {
-        "command": "which ldapsearch\n",
-        "command_type": ""
+        "command": "which ldapsearch",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "a12a3d8a-6365-47bb-915f-f23640e30a60",
+      "s": "f4ca2c6f-6cac-401d-a937-e3d172771b86",
       "p": "on-success",
-      "o": "3e0b4297-3141-456d-aa39-2ba330b3e1a0"
+      "o": "926d3388-abdd-4ba7-851a-64b63547c525"
     },
     {
-      "s": "a12a3d8a-6365-47bb-915f-f23640e30a60",
+      "s": "f4ca2c6f-6cac-401d-a937-e3d172771b86",
       "p": "on-failure",
-      "o": "eb089918-9694-413d-a18d-68af4f98d0ee"
+      "o": "918a7335-7359-4cce-a78c-da0f515c5ca4"
     },
     {
-      "s": "eb089918-9694-413d-a18d-68af4f98d0ee",
+      "s": "918a7335-7359-4cce-a78c-da0f515c5ca4",
       "p": "on-success",
-      "o": "73851937-adb4-4969-b774-f2b328b202c5"
+      "o": "9ed40a27-4bca-4bb1-b480-94a478d9149e"
     },
     {
-      "s": "73851937-adb4-4969-b774-f2b328b202c5",
+      "s": "9ed40a27-4bca-4bb1-b480-94a478d9149e",
       "p": "on-failure",
-      "o": "3e0b4297-3141-456d-aa39-2ba330b3e1a0"
+      "o": "926d3388-abdd-4ba7-851a-64b63547c525"
     }
   ],
   "tags": [
@@ -76,18 +76,6 @@
     "T1087.002"
   ],
   "input_arguments": [
-    {
-      "name": "domain",
-      "type": "string",
-      "description": "The domain to be tested",
-      "value": "example"
-    },
-    {
-      "name": "top_level_domain",
-      "type": "string",
-      "description": "The top level domain (.com, .test, .remote, etc... following domain, minus the .)",
-      "value": "test"
-    },
     {
       "name": "user",
       "type": "string",
@@ -99,6 +87,18 @@
       "type": "string",
       "description": "password of the user with admin privileges referenced in admin_user",
       "value": "s3CurePssw0rD!"
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "The domain to be tested",
+      "value": "example"
+    },
+    {
+      "name": "top_level_domain",
+      "type": "string",
+      "description": "The top level domain (.com, .test, .remote, etc... following domain, minus the .)",
+      "value": "test"
     }
   ]
 }

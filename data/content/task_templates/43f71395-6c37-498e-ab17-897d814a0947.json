@@ -7,74 +7,80 @@
   ],
   "steps": [
     {
-      "id": "9fb254bd-eddf-4f2f-b403-774f9de3565e",
+      "id": "70b57f57-6c75-4bf3-aac9-290d7d01938e",
       "type": "execute-command",
       "data": {
-        "command": "$PWord = ConvertTo-SecureString -String #{super_pass} -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList #{super_user}, $PWord\nif((Get-ADUser #{remove_user} -Properties memberof).memberof -like \"CN=Domain Admins*\"){\n  Remove-ADGroupMember -Identity \"Domain Admins\" -Members #{remove_user} -Credential $Credential -Confirm:$False\n} else{\n    write-host \"Error - Make sure #{remove_user} is in the domain admins group\" -foregroundcolor Red\n}\n",
+        "command": "$PWord = ConvertTo-SecureString -String #{super_pass} -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList #{super_user}, $PWord\nif((Get-ADUser #{remove_user} -Properties memberof).memberof -like \"CN=Domain Admins*\"){\n  Remove-ADGroupMember -Identity \"Domain Admins\" -Members #{remove_user} -Credential $Credential -Confirm:$False\n} else{\n    write-host \"Error - Make sure #{remove_user} is in the domain admins group\" -foregroundcolor Red\n}",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "002ac1a0-d9cd-44b6-b338-58a448e35bf0",
+      "id": "17c7445e-30c4-4683-a987-42c77e1c4896",
       "name": "Check dependency 1/1",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "c4c9fdcd-61cb-4a4b-98fe-7ec33462bfff",
+      "id": "f4cc8a27-4db8-4da9-a228-ce7f5d87f179",
       "name": "Resolve dependency 1/1",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "Add-WindowsCapability -Online -Name \"Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0\"\n",
-        "command_type": ""
+        "command": "Add-WindowsCapability -Online -Name \"Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0\"",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "7fbd7a0d-616e-4403-94c9-56ff90442686",
+      "id": "23b3268d-7422-4d5c-8524-43406e67abbf",
       "name": "Re-check dependency 1/1",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "002ac1a0-d9cd-44b6-b338-58a448e35bf0",
+      "s": "17c7445e-30c4-4683-a987-42c77e1c4896",
       "p": "on-success",
-      "o": "9fb254bd-eddf-4f2f-b403-774f9de3565e"
+      "o": "70b57f57-6c75-4bf3-aac9-290d7d01938e"
     },
     {
-      "s": "002ac1a0-d9cd-44b6-b338-58a448e35bf0",
+      "s": "17c7445e-30c4-4683-a987-42c77e1c4896",
       "p": "on-failure",
-      "o": "c4c9fdcd-61cb-4a4b-98fe-7ec33462bfff"
+      "o": "f4cc8a27-4db8-4da9-a228-ce7f5d87f179"
     },
     {
-      "s": "c4c9fdcd-61cb-4a4b-98fe-7ec33462bfff",
+      "s": "f4cc8a27-4db8-4da9-a228-ce7f5d87f179",
       "p": "on-success",
-      "o": "7fbd7a0d-616e-4403-94c9-56ff90442686"
+      "o": "23b3268d-7422-4d5c-8524-43406e67abbf"
     },
     {
-      "s": "7fbd7a0d-616e-4403-94c9-56ff90442686",
+      "s": "23b3268d-7422-4d5c-8524-43406e67abbf",
       "p": "on-failure",
-      "o": "9fb254bd-eddf-4f2f-b403-774f9de3565e"
+      "o": "70b57f57-6c75-4bf3-aac9-290d7d01938e"
     }
   ],
   "tags": [
     "T1531"
   ],
   "input_arguments": [
+    {
+      "name": "remove_user",
+      "type": "string",
+      "description": "Account to remove from domain admins.",
+      "value": "remove_user"
+    },
     {
       "name": "super_user",
       "type": "string",
@@ -86,12 +92,6 @@
       "type": "string",
       "description": "super_user account password.",
       "value": "password"
-    },
-    {
-      "name": "remove_user",
-      "type": "string",
-      "description": "Account to remove from domain admins.",
-      "value": "remove_user"
     }
   ]
 }

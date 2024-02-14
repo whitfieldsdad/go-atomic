@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "1d1c8ba8-9fbf-4b06-a8d5-1fedcb6b9cb1",
+      "id": "79666ed2-5be0-4527-aec0-8428bd546fc6",
       "type": "execute-command",
       "data": {
-        "command": "docker build -t t1609  $PathtoAtomicsFolder/T1609/src/ \ndocker run --name t1609_container --rm -itd t1609 bash /tmp/script.sh\ndocker exec -i t1609_container bash -c \"cat /tmp/output.txt\"\n",
+        "command": "docker build -t t1609  $PathtoAtomicsFolder/T1609/src/ \ndocker run --name t1609_container --rm -itd t1609 bash /tmp/script.sh\ndocker exec -i t1609_container bash -c \"cat /tmp/output.txt\"",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "0a7769cb-b98c-44c5-b157-d28736034088",
+      "id": "dd1e2e40-ebd2-496d-85e1-372f8dbc3342",
       "type": "execute-command",
       "data": {
-        "command": "docker stop t1609_container\ndocker rmi -f t1609:latest \n",
+        "command": "docker stop t1609_container\ndocker rmi -f t1609:latest",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "7cfa6e21-2364-4f7b-8150-abc13b635793",
+      "id": "f6ad8d74-3790-44de-bc87-ab8be5d34609",
       "name": "Check dependency 1/1",
       "description": "docker must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "which docker\n",
-        "command_type": ""
+        "command": "which docker",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "1d360af2-8457-4e8d-a054-81db519409d3",
+      "id": "c6096233-9522-45d7-8768-319a39fb742e",
       "name": "Resolve dependency 1/1",
       "description": "docker must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ \"\" == \"`which docker`\" ]; then echo \"Docker Not Found\"; if [ -n \"`which apt-get`\" ]; then sudo apt-get -y install docker ; elif [ -n \"`which yum`\" ]; then sudo yum -y install docker ; fi ; else echo \"Docker installed\"; fi\n",
-        "command_type": ""
+        "command": "if [ \"\" == \"`which docker`\" ]; then echo \"Docker Not Found\"; if [ -n \"`which apt-get`\" ]; then sudo apt-get -y install docker ; elif [ -n \"`which yum`\" ]; then sudo yum -y install docker ; fi ; else echo \"Docker installed\"; fi",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "7cd7f6bf-4871-458b-9e2b-9007c21cd6e7",
+      "id": "89f285a7-45f3-4545-980e-0136beb5135e",
       "name": "Re-check dependency 1/1",
       "description": "docker must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "which docker\n",
-        "command_type": ""
+        "command": "which docker",
+        "command_type": "bash"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "1d1c8ba8-9fbf-4b06-a8d5-1fedcb6b9cb1",
+      "s": "79666ed2-5be0-4527-aec0-8428bd546fc6",
       "p": "on-success",
-      "o": "0a7769cb-b98c-44c5-b157-d28736034088"
+      "o": "dd1e2e40-ebd2-496d-85e1-372f8dbc3342"
     },
     {
-      "s": "1d1c8ba8-9fbf-4b06-a8d5-1fedcb6b9cb1",
+      "s": "79666ed2-5be0-4527-aec0-8428bd546fc6",
       "p": "on-failure",
-      "o": "0a7769cb-b98c-44c5-b157-d28736034088"
+      "o": "dd1e2e40-ebd2-496d-85e1-372f8dbc3342"
     },
     {
-      "s": "7cfa6e21-2364-4f7b-8150-abc13b635793",
+      "s": "f6ad8d74-3790-44de-bc87-ab8be5d34609",
       "p": "on-success",
-      "o": "1d1c8ba8-9fbf-4b06-a8d5-1fedcb6b9cb1"
+      "o": "79666ed2-5be0-4527-aec0-8428bd546fc6"
     },
     {
-      "s": "7cfa6e21-2364-4f7b-8150-abc13b635793",
+      "s": "f6ad8d74-3790-44de-bc87-ab8be5d34609",
       "p": "on-failure",
-      "o": "1d360af2-8457-4e8d-a054-81db519409d3"
+      "o": "c6096233-9522-45d7-8768-319a39fb742e"
     },
     {
-      "s": "1d360af2-8457-4e8d-a054-81db519409d3",
+      "s": "c6096233-9522-45d7-8768-319a39fb742e",
       "p": "on-success",
-      "o": "7cd7f6bf-4871-458b-9e2b-9007c21cd6e7"
+      "o": "89f285a7-45f3-4545-980e-0136beb5135e"
     },
     {
-      "s": "7cd7f6bf-4871-458b-9e2b-9007c21cd6e7",
+      "s": "89f285a7-45f3-4545-980e-0136beb5135e",
       "p": "on-failure",
-      "o": "1d1c8ba8-9fbf-4b06-a8d5-1fedcb6b9cb1"
+      "o": "79666ed2-5be0-4527-aec0-8428bd546fc6"
     }
   ],
   "tags": [

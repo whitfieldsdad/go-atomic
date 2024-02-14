@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "3eed7643-5193-46be-94ce-6b53a5d4ff64",
+      "id": "f79ec9c7-a232-4854-aaa3-4882e9abf7ac",
       "type": "execute-command",
       "data": {
-        "command": "$credFile = \"#{cred_file}\"\nif (Test-Path $credFile) {\n    $cred = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $env:USERNAME, (Get-Content $credFile | ConvertTo-SecureString)\n    if($cred.GetNetworkCredential().Password -eq \"#{new_password}\"){\n      Write-Host -ForegroundColor Yellow \"The new password is the same as the password stored in the credential file. Please specify a different new password.\"; exit -1\n    }\n    try {\n        $newPassword = ConvertTo-SecureString #{new_password} -AsPlainText -Force\n        Set-ADAccountPassword -Identity $env:USERNAME -OldPassword $cred.password -NewPassword $newPassword\n    }\n    catch { \n        $_.Exception\n        $errCode = $_.Exception.ErrorCode\n        Write-Host \"Error code: $errCode\"\n        if ($errCode -eq 86) {\n            Write-Host -ForegroundColor Yellow \"The stored password for the current user is incorrect. Please run the prereq commands to set the correct credentials\"\n            Remove-Item $credFile\n        }\n        exit $errCode\n    }\n    Write-Host -ForegroundColor Cyan \"Successfully changed the password to #{new_password}\"\n    $newCred = New-Object System.Management.Automation.PSCredential ($env:USERNAME, $(ConvertTo-SecureString \"#{new_password}\" -AsPlainText -Force))\n    $newCred.Password | ConvertFrom-SecureString | Out-File $credFile\n}\nelse {\n    Write-Host -ForegroundColor Yellow \"You must store the password of the current user by running the prerequisite commands first\"\n}\n",
+        "command": "$credFile = \"#{cred_file}\"\nif (Test-Path $credFile) {\n    $cred = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $env:USERNAME, (Get-Content $credFile | ConvertTo-SecureString)\n    if($cred.GetNetworkCredential().Password -eq \"#{new_password}\"){\n      Write-Host -ForegroundColor Yellow \"The new password is the same as the password stored in the credential file. Please specify a different new password.\"; exit -1\n    }\n    try {\n        $newPassword = ConvertTo-SecureString #{new_password} -AsPlainText -Force\n        Set-ADAccountPassword -Identity $env:USERNAME -OldPassword $cred.password -NewPassword $newPassword\n    }\n    catch { \n        $_.Exception\n        $errCode = $_.Exception.ErrorCode\n        Write-Host \"Error code: $errCode\"\n        if ($errCode -eq 86) {\n            Write-Host -ForegroundColor Yellow \"The stored password for the current user is incorrect. Please run the prereq commands to set the correct credentials\"\n            Remove-Item $credFile\n        }\n        exit $errCode\n    }\n    Write-Host -ForegroundColor Cyan \"Successfully changed the password to #{new_password}\"\n    $newCred = New-Object System.Management.Automation.PSCredential ($env:USERNAME, $(ConvertTo-SecureString \"#{new_password}\" -AsPlainText -Force))\n    $newCred.Password | ConvertFrom-SecureString | Out-File $credFile\n}\nelse {\n    Write-Host -ForegroundColor Yellow \"You must store the password of the current user by running the prerequisite commands first\"\n}",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "6e5aad3b-e719-4e8c-b43d-1568e1cc2159",
+      "id": "c1e66238-a023-4fdd-a33a-193383fa13bc",
       "name": "Check dependency 1/1",
       "description": "Password for current user must be stored in a credential file\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path #{cred_file}) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path #{cred_file}) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "14c3a524-90c6-4630-b5db-8588f61f1520",
+      "id": "a4e1a210-0f5b-43af-9626-f0449980cf95",
       "name": "Resolve dependency 1/1",
       "description": "Password for current user must be stored in a credential file\n",
       "type": "execute-command",
       "data": {
-        "command": "New-Item -Type Directory (split-path \"#{cred_file}\") -ErrorAction Ignore | Out-Null\n$cred = Get-Credential -UserName  $env:USERNAME -message \"Enter password for $env:USERNAME to use during password change attempt\"\n$cred.Password | ConvertFrom-SecureString | Out-File \"#{cred_file}\"\n",
-        "command_type": ""
+        "command": "New-Item -Type Directory (split-path \"#{cred_file}\") -ErrorAction Ignore | Out-Null\n$cred = Get-Credential -UserName  $env:USERNAME -message \"Enter password for $env:USERNAME to use during password change attempt\"\n$cred.Password | ConvertFrom-SecureString | Out-File \"#{cred_file}\"",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "46975da4-dc7c-4499-86e1-d903d7151bdf",
+      "id": "1174349e-f3a9-4d9d-a697-62ba3d2cbd57",
       "name": "Re-check dependency 1/1",
       "description": "Password for current user must be stored in a credential file\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path #{cred_file}) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path #{cred_file}) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "6e5aad3b-e719-4e8c-b43d-1568e1cc2159",
+      "s": "c1e66238-a023-4fdd-a33a-193383fa13bc",
       "p": "on-success",
-      "o": "3eed7643-5193-46be-94ce-6b53a5d4ff64"
+      "o": "f79ec9c7-a232-4854-aaa3-4882e9abf7ac"
     },
     {
-      "s": "6e5aad3b-e719-4e8c-b43d-1568e1cc2159",
+      "s": "c1e66238-a023-4fdd-a33a-193383fa13bc",
       "p": "on-failure",
-      "o": "14c3a524-90c6-4630-b5db-8588f61f1520"
+      "o": "a4e1a210-0f5b-43af-9626-f0449980cf95"
     },
     {
-      "s": "14c3a524-90c6-4630-b5db-8588f61f1520",
+      "s": "a4e1a210-0f5b-43af-9626-f0449980cf95",
       "p": "on-success",
-      "o": "46975da4-dc7c-4499-86e1-d903d7151bdf"
+      "o": "1174349e-f3a9-4d9d-a697-62ba3d2cbd57"
     },
     {
-      "s": "46975da4-dc7c-4499-86e1-d903d7151bdf",
+      "s": "1174349e-f3a9-4d9d-a697-62ba3d2cbd57",
       "p": "on-failure",
-      "o": "3eed7643-5193-46be-94ce-6b53a5d4ff64"
+      "o": "f79ec9c7-a232-4854-aaa3-4882e9abf7ac"
     }
   ],
   "tags": [

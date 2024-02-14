@@ -119,14 +119,15 @@ func InterpolateCommandArgs(command string, args map[string]interface{}) string 
 }
 
 func ExecArgv(ctx context.Context, argv []string) (*Process, error) {
-	command := strings.Join(argv, " ")
-	log.Infof("Executing command: %s", command)
+	log.Infof("EXECUTING: %s", strings.Join(argv, " "))
 
 	path := which.Which(argv[0])
 	if path == "" {
 		return nil, errors.New("cannot execute command - executable not found")
 	}
-	cmd := exec.Command(path, argv[1:]...)
+	argv[0] = path
+
+	cmd := exec.Command(argv[0], argv[1:]...)
 	cmd.SysProcAttr = getSysProcAttrs()
 
 	stdout := new(bytes.Buffer)
@@ -138,7 +139,7 @@ func ExecArgv(ctx context.Context, argv []string) (*Process, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to start command")
 	}
-	log.Infof("Command started %s (PID: %d)", command, cmd.Process.Pid)
+	log.Infof("Executing command: `%s` (PID: %d)", strings.Join(argv, " "), cmd.Process.Pid)
 
 	// Lookup information about the process
 	pid := cmd.Process.Pid

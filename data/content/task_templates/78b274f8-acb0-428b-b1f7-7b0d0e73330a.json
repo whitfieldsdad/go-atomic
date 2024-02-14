@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "6261346c-10d3-41e8-a262-de3e6a966a3c",
+      "id": "0cdb8a75-4eef-4b9f-b452-f606aba4a6da",
       "type": "execute-command",
       "data": {
-        "command": "$cert = New-SelfSignedCertificate -DnsName atomicredteam.com -CertStoreLocation cert:\\LocalMachine\\My\nSet-Location Cert:\\LocalMachine\\My\nExport-Certificate -Type CERT -Cert  Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -FilePath #{pfx_path}\n",
+        "command": "$cert = New-SelfSignedCertificate -DnsName atomicredteam.com -CertStoreLocation cert:\\LocalMachine\\My\nSet-Location Cert:\\LocalMachine\\My\nExport-Certificate -Type CERT -Cert  Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -FilePath #{pfx_path}",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "613e8a16-6d3e-433b-8881-66c47af653f0",
+      "id": "ba63cda2-28f9-4412-87b8-ac9cbb14dfca",
       "type": "execute-command",
       "data": {
-        "command": "try {\n   $cert = Import-Certificate -FilePath #{pfx_path} -CertStoreLocation Cert:\\LocalMachine\\My -ErrorAction Ignore\n   Get-ChildItem Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\n   Get-ChildItem Cert:\\LocalMachine\\Root\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\n}\ncatch { }\n",
+        "command": "try {\n   $cert = Import-Certificate -FilePath #{pfx_path} -CertStoreLocation Cert:\\LocalMachine\\My -ErrorAction Ignore\n   Get-ChildItem Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\n   Get-ChildItem Cert:\\LocalMachine\\Root\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\n}\ncatch { }",
         "command_type": "powershell"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "6261346c-10d3-41e8-a262-de3e6a966a3c",
+      "s": "0cdb8a75-4eef-4b9f-b452-f606aba4a6da",
       "p": "on-success",
-      "o": "613e8a16-6d3e-433b-8881-66c47af653f0"
+      "o": "ba63cda2-28f9-4412-87b8-ac9cbb14dfca"
     },
     {
-      "s": "6261346c-10d3-41e8-a262-de3e6a966a3c",
+      "s": "0cdb8a75-4eef-4b9f-b452-f606aba4a6da",
       "p": "on-failure",
-      "o": "613e8a16-6d3e-433b-8881-66c47af653f0"
+      "o": "ba63cda2-28f9-4412-87b8-ac9cbb14dfca"
     }
   ],
   "tags": [

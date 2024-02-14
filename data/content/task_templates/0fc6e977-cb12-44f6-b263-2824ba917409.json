@@ -8,68 +8,68 @@
   ],
   "steps": [
     {
-      "id": "7e47e798-1e94-4e8c-bd7b-a6637aeff9c1",
+      "id": "88f0d367-30da-4643-80dd-bcaf0c16dda6",
       "type": "execute-command",
       "data": {
-        "command": "rsync -r #{local_path} #{username}@#{remote_host}:#{remote_path}\n",
+        "command": "rsync -r #{local_path} #{username}@#{remote_host}:#{remote_path}",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "94f6c43c-1c78-428a-b8c4-21b3087db3d7",
+      "id": "36afd414-a8e6-4e67-8466-3f3032081d69",
       "name": "Check dependency 1/1",
       "description": "rsync must be installed on the machine \n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v rsync)\" ]; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v rsync)\" ]; then exit 0; else exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "f5a00209-1735-497a-8b16-d6db435a7b3b",
+      "id": "9b041102-c1a6-4be4-ba4c-67888decd309",
       "name": "Resolve dependency 1/1",
       "description": "rsync must be installed on the machine \n",
       "type": "execute-command",
       "data": {
-        "command": "(pkg install -y rsync)||(sudo apt-get -y install rsync)\n",
-        "command_type": ""
+        "command": "(pkg install -y rsync)||(sudo apt-get -y install rsync)",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "b81c9d89-efda-4ed0-8521-199abfafd333",
+      "id": "ab7c2071-980c-4202-9426-e902c4cda80f",
       "name": "Re-check dependency 1/1",
       "description": "rsync must be installed on the machine \n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v rsync)\" ]; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v rsync)\" ]; then exit 0; else exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "94f6c43c-1c78-428a-b8c4-21b3087db3d7",
+      "s": "36afd414-a8e6-4e67-8466-3f3032081d69",
       "p": "on-success",
-      "o": "7e47e798-1e94-4e8c-bd7b-a6637aeff9c1"
+      "o": "88f0d367-30da-4643-80dd-bcaf0c16dda6"
     },
     {
-      "s": "94f6c43c-1c78-428a-b8c4-21b3087db3d7",
+      "s": "36afd414-a8e6-4e67-8466-3f3032081d69",
       "p": "on-failure",
-      "o": "f5a00209-1735-497a-8b16-d6db435a7b3b"
+      "o": "9b041102-c1a6-4be4-ba4c-67888decd309"
     },
     {
-      "s": "f5a00209-1735-497a-8b16-d6db435a7b3b",
+      "s": "9b041102-c1a6-4be4-ba4c-67888decd309",
       "p": "on-success",
-      "o": "b81c9d89-efda-4ed0-8521-199abfafd333"
+      "o": "ab7c2071-980c-4202-9426-e902c4cda80f"
     },
     {
-      "s": "b81c9d89-efda-4ed0-8521-199abfafd333",
+      "s": "ab7c2071-980c-4202-9426-e902c4cda80f",
       "p": "on-failure",
-      "o": "7e47e798-1e94-4e8c-bd7b-a6637aeff9c1"
+      "o": "88f0d367-30da-4643-80dd-bcaf0c16dda6"
     }
   ],
   "tags": [

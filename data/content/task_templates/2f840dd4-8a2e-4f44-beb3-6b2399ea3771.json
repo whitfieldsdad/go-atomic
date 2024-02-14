@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "60b5a5d3-f5c1-4c77-97e0-e997865a3420",
+      "id": "171978b5-a383-40fe-b55b-9fe7d7203019",
       "type": "execute-command",
       "data": {
-        "command": "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp' -name \"PortNumber\" -Value #{NEW_Remote_Port}\nNew-NetFirewallRule -DisplayName 'RDPPORTLatest-TCP-In' -Profile 'Public' -Direction Inbound -Action Allow -Protocol TCP -LocalPort #{NEW_Remote_Port}\n",
+        "command": "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp' -name \"PortNumber\" -Value #{NEW_Remote_Port}\nNew-NetFirewallRule -DisplayName 'RDPPORTLatest-TCP-In' -Profile 'Public' -Direction Inbound -Action Allow -Protocol TCP -LocalPort #{NEW_Remote_Port}",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "fd8360e4-50b2-4c64-a701-cfd49b5b0835",
+      "id": "b6367de4-474f-4a46-903a-d084b9099573",
       "type": "execute-command",
       "data": {
-        "command": "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp' -name \"PortNumber\" -Value #{OLD_Remote_Port}\nRemove-NetFirewallRule -DisplayName \"RDPPORTLatest-TCP-In\" -ErrorAction Ignore \nGet-Service TermService | Restart-Service -Force -ErrorAction Ignore \n",
+        "command": "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp' -name \"PortNumber\" -Value #{OLD_Remote_Port}\nRemove-NetFirewallRule -DisplayName \"RDPPORTLatest-TCP-In\" -ErrorAction Ignore \nGet-Service TermService | Restart-Service -Force -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "60b5a5d3-f5c1-4c77-97e0-e997865a3420",
+      "s": "171978b5-a383-40fe-b55b-9fe7d7203019",
       "p": "on-success",
-      "o": "fd8360e4-50b2-4c64-a701-cfd49b5b0835"
+      "o": "b6367de4-474f-4a46-903a-d084b9099573"
     },
     {
-      "s": "60b5a5d3-f5c1-4c77-97e0-e997865a3420",
+      "s": "171978b5-a383-40fe-b55b-9fe7d7203019",
       "p": "on-failure",
-      "o": "fd8360e4-50b2-4c64-a701-cfd49b5b0835"
+      "o": "b6367de4-474f-4a46-903a-d084b9099573"
     }
   ],
   "tags": [

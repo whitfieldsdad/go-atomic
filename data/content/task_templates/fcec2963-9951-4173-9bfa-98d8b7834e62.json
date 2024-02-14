@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "d94345f9-c3f7-450d-aae5-e8cc0ead8f05",
+      "id": "17cba31b-b428-4776-8af9-085d37fba28b",
       "type": "execute-command",
       "data": {
-        "command": "net user \"#{username}\" \"#{password}\" /add /domain\nnet group \"#{group}\" \"#{username}\" /add /domain\n",
+        "command": "net user \"#{username}\" \"#{password}\" /add /domain\nnet group \"#{group}\" \"#{username}\" /add /domain",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "2ac9b880-3f4e-4797-a2d7-9a1bfe18d90a",
+      "id": "2bd00fc4-b697-4a0d-af91-b7ac95b5f583",
       "type": "execute-command",
       "data": {
-        "command": "net user \"#{username}\" \u003enul 2\u003e\u00261 /del /domain\n",
+        "command": "net user \"#{username}\" \u003enul 2\u003e\u00261 /del /domain",
         "command_type": "command_prompt"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "d94345f9-c3f7-450d-aae5-e8cc0ead8f05",
+      "s": "17cba31b-b428-4776-8af9-085d37fba28b",
       "p": "on-success",
-      "o": "2ac9b880-3f4e-4797-a2d7-9a1bfe18d90a"
+      "o": "2bd00fc4-b697-4a0d-af91-b7ac95b5f583"
     },
     {
-      "s": "d94345f9-c3f7-450d-aae5-e8cc0ead8f05",
+      "s": "17cba31b-b428-4776-8af9-085d37fba28b",
       "p": "on-failure",
-      "o": "2ac9b880-3f4e-4797-a2d7-9a1bfe18d90a"
+      "o": "2bd00fc4-b697-4a0d-af91-b7ac95b5f583"
     }
   ],
   "tags": [
@@ -42,6 +42,12 @@
     "T1136.002"
   ],
   "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username of the user to create",
+      "value": "T1136.002_Admin"
+    },
     {
       "name": "password",
       "type": "string",
@@ -53,12 +59,6 @@
       "type": "string",
       "description": "Domain administrator group to which add the user to",
       "value": "Domain Admins"
-    },
-    {
-      "name": "username",
-      "type": "string",
-      "description": "Username of the user to create",
-      "value": "T1136.002_Admin"
     }
   ]
 }

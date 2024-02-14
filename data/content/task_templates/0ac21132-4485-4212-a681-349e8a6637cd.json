@@ -8,19 +8,19 @@
   ],
   "steps": [
     {
-      "id": "f0715a2e-eee4-4d24-9ffa-2d892a39c7a3",
+      "id": "3732cb17-438f-4cdc-b509-7a0ed7222202",
       "type": "execute-command",
       "data": {
-        "command": "export #{proxy_scheme}_proxy=#{proxy_server}\n",
+        "command": "export #{proxy_scheme}_proxy=#{proxy_server}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "b598ad55-5012-407d-bdc8-dc3f20b8bda7",
+      "id": "05e37343-bf48-4781-927a-726947936a04",
       "type": "execute-command",
       "data": {
-        "command": "unset http_proxy\nunset https_proxy\n",
+        "command": "unset http_proxy\nunset https_proxy",
         "command_type": "sh"
       },
       "elevation_required": false
@@ -28,14 +28,14 @@
   ],
   "flows": [
     {
-      "s": "f0715a2e-eee4-4d24-9ffa-2d892a39c7a3",
+      "s": "3732cb17-438f-4cdc-b509-7a0ed7222202",
       "p": "on-success",
-      "o": "b598ad55-5012-407d-bdc8-dc3f20b8bda7"
+      "o": "05e37343-bf48-4781-927a-726947936a04"
     },
     {
-      "s": "f0715a2e-eee4-4d24-9ffa-2d892a39c7a3",
+      "s": "3732cb17-438f-4cdc-b509-7a0ed7222202",
       "p": "on-failure",
-      "o": "b598ad55-5012-407d-bdc8-dc3f20b8bda7"
+      "o": "05e37343-bf48-4781-927a-726947936a04"
     }
   ],
   "tags": [
@@ -44,16 +44,16 @@
   ],
   "input_arguments": [
     {
-      "name": "proxy_scheme",
-      "type": "string",
-      "description": "Protocol to proxy (http or https)",
-      "value": "http"
-    },
-    {
       "name": "proxy_server",
       "type": "url",
       "description": "Proxy server URL (host:port)",
       "value": "127.0.0.1:8080"
+    },
+    {
+      "name": "proxy_scheme",
+      "type": "string",
+      "description": "Protocol to proxy (http or https)",
+      "value": "http"
     }
   ]
 }

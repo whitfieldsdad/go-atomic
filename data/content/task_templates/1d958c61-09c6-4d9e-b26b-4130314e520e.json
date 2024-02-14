@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "90f0746b-77f3-4e64-9e3d-9ed4f2180e50",
+      "id": "2b6857f6-99f0-4058-b84e-b7cc8f6815ff",
       "type": "execute-command",
       "data": {
-        "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Shell\");\nSet-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Shell-backup\" -Value \"$oldvalue\";\n$newvalue = $oldvalue + \", #{payload}\";\nSet-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Shell\" -Value \"$newvalue\"\n",
+        "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Shell\");\nSet-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Shell-backup\" -Value \"$oldvalue\";\n$newvalue = $oldvalue + \", #{payload}\";\nSet-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Shell\" -Value \"$newvalue\"",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "4727c22f-0590-43ce-9013-edf93a8321ae",
+      "id": "79a20ffb-3c91-4bd6-a329-cc87d2d0dd77",
       "type": "execute-command",
       "data": {
         "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name 'Shell-backup');\nSet-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Shell\" -Value \"$oldvalue\";\nRemove-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name 'Shell-backup'",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "90f0746b-77f3-4e64-9e3d-9ed4f2180e50",
+      "s": "2b6857f6-99f0-4058-b84e-b7cc8f6815ff",
       "p": "on-success",
-      "o": "4727c22f-0590-43ce-9013-edf93a8321ae"
+      "o": "79a20ffb-3c91-4bd6-a329-cc87d2d0dd77"
     },
     {
-      "s": "90f0746b-77f3-4e64-9e3d-9ed4f2180e50",
+      "s": "2b6857f6-99f0-4058-b84e-b7cc8f6815ff",
       "p": "on-failure",
-      "o": "4727c22f-0590-43ce-9013-edf93a8321ae"
+      "o": "79a20ffb-3c91-4bd6-a329-cc87d2d0dd77"
     }
   ],
   "tags": [

@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "8426cfd7-6e3b-4825-acf0-eafb57d7a3eb",
+      "id": "ae0ada01-a856-49b1-80c0-bd4eb3a453e8",
       "type": "execute-command",
       "data": {
-        "command": "env | grep LANG\nprintenv LANG\nset | grep LANG\n",
+        "command": "env | grep LANG\nprintenv LANG\nset | grep LANG",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "68e341fb-25c0-4fe6-ad0d-52ea01c18ea1",
+      "id": "35cdf1ec-9d2a-466f-805d-99aa88e07551",
       "name": "Check dependency 1/1",
       "description": "Check if printenv command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "[ -x \"$(command -v printenv)\" ] \u0026\u0026 exit 0 || exit 1\n",
-        "command_type": ""
+        "command": "[ -x \"$(command -v printenv)\" ] \u0026\u0026 exit 0 || exit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "76e8b995-d5c5-4ef5-b389-8df0d3c554db",
+      "id": "40c84e69-8e38-4833-afbe-eb9d5fb9128b",
       "name": "Resolve dependency 1/1",
       "description": "Check if printenv command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"printenv command does not exist\"\nexit 1\n",
-        "command_type": ""
+        "command": "echo \"printenv command does not exist\"\nexit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "a905e589-1157-4f1e-a620-e6750a7434a5",
+      "id": "8e82c134-ea2a-4b06-ad04-2fb737133e84",
       "name": "Re-check dependency 1/1",
       "description": "Check if printenv command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "[ -x \"$(command -v printenv)\" ] \u0026\u0026 exit 0 || exit 1\n",
-        "command_type": ""
+        "command": "[ -x \"$(command -v printenv)\" ] \u0026\u0026 exit 0 || exit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "68e341fb-25c0-4fe6-ad0d-52ea01c18ea1",
+      "s": "35cdf1ec-9d2a-466f-805d-99aa88e07551",
       "p": "on-success",
-      "o": "8426cfd7-6e3b-4825-acf0-eafb57d7a3eb"
+      "o": "ae0ada01-a856-49b1-80c0-bd4eb3a453e8"
     },
     {
-      "s": "68e341fb-25c0-4fe6-ad0d-52ea01c18ea1",
+      "s": "35cdf1ec-9d2a-466f-805d-99aa88e07551",
       "p": "on-failure",
-      "o": "76e8b995-d5c5-4ef5-b389-8df0d3c554db"
+      "o": "40c84e69-8e38-4833-afbe-eb9d5fb9128b"
     },
     {
-      "s": "76e8b995-d5c5-4ef5-b389-8df0d3c554db",
+      "s": "40c84e69-8e38-4833-afbe-eb9d5fb9128b",
       "p": "on-success",
-      "o": "a905e589-1157-4f1e-a620-e6750a7434a5"
+      "o": "8e82c134-ea2a-4b06-ad04-2fb737133e84"
     },
     {
-      "s": "a905e589-1157-4f1e-a620-e6750a7434a5",
+      "s": "8e82c134-ea2a-4b06-ad04-2fb737133e84",
       "p": "on-failure",
-      "o": "8426cfd7-6e3b-4825-acf0-eafb57d7a3eb"
+      "o": "ae0ada01-a856-49b1-80c0-bd4eb3a453e8"
     }
   ],
   "tags": [

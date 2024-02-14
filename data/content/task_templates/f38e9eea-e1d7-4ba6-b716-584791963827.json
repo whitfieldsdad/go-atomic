@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "5e61cfae-b705-4021-89c0-d768ff82df55",
+      "id": "b9178a5d-a097-4255-8340-0f67b4e34c4c",
       "type": "execute-command",
       "data": {
-        "command": "reg.exe add \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\#{weak_service_name}\" /f /v ImagePath /d \"#{malicious_service_path}\"\n",
+        "command": "reg.exe add \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\#{weak_service_name}\" /f /v ImagePath /d \"#{malicious_service_path}\"",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "50aa969f-76e1-4e5a-aed3-1f4cbc13ba06",
+      "id": "7f4afd52-04a5-4295-9e6e-97dd267049ab",
       "type": "execute-command",
       "data": {
-        "command": "sc.exe delete #{weak_service_name}\n",
+        "command": "sc.exe delete #{weak_service_name}",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "b7a5c2ff-f0d2-4b28-a7dc-8b4e6b287460",
+      "id": "a2eaa189-b1c3-4ebd-b61d-143fd9154925",
       "name": "Check dependency 1/1",
       "description": "The service must exist (#{weak_service_name})\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Get-Service #{weak_service_name}) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Get-Service #{weak_service_name}) {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "6da651c2-6e97-40a1-a505-17a3e65043fc",
+      "id": "0611d7f6-c963-4d16-85da-de614a5fcc01",
       "name": "Resolve dependency 1/1",
       "description": "The service must exist (#{weak_service_name})\n",
       "type": "execute-command",
       "data": {
-        "command": "sc.exe create #{weak_service_name} binpath= \"#{weak_service_path}\"\n",
-        "command_type": ""
+        "command": "sc.exe create #{weak_service_name} binpath= \"#{weak_service_path}\"",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "1e83b5c0-c9d1-4d8c-9654-39a66d7750d3",
+      "id": "e0578109-387a-43c4-a1ac-8f2723b33bea",
       "name": "Re-check dependency 1/1",
       "description": "The service must exist (#{weak_service_name})\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Get-Service #{weak_service_name}) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Get-Service #{weak_service_name}) {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "5e61cfae-b705-4021-89c0-d768ff82df55",
+      "s": "b9178a5d-a097-4255-8340-0f67b4e34c4c",
       "p": "on-success",
-      "o": "50aa969f-76e1-4e5a-aed3-1f4cbc13ba06"
+      "o": "7f4afd52-04a5-4295-9e6e-97dd267049ab"
     },
     {
-      "s": "5e61cfae-b705-4021-89c0-d768ff82df55",
+      "s": "b9178a5d-a097-4255-8340-0f67b4e34c4c",
       "p": "on-failure",
-      "o": "50aa969f-76e1-4e5a-aed3-1f4cbc13ba06"
+      "o": "7f4afd52-04a5-4295-9e6e-97dd267049ab"
     },
     {
-      "s": "b7a5c2ff-f0d2-4b28-a7dc-8b4e6b287460",
+      "s": "a2eaa189-b1c3-4ebd-b61d-143fd9154925",
       "p": "on-success",
-      "o": "5e61cfae-b705-4021-89c0-d768ff82df55"
+      "o": "b9178a5d-a097-4255-8340-0f67b4e34c4c"
     },
     {
-      "s": "b7a5c2ff-f0d2-4b28-a7dc-8b4e6b287460",
+      "s": "a2eaa189-b1c3-4ebd-b61d-143fd9154925",
       "p": "on-failure",
-      "o": "6da651c2-6e97-40a1-a505-17a3e65043fc"
+      "o": "0611d7f6-c963-4d16-85da-de614a5fcc01"
     },
     {
-      "s": "6da651c2-6e97-40a1-a505-17a3e65043fc",
+      "s": "0611d7f6-c963-4d16-85da-de614a5fcc01",
       "p": "on-success",
-      "o": "1e83b5c0-c9d1-4d8c-9654-39a66d7750d3"
+      "o": "e0578109-387a-43c4-a1ac-8f2723b33bea"
     },
     {
-      "s": "1e83b5c0-c9d1-4d8c-9654-39a66d7750d3",
+      "s": "e0578109-387a-43c4-a1ac-8f2723b33bea",
       "p": "on-failure",
-      "o": "5e61cfae-b705-4021-89c0-d768ff82df55"
+      "o": "b9178a5d-a097-4255-8340-0f67b4e34c4c"
     }
   ],
   "tags": [

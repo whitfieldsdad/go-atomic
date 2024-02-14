@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "1a10d4ae-5e1c-47fd-8824-a6e7a384098a",
+      "id": "2acd7791-5c42-46cc-bd65-156012673d4a",
       "type": "execute-command",
       "data": {
-        "command": "$TokenSet = @{\n  U = [Char[]]'ABCDEFGHIJKLMNOPQRSTUVWXYZ'\n  N = [Char[]]'0123456789'\n}\n$Upper = Get-Random -Count 5 -InputObject $TokenSet.U\n$Number = Get-Random -Count 5 -InputObject $TokenSet.N\n$StringSet = $Upper + $Number\n$rad = (Get-Random -Count 5 -InputObject $StringSet) -join ''\n$file = \"rad\" + $rad + \".tmp\"\n\nwhoami.exe /all \u003e\u003e #{output_path}\\$file\n",
+        "command": "$TokenSet = @{\n  U = [Char[]]'ABCDEFGHIJKLMNOPQRSTUVWXYZ'\n  N = [Char[]]'0123456789'\n}\n$Upper = Get-Random -Count 5 -InputObject $TokenSet.U\n$Number = Get-Random -Count 5 -InputObject $TokenSet.N\n$StringSet = $Upper + $Number\n$rad = (Get-Random -Count 5 -InputObject $StringSet) -join ''\n$file = \"rad\" + $rad + \".tmp\"\n\nwhoami.exe /all \u003e\u003e #{output_path}\\$file",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "3786083d-f694-40b1-909a-aa38c7201b35",
+      "id": "1d166a1d-1487-4b0e-9acc-c1e6663946fa",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item -Path #{output_path}\\rad*.tmp -Force\n",
+        "command": "Remove-Item -Path #{output_path}\\rad*.tmp -Force",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "1a10d4ae-5e1c-47fd-8824-a6e7a384098a",
+      "s": "2acd7791-5c42-46cc-bd65-156012673d4a",
       "p": "on-success",
-      "o": "3786083d-f694-40b1-909a-aa38c7201b35"
+      "o": "1d166a1d-1487-4b0e-9acc-c1e6663946fa"
     },
     {
-      "s": "1a10d4ae-5e1c-47fd-8824-a6e7a384098a",
+      "s": "2acd7791-5c42-46cc-bd65-156012673d4a",
       "p": "on-failure",
-      "o": "3786083d-f694-40b1-909a-aa38c7201b35"
+      "o": "1d166a1d-1487-4b0e-9acc-c1e6663946fa"
     }
   ],
   "tags": [

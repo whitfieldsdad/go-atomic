@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "7100b409-3444-4761-923e-90d5f4359d98",
+      "id": "955bd0c5-514e-4c2c-8087-8632cd39f56f",
       "type": "execute-command",
       "data": {
-        "command": "SetFile -m #{target_date} #{target_filename}\n",
+        "command": "SetFile -m #{target_date} #{target_filename}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "3e68a2a9-06e5-4547-a94c-be99218f343c",
+      "id": "c02cced1-ae2e-47ca-a76b-844f72024a2e",
       "type": "execute-command",
       "data": {
-        "command": "rm -f #{target_filename}\n",
+        "command": "rm -f #{target_filename}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "6648d903-de3d-4859-9d58-d2b4218eee56",
+      "id": "d8388f2c-8ab5-4f1a-8c0a-a2ed292f0b88",
       "name": "Check dependency 1/1",
       "description": "The file must exist in order to be timestomped\n",
       "type": "execute-command",
       "data": {
-        "command": "test -e #{target_filename} \u0026\u0026 exit 0 || exit 1\n",
-        "command_type": ""
+        "command": "test -e #{target_filename} \u0026\u0026 exit 0 || exit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "33805d59-b7d1-4cff-a122-bc7c9633c546",
+      "id": "4d36c44f-b82e-4116-a601-3f22f1648bae",
       "name": "Resolve dependency 1/1",
       "description": "The file must exist in order to be timestomped\n",
       "type": "execute-command",
       "data": {
-        "command": "echo 'T1070.006 MacOS file modified timestomp test' \u003e #{target_filename}\n",
-        "command_type": ""
+        "command": "echo 'T1070.006 MacOS file modified timestomp test' \u003e #{target_filename}",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "474683c3-29e8-40ef-8f13-d94742daceaa",
+      "id": "7167bd3c-1646-4e30-8721-743930f7caa3",
       "name": "Re-check dependency 1/1",
       "description": "The file must exist in order to be timestomped\n",
       "type": "execute-command",
       "data": {
-        "command": "test -e #{target_filename} \u0026\u0026 exit 0 || exit 1\n",
-        "command_type": ""
+        "command": "test -e #{target_filename} \u0026\u0026 exit 0 || exit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "7100b409-3444-4761-923e-90d5f4359d98",
+      "s": "955bd0c5-514e-4c2c-8087-8632cd39f56f",
       "p": "on-success",
-      "o": "3e68a2a9-06e5-4547-a94c-be99218f343c"
+      "o": "c02cced1-ae2e-47ca-a76b-844f72024a2e"
     },
     {
-      "s": "7100b409-3444-4761-923e-90d5f4359d98",
+      "s": "955bd0c5-514e-4c2c-8087-8632cd39f56f",
       "p": "on-failure",
-      "o": "3e68a2a9-06e5-4547-a94c-be99218f343c"
+      "o": "c02cced1-ae2e-47ca-a76b-844f72024a2e"
     },
     {
-      "s": "6648d903-de3d-4859-9d58-d2b4218eee56",
+      "s": "d8388f2c-8ab5-4f1a-8c0a-a2ed292f0b88",
       "p": "on-success",
-      "o": "7100b409-3444-4761-923e-90d5f4359d98"
+      "o": "955bd0c5-514e-4c2c-8087-8632cd39f56f"
     },
     {
-      "s": "6648d903-de3d-4859-9d58-d2b4218eee56",
+      "s": "d8388f2c-8ab5-4f1a-8c0a-a2ed292f0b88",
       "p": "on-failure",
-      "o": "33805d59-b7d1-4cff-a122-bc7c9633c546"
+      "o": "4d36c44f-b82e-4116-a601-3f22f1648bae"
     },
     {
-      "s": "33805d59-b7d1-4cff-a122-bc7c9633c546",
+      "s": "4d36c44f-b82e-4116-a601-3f22f1648bae",
       "p": "on-success",
-      "o": "474683c3-29e8-40ef-8f13-d94742daceaa"
+      "o": "7167bd3c-1646-4e30-8721-743930f7caa3"
     },
     {
-      "s": "474683c3-29e8-40ef-8f13-d94742daceaa",
+      "s": "7167bd3c-1646-4e30-8721-743930f7caa3",
       "p": "on-failure",
-      "o": "7100b409-3444-4761-923e-90d5f4359d98"
+      "o": "955bd0c5-514e-4c2c-8087-8632cd39f56f"
     }
   ],
   "tags": [
@@ -96,16 +96,16 @@
   ],
   "input_arguments": [
     {
-      "name": "target_date",
-      "type": "string",
-      "description": "Date to replace original timestamps with",
-      "value": "01/01/1970"
-    },
-    {
       "name": "target_filename",
       "type": "path",
       "description": "Path of file that we are going to stomp on last modified time\n",
       "value": "/tmp/T1070.006-modified.txt"
+    },
+    {
+      "name": "target_date",
+      "type": "string",
+      "description": "Date to replace original timestamps with",
+      "value": "01/01/1970"
     }
   ]
 }

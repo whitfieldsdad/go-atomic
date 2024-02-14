@@ -8,87 +8,87 @@
   ],
   "steps": [
     {
-      "id": "637816e4-b6e5-471b-8e5b-b9b17562cd88",
+      "id": "7b1caccb-28e2-4ffb-806c-8586c4d3b9b1",
       "type": "execute-command",
       "data": {
-        "command": "zip #{output_file} #{input_files}\n",
+        "command": "zip #{output_file} #{input_files}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "ce218340-927d-44b2-8059-a4c142560184",
+      "id": "58eb43ed-a7f0-45b7-be8b-2c6a88d1b71c",
       "type": "execute-command",
       "data": {
-        "command": "rm -f #{output_file}\n",
+        "command": "rm -f #{output_file}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "18dfebef-baf5-4938-8ff7-ee24cbc5af8b",
+      "id": "60079a12-9b5b-442f-9e76-deaaa081b410",
       "name": "Check dependency 1/1",
       "description": "Files to zip must exist (#{input_files})\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ $(ls #{input_files} | wc -l) \u003e 0 ] \u0026\u0026 [ -x $(which zip) ] ; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ $(ls #{input_files} | wc -l) \u003e 0 ] \u0026\u0026 [ -x $(which zip) ] ; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "6c4383fe-f233-4f19-90dc-de82eb329481",
+      "id": "58fe389d-56f6-4042-8695-487975145c49",
       "name": "Resolve dependency 1/1",
       "description": "Files to zip must exist (#{input_files})\n",
       "type": "execute-command",
       "data": {
-        "command": "(which yum \u0026\u0026 yum -y install epel-release zip)||(which apt-get \u0026\u0026 apt-get install -y zip)\necho Please set input_files argument to include files that exist\n",
-        "command_type": ""
+        "command": "(which yum \u0026\u0026 yum -y install epel-release zip)||(which apt-get \u0026\u0026 apt-get install -y zip)\necho Please set input_files argument to include files that exist",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "dea799a2-4ffd-4787-987f-bc79bdb9f739",
+      "id": "429ef5ae-fb0f-4770-a9f0-01b00ffec09b",
       "name": "Re-check dependency 1/1",
       "description": "Files to zip must exist (#{input_files})\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ $(ls #{input_files} | wc -l) \u003e 0 ] \u0026\u0026 [ -x $(which zip) ] ; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ $(ls #{input_files} | wc -l) \u003e 0 ] \u0026\u0026 [ -x $(which zip) ] ; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "637816e4-b6e5-471b-8e5b-b9b17562cd88",
+      "s": "7b1caccb-28e2-4ffb-806c-8586c4d3b9b1",
       "p": "on-success",
-      "o": "ce218340-927d-44b2-8059-a4c142560184"
+      "o": "58eb43ed-a7f0-45b7-be8b-2c6a88d1b71c"
     },
     {
-      "s": "637816e4-b6e5-471b-8e5b-b9b17562cd88",
+      "s": "7b1caccb-28e2-4ffb-806c-8586c4d3b9b1",
       "p": "on-failure",
-      "o": "ce218340-927d-44b2-8059-a4c142560184"
+      "o": "58eb43ed-a7f0-45b7-be8b-2c6a88d1b71c"
     },
     {
-      "s": "18dfebef-baf5-4938-8ff7-ee24cbc5af8b",
+      "s": "60079a12-9b5b-442f-9e76-deaaa081b410",
       "p": "on-success",
-      "o": "637816e4-b6e5-471b-8e5b-b9b17562cd88"
+      "o": "7b1caccb-28e2-4ffb-806c-8586c4d3b9b1"
     },
     {
-      "s": "18dfebef-baf5-4938-8ff7-ee24cbc5af8b",
+      "s": "60079a12-9b5b-442f-9e76-deaaa081b410",
       "p": "on-failure",
-      "o": "6c4383fe-f233-4f19-90dc-de82eb329481"
+      "o": "58fe389d-56f6-4042-8695-487975145c49"
     },
     {
-      "s": "6c4383fe-f233-4f19-90dc-de82eb329481",
+      "s": "58fe389d-56f6-4042-8695-487975145c49",
       "p": "on-success",
-      "o": "dea799a2-4ffd-4787-987f-bc79bdb9f739"
+      "o": "429ef5ae-fb0f-4770-a9f0-01b00ffec09b"
     },
     {
-      "s": "dea799a2-4ffd-4787-987f-bc79bdb9f739",
+      "s": "429ef5ae-fb0f-4770-a9f0-01b00ffec09b",
       "p": "on-failure",
-      "o": "637816e4-b6e5-471b-8e5b-b9b17562cd88"
+      "o": "7b1caccb-28e2-4ffb-806c-8586c4d3b9b1"
     }
   ],
   "tags": [

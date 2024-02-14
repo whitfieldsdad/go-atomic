@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "97981b35-a11e-4527-b136-17c5f1ac5ef8",
+      "id": "3d64751b-9d9e-409a-ae4c-2c46648879c0",
       "type": "execute-command",
       "data": {
-        "command": "echo cmd /c echo \"Shell code execution.\"\u003e #{file_name}:#{ads_filename}\nfor /f \"usebackq delims=?\" %i in (#{file_name}:#{ads_filename}) do %i\n",
+        "command": "echo cmd /c echo \"Shell code execution.\"\u003e #{file_name}:#{ads_filename}\nfor /f \"usebackq delims=?\" %i in (#{file_name}:#{ads_filename}) do %i",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "a18bd8ef-9b9a-4936-806b-8fc7b475c158",
+      "id": "36a74f10-0eb2-41ba-a377-070fe8c0c40b",
       "type": "execute-command",
       "data": {
-        "command": "del #{file_name} \u003enul 2\u003e\u00261\n",
+        "command": "del #{file_name} \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "97981b35-a11e-4527-b136-17c5f1ac5ef8",
+      "s": "3d64751b-9d9e-409a-ae4c-2c46648879c0",
       "p": "on-success",
-      "o": "a18bd8ef-9b9a-4936-806b-8fc7b475c158"
+      "o": "36a74f10-0eb2-41ba-a377-070fe8c0c40b"
     },
     {
-      "s": "97981b35-a11e-4527-b136-17c5f1ac5ef8",
+      "s": "3d64751b-9d9e-409a-ae4c-2c46648879c0",
       "p": "on-failure",
-      "o": "a18bd8ef-9b9a-4936-806b-8fc7b475c158"
+      "o": "36a74f10-0eb2-41ba-a377-070fe8c0c40b"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "file_name",
-      "type": "string",
-      "description": "File name of file to create ADS on.",
-      "value": "%temp%\\T1564.004_has_ads_cmd.txt"
-    },
-    {
       "name": "ads_filename",
       "type": "string",
       "description": "Name of ADS.",
       "value": "adstest.txt"
+    },
+    {
+      "name": "file_name",
+      "type": "string",
+      "description": "File name of file to create ADS on.",
+      "value": "%temp%\\T1564.004_has_ads_cmd.txt"
     }
   ]
 }

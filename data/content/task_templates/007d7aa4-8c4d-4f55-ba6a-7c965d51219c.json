@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1250749f-a2f3-4dcb-a89f-3f2fcea81b3a",
+      "id": "04b67b56-1f30-4e8e-87b8-73a85b618bcb",
       "type": "execute-command",
       "data": {
         "command": "docker build -t t1069 $PathtoAtomicsFolder/T1069.001/src/\ndocker run --name t1069_container  -d -t t1069\ndocker exec t1069_container ./test.sh",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "8749c911-2c44-486e-bfd5-fbdf41ab7496",
+      "id": "18a54c59-1f19-4eaa-b64a-49271849325a",
       "type": "execute-command",
       "data": {
         "command": "docker stop t1069_container\ndocker rmi -f t1069",
@@ -25,122 +25,122 @@
       "elevation_required": false
     },
     {
-      "id": "83abed66-b922-44e7-962a-cf23864b0582",
+      "id": "75f27853-2d8d-4bec-862c-9b2c26277254",
       "name": "Check dependency 1/2",
       "description": "Verify docker is installed.",
       "type": "execute-command",
       "data": {
-        "command": "which docker\n",
-        "command_type": ""
+        "command": "which docker",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "c31defc9-926b-4ec3-a057-d521fb2f6225",
+      "id": "0666c655-c63f-45ae-9048-ad25c8958430",
       "name": "Resolve dependency 1/2",
       "description": "Verify docker is installed.",
       "type": "execute-command",
       "data": {
-        "command": "if [ \"\" == \"`which docker`\" ]; then echo \"Docker Not Found\"; if [ -n \"`which apt-get`\" ]; then sudo apt-get -y install docker ; elif [ -n \"`which yum`\" ]; then sudo yum -y install docker ; fi ; else echo \"Docker installed\"; fi\n",
-        "command_type": ""
+        "command": "if [ \"\" == \"`which docker`\" ]; then echo \"Docker Not Found\"; if [ -n \"`which apt-get`\" ]; then sudo apt-get -y install docker ; elif [ -n \"`which yum`\" ]; then sudo yum -y install docker ; fi ; else echo \"Docker installed\"; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "dfd33014-290f-48bc-b9b1-234438913cf4",
+      "id": "3c512320-dcac-4151-87f5-ef9f197c146e",
       "name": "Re-check dependency 1/2",
       "description": "Verify docker is installed.",
       "type": "execute-command",
       "data": {
-        "command": "which docker\n",
-        "command_type": ""
+        "command": "which docker",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "2ce8f08d-5120-45e7-ae5b-4a6ac6c50a4b",
+      "id": "1bae6947-2357-405c-bfa8-05d3e4f712d8",
       "name": "Check dependency 2/2",
       "description": "Verify docker service is running.",
       "type": "execute-command",
       "data": {
-        "command": "sudo systemctl status docker  --no-pager\n",
-        "command_type": ""
+        "command": "sudo systemctl status docker  --no-pager",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "04c2b7cf-42c1-4f7a-9dec-85cc34b6d564",
+      "id": "e7d341c2-2f00-4827-99c1-01f8a0355ced",
       "name": "Resolve dependency 2/2",
       "description": "Verify docker service is running.",
       "type": "execute-command",
       "data": {
-        "command": "sudo systemctl start docker\n",
-        "command_type": ""
+        "command": "sudo systemctl start docker",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "445bafb9-6445-49cc-b761-e931fe54326e",
+      "id": "05532e3f-a577-4221-b494-621a3ef758e2",
       "name": "Re-check dependency 2/2",
       "description": "Verify docker service is running.",
       "type": "execute-command",
       "data": {
-        "command": "sudo systemctl status docker  --no-pager\n",
-        "command_type": ""
+        "command": "sudo systemctl status docker  --no-pager",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "1250749f-a2f3-4dcb-a89f-3f2fcea81b3a",
+      "s": "04b67b56-1f30-4e8e-87b8-73a85b618bcb",
       "p": "on-success",
-      "o": "8749c911-2c44-486e-bfd5-fbdf41ab7496"
+      "o": "18a54c59-1f19-4eaa-b64a-49271849325a"
     },
     {
-      "s": "1250749f-a2f3-4dcb-a89f-3f2fcea81b3a",
+      "s": "04b67b56-1f30-4e8e-87b8-73a85b618bcb",
       "p": "on-failure",
-      "o": "8749c911-2c44-486e-bfd5-fbdf41ab7496"
+      "o": "18a54c59-1f19-4eaa-b64a-49271849325a"
     },
     {
-      "s": "83abed66-b922-44e7-962a-cf23864b0582",
+      "s": "75f27853-2d8d-4bec-862c-9b2c26277254",
       "p": "on-success",
-      "o": "1250749f-a2f3-4dcb-a89f-3f2fcea81b3a"
+      "o": "04b67b56-1f30-4e8e-87b8-73a85b618bcb"
     },
     {
-      "s": "83abed66-b922-44e7-962a-cf23864b0582",
+      "s": "75f27853-2d8d-4bec-862c-9b2c26277254",
       "p": "on-failure",
-      "o": "c31defc9-926b-4ec3-a057-d521fb2f6225"
+      "o": "0666c655-c63f-45ae-9048-ad25c8958430"
     },
     {
-      "s": "c31defc9-926b-4ec3-a057-d521fb2f6225",
+      "s": "0666c655-c63f-45ae-9048-ad25c8958430",
       "p": "on-success",
-      "o": "dfd33014-290f-48bc-b9b1-234438913cf4"
+      "o": "3c512320-dcac-4151-87f5-ef9f197c146e"
     },
     {
-      "s": "dfd33014-290f-48bc-b9b1-234438913cf4",
+      "s": "3c512320-dcac-4151-87f5-ef9f197c146e",
       "p": "on-failure",
-      "o": "1250749f-a2f3-4dcb-a89f-3f2fcea81b3a"
+      "o": "04b67b56-1f30-4e8e-87b8-73a85b618bcb"
     },
     {
-      "s": "2ce8f08d-5120-45e7-ae5b-4a6ac6c50a4b",
+      "s": "1bae6947-2357-405c-bfa8-05d3e4f712d8",
       "p": "on-success",
-      "o": "1250749f-a2f3-4dcb-a89f-3f2fcea81b3a"
+      "o": "04b67b56-1f30-4e8e-87b8-73a85b618bcb"
     },
     {
-      "s": "2ce8f08d-5120-45e7-ae5b-4a6ac6c50a4b",
+      "s": "1bae6947-2357-405c-bfa8-05d3e4f712d8",
       "p": "on-failure",
-      "o": "04c2b7cf-42c1-4f7a-9dec-85cc34b6d564"
+      "o": "e7d341c2-2f00-4827-99c1-01f8a0355ced"
     },
     {
-      "s": "04c2b7cf-42c1-4f7a-9dec-85cc34b6d564",
+      "s": "e7d341c2-2f00-4827-99c1-01f8a0355ced",
       "p": "on-success",
-      "o": "445bafb9-6445-49cc-b761-e931fe54326e"
+      "o": "05532e3f-a577-4221-b494-621a3ef758e2"
     },
     {
-      "s": "445bafb9-6445-49cc-b761-e931fe54326e",
+      "s": "05532e3f-a577-4221-b494-621a3ef758e2",
       "p": "on-failure",
-      "o": "1250749f-a2f3-4dcb-a89f-3f2fcea81b3a"
+      "o": "04b67b56-1f30-4e8e-87b8-73a85b618bcb"
     }
   ],
   "tags": [

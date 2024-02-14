@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e271cb19-4e2b-4032-844d-f79e4d0dcd5e",
+      "id": "a8cec518-8cfd-4a97-9bf1-2526e2e6381e",
       "type": "execute-command",
       "data": {
         "command": "C:\\Windows\\System32\\inetsrv\\appcmd.exe list apppool /@t:*\nC:\\Windows\\System32\\inetsrv\\appcmd.exe list apppool /@text:*\nC:\\Windows\\System32\\inetsrv\\appcmd.exe list apppool /text:*",
@@ -16,59 +16,59 @@
       "elevation_required": true
     },
     {
-      "id": "2aa8a4aa-9293-40a8-a147-75c06a0a66eb",
+      "id": "96be023b-f802-4b26-b689-c05edb16855d",
       "name": "Check dependency 1/1",
       "description": "IIS must be installed prior to running the test",
       "type": "execute-command",
       "data": {
         "command": "if ((Get-WindowsFeature Web-Server).InstallState -eq \"Installed\") {exit 0} else {exit 1}",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "e0135745-0c8e-4514-bba7-78e722538f91",
+      "id": "d42cc181-6306-4afd-b683-d9c3cf8a004a",
       "name": "Resolve dependency 1/1",
       "description": "IIS must be installed prior to running the test",
       "type": "execute-command",
       "data": {
         "command": "Install-WindowsFeature -name Web-Server -IncludeManagementTools",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "8bb33340-9249-45c5-975f-dd45503a9e0c",
+      "id": "32d967de-a64e-44f7-909c-70fec56bece2",
       "name": "Re-check dependency 1/1",
       "description": "IIS must be installed prior to running the test",
       "type": "execute-command",
       "data": {
         "command": "if ((Get-WindowsFeature Web-Server).InstallState -eq \"Installed\") {exit 0} else {exit 1}",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "2aa8a4aa-9293-40a8-a147-75c06a0a66eb",
+      "s": "96be023b-f802-4b26-b689-c05edb16855d",
       "p": "on-success",
-      "o": "e271cb19-4e2b-4032-844d-f79e4d0dcd5e"
+      "o": "a8cec518-8cfd-4a97-9bf1-2526e2e6381e"
     },
     {
-      "s": "2aa8a4aa-9293-40a8-a147-75c06a0a66eb",
+      "s": "96be023b-f802-4b26-b689-c05edb16855d",
       "p": "on-failure",
-      "o": "e0135745-0c8e-4514-bba7-78e722538f91"
+      "o": "d42cc181-6306-4afd-b683-d9c3cf8a004a"
     },
     {
-      "s": "e0135745-0c8e-4514-bba7-78e722538f91",
+      "s": "d42cc181-6306-4afd-b683-d9c3cf8a004a",
       "p": "on-success",
-      "o": "8bb33340-9249-45c5-975f-dd45503a9e0c"
+      "o": "32d967de-a64e-44f7-909c-70fec56bece2"
     },
     {
-      "s": "8bb33340-9249-45c5-975f-dd45503a9e0c",
+      "s": "32d967de-a64e-44f7-909c-70fec56bece2",
       "p": "on-failure",
-      "o": "e271cb19-4e2b-4032-844d-f79e4d0dcd5e"
+      "o": "a8cec518-8cfd-4a97-9bf1-2526e2e6381e"
     }
   ],
   "tags": [

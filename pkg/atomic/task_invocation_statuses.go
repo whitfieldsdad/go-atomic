@@ -30,8 +30,6 @@ type baseTaskInvocationStatus struct {
 	Status           string    `json:"status"`
 	TaskId           string    `json:"task_id"`
 	TaskInvocationId string    `json:"task_invocation_id"`
-	HostId           string    `json:"host_id"`
-	UserId           string    `json:"user_id"`
 }
 
 func (s baseTaskInvocationStatus) IsCreated() bool {
@@ -75,7 +73,7 @@ func (s TaskStepInvocationStatus) GetSubtype() string {
 	return "step"
 }
 
-func NewTaskInvocationStatus(taskId, taskStepId, taskInvocationId, hostId, userId, status string) TaskInvocationStatus {
+func NewTaskInvocationStatus(taskId, taskStepId, taskInvocationId, status string) TaskInvocationStatus {
 	return TaskInvocationStatus{
 		baseTaskInvocationStatus: baseTaskInvocationStatus{
 			Id:               uuid.NewString(),
@@ -83,13 +81,11 @@ func NewTaskInvocationStatus(taskId, taskStepId, taskInvocationId, hostId, userI
 			Status:           status,
 			TaskId:           taskId,
 			TaskInvocationId: taskInvocationId,
-			HostId:           hostId,
-			UserId:           userId,
 		},
 	}
 }
 
-func NewTaskStepInvocationStatus(taskId, taskStepId, taskInvocationId, hostId, userId, status string) TaskStepInvocationStatus {
+func NewTaskStepInvocationStatus(taskId, taskStepId, taskInvocationId, status string) TaskStepInvocationStatus {
 	return TaskStepInvocationStatus{
 		baseTaskInvocationStatus: baseTaskInvocationStatus{
 			Id:               uuid.NewString(),
@@ -97,8 +93,6 @@ func NewTaskStepInvocationStatus(taskId, taskStepId, taskInvocationId, hostId, u
 			Status:           status,
 			TaskId:           taskId,
 			TaskInvocationId: taskInvocationId,
-			HostId:           hostId,
-			UserId:           userId,
 		},
 		TaskStepId: taskStepId,
 	}

@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "53dd2297-42ab-4199-b3a8-cbb6c8a2ccde",
+      "id": "1893ac7f-d1e3-4cff-8cd4-4924942d3b5e",
       "type": "execute-command",
       "data": {
-        "command": "filename='/etc/rc.local';if [ ! -f $filename ];then sudo touch $filename;else sudo cp $filename /etc/rc.local.original;fi\n[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 alias python3=python3.9 \u0026\u0026 printf '#\\!/usr/local/bin/bash' | sudo tee /etc/rc.local || printf '#!/bin/bash' | sudo tee /etc/rc.local\necho \"\\npython3 -c \\\"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBtb2RpZnlpbmcgcmMubG9jYWwgPiAvdG1wL1QxMDM3LjAwNC5yYy5sb2NhbCcpCgo='))\\\"\" | sudo tee -a /etc/rc.local\nprintf 'exit 0' | sudo tee -a /etc/rc.local\nsudo chmod +x /etc/rc.local\n",
+        "command": "filename='/etc/rc.local';if [ ! -f $filename ];then sudo touch $filename;else sudo cp $filename /etc/rc.local.original;fi\n[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 alias python3=python3.9 \u0026\u0026 printf '#\\!/usr/local/bin/bash' | sudo tee /etc/rc.local || printf '#!/bin/bash' | sudo tee /etc/rc.local\necho \"\\npython3 -c \\\"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBtb2RpZnlpbmcgcmMubG9jYWwgPiAvdG1wL1QxMDM3LjAwNC5yYy5sb2NhbCcpCgo='))\\\"\" | sudo tee -a /etc/rc.local\nprintf 'exit 0' | sudo tee -a /etc/rc.local\nsudo chmod +x /etc/rc.local",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "09fc0d43-893f-4b23-8364-84835b1060c5",
+      "id": "78363868-abf4-4102-bbe6-a8de1403d32d",
       "type": "execute-command",
       "data": {
-        "command": "origfilename='/etc/rc.local.original';if [ ! -f $origfilename ];then sudo rm /etc/rc.local;else sudo cp $origfilename /etc/rc.local \u0026\u0026 sudo rm $origfilename;fi\n",
+        "command": "origfilename='/etc/rc.local.original';if [ ! -f $origfilename ];then sudo rm /etc/rc.local;else sudo cp $origfilename /etc/rc.local \u0026\u0026 sudo rm $origfilename;fi",
         "command_type": "sh"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "53dd2297-42ab-4199-b3a8-cbb6c8a2ccde",
+      "s": "1893ac7f-d1e3-4cff-8cd4-4924942d3b5e",
       "p": "on-success",
-      "o": "09fc0d43-893f-4b23-8364-84835b1060c5"
+      "o": "78363868-abf4-4102-bbe6-a8de1403d32d"
     },
     {
-      "s": "53dd2297-42ab-4199-b3a8-cbb6c8a2ccde",
+      "s": "1893ac7f-d1e3-4cff-8cd4-4924942d3b5e",
       "p": "on-failure",
-      "o": "09fc0d43-893f-4b23-8364-84835b1060c5"
+      "o": "78363868-abf4-4102-bbe6-a8de1403d32d"
     }
   ],
   "tags": [

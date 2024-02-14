@@ -7,10 +7,10 @@
   ],
   "steps": [
     {
-      "id": "3dde6b27-5756-4236-a596-7f0a756b0096",
+      "id": "9142120f-7c23-436e-af92-8f767a1117f7",
       "type": "execute-command",
       "data": {
-        "command": "for($i=0; $i -le #{query_volume}; $i++) { Resolve-DnsName -type \"#{query_type}\" \"#{subdomain}-$(Get-Random -Minimum 1 -Maximum 999999).#{domain}\" -QuickTimeout}\n",
+        "command": "for($i=0; $i -le #{query_volume}; $i++) { Resolve-DnsName -type \"#{query_type}\" \"#{subdomain}-$(Get-Random -Minimum 1 -Maximum 999999).#{domain}\" -QuickTimeout}",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -21,12 +21,6 @@
     "T1071.004"
   ],
   "input_arguments": [
-    {
-      "name": "query_type",
-      "type": "string",
-      "description": "DNS query type",
-      "value": "TXT"
-    },
     {
       "name": "subdomain",
       "type": "string",
@@ -44,6 +38,12 @@
       "type": "string",
       "description": "Default domain to simulate against",
       "value": "127.0.0.1.nip.io"
+    },
+    {
+      "name": "query_type",
+      "type": "string",
+      "description": "DNS query type",
+      "value": "TXT"
     }
   ]
 }

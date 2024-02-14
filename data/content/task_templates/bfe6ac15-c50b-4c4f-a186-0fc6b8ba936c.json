@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "f8150278-eb70-4e5b-87e0-24390e7b3355",
+      "id": "8f5932c3-d9aa-4134-b9c6-e464c31a8fc0",
       "type": "execute-command",
       "data": {
-        "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Office\\16.0\\Outlook\\Security\\Level\" /t REG_DWORD /d 1 /f\nmkdir  %APPDATA%\\Microsoft\\Outlook\\ \u003enul 2\u003e\u00261\necho \"Atomic Red Team TEST\" \u003e %APPDATA%\\Microsoft\\Outlook\\VbaProject.OTM\n",
+        "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Office\\16.0\\Outlook\\Security\\Level\" /t REG_DWORD /d 1 /f\nmkdir  %APPDATA%\\Microsoft\\Outlook\\ \u003enul 2\u003e\u00261\necho \"Atomic Red Team TEST\" \u003e %APPDATA%\\Microsoft\\Outlook\\VbaProject.OTM",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "6e9dace4-7a59-41a9-8c2b-9dadd4f7b7e5",
+      "id": "11275b39-de5d-4323-985f-a8f92c6164d7",
       "type": "execute-command",
       "data": {
-        "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Office\\16.0\\Outlook\\Security\\Level\" /f \u003enul 2\u003e\u00261\ndel %APPDATA%\\Microsoft\\Outlook\\VbaProject.OTM \u003enul 2\u003e\u00261\n",
+        "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Office\\16.0\\Outlook\\Security\\Level\" /f \u003enul 2\u003e\u00261\ndel %APPDATA%\\Microsoft\\Outlook\\VbaProject.OTM \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "f8150278-eb70-4e5b-87e0-24390e7b3355",
+      "s": "8f5932c3-d9aa-4134-b9c6-e464c31a8fc0",
       "p": "on-success",
-      "o": "6e9dace4-7a59-41a9-8c2b-9dadd4f7b7e5"
+      "o": "11275b39-de5d-4323-985f-a8f92c6164d7"
     },
     {
-      "s": "f8150278-eb70-4e5b-87e0-24390e7b3355",
+      "s": "8f5932c3-d9aa-4134-b9c6-e464c31a8fc0",
       "p": "on-failure",
-      "o": "6e9dace4-7a59-41a9-8c2b-9dadd4f7b7e5"
+      "o": "11275b39-de5d-4323-985f-a8f92c6164d7"
     }
   ],
   "tags": [

@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "2798519c-3e73-4d5f-a1d3-2626bb0b6912",
+      "id": "a5cefa09-2103-4cc1-b4d6-d8f56254df24",
       "type": "execute-command",
       "data": {
-        "command": "filename='/etc/rc.common';if [ ! -f $filename ];then sudo touch $filename;else sudo cp $filename /etc/rc.common.original;fi\nprintf '%s\\n' '#!/bin/bash' | sudo tee /etc/rc.common\necho \"python3 -c \\\"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBtb2RpZnlpbmcgcmMuY29tbW9uID4gL3RtcC9UMTAzNy4wMDQucmMuY29tbW9uJykK'))\\\"\" | sudo tee -a /etc/rc.common\nprintf '%s\\n' 'exit 0' | sudo tee -a /etc/rc.common\nsudo chmod +x /etc/rc.common\n",
+        "command": "filename='/etc/rc.common';if [ ! -f $filename ];then sudo touch $filename;else sudo cp $filename /etc/rc.common.original;fi\nprintf '%s\\n' '#!/bin/bash' | sudo tee /etc/rc.common\necho \"python3 -c \\\"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBtb2RpZnlpbmcgcmMuY29tbW9uID4gL3RtcC9UMTAzNy4wMDQucmMuY29tbW9uJykK'))\\\"\" | sudo tee -a /etc/rc.common\nprintf '%s\\n' 'exit 0' | sudo tee -a /etc/rc.common\nsudo chmod +x /etc/rc.common",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "1c6a090c-046c-4405-83b4-6b20759fe80a",
+      "id": "9938376f-1d8b-4b3a-8f88-4fc23b48b0c4",
       "type": "execute-command",
       "data": {
-        "command": "origfilename='/etc/rc.common.original';if [ ! -f $origfilename ];then sudo rm /etc/rc.common;else sudo cp $origfilename /etc/rc.common \u0026\u0026 sudo rm $origfilename;fi\n",
+        "command": "origfilename='/etc/rc.common.original';if [ ! -f $origfilename ];then sudo rm /etc/rc.common;else sudo cp $origfilename /etc/rc.common \u0026\u0026 sudo rm $origfilename;fi",
         "command_type": "bash"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "2798519c-3e73-4d5f-a1d3-2626bb0b6912",
+      "s": "a5cefa09-2103-4cc1-b4d6-d8f56254df24",
       "p": "on-success",
-      "o": "1c6a090c-046c-4405-83b4-6b20759fe80a"
+      "o": "9938376f-1d8b-4b3a-8f88-4fc23b48b0c4"
     },
     {
-      "s": "2798519c-3e73-4d5f-a1d3-2626bb0b6912",
+      "s": "a5cefa09-2103-4cc1-b4d6-d8f56254df24",
       "p": "on-failure",
-      "o": "1c6a090c-046c-4405-83b4-6b20759fe80a"
+      "o": "9938376f-1d8b-4b3a-8f88-4fc23b48b0c4"
     }
   ],
   "tags": [

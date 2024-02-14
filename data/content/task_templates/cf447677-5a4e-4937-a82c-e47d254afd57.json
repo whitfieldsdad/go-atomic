@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "05cd02ea-f269-4415-833d-611b5d48edee",
+      "id": "d11770f2-966c-4f0f-930a-38317f7c4f2d",
       "type": "execute-command",
       "data": {
-        "command": "$key= \"HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\Domains\\#{bad_domain}\\\"\n$name =\"bad-subdomain\"\nnew-item $key -Name $name -Force\nnew-itemproperty $key$name -Name https -Value 2 -Type DWORD;\nnew-itemproperty $key$name -Name http  -Value 2 -Type DWORD;\nnew-itemproperty $key$name -Name *     -Value 2 -Type DWORD;\n",
+        "command": "$key= \"HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\Domains\\#{bad_domain}\\\"\n$name =\"bad-subdomain\"\nnew-item $key -Name $name -Force\nnew-itemproperty $key$name -Name https -Value 2 -Type DWORD;\nnew-itemproperty $key$name -Name http  -Value 2 -Type DWORD;\nnew-itemproperty $key$name -Name *     -Value 2 -Type DWORD;",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "f0a4a278-e46c-4069-bcd8-7db1f9cbab77",
+      "id": "cee68bc8-f649-4434-abaf-8622de384846",
       "type": "execute-command",
       "data": {
-        "command": "$key = \"HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\Domains\\#{bad_domain}\\\"\nRemove-item  $key -Recurse -ErrorAction Ignore\n",
+        "command": "$key = \"HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\Domains\\#{bad_domain}\\\"\nRemove-item  $key -Recurse -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "05cd02ea-f269-4415-833d-611b5d48edee",
+      "s": "d11770f2-966c-4f0f-930a-38317f7c4f2d",
       "p": "on-success",
-      "o": "f0a4a278-e46c-4069-bcd8-7db1f9cbab77"
+      "o": "cee68bc8-f649-4434-abaf-8622de384846"
     },
     {
-      "s": "05cd02ea-f269-4415-833d-611b5d48edee",
+      "s": "d11770f2-966c-4f0f-930a-38317f7c4f2d",
       "p": "on-failure",
-      "o": "f0a4a278-e46c-4069-bcd8-7db1f9cbab77"
+      "o": "cee68bc8-f649-4434-abaf-8622de384846"
     }
   ],
   "tags": [

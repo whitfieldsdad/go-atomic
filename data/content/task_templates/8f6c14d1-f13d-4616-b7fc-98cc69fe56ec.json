@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "fcdab095-aabb-440f-9e83-423155081e89",
+      "id": "e89b1fe6-f1fa-4e33-a4ba-45933bd43a22",
       "type": "execute-command",
       "data": {
-        "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\nGet-VMHostService -VMHost #{vm_host} | Where-Object {$_.Key -eq \"TSM-SSH\" } | Start-VMHostService -Confirm:$false\n",
+        "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\nGet-VMHostService -VMHost #{vm_host} | Where-Object {$_.Key -eq \"TSM-SSH\" } | Start-VMHostService -Confirm:$false",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "a6c46a5e-ef69-4b56-af8f-42b29b12ca46",
+      "id": "d3a6e13c-8259-43cc-b5bf-4f22811311fc",
       "type": "execute-command",
       "data": {
-        "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\nGet-VMHostService -VMHost #{vm_host} | Where-Object {$_.Key -eq \"TSM-SSH\" } | Stop-VMHostService -Confirm:$false\n",
+        "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\nGet-VMHostService -VMHost #{vm_host} | Where-Object {$_.Key -eq \"TSM-SSH\" } | Stop-VMHostService -Confirm:$false",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "876a809a-d56d-43f4-bae3-c36e81342547",
+      "id": "2f93c061-d942-48cc-9265-a8cf3b764304",
       "name": "Check dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "$RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable\nif (-not $RequiredModule) {exit 1}\n",
-        "command_type": ""
+        "command": "$RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable\nif (-not $RequiredModule) {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "ad9e703d-b69b-431c-82dc-401ab22a5dc7",
+      "id": "cd8b423d-8208-4795-a85e-e475553b2cf8",
       "name": "Resolve dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name VMware.PowerCLI\n",
-        "command_type": ""
+        "command": "Install-Module -Name VMware.PowerCLI",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "414d8ce0-9ba1-4a52-b817-51c11e2a8671",
+      "id": "6917bce7-72ec-404a-9a9e-ba92c2d0c1f2",
       "name": "Re-check dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "$RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable\nif (-not $RequiredModule) {exit 1}\n",
-        "command_type": ""
+        "command": "$RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable\nif (-not $RequiredModule) {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "fcdab095-aabb-440f-9e83-423155081e89",
+      "s": "e89b1fe6-f1fa-4e33-a4ba-45933bd43a22",
       "p": "on-success",
-      "o": "a6c46a5e-ef69-4b56-af8f-42b29b12ca46"
+      "o": "d3a6e13c-8259-43cc-b5bf-4f22811311fc"
     },
     {
-      "s": "fcdab095-aabb-440f-9e83-423155081e89",
+      "s": "e89b1fe6-f1fa-4e33-a4ba-45933bd43a22",
       "p": "on-failure",
-      "o": "a6c46a5e-ef69-4b56-af8f-42b29b12ca46"
+      "o": "d3a6e13c-8259-43cc-b5bf-4f22811311fc"
     },
     {
-      "s": "876a809a-d56d-43f4-bae3-c36e81342547",
+      "s": "2f93c061-d942-48cc-9265-a8cf3b764304",
       "p": "on-success",
-      "o": "fcdab095-aabb-440f-9e83-423155081e89"
+      "o": "e89b1fe6-f1fa-4e33-a4ba-45933bd43a22"
     },
     {
-      "s": "876a809a-d56d-43f4-bae3-c36e81342547",
+      "s": "2f93c061-d942-48cc-9265-a8cf3b764304",
       "p": "on-failure",
-      "o": "ad9e703d-b69b-431c-82dc-401ab22a5dc7"
+      "o": "cd8b423d-8208-4795-a85e-e475553b2cf8"
     },
     {
-      "s": "ad9e703d-b69b-431c-82dc-401ab22a5dc7",
+      "s": "cd8b423d-8208-4795-a85e-e475553b2cf8",
       "p": "on-success",
-      "o": "414d8ce0-9ba1-4a52-b817-51c11e2a8671"
+      "o": "6917bce7-72ec-404a-9a9e-ba92c2d0c1f2"
     },
     {
-      "s": "414d8ce0-9ba1-4a52-b817-51c11e2a8671",
+      "s": "6917bce7-72ec-404a-9a9e-ba92c2d0c1f2",
       "p": "on-failure",
-      "o": "fcdab095-aabb-440f-9e83-423155081e89"
+      "o": "e89b1fe6-f1fa-4e33-a4ba-45933bd43a22"
     }
   ],
   "tags": [

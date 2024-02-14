@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "2b788c54-86bc-43cf-8015-293f590c0ec7",
+      "id": "b20cd93c-ac03-4988-9e00-a09fd1bfcc69",
       "type": "execute-command",
       "data": {
-        "command": "if ((${#HISTIGNORE[@]})); then echo \"\\$HISTIGNORE = $HISTIGNORE\"; else export HISTIGNORE='ls*:rm*:ssh*'; echo \"\\$HISTIGNORE = $HISTIGNORE\"; fi\n# -\u003e $HISTIGNORE = ls*:rm*:ssh*\nhistory -c \nls -la $HISTFILE\nls -la ~/.bash_logout\nif [ $(history |wc -l) -eq 1 ]; then echo \"ls commands are not in history\"; fi\n# -\u003e ls commands are not in history\nunset HISTIGNORE\n\nif ((${#HISTIGNORE[@]})); then echo \"\\$HISTIGNORE = $HISTIGNORE\"; else export HISTIGNORE='*'; echo \"\\$HISTIGNORE = $HISTIGNORE\"; fi\n# -\u003e $HISTIGNORE = *\nhistory -c \nwhoami\ngroups\nif [ $(history |wc -l) -eq 0 ]; then echo \"History cache is empty\"; fi\n# -\u003e History cache is empty\n",
+        "command": "if ((${#HISTIGNORE[@]})); then echo \"\\$HISTIGNORE = $HISTIGNORE\"; else export HISTIGNORE='ls*:rm*:ssh*'; echo \"\\$HISTIGNORE = $HISTIGNORE\"; fi\n# -\u003e $HISTIGNORE = ls*:rm*:ssh*\nhistory -c \nls -la $HISTFILE\nls -la ~/.bash_logout\nif [ $(history |wc -l) -eq 1 ]; then echo \"ls commands are not in history\"; fi\n# -\u003e ls commands are not in history\nunset HISTIGNORE\n\nif ((${#HISTIGNORE[@]})); then echo \"\\$HISTIGNORE = $HISTIGNORE\"; else export HISTIGNORE='*'; echo \"\\$HISTIGNORE = $HISTIGNORE\"; fi\n# -\u003e $HISTIGNORE = *\nhistory -c \nwhoami\ngroups\nif [ $(history |wc -l) -eq 0 ]; then echo \"History cache is empty\"; fi\n# -\u003e History cache is empty",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "b1d861c7-b136-483f-919d-fe99a65062be",
+      "id": "3f970b58-f18e-40a6-ad81-e1afac42770d",
       "type": "execute-command",
       "data": {
-        "command": "unset HISTIGNORE\n",
+        "command": "unset HISTIGNORE",
         "command_type": "bash"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "2b788c54-86bc-43cf-8015-293f590c0ec7",
+      "s": "b20cd93c-ac03-4988-9e00-a09fd1bfcc69",
       "p": "on-success",
-      "o": "b1d861c7-b136-483f-919d-fe99a65062be"
+      "o": "3f970b58-f18e-40a6-ad81-e1afac42770d"
     },
     {
-      "s": "2b788c54-86bc-43cf-8015-293f590c0ec7",
+      "s": "b20cd93c-ac03-4988-9e00-a09fd1bfcc69",
       "p": "on-failure",
-      "o": "b1d861c7-b136-483f-919d-fe99a65062be"
+      "o": "3f970b58-f18e-40a6-ad81-e1afac42770d"
     }
   ],
   "tags": [

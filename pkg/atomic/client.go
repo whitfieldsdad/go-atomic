@@ -3,7 +3,7 @@ package atomic
 import (
 	"archive/tar"
 	"compress/gzip"
-	"encoding/json"
+	"context"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -11,7 +11,6 @@ import (
 
 	"github.com/charmbracelet/log"
 	"github.com/gobwas/glob"
-	"github.com/mitchellh/mapstructure"
 	"github.com/pkg/errors"
 	"github.com/spf13/afero"
 	"github.com/spf13/afero/tarfs"
@@ -92,6 +91,26 @@ func NewClientConfig(workdir string) ClientConfig {
 	}
 }
 
+// TODO
+func (c Client) RunTaskTemplates(ctx context.Context, q *TaskTemplateQuery, args map[string]interface{}) error {
+	templates, err := c.ListTaskTemplates(q)
+	if err != nil {
+		return err
+	}
+	for _, template := range templates {
+		task, err := template.GetTask(args)
+		if err != nil {
+			return err
+		}
+		_, err = task.Run(ctx)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// TODO
 func (c Client) ListTaskTemplates(q *TaskTemplateQuery) ([]TaskTemplate, error) {
 	var templates []TaskTemplate
 	paths, err := findFiles(c.Config.GetTaskTemplateDir(), "*.json")
@@ -99,14 +118,16 @@ func (c Client) ListTaskTemplates(q *TaskTemplateQuery) ([]TaskTemplate, error) 
 		return nil, err
 	}
 	for _, path := range paths {
-		template, err := c.readTaskTemplate(path)
+		log.Infof("Reading task template from %s", path)
+		b, err := os.ReadFile(path)
 		if err != nil {
-			log.Errorf("Failed to read task: %s", err)
-			continue
+			return nil, err
 		}
-		if q != nil && !q.Matches(*template) {
-			continue
+		template, err := parseTaskTemplate(b)
+		if err != nil {
+			return nil, err
 		}
+		log.Infof("Read task template: %s from %s", template.Id, path)
 		templates = append(templates, *template)
 	}
 	return templates, nil
@@ -118,56 +139,6 @@ func (c Client) CountTaskTemplates(q *TaskTemplateQuery) (int, error) {
 		return 0, err
 	}
 	return len(templates), nil
-}
-
-func (c Client) readTaskTemplate(path string) (*TaskTemplate, error) {
-	b, err := os.ReadFile(path)
-	if err != nil {
-		return nil, err
-	}
-	m := make(map[string]interface{})
-	err = json.Unmarshal(b, &m)
-	if err != nil {
-		return nil, err
-	}
-	var (
-		steps []Step
-	)
-	for _, rawStep := range m["steps"].([]interface{}) {
-		step, err := parseStep(rawStep.(map[string]interface{}))
-		if err != nil {
-			return nil, err
-		}
-		steps = append(steps, *step)
-	}
-	m["steps"] = steps
-	
-	var template TaskTemplate
-	err = mapstructure.Decode(m, &template)
-	if err != nil {
-		return nil, err
-	}
-	return &template, nil
-}
-
-func parseStep(m map[string]interface{}) (*Step, error) {
-	var step Step
-	err := mapstructure.Decode(m, &step)
-	if err != nil {
-		return nil, err
-	}
-	switch step.Type {
-	case "execute-command":
-		var s ExecuteCommandStep
-		err := mapstructure.Decode(m, &s)
-		if err != nil {
-			return nil, err
-		}
-		step.Data = s
-	default:
-		return nil, errors.New("unsupported step type")
-	}
-	return &step, nil
 }
 
 func (c Client) ImportTaskTemplates(paths ...string) error {

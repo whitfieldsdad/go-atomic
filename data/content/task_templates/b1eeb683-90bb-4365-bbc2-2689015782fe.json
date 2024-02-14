@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "b2dc8afc-910b-406b-9947-6dff50bf2a05",
+      "id": "e00e6a0a-7e68-4d81-ab25-12989026c53c",
       "type": "execute-command",
       "data": {
-        "command": "if (-not (Test-Path #{dest_path})) {\nNew-Item -Path #{dest_path} -ItemType Directory\n} else {\nWrite-Host \"Directory #{dest_path} already exists.\" }\nCopy-Item -Path \"C:\\windows\\system32\\customshellhost.exe\" -Destination \"#{dest_path}\\customshellhost.exe\" -Force\nCopy-Item -Path \"C:\\windows\\system32\\calc.exe\" -Destination \"#{dest_path}\\explorer.exe\" -Force\n#{dest_path}\\customshellhost.exe\n",
+        "command": "if (-not (Test-Path #{dest_path})) {\nNew-Item -Path #{dest_path} -ItemType Directory\n} else {\nWrite-Host \"Directory #{dest_path} already exists.\" }\nCopy-Item -Path \"C:\\windows\\system32\\customshellhost.exe\" -Destination \"#{dest_path}\\customshellhost.exe\" -Force\nCopy-Item -Path \"C:\\windows\\system32\\calc.exe\" -Destination \"#{dest_path}\\explorer.exe\" -Force\n#{dest_path}\\customshellhost.exe",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "73a40773-b91e-4bcb-8818-0fe682ea6cbf",
+      "id": "aa343299-052b-4d04-82bf-b1d7da17b115",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item -Path #{dest_path} -Recurse -Force\n",
+        "command": "Remove-Item -Path #{dest_path} -Recurse -Force",
         "command_type": "powershell"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "b2dc8afc-910b-406b-9947-6dff50bf2a05",
+      "s": "e00e6a0a-7e68-4d81-ab25-12989026c53c",
       "p": "on-success",
-      "o": "73a40773-b91e-4bcb-8818-0fe682ea6cbf"
+      "o": "aa343299-052b-4d04-82bf-b1d7da17b115"
     },
     {
-      "s": "b2dc8afc-910b-406b-9947-6dff50bf2a05",
+      "s": "e00e6a0a-7e68-4d81-ab25-12989026c53c",
       "p": "on-failure",
-      "o": "73a40773-b91e-4bcb-8818-0fe682ea6cbf"
+      "o": "aa343299-052b-4d04-82bf-b1d7da17b115"
     }
   ],
   "tags": [

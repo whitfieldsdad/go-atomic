@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "25ebed7e-51e9-41a5-b23e-6f989d0f14c0",
+      "id": "67b5b11f-0d00-45b7-86e6-fe42465a29a9",
       "type": "execute-command",
       "data": {
         "command": "Start-ATHProcessUnderSpecificParent  -ParentId #{parent_pid} -TestGuid #{test_guid}",
@@ -16,59 +16,59 @@
       "elevation_required": false
     },
     {
-      "id": "81a04d7e-f128-469b-883e-56fe465ecc83",
+      "id": "3e1c0fe9-9098-4e80-b01f-17cabd21f791",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
       "type": "execute-command",
       "data": {
         "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Start-ATHProcessUnderSpecificParent']) {exit 1} else {exit 0}",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "3ccc0786-3023-480b-934b-6e9cffc56d4f",
+      "id": "adaaeba9-5ea5-4811-81f4-7bdbd132599c",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force\n",
-        "command_type": ""
+        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "be8de58b-bbb0-4df4-84ea-65f9e8b5eb32",
+      "id": "171b5de7-e563-4bef-9de0-7125f0cd5c77",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
       "type": "execute-command",
       "data": {
         "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Start-ATHProcessUnderSpecificParent']) {exit 1} else {exit 0}",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "81a04d7e-f128-469b-883e-56fe465ecc83",
+      "s": "3e1c0fe9-9098-4e80-b01f-17cabd21f791",
       "p": "on-success",
-      "o": "25ebed7e-51e9-41a5-b23e-6f989d0f14c0"
+      "o": "67b5b11f-0d00-45b7-86e6-fe42465a29a9"
     },
     {
-      "s": "81a04d7e-f128-469b-883e-56fe465ecc83",
+      "s": "3e1c0fe9-9098-4e80-b01f-17cabd21f791",
       "p": "on-failure",
-      "o": "3ccc0786-3023-480b-934b-6e9cffc56d4f"
+      "o": "adaaeba9-5ea5-4811-81f4-7bdbd132599c"
     },
     {
-      "s": "3ccc0786-3023-480b-934b-6e9cffc56d4f",
+      "s": "adaaeba9-5ea5-4811-81f4-7bdbd132599c",
       "p": "on-success",
-      "o": "be8de58b-bbb0-4df4-84ea-65f9e8b5eb32"
+      "o": "171b5de7-e563-4bef-9de0-7125f0cd5c77"
     },
     {
-      "s": "be8de58b-bbb0-4df4-84ea-65f9e8b5eb32",
+      "s": "171b5de7-e563-4bef-9de0-7125f0cd5c77",
       "p": "on-failure",
-      "o": "25ebed7e-51e9-41a5-b23e-6f989d0f14c0"
+      "o": "67b5b11f-0d00-45b7-86e6-fe42465a29a9"
     }
   ],
   "tags": [

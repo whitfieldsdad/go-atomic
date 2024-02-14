@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "b01c0faa-9fb8-4a24-8773-9edf890f577a",
+      "id": "32cfe531-1be7-4949-8eba-2c33b22a2d9c",
       "type": "execute-command",
       "data": {
-        "command": "mv #{cert_filename} /usr/local/share/ca-certificates\necho sudo update-ca-certificates\n",
+        "command": "mv #{cert_filename} /usr/local/share/ca-certificates\necho sudo update-ca-certificates",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "0ce0bda2-83b0-4fa8-a006-b46ffdee5649",
+      "id": "33c53209-cbbf-4363-a827-c24c521078c3",
       "name": "Check dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f #{cert_filename} ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -f #{cert_filename} ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "0b45b247-b78a-49c3-95a6-4330b65d3f12",
+      "id": "836d413d-dab3-4772-8d26-c98d30b8157b",
       "name": "Resolve dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -f #{key_filename} ]; then openssl genrsa -out #{key_filename} 4096; fi;\nopenssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj \"/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com\" -out #{cert_filename}\n",
-        "command_type": ""
+        "command": "if [ ! -f #{key_filename} ]; then openssl genrsa -out #{key_filename} 4096; fi;\nopenssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj \"/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com\" -out #{cert_filename}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "b47408d2-16d9-4f60-a6cc-b3412605f6a5",
+      "id": "a3fc03a5-d07e-423c-a1a1-32c2b27a0dcf",
       "name": "Re-check dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f #{cert_filename} ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -f #{cert_filename} ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "0ce0bda2-83b0-4fa8-a006-b46ffdee5649",
+      "s": "33c53209-cbbf-4363-a827-c24c521078c3",
       "p": "on-success",
-      "o": "b01c0faa-9fb8-4a24-8773-9edf890f577a"
+      "o": "32cfe531-1be7-4949-8eba-2c33b22a2d9c"
     },
     {
-      "s": "0ce0bda2-83b0-4fa8-a006-b46ffdee5649",
+      "s": "33c53209-cbbf-4363-a827-c24c521078c3",
       "p": "on-failure",
-      "o": "0b45b247-b78a-49c3-95a6-4330b65d3f12"
+      "o": "836d413d-dab3-4772-8d26-c98d30b8157b"
     },
     {
-      "s": "0b45b247-b78a-49c3-95a6-4330b65d3f12",
+      "s": "836d413d-dab3-4772-8d26-c98d30b8157b",
       "p": "on-success",
-      "o": "b47408d2-16d9-4f60-a6cc-b3412605f6a5"
+      "o": "a3fc03a5-d07e-423c-a1a1-32c2b27a0dcf"
     },
     {
-      "s": "b47408d2-16d9-4f60-a6cc-b3412605f6a5",
+      "s": "a3fc03a5-d07e-423c-a1a1-32c2b27a0dcf",
       "p": "on-failure",
-      "o": "b01c0faa-9fb8-4a24-8773-9edf890f577a"
+      "o": "32cfe531-1be7-4949-8eba-2c33b22a2d9c"
     }
   ],
   "tags": [
@@ -77,16 +77,16 @@
   ],
   "input_arguments": [
     {
-      "name": "key_filename",
-      "type": "path",
-      "description": "Key we create that is used to create the CA certificate",
-      "value": "rootCA.key"
-    },
-    {
       "name": "cert_filename",
       "type": "path",
       "description": "CA file name",
       "value": "rootCA.crt"
+    },
+    {
+      "name": "key_filename",
+      "type": "path",
+      "description": "Key we create that is used to create the CA certificate",
+      "value": "rootCA.key"
     }
   ]
 }

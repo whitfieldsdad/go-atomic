@@ -3,8 +3,10 @@ package atomic
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
+	"github.com/charmbracelet/log"
 	"github.com/google/uuid"
 	"golang.org/x/exp/slices"
 )
@@ -18,13 +20,13 @@ const (
 )
 
 type Step struct {
-	Id                string      `json:"id"`
-	Name              string      `json:"name,omitempty"`
-	Description       string      `json:"description,omitempty"`
-	Type              StepType    `json:"type"`
-	Data              interface{} `json:"data"`
-	ElevationRequired bool        `json:"elevation_required"`
-	Tags              []string    `json:"tags,omitempty"`
+	Id                string      `json:"id" mapstructure:"id"`
+	Name              string      `json:"name,omitempty" mapstructure:"name"`
+	Description       string      `json:"description,omitempty" mapstructure:"description"`
+	Type              StepType    `json:"type" mapstructure:"type"`
+	Data              interface{} `json:"data" mapstructure:"data"`
+	ElevationRequired bool        `json:"elevation_required" mapstructure:"elevation_required"`
+	Tags              []string    `json:"tags,omitempty" mapstructure:"tags"`
 }
 
 func (s Step) GetAttackTechniqueIds() []string {
@@ -43,7 +45,6 @@ func (s Step) Run(ctx context.Context) StepResult {
 		err    error
 	)
 	startTime := time.Now()
-
 	d := s.Data
 	switch d.(type) {
 	case ExecuteCommandStep:
@@ -62,6 +63,10 @@ func (s Step) Run(ctx context.Context) StepResult {
 	endTime := time.Now()
 	duration := endTime.Sub(startTime)
 
+	if err != nil {
+		log.Warnf("Failed to execute step: %s", err)
+	}
+
 	return StepResult{
 		Id:        uuid.NewString(),
 		StepId:    s.Id,
@@ -75,14 +80,14 @@ func (s Step) Run(ctx context.Context) StepResult {
 }
 
 type StepResult struct {
-	Id        string      `json:"id"`
-	StepId    string      `json:"step_id"`
-	StepType  StepType    `json:"step_type"`
-	StartTime time.Time   `json:"start_time"`
-	EndTime   time.Time   `json:"end_time"`
-	Duration  float64     `json:"duration"`
-	Data      interface{} `json:"data,omitempty"`
-	Error     error       `json:"error,omitempty"`
+	Id        string      `json:"id" mapstructure:"id"`
+	StepId    string      `json:"step_id" mapstructure:"step_id"`
+	StepType  StepType    `json:"step_type" mapstructure:"step_type"`
+	StartTime time.Time   `json:"start_time" mapstructure:"start_time"`
+	EndTime   time.Time   `json:"end_time" mapstructure:"end_time"`
+	Duration  float64     `json:"duration" mapstructure:"duration"`
+	Data      interface{} `json:"data,omitempty" mapstructure:"data"`
+	Error     error       `json:"error,omitempty" mapstructure:"error"`
 }
 
 func (s StepResult) OK() bool {
@@ -132,8 +137,8 @@ type ListProcessesStepResult struct {
 }
 
 type ExecuteCommandStep struct {
-	Command     string `json:"command"`
-	CommandType string `json:"command_type"`
+	Command     string `json:"command" mapstructure:"command"`
+	CommandType string `json:"command_type" mapstructure:"command_type"`
 }
 
 func NewExecuteCommandStep(command, commandType string) (*Step, error) {
@@ -141,14 +146,20 @@ func NewExecuteCommandStep(command, commandType string) (*Step, error) {
 		Id:   uuid.NewString(),
 		Type: StepTypeExecuteCommand,
 		Data: ExecuteCommandStep{
-			Command:     command,
-			CommandType: commandType,
+			Command:     strings.TrimSpace(command),
+			CommandType: strings.TrimSpace(commandType),
 		},
 	}
 	return s, nil
 }
 
 func (s ExecuteCommandStep) Run(ctx context.Context) (*ExecuteCommandStepResult, error) {
+	if s.Command == "" {
+		return nil, fmt.Errorf("command is required")
+	}
+	if s.CommandType == "" {
+		return nil, fmt.Errorf("command type is required")
+	}
 	c := NewShellCommand(s.Command, s.CommandType)
 	process, err := c.Exec(ctx)
 	if err != nil {
@@ -162,9 +173,9 @@ func (s ExecuteCommandStep) Run(ctx context.Context) (*ExecuteCommandStepResult,
 }
 
 type ExecuteCommandStepResult struct {
-	Command     string  `json:"command"`
-	CommandType string  `json:"command_type"`
-	Process     Process `json:"process"`
+	Command     string  `json:"command" mapstructure:"command"`
+	CommandType string  `json:"command_type" mapstructure:"command_type"`
+	Process     Process `json:"process" mapstructure:"process"`
 }
 
 type ListUsersStep struct{}

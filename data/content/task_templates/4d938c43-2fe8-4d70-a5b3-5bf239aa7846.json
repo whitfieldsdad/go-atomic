@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "60343ec9-b39e-4695-b411-0cbf71a23958",
+      "id": "dd989b37-0ac6-44ee-9c29-b556fdb05c9f",
       "type": "execute-command",
       "data": {
-        "command": "dscl . -delete /Users/#{user_account} #enter admin password\n",
+        "command": "dscl . -delete /Users/#{user_account} #enter admin password",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "e900ccb9-a267-4de1-8ad3-d33da4f5c3a7",
+      "id": "3ad3726c-7382-4689-9f43-774f120c5efd",
       "type": "execute-command",
       "data": {
-        "command": "dscl . -create /Users/#{user_account} #enter admin password\ndscl . -create /Users/#{user_account} UserShell /bin/bash\ndscl . -create /Users/#{user_account} UniqueID 503\ndscl . -create /Users/#{user_account} NFSHomeDirectory /Users/#{user_account}\ndscl . -passwd /Users/#{user_account} #{user_password} #enter password for new user\n",
+        "command": "dscl . -create /Users/#{user_account} #enter admin password\ndscl . -create /Users/#{user_account} UserShell /bin/bash\ndscl . -create /Users/#{user_account} UniqueID 503\ndscl . -create /Users/#{user_account} NFSHomeDirectory /Users/#{user_account}\ndscl . -passwd /Users/#{user_account} #{user_password} #enter password for new user",
         "command_type": "sh"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "60343ec9-b39e-4695-b411-0cbf71a23958",
+      "s": "dd989b37-0ac6-44ee-9c29-b556fdb05c9f",
       "p": "on-success",
-      "o": "e900ccb9-a267-4de1-8ad3-d33da4f5c3a7"
+      "o": "3ad3726c-7382-4689-9f43-774f120c5efd"
     },
     {
-      "s": "60343ec9-b39e-4695-b411-0cbf71a23958",
+      "s": "dd989b37-0ac6-44ee-9c29-b556fdb05c9f",
       "p": "on-failure",
-      "o": "e900ccb9-a267-4de1-8ad3-d33da4f5c3a7"
+      "o": "3ad3726c-7382-4689-9f43-774f120c5efd"
     }
   ],
   "tags": [

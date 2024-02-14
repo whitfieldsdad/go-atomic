@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "f055e039-446b-48ec-86c5-387a5b165fcd",
+      "id": "e5d0ae81-517e-42eb-8697-da7b8264771f",
       "type": "execute-command",
       "data": {
-        "command": "tail /var/log/ufw.log\n",
+        "command": "tail /var/log/ufw.log",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "e66f4b85-e3f5-44b2-88ad-131d8a6d5095",
+      "id": "f85f90ac-4283-42e9-9e13-585feeda566e",
       "name": "Check dependency 1/1",
       "description": "Check if /var/log/ufw.log exists.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -f \"/var/log/ufw.log\" ]; then echo -e \"\\n***** ufw NOT logging *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ ! -f \"/var/log/ufw.log\" ]; then echo -e \"\\n***** ufw NOT logging *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "6cdcfbbe-2299-4a31-97c2-29f07fb47b0b",
+      "id": "6e69dddd-8dcf-4b1d-8afa-f43a8d0f7d81",
       "name": "Resolve dependency 1/1",
       "description": "Check if /var/log/ufw.log exists.\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"\"\n",
-        "command_type": ""
+        "command": "echo \"\"",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "d68fcbe4-43ae-4f64-9080-d128f64b61bc",
+      "id": "00b402e7-a7ba-45db-896d-06e0f0b9483c",
       "name": "Re-check dependency 1/1",
       "description": "Check if /var/log/ufw.log exists.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -f \"/var/log/ufw.log\" ]; then echo -e \"\\n***** ufw NOT logging *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ ! -f \"/var/log/ufw.log\" ]; then echo -e \"\\n***** ufw NOT logging *****\\n\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "e66f4b85-e3f5-44b2-88ad-131d8a6d5095",
+      "s": "f85f90ac-4283-42e9-9e13-585feeda566e",
       "p": "on-success",
-      "o": "f055e039-446b-48ec-86c5-387a5b165fcd"
+      "o": "e5d0ae81-517e-42eb-8697-da7b8264771f"
     },
     {
-      "s": "e66f4b85-e3f5-44b2-88ad-131d8a6d5095",
+      "s": "f85f90ac-4283-42e9-9e13-585feeda566e",
       "p": "on-failure",
-      "o": "6cdcfbbe-2299-4a31-97c2-29f07fb47b0b"
+      "o": "6e69dddd-8dcf-4b1d-8afa-f43a8d0f7d81"
     },
     {
-      "s": "6cdcfbbe-2299-4a31-97c2-29f07fb47b0b",
+      "s": "6e69dddd-8dcf-4b1d-8afa-f43a8d0f7d81",
       "p": "on-success",
-      "o": "d68fcbe4-43ae-4f64-9080-d128f64b61bc"
+      "o": "00b402e7-a7ba-45db-896d-06e0f0b9483c"
     },
     {
-      "s": "d68fcbe4-43ae-4f64-9080-d128f64b61bc",
+      "s": "00b402e7-a7ba-45db-896d-06e0f0b9483c",
       "p": "on-failure",
-      "o": "f055e039-446b-48ec-86c5-387a5b165fcd"
+      "o": "e5d0ae81-517e-42eb-8697-da7b8264771f"
     }
   ],
   "tags": [

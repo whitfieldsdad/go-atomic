@@ -8,87 +8,87 @@
   ],
   "steps": [
     {
-      "id": "fb411de0-8bca-4183-95f5-ba0c6bb30ed1",
+      "id": "1f03a639-43db-4dd5-b80d-9ce5cb1093e9",
       "type": "execute-command",
       "data": {
-        "command": "mkdir -p #{test_folder}\ncd #{test_folder}; touch a b c d e f g\nzip --password \"#{encryption_password}\" #{test_folder}/#{test_file} ./*\necho \"#{encryption_password}\" | gpg --batch --yes --passphrase-fd 0 --output #{test_folder}/#{test_file}.zip.gpg -c #{test_folder}/#{test_file}.zip\nls -l #{test_folder}\n",
+        "command": "mkdir -p #{test_folder}\ncd #{test_folder}; touch a b c d e f g\nzip --password \"#{encryption_password}\" #{test_folder}/#{test_file} ./*\necho \"#{encryption_password}\" | gpg --batch --yes --passphrase-fd 0 --output #{test_folder}/#{test_file}.zip.gpg -c #{test_folder}/#{test_file}.zip\nls -l #{test_folder}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "79fa0ad3-2ecd-43ff-b381-fc984c8cd16d",
+      "id": "751b1a1e-3d02-4feb-bb8e-bad43b030d0b",
       "type": "execute-command",
       "data": {
-        "command": "rm -Rf #{test_folder}\n",
+        "command": "rm -Rf #{test_folder}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "ad0b60cf-a369-466b-8ca4-7287828c5dee",
+      "id": "baef496b-2e3c-40f1-bfcc-e12a27287e2f",
       "name": "Check dependency 1/1",
       "description": "gpg and zip are required to run the test.",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v gpg)\" ] || [ ! -x \"$(command -v zip)\" ]; then exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v gpg)\" ] || [ ! -x \"$(command -v zip)\" ]; then exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "221e52de-a118-4815-aa9e-d6e4bd476ae5",
+      "id": "2f8f73a5-4b2a-4603-a56a-fa1942a455a6",
       "name": "Resolve dependency 1/1",
       "description": "gpg and zip are required to run the test.",
       "type": "execute-command",
       "data": {
-        "command": "(which pkg \u0026\u0026 pkg install -y gnupg zip)||(which yum \u0026\u0026 yum -y install epel-release zip gpg)||(which apt-get \u0026\u0026 apt-get install -y zip gpg)\n",
-        "command_type": ""
+        "command": "(which pkg \u0026\u0026 pkg install -y gnupg zip)||(which yum \u0026\u0026 yum -y install epel-release zip gpg)||(which apt-get \u0026\u0026 apt-get install -y zip gpg)",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "f25657be-a486-4e50-95a7-3a1449d9aff2",
+      "id": "6f5a8aa5-cccd-47da-a743-5f2f3809fdc2",
       "name": "Re-check dependency 1/1",
       "description": "gpg and zip are required to run the test.",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v gpg)\" ] || [ ! -x \"$(command -v zip)\" ]; then exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v gpg)\" ] || [ ! -x \"$(command -v zip)\" ]; then exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "fb411de0-8bca-4183-95f5-ba0c6bb30ed1",
+      "s": "1f03a639-43db-4dd5-b80d-9ce5cb1093e9",
       "p": "on-success",
-      "o": "79fa0ad3-2ecd-43ff-b381-fc984c8cd16d"
+      "o": "751b1a1e-3d02-4feb-bb8e-bad43b030d0b"
     },
     {
-      "s": "fb411de0-8bca-4183-95f5-ba0c6bb30ed1",
+      "s": "1f03a639-43db-4dd5-b80d-9ce5cb1093e9",
       "p": "on-failure",
-      "o": "79fa0ad3-2ecd-43ff-b381-fc984c8cd16d"
+      "o": "751b1a1e-3d02-4feb-bb8e-bad43b030d0b"
     },
     {
-      "s": "ad0b60cf-a369-466b-8ca4-7287828c5dee",
+      "s": "baef496b-2e3c-40f1-bfcc-e12a27287e2f",
       "p": "on-success",
-      "o": "fb411de0-8bca-4183-95f5-ba0c6bb30ed1"
+      "o": "1f03a639-43db-4dd5-b80d-9ce5cb1093e9"
     },
     {
-      "s": "ad0b60cf-a369-466b-8ca4-7287828c5dee",
+      "s": "baef496b-2e3c-40f1-bfcc-e12a27287e2f",
       "p": "on-failure",
-      "o": "221e52de-a118-4815-aa9e-d6e4bd476ae5"
+      "o": "2f8f73a5-4b2a-4603-a56a-fa1942a455a6"
     },
     {
-      "s": "221e52de-a118-4815-aa9e-d6e4bd476ae5",
+      "s": "2f8f73a5-4b2a-4603-a56a-fa1942a455a6",
       "p": "on-success",
-      "o": "f25657be-a486-4e50-95a7-3a1449d9aff2"
+      "o": "6f5a8aa5-cccd-47da-a743-5f2f3809fdc2"
     },
     {
-      "s": "f25657be-a486-4e50-95a7-3a1449d9aff2",
+      "s": "6f5a8aa5-cccd-47da-a743-5f2f3809fdc2",
       "p": "on-failure",
-      "o": "fb411de0-8bca-4183-95f5-ba0c6bb30ed1"
+      "o": "1f03a639-43db-4dd5-b80d-9ce5cb1093e9"
     }
   ],
   "tags": [

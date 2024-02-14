@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "da0d739d-8183-45c5-a88d-5cd2c16274c8",
+      "id": "08a9de79-6615-4ac2-8bdf-45ce40e1e6b4",
       "type": "execute-command",
       "data": {
         "command": "Start-Process -FilePath #{parent_name} -PassThru | Start-ATHProcessUnderSpecificParent -FilePath #{file_path} -CommandLine '#{command_line}'",
@@ -16,59 +16,59 @@
       "elevation_required": false
     },
     {
-      "id": "33408885-dcd0-44b1-9d5d-9136ed4ea993",
+      "id": "54124977-9125-41a0-bbeb-b41b83bc8c1a",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
       "type": "execute-command",
       "data": {
         "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Start-ATHProcessUnderSpecificParent']) {exit 1} else {exit 0}",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "9c979c4e-3cd1-4bcb-99e9-38ef9c7cd7fd",
+      "id": "dabfe619-2b10-4a35-9531-7ff7b19a79ab",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force\n",
-        "command_type": ""
+        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "b804dc87-44ab-4385-8948-565f3462c151",
+      "id": "9793b3a0-af4a-4159-991c-33f747092495",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
       "type": "execute-command",
       "data": {
         "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Start-ATHProcessUnderSpecificParent']) {exit 1} else {exit 0}",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "33408885-dcd0-44b1-9d5d-9136ed4ea993",
+      "s": "54124977-9125-41a0-bbeb-b41b83bc8c1a",
       "p": "on-success",
-      "o": "da0d739d-8183-45c5-a88d-5cd2c16274c8"
+      "o": "08a9de79-6615-4ac2-8bdf-45ce40e1e6b4"
     },
     {
-      "s": "33408885-dcd0-44b1-9d5d-9136ed4ea993",
+      "s": "54124977-9125-41a0-bbeb-b41b83bc8c1a",
       "p": "on-failure",
-      "o": "9c979c4e-3cd1-4bcb-99e9-38ef9c7cd7fd"
+      "o": "dabfe619-2b10-4a35-9531-7ff7b19a79ab"
     },
     {
-      "s": "9c979c4e-3cd1-4bcb-99e9-38ef9c7cd7fd",
+      "s": "dabfe619-2b10-4a35-9531-7ff7b19a79ab",
       "p": "on-success",
-      "o": "b804dc87-44ab-4385-8948-565f3462c151"
+      "o": "9793b3a0-af4a-4159-991c-33f747092495"
     },
     {
-      "s": "b804dc87-44ab-4385-8948-565f3462c151",
+      "s": "9793b3a0-af4a-4159-991c-33f747092495",
       "p": "on-failure",
-      "o": "da0d739d-8183-45c5-a88d-5cd2c16274c8"
+      "o": "08a9de79-6615-4ac2-8bdf-45ce40e1e6b4"
     }
   ],
   "tags": [
@@ -76,6 +76,12 @@
     "T1134.004"
   ],
   "input_arguments": [
+    {
+      "name": "command_line",
+      "type": "string",
+      "description": "Specified command line to use",
+      "value": "-Command Start-Sleep 10"
+    },
     {
       "name": "file_path",
       "type": "path",
@@ -87,12 +93,6 @@
       "type": "path",
       "description": "Parent process to spoof from",
       "value": "$Env:windir\\System32\\notepad.exe"
-    },
-    {
-      "name": "command_line",
-      "type": "string",
-      "description": "Specified command line to use",
-      "value": "-Command Start-Sleep 10"
     }
   ]
 }

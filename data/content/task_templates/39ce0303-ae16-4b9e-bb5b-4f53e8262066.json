@@ -8,87 +8,87 @@
   ],
   "steps": [
     {
-      "id": "63ecea76-7bcf-46d5-9fbe-ebfa559faff5",
+      "id": "ba8e34eb-366d-4851-928f-73c87be32155",
       "type": "execute-command",
       "data": {
-        "command": "curl -s https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1074.001/src/Discovery.sh | sh -s \u003e #{output_file}\n",
+        "command": "curl -s https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1074.001/src/Discovery.sh | sh -s \u003e #{output_file}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "fac57e1e-2eef-4a9c-b52d-591baaed695e",
+      "id": "56116553-6f29-4f1c-a2ed-77df90b5eba1",
       "type": "execute-command",
       "data": {
-        "command": "rm #{output_file}\n",
+        "command": "rm #{output_file}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "dda9f999-e2d0-4e5d-bd12-59ed2abe332b",
+      "id": "377022d3-0921-4ca3-8f18-54a5ece00624",
       "name": "Check dependency 1/1",
       "description": "Check if curl is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "7d943c0f-6327-47e1-a71e-996d8578e57c",
+      "id": "8aa8f55b-9511-468a-a7b1-74ffb4ad8306",
       "name": "Resolve dependency 1/1",
       "description": "Check if curl is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "which apt \u0026\u0026 apt update \u0026\u0026 apt install -y curl || which pkg \u0026\u0026 pkg update \u0026\u0026 pkg install -y curl\n",
-        "command_type": ""
+        "command": "which apt \u0026\u0026 apt update \u0026\u0026 apt install -y curl || which pkg \u0026\u0026 pkg update \u0026\u0026 pkg install -y curl",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "2544e675-9a33-4dc6-9a6d-7ed1b3bbfe66",
+      "id": "fddaff59-dff5-423b-a5fa-0168e0f8ca90",
       "name": "Re-check dependency 1/1",
       "description": "Check if curl is installed on the machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "63ecea76-7bcf-46d5-9fbe-ebfa559faff5",
+      "s": "ba8e34eb-366d-4851-928f-73c87be32155",
       "p": "on-success",
-      "o": "fac57e1e-2eef-4a9c-b52d-591baaed695e"
+      "o": "56116553-6f29-4f1c-a2ed-77df90b5eba1"
     },
     {
-      "s": "63ecea76-7bcf-46d5-9fbe-ebfa559faff5",
+      "s": "ba8e34eb-366d-4851-928f-73c87be32155",
       "p": "on-failure",
-      "o": "fac57e1e-2eef-4a9c-b52d-591baaed695e"
+      "o": "56116553-6f29-4f1c-a2ed-77df90b5eba1"
     },
     {
-      "s": "dda9f999-e2d0-4e5d-bd12-59ed2abe332b",
+      "s": "377022d3-0921-4ca3-8f18-54a5ece00624",
       "p": "on-success",
-      "o": "63ecea76-7bcf-46d5-9fbe-ebfa559faff5"
+      "o": "ba8e34eb-366d-4851-928f-73c87be32155"
     },
     {
-      "s": "dda9f999-e2d0-4e5d-bd12-59ed2abe332b",
+      "s": "377022d3-0921-4ca3-8f18-54a5ece00624",
       "p": "on-failure",
-      "o": "7d943c0f-6327-47e1-a71e-996d8578e57c"
+      "o": "8aa8f55b-9511-468a-a7b1-74ffb4ad8306"
     },
     {
-      "s": "7d943c0f-6327-47e1-a71e-996d8578e57c",
+      "s": "8aa8f55b-9511-468a-a7b1-74ffb4ad8306",
       "p": "on-success",
-      "o": "2544e675-9a33-4dc6-9a6d-7ed1b3bbfe66"
+      "o": "fddaff59-dff5-423b-a5fa-0168e0f8ca90"
     },
     {
-      "s": "2544e675-9a33-4dc6-9a6d-7ed1b3bbfe66",
+      "s": "fddaff59-dff5-423b-a5fa-0168e0f8ca90",
       "p": "on-failure",
-      "o": "63ecea76-7bcf-46d5-9fbe-ebfa559faff5"
+      "o": "ba8e34eb-366d-4851-928f-73c87be32155"
     }
   ],
   "tags": [

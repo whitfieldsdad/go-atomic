@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "15c3cce7-df11-44df-a8a5-f5ca1d5d650c",
+      "id": "9fdb1332-c17b-42b7-9e35-61f6176f720a",
       "type": "execute-command",
       "data": {
-        "command": "set -x\nsudo kextload #{module_path}\nkextstat 2\u003e/dev/null | grep SoftRAID\nsudo kextunload #{module_path}\nsudo kmutil load -p #{module_path}\nkextstat 2\u003e/dev/null | grep SoftRAID\nsudo kmutil unload -p #{module_path}\n",
+        "command": "set -x\nsudo kextload #{module_path}\nkextstat 2\u003e/dev/null | grep SoftRAID\nsudo kextunload #{module_path}\nsudo kmutil load -p #{module_path}\nkextstat 2\u003e/dev/null | grep SoftRAID\nsudo kmutil unload -p #{module_path}",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "84da7bf8-55df-4c83-95c0-161a3af7acf4",
+      "id": "2a3e3001-85ed-4c62-a2dc-efebfd00be76",
       "name": "Check dependency 1/1",
       "description": "The kernel module must exist on disk at specified location\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -d #{module_path} ] ; then exit 0; else exit 1 ; fi\n",
-        "command_type": ""
+        "command": "if [ -d #{module_path} ] ; then exit 0; else exit 1 ; fi",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "7526b2eb-de19-40f8-8d24-3d01afbcd183",
+      "id": "516ceab7-32ba-443c-8814-9d7aa918627d",
       "name": "Resolve dependency 1/1",
       "description": "The kernel module must exist on disk at specified location\n",
       "type": "execute-command",
       "data": {
-        "command": "exit 1\n",
-        "command_type": ""
+        "command": "exit 1",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "bd13be86-b1a7-4275-8e67-f07d790bb7fb",
+      "id": "37c4fd50-09cc-4c02-927b-e43fd0d31fa1",
       "name": "Re-check dependency 1/1",
       "description": "The kernel module must exist on disk at specified location\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -d #{module_path} ] ; then exit 0; else exit 1 ; fi\n",
-        "command_type": ""
+        "command": "if [ -d #{module_path} ] ; then exit 0; else exit 1 ; fi",
+        "command_type": "bash"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "84da7bf8-55df-4c83-95c0-161a3af7acf4",
+      "s": "2a3e3001-85ed-4c62-a2dc-efebfd00be76",
       "p": "on-success",
-      "o": "15c3cce7-df11-44df-a8a5-f5ca1d5d650c"
+      "o": "9fdb1332-c17b-42b7-9e35-61f6176f720a"
     },
     {
-      "s": "84da7bf8-55df-4c83-95c0-161a3af7acf4",
+      "s": "2a3e3001-85ed-4c62-a2dc-efebfd00be76",
       "p": "on-failure",
-      "o": "7526b2eb-de19-40f8-8d24-3d01afbcd183"
+      "o": "516ceab7-32ba-443c-8814-9d7aa918627d"
     },
     {
-      "s": "7526b2eb-de19-40f8-8d24-3d01afbcd183",
+      "s": "516ceab7-32ba-443c-8814-9d7aa918627d",
       "p": "on-success",
-      "o": "bd13be86-b1a7-4275-8e67-f07d790bb7fb"
+      "o": "37c4fd50-09cc-4c02-927b-e43fd0d31fa1"
     },
     {
-      "s": "bd13be86-b1a7-4275-8e67-f07d790bb7fb",
+      "s": "37c4fd50-09cc-4c02-927b-e43fd0d31fa1",
       "p": "on-failure",
-      "o": "15c3cce7-df11-44df-a8a5-f5ca1d5d650c"
+      "o": "9fdb1332-c17b-42b7-9e35-61f6176f720a"
     }
   ],
   "tags": [

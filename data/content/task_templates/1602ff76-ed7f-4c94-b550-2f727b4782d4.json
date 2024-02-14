@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "b8584c2e-f5a2-460a-8b09-7c58c3f5fba9",
+      "id": "f4da340b-6b78-4ae1-b264-18d19f46c93e",
       "type": "execute-command",
       "data": {
-        "command": "echo 0\u003e /var/spool/mail/#{username}\n",
+        "command": "echo 0\u003e /var/spool/mail/#{username}",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "c2ba503d-fdba-4e45-9efb-a203cba6e400",
+      "id": "a5a15839-9dbc-4920-887d-f2ed75053ed1",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "stat /var/spool/mail/#{username}\n",
-        "command_type": ""
+        "command": "stat /var/spool/mail/#{username}",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "d36d3558-581a-4a03-a54c-a13ef5672a8d",
+      "id": "b4b97cf2-2b88-4ae4-ae74-8546437805db",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "touch /var/spool/mail/#{username}\n",
-        "command_type": ""
+        "command": "touch /var/spool/mail/#{username}",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "152f03a4-6b23-4940-a746-af644eb228f6",
+      "id": "51783aaf-e60b-4743-80d1-3d499946fe39",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "stat /var/spool/mail/#{username}\n",
-        "command_type": ""
+        "command": "stat /var/spool/mail/#{username}",
+        "command_type": "bash"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "c2ba503d-fdba-4e45-9efb-a203cba6e400",
+      "s": "a5a15839-9dbc-4920-887d-f2ed75053ed1",
       "p": "on-success",
-      "o": "b8584c2e-f5a2-460a-8b09-7c58c3f5fba9"
+      "o": "f4da340b-6b78-4ae1-b264-18d19f46c93e"
     },
     {
-      "s": "c2ba503d-fdba-4e45-9efb-a203cba6e400",
+      "s": "a5a15839-9dbc-4920-887d-f2ed75053ed1",
       "p": "on-failure",
-      "o": "d36d3558-581a-4a03-a54c-a13ef5672a8d"
+      "o": "b4b97cf2-2b88-4ae4-ae74-8546437805db"
     },
     {
-      "s": "d36d3558-581a-4a03-a54c-a13ef5672a8d",
+      "s": "b4b97cf2-2b88-4ae4-ae74-8546437805db",
       "p": "on-success",
-      "o": "152f03a4-6b23-4940-a746-af644eb228f6"
+      "o": "51783aaf-e60b-4743-80d1-3d499946fe39"
     },
     {
-      "s": "152f03a4-6b23-4940-a746-af644eb228f6",
+      "s": "51783aaf-e60b-4743-80d1-3d499946fe39",
       "p": "on-failure",
-      "o": "b8584c2e-f5a2-460a-8b09-7c58c3f5fba9"
+      "o": "f4da340b-6b78-4ae1-b264-18d19f46c93e"
     }
   ],
   "tags": [

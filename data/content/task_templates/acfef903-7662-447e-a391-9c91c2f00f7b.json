@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "852d7d8a-4b24-4f81-8e68-31ee5d9e8e12",
+      "id": "27f6679c-c762-49b4-aabc-61a61528dd5f",
       "type": "execute-command",
       "data": {
-        "command": "New-Item -ItemType Directory -path \"#{new_startup_folder}\"\nCopy-Item -path \"#{payload}\" -destination \"#{new_startup_folder}\"\nSet-ItemProperty -Path  \"HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\" -Name \"Common Startup\" -Value \"#{new_startup_folder}\"\n",
+        "command": "New-Item -ItemType Directory -path \"#{new_startup_folder}\"\nCopy-Item -path \"#{payload}\" -destination \"#{new_startup_folder}\"\nSet-ItemProperty -Path  \"HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\" -Name \"Common Startup\" -Value \"#{new_startup_folder}\"",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "d68f540e-a570-4a7c-98a2-4943d34336c1",
+      "id": "b935329c-abf7-4ff4-bb2e-40bec3045331",
       "type": "execute-command",
       "data": {
-        "command": "Set-ItemProperty -Path  \"HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\" -Name \"Common Startup\" -Value \"%ProgramData%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\"\nRemove-Item \"#{new_startup_folder}\" -Recurse -Force\n",
+        "command": "Set-ItemProperty -Path  \"HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\" -Name \"Common Startup\" -Value \"%ProgramData%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\"\nRemove-Item \"#{new_startup_folder}\" -Recurse -Force",
         "command_type": "powershell"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "852d7d8a-4b24-4f81-8e68-31ee5d9e8e12",
+      "s": "27f6679c-c762-49b4-aabc-61a61528dd5f",
       "p": "on-success",
-      "o": "d68f540e-a570-4a7c-98a2-4943d34336c1"
+      "o": "b935329c-abf7-4ff4-bb2e-40bec3045331"
     },
     {
-      "s": "852d7d8a-4b24-4f81-8e68-31ee5d9e8e12",
+      "s": "27f6679c-c762-49b4-aabc-61a61528dd5f",
       "p": "on-failure",
-      "o": "d68f540e-a570-4a7c-98a2-4943d34336c1"
+      "o": "b935329c-abf7-4ff4-bb2e-40bec3045331"
     }
   ],
   "tags": [

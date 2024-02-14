@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "088f52ed-177a-4f5d-9fee-18dab327777f",
+      "id": "faf5ae38-9370-430e-82cd-2740e5a02fdf",
       "type": "execute-command",
       "data": {
-        "command": "tcpdump -c 5 -nnni #{interface}\ntshark -c 5 -i #{interface}\n",
+        "command": "tcpdump -c 5 -nnni #{interface}\ntshark -c 5 -i #{interface}",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "124b6ad8-75c2-4023-a201-87da36a718c3",
+      "id": "fc4d2470-ee8a-4f5f-8490-c48f7f3dfd95",
       "name": "Check dependency 1/1",
       "description": "Check if at least one of tcpdump or tshark is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v tcpdump)\" ] \u0026\u0026 [ ! -x \"$(command -v tshark)\" ]; then exit 1; else exit 0; fi;\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v tcpdump)\" ] \u0026\u0026 [ ! -x \"$(command -v tshark)\" ]; then exit 1; else exit 0; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "7019bafa-ac80-4c00-a32c-4cf411800dde",
+      "id": "2738c95c-81ed-4960-9899-0b3f9ccb0978",
       "name": "Resolve dependency 1/1",
       "description": "Check if at least one of tcpdump or tshark is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "(which pkg \u0026\u0026 pkg install -y wireshark-nox11)\n",
-        "command_type": ""
+        "command": "(which pkg \u0026\u0026 pkg install -y wireshark-nox11)",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "2dd82af6-3488-4cf3-963c-1f9e5f3ef5f0",
+      "id": "04a04d00-bee1-4f85-9187-df39a08a82e9",
       "name": "Re-check dependency 1/1",
       "description": "Check if at least one of tcpdump or tshark is installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v tcpdump)\" ] \u0026\u0026 [ ! -x \"$(command -v tshark)\" ]; then exit 1; else exit 0; fi;\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v tcpdump)\" ] \u0026\u0026 [ ! -x \"$(command -v tshark)\" ]; then exit 1; else exit 0; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "124b6ad8-75c2-4023-a201-87da36a718c3",
+      "s": "fc4d2470-ee8a-4f5f-8490-c48f7f3dfd95",
       "p": "on-success",
-      "o": "088f52ed-177a-4f5d-9fee-18dab327777f"
+      "o": "faf5ae38-9370-430e-82cd-2740e5a02fdf"
     },
     {
-      "s": "124b6ad8-75c2-4023-a201-87da36a718c3",
+      "s": "fc4d2470-ee8a-4f5f-8490-c48f7f3dfd95",
       "p": "on-failure",
-      "o": "7019bafa-ac80-4c00-a32c-4cf411800dde"
+      "o": "2738c95c-81ed-4960-9899-0b3f9ccb0978"
     },
     {
-      "s": "7019bafa-ac80-4c00-a32c-4cf411800dde",
+      "s": "2738c95c-81ed-4960-9899-0b3f9ccb0978",
       "p": "on-success",
-      "o": "2dd82af6-3488-4cf3-963c-1f9e5f3ef5f0"
+      "o": "04a04d00-bee1-4f85-9187-df39a08a82e9"
     },
     {
-      "s": "2dd82af6-3488-4cf3-963c-1f9e5f3ef5f0",
+      "s": "04a04d00-bee1-4f85-9187-df39a08a82e9",
       "p": "on-failure",
-      "o": "088f52ed-177a-4f5d-9fee-18dab327777f"
+      "o": "faf5ae38-9370-430e-82cd-2740e5a02fdf"
     }
   ],
   "tags": [

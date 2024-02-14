@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "60248d7f-e722-46de-9138-e523d824c98d",
+      "id": "70d079bb-c631-4417-b058-f395e7c037c3",
       "type": "execute-command",
       "data": {
         "command": "Get-GPO -Domain $ENV:userdnsdomain #{gpo_param} \u003e\u003e #{gpo_output}",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "e9037a99-3f88-44f9-b40d-de420d682bc7",
+      "id": "b6bc91d3-faf0-4d90-8dc3-c28dc0c2dc4e",
       "type": "execute-command",
       "data": {
         "command": "del $env:temp\\GPO_Output.txt -erroraction silentlycontinue",
@@ -25,122 +25,122 @@
       "elevation_required": true
     },
     {
-      "id": "b465a2cf-f1c1-4318-b6e8-9bc7abbbee7b",
+      "id": "ee35665f-ac93-4420-beed-abd0dbc3524b",
       "name": "Check dependency 1/2",
       "description": "Add Rsat.ActiveDirectory.DS",
       "type": "execute-command",
       "data": {
         "command": "if(Get-WindowsCapability -Online -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0 | Where-Object { $_.State -eq 'Installed' }){ exit 0 } else { exit 1 }",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "75874968-4e56-4fbd-8805-e2a1d55b4efa",
+      "id": "c76a438f-6561-431d-87d6-a316b3e8e76c",
       "name": "Resolve dependency 1/2",
       "description": "Add Rsat.ActiveDirectory.DS",
       "type": "execute-command",
       "data": {
         "command": "Add-WindowsCapability -online -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "ac49d6f2-7a4f-416a-a769-6b0fa83b721c",
+      "id": "55b94733-f51f-4bd3-bb60-161625e50e01",
       "name": "Re-check dependency 1/2",
       "description": "Add Rsat.ActiveDirectory.DS",
       "type": "execute-command",
       "data": {
         "command": "if(Get-WindowsCapability -Online -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0 | Where-Object { $_.State -eq 'Installed' }){ exit 0 } else { exit 1 }",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "4f324a40-428b-49a2-a640-78d42f62fb44",
+      "id": "190ee99c-563f-4d2d-ae8a-e32d34421fd0",
       "name": "Check dependency 2/2",
       "description": "Add Rsat.GroupPolicy.Management.Tools ###Two RSAT Modules needed for this to work on Win10, WinServer 2019 works by default. This will take a long time (almost 2 minutes) to install RSAT Manually###.",
       "type": "execute-command",
       "data": {
         "command": "if(Get-WindowsCapability -Online -Name Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0 | Where-Object { $_.State -eq 'Installed' }){ exit 0 } else { exit 1 }",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "b3da942a-7676-4055-a1c3-55c94d2c1f59",
+      "id": "eef68e1b-8dfa-44c2-8c9e-27613ffb0bde",
       "name": "Resolve dependency 2/2",
       "description": "Add Rsat.GroupPolicy.Management.Tools ###Two RSAT Modules needed for this to work on Win10, WinServer 2019 works by default. This will take a long time (almost 2 minutes) to install RSAT Manually###.",
       "type": "execute-command",
       "data": {
         "command": "Add-WindowsCapability -online -Name Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "ae31e2d2-769b-4679-80f4-e8b132231039",
+      "id": "0b8b69f9-12a0-4195-bedd-a74227daad79",
       "name": "Re-check dependency 2/2",
       "description": "Add Rsat.GroupPolicy.Management.Tools ###Two RSAT Modules needed for this to work on Win10, WinServer 2019 works by default. This will take a long time (almost 2 minutes) to install RSAT Manually###.",
       "type": "execute-command",
       "data": {
         "command": "if(Get-WindowsCapability -Online -Name Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0 | Where-Object { $_.State -eq 'Installed' }){ exit 0 } else { exit 1 }",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "60248d7f-e722-46de-9138-e523d824c98d",
+      "s": "70d079bb-c631-4417-b058-f395e7c037c3",
       "p": "on-success",
-      "o": "e9037a99-3f88-44f9-b40d-de420d682bc7"
+      "o": "b6bc91d3-faf0-4d90-8dc3-c28dc0c2dc4e"
     },
     {
-      "s": "60248d7f-e722-46de-9138-e523d824c98d",
+      "s": "70d079bb-c631-4417-b058-f395e7c037c3",
       "p": "on-failure",
-      "o": "e9037a99-3f88-44f9-b40d-de420d682bc7"
+      "o": "b6bc91d3-faf0-4d90-8dc3-c28dc0c2dc4e"
     },
     {
-      "s": "b465a2cf-f1c1-4318-b6e8-9bc7abbbee7b",
+      "s": "ee35665f-ac93-4420-beed-abd0dbc3524b",
       "p": "on-success",
-      "o": "60248d7f-e722-46de-9138-e523d824c98d"
+      "o": "70d079bb-c631-4417-b058-f395e7c037c3"
     },
     {
-      "s": "b465a2cf-f1c1-4318-b6e8-9bc7abbbee7b",
+      "s": "ee35665f-ac93-4420-beed-abd0dbc3524b",
       "p": "on-failure",
-      "o": "75874968-4e56-4fbd-8805-e2a1d55b4efa"
+      "o": "c76a438f-6561-431d-87d6-a316b3e8e76c"
     },
     {
-      "s": "75874968-4e56-4fbd-8805-e2a1d55b4efa",
+      "s": "c76a438f-6561-431d-87d6-a316b3e8e76c",
       "p": "on-success",
-      "o": "ac49d6f2-7a4f-416a-a769-6b0fa83b721c"
+      "o": "55b94733-f51f-4bd3-bb60-161625e50e01"
     },
     {
-      "s": "ac49d6f2-7a4f-416a-a769-6b0fa83b721c",
+      "s": "55b94733-f51f-4bd3-bb60-161625e50e01",
       "p": "on-failure",
-      "o": "60248d7f-e722-46de-9138-e523d824c98d"
+      "o": "70d079bb-c631-4417-b058-f395e7c037c3"
     },
     {
-      "s": "4f324a40-428b-49a2-a640-78d42f62fb44",
+      "s": "190ee99c-563f-4d2d-ae8a-e32d34421fd0",
       "p": "on-success",
-      "o": "60248d7f-e722-46de-9138-e523d824c98d"
+      "o": "70d079bb-c631-4417-b058-f395e7c037c3"
     },
     {
-      "s": "4f324a40-428b-49a2-a640-78d42f62fb44",
+      "s": "190ee99c-563f-4d2d-ae8a-e32d34421fd0",
       "p": "on-failure",
-      "o": "b3da942a-7676-4055-a1c3-55c94d2c1f59"
+      "o": "eef68e1b-8dfa-44c2-8c9e-27613ffb0bde"
     },
     {
-      "s": "b3da942a-7676-4055-a1c3-55c94d2c1f59",
+      "s": "eef68e1b-8dfa-44c2-8c9e-27613ffb0bde",
       "p": "on-success",
-      "o": "ae31e2d2-769b-4679-80f4-e8b132231039"
+      "o": "0b8b69f9-12a0-4195-bedd-a74227daad79"
     },
     {
-      "s": "ae31e2d2-769b-4679-80f4-e8b132231039",
+      "s": "0b8b69f9-12a0-4195-bedd-a74227daad79",
       "p": "on-failure",
-      "o": "60248d7f-e722-46de-9138-e523d824c98d"
+      "o": "70d079bb-c631-4417-b058-f395e7c037c3"
     }
   ],
   "tags": [

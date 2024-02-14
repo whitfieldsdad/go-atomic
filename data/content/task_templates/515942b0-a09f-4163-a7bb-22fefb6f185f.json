@@ -8,174 +8,174 @@
   ],
   "steps": [
     {
-      "id": "8d58c111-eb96-4b77-942d-592e4edc1679",
+      "id": "b676e4bc-defd-4594-84ad-bfd020bed261",
       "type": "execute-command",
       "data": {
-        "command": "sudo nmap -sS #{network_range} -p #{port}\ntelnet #{host} #{port}\nnc -nv #{host} #{port}\n",
+        "command": "sudo nmap -sS #{network_range} -p #{port}\ntelnet #{host} #{port}\nnc -nv #{host} #{port}",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "d222ae85-c410-41d4-bf54-b02983c4bbe0",
+      "id": "dce1f6b0-2e06-4548-ab86-a1928347fe91",
       "name": "Check dependency 1/3",
       "description": "Check if nmap command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v nmap)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v nmap)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "02928ef3-59a2-4a03-b414-1c538c71b393",
+      "id": "335d8718-0fdd-4f89-9e88-454bd2231c4d",
       "name": "Resolve dependency 1/3",
       "description": "Check if nmap command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "(which yum \u0026\u0026 yum -y install epel-release nmap)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y nmap)||(which pkg \u0026\u0026 pkg install -y nmap)\n",
-        "command_type": ""
+        "command": "(which yum \u0026\u0026 yum -y install epel-release nmap)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y nmap)||(which pkg \u0026\u0026 pkg install -y nmap)",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "5f23b5dd-5183-49b3-9ded-28f794d2c06f",
+      "id": "02c33597-17bd-4513-aefe-9bc423d659bb",
       "name": "Re-check dependency 1/3",
       "description": "Check if nmap command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v nmap)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v nmap)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "bfd29589-411b-4267-ab74-6b9c8d83cd80",
+      "id": "339bd669-eebe-457f-8b62-b9d6f11f41b4",
       "name": "Check dependency 2/3",
       "description": "Check if nc command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v nc)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v nc)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "07726e3d-abd8-4cbe-8bcc-039fecb3ba0d",
+      "id": "0743a972-cdf5-4805-8d85-d876114c55e1",
       "name": "Resolve dependency 2/3",
       "description": "Check if nc command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "(which yum \u0026\u0026 yum -y install epel-release nc)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y netcat)||(which pkg \u0026\u0026 pkg install -y netcat)\n",
-        "command_type": ""
+        "command": "(which yum \u0026\u0026 yum -y install epel-release nc)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y netcat)||(which pkg \u0026\u0026 pkg install -y netcat)",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "f4fa13a2-92d7-46ac-b9bc-9fa8138056be",
+      "id": "56b16806-b67f-44a2-abc5-19a4841818f9",
       "name": "Re-check dependency 2/3",
       "description": "Check if nc command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v nc)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v nc)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "50e42aff-404a-4483-bc2d-1cf8975a0648",
+      "id": "a90ba1b5-49a6-4c97-8eb5-6104f1d765c3",
       "name": "Check dependency 3/3",
       "description": "Check if telnet command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v telnet)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v telnet)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "20b8ba6a-b32b-4655-ae3f-1686eadade02",
+      "id": "adee784f-208a-424e-ba11-849e9e66de21",
       "name": "Resolve dependency 3/3",
       "description": "Check if telnet command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "(which yum \u0026\u0026 yum -y install epel-release telnet)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y telnet)\n",
-        "command_type": ""
+        "command": "(which yum \u0026\u0026 yum -y install epel-release telnet)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y telnet)",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "fa461dc9-e696-4539-b5bb-c53816a61c69",
+      "id": "8bea6c22-986d-437b-9bc7-e4cd189be524",
       "name": "Re-check dependency 3/3",
       "description": "Check if telnet command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v telnet)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v telnet)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "d222ae85-c410-41d4-bf54-b02983c4bbe0",
+      "s": "dce1f6b0-2e06-4548-ab86-a1928347fe91",
       "p": "on-success",
-      "o": "8d58c111-eb96-4b77-942d-592e4edc1679"
+      "o": "b676e4bc-defd-4594-84ad-bfd020bed261"
     },
     {
-      "s": "d222ae85-c410-41d4-bf54-b02983c4bbe0",
+      "s": "dce1f6b0-2e06-4548-ab86-a1928347fe91",
       "p": "on-failure",
-      "o": "02928ef3-59a2-4a03-b414-1c538c71b393"
+      "o": "335d8718-0fdd-4f89-9e88-454bd2231c4d"
     },
     {
-      "s": "02928ef3-59a2-4a03-b414-1c538c71b393",
+      "s": "335d8718-0fdd-4f89-9e88-454bd2231c4d",
       "p": "on-success",
-      "o": "5f23b5dd-5183-49b3-9ded-28f794d2c06f"
+      "o": "02c33597-17bd-4513-aefe-9bc423d659bb"
     },
     {
-      "s": "5f23b5dd-5183-49b3-9ded-28f794d2c06f",
+      "s": "02c33597-17bd-4513-aefe-9bc423d659bb",
       "p": "on-failure",
-      "o": "8d58c111-eb96-4b77-942d-592e4edc1679"
+      "o": "b676e4bc-defd-4594-84ad-bfd020bed261"
     },
     {
-      "s": "bfd29589-411b-4267-ab74-6b9c8d83cd80",
+      "s": "339bd669-eebe-457f-8b62-b9d6f11f41b4",
       "p": "on-success",
-      "o": "8d58c111-eb96-4b77-942d-592e4edc1679"
+      "o": "b676e4bc-defd-4594-84ad-bfd020bed261"
     },
     {
-      "s": "bfd29589-411b-4267-ab74-6b9c8d83cd80",
+      "s": "339bd669-eebe-457f-8b62-b9d6f11f41b4",
       "p": "on-failure",
-      "o": "07726e3d-abd8-4cbe-8bcc-039fecb3ba0d"
+      "o": "0743a972-cdf5-4805-8d85-d876114c55e1"
     },
     {
-      "s": "07726e3d-abd8-4cbe-8bcc-039fecb3ba0d",
+      "s": "0743a972-cdf5-4805-8d85-d876114c55e1",
       "p": "on-success",
-      "o": "f4fa13a2-92d7-46ac-b9bc-9fa8138056be"
+      "o": "56b16806-b67f-44a2-abc5-19a4841818f9"
     },
     {
-      "s": "f4fa13a2-92d7-46ac-b9bc-9fa8138056be",
+      "s": "56b16806-b67f-44a2-abc5-19a4841818f9",
       "p": "on-failure",
-      "o": "8d58c111-eb96-4b77-942d-592e4edc1679"
+      "o": "b676e4bc-defd-4594-84ad-bfd020bed261"
     },
     {
-      "s": "50e42aff-404a-4483-bc2d-1cf8975a0648",
+      "s": "a90ba1b5-49a6-4c97-8eb5-6104f1d765c3",
       "p": "on-success",
-      "o": "8d58c111-eb96-4b77-942d-592e4edc1679"
+      "o": "b676e4bc-defd-4594-84ad-bfd020bed261"
     },
     {
-      "s": "50e42aff-404a-4483-bc2d-1cf8975a0648",
+      "s": "a90ba1b5-49a6-4c97-8eb5-6104f1d765c3",
       "p": "on-failure",
-      "o": "20b8ba6a-b32b-4655-ae3f-1686eadade02"
+      "o": "adee784f-208a-424e-ba11-849e9e66de21"
     },
     {
-      "s": "20b8ba6a-b32b-4655-ae3f-1686eadade02",
+      "s": "adee784f-208a-424e-ba11-849e9e66de21",
       "p": "on-success",
-      "o": "fa461dc9-e696-4539-b5bb-c53816a61c69"
+      "o": "8bea6c22-986d-437b-9bc7-e4cd189be524"
     },
     {
-      "s": "fa461dc9-e696-4539-b5bb-c53816a61c69",
+      "s": "8bea6c22-986d-437b-9bc7-e4cd189be524",
       "p": "on-failure",
-      "o": "8d58c111-eb96-4b77-942d-592e4edc1679"
+      "o": "b676e4bc-defd-4594-84ad-bfd020bed261"
     }
   ],
   "tags": [

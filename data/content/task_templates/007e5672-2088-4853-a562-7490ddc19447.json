@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ddaeea60-c688-4cfa-8deb-ed56ecd5fee5",
+      "id": "f2cfd3ed-7f31-402b-92b0-2369e43e2dfe",
       "type": "execute-command",
       "data": {
         "command": "Invoke-ATHHTMLApplication -HTAFilePath #{hta_file_path} -ScriptEngine #{script_engine} -AsLocalUNCPath -SimulateLateralMovement -MSHTAFilePath #{mshta_file_path}",
@@ -16,59 +16,59 @@
       "elevation_required": false
     },
     {
-      "id": "671ac45f-86a5-4b8f-b22a-b5e1478caba8",
+      "id": "dcb80254-3e6b-4290-8e1c-aeffdba34eaa",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
       "type": "execute-command",
       "data": {
         "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHHTMLApplication']) {exit 1} else {exit 0}",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "741e877e-c5eb-4592-ac44-86dc7f9e29a3",
+      "id": "6b8d9581-6171-4347-b5ab-defad700f3b4",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force\n",
-        "command_type": ""
+        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "d4835329-e15b-4210-8d17-e63610eb3c91",
+      "id": "8091302a-cb65-4bf7-9ab4-45b4de00813b",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
       "type": "execute-command",
       "data": {
         "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Invoke-ATHHTMLApplication']) {exit 1} else {exit 0}",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "671ac45f-86a5-4b8f-b22a-b5e1478caba8",
+      "s": "dcb80254-3e6b-4290-8e1c-aeffdba34eaa",
       "p": "on-success",
-      "o": "ddaeea60-c688-4cfa-8deb-ed56ecd5fee5"
+      "o": "f2cfd3ed-7f31-402b-92b0-2369e43e2dfe"
     },
     {
-      "s": "671ac45f-86a5-4b8f-b22a-b5e1478caba8",
+      "s": "dcb80254-3e6b-4290-8e1c-aeffdba34eaa",
       "p": "on-failure",
-      "o": "741e877e-c5eb-4592-ac44-86dc7f9e29a3"
+      "o": "6b8d9581-6171-4347-b5ab-defad700f3b4"
     },
     {
-      "s": "741e877e-c5eb-4592-ac44-86dc7f9e29a3",
+      "s": "6b8d9581-6171-4347-b5ab-defad700f3b4",
       "p": "on-success",
-      "o": "d4835329-e15b-4210-8d17-e63610eb3c91"
+      "o": "8091302a-cb65-4bf7-9ab4-45b4de00813b"
     },
     {
-      "s": "d4835329-e15b-4210-8d17-e63610eb3c91",
+      "s": "8091302a-cb65-4bf7-9ab4-45b4de00813b",
       "p": "on-failure",
-      "o": "ddaeea60-c688-4cfa-8deb-ed56ecd5fee5"
+      "o": "f2cfd3ed-7f31-402b-92b0-2369e43e2dfe"
     }
   ],
   "tags": [

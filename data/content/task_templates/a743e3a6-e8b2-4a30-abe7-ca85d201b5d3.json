@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "aae431a9-6eab-4ca0-abfb-3ac256caa34a",
+      "id": "273b7722-e3a3-43f6-b65e-9bf1a94de4af",
       "type": "execute-command",
       "data": {
         "command": "zip -r  #{input_folder}/#{input_file}.zip #{input_folder}\nopenssl enc -aes-256-cbc -pass pass:#{enc_pass} -p -in #{input_folder}/#{input_file}.zip -out #{input_folder}/#{input_file}.enc \ncat #{input_folder}/#{input_file}.enc | base64",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "5e326b7d-e795-4e08-bf70-a9300251c73e",
+      "id": "6fff847d-6d48-441d-b2e7-ede84fbc72e4",
       "type": "execute-command",
       "data": {
         "command": "rm -rf #{input_folder}",
@@ -26,69 +26,69 @@
       "elevation_required": false
     },
     {
-      "id": "a3d0f1a9-5a26-40f3-8ce0-dfecd326c059",
+      "id": "7909a427-22c1-4964-b96f-740dad704e4d",
       "name": "Check dependency 1/1",
       "description": "The folder and test files must exist",
       "type": "execute-command",
       "data": {
         "command": "if [ ! -d #{input_folder} ]; then exit 1; else exit 0; fi;",
-        "command_type": ""
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "ac179f3c-78bf-442a-81ac-19a0226715c1",
+      "id": "8a20ec6d-f966-4b9e-8b4d-91a9c74cdea7",
       "name": "Resolve dependency 1/1",
       "description": "The folder and test files must exist",
       "type": "execute-command",
       "data": {
         "command": "if [ ! -d #{input_folder} ]; then mkdir -p #{input_folder}; cd #{input_folder}; touch {a..z}.data; fi;",
-        "command_type": ""
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "411e0888-fd8f-47b9-b82c-49e45a8b8ca9",
+      "id": "78a8da9a-67f6-4a66-a03f-d2c97557d3f5",
       "name": "Re-check dependency 1/1",
       "description": "The folder and test files must exist",
       "type": "execute-command",
       "data": {
         "command": "if [ ! -d #{input_folder} ]; then exit 1; else exit 0; fi;",
-        "command_type": ""
+        "command_type": "bash"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "aae431a9-6eab-4ca0-abfb-3ac256caa34a",
+      "s": "273b7722-e3a3-43f6-b65e-9bf1a94de4af",
       "p": "on-success",
-      "o": "5e326b7d-e795-4e08-bf70-a9300251c73e"
+      "o": "6fff847d-6d48-441d-b2e7-ede84fbc72e4"
     },
     {
-      "s": "aae431a9-6eab-4ca0-abfb-3ac256caa34a",
+      "s": "273b7722-e3a3-43f6-b65e-9bf1a94de4af",
       "p": "on-failure",
-      "o": "5e326b7d-e795-4e08-bf70-a9300251c73e"
+      "o": "6fff847d-6d48-441d-b2e7-ede84fbc72e4"
     },
     {
-      "s": "a3d0f1a9-5a26-40f3-8ce0-dfecd326c059",
+      "s": "7909a427-22c1-4964-b96f-740dad704e4d",
       "p": "on-success",
-      "o": "aae431a9-6eab-4ca0-abfb-3ac256caa34a"
+      "o": "273b7722-e3a3-43f6-b65e-9bf1a94de4af"
     },
     {
-      "s": "a3d0f1a9-5a26-40f3-8ce0-dfecd326c059",
+      "s": "7909a427-22c1-4964-b96f-740dad704e4d",
       "p": "on-failure",
-      "o": "ac179f3c-78bf-442a-81ac-19a0226715c1"
+      "o": "8a20ec6d-f966-4b9e-8b4d-91a9c74cdea7"
     },
     {
-      "s": "ac179f3c-78bf-442a-81ac-19a0226715c1",
+      "s": "8a20ec6d-f966-4b9e-8b4d-91a9c74cdea7",
       "p": "on-success",
-      "o": "411e0888-fd8f-47b9-b82c-49e45a8b8ca9"
+      "o": "78a8da9a-67f6-4a66-a03f-d2c97557d3f5"
     },
     {
-      "s": "411e0888-fd8f-47b9-b82c-49e45a8b8ca9",
+      "s": "78a8da9a-67f6-4a66-a03f-d2c97557d3f5",
       "p": "on-failure",
-      "o": "aae431a9-6eab-4ca0-abfb-3ac256caa34a"
+      "o": "273b7722-e3a3-43f6-b65e-9bf1a94de4af"
     }
   ],
   "tags": [

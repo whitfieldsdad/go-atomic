@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "58b2eb72-5146-40a6-8f2d-6668a806a7ea",
+      "id": "8f34f3df-f1db-4c63-99e7-36b89e1cefda",
       "type": "execute-command",
       "data": {
         "command": "$VM = \"#{vm_name}\"\nNew-VM -Name $VM -Generation 2\nSet-VMFirmware $VM -EnableSecureBoot Off\nStart-VM $VM",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "60d7d652-5a4c-4875-9fb0-e0e92a165357",
+      "id": "0f69758a-c6f5-4eae-9b5e-b4cef45ccf58",
       "type": "execute-command",
       "data": {
         "command": "Stop-VM $VM -Force\nRemove-VM $VM -Force",
@@ -25,69 +25,69 @@
       "elevation_required": true
     },
     {
-      "id": "66ca1ae8-4741-41d5-a425-e917137709db",
+      "id": "6104d7f9-16bf-48d5-b28e-c3b40b2ba8d6",
       "name": "Check dependency 1/1",
       "description": "Hyper-V must be enabled on the system\nChecks whether Hyper-V is enabled. If not, enables Hyper-V and forces a required restart\n",
       "type": "execute-command",
       "data": {
-        "command": "if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).State = \"Enabled\") {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).State = \"Enabled\") {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "056e4a15-176a-4894-9212-9906e9d0f62c",
+      "id": "56355625-0f29-4d8a-a68f-17c82f206938",
       "name": "Resolve dependency 1/1",
       "description": "Hyper-V must be enabled on the system\nChecks whether Hyper-V is enabled. If not, enables Hyper-V and forces a required restart\n",
       "type": "execute-command",
       "data": {
-        "command": "Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -Force\n",
-        "command_type": ""
+        "command": "Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -Force",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "d3ab31e1-f0cb-472c-8d83-08fd89a8bdb8",
+      "id": "3dccc007-61b7-47fd-a02b-9d2a2ab2a3da",
       "name": "Re-check dependency 1/1",
       "description": "Hyper-V must be enabled on the system\nChecks whether Hyper-V is enabled. If not, enables Hyper-V and forces a required restart\n",
       "type": "execute-command",
       "data": {
-        "command": "if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).State = \"Enabled\") {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).State = \"Enabled\") {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "58b2eb72-5146-40a6-8f2d-6668a806a7ea",
+      "s": "8f34f3df-f1db-4c63-99e7-36b89e1cefda",
       "p": "on-success",
-      "o": "60d7d652-5a4c-4875-9fb0-e0e92a165357"
+      "o": "0f69758a-c6f5-4eae-9b5e-b4cef45ccf58"
     },
     {
-      "s": "58b2eb72-5146-40a6-8f2d-6668a806a7ea",
+      "s": "8f34f3df-f1db-4c63-99e7-36b89e1cefda",
       "p": "on-failure",
-      "o": "60d7d652-5a4c-4875-9fb0-e0e92a165357"
+      "o": "0f69758a-c6f5-4eae-9b5e-b4cef45ccf58"
     },
     {
-      "s": "66ca1ae8-4741-41d5-a425-e917137709db",
+      "s": "6104d7f9-16bf-48d5-b28e-c3b40b2ba8d6",
       "p": "on-success",
-      "o": "58b2eb72-5146-40a6-8f2d-6668a806a7ea"
+      "o": "8f34f3df-f1db-4c63-99e7-36b89e1cefda"
     },
     {
-      "s": "66ca1ae8-4741-41d5-a425-e917137709db",
+      "s": "6104d7f9-16bf-48d5-b28e-c3b40b2ba8d6",
       "p": "on-failure",
-      "o": "056e4a15-176a-4894-9212-9906e9d0f62c"
+      "o": "56355625-0f29-4d8a-a68f-17c82f206938"
     },
     {
-      "s": "056e4a15-176a-4894-9212-9906e9d0f62c",
+      "s": "56355625-0f29-4d8a-a68f-17c82f206938",
       "p": "on-success",
-      "o": "d3ab31e1-f0cb-472c-8d83-08fd89a8bdb8"
+      "o": "3dccc007-61b7-47fd-a02b-9d2a2ab2a3da"
     },
     {
-      "s": "d3ab31e1-f0cb-472c-8d83-08fd89a8bdb8",
+      "s": "3dccc007-61b7-47fd-a02b-9d2a2ab2a3da",
       "p": "on-failure",
-      "o": "58b2eb72-5146-40a6-8f2d-6668a806a7ea"
+      "o": "8f34f3df-f1db-4c63-99e7-36b89e1cefda"
     }
   ],
   "tags": [

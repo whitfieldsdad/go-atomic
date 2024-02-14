@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "a08e45d5-dafb-435e-82cf-1d9ecdb39596",
+      "id": "d600fdc2-bdde-4988-91fc-3f481ae54526",
       "type": "execute-command",
       "data": {
-        "command": "set \"#{download_path}\" \u0026\u0026 cmd /c desktopimgdownldr.exe /lockscreenurl:#{remote_file} /eventName:desktopimgdownldr\n",
+        "command": "set \"#{download_path}\" \u0026\u0026 cmd /c desktopimgdownldr.exe /lockscreenurl:#{remote_file} /eventName:desktopimgdownldr",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "ea1a8618-c01e-4802-a903-448d4837ecea",
+      "id": "d813e946-ec02-4aae-aa56-0a688b2fb82f",
       "type": "execute-command",
       "data": {
-        "command": "del #{cleanup_path}\\#{cleanup_file} \u003enul 2\u003e\u00261\n",
+        "command": "del #{cleanup_path}\\#{cleanup_file} \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": false
@@ -27,32 +27,20 @@
   ],
   "flows": [
     {
-      "s": "a08e45d5-dafb-435e-82cf-1d9ecdb39596",
+      "s": "d600fdc2-bdde-4988-91fc-3f481ae54526",
       "p": "on-success",
-      "o": "ea1a8618-c01e-4802-a903-448d4837ecea"
+      "o": "d813e946-ec02-4aae-aa56-0a688b2fb82f"
     },
     {
-      "s": "a08e45d5-dafb-435e-82cf-1d9ecdb39596",
+      "s": "d600fdc2-bdde-4988-91fc-3f481ae54526",
       "p": "on-failure",
-      "o": "ea1a8618-c01e-4802-a903-448d4837ecea"
+      "o": "d813e946-ec02-4aae-aa56-0a688b2fb82f"
     }
   ],
   "tags": [
     "T1197"
   ],
   "input_arguments": [
-    {
-      "name": "cleanup_path",
-      "type": "path",
-      "description": "path to delete file as part of cleanup_command",
-      "value": "C:\\Windows\\Temp\\Personalization\\LockScreenImage"
-    },
-    {
-      "name": "cleanup_file",
-      "type": "string",
-      "description": "file to remove as part of cleanup_command",
-      "value": "*.md"
-    },
     {
       "name": "remote_file",
       "type": "url",
@@ -64,6 +52,18 @@
       "type": "path",
       "description": "Local file path to save downloaded file",
       "value": "SYSTEMROOT=C:\\Windows\\Temp"
+    },
+    {
+      "name": "cleanup_path",
+      "type": "path",
+      "description": "path to delete file as part of cleanup_command",
+      "value": "C:\\Windows\\Temp\\Personalization\\LockScreenImage"
+    },
+    {
+      "name": "cleanup_file",
+      "type": "string",
+      "description": "file to remove as part of cleanup_command",
+      "value": "*.md"
     }
   ]
 }

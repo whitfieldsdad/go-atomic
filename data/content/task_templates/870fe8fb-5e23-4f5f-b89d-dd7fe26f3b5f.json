@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "e63e17fe-71cf-42a1-931c-57d7b363d5f5",
+      "id": "dd2abb1a-fe7d-46ff-9b7a-dfde3199fc49",
       "type": "execute-command",
       "data": {
-        "command": "findstr /S cpassword %logonserver%\\sysvol\\*.xml\n",
+        "command": "findstr /S cpassword %logonserver%\\sysvol\\*.xml",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "c35b5b48-6dd8-451a-9f53-412c8a96c38c",
+      "id": "3114500b-2d54-4c15-aff6-a9e20d8e19b1",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
       "data": {
-        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "fdc2b682-cf18-4baf-a97c-665c687de42d",
+      "id": "c33b780c-19a3-490b-8b48-aff69c95cecc",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
       "data": {
-        "command": "Write-Host Joining this computer to a domain must be done manually\n",
-        "command_type": ""
+        "command": "Write-Host Joining this computer to a domain must be done manually",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "8f992286-c499-4889-a013-e46b0a08bcca",
+      "id": "c123dec4-58cb-467c-9765-d8ccd468fc85",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
       "data": {
-        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "c35b5b48-6dd8-451a-9f53-412c8a96c38c",
+      "s": "3114500b-2d54-4c15-aff6-a9e20d8e19b1",
       "p": "on-success",
-      "o": "e63e17fe-71cf-42a1-931c-57d7b363d5f5"
+      "o": "dd2abb1a-fe7d-46ff-9b7a-dfde3199fc49"
     },
     {
-      "s": "c35b5b48-6dd8-451a-9f53-412c8a96c38c",
+      "s": "3114500b-2d54-4c15-aff6-a9e20d8e19b1",
       "p": "on-failure",
-      "o": "fdc2b682-cf18-4baf-a97c-665c687de42d"
+      "o": "c33b780c-19a3-490b-8b48-aff69c95cecc"
     },
     {
-      "s": "fdc2b682-cf18-4baf-a97c-665c687de42d",
+      "s": "c33b780c-19a3-490b-8b48-aff69c95cecc",
       "p": "on-success",
-      "o": "8f992286-c499-4889-a013-e46b0a08bcca"
+      "o": "c123dec4-58cb-467c-9765-d8ccd468fc85"
     },
     {
-      "s": "8f992286-c499-4889-a013-e46b0a08bcca",
+      "s": "c123dec4-58cb-467c-9765-d8ccd468fc85",
       "p": "on-failure",
-      "o": "e63e17fe-71cf-42a1-931c-57d7b363d5f5"
+      "o": "dd2abb1a-fe7d-46ff-9b7a-dfde3199fc49"
     }
   ],
   "tags": [

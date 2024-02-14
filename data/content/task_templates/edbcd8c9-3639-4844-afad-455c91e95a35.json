@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "0cd30d5b-f837-4e8e-a914-bfeeb708b442",
+      "id": "0bc0aa52-bf4b-4483-9b3d-5f9a343513f1",
       "type": "execute-command",
       "data": {
-        "command": "psexec.py '#{domain}/#{username}:#{password}@#{remote_host}' '#{command}'\n",
+        "command": "psexec.py '#{domain}/#{username}:#{password}@#{remote_host}' '#{command}'",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "5417e145-7ef0-40b2-9183-4bd8cbca5c11",
+      "id": "3cb13b4a-bc10-4cf1-aa42-3296881f8cfe",
       "name": "Check dependency 1/1",
       "description": "psexec.py (Impacket)\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v psexec.py)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v psexec.py)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "a5fc71a5-b3db-4eaa-b595-7471f565464e",
+      "id": "23955912-58e9-4975-ab60-869ba284c14c",
       "name": "Resolve dependency 1/1",
       "description": "psexec.py (Impacket)\n",
       "type": "execute-command",
       "data": {
-        "command": "sudo pip3 install impacket\n",
-        "command_type": ""
+        "command": "sudo pip3 install impacket",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "3a6b3982-b2a7-49fd-af66-b5a9d6d6e3ca",
+      "id": "32200991-42f0-4fd8-be58-810a76d29d3b",
       "name": "Re-check dependency 1/1",
       "description": "psexec.py (Impacket)\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v psexec.py)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v psexec.py)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "bash"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "5417e145-7ef0-40b2-9183-4bd8cbca5c11",
+      "s": "3cb13b4a-bc10-4cf1-aa42-3296881f8cfe",
       "p": "on-success",
-      "o": "0cd30d5b-f837-4e8e-a914-bfeeb708b442"
+      "o": "0bc0aa52-bf4b-4483-9b3d-5f9a343513f1"
     },
     {
-      "s": "5417e145-7ef0-40b2-9183-4bd8cbca5c11",
+      "s": "3cb13b4a-bc10-4cf1-aa42-3296881f8cfe",
       "p": "on-failure",
-      "o": "a5fc71a5-b3db-4eaa-b595-7471f565464e"
+      "o": "23955912-58e9-4975-ab60-869ba284c14c"
     },
     {
-      "s": "a5fc71a5-b3db-4eaa-b595-7471f565464e",
+      "s": "23955912-58e9-4975-ab60-869ba284c14c",
       "p": "on-success",
-      "o": "3a6b3982-b2a7-49fd-af66-b5a9d6d6e3ca"
+      "o": "32200991-42f0-4fd8-be58-810a76d29d3b"
     },
     {
-      "s": "3a6b3982-b2a7-49fd-af66-b5a9d6d6e3ca",
+      "s": "32200991-42f0-4fd8-be58-810a76d29d3b",
       "p": "on-failure",
-      "o": "0cd30d5b-f837-4e8e-a914-bfeeb708b442"
+      "o": "0bc0aa52-bf4b-4483-9b3d-5f9a343513f1"
     }
   ],
   "tags": [

@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "3300db43-ff3d-4533-bd42-166495b38366",
+      "id": "fd0ace70-8909-4331-8b0f-264b40b7f1f4",
       "type": "execute-command",
       "data": {
-        "command": "sshpass -p 'pwd101!' ssh testuser1@localhost -T hostname\n",
+        "command": "sshpass -p 'pwd101!' ssh testuser1@localhost -T hostname",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "742264ff-c1ef-405d-9e30-a2fcc43de91d",
+      "id": "76fc827a-d7fe-403c-b9c2-60e7d52224e9",
       "type": "execute-command",
       "data": {
-        "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 rmuser -y testuser1 || userdel -f testuser1\n",
+        "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 rmuser -y testuser1 || userdel -f testuser1",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "f240e6b5-a9e9-4af6-9ccf-19164dd89917",
+      "id": "1f6c3924-78c3-4c26-b31e-970e6ef827b7",
       "name": "Check dependency 1/1",
       "description": "Install sshpass and create user account used for excuting\n",
       "type": "execute-command",
       "data": {
-        "command": "$(getent passwd testuser1 \u003e/dev/null) \u0026\u0026 $(which sshpass \u003e/dev/null)\n",
-        "command_type": ""
+        "command": "$(getent passwd testuser1 \u003e/dev/null) \u0026\u0026 $(which sshpass \u003e/dev/null)",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "d2c2486b-ab65-4220-ae29-967b97f607ab",
+      "id": "507e6fea-d318-49df-bd5f-d7da6f041ab9",
       "name": "Resolve dependency 1/1",
       "description": "Install sshpass and create user account used for excuting\n",
       "type": "execute-command",
       "data": {
-        "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 pw useradd testuser1 -g wheel -s /bin/sh || /usr/sbin/useradd testuser1\n[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 echo 'pwd101!' | pw mod user testuser1 -h 0 || echo -e 'pwd101!\\npwd101!' | passwd testuser1\n(which yum \u0026\u0026 yum -y install epel-release sshpass)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y sshpass)||(which pkg \u0026\u0026 pkg install -y sshpass)\n",
-        "command_type": ""
+        "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 pw useradd testuser1 -g wheel -s /bin/sh || /usr/sbin/useradd testuser1\n[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 echo 'pwd101!' | pw mod user testuser1 -h 0 || echo -e 'pwd101!\\npwd101!' | passwd testuser1\n(which yum \u0026\u0026 yum -y install epel-release sshpass)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y sshpass)||(which pkg \u0026\u0026 pkg install -y sshpass)",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "4bb1e9ea-799f-45fc-9f27-83f8c204f440",
+      "id": "ee6fbdd8-65c3-4c06-89d5-1013b3a74908",
       "name": "Re-check dependency 1/1",
       "description": "Install sshpass and create user account used for excuting\n",
       "type": "execute-command",
       "data": {
-        "command": "$(getent passwd testuser1 \u003e/dev/null) \u0026\u0026 $(which sshpass \u003e/dev/null)\n",
-        "command_type": ""
+        "command": "$(getent passwd testuser1 \u003e/dev/null) \u0026\u0026 $(which sshpass \u003e/dev/null)",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "3300db43-ff3d-4533-bd42-166495b38366",
+      "s": "fd0ace70-8909-4331-8b0f-264b40b7f1f4",
       "p": "on-success",
-      "o": "742264ff-c1ef-405d-9e30-a2fcc43de91d"
+      "o": "76fc827a-d7fe-403c-b9c2-60e7d52224e9"
     },
     {
-      "s": "3300db43-ff3d-4533-bd42-166495b38366",
+      "s": "fd0ace70-8909-4331-8b0f-264b40b7f1f4",
       "p": "on-failure",
-      "o": "742264ff-c1ef-405d-9e30-a2fcc43de91d"
+      "o": "76fc827a-d7fe-403c-b9c2-60e7d52224e9"
     },
     {
-      "s": "f240e6b5-a9e9-4af6-9ccf-19164dd89917",
+      "s": "1f6c3924-78c3-4c26-b31e-970e6ef827b7",
       "p": "on-success",
-      "o": "3300db43-ff3d-4533-bd42-166495b38366"
+      "o": "fd0ace70-8909-4331-8b0f-264b40b7f1f4"
     },
     {
-      "s": "f240e6b5-a9e9-4af6-9ccf-19164dd89917",
+      "s": "1f6c3924-78c3-4c26-b31e-970e6ef827b7",
       "p": "on-failure",
-      "o": "d2c2486b-ab65-4220-ae29-967b97f607ab"
+      "o": "507e6fea-d318-49df-bd5f-d7da6f041ab9"
     },
     {
-      "s": "d2c2486b-ab65-4220-ae29-967b97f607ab",
+      "s": "507e6fea-d318-49df-bd5f-d7da6f041ab9",
       "p": "on-success",
-      "o": "4bb1e9ea-799f-45fc-9f27-83f8c204f440"
+      "o": "ee6fbdd8-65c3-4c06-89d5-1013b3a74908"
     },
     {
-      "s": "4bb1e9ea-799f-45fc-9f27-83f8c204f440",
+      "s": "ee6fbdd8-65c3-4c06-89d5-1013b3a74908",
       "p": "on-failure",
-      "o": "3300db43-ff3d-4533-bd42-166495b38366"
+      "o": "fd0ace70-8909-4331-8b0f-264b40b7f1f4"
     }
   ],
   "tags": [

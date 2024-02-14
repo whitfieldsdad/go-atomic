@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "f8997aa5-6ea5-436e-8b00-e2cbb93d2296",
+      "id": "90708adb-76e0-4d5a-9774-9eac7b53567b",
       "type": "execute-command",
       "data": {
-        "command": "Set-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" \"Shell\" \"explorer.exe, #{binary_to_execute}\" -Force\n",
+        "command": "Set-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" \"Shell\" \"explorer.exe, #{binary_to_execute}\" -Force",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "1e6f6cea-3290-4d80-aa86-defee170417c",
+      "id": "90290c75-f1f4-4ed8-8c4d-457ffdc3c5dc",
       "type": "execute-command",
       "data": {
-        "command": "Remove-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" -Name \"Shell\" -Force -ErrorAction Ignore\n",
+        "command": "Remove-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\" -Name \"Shell\" -Force -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "f8997aa5-6ea5-436e-8b00-e2cbb93d2296",
+      "s": "90708adb-76e0-4d5a-9774-9eac7b53567b",
       "p": "on-success",
-      "o": "1e6f6cea-3290-4d80-aa86-defee170417c"
+      "o": "90290c75-f1f4-4ed8-8c4d-457ffdc3c5dc"
     },
     {
-      "s": "f8997aa5-6ea5-436e-8b00-e2cbb93d2296",
+      "s": "90708adb-76e0-4d5a-9774-9eac7b53567b",
       "p": "on-failure",
-      "o": "1e6f6cea-3290-4d80-aa86-defee170417c"
+      "o": "90290c75-f1f4-4ed8-8c4d-457ffdc3c5dc"
     }
   ],
   "tags": [

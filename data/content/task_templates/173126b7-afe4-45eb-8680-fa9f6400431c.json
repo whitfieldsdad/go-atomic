@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "d612b8fb-240f-4b60-9bd7-cefa3a0ef5e1",
+      "id": "e71b80fe-4eb2-48df-8b83-474eaec1967e",
       "type": "execute-command",
       "data": {
-        "command": "NET USER #{user_name}$ #{user_password} /ADD /expires:never \nREG ADD \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist\" /v #{user_name}$ /t REG_DWORD /d 0\n",
+        "command": "NET USER #{user_name}$ #{user_password} /ADD /expires:never \nREG ADD \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist\" /v #{user_name}$ /t REG_DWORD /d 0",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "d5d1c926-62b3-44da-92ae-5084367ccca2",
+      "id": "4165de12-2838-4a5a-8104-dde61f659cc6",
       "type": "execute-command",
       "data": {
-        "command": "reg delete \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist\" /v #{user_name}$ /f \u003enul 2\u003e\u00261\nnet user ${user_name}$ /delete \u003enul 2\u003e\u00261\n",
+        "command": "reg delete \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist\" /v #{user_name}$ /f \u003enul 2\u003e\u00261\nnet user ${user_name}$ /delete \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "d612b8fb-240f-4b60-9bd7-cefa3a0ef5e1",
+      "s": "e71b80fe-4eb2-48df-8b83-474eaec1967e",
       "p": "on-success",
-      "o": "d5d1c926-62b3-44da-92ae-5084367ccca2"
+      "o": "4165de12-2838-4a5a-8104-dde61f659cc6"
     },
     {
-      "s": "d612b8fb-240f-4b60-9bd7-cefa3a0ef5e1",
+      "s": "e71b80fe-4eb2-48df-8b83-474eaec1967e",
       "p": "on-failure",
-      "o": "d5d1c926-62b3-44da-92ae-5084367ccca2"
+      "o": "4165de12-2838-4a5a-8104-dde61f659cc6"
     }
   ],
   "tags": [

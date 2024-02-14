@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "1b95f2ef-66bc-4a92-9e31-9e4b692bf3b3",
+      "id": "45afc6dd-e09b-48cf-94ea-7beeea633b5f",
       "type": "execute-command",
       "data": {
-        "command": "$oldvalue = $(Get-ItemProperty HKLM:\\System\\CurrentControlSet\\Control\\Lsa\\OSConfig -Name 'Security Packages' | Select-Object -ExpandProperty 'Security Packages');\nSet-ItemProperty -Path \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\\OSConfig\" -Name 'Security Packages old' -Value \"$oldvalue\";\n$newvalue = \"AtomicTest.dll\";\nSet-ItemProperty HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\OSConfig -Name 'Security Packages' -Value $newvalue\n",
+        "command": "$oldvalue = $(Get-ItemProperty HKLM:\\System\\CurrentControlSet\\Control\\Lsa\\OSConfig -Name 'Security Packages' | Select-Object -ExpandProperty 'Security Packages');\nSet-ItemProperty -Path \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\\OSConfig\" -Name 'Security Packages old' -Value \"$oldvalue\";\n$newvalue = \"AtomicTest.dll\";\nSet-ItemProperty HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\OSConfig -Name 'Security Packages' -Value $newvalue",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "7fed3739-8e99-452b-8082-09c67688550f",
+      "id": "245680f2-dde6-4d11-8726-f9e12e4e4b01",
       "type": "execute-command",
       "data": {
         "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\\OSConfig\" -Name 'Security Packages old' | Select-Object -ExpandProperty 'Security Packages old');\nSet-ItemProperty -Path HKLM:\\System\\CurrentControlSet\\Control\\Lsa\\OSConfig -Name 'Security Packages' -Value \"$oldvalue\";\nRemove-ItemProperty -Path  \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\\OSConfig\" -Name 'Security Packages old';",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "1b95f2ef-66bc-4a92-9e31-9e4b692bf3b3",
+      "s": "45afc6dd-e09b-48cf-94ea-7beeea633b5f",
       "p": "on-success",
-      "o": "7fed3739-8e99-452b-8082-09c67688550f"
+      "o": "245680f2-dde6-4d11-8726-f9e12e4e4b01"
     },
     {
-      "s": "1b95f2ef-66bc-4a92-9e31-9e4b692bf3b3",
+      "s": "45afc6dd-e09b-48cf-94ea-7beeea633b5f",
       "p": "on-failure",
-      "o": "7fed3739-8e99-452b-8082-09c67688550f"
+      "o": "245680f2-dde6-4d11-8726-f9e12e4e4b01"
     }
   ],
   "tags": [

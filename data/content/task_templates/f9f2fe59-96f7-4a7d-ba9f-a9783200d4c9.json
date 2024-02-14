@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "7e0f7cd1-a84d-448d-9e2b-0bc95c757ba1",
+      "id": "95442a68-a854-484d-9fb5-e7a0abf92a15",
       "type": "execute-command",
       "data": {
-        "command": "schtasks /create /ru system /sc daily /tr \"cmd /c powershell.exe -ep bypass -file c:\\T1036.004_NonExistingScript.ps1\" /tn win32times /f\nschtasks /query /tn win32times\n",
+        "command": "schtasks /create /ru system /sc daily /tr \"cmd /c powershell.exe -ep bypass -file c:\\T1036.004_NonExistingScript.ps1\" /tn win32times /f\nschtasks /query /tn win32times",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "bbe471a4-bb16-4d59-a554-78834a6788e2",
+      "id": "a04efec3-d8e5-4a0e-8552-db33703cda04",
       "type": "execute-command",
       "data": {
-        "command": "schtasks /tn win32times /delete /f\n",
+        "command": "schtasks /tn win32times /delete /f",
         "command_type": "command_prompt"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "7e0f7cd1-a84d-448d-9e2b-0bc95c757ba1",
+      "s": "95442a68-a854-484d-9fb5-e7a0abf92a15",
       "p": "on-success",
-      "o": "bbe471a4-bb16-4d59-a554-78834a6788e2"
+      "o": "a04efec3-d8e5-4a0e-8552-db33703cda04"
     },
     {
-      "s": "7e0f7cd1-a84d-448d-9e2b-0bc95c757ba1",
+      "s": "95442a68-a854-484d-9fb5-e7a0abf92a15",
       "p": "on-failure",
-      "o": "bbe471a4-bb16-4d59-a554-78834a6788e2"
+      "o": "a04efec3-d8e5-4a0e-8552-db33703cda04"
     }
   ],
   "tags": [

@@ -8,68 +8,68 @@
   ],
   "steps": [
     {
-      "id": "9687c238-6dae-4e3b-a149-c382d424e906",
+      "id": "e3e1bd59-027c-4d7d-80d6-84007ed54283",
       "type": "execute-command",
       "data": {
-        "command": "echo quit | telnet #{domain} #{port}\nexit 0\n",
+        "command": "echo quit | telnet #{domain} #{port}\nexit 0",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "77bdec5a-cc36-4c19-84cc-daa0349f1751",
+      "id": "bda93833-b7a8-431b-bb29-9c302b63d0ea",
       "name": "Check dependency 1/1",
       "description": "Requires telnet\n",
       "type": "execute-command",
       "data": {
-        "command": "which telnet\n",
-        "command_type": ""
+        "command": "which telnet",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "1e3e29ed-aaa6-4def-8dc7-4973871319a4",
+      "id": "10938eb9-39bb-49e1-a2c1-e1b24cfa2434",
       "name": "Resolve dependency 1/1",
       "description": "Requires telnet\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"please install telnet to run this test\"; exit 1\n",
-        "command_type": ""
+        "command": "echo \"please install telnet to run this test\"; exit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "57a0ecb8-81ac-4f99-9d8d-ff6cea3f3f2e",
+      "id": "0d4cc106-1713-47df-8b13-e75ca43cad77",
       "name": "Re-check dependency 1/1",
       "description": "Requires telnet\n",
       "type": "execute-command",
       "data": {
-        "command": "which telnet\n",
-        "command_type": ""
+        "command": "which telnet",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "77bdec5a-cc36-4c19-84cc-daa0349f1751",
+      "s": "bda93833-b7a8-431b-bb29-9c302b63d0ea",
       "p": "on-success",
-      "o": "9687c238-6dae-4e3b-a149-c382d424e906"
+      "o": "e3e1bd59-027c-4d7d-80d6-84007ed54283"
     },
     {
-      "s": "77bdec5a-cc36-4c19-84cc-daa0349f1751",
+      "s": "bda93833-b7a8-431b-bb29-9c302b63d0ea",
       "p": "on-failure",
-      "o": "1e3e29ed-aaa6-4def-8dc7-4973871319a4"
+      "o": "10938eb9-39bb-49e1-a2c1-e1b24cfa2434"
     },
     {
-      "s": "1e3e29ed-aaa6-4def-8dc7-4973871319a4",
+      "s": "10938eb9-39bb-49e1-a2c1-e1b24cfa2434",
       "p": "on-success",
-      "o": "57a0ecb8-81ac-4f99-9d8d-ff6cea3f3f2e"
+      "o": "0d4cc106-1713-47df-8b13-e75ca43cad77"
     },
     {
-      "s": "57a0ecb8-81ac-4f99-9d8d-ff6cea3f3f2e",
+      "s": "0d4cc106-1713-47df-8b13-e75ca43cad77",
       "p": "on-failure",
-      "o": "9687c238-6dae-4e3b-a149-c382d424e906"
+      "o": "e3e1bd59-027c-4d7d-80d6-84007ed54283"
     }
   ],
   "tags": [
@@ -77,16 +77,16 @@
   ],
   "input_arguments": [
     {
-      "name": "port",
-      "type": "string",
-      "description": "Specify uncommon port number",
-      "value": "8081"
-    },
-    {
       "name": "domain",
       "type": "string",
       "description": "Specify target hostname",
       "value": "google.com"
+    },
+    {
+      "name": "port",
+      "type": "string",
+      "description": "Specify uncommon port number",
+      "value": "8081"
     }
   ]
 }

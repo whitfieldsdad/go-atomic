@@ -8,140 +8,140 @@
   ],
   "steps": [
     {
-      "id": "97123abf-f191-4691-a685-c5d96cb20093",
+      "id": "b3f6d5e5-b056-4e91-936f-849d42e5ca3f",
       "type": "execute-command",
       "data": {
-        "command": "gcloud config set project #{project-id}\ngcloud iam service-accounts create #{service-account-name}\ngcloud iam service-accounts keys create #{output-key-file} --iam-account=#{service-account-email}\n",
+        "command": "gcloud config set project #{project-id}\ngcloud iam service-accounts create #{service-account-name}\ngcloud iam service-accounts keys create #{output-key-file} --iam-account=#{service-account-email}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "a923bb14-b16b-442d-8abd-16ad93bc51ce",
+      "id": "71054495-551d-4899-b8ff-0619c27adde6",
       "type": "execute-command",
       "data": {
-        "command": "gcloud iam service-accounts delete #{service-account-email} --quiet\n",
+        "command": "gcloud iam service-accounts delete #{service-account-email} --quiet",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "569c7cc2-24f0-4ec6-b88e-45b71d15c70c",
+      "id": "a6d05dd1-647f-432a-9cdd-fe0bacfcdbef",
       "name": "Check dependency 1/2",
       "description": "Requires gcloud\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v gcloud)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v gcloud)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "1b37a705-dd1b-4a5d-8590-f06e32eac96e",
+      "id": "34c7ca34-d150-4249-99b0-61feda1e52d1",
       "name": "Resolve dependency 1/2",
       "description": "Requires gcloud\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"Please Install Google Cloud SDK before running this atomic test : https://cloud.google.com/sdk/docs/install\"\n",
-        "command_type": ""
+        "command": "echo \"Please Install Google Cloud SDK before running this atomic test : https://cloud.google.com/sdk/docs/install\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "783197c2-c106-4925-afa6-8061e1523f85",
+      "id": "09498022-0ec1-4b7d-a3ac-3b2892181cfb",
       "name": "Re-check dependency 1/2",
       "description": "Requires gcloud\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v gcloud)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v gcloud)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "b2f4d0b2-6c8e-498b-b837-f142069600da",
+      "id": "8f7c32c5-3820-41bf-b24e-d254a3592e59",
       "name": "Check dependency 2/2",
       "description": "Check if user is logged in \n",
       "type": "execute-command",
       "data": {
-        "command": "gcloud config get-value account\n",
-        "command_type": ""
+        "command": "gcloud config get-value account",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "04e0924a-4280-4d89-ad25-1956e5dd97fd",
+      "id": "3b8e6d38-3aa4-4dbc-a6e5-b4fa383e2a43",
       "name": "Resolve dependency 2/2",
       "description": "Check if user is logged in \n",
       "type": "execute-command",
       "data": {
-        "command": "gcloud auth login --no-launch-browser\n",
-        "command_type": ""
+        "command": "gcloud auth login --no-launch-browser",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "1204b44b-1a2c-4701-a0f2-1267dcbb5735",
+      "id": "d783c7e5-d4e8-4a33-865f-4c0d851059ff",
       "name": "Re-check dependency 2/2",
       "description": "Check if user is logged in \n",
       "type": "execute-command",
       "data": {
-        "command": "gcloud config get-value account\n",
-        "command_type": ""
+        "command": "gcloud config get-value account",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "97123abf-f191-4691-a685-c5d96cb20093",
+      "s": "b3f6d5e5-b056-4e91-936f-849d42e5ca3f",
       "p": "on-success",
-      "o": "a923bb14-b16b-442d-8abd-16ad93bc51ce"
+      "o": "71054495-551d-4899-b8ff-0619c27adde6"
     },
     {
-      "s": "97123abf-f191-4691-a685-c5d96cb20093",
+      "s": "b3f6d5e5-b056-4e91-936f-849d42e5ca3f",
       "p": "on-failure",
-      "o": "a923bb14-b16b-442d-8abd-16ad93bc51ce"
+      "o": "71054495-551d-4899-b8ff-0619c27adde6"
     },
     {
-      "s": "569c7cc2-24f0-4ec6-b88e-45b71d15c70c",
+      "s": "a6d05dd1-647f-432a-9cdd-fe0bacfcdbef",
       "p": "on-success",
-      "o": "97123abf-f191-4691-a685-c5d96cb20093"
+      "o": "b3f6d5e5-b056-4e91-936f-849d42e5ca3f"
     },
     {
-      "s": "569c7cc2-24f0-4ec6-b88e-45b71d15c70c",
+      "s": "a6d05dd1-647f-432a-9cdd-fe0bacfcdbef",
       "p": "on-failure",
-      "o": "1b37a705-dd1b-4a5d-8590-f06e32eac96e"
+      "o": "34c7ca34-d150-4249-99b0-61feda1e52d1"
     },
     {
-      "s": "1b37a705-dd1b-4a5d-8590-f06e32eac96e",
+      "s": "34c7ca34-d150-4249-99b0-61feda1e52d1",
       "p": "on-success",
-      "o": "783197c2-c106-4925-afa6-8061e1523f85"
+      "o": "09498022-0ec1-4b7d-a3ac-3b2892181cfb"
     },
     {
-      "s": "783197c2-c106-4925-afa6-8061e1523f85",
+      "s": "09498022-0ec1-4b7d-a3ac-3b2892181cfb",
       "p": "on-failure",
-      "o": "97123abf-f191-4691-a685-c5d96cb20093"
+      "o": "b3f6d5e5-b056-4e91-936f-849d42e5ca3f"
     },
     {
-      "s": "b2f4d0b2-6c8e-498b-b837-f142069600da",
+      "s": "8f7c32c5-3820-41bf-b24e-d254a3592e59",
       "p": "on-success",
-      "o": "97123abf-f191-4691-a685-c5d96cb20093"
+      "o": "b3f6d5e5-b056-4e91-936f-849d42e5ca3f"
     },
     {
-      "s": "b2f4d0b2-6c8e-498b-b837-f142069600da",
+      "s": "8f7c32c5-3820-41bf-b24e-d254a3592e59",
       "p": "on-failure",
-      "o": "04e0924a-4280-4d89-ad25-1956e5dd97fd"
+      "o": "3b8e6d38-3aa4-4dbc-a6e5-b4fa383e2a43"
     },
     {
-      "s": "04e0924a-4280-4d89-ad25-1956e5dd97fd",
+      "s": "3b8e6d38-3aa4-4dbc-a6e5-b4fa383e2a43",
       "p": "on-success",
-      "o": "1204b44b-1a2c-4701-a0f2-1267dcbb5735"
+      "o": "d783c7e5-d4e8-4a33-865f-4c0d851059ff"
     },
     {
-      "s": "1204b44b-1a2c-4701-a0f2-1267dcbb5735",
+      "s": "d783c7e5-d4e8-4a33-865f-4c0d851059ff",
       "p": "on-failure",
-      "o": "97123abf-f191-4691-a685-c5d96cb20093"
+      "o": "b3f6d5e5-b056-4e91-936f-849d42e5ca3f"
     }
   ],
   "tags": [
@@ -149,18 +149,6 @@
     "T1078.004"
   ],
   "input_arguments": [
-    {
-      "name": "output-key-file",
-      "type": "string",
-      "description": "Email of the service account",
-      "value": "gcp-art-service-account-1.json"
-    },
-    {
-      "name": "project-id",
-      "type": "string",
-      "description": "ID of the project, you want to create service account as well as service account key for",
-      "value": "art-project-1"
-    },
     {
       "name": "service-account-name",
       "type": "string",
@@ -172,6 +160,18 @@
       "type": "string",
       "description": "Email of the service account",
       "value": "gcp-art-service-account-1@art-project-1.iam.gserviceaccount.com"
+    },
+    {
+      "name": "output-key-file",
+      "type": "string",
+      "description": "Email of the service account",
+      "value": "gcp-art-service-account-1.json"
+    },
+    {
+      "name": "project-id",
+      "type": "string",
+      "description": "ID of the project, you want to create service account as well as service account key for",
+      "value": "art-project-1"
     }
   ]
 }

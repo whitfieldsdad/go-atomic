@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "a6b3151c-7839-4067-aadf-65709234798f",
+      "id": "0dce0de8-7cd7-4551-b281-1284fcd3a60f",
       "type": "execute-command",
       "data": {
         "command": "python3 -c 'import base64; import subprocess; xor_decrypt = lambda text, key: \"\".join([chr(c ^ ord(k)) for c, k in zip(base64.b64decode(text.encode()), key)]); command = \"#{encrypted_command}\"; key = \"#{xor_key}\"; exec = xor_decrypt(command, key); subprocess.call(exec, shell=True)'",
@@ -17,59 +17,59 @@
       "elevation_required": false
     },
     {
-      "id": "43f52c25-47dc-4b26-a4df-ce1627ece520",
+      "id": "8b37e111-1d48-4be7-931c-6cc572207bc0",
       "name": "Check dependency 1/1",
       "description": "Python3 must be installed",
       "type": "execute-command",
       "data": {
         "command": "which python3",
-        "command_type": ""
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "8d5707be-730e-4ad1-8cfd-68194e444bb2",
+      "id": "8ea6f078-bc06-4a61-94b9-fa2f00f8ac20",
       "name": "Resolve dependency 1/1",
       "description": "Python3 must be installed",
       "type": "execute-command",
       "data": {
         "command": "echo \"Install Python3\"",
-        "command_type": ""
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "653cc5d1-9253-4064-b216-a079a599d4e9",
+      "id": "8809f127-8b04-42d9-b4c6-c5c3fbea23af",
       "name": "Re-check dependency 1/1",
       "description": "Python3 must be installed",
       "type": "execute-command",
       "data": {
         "command": "which python3",
-        "command_type": ""
+        "command_type": "bash"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "43f52c25-47dc-4b26-a4df-ce1627ece520",
+      "s": "8b37e111-1d48-4be7-931c-6cc572207bc0",
       "p": "on-success",
-      "o": "a6b3151c-7839-4067-aadf-65709234798f"
+      "o": "0dce0de8-7cd7-4551-b281-1284fcd3a60f"
     },
     {
-      "s": "43f52c25-47dc-4b26-a4df-ce1627ece520",
+      "s": "8b37e111-1d48-4be7-931c-6cc572207bc0",
       "p": "on-failure",
-      "o": "8d5707be-730e-4ad1-8cfd-68194e444bb2"
+      "o": "8ea6f078-bc06-4a61-94b9-fa2f00f8ac20"
     },
     {
-      "s": "8d5707be-730e-4ad1-8cfd-68194e444bb2",
+      "s": "8ea6f078-bc06-4a61-94b9-fa2f00f8ac20",
       "p": "on-success",
-      "o": "653cc5d1-9253-4064-b216-a079a599d4e9"
+      "o": "8809f127-8b04-42d9-b4c6-c5c3fbea23af"
     },
     {
-      "s": "653cc5d1-9253-4064-b216-a079a599d4e9",
+      "s": "8809f127-8b04-42d9-b4c6-c5c3fbea23af",
       "p": "on-failure",
-      "o": "a6b3151c-7839-4067-aadf-65709234798f"
+      "o": "0dce0de8-7cd7-4551-b281-1284fcd3a60f"
     }
   ],
   "tags": [

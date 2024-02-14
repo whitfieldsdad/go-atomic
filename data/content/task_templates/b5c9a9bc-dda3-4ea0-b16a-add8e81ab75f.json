@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "aa752852-7556-4fe9-bdac-ed562a9407d4",
+      "id": "abf55286-3e2c-4753-a43b-271cb7f48399",
       "type": "execute-command",
       "data": {
-        "command": "if (!(Test-Path -Path \"HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\")){\n  New-Item -ItemType Key -Path  \"HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\"\n}\nSet-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\" -Name \"#{target_key_value_name}\" -Value \"#{payload}\"\n",
+        "command": "if (!(Test-Path -Path \"HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\")){\n  New-Item -ItemType Key -Path  \"HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\"\n}\nSet-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\" -Name \"#{target_key_value_name}\" -Value \"#{payload}\"",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "b4e6fb38-3aa0-4daf-b7b9-6b5549e6050a",
+      "id": "4205f8fa-470f-40ab-ab82-df939d62a615",
       "type": "execute-command",
       "data": {
         "command": "Remove-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\" -Name \"#{target_key_value_name}\"",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "aa752852-7556-4fe9-bdac-ed562a9407d4",
+      "s": "abf55286-3e2c-4753-a43b-271cb7f48399",
       "p": "on-success",
-      "o": "b4e6fb38-3aa0-4daf-b7b9-6b5549e6050a"
+      "o": "4205f8fa-470f-40ab-ab82-df939d62a615"
     },
     {
-      "s": "aa752852-7556-4fe9-bdac-ed562a9407d4",
+      "s": "abf55286-3e2c-4753-a43b-271cb7f48399",
       "p": "on-failure",
-      "o": "b4e6fb38-3aa0-4daf-b7b9-6b5549e6050a"
+      "o": "4205f8fa-470f-40ab-ab82-df939d62a615"
     }
   ],
   "tags": [

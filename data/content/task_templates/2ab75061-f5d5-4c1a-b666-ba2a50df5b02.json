@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "32063f26-c25b-4cd0-94d2-90c4b314c9f2",
+      "id": "b5f21941-f120-4241-a8fe-9cedfd9bf6f4",
       "type": "execute-command",
       "data": {
-        "command": "if (!(Test-Path C:\\Users\\Public\\Libraries\\yanki -PathType Container)) {\n    New-Item -ItemType Directory -Force -Path C:\\Users\\Public\\Libraries\\yanki\n    }\nStart-Process -FilePath \"$env:comspec\" -ArgumentList \"/c,type,#{payload_path},\u003e,`\"#{ads_file_path}:#{ads_name}`\"\"\n",
+        "command": "if (!(Test-Path C:\\Users\\Public\\Libraries\\yanki -PathType Container)) {\n    New-Item -ItemType Directory -Force -Path C:\\Users\\Public\\Libraries\\yanki\n    }\nStart-Process -FilePath \"$env:comspec\" -ArgumentList \"/c,type,#{payload_path},\u003e,`\"#{ads_file_path}:#{ads_name}`\"\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "ed689b81-d822-48ae-a136-5f38eda04328",
+      "id": "45301499-b30f-48b0-8e53-63b457b2dce8",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item \"#{ads_file_path}\" -Force -ErrorAction Ignore\n",
+        "command": "Remove-Item \"#{ads_file_path}\" -Force -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "32063f26-c25b-4cd0-94d2-90c4b314c9f2",
+      "s": "b5f21941-f120-4241-a8fe-9cedfd9bf6f4",
       "p": "on-success",
-      "o": "ed689b81-d822-48ae-a136-5f38eda04328"
+      "o": "45301499-b30f-48b0-8e53-63b457b2dce8"
     },
     {
-      "s": "32063f26-c25b-4cd0-94d2-90c4b314c9f2",
+      "s": "b5f21941-f120-4241-a8fe-9cedfd9bf6f4",
       "p": "on-failure",
-      "o": "ed689b81-d822-48ae-a136-5f38eda04328"
+      "o": "45301499-b30f-48b0-8e53-63b457b2dce8"
     }
   ],
   "tags": [

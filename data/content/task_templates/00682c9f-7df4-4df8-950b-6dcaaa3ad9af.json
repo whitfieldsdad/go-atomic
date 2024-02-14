@@ -7,16 +7,16 @@
   ],
   "steps": [
     {
-      "id": "acb9443b-116e-4f2c-bdb0-a6a9b42968a1",
+      "id": "b817e9ad-45b4-4716-b460-6835494bf9e6",
       "type": "execute-command",
       "data": {
-        "command": " c:\\windows\\system32\\cmd.exe /c cd /d #{script_path} \u0026 echo Set objShell = CreateObject(\"WScript.Shell\"):Set objExec = objShell.Exec(\"whoami\"):Set objExec = Nothing:Set objShell = Nothing \u003e #{script_name}.vbs \u0026 #{script_name}.vbs",
+        "command": "c:\\windows\\system32\\cmd.exe /c cd /d #{script_path} \u0026 echo Set objShell = CreateObject(\"WScript.Shell\"):Set objExec = objShell.Exec(\"whoami\"):Set objExec = Nothing:Set objShell = Nothing \u003e #{script_name}.vbs \u0026 #{script_name}.vbs",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "617f61a9-6a45-46f7-a15d-92f2d3d112b4",
+      "id": "f4fb14f7-e378-4976-b7e5-e17a84e254d4",
       "type": "execute-command",
       "data": {
         "command": "del \"#{script_name}.vbs\" \u003enul 2\u003e\u00261",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "acb9443b-116e-4f2c-bdb0-a6a9b42968a1",
+      "s": "b817e9ad-45b4-4716-b460-6835494bf9e6",
       "p": "on-success",
-      "o": "617f61a9-6a45-46f7-a15d-92f2d3d112b4"
+      "o": "f4fb14f7-e378-4976-b7e5-e17a84e254d4"
     },
     {
-      "s": "acb9443b-116e-4f2c-bdb0-a6a9b42968a1",
+      "s": "b817e9ad-45b4-4716-b460-6835494bf9e6",
       "p": "on-failure",
-      "o": "617f61a9-6a45-46f7-a15d-92f2d3d112b4"
+      "o": "f4fb14f7-e378-4976-b7e5-e17a84e254d4"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "script_path",
-      "type": "path",
-      "description": "Path in which the script will be written.",
-      "value": "%TEMP%\\"
-    },
-    {
       "name": "script_name",
       "type": "string",
       "description": "Script name (without the extension)",
       "value": "AtomicTest"
+    },
+    {
+      "name": "script_path",
+      "type": "path",
+      "description": "Path in which the script will be written.",
+      "value": "%TEMP%\\"
     }
   ]
 }

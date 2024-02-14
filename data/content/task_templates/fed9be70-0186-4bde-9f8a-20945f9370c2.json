@@ -8,19 +8,19 @@
   ],
   "steps": [
     {
-      "id": "0d825827-aaba-41a2-8fd8-2d37f5cc6ac9",
+      "id": "e0347201-ca52-4d9c-a1cb-4f2025237b14",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f /etc/sudoers ]; then sudo cat /etc/sudoers \u003e #{output_file}; fi;\nif [ -f /usr/local/etc/sudoers ]; then sudo cat /usr/local/etc/sudoers \u003e #{output_file}; fi;\ncat #{output_file}\n",
+        "command": "if [ -f /etc/sudoers ]; then sudo cat /etc/sudoers \u003e #{output_file}; fi;\nif [ -f /usr/local/etc/sudoers ]; then sudo cat /usr/local/etc/sudoers \u003e #{output_file}; fi;\ncat #{output_file}",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "5fa4c4d0-28ac-4aef-8ce6-8f2195704ad2",
+      "id": "95c28fb7-1204-45c3-a461-a101c6603053",
       "type": "execute-command",
       "data": {
-        "command": "rm -f #{output_file}\n",
+        "command": "rm -f #{output_file}",
         "command_type": "sh"
       },
       "elevation_required": true
@@ -28,14 +28,14 @@
   ],
   "flows": [
     {
-      "s": "0d825827-aaba-41a2-8fd8-2d37f5cc6ac9",
+      "s": "e0347201-ca52-4d9c-a1cb-4f2025237b14",
       "p": "on-success",
-      "o": "5fa4c4d0-28ac-4aef-8ce6-8f2195704ad2"
+      "o": "95c28fb7-1204-45c3-a461-a101c6603053"
     },
     {
-      "s": "0d825827-aaba-41a2-8fd8-2d37f5cc6ac9",
+      "s": "e0347201-ca52-4d9c-a1cb-4f2025237b14",
       "p": "on-failure",
-      "o": "5fa4c4d0-28ac-4aef-8ce6-8f2195704ad2"
+      "o": "95c28fb7-1204-45c3-a461-a101c6603053"
     }
   ],
   "tags": [

@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "970413c3-41fd-4e2f-8acd-767fe8a7dabf",
+      "id": "ec120826-a171-4024-86c0-c4dc23666927",
       "type": "execute-command",
       "data": {
-        "command": "\"#{rar_exe}\" a -r #{output_file} #{input_path}\\*#{file_extension}\n",
+        "command": "\"#{rar_exe}\" a -r #{output_file} #{input_path}\\*#{file_extension}",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "28a49119-f4ab-4f26-b789-74486b9f4e81",
+      "id": "04a9cce7-8264-4d6c-a01d-33a4273e6081",
       "type": "execute-command",
       "data": {
-        "command": "del /f /q /s #{output_file} \u003enul 2\u003e\u00261\n",
+        "command": "del /f /q /s #{output_file} \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "122caecd-7b99-47d8-b7ed-34beecf236fb",
+      "id": "6a0a9d29-07cf-41d7-b013-729b64cae819",
       "name": "Check dependency 1/1",
       "description": "Rar tool must be installed at specified location (#{rar_exe})\n",
       "type": "execute-command",
       "data": {
-        "command": "if not exist \"#{rar_exe}\" (exit /b 1)\n",
-        "command_type": ""
+        "command": "if not exist \"#{rar_exe}\" (exit /b 1)",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "74082c2d-7dcf-48c1-9e3b-444afdaaa388",
+      "id": "9f9e678f-5a1b-459c-8ef1-cf0829f5bb78",
       "name": "Resolve dependency 1/1",
       "description": "Rar tool must be installed at specified location (#{rar_exe})\n",
       "type": "execute-command",
       "data": {
-        "command": "echo Downloading Winrar installer\nbitsadmin /transfer myDownloadJob /download /priority normal \"https://www.win-rar.com/fileadmin/winrar-versions/winrar/th/winrar-x64-580.exe\" #{rar_installer}\n#{rar_installer} /S\n",
-        "command_type": ""
+        "command": "echo Downloading Winrar installer\nbitsadmin /transfer myDownloadJob /download /priority normal \"https://www.win-rar.com/fileadmin/winrar-versions/winrar/th/winrar-x64-580.exe\" #{rar_installer}\n#{rar_installer} /S",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "294dcdda-ae4b-48df-bbc8-e8485bb81e5c",
+      "id": "98360240-870d-49da-bfc0-1044638d84ac",
       "name": "Re-check dependency 1/1",
       "description": "Rar tool must be installed at specified location (#{rar_exe})\n",
       "type": "execute-command",
       "data": {
-        "command": "if not exist \"#{rar_exe}\" (exit /b 1)\n",
-        "command_type": ""
+        "command": "if not exist \"#{rar_exe}\" (exit /b 1)",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "970413c3-41fd-4e2f-8acd-767fe8a7dabf",
+      "s": "ec120826-a171-4024-86c0-c4dc23666927",
       "p": "on-success",
-      "o": "28a49119-f4ab-4f26-b789-74486b9f4e81"
+      "o": "04a9cce7-8264-4d6c-a01d-33a4273e6081"
     },
     {
-      "s": "970413c3-41fd-4e2f-8acd-767fe8a7dabf",
+      "s": "ec120826-a171-4024-86c0-c4dc23666927",
       "p": "on-failure",
-      "o": "28a49119-f4ab-4f26-b789-74486b9f4e81"
+      "o": "04a9cce7-8264-4d6c-a01d-33a4273e6081"
     },
     {
-      "s": "122caecd-7b99-47d8-b7ed-34beecf236fb",
+      "s": "6a0a9d29-07cf-41d7-b013-729b64cae819",
       "p": "on-success",
-      "o": "970413c3-41fd-4e2f-8acd-767fe8a7dabf"
+      "o": "ec120826-a171-4024-86c0-c4dc23666927"
     },
     {
-      "s": "122caecd-7b99-47d8-b7ed-34beecf236fb",
+      "s": "6a0a9d29-07cf-41d7-b013-729b64cae819",
       "p": "on-failure",
-      "o": "74082c2d-7dcf-48c1-9e3b-444afdaaa388"
+      "o": "9f9e678f-5a1b-459c-8ef1-cf0829f5bb78"
     },
     {
-      "s": "74082c2d-7dcf-48c1-9e3b-444afdaaa388",
+      "s": "9f9e678f-5a1b-459c-8ef1-cf0829f5bb78",
       "p": "on-success",
-      "o": "294dcdda-ae4b-48df-bbc8-e8485bb81e5c"
+      "o": "98360240-870d-49da-bfc0-1044638d84ac"
     },
     {
-      "s": "294dcdda-ae4b-48df-bbc8-e8485bb81e5c",
+      "s": "98360240-870d-49da-bfc0-1044638d84ac",
       "p": "on-failure",
-      "o": "970413c3-41fd-4e2f-8acd-767fe8a7dabf"
+      "o": "ec120826-a171-4024-86c0-c4dc23666927"
     }
   ],
   "tags": [
@@ -95,6 +95,12 @@
     "T1560.001"
   ],
   "input_arguments": [
+    {
+      "name": "input_path",
+      "type": "path",
+      "description": "Path that should be compressed into our output file",
+      "value": "%USERPROFILE%"
+    },
     {
       "name": "file_extension",
       "type": "string",
@@ -118,12 +124,6 @@
       "type": "path",
       "description": "The RAR executable from Winrar",
       "value": "%programfiles%/WinRAR/Rar.exe"
-    },
-    {
-      "name": "input_path",
-      "type": "path",
-      "description": "Path that should be compressed into our output file",
-      "value": "%USERPROFILE%"
     }
   ]
 }

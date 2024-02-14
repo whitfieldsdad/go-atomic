@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "0972a5cf-c5d7-4022-af74-fd673fa63e75",
+      "id": "88510973-60fe-4d03-8e3b-767fb0146822",
       "type": "execute-command",
       "data": {
-        "command": "openssl genrsa -out #{key_filename} 4096\nopenssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj \"/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com\" -out #{cert_filename}\ncp #{cert_filename} /usr/local/share/certs/\ncertctl rehash\n",
+        "command": "openssl genrsa -out #{key_filename} 4096\nopenssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj \"/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com\" -out #{cert_filename}\ncp #{cert_filename} /usr/local/share/certs/\ncertctl rehash",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "a4f3f6ed-a9e4-4ae7-a4cb-c1463fff72c6",
+      "id": "80349892-fecd-4c41-b556-c6b48fbbce96",
       "type": "execute-command",
       "data": {
-        "command": "rm /usr/local/share/certs/#{cert_filename}\ncertctl rehash\n",
+        "command": "rm /usr/local/share/certs/#{cert_filename}\ncertctl rehash",
         "command_type": "sh"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "0972a5cf-c5d7-4022-af74-fd673fa63e75",
+      "s": "88510973-60fe-4d03-8e3b-767fb0146822",
       "p": "on-success",
-      "o": "a4f3f6ed-a9e4-4ae7-a4cb-c1463fff72c6"
+      "o": "80349892-fecd-4c41-b556-c6b48fbbce96"
     },
     {
-      "s": "0972a5cf-c5d7-4022-af74-fd673fa63e75",
+      "s": "88510973-60fe-4d03-8e3b-767fb0146822",
       "p": "on-failure",
-      "o": "a4f3f6ed-a9e4-4ae7-a4cb-c1463fff72c6"
+      "o": "80349892-fecd-4c41-b556-c6b48fbbce96"
     }
   ],
   "tags": [

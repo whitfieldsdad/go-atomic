@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "5cf01143-907c-48c3-a53c-8e0b0788687b",
+      "id": "640ac91c-d15e-41b3-a0e8-5ad14e7b5beb",
       "type": "execute-command",
       "data": {
-        "command": "osascript -e 'do shell script \"rm #{system_log_path}\" with administrator privileges'\n",
+        "command": "osascript -e 'do shell script \"rm #{system_log_path}\" with administrator privileges'",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "7340265e-112d-4e8e-827b-1ff8275ee762",
+      "id": "a1f43d35-52ac-40ec-a315-ab251f5736b7",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "stat #{system_log_path}\n",
-        "command_type": ""
+        "command": "stat #{system_log_path}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "9549ca7a-3926-40e8-8081-dd4ccbd45632",
+      "id": "311a1a18-60df-4b79-841d-cb3d8ca76455",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "touch #{system_log_path}\n",
-        "command_type": ""
+        "command": "touch #{system_log_path}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "7a18e673-586c-4fa6-80f0-4b7593754a73",
+      "id": "92cec991-8c20-42f1-affe-47fe9424f5c5",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "stat #{system_log_path}\n",
-        "command_type": ""
+        "command": "stat #{system_log_path}",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "7340265e-112d-4e8e-827b-1ff8275ee762",
+      "s": "a1f43d35-52ac-40ec-a315-ab251f5736b7",
       "p": "on-success",
-      "o": "5cf01143-907c-48c3-a53c-8e0b0788687b"
+      "o": "640ac91c-d15e-41b3-a0e8-5ad14e7b5beb"
     },
     {
-      "s": "7340265e-112d-4e8e-827b-1ff8275ee762",
+      "s": "a1f43d35-52ac-40ec-a315-ab251f5736b7",
       "p": "on-failure",
-      "o": "9549ca7a-3926-40e8-8081-dd4ccbd45632"
+      "o": "311a1a18-60df-4b79-841d-cb3d8ca76455"
     },
     {
-      "s": "9549ca7a-3926-40e8-8081-dd4ccbd45632",
+      "s": "311a1a18-60df-4b79-841d-cb3d8ca76455",
       "p": "on-success",
-      "o": "7a18e673-586c-4fa6-80f0-4b7593754a73"
+      "o": "92cec991-8c20-42f1-affe-47fe9424f5c5"
     },
     {
-      "s": "7a18e673-586c-4fa6-80f0-4b7593754a73",
+      "s": "92cec991-8c20-42f1-affe-47fe9424f5c5",
       "p": "on-failure",
-      "o": "5cf01143-907c-48c3-a53c-8e0b0788687b"
+      "o": "640ac91c-d15e-41b3-a0e8-5ad14e7b5beb"
     }
   ],
   "tags": [

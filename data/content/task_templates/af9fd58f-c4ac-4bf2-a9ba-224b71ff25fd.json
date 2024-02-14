@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "ec092dc3-afbd-4944-85be-a0020cbdc475",
+      "id": "8cdc54fc-bbff-4531-b31d-f27327669053",
       "type": "execute-command",
       "data": {
-        "command": "$Action = New-ScheduledTaskAction -Execute \"calc.exe\"\n$Trigger = New-ScheduledTaskTrigger -AtLogon\n$User = New-ScheduledTaskPrincipal -GroupId \"BUILTIN\\Administrators\" -RunLevel Highest\n$Set = New-ScheduledTaskSettingsSet\n$object = New-ScheduledTask -Action $Action -Principal $User -Trigger $Trigger -Settings $Set\nRegister-ScheduledTask AtomicTask -InputObject $object\n",
+        "command": "$Action = New-ScheduledTaskAction -Execute \"calc.exe\"\n$Trigger = New-ScheduledTaskTrigger -AtLogon\n$User = New-ScheduledTaskPrincipal -GroupId \"BUILTIN\\Administrators\" -RunLevel Highest\n$Set = New-ScheduledTaskSettingsSet\n$object = New-ScheduledTask -Action $Action -Principal $User -Trigger $Trigger -Settings $Set\nRegister-ScheduledTask AtomicTask -InputObject $object",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "9d3d18fa-691f-47d5-a0d2-803c3a564a46",
+      "id": "6f684aee-67c3-437b-a494-1aab19d23fa0",
       "type": "execute-command",
       "data": {
-        "command": "Unregister-ScheduledTask -TaskName \"AtomicTask\" -confirm:$false \u003e$null 2\u003e\u00261\n",
+        "command": "Unregister-ScheduledTask -TaskName \"AtomicTask\" -confirm:$false \u003e$null 2\u003e\u00261",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "ec092dc3-afbd-4944-85be-a0020cbdc475",
+      "s": "8cdc54fc-bbff-4531-b31d-f27327669053",
       "p": "on-success",
-      "o": "9d3d18fa-691f-47d5-a0d2-803c3a564a46"
+      "o": "6f684aee-67c3-437b-a494-1aab19d23fa0"
     },
     {
-      "s": "ec092dc3-afbd-4944-85be-a0020cbdc475",
+      "s": "8cdc54fc-bbff-4531-b31d-f27327669053",
       "p": "on-failure",
-      "o": "9d3d18fa-691f-47d5-a0d2-803c3a564a46"
+      "o": "6f684aee-67c3-437b-a494-1aab19d23fa0"
     }
   ],
   "tags": [

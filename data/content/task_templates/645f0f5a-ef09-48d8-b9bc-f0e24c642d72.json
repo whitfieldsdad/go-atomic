@@ -7,93 +7,99 @@
   ],
   "steps": [
     {
-      "id": "62b03e18-f75c-4020-bec1-64d1a92f0cd8",
+      "id": "11a6d86d-014c-4c55-9341-eb4cd55a7b58",
       "type": "execute-command",
       "data": {
-        "command": "7z a -p #{file_password} -mhe=on #{encrypted_file_name} #{input_file_path}\n",
+        "command": "7z a -p #{file_password} -mhe=on #{encrypted_file_name} #{input_file_path}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "80a9e3ef-63ea-40f0-88a6-1a49c997ab26",
+      "id": "b76677d2-1dab-43d4-86f2-8c06ad847621",
       "type": "execute-command",
       "data": {
-        "command": "rm #{encrypted_file_name}\n",
+        "command": "rm #{encrypted_file_name}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "00144725-fdc3-4d08-9f48-138669137bc1",
+      "id": "32ae3536-30ba-4c54-ae35-25afbf79eb5e",
       "name": "Check dependency 1/1",
       "description": "Check if 7z command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "which 7z\n",
-        "command_type": ""
+        "command": "which 7z",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "cfa47aed-d46d-4ca9-a5c2-61a8f12c5b85",
+      "id": "61960423-462b-4b62-98ea-fb73018bab2c",
       "name": "Resolve dependency 1/1",
       "description": "Check if 7z command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "echo Installing 7z, using brew\n/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"\nbrew install p7zip\n",
-        "command_type": ""
+        "command": "echo Installing 7z, using brew\n/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"\nbrew install p7zip",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "a0e152b9-c405-45d3-b80b-8a8baeedfe38",
+      "id": "696716a9-1ba7-488b-9d16-82e52498ddac",
       "name": "Re-check dependency 1/1",
       "description": "Check if 7z command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "which 7z\n",
-        "command_type": ""
+        "command": "which 7z",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "62b03e18-f75c-4020-bec1-64d1a92f0cd8",
+      "s": "11a6d86d-014c-4c55-9341-eb4cd55a7b58",
       "p": "on-success",
-      "o": "80a9e3ef-63ea-40f0-88a6-1a49c997ab26"
+      "o": "b76677d2-1dab-43d4-86f2-8c06ad847621"
     },
     {
-      "s": "62b03e18-f75c-4020-bec1-64d1a92f0cd8",
+      "s": "11a6d86d-014c-4c55-9341-eb4cd55a7b58",
       "p": "on-failure",
-      "o": "80a9e3ef-63ea-40f0-88a6-1a49c997ab26"
+      "o": "b76677d2-1dab-43d4-86f2-8c06ad847621"
     },
     {
-      "s": "00144725-fdc3-4d08-9f48-138669137bc1",
+      "s": "32ae3536-30ba-4c54-ae35-25afbf79eb5e",
       "p": "on-success",
-      "o": "62b03e18-f75c-4020-bec1-64d1a92f0cd8"
+      "o": "11a6d86d-014c-4c55-9341-eb4cd55a7b58"
     },
     {
-      "s": "00144725-fdc3-4d08-9f48-138669137bc1",
+      "s": "32ae3536-30ba-4c54-ae35-25afbf79eb5e",
       "p": "on-failure",
-      "o": "cfa47aed-d46d-4ca9-a5c2-61a8f12c5b85"
+      "o": "61960423-462b-4b62-98ea-fb73018bab2c"
     },
     {
-      "s": "cfa47aed-d46d-4ca9-a5c2-61a8f12c5b85",
+      "s": "61960423-462b-4b62-98ea-fb73018bab2c",
       "p": "on-success",
-      "o": "a0e152b9-c405-45d3-b80b-8a8baeedfe38"
+      "o": "696716a9-1ba7-488b-9d16-82e52498ddac"
     },
     {
-      "s": "a0e152b9-c405-45d3-b80b-8a8baeedfe38",
+      "s": "696716a9-1ba7-488b-9d16-82e52498ddac",
       "p": "on-failure",
-      "o": "62b03e18-f75c-4020-bec1-64d1a92f0cd8"
+      "o": "11a6d86d-014c-4c55-9341-eb4cd55a7b58"
     }
   ],
   "tags": [
     "T1486"
   ],
   "input_arguments": [
+    {
+      "name": "encrypted_file_name",
+      "type": "string",
+      "description": "Name of the archive to be created",
+      "value": "ARTArchive.7z"
+    },
     {
       "name": "input_file_path",
       "type": "path",
@@ -105,12 +111,6 @@
       "type": "string",
       "description": "Password to be provided for archiving the file",
       "value": "ARTPass"
-    },
-    {
-      "name": "encrypted_file_name",
-      "type": "string",
-      "description": "Name of the archive to be created",
-      "value": "ARTArchive.7z"
     }
   ]
 }

@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "5f6b6f28-96e9-40ae-9c21-188884a68d9f",
+      "id": "598fe5e6-2b46-493b-920c-8a71848e52fe",
       "type": "execute-command",
       "data": {
-        "command": "ip neighbour show\n",
+        "command": "ip neighbour show",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "8ead699e-b415-428f-a285-4258e281f04d",
+      "id": "91430c0c-ccf3-41ea-8f0e-a757e6b993b5",
       "name": "Check dependency 1/1",
       "description": "Check if ip command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v ip)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v ip)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "8c4822d8-6e61-42bd-848b-6676024ace24",
+      "id": "c0048ce2-14c6-436b-8abd-1133b01de99b",
       "name": "Resolve dependency 1/1",
       "description": "Check if ip command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "apt-get install iproute2 -y\n",
-        "command_type": ""
+        "command": "apt-get install iproute2 -y",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "c4b2fe54-27ae-4ae0-90bc-ef3073340d49",
+      "id": "6cf69534-1e7e-40c6-898c-d3d5edb883c1",
       "name": "Re-check dependency 1/1",
       "description": "Check if ip command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v ip)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v ip)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "8ead699e-b415-428f-a285-4258e281f04d",
+      "s": "91430c0c-ccf3-41ea-8f0e-a757e6b993b5",
       "p": "on-success",
-      "o": "5f6b6f28-96e9-40ae-9c21-188884a68d9f"
+      "o": "598fe5e6-2b46-493b-920c-8a71848e52fe"
     },
     {
-      "s": "8ead699e-b415-428f-a285-4258e281f04d",
+      "s": "91430c0c-ccf3-41ea-8f0e-a757e6b993b5",
       "p": "on-failure",
-      "o": "8c4822d8-6e61-42bd-848b-6676024ace24"
+      "o": "c0048ce2-14c6-436b-8abd-1133b01de99b"
     },
     {
-      "s": "8c4822d8-6e61-42bd-848b-6676024ace24",
+      "s": "c0048ce2-14c6-436b-8abd-1133b01de99b",
       "p": "on-success",
-      "o": "c4b2fe54-27ae-4ae0-90bc-ef3073340d49"
+      "o": "6cf69534-1e7e-40c6-898c-d3d5edb883c1"
     },
     {
-      "s": "c4b2fe54-27ae-4ae0-90bc-ef3073340d49",
+      "s": "6cf69534-1e7e-40c6-898c-d3d5edb883c1",
       "p": "on-failure",
-      "o": "5f6b6f28-96e9-40ae-9c21-188884a68d9f"
+      "o": "598fe5e6-2b46-493b-920c-8a71848e52fe"
     }
   ],
   "tags": [

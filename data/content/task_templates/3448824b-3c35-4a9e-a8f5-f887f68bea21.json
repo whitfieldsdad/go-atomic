@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "a53ee527-8f56-49da-82a4-2a09907747fb",
+      "id": "f3c592b0-763f-405a-b393-30fd8938a814",
       "type": "execute-command",
       "data": {
-        "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Terminal Server Client\\Default\" /va /f\nreg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Terminal Server Client\\Servers\" /f\n",
+        "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Terminal Server Client\\Default\" /va /f\nreg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Terminal Server Client\\Servers\" /f",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "08b5eb60-97eb-4ed7-ba53-8c755930e1d4",
+      "id": "bad5c372-5ec6-45b6-8546-a7701c087eae",
       "name": "Check dependency 1/1",
       "description": "Must have the \"MR9\" Remote Desktop Connection history Key \n",
       "type": "execute-command",
       "data": {
-        "command": "if ((Get-ItemProperty -Path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\Default\\\").MR9) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if ((Get-ItemProperty -Path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\Default\\\").MR9) {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "5888f316-b853-45e4-8516-f98b18fb44b0",
+      "id": "f15a4243-c166-4134-b1eb-1fc63f099ad1",
       "name": "Resolve dependency 1/1",
       "description": "Must have the \"MR9\" Remote Desktop Connection history Key \n",
       "type": "execute-command",
       "data": {
-        "command": "New-Item -path \"HKCU:\\SOFTWARE\\Microsoft\\\" -name \"Terminal Server Client\"  -ErrorAction Ignore\nNew-Item -path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\\" -name \"Default\" -ErrorAction Ignore\nNew-Itemproperty -path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\Default\" -name \"MR9\" -value \"127.0.0.1\"  -PropertyType \"String\" -ErrorAction Ignore\nNew-Item -path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\\" -name \"Servers\" -ErrorAction Ignore\nNew-Item -path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\Servers\" -name \"Redcanary\" -ErrorAction Ignore\n",
-        "command_type": ""
+        "command": "New-Item -path \"HKCU:\\SOFTWARE\\Microsoft\\\" -name \"Terminal Server Client\"  -ErrorAction Ignore\nNew-Item -path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\\" -name \"Default\" -ErrorAction Ignore\nNew-Itemproperty -path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\Default\" -name \"MR9\" -value \"127.0.0.1\"  -PropertyType \"String\" -ErrorAction Ignore\nNew-Item -path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\\" -name \"Servers\" -ErrorAction Ignore\nNew-Item -path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\Servers\" -name \"Redcanary\" -ErrorAction Ignore",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "18cb6d10-332f-4050-9b4d-a70ee1f42742",
+      "id": "ef704118-bfb9-4538-8383-97b575194b00",
       "name": "Re-check dependency 1/1",
       "description": "Must have the \"MR9\" Remote Desktop Connection history Key \n",
       "type": "execute-command",
       "data": {
-        "command": "if ((Get-ItemProperty -Path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\Default\\\").MR9) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if ((Get-ItemProperty -Path \"HKCU:\\SOFTWARE\\Microsoft\\Terminal Server Client\\Default\\\").MR9) {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "08b5eb60-97eb-4ed7-ba53-8c755930e1d4",
+      "s": "bad5c372-5ec6-45b6-8546-a7701c087eae",
       "p": "on-success",
-      "o": "a53ee527-8f56-49da-82a4-2a09907747fb"
+      "o": "f3c592b0-763f-405a-b393-30fd8938a814"
     },
     {
-      "s": "08b5eb60-97eb-4ed7-ba53-8c755930e1d4",
+      "s": "bad5c372-5ec6-45b6-8546-a7701c087eae",
       "p": "on-failure",
-      "o": "5888f316-b853-45e4-8516-f98b18fb44b0"
+      "o": "f15a4243-c166-4134-b1eb-1fc63f099ad1"
     },
     {
-      "s": "5888f316-b853-45e4-8516-f98b18fb44b0",
+      "s": "f15a4243-c166-4134-b1eb-1fc63f099ad1",
       "p": "on-success",
-      "o": "18cb6d10-332f-4050-9b4d-a70ee1f42742"
+      "o": "ef704118-bfb9-4538-8383-97b575194b00"
     },
     {
-      "s": "18cb6d10-332f-4050-9b4d-a70ee1f42742",
+      "s": "ef704118-bfb9-4538-8383-97b575194b00",
       "p": "on-failure",
-      "o": "a53ee527-8f56-49da-82a4-2a09907747fb"
+      "o": "f3c592b0-763f-405a-b393-30fd8938a814"
     }
   ],
   "tags": [

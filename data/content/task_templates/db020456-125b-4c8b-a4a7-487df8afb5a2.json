@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "f2360a45-b46d-4c5b-b431-8c8db3c0ab7d",
+      "id": "ff33b45c-3426-465b-98a7-67a08249edc0",
       "type": "execute-command",
       "data": {
-        "command": "FOR /F \"tokens=2*\" %a in ('reg query \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Winword.exe\" /V PATH') do set microsoft_wordpath=%b\ncall \"%microsoft_wordpath%\\protocolhandler.exe\" \"ms-word:nft|u|#{remote_url}\"\n",
+        "command": "FOR /F \"tokens=2*\" %a in ('reg query \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Winword.exe\" /V PATH') do set microsoft_wordpath=%b\ncall \"%microsoft_wordpath%\\protocolhandler.exe\" \"ms-word:nft|u|#{remote_url}\"",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "814f9a54-f68c-4207-bc7d-44b555ac14be",
+      "id": "e9470ede-c9e3-4a3f-aae0-3c32f8b11200",
       "name": "Check dependency 1/1",
       "description": "Microsoft Word must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "try {\n  $wdApp = New-Object -COMObject \"Word.Application\"\n  Stop-Process -Name \"winword\"\n  exit 0 } catch { exit 1 }\n",
-        "command_type": ""
+        "command": "try {\n  $wdApp = New-Object -COMObject \"Word.Application\"\n  Stop-Process -Name \"winword\"\n  exit 0 } catch { exit 1 }",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "fb587357-b754-47b6-a74f-bbe50aa5c9f4",
+      "id": "b229751c-c9e4-40d5-9367-6b15d5f9e1de",
       "name": "Resolve dependency 1/1",
       "description": "Microsoft Word must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "Write-Host \"You will need to install Microsoft Word manually to meet this requirement\"\n",
-        "command_type": ""
+        "command": "Write-Host \"You will need to install Microsoft Word manually to meet this requirement\"",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "c7ffd9e1-46aa-4191-b097-0259ecc8852f",
+      "id": "659a5ccc-7cd2-45da-b770-edd8e74e0b46",
       "name": "Re-check dependency 1/1",
       "description": "Microsoft Word must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "try {\n  $wdApp = New-Object -COMObject \"Word.Application\"\n  Stop-Process -Name \"winword\"\n  exit 0 } catch { exit 1 }\n",
-        "command_type": ""
+        "command": "try {\n  $wdApp = New-Object -COMObject \"Word.Application\"\n  Stop-Process -Name \"winword\"\n  exit 0 } catch { exit 1 }",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "814f9a54-f68c-4207-bc7d-44b555ac14be",
+      "s": "e9470ede-c9e3-4a3f-aae0-3c32f8b11200",
       "p": "on-success",
-      "o": "f2360a45-b46d-4c5b-b431-8c8db3c0ab7d"
+      "o": "ff33b45c-3426-465b-98a7-67a08249edc0"
     },
     {
-      "s": "814f9a54-f68c-4207-bc7d-44b555ac14be",
+      "s": "e9470ede-c9e3-4a3f-aae0-3c32f8b11200",
       "p": "on-failure",
-      "o": "fb587357-b754-47b6-a74f-bbe50aa5c9f4"
+      "o": "b229751c-c9e4-40d5-9367-6b15d5f9e1de"
     },
     {
-      "s": "fb587357-b754-47b6-a74f-bbe50aa5c9f4",
+      "s": "b229751c-c9e4-40d5-9367-6b15d5f9e1de",
       "p": "on-success",
-      "o": "c7ffd9e1-46aa-4191-b097-0259ecc8852f"
+      "o": "659a5ccc-7cd2-45da-b770-edd8e74e0b46"
     },
     {
-      "s": "c7ffd9e1-46aa-4191-b097-0259ecc8852f",
+      "s": "659a5ccc-7cd2-45da-b770-edd8e74e0b46",
       "p": "on-failure",
-      "o": "f2360a45-b46d-4c5b-b431-8c8db3c0ab7d"
+      "o": "ff33b45c-3426-465b-98a7-67a08249edc0"
     }
   ],
   "tags": [

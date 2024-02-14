@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "baf2076b-3d08-4341-af78-7423349f5fc6",
+      "id": "f4b2259f-9e84-4bd9-b39e-aafe06a85b07",
       "type": "execute-command",
       "data": {
-        "command": "echo \"[Unit]\" \u003e #{path_to_systemd_service}\necho \"Description=Atomic Red Team Systemd Timer Service\" \u003e\u003e #{path_to_systemd_service}\necho \"[Service]\" \u003e\u003e #{path_to_systemd_service}\necho \"Type=simple\" \u003e\u003e #{path_to_systemd_service}\necho \"ExecStart=/bin/touch /tmp/art-systemd-timer-marker\" \u003e\u003e #{path_to_systemd_service}\necho \"[Install]\" \u003e\u003e #{path_to_systemd_service}\necho \"WantedBy=multi-user.target\" \u003e\u003e #{path_to_systemd_service}\necho \"[Unit]\" \u003e #{path_to_systemd_timer}\necho \"Description=Executes Atomic Red Team Systemd Timer Service\" \u003e\u003e #{path_to_systemd_timer}\necho \"Requires=#{systemd_service_name}\" \u003e\u003e #{path_to_systemd_timer}\necho \"[Timer]\" \u003e\u003e #{path_to_systemd_timer}\necho \"Unit=#{systemd_service_name}\" \u003e\u003e #{path_to_systemd_timer}\necho \"OnCalendar=*-*-* *:*:00\" \u003e\u003e #{path_to_systemd_timer}\necho \"[Install]\" \u003e\u003e #{path_to_systemd_timer}\necho \"WantedBy=timers.target\" \u003e\u003e #{path_to_systemd_timer}\nsystemctl start #{systemd_timer_name}\nsystemctl enable #{systemd_timer_name}\nsystemctl daemon-reload\n",
+        "command": "echo \"[Unit]\" \u003e #{path_to_systemd_service}\necho \"Description=Atomic Red Team Systemd Timer Service\" \u003e\u003e #{path_to_systemd_service}\necho \"[Service]\" \u003e\u003e #{path_to_systemd_service}\necho \"Type=simple\" \u003e\u003e #{path_to_systemd_service}\necho \"ExecStart=/bin/touch /tmp/art-systemd-timer-marker\" \u003e\u003e #{path_to_systemd_service}\necho \"[Install]\" \u003e\u003e #{path_to_systemd_service}\necho \"WantedBy=multi-user.target\" \u003e\u003e #{path_to_systemd_service}\necho \"[Unit]\" \u003e #{path_to_systemd_timer}\necho \"Description=Executes Atomic Red Team Systemd Timer Service\" \u003e\u003e #{path_to_systemd_timer}\necho \"Requires=#{systemd_service_name}\" \u003e\u003e #{path_to_systemd_timer}\necho \"[Timer]\" \u003e\u003e #{path_to_systemd_timer}\necho \"Unit=#{systemd_service_name}\" \u003e\u003e #{path_to_systemd_timer}\necho \"OnCalendar=*-*-* *:*:00\" \u003e\u003e #{path_to_systemd_timer}\necho \"[Install]\" \u003e\u003e #{path_to_systemd_timer}\necho \"WantedBy=timers.target\" \u003e\u003e #{path_to_systemd_timer}\nsystemctl start #{systemd_timer_name}\nsystemctl enable #{systemd_timer_name}\nsystemctl daemon-reload",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "4872885e-91ad-4308-9e0c-5d57ee6940d7",
+      "id": "b153caaa-98f8-473a-b6a8-fc601995ae05",
       "type": "execute-command",
       "data": {
-        "command": "systemctl stop #{systemd_timer_name}\nsystemctl disable #{systemd_timer_name}\nrm #{path_to_systemd_service}\nrm #{path_to_systemd_timer}\nsystemctl daemon-reload\n",
+        "command": "systemctl stop #{systemd_timer_name}\nsystemctl disable #{systemd_timer_name}\nrm #{path_to_systemd_service}\nrm #{path_to_systemd_timer}\nsystemctl daemon-reload",
         "command_type": "bash"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "baf2076b-3d08-4341-af78-7423349f5fc6",
+      "s": "f4b2259f-9e84-4bd9-b39e-aafe06a85b07",
       "p": "on-success",
-      "o": "4872885e-91ad-4308-9e0c-5d57ee6940d7"
+      "o": "b153caaa-98f8-473a-b6a8-fc601995ae05"
     },
     {
-      "s": "baf2076b-3d08-4341-af78-7423349f5fc6",
+      "s": "f4b2259f-9e84-4bd9-b39e-aafe06a85b07",
       "p": "on-failure",
-      "o": "4872885e-91ad-4308-9e0c-5d57ee6940d7"
+      "o": "b153caaa-98f8-473a-b6a8-fc601995ae05"
     }
   ],
   "tags": [
@@ -42,6 +42,12 @@
     "T1053.006"
   ],
   "input_arguments": [
+    {
+      "name": "path_to_systemd_timer",
+      "type": "path",
+      "description": "Path to service timer file",
+      "value": "/etc/systemd/system/art-timer.timer"
+    },
     {
       "name": "systemd_service_name",
       "type": "string",
@@ -59,12 +65,6 @@
       "type": "path",
       "description": "Path to systemd service unit file",
       "value": "/etc/systemd/system/art-timer.service"
-    },
-    {
-      "name": "path_to_systemd_timer",
-      "type": "path",
-      "description": "Path to service timer file",
-      "value": "/etc/systemd/system/art-timer.timer"
     }
   ]
 }

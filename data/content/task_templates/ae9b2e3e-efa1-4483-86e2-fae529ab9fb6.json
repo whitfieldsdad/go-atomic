@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "7fe39e02-7601-48ee-a627-8bf863be0eee",
+      "id": "37582c39-9f1c-44df-9fb5-5803a60e4b2e",
       "type": "execute-command",
       "data": {
-        "command": "import-module msonline\n$Password = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Password\nConnect-MsolService -Credential $Credential\n$users = Get-MsolUser -All;\nforeach($user in $users)\n{$props = @();$user | Get-Member | foreach-object{$props+=$_.Name}; \nforeach($prop in $props)\n{if($user.$prop -like \"*password*\")\n{(\"[*]\" + $user.UserPrincipalName + \"[\" + $prop + \"]\" + \" : \" + $user.$prop) | out-file -filepath $env:temp\\T1552.005Test1.txt -append -force}}}\nget-content -path $env:temp\\T1552.005Test1.txt -erroraction silentlycontinue\n",
+        "command": "import-module msonline\n$Password = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Password\nConnect-MsolService -Credential $Credential\n$users = Get-MsolUser -All;\nforeach($user in $users)\n{$props = @();$user | Get-Member | foreach-object{$props+=$_.Name}; \nforeach($prop in $props)\n{if($user.$prop -like \"*password*\")\n{(\"[*]\" + $user.UserPrincipalName + \"[\" + $prop + \"]\" + \" : \" + $user.$prop) | out-file -filepath $env:temp\\T1552.005Test1.txt -append -force}}}\nget-content -path $env:temp\\T1552.005Test1.txt -erroraction silentlycontinue",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "c7076ca3-3e7c-4314-8272-aec0fd62c3ad",
+      "id": "036c4a32-4ab2-4e07-851b-85cbd72de231",
       "type": "execute-command",
       "data": {
-        "command": "remove-item $env:temp\\T1552.005Test1.txt -force -erroraction silentlycontinue\n",
+        "command": "remove-item $env:temp\\T1552.005Test1.txt -force -erroraction silentlycontinue",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "c442eec7-e137-4e48-802f-708871dd4e97",
+      "id": "e58c8826-7a94-4397-b0e2-4e98188db043",
       "name": "Check dependency 1/1",
       "description": "The MSOnline module must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if (get-command Get-MsolUser -erroraction silentlycontinue){exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (get-command Get-MsolUser -erroraction silentlycontinue){exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "aba5c430-4485-4211-9926-d5f45830f2ed",
+      "id": "bce800a0-4165-4eff-9a5e-3de6fc4e4b9b",
       "name": "Resolve dependency 1/1",
       "description": "The MSOnline module must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "install-module MSOnline\n",
-        "command_type": ""
+        "command": "install-module MSOnline",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "46fac504-a361-4023-b120-0c75af63d529",
+      "id": "973b31f2-7b24-4fdb-8616-8069d7ac710a",
       "name": "Re-check dependency 1/1",
       "description": "The MSOnline module must be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if (get-command Get-MsolUser -erroraction silentlycontinue){exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (get-command Get-MsolUser -erroraction silentlycontinue){exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "7fe39e02-7601-48ee-a627-8bf863be0eee",
+      "s": "37582c39-9f1c-44df-9fb5-5803a60e4b2e",
       "p": "on-success",
-      "o": "c7076ca3-3e7c-4314-8272-aec0fd62c3ad"
+      "o": "036c4a32-4ab2-4e07-851b-85cbd72de231"
     },
     {
-      "s": "7fe39e02-7601-48ee-a627-8bf863be0eee",
+      "s": "37582c39-9f1c-44df-9fb5-5803a60e4b2e",
       "p": "on-failure",
-      "o": "c7076ca3-3e7c-4314-8272-aec0fd62c3ad"
+      "o": "036c4a32-4ab2-4e07-851b-85cbd72de231"
     },
     {
-      "s": "c442eec7-e137-4e48-802f-708871dd4e97",
+      "s": "e58c8826-7a94-4397-b0e2-4e98188db043",
       "p": "on-success",
-      "o": "7fe39e02-7601-48ee-a627-8bf863be0eee"
+      "o": "37582c39-9f1c-44df-9fb5-5803a60e4b2e"
     },
     {
-      "s": "c442eec7-e137-4e48-802f-708871dd4e97",
+      "s": "e58c8826-7a94-4397-b0e2-4e98188db043",
       "p": "on-failure",
-      "o": "aba5c430-4485-4211-9926-d5f45830f2ed"
+      "o": "bce800a0-4165-4eff-9a5e-3de6fc4e4b9b"
     },
     {
-      "s": "aba5c430-4485-4211-9926-d5f45830f2ed",
+      "s": "bce800a0-4165-4eff-9a5e-3de6fc4e4b9b",
       "p": "on-success",
-      "o": "46fac504-a361-4023-b120-0c75af63d529"
+      "o": "973b31f2-7b24-4fdb-8616-8069d7ac710a"
     },
     {
-      "s": "46fac504-a361-4023-b120-0c75af63d529",
+      "s": "973b31f2-7b24-4fdb-8616-8069d7ac710a",
       "p": "on-failure",
-      "o": "7fe39e02-7601-48ee-a627-8bf863be0eee"
+      "o": "37582c39-9f1c-44df-9fb5-5803a60e4b2e"
     }
   ],
   "tags": [

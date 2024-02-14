@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "08eaaff3-d12b-4f6e-a715-673478a8ff0c",
+      "id": "12b3aa92-f9ee-4d37-a4d5-49599ee608ad",
       "type": "execute-command",
       "data": {
-        "command": "Unblock-File -Path #{file_path}\n",
+        "command": "Unblock-File -Path #{file_path}",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "f3c8b72f-2864-4356-8f52-d505c95efbdb",
+      "id": "b49b3e57-dae6-4df1-a654-f6307d4f5d98",
       "type": "execute-command",
       "data": {
-        "command": "Set-Content -Path #{file_path} -Stream Zone.Identifier -Value '[ZoneTransfer]','ZoneId=3'\n",
+        "command": "Set-Content -Path #{file_path} -Stream Zone.Identifier -Value '[ZoneTransfer]','ZoneId=3'",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "0630d700-b4ec-45bd-a330-75825100a883",
+      "id": "3c976052-c4d4-4cba-81f8-5a1a1b4c84ef",
       "name": "Check dependency 1/1",
       "description": "A test file with the Zone.Identifier attribute must be present.",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path #{file_path}) { EXIT 0 } else { EXIT 1 }\n",
-        "command_type": ""
+        "command": "if (Test-Path #{file_path}) { EXIT 0 } else { EXIT 1 }",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "1833ee2a-e27b-45bd-95f7-2218bcf90c0f",
+      "id": "981f6ec7-2b0d-4816-97ed-6831677b664f",
       "name": "Resolve dependency 1/1",
       "description": "A test file with the Zone.Identifier attribute must be present.",
       "type": "execute-command",
       "data": {
-        "command": "Invoke-WebRequest #{file_to_download} -OutFile #{file_path}\nSet-Content -Path #{file_path} -Stream Zone.Identifier -Value '[ZoneTransfer]','ZoneId=3'\n",
-        "command_type": ""
+        "command": "Invoke-WebRequest #{file_to_download} -OutFile #{file_path}\nSet-Content -Path #{file_path} -Stream Zone.Identifier -Value '[ZoneTransfer]','ZoneId=3'",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "5da9225b-bfda-4468-a020-0c769bbe755f",
+      "id": "94186b0b-3be5-4744-aeba-f8aa28695334",
       "name": "Re-check dependency 1/1",
       "description": "A test file with the Zone.Identifier attribute must be present.",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path #{file_path}) { EXIT 0 } else { EXIT 1 }\n",
-        "command_type": ""
+        "command": "if (Test-Path #{file_path}) { EXIT 0 } else { EXIT 1 }",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "08eaaff3-d12b-4f6e-a715-673478a8ff0c",
+      "s": "12b3aa92-f9ee-4d37-a4d5-49599ee608ad",
       "p": "on-success",
-      "o": "f3c8b72f-2864-4356-8f52-d505c95efbdb"
+      "o": "b49b3e57-dae6-4df1-a654-f6307d4f5d98"
     },
     {
-      "s": "08eaaff3-d12b-4f6e-a715-673478a8ff0c",
+      "s": "12b3aa92-f9ee-4d37-a4d5-49599ee608ad",
       "p": "on-failure",
-      "o": "f3c8b72f-2864-4356-8f52-d505c95efbdb"
+      "o": "b49b3e57-dae6-4df1-a654-f6307d4f5d98"
     },
     {
-      "s": "0630d700-b4ec-45bd-a330-75825100a883",
+      "s": "3c976052-c4d4-4cba-81f8-5a1a1b4c84ef",
       "p": "on-success",
-      "o": "08eaaff3-d12b-4f6e-a715-673478a8ff0c"
+      "o": "12b3aa92-f9ee-4d37-a4d5-49599ee608ad"
     },
     {
-      "s": "0630d700-b4ec-45bd-a330-75825100a883",
+      "s": "3c976052-c4d4-4cba-81f8-5a1a1b4c84ef",
       "p": "on-failure",
-      "o": "1833ee2a-e27b-45bd-95f7-2218bcf90c0f"
+      "o": "981f6ec7-2b0d-4816-97ed-6831677b664f"
     },
     {
-      "s": "1833ee2a-e27b-45bd-95f7-2218bcf90c0f",
+      "s": "981f6ec7-2b0d-4816-97ed-6831677b664f",
       "p": "on-success",
-      "o": "5da9225b-bfda-4468-a020-0c769bbe755f"
+      "o": "94186b0b-3be5-4744-aeba-f8aa28695334"
     },
     {
-      "s": "5da9225b-bfda-4468-a020-0c769bbe755f",
+      "s": "94186b0b-3be5-4744-aeba-f8aa28695334",
       "p": "on-failure",
-      "o": "08eaaff3-d12b-4f6e-a715-673478a8ff0c"
+      "o": "12b3aa92-f9ee-4d37-a4d5-49599ee608ad"
     }
   ],
   "tags": [

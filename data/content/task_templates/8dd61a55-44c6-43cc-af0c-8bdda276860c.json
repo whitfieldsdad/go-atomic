@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "f96312db-0576-478a-9cec-eea055dd58c2",
+      "id": "24ac0b90-e19f-45cf-a999-00f03572fe4a",
       "type": "execute-command",
       "data": {
-        "command": "mkdir .\\tmp\\victim-files\ncd .\\tmp\\victim-files\necho \"This file will be encrypted\" \u003e .\\encrypted_file.txt\n\"#{rar_exe}\" a -hp\"blue\" hello.rar\ndir\n",
+        "command": "mkdir .\\tmp\\victim-files\ncd .\\tmp\\victim-files\necho \"This file will be encrypted\" \u003e .\\encrypted_file.txt\n\"#{rar_exe}\" a -hp\"blue\" hello.rar\ndir",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "eb74e7ca-e6ab-4abc-8e31-e7233f5d469e",
+      "id": "3dfed8ca-bd00-48c9-8cab-857ebe4bd728",
       "name": "Check dependency 1/1",
       "description": "Rar tool must be installed at specified location (#{rar_exe})\n",
       "type": "execute-command",
       "data": {
-        "command": "if not exist \"#{rar_exe}\" (exit /b 1)\n",
-        "command_type": ""
+        "command": "if not exist \"#{rar_exe}\" (exit /b 1)",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "6830feb1-2617-4cda-b255-4c26c0a75d7e",
+      "id": "fe22f835-788c-4039-83de-b97be14df3ca",
       "name": "Resolve dependency 1/1",
       "description": "Rar tool must be installed at specified location (#{rar_exe})\n",
       "type": "execute-command",
       "data": {
-        "command": "echo Downloading Winrar installer\nbitsadmin /transfer myDownloadJob /download /priority normal \"https://www.win-rar.com/fileadmin/winrar-versions/winrar/th/winrar-x64-580.exe\" #{rar_installer}\n#{rar_installer} /S\n",
-        "command_type": ""
+        "command": "echo Downloading Winrar installer\nbitsadmin /transfer myDownloadJob /download /priority normal \"https://www.win-rar.com/fileadmin/winrar-versions/winrar/th/winrar-x64-580.exe\" #{rar_installer}\n#{rar_installer} /S",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "298d8341-4ea1-41ce-829b-5eb888e23c58",
+      "id": "db79704e-4856-44f0-b51a-e8eeca02c0e8",
       "name": "Re-check dependency 1/1",
       "description": "Rar tool must be installed at specified location (#{rar_exe})\n",
       "type": "execute-command",
       "data": {
-        "command": "if not exist \"#{rar_exe}\" (exit /b 1)\n",
-        "command_type": ""
+        "command": "if not exist \"#{rar_exe}\" (exit /b 1)",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "eb74e7ca-e6ab-4abc-8e31-e7233f5d469e",
+      "s": "3dfed8ca-bd00-48c9-8cab-857ebe4bd728",
       "p": "on-success",
-      "o": "f96312db-0576-478a-9cec-eea055dd58c2"
+      "o": "24ac0b90-e19f-45cf-a999-00f03572fe4a"
     },
     {
-      "s": "eb74e7ca-e6ab-4abc-8e31-e7233f5d469e",
+      "s": "3dfed8ca-bd00-48c9-8cab-857ebe4bd728",
       "p": "on-failure",
-      "o": "6830feb1-2617-4cda-b255-4c26c0a75d7e"
+      "o": "fe22f835-788c-4039-83de-b97be14df3ca"
     },
     {
-      "s": "6830feb1-2617-4cda-b255-4c26c0a75d7e",
+      "s": "fe22f835-788c-4039-83de-b97be14df3ca",
       "p": "on-success",
-      "o": "298d8341-4ea1-41ce-829b-5eb888e23c58"
+      "o": "db79704e-4856-44f0-b51a-e8eeca02c0e8"
     },
     {
-      "s": "298d8341-4ea1-41ce-829b-5eb888e23c58",
+      "s": "db79704e-4856-44f0-b51a-e8eeca02c0e8",
       "p": "on-failure",
-      "o": "f96312db-0576-478a-9cec-eea055dd58c2"
+      "o": "24ac0b90-e19f-45cf-a999-00f03572fe4a"
     }
   ],
   "tags": [

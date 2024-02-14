@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "c03155ee-4ff5-4cbd-9041-2141eef90b44",
+      "id": "70a716fe-6d63-4ef0-a47e-895047f71922",
       "type": "execute-command",
       "data": {
-        "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 pw useradd art -g wheel -s /bin/csh || useradd -s /bin/bash art\ncat /etc/passwd |grep ^art\nchsh -s /bin/sh art\ncat /etc/passwd |grep ^art\n",
+        "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 pw useradd art -g wheel -s /bin/csh || useradd -s /bin/bash art\ncat /etc/passwd |grep ^art\nchsh -s /bin/sh art\ncat /etc/passwd |grep ^art",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "610fd1e3-2755-498f-bfa4-7db4180a1007",
+      "id": "125bed28-f80a-45f9-b4a3-5836d706a408",
       "type": "execute-command",
       "data": {
-        "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 rmuser -y art || userdel art\n",
+        "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 rmuser -y art || userdel art",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "4dced721-b5f7-433c-8807-efe9eb5a85a9",
+      "id": "e4586ff1-33ce-42f4-bdec-bed2bc9e1066",
       "name": "Check dependency 1/1",
       "description": "chsh - change login shell, must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f /usr/bin/chsh ]; then echo \"exit 0\"; else echo \"exit 1\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -f /usr/bin/chsh ]; then echo \"exit 0\"; else echo \"exit 1\"; exit 1; fi",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "fbd65917-a671-4e32-bc63-0a88d19f9b8c",
+      "id": "871dda6f-c5ba-414f-a81f-7f8fa60a754b",
       "name": "Resolve dependency 1/1",
       "description": "chsh - change login shell, must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"Automated installer not implemented yet, please install chsh manually\"\n",
-        "command_type": ""
+        "command": "echo \"Automated installer not implemented yet, please install chsh manually\"",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "de731cff-a02a-4a17-b97c-2aaaec0578f6",
+      "id": "250d1af7-ee33-4d2a-bd67-5a26c49b7078",
       "name": "Re-check dependency 1/1",
       "description": "chsh - change login shell, must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f /usr/bin/chsh ]; then echo \"exit 0\"; else echo \"exit 1\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -f /usr/bin/chsh ]; then echo \"exit 0\"; else echo \"exit 1\"; exit 1; fi",
+        "command_type": "bash"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "c03155ee-4ff5-4cbd-9041-2141eef90b44",
+      "s": "70a716fe-6d63-4ef0-a47e-895047f71922",
       "p": "on-success",
-      "o": "610fd1e3-2755-498f-bfa4-7db4180a1007"
+      "o": "125bed28-f80a-45f9-b4a3-5836d706a408"
     },
     {
-      "s": "c03155ee-4ff5-4cbd-9041-2141eef90b44",
+      "s": "70a716fe-6d63-4ef0-a47e-895047f71922",
       "p": "on-failure",
-      "o": "610fd1e3-2755-498f-bfa4-7db4180a1007"
+      "o": "125bed28-f80a-45f9-b4a3-5836d706a408"
     },
     {
-      "s": "4dced721-b5f7-433c-8807-efe9eb5a85a9",
+      "s": "e4586ff1-33ce-42f4-bdec-bed2bc9e1066",
       "p": "on-success",
-      "o": "c03155ee-4ff5-4cbd-9041-2141eef90b44"
+      "o": "70a716fe-6d63-4ef0-a47e-895047f71922"
     },
     {
-      "s": "4dced721-b5f7-433c-8807-efe9eb5a85a9",
+      "s": "e4586ff1-33ce-42f4-bdec-bed2bc9e1066",
       "p": "on-failure",
-      "o": "fbd65917-a671-4e32-bc63-0a88d19f9b8c"
+      "o": "871dda6f-c5ba-414f-a81f-7f8fa60a754b"
     },
     {
-      "s": "fbd65917-a671-4e32-bc63-0a88d19f9b8c",
+      "s": "871dda6f-c5ba-414f-a81f-7f8fa60a754b",
       "p": "on-success",
-      "o": "de731cff-a02a-4a17-b97c-2aaaec0578f6"
+      "o": "250d1af7-ee33-4d2a-bd67-5a26c49b7078"
     },
     {
-      "s": "de731cff-a02a-4a17-b97c-2aaaec0578f6",
+      "s": "250d1af7-ee33-4d2a-bd67-5a26c49b7078",
       "p": "on-failure",
-      "o": "c03155ee-4ff5-4cbd-9041-2141eef90b44"
+      "o": "70a716fe-6d63-4ef0-a47e-895047f71922"
     }
   ],
   "tags": [

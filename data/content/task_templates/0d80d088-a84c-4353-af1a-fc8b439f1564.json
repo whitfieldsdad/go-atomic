@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "2f38a96d-00b8-41fd-97f9-9386435bc5a9",
+      "id": "dd3e21ef-8df8-44c6-bb4e-9f59640c7ad6",
       "type": "execute-command",
       "data": {
-        "command": "New-PSDrive -PSProvider registry -Root HKEY_CLASSES_ROOT -Name HKCR\nGet-ChildItem -Path HKCR:\\CLSID -Name | Select -Skip 1 \u003e $env:temp\\clsids.txt\nForEach($CLSID in Get-Content \"$env:temp\\clsids.txt\")\n{try{write-output \"$($Position)-$($CLSID)\"\nwrite-output \"------------\"| out-file #{output_file} -append\nwrite-output $($CLSID)| out-file #{output_file} -append\n$handle=[activator]::CreateInstance([type]::GetTypeFromCLSID($CLSID))\n$handle | get-member -erroraction silentlycontinue | out-file #{output_file} -append\n$position += 1} catch{}}\n",
+        "command": "New-PSDrive -PSProvider registry -Root HKEY_CLASSES_ROOT -Name HKCR\nGet-ChildItem -Path HKCR:\\CLSID -Name | Select -Skip 1 \u003e $env:temp\\clsids.txt\nForEach($CLSID in Get-Content \"$env:temp\\clsids.txt\")\n{try{write-output \"$($Position)-$($CLSID)\"\nwrite-output \"------------\"| out-file #{output_file} -append\nwrite-output $($CLSID)| out-file #{output_file} -append\n$handle=[activator]::CreateInstance([type]::GetTypeFromCLSID($CLSID))\n$handle | get-member -erroraction silentlycontinue | out-file #{output_file} -append\n$position += 1} catch{}}",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "5176bb56-efc4-4a10-9971-a03442b230af",
+      "id": "be5a9ce6-9620-49fc-9fbf-390ab164f35b",
       "type": "execute-command",
       "data": {
-        "command": "remove-item #{output_file} -force -erroraction silentlycontinue\nremove-item $env:temp\\clsids.txt -force -erroraction silentlycontinue      \n",
+        "command": "remove-item #{output_file} -force -erroraction silentlycontinue\nremove-item $env:temp\\clsids.txt -force -erroraction silentlycontinue",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "2f38a96d-00b8-41fd-97f9-9386435bc5a9",
+      "s": "dd3e21ef-8df8-44c6-bb4e-9f59640c7ad6",
       "p": "on-success",
-      "o": "5176bb56-efc4-4a10-9971-a03442b230af"
+      "o": "be5a9ce6-9620-49fc-9fbf-390ab164f35b"
     },
     {
-      "s": "2f38a96d-00b8-41fd-97f9-9386435bc5a9",
+      "s": "dd3e21ef-8df8-44c6-bb4e-9f59640c7ad6",
       "p": "on-failure",
-      "o": "5176bb56-efc4-4a10-9971-a03442b230af"
+      "o": "be5a9ce6-9620-49fc-9fbf-390ab164f35b"
     }
   ],
   "tags": [

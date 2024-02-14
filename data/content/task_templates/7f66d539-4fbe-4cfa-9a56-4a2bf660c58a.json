@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "cc06c05f-38fc-4539-a9f0-329131b62b82",
+      "id": "4efaf3a2-2e90-4137-b131-32b26bc63269",
       "type": "execute-command",
       "data": {
-        "command": "$file = Get-Item $env:temp\\T1564.001-9.txt -Force\n$file.attributes='Hidden'\n",
+        "command": "$file = Get-Item $env:temp\\T1564.001-9.txt -Force\n$file.attributes='Hidden'",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "8fc5a098-84cb-4667-a228-b642907d3ad9",
+      "id": "e5b4d5d8-a659-4c55-ab9b-9d29fab031b7",
       "type": "execute-command",
       "data": {
-        "command": "cmd /c 'del /A:H #{file_to_modify} \u003enul 2\u003e\u00261'\n",
+        "command": "cmd /c 'del /A:H #{file_to_modify} \u003enul 2\u003e\u00261'",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "93f0010b-a82e-4734-b313-e7698f0f3667",
+      "id": "f0ca6918-954d-46b3-9990-9a12dd661d74",
       "name": "Check dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
       "type": "execute-command",
       "data": {
-        "command": "IF EXIST #{file_to_modify} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
-        "command_type": ""
+        "command": "IF EXIST #{file_to_modify} ( EXIT 0 ) ELSE ( EXIT 1 )",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "f00532a8-2524-4db9-9b62-d8dc2a44d41a",
+      "id": "258e1442-62c9-473c-859f-56da53ad5168",
       "name": "Resolve dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
       "type": "execute-command",
       "data": {
-        "command": "echo system_Attrib_T1564.001-9 \u003e\u003e #{file_to_modify}\n",
-        "command_type": ""
+        "command": "echo system_Attrib_T1564.001-9 \u003e\u003e #{file_to_modify}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "2f2618d9-0c17-4979-8184-80ccd4b78b78",
+      "id": "a4a8d5ff-ce3f-43ec-b51c-860c9d4e159e",
       "name": "Re-check dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_to_modify})\n",
       "type": "execute-command",
       "data": {
-        "command": "IF EXIST #{file_to_modify} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
-        "command_type": ""
+        "command": "IF EXIST #{file_to_modify} ( EXIT 0 ) ELSE ( EXIT 1 )",
+        "command_type": "powershell"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "cc06c05f-38fc-4539-a9f0-329131b62b82",
+      "s": "4efaf3a2-2e90-4137-b131-32b26bc63269",
       "p": "on-success",
-      "o": "8fc5a098-84cb-4667-a228-b642907d3ad9"
+      "o": "e5b4d5d8-a659-4c55-ab9b-9d29fab031b7"
     },
     {
-      "s": "cc06c05f-38fc-4539-a9f0-329131b62b82",
+      "s": "4efaf3a2-2e90-4137-b131-32b26bc63269",
       "p": "on-failure",
-      "o": "8fc5a098-84cb-4667-a228-b642907d3ad9"
+      "o": "e5b4d5d8-a659-4c55-ab9b-9d29fab031b7"
     },
     {
-      "s": "93f0010b-a82e-4734-b313-e7698f0f3667",
+      "s": "f0ca6918-954d-46b3-9990-9a12dd661d74",
       "p": "on-success",
-      "o": "cc06c05f-38fc-4539-a9f0-329131b62b82"
+      "o": "4efaf3a2-2e90-4137-b131-32b26bc63269"
     },
     {
-      "s": "93f0010b-a82e-4734-b313-e7698f0f3667",
+      "s": "f0ca6918-954d-46b3-9990-9a12dd661d74",
       "p": "on-failure",
-      "o": "f00532a8-2524-4db9-9b62-d8dc2a44d41a"
+      "o": "258e1442-62c9-473c-859f-56da53ad5168"
     },
     {
-      "s": "f00532a8-2524-4db9-9b62-d8dc2a44d41a",
+      "s": "258e1442-62c9-473c-859f-56da53ad5168",
       "p": "on-success",
-      "o": "2f2618d9-0c17-4979-8184-80ccd4b78b78"
+      "o": "a4a8d5ff-ce3f-43ec-b51c-860c9d4e159e"
     },
     {
-      "s": "2f2618d9-0c17-4979-8184-80ccd4b78b78",
+      "s": "a4a8d5ff-ce3f-43ec-b51c-860c9d4e159e",
       "p": "on-failure",
-      "o": "cc06c05f-38fc-4539-a9f0-329131b62b82"
+      "o": "4efaf3a2-2e90-4137-b131-32b26bc63269"
     }
   ],
   "tags": [

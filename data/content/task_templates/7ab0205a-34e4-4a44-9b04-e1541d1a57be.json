@@ -7,10 +7,10 @@
   ],
   "steps": [
     {
-      "id": "f093ccf3-1301-4d29-b1f0-10c0103be532",
+      "id": "3780f4e1-e148-4cce-8118-d46a2af06ce0",
       "type": "execute-command",
       "data": {
-        "command": "(([adsisearcher]'(objectcategory=organizationalunit)').FindAll()).Path | %{if(([ADSI]\"$_\").gPlink){Write-Host \"[+] OU Path:\"([ADSI]\"$_\").Path;$a=((([ADSI]\"$_\").gplink) -replace \"[[;]\" -split \"]\");for($i=0;$i -lt $a.length;$i++){if($a[$i]){Write-Host \"Policy Path[$i]:\"([ADSI]($a[$i]).Substring(0,$a[$i].length-1)).Path;Write-Host \"Policy Name[$i]:\"([ADSI]($a[$i]).Substring(0,$a[$i].length-1)).DisplayName} };Write-Output \"`n\" }}\n",
+        "command": "(([adsisearcher]'(objectcategory=organizationalunit)').FindAll()).Path | %{if(([ADSI]\"$_\").gPlink){Write-Host \"[+] OU Path:\"([ADSI]\"$_\").Path;$a=((([ADSI]\"$_\").gplink) -replace \"[[;]\" -split \"]\");for($i=0;$i -lt $a.length;$i++){if($a[$i]){Write-Host \"Policy Path[$i]:\"([ADSI]($a[$i]).Substring(0,$a[$i].length-1)).Path;Write-Host \"Policy Name[$i]:\"([ADSI]($a[$i]).Substring(0,$a[$i].length-1)).DisplayName} };Write-Output \"`n\" }}",
         "command_type": "powershell"
       },
       "elevation_required": false

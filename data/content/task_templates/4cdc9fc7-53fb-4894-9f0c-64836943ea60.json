@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "5390813e-0e2a-4327-9d4a-4ecc99362cd0",
+      "id": "9d1b65dd-53d0-45eb-875f-96677c508908",
       "type": "execute-command",
       "data": {
-        "command": "C:\\Users\\Public\\ngrok\\ngrok.exe config add-authtoken #{api_token} | Out-Null\nStart-Job -ScriptBlock { C:\\Users\\Public\\ngrok\\ngrok.exe tcp #{port_num} } | Out-Null\nStart-Sleep -s 5 \nStop-Job -Name Job1 | Out-Null\n",
+        "command": "C:\\Users\\Public\\ngrok\\ngrok.exe config add-authtoken #{api_token} | Out-Null\nStart-Job -ScriptBlock { C:\\Users\\Public\\ngrok\\ngrok.exe tcp #{port_num} } | Out-Null\nStart-Sleep -s 5 \nStop-Job -Name Job1 | Out-Null",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "7160a91f-44b2-4c2d-9b79-f685b6cc3324",
+      "id": "3cfbd771-7977-483a-95c9-8d8bd67b8057",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item C:\\Users\\Public\\ngrok -Recurse -ErrorAction Ignore\nRemove-Item C:\\%userprofile%\\AppData\\Local\\ngrok -ErrorAction Ignore\n",
+        "command": "Remove-Item C:\\Users\\Public\\ngrok -Recurse -ErrorAction Ignore\nRemove-Item C:\\%userprofile%\\AppData\\Local\\ngrok -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "dab713ff-db11-4771-9363-81f788853533",
+      "id": "2d1f5e90-db8b-4610-b1c9-aa28b6fe43d7",
       "name": "Check dependency 1/1",
       "description": "Download ngrok\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path C:\\Users\\Public\\ngrok) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path C:\\Users\\Public\\ngrok) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "97d06cec-e0e6-4feb-a4cf-ab2dd039745a",
+      "id": "a992547b-6fa7-413a-9d54-f628214a7db9",
       "name": "Resolve dependency 1/1",
       "description": "Download ngrok\n",
       "type": "execute-command",
       "data": {
-        "command": "New-Item -Path C:\\Users\\Public\\ngrok -ItemType Directory | Out-Null\nInvoke-WebRequest #{download} -OutFile C:\\Users\\Public\\ngrok\\ngrok-v3-stable-windows-amd64.zip\nExpand-Archive C:\\Users\\Public\\ngrok\\ngrok-v3-stable-windows-amd64.zip -DestinationPath C:\\Users\\Public\\ngrok\n",
-        "command_type": ""
+        "command": "New-Item -Path C:\\Users\\Public\\ngrok -ItemType Directory | Out-Null\nInvoke-WebRequest #{download} -OutFile C:\\Users\\Public\\ngrok\\ngrok-v3-stable-windows-amd64.zip\nExpand-Archive C:\\Users\\Public\\ngrok\\ngrok-v3-stable-windows-amd64.zip -DestinationPath C:\\Users\\Public\\ngrok",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "163be1be-51c2-4c50-86ab-1d2be5636886",
+      "id": "f5bf3cfd-3967-4230-8330-fbe4d90dedfe",
       "name": "Re-check dependency 1/1",
       "description": "Download ngrok\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path C:\\Users\\Public\\ngrok) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path C:\\Users\\Public\\ngrok) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "5390813e-0e2a-4327-9d4a-4ecc99362cd0",
+      "s": "9d1b65dd-53d0-45eb-875f-96677c508908",
       "p": "on-success",
-      "o": "7160a91f-44b2-4c2d-9b79-f685b6cc3324"
+      "o": "3cfbd771-7977-483a-95c9-8d8bd67b8057"
     },
     {
-      "s": "5390813e-0e2a-4327-9d4a-4ecc99362cd0",
+      "s": "9d1b65dd-53d0-45eb-875f-96677c508908",
       "p": "on-failure",
-      "o": "7160a91f-44b2-4c2d-9b79-f685b6cc3324"
+      "o": "3cfbd771-7977-483a-95c9-8d8bd67b8057"
     },
     {
-      "s": "dab713ff-db11-4771-9363-81f788853533",
+      "s": "2d1f5e90-db8b-4610-b1c9-aa28b6fe43d7",
       "p": "on-success",
-      "o": "5390813e-0e2a-4327-9d4a-4ecc99362cd0"
+      "o": "9d1b65dd-53d0-45eb-875f-96677c508908"
     },
     {
-      "s": "dab713ff-db11-4771-9363-81f788853533",
+      "s": "2d1f5e90-db8b-4610-b1c9-aa28b6fe43d7",
       "p": "on-failure",
-      "o": "97d06cec-e0e6-4feb-a4cf-ab2dd039745a"
+      "o": "a992547b-6fa7-413a-9d54-f628214a7db9"
     },
     {
-      "s": "97d06cec-e0e6-4feb-a4cf-ab2dd039745a",
+      "s": "a992547b-6fa7-413a-9d54-f628214a7db9",
       "p": "on-success",
-      "o": "163be1be-51c2-4c50-86ab-1d2be5636886"
+      "o": "f5bf3cfd-3967-4230-8330-fbe4d90dedfe"
     },
     {
-      "s": "163be1be-51c2-4c50-86ab-1d2be5636886",
+      "s": "f5bf3cfd-3967-4230-8330-fbe4d90dedfe",
       "p": "on-failure",
-      "o": "5390813e-0e2a-4327-9d4a-4ecc99362cd0"
+      "o": "9d1b65dd-53d0-45eb-875f-96677c508908"
     }
   ],
   "tags": [

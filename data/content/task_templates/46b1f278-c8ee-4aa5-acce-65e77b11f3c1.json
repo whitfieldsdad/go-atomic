@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "c2a9a48a-2a11-4ee5-8f90-9efa00fa9a28",
+      "id": "629df06d-e2eb-4ae8-b3ac-90c661f954b6",
       "type": "execute-command",
       "data": {
-        "command": "REG ADD \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{target_binary}\" /v GlobalFlag /t REG_DWORD /d 512\nREG ADD \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{target_binary}\" /v ReportingMode /t REG_DWORD /d 1\nREG ADD \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{target_binary}\" /v MonitorProcess /d \"#{payload_binary}\"\n",
+        "command": "REG ADD \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{target_binary}\" /v GlobalFlag /t REG_DWORD /d 512\nREG ADD \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{target_binary}\" /v ReportingMode /t REG_DWORD /d 1\nREG ADD \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{target_binary}\" /v MonitorProcess /d \"#{payload_binary}\"",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "507333e9-ec06-497f-aa98-fb3afd7eab8c",
+      "id": "1d97e609-a281-4c55-aa47-c34ffc121f9d",
       "type": "execute-command",
       "data": {
-        "command": "reg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{target_binary}\" /v GlobalFlag /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{target_binary}\" /v ReportingMode /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{target_binary}\" /v MonitorProcess /f \u003enul 2\u003e\u00261\n",
+        "command": "reg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{target_binary}\" /v GlobalFlag /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{target_binary}\" /v ReportingMode /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{target_binary}\" /v MonitorProcess /f \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "c2a9a48a-2a11-4ee5-8f90-9efa00fa9a28",
+      "s": "629df06d-e2eb-4ae8-b3ac-90c661f954b6",
       "p": "on-success",
-      "o": "507333e9-ec06-497f-aa98-fb3afd7eab8c"
+      "o": "1d97e609-a281-4c55-aa47-c34ffc121f9d"
     },
     {
-      "s": "c2a9a48a-2a11-4ee5-8f90-9efa00fa9a28",
+      "s": "629df06d-e2eb-4ae8-b3ac-90c661f954b6",
       "p": "on-failure",
-      "o": "507333e9-ec06-497f-aa98-fb3afd7eab8c"
+      "o": "1d97e609-a281-4c55-aa47-c34ffc121f9d"
     }
   ],
   "tags": [

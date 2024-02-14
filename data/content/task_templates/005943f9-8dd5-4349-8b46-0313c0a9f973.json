@@ -8,68 +8,68 @@
   ],
   "steps": [
     {
-      "id": "433b1766-e6b0-4ddc-bdfa-9730c7a06635",
+      "id": "8d515df3-c13f-4e34-b66e-4e97482957cc",
       "type": "execute-command",
       "data": {
-        "command": "ENCODED=$(echo '#{message}' | xxd -ps -c 256)\nprintf $ENCODED | xxd -r -p\necho $ENCODED | xxd -r -p\necho $(echo $ENCODED) | xxd -r -p\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 xxd -r -p #{encoded_file}\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 xxd -r -p \u003c #{encoded_file}\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 cat #{encoded_file} | xxd -r -p\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 cat \u003c #{encoded_file} | xxd -r -p\n",
+        "command": "ENCODED=$(echo '#{message}' | xxd -ps -c 256)\nprintf $ENCODED | xxd -r -p\necho $ENCODED | xxd -r -p\necho $(echo $ENCODED) | xxd -r -p\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 xxd -r -p #{encoded_file}\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 xxd -r -p \u003c #{encoded_file}\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 cat #{encoded_file} | xxd -r -p\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 cat \u003c #{encoded_file} | xxd -r -p",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "d4c4a3a8-ca31-40bf-8c2e-e81b997bc0dc",
+      "id": "c384093d-dff8-4cf4-9b09-ac4f13ffada9",
       "name": "Check dependency 1/1",
       "description": "xxd must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "which xxd\n",
-        "command_type": ""
+        "command": "which xxd",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "2f33aa7b-30c4-421a-9296-06b141b6a3b5",
+      "id": "28e08e05-9612-4bc6-b479-37ca5b031f20",
       "name": "Resolve dependency 1/1",
       "description": "xxd must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"Please install xxd\"\n",
-        "command_type": ""
+        "command": "echo \"Please install xxd\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "92ca4fc5-9ca3-4e28-aa7b-9f1f85092220",
+      "id": "5dfe6970-6830-4b6f-adc9-6ec6f83c262f",
       "name": "Re-check dependency 1/1",
       "description": "xxd must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "which xxd\n",
-        "command_type": ""
+        "command": "which xxd",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "d4c4a3a8-ca31-40bf-8c2e-e81b997bc0dc",
+      "s": "c384093d-dff8-4cf4-9b09-ac4f13ffada9",
       "p": "on-success",
-      "o": "433b1766-e6b0-4ddc-bdfa-9730c7a06635"
+      "o": "8d515df3-c13f-4e34-b66e-4e97482957cc"
     },
     {
-      "s": "d4c4a3a8-ca31-40bf-8c2e-e81b997bc0dc",
+      "s": "c384093d-dff8-4cf4-9b09-ac4f13ffada9",
       "p": "on-failure",
-      "o": "2f33aa7b-30c4-421a-9296-06b141b6a3b5"
+      "o": "28e08e05-9612-4bc6-b479-37ca5b031f20"
     },
     {
-      "s": "2f33aa7b-30c4-421a-9296-06b141b6a3b5",
+      "s": "28e08e05-9612-4bc6-b479-37ca5b031f20",
       "p": "on-success",
-      "o": "92ca4fc5-9ca3-4e28-aa7b-9f1f85092220"
+      "o": "5dfe6970-6830-4b6f-adc9-6ec6f83c262f"
     },
     {
-      "s": "92ca4fc5-9ca3-4e28-aa7b-9f1f85092220",
+      "s": "5dfe6970-6830-4b6f-adc9-6ec6f83c262f",
       "p": "on-failure",
-      "o": "433b1766-e6b0-4ddc-bdfa-9730c7a06635"
+      "o": "8d515df3-c13f-4e34-b66e-4e97482957cc"
     }
   ],
   "tags": [
@@ -77,16 +77,16 @@
   ],
   "input_arguments": [
     {
-      "name": "message",
-      "type": "string",
-      "description": "Message to print to the screen",
-      "value": "Hello from Atomic Red Team test T1140!"
-    },
-    {
       "name": "encoded_file",
       "type": "path",
       "description": "File to temporarily save encoded text",
       "value": "/tmp/T1140.encoded"
+    },
+    {
+      "name": "message",
+      "type": "string",
+      "description": "Message to print to the screen",
+      "value": "Hello from Atomic Red Team test T1140!"
     }
   ]
 }

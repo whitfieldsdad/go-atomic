@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "e5bdd723-ab70-4eb9-a701-d38dbe62f52a",
+      "id": "d1f196f3-cd71-4c37-8658-05f7626c34c9",
       "type": "execute-command",
       "data": {
-        "command": "#{regsvr32path}\\#{regsvr32name} /s #{dll_file}\n",
+        "command": "#{regsvr32path}\\#{regsvr32name} /s #{dll_file}",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "d45d458a-aeed-4b1f-9249-6680ec37f086",
+      "id": "800b1f9e-c2fa-4d70-a9d0-3d7a881048b1",
       "type": "execute-command",
       "data": {
-        "command": "#{regsvr32path}\\#{regsvr32name} /U /s #{dll_file}\n",
+        "command": "#{regsvr32path}\\#{regsvr32name} /U /s #{dll_file}",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "3bcec819-de76-47c3-8538-592ad0acac70",
+      "id": "aac1f081-8b42-46a6-b5d9-2d65bd4da363",
       "name": "Check dependency 1/1",
       "description": "Test requires a renamed dll file\n",
       "type": "execute-command",
       "data": {
-        "command": "if exist #{dll_file} ( exit 0 ) else ( exit 1 )\n",
-        "command_type": ""
+        "command": "if exist #{dll_file} ( exit 0 ) else ( exit 1 )",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "23f22397-7a1b-4fb8-b65b-18ef895e9cd5",
+      "id": "b0dab738-a212-4662-a887-62c80fedf273",
       "name": "Resolve dependency 1/1",
       "description": "Test requires a renamed dll file\n",
       "type": "execute-command",
       "data": {
-        "command": "copy \"C:\\Windows\\System32\\shell32.dll\" \"#{dll_file}\"\n",
-        "command_type": ""
+        "command": "copy \"C:\\Windows\\System32\\shell32.dll\" \"#{dll_file}\"",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "d1a3cf25-0076-4d79-ba58-30c137ec4c89",
+      "id": "54c668a1-81b5-45cb-8496-15a40fb91b80",
       "name": "Re-check dependency 1/1",
       "description": "Test requires a renamed dll file\n",
       "type": "execute-command",
       "data": {
-        "command": "if exist #{dll_file} ( exit 0 ) else ( exit 1 )\n",
-        "command_type": ""
+        "command": "if exist #{dll_file} ( exit 0 ) else ( exit 1 )",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "e5bdd723-ab70-4eb9-a701-d38dbe62f52a",
+      "s": "d1f196f3-cd71-4c37-8658-05f7626c34c9",
       "p": "on-success",
-      "o": "d45d458a-aeed-4b1f-9249-6680ec37f086"
+      "o": "800b1f9e-c2fa-4d70-a9d0-3d7a881048b1"
     },
     {
-      "s": "e5bdd723-ab70-4eb9-a701-d38dbe62f52a",
+      "s": "d1f196f3-cd71-4c37-8658-05f7626c34c9",
       "p": "on-failure",
-      "o": "d45d458a-aeed-4b1f-9249-6680ec37f086"
+      "o": "800b1f9e-c2fa-4d70-a9d0-3d7a881048b1"
     },
     {
-      "s": "3bcec819-de76-47c3-8538-592ad0acac70",
+      "s": "aac1f081-8b42-46a6-b5d9-2d65bd4da363",
       "p": "on-success",
-      "o": "e5bdd723-ab70-4eb9-a701-d38dbe62f52a"
+      "o": "d1f196f3-cd71-4c37-8658-05f7626c34c9"
     },
     {
-      "s": "3bcec819-de76-47c3-8538-592ad0acac70",
+      "s": "aac1f081-8b42-46a6-b5d9-2d65bd4da363",
       "p": "on-failure",
-      "o": "23f22397-7a1b-4fb8-b65b-18ef895e9cd5"
+      "o": "b0dab738-a212-4662-a887-62c80fedf273"
     },
     {
-      "s": "23f22397-7a1b-4fb8-b65b-18ef895e9cd5",
+      "s": "b0dab738-a212-4662-a887-62c80fedf273",
       "p": "on-success",
-      "o": "d1a3cf25-0076-4d79-ba58-30c137ec4c89"
+      "o": "54c668a1-81b5-45cb-8496-15a40fb91b80"
     },
     {
-      "s": "d1a3cf25-0076-4d79-ba58-30c137ec4c89",
+      "s": "54c668a1-81b5-45cb-8496-15a40fb91b80",
       "p": "on-failure",
-      "o": "e5bdd723-ab70-4eb9-a701-d38dbe62f52a"
+      "o": "d1f196f3-cd71-4c37-8658-05f7626c34c9"
     }
   ],
   "tags": [

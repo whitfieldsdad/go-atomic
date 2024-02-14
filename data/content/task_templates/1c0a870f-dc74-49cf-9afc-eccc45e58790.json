@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6b50486d-7023-47b7-ab3f-aed777a3d745",
+      "id": "58ef2153-83d6-4f60-bb54-ed86dd885d57",
       "type": "execute-command",
       "data": {
         "command": "Out-ATHPowerShellCommandLineParameter -CommandLineSwitchType #{command_line_switch_type} -CommandParamVariation #{command_param_variation} -UseEncodedArguments -EncodedArgumentsParamVariation #{encoded_arguments_param_variation} -Execute -ErrorAction Stop",
@@ -16,59 +16,59 @@
       "elevation_required": false
     },
     {
-      "id": "bdbf6440-f474-40bf-a3aa-dbff3588a18d",
+      "id": "923f46cc-ecc1-424a-93d2-525409cd6869",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
       "type": "execute-command",
       "data": {
         "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Out-ATHPowerShellCommandLineParameter']) {exit 1} else {exit 0}",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "e7475500-21e5-4ebb-a056-f00c145cfe15",
+      "id": "36591b24-d771-4353-80ba-e55c39c7353f",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force\n",
-        "command_type": ""
+        "command": "Install-Module -Name AtomicTestHarnesses -Scope CurrentUser -Force",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "f06ea31d-2026-413b-bcb9-7c0c5d90b780",
+      "id": "fe616118-bacb-4509-b7fa-2d6659f47b16",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
       "type": "execute-command",
       "data": {
         "command": "$RequiredModule = Get-Module -Name AtomicTestHarnesses -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Out-ATHPowerShellCommandLineParameter']) {exit 1} else {exit 0}",
-        "command_type": ""
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "bdbf6440-f474-40bf-a3aa-dbff3588a18d",
+      "s": "923f46cc-ecc1-424a-93d2-525409cd6869",
       "p": "on-success",
-      "o": "6b50486d-7023-47b7-ab3f-aed777a3d745"
+      "o": "58ef2153-83d6-4f60-bb54-ed86dd885d57"
     },
     {
-      "s": "bdbf6440-f474-40bf-a3aa-dbff3588a18d",
+      "s": "923f46cc-ecc1-424a-93d2-525409cd6869",
       "p": "on-failure",
-      "o": "e7475500-21e5-4ebb-a056-f00c145cfe15"
+      "o": "36591b24-d771-4353-80ba-e55c39c7353f"
     },
     {
-      "s": "e7475500-21e5-4ebb-a056-f00c145cfe15",
+      "s": "36591b24-d771-4353-80ba-e55c39c7353f",
       "p": "on-success",
-      "o": "f06ea31d-2026-413b-bcb9-7c0c5d90b780"
+      "o": "fe616118-bacb-4509-b7fa-2d6659f47b16"
     },
     {
-      "s": "f06ea31d-2026-413b-bcb9-7c0c5d90b780",
+      "s": "fe616118-bacb-4509-b7fa-2d6659f47b16",
       "p": "on-failure",
-      "o": "6b50486d-7023-47b7-ab3f-aed777a3d745"
+      "o": "58ef2153-83d6-4f60-bb54-ed86dd885d57"
     }
   ],
   "tags": [

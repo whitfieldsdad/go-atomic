@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ec9c31c8-b076-45c0-ac7c-9527491e6521",
+      "id": "a65eacd4-b6a6-4456-9901-4e07b9c8b960",
       "type": "execute-command",
       "data": {
         "command": "python3 #{lazagne_path}/laZagne.py #{specific_module} \u003e\u003e #{output_file}",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "a5de1d52-02d3-4cbf-8083-6975717dfdef",
+      "id": "473b4878-f780-475a-abdf-9b95accd7fe4",
       "type": "execute-command",
       "data": {
         "command": "rm -R /tmp/LaZagne; rm -f #{output_file}",
@@ -25,122 +25,122 @@
       "elevation_required": true
     },
     {
-      "id": "85eb4a35-de7b-4349-96b4-0420c03190ce",
+      "id": "6cbc5474-db2f-428d-a880-03834792f99d",
       "name": "Check dependency 1/2",
       "description": "Get Lazagne from Github and install requirements",
       "type": "execute-command",
       "data": {
         "command": "test -f #{lazagne_path}/laZagne.py",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "bb85788a-811e-4523-a3e3-0a22894a8203",
+      "id": "cef85b39-7a00-4769-9035-df02650e2fca",
       "name": "Resolve dependency 1/2",
       "description": "Get Lazagne from Github and install requirements",
       "type": "execute-command",
       "data": {
         "command": "cd /tmp; git clone https://github.com/AlessandroZ/LaZagne; cd /tmp/LaZagne/; pip install -r requirements.txt",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "a7a58d1d-ad1a-48f6-9488-d4c1a2841321",
+      "id": "697d1cab-4b93-426e-b8ae-efc6e3231bbe",
       "name": "Re-check dependency 1/2",
       "description": "Get Lazagne from Github and install requirements",
       "type": "execute-command",
       "data": {
         "command": "test -f #{lazagne_path}/laZagne.py",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "dbcbed17-2c7b-4b8e-a0e5-bbdc976a0370",
+      "id": "ba40157c-3f19-4c91-872b-641bed329ac1",
       "name": "Check dependency 2/2",
       "description": "Needs git, python3 and some pip stuff",
       "type": "execute-command",
       "data": {
         "command": "which git \u0026\u0026 which python3 \u0026\u0026 which pip",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "8b9ec574-a9e5-4c97-aacc-38d291a85e52",
+      "id": "d34a3d8b-c8cc-4de2-86ca-fd957e40efb7",
       "name": "Resolve dependency 2/2",
       "description": "Needs git, python3 and some pip stuff",
       "type": "execute-command",
       "data": {
         "command": "apt install git; apt install python3-pip -y; pip install pyasn1 psutil Crypto",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "ea799d14-8425-4a31-b160-1095fef9a8c7",
+      "id": "b873afda-f750-4c60-980a-c3a26ed7003d",
       "name": "Re-check dependency 2/2",
       "description": "Needs git, python3 and some pip stuff",
       "type": "execute-command",
       "data": {
         "command": "which git \u0026\u0026 which python3 \u0026\u0026 which pip",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "ec9c31c8-b076-45c0-ac7c-9527491e6521",
+      "s": "a65eacd4-b6a6-4456-9901-4e07b9c8b960",
       "p": "on-success",
-      "o": "a5de1d52-02d3-4cbf-8083-6975717dfdef"
+      "o": "473b4878-f780-475a-abdf-9b95accd7fe4"
     },
     {
-      "s": "ec9c31c8-b076-45c0-ac7c-9527491e6521",
+      "s": "a65eacd4-b6a6-4456-9901-4e07b9c8b960",
       "p": "on-failure",
-      "o": "a5de1d52-02d3-4cbf-8083-6975717dfdef"
+      "o": "473b4878-f780-475a-abdf-9b95accd7fe4"
     },
     {
-      "s": "85eb4a35-de7b-4349-96b4-0420c03190ce",
+      "s": "6cbc5474-db2f-428d-a880-03834792f99d",
       "p": "on-success",
-      "o": "ec9c31c8-b076-45c0-ac7c-9527491e6521"
+      "o": "a65eacd4-b6a6-4456-9901-4e07b9c8b960"
     },
     {
-      "s": "85eb4a35-de7b-4349-96b4-0420c03190ce",
+      "s": "6cbc5474-db2f-428d-a880-03834792f99d",
       "p": "on-failure",
-      "o": "bb85788a-811e-4523-a3e3-0a22894a8203"
+      "o": "cef85b39-7a00-4769-9035-df02650e2fca"
     },
     {
-      "s": "bb85788a-811e-4523-a3e3-0a22894a8203",
+      "s": "cef85b39-7a00-4769-9035-df02650e2fca",
       "p": "on-success",
-      "o": "a7a58d1d-ad1a-48f6-9488-d4c1a2841321"
+      "o": "697d1cab-4b93-426e-b8ae-efc6e3231bbe"
     },
     {
-      "s": "a7a58d1d-ad1a-48f6-9488-d4c1a2841321",
+      "s": "697d1cab-4b93-426e-b8ae-efc6e3231bbe",
       "p": "on-failure",
-      "o": "ec9c31c8-b076-45c0-ac7c-9527491e6521"
+      "o": "a65eacd4-b6a6-4456-9901-4e07b9c8b960"
     },
     {
-      "s": "dbcbed17-2c7b-4b8e-a0e5-bbdc976a0370",
+      "s": "ba40157c-3f19-4c91-872b-641bed329ac1",
       "p": "on-success",
-      "o": "ec9c31c8-b076-45c0-ac7c-9527491e6521"
+      "o": "a65eacd4-b6a6-4456-9901-4e07b9c8b960"
     },
     {
-      "s": "dbcbed17-2c7b-4b8e-a0e5-bbdc976a0370",
+      "s": "ba40157c-3f19-4c91-872b-641bed329ac1",
       "p": "on-failure",
-      "o": "8b9ec574-a9e5-4c97-aacc-38d291a85e52"
+      "o": "d34a3d8b-c8cc-4de2-86ca-fd957e40efb7"
     },
     {
-      "s": "8b9ec574-a9e5-4c97-aacc-38d291a85e52",
+      "s": "d34a3d8b-c8cc-4de2-86ca-fd957e40efb7",
       "p": "on-success",
-      "o": "ea799d14-8425-4a31-b160-1095fef9a8c7"
+      "o": "b873afda-f750-4c60-980a-c3a26ed7003d"
     },
     {
-      "s": "ea799d14-8425-4a31-b160-1095fef9a8c7",
+      "s": "b873afda-f750-4c60-980a-c3a26ed7003d",
       "p": "on-failure",
-      "o": "ec9c31c8-b076-45c0-ac7c-9527491e6521"
+      "o": "a65eacd4-b6a6-4456-9901-4e07b9c8b960"
     }
   ],
   "tags": [

@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "38312850-0a6e-4083-b927-53a149473d18",
+      "id": "5dd30a47-e3e8-470f-a999-f75beb25109f",
       "type": "execute-command",
       "data": {
-        "command": "sudo truncate -s 0 #{system_log_path} #size parameter shorthand\nsudo truncate --size=0 #{system_log_path} #size parameter \n",
+        "command": "sudo truncate -s 0 #{system_log_path} #size parameter shorthand\nsudo truncate --size=0 #{system_log_path} #size parameter",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "fbccb0b1-313f-4636-b73d-e66d040987aa",
+      "id": "40bfe20d-c3e9-49ef-b202-e89e82fdffe2",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "stat #{system_log_path}\n",
-        "command_type": ""
+        "command": "stat #{system_log_path}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "691c6299-488a-4e29-945a-59423be28cef",
+      "id": "22aa3a6c-db14-460d-99cf-30d1768f04ac",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "touch #{system_log_path}\n",
-        "command_type": ""
+        "command": "touch #{system_log_path}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "d99f358e-a863-41b2-b1a2-7157f25df408",
+      "id": "89262575-4b49-474b-9dcc-b7cb411b797b",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "stat #{system_log_path}\n",
-        "command_type": ""
+        "command": "stat #{system_log_path}",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "fbccb0b1-313f-4636-b73d-e66d040987aa",
+      "s": "40bfe20d-c3e9-49ef-b202-e89e82fdffe2",
       "p": "on-success",
-      "o": "38312850-0a6e-4083-b927-53a149473d18"
+      "o": "5dd30a47-e3e8-470f-a999-f75beb25109f"
     },
     {
-      "s": "fbccb0b1-313f-4636-b73d-e66d040987aa",
+      "s": "40bfe20d-c3e9-49ef-b202-e89e82fdffe2",
       "p": "on-failure",
-      "o": "691c6299-488a-4e29-945a-59423be28cef"
+      "o": "22aa3a6c-db14-460d-99cf-30d1768f04ac"
     },
     {
-      "s": "691c6299-488a-4e29-945a-59423be28cef",
+      "s": "22aa3a6c-db14-460d-99cf-30d1768f04ac",
       "p": "on-success",
-      "o": "d99f358e-a863-41b2-b1a2-7157f25df408"
+      "o": "89262575-4b49-474b-9dcc-b7cb411b797b"
     },
     {
-      "s": "d99f358e-a863-41b2-b1a2-7157f25df408",
+      "s": "89262575-4b49-474b-9dcc-b7cb411b797b",
       "p": "on-failure",
-      "o": "38312850-0a6e-4083-b927-53a149473d18"
+      "o": "5dd30a47-e3e8-470f-a999-f75beb25109f"
     }
   ],
   "tags": [

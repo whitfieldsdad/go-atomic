@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "a1ae7dfa-4244-499c-b07c-0a7029d4df2a",
+      "id": "e32cca22-cd2a-45b9-9ea2-282fe90216de",
       "type": "execute-command",
       "data": {
-        "command": "Add-Type -TypeDefinition @'\npublic class Test {\n    public static void Main(string[] args) {\n        System.Console.WriteLine(\"tweet, tweet\");\n    }\n}\n'@ -OutputAssembly \"#{executable_filepath}\"\n\nStart-Process -FilePath \"#{executable_filepath}\"\n",
+        "command": "Add-Type -TypeDefinition @'\npublic class Test {\n    public static void Main(string[] args) {\n        System.Console.WriteLine(\"tweet, tweet\");\n    }\n}\n'@ -OutputAssembly \"#{executable_filepath}\"\n\nStart-Process -FilePath \"#{executable_filepath}\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "586c489d-eecd-47a2-9cb8-01dbee5ca936",
+      "id": "7ae9a480-d910-4d4b-9fd3-0109e1a52b1f",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item -Path \"#{executable_filepath}\" -ErrorAction Ignore\n",
+        "command": "Remove-Item -Path \"#{executable_filepath}\" -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "a1ae7dfa-4244-499c-b07c-0a7029d4df2a",
+      "s": "e32cca22-cd2a-45b9-9ea2-282fe90216de",
       "p": "on-success",
-      "o": "586c489d-eecd-47a2-9cb8-01dbee5ca936"
+      "o": "7ae9a480-d910-4d4b-9fd3-0109e1a52b1f"
     },
     {
-      "s": "a1ae7dfa-4244-499c-b07c-0a7029d4df2a",
+      "s": "e32cca22-cd2a-45b9-9ea2-282fe90216de",
       "p": "on-failure",
-      "o": "586c489d-eecd-47a2-9cb8-01dbee5ca936"
+      "o": "7ae9a480-d910-4d4b-9fd3-0109e1a52b1f"
     }
   ],
   "tags": [

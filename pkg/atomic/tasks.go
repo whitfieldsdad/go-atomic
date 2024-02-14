@@ -6,7 +6,6 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
 )
@@ -184,7 +183,7 @@ func (t Task) GetAttackTechniqueIds() []string {
 	return ids
 }
 
-func (t Task) Run(ctx context.Context) (*ExecutedTask, error) {
+func (t Task) Run(ctx context.Context) (*TaskInvocationResult, error) {
 	if !t.IsRunnable() {
 		return nil, errors.New("task is not runnable")
 	}
@@ -205,38 +204,16 @@ func (t Task) Run(ctx context.Context) (*ExecutedTask, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to lookup current process")
 	}
-	return &ExecutedTask{
-		Id:        uuid.NewString(),
-		HostId:    GetHostId(),
-		AgentId:   GetAgentId(),
-		UserId:    user.Id,
+	result := TaskInvocationResult{
+		Id:        NewUUID4(),
+		Time:      time.Now(),
 		TaskId:    t.Id,
-		Steps:     stepResults,
 		StartTime: startTime,
 		EndTime:   endTime,
 		Duration:  duration.Seconds(),
 		Process:   *process,
-	}, nil
-}
-
-type ExecutedTask struct {
-	Id        string       `json:"id"`
-	TaskId    string       `json:"task_id"`
-	AgentId   string       `json:"agent_id"`
-	HostId    string       `json:"host_id"`
-	UserId    string       `json:"user_id"`
-	Steps     []StepResult `json:"steps"`
-	StartTime time.Time    `json:"start_time"`
-	EndTime   time.Time    `json:"end_time"`
-	Duration  float64      `json:"duration"`
-	Process   Process      `json:"process"`
-}
-
-func (e ExecutedTask) OK() bool {
-	for _, step := range e.Steps {
-		if !step.OK() {
-			return false
-		}
+		User:      *user,
+		Steps:     stepResults,
 	}
-	return true
+	return &result, nil
 }

@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "230356f9-a073-4d68-88f3-e894c9d6b2d7",
+      "id": "a7dda5d1-6a38-47c6-b8cf-430f2d46356c",
       "type": "execute-command",
       "data": {
-        "command": "schtasks /create /tn \"T1053_005_OnLogon\" /sc onlogon /tr \"cmd.exe /c calc.exe\"\nschtasks /create /tn \"T1053_005_OnStartup\" /sc onstart /ru system /tr \"cmd.exe /c calc.exe\"\n",
+        "command": "schtasks /create /tn \"T1053_005_OnLogon\" /sc onlogon /tr \"cmd.exe /c calc.exe\"\nschtasks /create /tn \"T1053_005_OnStartup\" /sc onstart /ru system /tr \"cmd.exe /c calc.exe\"",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "289cf2c2-96f1-41e0-b08f-d40399ef004c",
+      "id": "df29f59d-8b23-4743-8035-417e73f8593e",
       "type": "execute-command",
       "data": {
-        "command": "schtasks /delete /tn \"T1053_005_OnLogon\" /f \u003enul 2\u003e\u00261\nschtasks /delete /tn \"T1053_005_OnStartup\" /f \u003enul 2\u003e\u00261\n",
+        "command": "schtasks /delete /tn \"T1053_005_OnLogon\" /f \u003enul 2\u003e\u00261\nschtasks /delete /tn \"T1053_005_OnStartup\" /f \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "230356f9-a073-4d68-88f3-e894c9d6b2d7",
+      "s": "a7dda5d1-6a38-47c6-b8cf-430f2d46356c",
       "p": "on-success",
-      "o": "289cf2c2-96f1-41e0-b08f-d40399ef004c"
+      "o": "df29f59d-8b23-4743-8035-417e73f8593e"
     },
     {
-      "s": "230356f9-a073-4d68-88f3-e894c9d6b2d7",
+      "s": "a7dda5d1-6a38-47c6-b8cf-430f2d46356c",
       "p": "on-failure",
-      "o": "289cf2c2-96f1-41e0-b08f-d40399ef004c"
+      "o": "df29f59d-8b23-4743-8035-417e73f8593e"
     }
   ],
   "tags": [

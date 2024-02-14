@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "8a7fa94a-fc66-441b-bc43-44168f895efa",
+      "id": "cf6d8425-d334-4560-b074-cc8ede83c189",
       "type": "execute-command",
       "data": {
-        "command": "echo #{bash_encoded} | b64decode -r | sh\necho #{dash_encoded} | b64decode -r | sh\necho #{fish_encoded} | b64decode -r | sh\necho #{sh_encoded} | b64decode -r | sh\n",
+        "command": "echo #{bash_encoded} | b64decode -r | sh\necho #{dash_encoded} | b64decode -r | sh\necho #{fish_encoded} | b64decode -r | sh\necho #{sh_encoded} | b64decode -r | sh",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "fef40e7a-10cc-424a-ab06-486acf5e5e3b",
+      "id": "0def5199-78a0-4624-87f0-aec2cf412a32",
       "name": "Check dependency 1/1",
       "description": "b64decode must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "which b64decode\n",
-        "command_type": ""
+        "command": "which b64decode",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "f32c2785-ebb9-4f58-a56c-abae9efa6510",
+      "id": "0a6ccfd5-6361-4484-87d9-f981910a7b7e",
       "name": "Resolve dependency 1/1",
       "description": "b64decode must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"please install b64decode\"\n",
-        "command_type": ""
+        "command": "echo \"please install b64decode\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "ee8498de-28ae-4803-9a9e-7cc7293a7c0c",
+      "id": "371ad91e-d4a2-4123-9742-6046e8dddc87",
       "name": "Re-check dependency 1/1",
       "description": "b64decode must be present\n",
       "type": "execute-command",
       "data": {
-        "command": "which b64decode\n",
-        "command_type": ""
+        "command": "which b64decode",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "fef40e7a-10cc-424a-ab06-486acf5e5e3b",
+      "s": "0def5199-78a0-4624-87f0-aec2cf412a32",
       "p": "on-success",
-      "o": "8a7fa94a-fc66-441b-bc43-44168f895efa"
+      "o": "cf6d8425-d334-4560-b074-cc8ede83c189"
     },
     {
-      "s": "fef40e7a-10cc-424a-ab06-486acf5e5e3b",
+      "s": "0def5199-78a0-4624-87f0-aec2cf412a32",
       "p": "on-failure",
-      "o": "f32c2785-ebb9-4f58-a56c-abae9efa6510"
+      "o": "0a6ccfd5-6361-4484-87d9-f981910a7b7e"
     },
     {
-      "s": "f32c2785-ebb9-4f58-a56c-abae9efa6510",
+      "s": "0a6ccfd5-6361-4484-87d9-f981910a7b7e",
       "p": "on-success",
-      "o": "ee8498de-28ae-4803-9a9e-7cc7293a7c0c"
+      "o": "371ad91e-d4a2-4123-9742-6046e8dddc87"
     },
     {
-      "s": "ee8498de-28ae-4803-9a9e-7cc7293a7c0c",
+      "s": "371ad91e-d4a2-4123-9742-6046e8dddc87",
       "p": "on-failure",
-      "o": "8a7fa94a-fc66-441b-bc43-44168f895efa"
+      "o": "cf6d8425-d334-4560-b074-cc8ede83c189"
     }
   ],
   "tags": [

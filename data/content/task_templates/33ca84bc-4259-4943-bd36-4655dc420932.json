@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "0467a214-ec37-4ef2-8837-7fac94b81a7f",
+      "id": "190c15c8-dbea-43a8-b822-d7431c5e4ce0",
       "type": "execute-command",
       "data": {
-        "command": "aws logs create-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Created ***\"\naws logs create-log-stream --log-group-name #{cloudwatch_log_group_name} --log-stream-name #{cloudwatch_log_stream_name}\necho \"*** Log Stream Created ***\"\naws logs delete-log-stream --log-group-name #{cloudwatch_log_group_name} --log-stream-name #{cloudwatch_log_stream_name}\necho \"*** Log Stream Deleted ***\"\naws logs delete-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Deleted ***\"\n",
+        "command": "aws logs create-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Created ***\"\naws logs create-log-stream --log-group-name #{cloudwatch_log_group_name} --log-stream-name #{cloudwatch_log_stream_name}\necho \"*** Log Stream Created ***\"\naws logs delete-log-stream --log-group-name #{cloudwatch_log_group_name} --log-stream-name #{cloudwatch_log_stream_name}\necho \"*** Log Stream Deleted ***\"\naws logs delete-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Deleted ***\"",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "d2bd3b17-6567-4400-82e2-f51b419a9d8e",
+      "id": "af37d2f5-209b-4b0e-a22d-bab08ef61d54",
       "name": "Check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "cat ~/.aws/credentials | grep \"default\"\n",
-        "command_type": ""
+        "command": "cat ~/.aws/credentials | grep \"default\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "d67cf128-2ffb-4a48-885f-bd56e7d16b02",
+      "id": "f9b44fe5-6572-44db-99e4-b232e06de275",
       "name": "Resolve dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "echo Please install the aws-cli and configure your AWS defult profile using: aws configure\n",
-        "command_type": ""
+        "command": "echo Please install the aws-cli and configure your AWS defult profile using: aws configure",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "90f20b8d-5fe3-4329-8841-cf9bffbbc5f9",
+      "id": "ea49d488-77af-4731-b82c-b17d5629dcac",
       "name": "Re-check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "cat ~/.aws/credentials | grep \"default\"\n",
-        "command_type": ""
+        "command": "cat ~/.aws/credentials | grep \"default\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "d2bd3b17-6567-4400-82e2-f51b419a9d8e",
+      "s": "af37d2f5-209b-4b0e-a22d-bab08ef61d54",
       "p": "on-success",
-      "o": "0467a214-ec37-4ef2-8837-7fac94b81a7f"
+      "o": "190c15c8-dbea-43a8-b822-d7431c5e4ce0"
     },
     {
-      "s": "d2bd3b17-6567-4400-82e2-f51b419a9d8e",
+      "s": "af37d2f5-209b-4b0e-a22d-bab08ef61d54",
       "p": "on-failure",
-      "o": "d67cf128-2ffb-4a48-885f-bd56e7d16b02"
+      "o": "f9b44fe5-6572-44db-99e4-b232e06de275"
     },
     {
-      "s": "d67cf128-2ffb-4a48-885f-bd56e7d16b02",
+      "s": "f9b44fe5-6572-44db-99e4-b232e06de275",
       "p": "on-success",
-      "o": "90f20b8d-5fe3-4329-8841-cf9bffbbc5f9"
+      "o": "ea49d488-77af-4731-b82c-b17d5629dcac"
     },
     {
-      "s": "90f20b8d-5fe3-4329-8841-cf9bffbbc5f9",
+      "s": "ea49d488-77af-4731-b82c-b17d5629dcac",
       "p": "on-failure",
-      "o": "0467a214-ec37-4ef2-8837-7fac94b81a7f"
+      "o": "190c15c8-dbea-43a8-b822-d7431c5e4ce0"
     }
   ],
   "tags": [

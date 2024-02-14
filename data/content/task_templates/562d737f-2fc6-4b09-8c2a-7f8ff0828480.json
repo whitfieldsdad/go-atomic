@@ -8,87 +8,87 @@
   ],
   "steps": [
     {
-      "id": "e4bfa5a4-39d5-4686-a161-6b7b1c3d93f4",
+      "id": "6a6888d4-fbe3-4446-b64e-22568bb3f9ae",
       "type": "execute-command",
       "data": {
-        "command": "rm -f #{file_to_delete}\n",
+        "command": "rm -f #{file_to_delete}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "d5117cab-fcc3-4116-bdb0-ffa9bd4b0012",
+      "id": "29b7a3b6-3172-4c45-84f5-d8843fcc965c",
       "type": "execute-command",
       "data": {
-        "command": "rm -rf #{parent_folder}\n",
+        "command": "rm -rf #{parent_folder}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "cd29a5c9-bb4c-4a5f-9dee-80abc39f3780",
+      "id": "f5804bdd-c2ff-4e4c-b872-e5ebe30ff423",
       "name": "Check dependency 1/1",
       "description": "The file must exist in order to be deleted\n",
       "type": "execute-command",
       "data": {
-        "command": "test -e #{file_to_delete} \u0026\u0026 exit 0 || exit 1\n",
-        "command_type": ""
+        "command": "test -e #{file_to_delete} \u0026\u0026 exit 0 || exit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "8d1e81ad-cd27-457d-8259-e20d7693d0ac",
+      "id": "ca50f600-6e36-44de-927b-6dc83cc7c786",
       "name": "Resolve dependency 1/1",
       "description": "The file must exist in order to be deleted\n",
       "type": "execute-command",
       "data": {
-        "command": "mkdir -p #{parent_folder} \u0026\u0026 touch #{file_to_delete}\n",
-        "command_type": ""
+        "command": "mkdir -p #{parent_folder} \u0026\u0026 touch #{file_to_delete}",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "8be04a9d-9b68-4fb5-84c4-77604c5d8041",
+      "id": "dadc341c-220c-47f3-8157-bdce7a855186",
       "name": "Re-check dependency 1/1",
       "description": "The file must exist in order to be deleted\n",
       "type": "execute-command",
       "data": {
-        "command": "test -e #{file_to_delete} \u0026\u0026 exit 0 || exit 1\n",
-        "command_type": ""
+        "command": "test -e #{file_to_delete} \u0026\u0026 exit 0 || exit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "e4bfa5a4-39d5-4686-a161-6b7b1c3d93f4",
+      "s": "6a6888d4-fbe3-4446-b64e-22568bb3f9ae",
       "p": "on-success",
-      "o": "d5117cab-fcc3-4116-bdb0-ffa9bd4b0012"
+      "o": "29b7a3b6-3172-4c45-84f5-d8843fcc965c"
     },
     {
-      "s": "e4bfa5a4-39d5-4686-a161-6b7b1c3d93f4",
+      "s": "6a6888d4-fbe3-4446-b64e-22568bb3f9ae",
       "p": "on-failure",
-      "o": "d5117cab-fcc3-4116-bdb0-ffa9bd4b0012"
+      "o": "29b7a3b6-3172-4c45-84f5-d8843fcc965c"
     },
     {
-      "s": "cd29a5c9-bb4c-4a5f-9dee-80abc39f3780",
+      "s": "f5804bdd-c2ff-4e4c-b872-e5ebe30ff423",
       "p": "on-success",
-      "o": "e4bfa5a4-39d5-4686-a161-6b7b1c3d93f4"
+      "o": "6a6888d4-fbe3-4446-b64e-22568bb3f9ae"
     },
     {
-      "s": "cd29a5c9-bb4c-4a5f-9dee-80abc39f3780",
+      "s": "f5804bdd-c2ff-4e4c-b872-e5ebe30ff423",
       "p": "on-failure",
-      "o": "8d1e81ad-cd27-457d-8259-e20d7693d0ac"
+      "o": "ca50f600-6e36-44de-927b-6dc83cc7c786"
     },
     {
-      "s": "8d1e81ad-cd27-457d-8259-e20d7693d0ac",
+      "s": "ca50f600-6e36-44de-927b-6dc83cc7c786",
       "p": "on-success",
-      "o": "8be04a9d-9b68-4fb5-84c4-77604c5d8041"
+      "o": "dadc341c-220c-47f3-8157-bdce7a855186"
     },
     {
-      "s": "8be04a9d-9b68-4fb5-84c4-77604c5d8041",
+      "s": "dadc341c-220c-47f3-8157-bdce7a855186",
       "p": "on-failure",
-      "o": "e4bfa5a4-39d5-4686-a161-6b7b1c3d93f4"
+      "o": "6a6888d4-fbe3-4446-b64e-22568bb3f9ae"
     }
   ],
   "tags": [

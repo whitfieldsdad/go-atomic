@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "efb5fcf7-721d-4f51-91c8-e4fe75fe0080",
+      "id": "9ed89c06-ee2f-4054-b4ec-a9dd3d02e7a0",
       "type": "execute-command",
       "data": {
         "command": "icacls \"#{path}\" /grant Everyone:F /T /C /Q",
@@ -16,78 +16,78 @@
       "elevation_required": true
     },
     {
-      "id": "d279fcb0-fcaf-4703-be70-9b2f09857120",
+      "id": "42069359-fa22-449d-9cb1-323f2bf6f19d",
       "type": "execute-command",
       "data": {
-        "command": "icacls '#{path}' /restore #{file_path} /q \u003enul 2\u003e\u00261\n",
+        "command": "icacls '#{path}' /restore #{file_path} /q \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "cad10f60-8bf2-4d6e-9a51-aa93f0ddc6fe",
+      "id": "31370303-f203-46fd-b55a-96e318281e31",
       "name": "Check dependency 1/1",
       "description": "Backup of original folder permissions should exist (for use in cleanup commands)\n",
       "type": "execute-command",
       "data": {
-        "command": "IF EXIST #{file_path} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
-        "command_type": ""
+        "command": "IF EXIST #{file_path} ( EXIT 0 ) ELSE ( EXIT 1 )",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "61dbe841-b5fc-4c40-929d-e8be26d4aeb2",
+      "id": "f4b361a4-9066-4aac-bedf-87d39d0cdaa5",
       "name": "Resolve dependency 1/1",
       "description": "Backup of original folder permissions should exist (for use in cleanup commands)\n",
       "type": "execute-command",
       "data": {
-        "command": "icacls #{path} /save #{file_path} /t /q \u003enul 2\u003e\u00261\n",
-        "command_type": ""
+        "command": "icacls #{path} /save #{file_path} /t /q \u003enul 2\u003e\u00261",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "05eb09dc-1de2-4503-813c-983b1a97603a",
+      "id": "e96bdc0b-1329-40f3-be43-b136cf56bf1a",
       "name": "Re-check dependency 1/1",
       "description": "Backup of original folder permissions should exist (for use in cleanup commands)\n",
       "type": "execute-command",
       "data": {
-        "command": "IF EXIST #{file_path} ( EXIT 0 ) ELSE ( EXIT 1 )\n",
-        "command_type": ""
+        "command": "IF EXIST #{file_path} ( EXIT 0 ) ELSE ( EXIT 1 )",
+        "command_type": "command_prompt"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "efb5fcf7-721d-4f51-91c8-e4fe75fe0080",
+      "s": "9ed89c06-ee2f-4054-b4ec-a9dd3d02e7a0",
       "p": "on-success",
-      "o": "d279fcb0-fcaf-4703-be70-9b2f09857120"
+      "o": "42069359-fa22-449d-9cb1-323f2bf6f19d"
     },
     {
-      "s": "efb5fcf7-721d-4f51-91c8-e4fe75fe0080",
+      "s": "9ed89c06-ee2f-4054-b4ec-a9dd3d02e7a0",
       "p": "on-failure",
-      "o": "d279fcb0-fcaf-4703-be70-9b2f09857120"
+      "o": "42069359-fa22-449d-9cb1-323f2bf6f19d"
     },
     {
-      "s": "cad10f60-8bf2-4d6e-9a51-aa93f0ddc6fe",
+      "s": "31370303-f203-46fd-b55a-96e318281e31",
       "p": "on-success",
-      "o": "efb5fcf7-721d-4f51-91c8-e4fe75fe0080"
+      "o": "9ed89c06-ee2f-4054-b4ec-a9dd3d02e7a0"
     },
     {
-      "s": "cad10f60-8bf2-4d6e-9a51-aa93f0ddc6fe",
+      "s": "31370303-f203-46fd-b55a-96e318281e31",
       "p": "on-failure",
-      "o": "61dbe841-b5fc-4c40-929d-e8be26d4aeb2"
+      "o": "f4b361a4-9066-4aac-bedf-87d39d0cdaa5"
     },
     {
-      "s": "61dbe841-b5fc-4c40-929d-e8be26d4aeb2",
+      "s": "f4b361a4-9066-4aac-bedf-87d39d0cdaa5",
       "p": "on-success",
-      "o": "05eb09dc-1de2-4503-813c-983b1a97603a"
+      "o": "e96bdc0b-1329-40f3-be43-b136cf56bf1a"
     },
     {
-      "s": "05eb09dc-1de2-4503-813c-983b1a97603a",
+      "s": "e96bdc0b-1329-40f3-be43-b136cf56bf1a",
       "p": "on-failure",
-      "o": "efb5fcf7-721d-4f51-91c8-e4fe75fe0080"
+      "o": "9ed89c06-ee2f-4054-b4ec-a9dd3d02e7a0"
     }
   ],
   "tags": [
@@ -96,16 +96,16 @@
   ],
   "input_arguments": [
     {
-      "name": "path",
-      "type": "path",
-      "description": "Path of folder to recursively set permissions on",
-      "value": "C:\\Users\\Public\\*"
-    },
-    {
       "name": "file_path",
       "type": "path",
       "description": "Path of folder permission back",
       "value": "%temp%\\T1222.001-folder-perms-backup.txt"
+    },
+    {
+      "name": "path",
+      "type": "path",
+      "description": "Path of folder to recursively set permissions on",
+      "value": "C:\\Users\\Public\\*"
     }
   ]
 }

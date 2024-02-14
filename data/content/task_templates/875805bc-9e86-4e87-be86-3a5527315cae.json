@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "15bc46a2-a213-446a-aa88-60f695b0d6d9",
+      "id": "e538ab21-eda9-433f-a37d-ded839d3d91c",
       "type": "execute-command",
       "data": {
-        "command": "sudo smbstatus --shares\n",
+        "command": "sudo smbstatus --shares",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "1344fa98-af3c-42f1-aee3-6dbc2756e100",
+      "id": "2ada02ad-7f46-4991-868a-303bd34e64a3",
       "name": "Check dependency 1/1",
       "description": "Package with smbstatus (samba) must exist on device\n",
       "type": "execute-command",
       "data": {
-        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "90864cbb-07af-4031-b24f-34117a76e5cd",
+      "id": "56a8562e-89f6-4fea-b423-857e98762c2d",
       "name": "Resolve dependency 1/1",
       "description": "Package with smbstatus (samba) must exist on device\n",
       "type": "execute-command",
       "data": {
-        "command": "sudo #{package_installer} \n",
-        "command_type": ""
+        "command": "sudo #{package_installer}",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "22b70743-4c4b-4877-ada6-22039ab2902e",
+      "id": "b6a3c9a2-4e1d-4469-888d-82bd2e09e08c",
       "name": "Re-check dependency 1/1",
       "description": "Package with smbstatus (samba) must exist on device\n",
       "type": "execute-command",
       "data": {
-        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if #{package_checker} \u003e /dev/null; then exit 0; else exit 1; fi",
+        "command_type": "bash"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "1344fa98-af3c-42f1-aee3-6dbc2756e100",
+      "s": "2ada02ad-7f46-4991-868a-303bd34e64a3",
       "p": "on-success",
-      "o": "15bc46a2-a213-446a-aa88-60f695b0d6d9"
+      "o": "e538ab21-eda9-433f-a37d-ded839d3d91c"
     },
     {
-      "s": "1344fa98-af3c-42f1-aee3-6dbc2756e100",
+      "s": "2ada02ad-7f46-4991-868a-303bd34e64a3",
       "p": "on-failure",
-      "o": "90864cbb-07af-4031-b24f-34117a76e5cd"
+      "o": "56a8562e-89f6-4fea-b423-857e98762c2d"
     },
     {
-      "s": "90864cbb-07af-4031-b24f-34117a76e5cd",
+      "s": "56a8562e-89f6-4fea-b423-857e98762c2d",
       "p": "on-success",
-      "o": "22b70743-4c4b-4877-ada6-22039ab2902e"
+      "o": "b6a3c9a2-4e1d-4469-888d-82bd2e09e08c"
     },
     {
-      "s": "22b70743-4c4b-4877-ada6-22039ab2902e",
+      "s": "b6a3c9a2-4e1d-4469-888d-82bd2e09e08c",
       "p": "on-failure",
-      "o": "15bc46a2-a213-446a-aa88-60f695b0d6d9"
+      "o": "e538ab21-eda9-433f-a37d-ded839d3d91c"
     }
   ],
   "tags": [

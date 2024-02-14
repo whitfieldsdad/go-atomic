@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "67e70911-ca7b-4398-967b-e889e798f8e5",
+      "id": "409abe47-43b2-47f8-893e-df37cf74d4e0",
       "type": "execute-command",
       "data": {
-        "command": "Add-Content #{ps_profile} -Value \"\"\nAdd-Content #{ps_profile} -Value \"Start-Process #{exe_path}\"\npowershell -Command exit\n",
+        "command": "Add-Content #{ps_profile} -Value \"\"\nAdd-Content #{ps_profile} -Value \"Start-Process #{exe_path}\"\npowershell -Command exit",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "40780f6c-c056-41be-921b-e38ba26a0136",
+      "id": "aa93ab08-44e6-4988-9115-e910a2ce39b4",
       "type": "execute-command",
       "data": {
-        "command": "$oldprofile = cat $profile | Select-Object -skiplast 1\nSet-Content $profile -Value $oldprofile\n",
+        "command": "$oldprofile = cat $profile | Select-Object -skiplast 1\nSet-Content $profile -Value $oldprofile",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "0dad6c36-6dbf-4183-8a3c-766adf2f2397",
+      "id": "b7fc1ec4-1073-4eb2-ba53-a1256ce3612b",
       "name": "Check dependency 1/1",
       "description": "Ensure a powershell profile exists for the current user\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path #{ps_profile}) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path #{ps_profile}) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "66047399-5b16-4952-978f-e0b448cdf0c0",
+      "id": "198e2a22-b993-4673-ba5b-34fa652c89d0",
       "name": "Resolve dependency 1/1",
       "description": "Ensure a powershell profile exists for the current user\n",
       "type": "execute-command",
       "data": {
-        "command": "New-Item -Path #{ps_profile} -Type File -Force\n",
-        "command_type": ""
+        "command": "New-Item -Path #{ps_profile} -Type File -Force",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "41e87c7a-1e45-4321-8227-2dc7e2eb90c0",
+      "id": "d9f55bba-17f5-42f8-a4fa-a3c2196d588f",
       "name": "Re-check dependency 1/1",
       "description": "Ensure a powershell profile exists for the current user\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path #{ps_profile}) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path #{ps_profile}) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "67e70911-ca7b-4398-967b-e889e798f8e5",
+      "s": "409abe47-43b2-47f8-893e-df37cf74d4e0",
       "p": "on-success",
-      "o": "40780f6c-c056-41be-921b-e38ba26a0136"
+      "o": "aa93ab08-44e6-4988-9115-e910a2ce39b4"
     },
     {
-      "s": "67e70911-ca7b-4398-967b-e889e798f8e5",
+      "s": "409abe47-43b2-47f8-893e-df37cf74d4e0",
       "p": "on-failure",
-      "o": "40780f6c-c056-41be-921b-e38ba26a0136"
+      "o": "aa93ab08-44e6-4988-9115-e910a2ce39b4"
     },
     {
-      "s": "0dad6c36-6dbf-4183-8a3c-766adf2f2397",
+      "s": "b7fc1ec4-1073-4eb2-ba53-a1256ce3612b",
       "p": "on-success",
-      "o": "67e70911-ca7b-4398-967b-e889e798f8e5"
+      "o": "409abe47-43b2-47f8-893e-df37cf74d4e0"
     },
     {
-      "s": "0dad6c36-6dbf-4183-8a3c-766adf2f2397",
+      "s": "b7fc1ec4-1073-4eb2-ba53-a1256ce3612b",
       "p": "on-failure",
-      "o": "66047399-5b16-4952-978f-e0b448cdf0c0"
+      "o": "198e2a22-b993-4673-ba5b-34fa652c89d0"
     },
     {
-      "s": "66047399-5b16-4952-978f-e0b448cdf0c0",
+      "s": "198e2a22-b993-4673-ba5b-34fa652c89d0",
       "p": "on-success",
-      "o": "41e87c7a-1e45-4321-8227-2dc7e2eb90c0"
+      "o": "d9f55bba-17f5-42f8-a4fa-a3c2196d588f"
     },
     {
-      "s": "41e87c7a-1e45-4321-8227-2dc7e2eb90c0",
+      "s": "d9f55bba-17f5-42f8-a4fa-a3c2196d588f",
       "p": "on-failure",
-      "o": "67e70911-ca7b-4398-967b-e889e798f8e5"
+      "o": "409abe47-43b2-47f8-893e-df37cf74d4e0"
     }
   ],
   "tags": [
@@ -96,16 +96,16 @@
   ],
   "input_arguments": [
     {
-      "name": "exe_path",
-      "type": "path",
-      "description": "Path the malicious executable",
-      "value": "calc.exe"
-    },
-    {
       "name": "ps_profile",
       "type": "string",
       "description": "Powershell profile to use",
       "value": "$profile"
+    },
+    {
+      "name": "exe_path",
+      "type": "path",
+      "description": "Path the malicious executable",
+      "value": "calc.exe"
     }
   ]
 }

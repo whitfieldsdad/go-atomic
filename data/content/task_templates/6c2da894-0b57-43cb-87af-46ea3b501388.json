@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "f92a179d-cdd5-43c2-984d-c520cefe9289",
+      "id": "8ea7a370-5f80-4f8d-ba8b-2211b459487e",
       "type": "execute-command",
       "data": {
-        "command": "ip tcp_metrics show |grep --invert-match \"^127\\.\"\n",
+        "command": "ip tcp_metrics show |grep --invert-match \"^127\\.\"",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "962f7925-b562-473a-9864-d7c860868eab",
+      "id": "ede72b27-1dde-425d-b2c3-ef1990860479",
       "name": "Check dependency 1/1",
       "description": "Check if ip command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v ip)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v ip)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "84f8496a-89c5-4544-a1ec-1bab997accb9",
+      "id": "c01dd31c-0dd0-492d-aa69-11de2dc66735",
       "name": "Resolve dependency 1/1",
       "description": "Check if ip command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "apt-get install iproute2 -y\n",
-        "command_type": ""
+        "command": "apt-get install iproute2 -y",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "6b43a51c-4cf8-4909-a804-30fa994bc01b",
+      "id": "3476ba80-f57f-40a8-b9e3-f75ee27d843d",
       "name": "Re-check dependency 1/1",
       "description": "Check if ip command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v ip)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v ip)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "962f7925-b562-473a-9864-d7c860868eab",
+      "s": "ede72b27-1dde-425d-b2c3-ef1990860479",
       "p": "on-success",
-      "o": "f92a179d-cdd5-43c2-984d-c520cefe9289"
+      "o": "8ea7a370-5f80-4f8d-ba8b-2211b459487e"
     },
     {
-      "s": "962f7925-b562-473a-9864-d7c860868eab",
+      "s": "ede72b27-1dde-425d-b2c3-ef1990860479",
       "p": "on-failure",
-      "o": "84f8496a-89c5-4544-a1ec-1bab997accb9"
+      "o": "c01dd31c-0dd0-492d-aa69-11de2dc66735"
     },
     {
-      "s": "84f8496a-89c5-4544-a1ec-1bab997accb9",
+      "s": "c01dd31c-0dd0-492d-aa69-11de2dc66735",
       "p": "on-success",
-      "o": "6b43a51c-4cf8-4909-a804-30fa994bc01b"
+      "o": "3476ba80-f57f-40a8-b9e3-f75ee27d843d"
     },
     {
-      "s": "6b43a51c-4cf8-4909-a804-30fa994bc01b",
+      "s": "3476ba80-f57f-40a8-b9e3-f75ee27d843d",
       "p": "on-failure",
-      "o": "f92a179d-cdd5-43c2-984d-c520cefe9289"
+      "o": "8ea7a370-5f80-4f8d-ba8b-2211b459487e"
     }
   ],
   "tags": [

@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "ab687a49-ae6e-453d-9335-4d1079e45558",
+      "id": "83ade750-b83b-4929-bf8f-13618cbbeba7",
       "type": "execute-command",
       "data": {
-        "command": "openssl genrsa -out #{key_filename} 4096\nopenssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj \"/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com\" -out #{cert_filename}\ncp #{cert_filename} /etc/pki/ca-trust/source/anchors/\nupdate-ca-trust\n",
+        "command": "openssl genrsa -out #{key_filename} 4096\nopenssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj \"/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com\" -out #{cert_filename}\ncp #{cert_filename} /etc/pki/ca-trust/source/anchors/\nupdate-ca-trust",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "12883dcd-d3f3-4db7-bbd0-5f3047b8106d",
+      "id": "cefb8b18-bfef-443e-8701-5b2b2df2977f",
       "type": "execute-command",
       "data": {
-        "command": "rm /etc/pki/ca-trust/source/anchors/#{cert_filename}\nupdate-ca-trust\n",
+        "command": "rm /etc/pki/ca-trust/source/anchors/#{cert_filename}\nupdate-ca-trust",
         "command_type": "sh"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "ab687a49-ae6e-453d-9335-4d1079e45558",
+      "s": "83ade750-b83b-4929-bf8f-13618cbbeba7",
       "p": "on-success",
-      "o": "12883dcd-d3f3-4db7-bbd0-5f3047b8106d"
+      "o": "cefb8b18-bfef-443e-8701-5b2b2df2977f"
     },
     {
-      "s": "ab687a49-ae6e-453d-9335-4d1079e45558",
+      "s": "83ade750-b83b-4929-bf8f-13618cbbeba7",
       "p": "on-failure",
-      "o": "12883dcd-d3f3-4db7-bbd0-5f3047b8106d"
+      "o": "cefb8b18-bfef-443e-8701-5b2b2df2977f"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "cert_filename",
-      "type": "path",
-      "description": "Path of the CA certificate we create",
-      "value": "rootCA.crt"
-    },
-    {
       "name": "key_filename",
       "type": "path",
       "description": "Key we create that is used to create the CA certificate",
       "value": "rootCA.key"
+    },
+    {
+      "name": "cert_filename",
+      "type": "path",
+      "description": "Path of the CA certificate we create",
+      "value": "rootCA.crt"
     }
   ]
 }

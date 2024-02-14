@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "4c28d39f-fe3b-4248-8b2b-d28b290987fb",
+      "id": "2e2bcb41-d232-46ec-8664-b9cb78e2ce98",
       "type": "execute-command",
       "data": {
-        "command": "which_python=`which python || which python3`\n$which_python -c \"import gzip;input_file=open('#{path_to_input_file}', 'rb');content=input_file.read();input_file.close();output_file=gzip.GzipFile('#{path_to_output_file}','wb',compresslevel=6);output_file.write(content);output_file.close();\"\n",
+        "command": "which_python=`which python || which python3`\n$which_python -c \"import gzip;input_file=open('#{path_to_input_file}', 'rb');content=input_file.read();input_file.close();output_file=gzip.GzipFile('#{path_to_output_file}','wb',compresslevel=6);output_file.write(content);output_file.close();\"",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "de63e2c1-c80e-4ddf-a866-a9eb83f89ed7",
+      "id": "b73f2e10-a4a2-41ea-96ba-131b619f2d43",
       "type": "execute-command",
       "data": {
-        "command": "rm #{path_to_output_file}\n",
+        "command": "rm #{path_to_output_file}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "ef53ae80-2385-4032-ba3f-0b705ef6d5cb",
+      "id": "2a0b52c1-5446-494d-b0e6-2e4b6da96840",
       "name": "Check dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
       "data": {
-        "command": "which python || which python3\n",
-        "command_type": ""
+        "command": "which python || which python3",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "0e9bf6c7-0b0c-4817-b376-d9ef2b934ffe",
+      "id": "b2ecc013-835f-46b8-8290-e884a003822d",
       "name": "Resolve dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"please install python to run this test\"; exit 1\n",
-        "command_type": ""
+        "command": "echo \"please install python to run this test\"; exit 1",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "c65720bd-611a-4600-b3c8-ed3daa57f2cb",
+      "id": "fc89afcd-fd72-4d6c-94a7-7d78b57d73c0",
       "name": "Re-check dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
       "data": {
-        "command": "which python || which python3\n",
-        "command_type": ""
+        "command": "which python || which python3",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "4c28d39f-fe3b-4248-8b2b-d28b290987fb",
+      "s": "2e2bcb41-d232-46ec-8664-b9cb78e2ce98",
       "p": "on-success",
-      "o": "de63e2c1-c80e-4ddf-a866-a9eb83f89ed7"
+      "o": "b73f2e10-a4a2-41ea-96ba-131b619f2d43"
     },
     {
-      "s": "4c28d39f-fe3b-4248-8b2b-d28b290987fb",
+      "s": "2e2bcb41-d232-46ec-8664-b9cb78e2ce98",
       "p": "on-failure",
-      "o": "de63e2c1-c80e-4ddf-a866-a9eb83f89ed7"
+      "o": "b73f2e10-a4a2-41ea-96ba-131b619f2d43"
     },
     {
-      "s": "ef53ae80-2385-4032-ba3f-0b705ef6d5cb",
+      "s": "2a0b52c1-5446-494d-b0e6-2e4b6da96840",
       "p": "on-success",
-      "o": "4c28d39f-fe3b-4248-8b2b-d28b290987fb"
+      "o": "2e2bcb41-d232-46ec-8664-b9cb78e2ce98"
     },
     {
-      "s": "ef53ae80-2385-4032-ba3f-0b705ef6d5cb",
+      "s": "2a0b52c1-5446-494d-b0e6-2e4b6da96840",
       "p": "on-failure",
-      "o": "0e9bf6c7-0b0c-4817-b376-d9ef2b934ffe"
+      "o": "b2ecc013-835f-46b8-8290-e884a003822d"
     },
     {
-      "s": "0e9bf6c7-0b0c-4817-b376-d9ef2b934ffe",
+      "s": "b2ecc013-835f-46b8-8290-e884a003822d",
       "p": "on-success",
-      "o": "c65720bd-611a-4600-b3c8-ed3daa57f2cb"
+      "o": "fc89afcd-fd72-4d6c-94a7-7d78b57d73c0"
     },
     {
-      "s": "c65720bd-611a-4600-b3c8-ed3daa57f2cb",
+      "s": "fc89afcd-fd72-4d6c-94a7-7d78b57d73c0",
       "p": "on-failure",
-      "o": "4c28d39f-fe3b-4248-8b2b-d28b290987fb"
+      "o": "2e2bcb41-d232-46ec-8664-b9cb78e2ce98"
     }
   ],
   "tags": [

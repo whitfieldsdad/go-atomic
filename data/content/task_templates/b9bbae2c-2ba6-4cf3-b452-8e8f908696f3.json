@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "f13dd045-92df-499b-b324-7bac1d26a154",
+      "id": "133d2d7b-8979-47e0-a59c-c78264667c17",
       "type": "execute-command",
       "data": {
-        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\n$test = Get-AntiPhishRule\nDisable-AntiPhishRule -Identity $test.Name -Confirm:$false\nGet-AntiPhishRule\n",
+        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\n$test = Get-AntiPhishRule\nDisable-AntiPhishRule -Identity $test.Name -Confirm:$false\nGet-AntiPhishRule",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "8f5d9c2d-31ea-420d-a1dd-2814704c2445",
+      "id": "336c5f2b-9437-4a54-989b-45cefdc882e3",
       "type": "execute-command",
       "data": {
-        "command": "if(\"#{password}\" -ne \"\") {\n$secure_pwd = (\"#{password}\" + \"\") | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\n$test = Get-AntiPhishRule\nEnable-AntiPhishRule -Identity $test.Name -Confirm:$false\nGet-AntiPhishRule\n} \n",
+        "command": "if(\"#{password}\" -ne \"\") {\n$secure_pwd = (\"#{password}\" + \"\") | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\n$test = Get-AntiPhishRule\nEnable-AntiPhishRule -Identity $test.Name -Confirm:$false\nGet-AntiPhishRule\n}",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "39f473c5-4e19-46f9-9f1d-ebf6016d4247",
+      "id": "519497d7-5bd6-484b-b3f4-a645de1d1e52",
       "name": "Check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n",
-        "command_type": ""
+        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "d0214c27-ff8d-47fa-b034-9309d9ac5ac9",
+      "id": "2209f9ba-fabb-4f77-a274-6df9e2093257",
       "name": "Resolve dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name ExchangeOnlineManagement\nImport-Module ExchangeOnlineManagement\n",
-        "command_type": ""
+        "command": "Install-Module -Name ExchangeOnlineManagement\nImport-Module ExchangeOnlineManagement",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "de710e54-fea1-4371-b5e4-68e548875e2f",
+      "id": "68edbbf2-b347-4ed2-bd74-3ee067003c00",
       "name": "Re-check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n",
-        "command_type": ""
+        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "f13dd045-92df-499b-b324-7bac1d26a154",
+      "s": "133d2d7b-8979-47e0-a59c-c78264667c17",
       "p": "on-success",
-      "o": "8f5d9c2d-31ea-420d-a1dd-2814704c2445"
+      "o": "336c5f2b-9437-4a54-989b-45cefdc882e3"
     },
     {
-      "s": "f13dd045-92df-499b-b324-7bac1d26a154",
+      "s": "133d2d7b-8979-47e0-a59c-c78264667c17",
       "p": "on-failure",
-      "o": "8f5d9c2d-31ea-420d-a1dd-2814704c2445"
+      "o": "336c5f2b-9437-4a54-989b-45cefdc882e3"
     },
     {
-      "s": "39f473c5-4e19-46f9-9f1d-ebf6016d4247",
+      "s": "519497d7-5bd6-484b-b3f4-a645de1d1e52",
       "p": "on-success",
-      "o": "f13dd045-92df-499b-b324-7bac1d26a154"
+      "o": "133d2d7b-8979-47e0-a59c-c78264667c17"
     },
     {
-      "s": "39f473c5-4e19-46f9-9f1d-ebf6016d4247",
+      "s": "519497d7-5bd6-484b-b3f4-a645de1d1e52",
       "p": "on-failure",
-      "o": "d0214c27-ff8d-47fa-b034-9309d9ac5ac9"
+      "o": "2209f9ba-fabb-4f77-a274-6df9e2093257"
     },
     {
-      "s": "d0214c27-ff8d-47fa-b034-9309d9ac5ac9",
+      "s": "2209f9ba-fabb-4f77-a274-6df9e2093257",
       "p": "on-success",
-      "o": "de710e54-fea1-4371-b5e4-68e548875e2f"
+      "o": "68edbbf2-b347-4ed2-bd74-3ee067003c00"
     },
     {
-      "s": "de710e54-fea1-4371-b5e4-68e548875e2f",
+      "s": "68edbbf2-b347-4ed2-bd74-3ee067003c00",
       "p": "on-failure",
-      "o": "f13dd045-92df-499b-b324-7bac1d26a154"
+      "o": "133d2d7b-8979-47e0-a59c-c78264667c17"
     }
   ],
   "tags": [

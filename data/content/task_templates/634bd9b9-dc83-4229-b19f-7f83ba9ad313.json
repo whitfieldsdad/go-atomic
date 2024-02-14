@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "b2a2d11e-8d24-44aa-821f-78fc3161d895",
+      "id": "a9be0b99-cc76-4b04-be53-f85151393432",
       "type": "execute-command",
       "data": {
-        "command": "New-Item -Path $env:TEMP\\T1119_powershell_collection -ItemType Directory -Force | Out-Null\nGet-ChildItem -Recurse -Include *.doc | % {Copy-Item $_.FullName -destination $env:TEMP\\T1119_powershell_collection}\n",
+        "command": "New-Item -Path $env:TEMP\\T1119_powershell_collection -ItemType Directory -Force | Out-Null\nGet-ChildItem -Recurse -Include *.doc | % {Copy-Item $_.FullName -destination $env:TEMP\\T1119_powershell_collection}",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "6ee632ca-9339-46fb-882d-286656273d57",
+      "id": "3384303f-7f27-470b-b649-49ce12c00818",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item $env:TEMP\\T1119_powershell_collection -Force -ErrorAction Ignore | Out-Null\n",
+        "command": "Remove-Item $env:TEMP\\T1119_powershell_collection -Force -ErrorAction Ignore | Out-Null",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "b2a2d11e-8d24-44aa-821f-78fc3161d895",
+      "s": "a9be0b99-cc76-4b04-be53-f85151393432",
       "p": "on-success",
-      "o": "6ee632ca-9339-46fb-882d-286656273d57"
+      "o": "3384303f-7f27-470b-b649-49ce12c00818"
     },
     {
-      "s": "b2a2d11e-8d24-44aa-821f-78fc3161d895",
+      "s": "a9be0b99-cc76-4b04-be53-f85151393432",
       "p": "on-failure",
-      "o": "6ee632ca-9339-46fb-882d-286656273d57"
+      "o": "3384303f-7f27-470b-b649-49ce12c00818"
     }
   ],
   "tags": [

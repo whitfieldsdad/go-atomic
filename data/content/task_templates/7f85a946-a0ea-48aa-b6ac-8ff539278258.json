@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "b17d5398-187b-4d53-b7ab-b9e8b9bb2087",
+      "id": "13f69216-f05d-4bc2-8628-6a7353c00cf1",
       "type": "execute-command",
       "data": {
-        "command": "trap 'echo \"$(date +\"%d/%m/%y %H:%M:%S.%s\") $USER $BASH_COMMAND\" \u003e\u003e #{output_file}' DEBUG\necho \"Hello World!\"\ncat #{output_file}\n",
+        "command": "trap 'echo \"$(date +\"%d/%m/%y %H:%M:%S.%s\") $USER $BASH_COMMAND\" \u003e\u003e #{output_file}' DEBUG\necho \"Hello World!\"\ncat #{output_file}",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "55e2961e-8f2f-480c-8851-329b0c798183",
+      "id": "326e1101-7d1a-406a-b2b0-4460e43abc17",
       "type": "execute-command",
       "data": {
-        "command": "rm #{output_file}\n",
+        "command": "rm #{output_file}",
         "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "62d8e264-8aa0-4bf0-8a14-b5e4d8bab457",
+      "id": "d1d54695-d332-4f11-9fa3-351f1a054fec",
       "name": "Check dependency 1/1",
       "description": "This test requires to be run in a bash shell\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ \"$(echo $0)\" != \"bash\" ]; then echo -e \"\\n***** Bash not running! *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ \"$(echo $0)\" != \"bash\" ]; then echo -e \"\\n***** Bash not running! *****\\n\"; exit 1; fi",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "e8433151-1bb7-4487-ae54-9d51252b151e",
+      "id": "c00460ca-d7a5-45fd-b8d1-73eadcfc749c",
       "name": "Resolve dependency 1/1",
       "description": "This test requires to be run in a bash shell\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"\"\n",
-        "command_type": ""
+        "command": "echo \"\"",
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "ab9a2fcd-24b8-48db-b4ac-cf3fe313716d",
+      "id": "115e5683-644b-40f4-a336-dd77e9144707",
       "name": "Re-check dependency 1/1",
       "description": "This test requires to be run in a bash shell\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ \"$(echo $0)\" != \"bash\" ]; then echo -e \"\\n***** Bash not running! *****\\n\"; exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ \"$(echo $0)\" != \"bash\" ]; then echo -e \"\\n***** Bash not running! *****\\n\"; exit 1; fi",
+        "command_type": "bash"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "b17d5398-187b-4d53-b7ab-b9e8b9bb2087",
+      "s": "13f69216-f05d-4bc2-8628-6a7353c00cf1",
       "p": "on-success",
-      "o": "55e2961e-8f2f-480c-8851-329b0c798183"
+      "o": "326e1101-7d1a-406a-b2b0-4460e43abc17"
     },
     {
-      "s": "b17d5398-187b-4d53-b7ab-b9e8b9bb2087",
+      "s": "13f69216-f05d-4bc2-8628-6a7353c00cf1",
       "p": "on-failure",
-      "o": "55e2961e-8f2f-480c-8851-329b0c798183"
+      "o": "326e1101-7d1a-406a-b2b0-4460e43abc17"
     },
     {
-      "s": "62d8e264-8aa0-4bf0-8a14-b5e4d8bab457",
+      "s": "d1d54695-d332-4f11-9fa3-351f1a054fec",
       "p": "on-success",
-      "o": "b17d5398-187b-4d53-b7ab-b9e8b9bb2087"
+      "o": "13f69216-f05d-4bc2-8628-6a7353c00cf1"
     },
     {
-      "s": "62d8e264-8aa0-4bf0-8a14-b5e4d8bab457",
+      "s": "d1d54695-d332-4f11-9fa3-351f1a054fec",
       "p": "on-failure",
-      "o": "e8433151-1bb7-4487-ae54-9d51252b151e"
+      "o": "c00460ca-d7a5-45fd-b8d1-73eadcfc749c"
     },
     {
-      "s": "e8433151-1bb7-4487-ae54-9d51252b151e",
+      "s": "c00460ca-d7a5-45fd-b8d1-73eadcfc749c",
       "p": "on-success",
-      "o": "ab9a2fcd-24b8-48db-b4ac-cf3fe313716d"
+      "o": "115e5683-644b-40f4-a336-dd77e9144707"
     },
     {
-      "s": "ab9a2fcd-24b8-48db-b4ac-cf3fe313716d",
+      "s": "115e5683-644b-40f4-a336-dd77e9144707",
       "p": "on-failure",
-      "o": "b17d5398-187b-4d53-b7ab-b9e8b9bb2087"
+      "o": "13f69216-f05d-4bc2-8628-6a7353c00cf1"
     }
   ],
   "tags": [

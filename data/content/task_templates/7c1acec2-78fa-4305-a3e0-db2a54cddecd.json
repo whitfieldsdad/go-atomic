@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "0bb8dbcd-ae0f-4af1-a095-1cc1ac1fc2a9",
+      "id": "44e7a18c-af0a-4f32-ab0a-b7478ad118fe",
       "type": "execute-command",
       "data": {
-        "command": "New-PSSession -ComputerName #{hostname_to_connect}\nTest-Connection $env:COMPUTERNAME\nSet-Content -Path $env:TEMP\\T1086_PowerShell_Session_Creation_and_Use -Value \"T1086 PowerShell Session Creation and Use\"\nGet-Content -Path $env:TEMP\\T1086_PowerShell_Session_Creation_and_Use\nRemove-Item -Force $env:TEMP\\T1086_PowerShell_Session_Creation_and_Use\n",
+        "command": "New-PSSession -ComputerName #{hostname_to_connect}\nTest-Connection $env:COMPUTERNAME\nSet-Content -Path $env:TEMP\\T1086_PowerShell_Session_Creation_and_Use -Value \"T1086 PowerShell Session Creation and Use\"\nGet-Content -Path $env:TEMP\\T1086_PowerShell_Session_Creation_and_Use\nRemove-Item -Force $env:TEMP\\T1086_PowerShell_Session_Creation_and_Use",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "44ce9215-572f-47c4-bad6-9b88c3edffa7",
+      "id": "99d0b720-6e51-47a0-928b-76656658dbe9",
       "name": "Check dependency 1/1",
       "description": "PSRemoting must be enabled\n",
       "type": "execute-command",
       "data": {
-        "command": "Try {\n    New-PSSession -ComputerName #{hostname_to_connect} -ErrorAction Stop | Out-Null\n    exit 0\n} \nCatch {\n    exit 1\n}\n",
-        "command_type": ""
+        "command": "Try {\n    New-PSSession -ComputerName #{hostname_to_connect} -ErrorAction Stop | Out-Null\n    exit 0\n} \nCatch {\n    exit 1\n}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "77aae3a1-d0f0-4a77-bba4-11023a4290fd",
+      "id": "1d199085-d49c-4653-b419-9556cd481953",
       "name": "Resolve dependency 1/1",
       "description": "PSRemoting must be enabled\n",
       "type": "execute-command",
       "data": {
-        "command": "Enable-PSRemoting\n",
-        "command_type": ""
+        "command": "Enable-PSRemoting",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "5ac81bda-5eac-4cf5-82ea-a0dcc2fd3b60",
+      "id": "6ea1bd9d-6dc9-4fd1-b96f-b70488552186",
       "name": "Re-check dependency 1/1",
       "description": "PSRemoting must be enabled\n",
       "type": "execute-command",
       "data": {
-        "command": "Try {\n    New-PSSession -ComputerName #{hostname_to_connect} -ErrorAction Stop | Out-Null\n    exit 0\n} \nCatch {\n    exit 1\n}\n",
-        "command_type": ""
+        "command": "Try {\n    New-PSSession -ComputerName #{hostname_to_connect} -ErrorAction Stop | Out-Null\n    exit 0\n} \nCatch {\n    exit 1\n}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "44ce9215-572f-47c4-bad6-9b88c3edffa7",
+      "s": "99d0b720-6e51-47a0-928b-76656658dbe9",
       "p": "on-success",
-      "o": "0bb8dbcd-ae0f-4af1-a095-1cc1ac1fc2a9"
+      "o": "44e7a18c-af0a-4f32-ab0a-b7478ad118fe"
     },
     {
-      "s": "44ce9215-572f-47c4-bad6-9b88c3edffa7",
+      "s": "99d0b720-6e51-47a0-928b-76656658dbe9",
       "p": "on-failure",
-      "o": "77aae3a1-d0f0-4a77-bba4-11023a4290fd"
+      "o": "1d199085-d49c-4653-b419-9556cd481953"
     },
     {
-      "s": "77aae3a1-d0f0-4a77-bba4-11023a4290fd",
+      "s": "1d199085-d49c-4653-b419-9556cd481953",
       "p": "on-success",
-      "o": "5ac81bda-5eac-4cf5-82ea-a0dcc2fd3b60"
+      "o": "6ea1bd9d-6dc9-4fd1-b96f-b70488552186"
     },
     {
-      "s": "5ac81bda-5eac-4cf5-82ea-a0dcc2fd3b60",
+      "s": "6ea1bd9d-6dc9-4fd1-b96f-b70488552186",
       "p": "on-failure",
-      "o": "0bb8dbcd-ae0f-4af1-a095-1cc1ac1fc2a9"
+      "o": "44e7a18c-af0a-4f32-ab0a-b7478ad118fe"
     }
   ],
   "tags": [

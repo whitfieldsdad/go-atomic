@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "38ab2590-757d-4ba4-b355-1b22d9fc2d3e",
+      "id": "8939a781-fe45-443c-bff9-d14e452b40a2",
       "type": "execute-command",
       "data": {
-        "command": "sudo rm #{journal_folder}/* #physically deletes the journal files, and not just their content\nsudo journalctl --vacuum-time=0 #clears the journal while still keeping the journal files in place\n",
+        "command": "sudo rm #{journal_folder}/* #physically deletes the journal files, and not just their content\nsudo journalctl --vacuum-time=0 #clears the journal while still keeping the journal files in place",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "e2315a5d-33b9-464c-91c3-0f4e323aeb88",
+      "id": "1b7c4910-3e1c-4c50-b282-ea1acf371125",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "stat #{journal_folder}\n",
-        "command_type": ""
+        "command": "stat #{journal_folder}",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "8ce63c20-d4c3-446f-95fe-157ce200e11e",
+      "id": "6ac2f6dc-5476-40bc-a4c3-7685af5648d4",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "mkdir -p #{journal_folder} \u0026\u0026 touch #{journal_folder}/T1070_002.journal\n",
-        "command_type": ""
+        "command": "mkdir -p #{journal_folder} \u0026\u0026 touch #{journal_folder}/T1070_002.journal",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "ad4dc94f-1750-4fb6-87ca-76b9382e0804",
+      "id": "de64d41e-30cf-4841-850c-c633a5b57a01",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
       "data": {
-        "command": "stat #{journal_folder}\n",
-        "command_type": ""
+        "command": "stat #{journal_folder}",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "e2315a5d-33b9-464c-91c3-0f4e323aeb88",
+      "s": "1b7c4910-3e1c-4c50-b282-ea1acf371125",
       "p": "on-success",
-      "o": "38ab2590-757d-4ba4-b355-1b22d9fc2d3e"
+      "o": "8939a781-fe45-443c-bff9-d14e452b40a2"
     },
     {
-      "s": "e2315a5d-33b9-464c-91c3-0f4e323aeb88",
+      "s": "1b7c4910-3e1c-4c50-b282-ea1acf371125",
       "p": "on-failure",
-      "o": "8ce63c20-d4c3-446f-95fe-157ce200e11e"
+      "o": "6ac2f6dc-5476-40bc-a4c3-7685af5648d4"
     },
     {
-      "s": "8ce63c20-d4c3-446f-95fe-157ce200e11e",
+      "s": "6ac2f6dc-5476-40bc-a4c3-7685af5648d4",
       "p": "on-success",
-      "o": "ad4dc94f-1750-4fb6-87ca-76b9382e0804"
+      "o": "de64d41e-30cf-4841-850c-c633a5b57a01"
     },
     {
-      "s": "ad4dc94f-1750-4fb6-87ca-76b9382e0804",
+      "s": "de64d41e-30cf-4841-850c-c633a5b57a01",
       "p": "on-failure",
-      "o": "38ab2590-757d-4ba4-b355-1b22d9fc2d3e"
+      "o": "8939a781-fe45-443c-bff9-d14e452b40a2"
     }
   ],
   "tags": [

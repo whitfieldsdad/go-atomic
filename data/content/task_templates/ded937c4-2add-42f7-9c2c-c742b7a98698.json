@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "f70e65cd-38f6-4116-a2db-0481dbe2e020",
+      "id": "5f8542e6-057d-4650-a3a9-69c7c8776ac2",
       "type": "execute-command",
       "data": {
-        "command": "rmdir /s /q #{folder_to_delete}\n",
+        "command": "rmdir /s /q #{folder_to_delete}",
         "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "fc8f6f7b-dd4f-4e73-b970-d7c94e913e6b",
+      "id": "96560b99-24d2-49d2-92fd-08688f30ed47",
       "name": "Check dependency 1/1",
       "description": "The file to delete must exist on disk at specified location (#{folder_to_delete})\n",
       "type": "execute-command",
       "data": {
-        "command": "IF EXIST \"#{folder_to_delete}\" ( EXIT 0 ) ELSE ( EXIT 1 )\n",
-        "command_type": ""
+        "command": "IF EXIST \"#{folder_to_delete}\" ( EXIT 0 ) ELSE ( EXIT 1 )",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "b07defe2-2a27-4098-abde-e7bf5f20cf93",
+      "id": "391f851d-6639-4a82-8ecc-8044c53095c9",
       "name": "Resolve dependency 1/1",
       "description": "The file to delete must exist on disk at specified location (#{folder_to_delete})\n",
       "type": "execute-command",
       "data": {
-        "command": "mkdir #{folder_to_delete}\n",
-        "command_type": ""
+        "command": "mkdir #{folder_to_delete}",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     },
     {
-      "id": "6d623940-326e-4e30-93e2-38586ef20a24",
+      "id": "d962ab99-7990-4a4b-8b8d-7eca36769d6a",
       "name": "Re-check dependency 1/1",
       "description": "The file to delete must exist on disk at specified location (#{folder_to_delete})\n",
       "type": "execute-command",
       "data": {
-        "command": "IF EXIST \"#{folder_to_delete}\" ( EXIT 0 ) ELSE ( EXIT 1 )\n",
-        "command_type": ""
+        "command": "IF EXIST \"#{folder_to_delete}\" ( EXIT 0 ) ELSE ( EXIT 1 )",
+        "command_type": "command_prompt"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "fc8f6f7b-dd4f-4e73-b970-d7c94e913e6b",
+      "s": "96560b99-24d2-49d2-92fd-08688f30ed47",
       "p": "on-success",
-      "o": "f70e65cd-38f6-4116-a2db-0481dbe2e020"
+      "o": "5f8542e6-057d-4650-a3a9-69c7c8776ac2"
     },
     {
-      "s": "fc8f6f7b-dd4f-4e73-b970-d7c94e913e6b",
+      "s": "96560b99-24d2-49d2-92fd-08688f30ed47",
       "p": "on-failure",
-      "o": "b07defe2-2a27-4098-abde-e7bf5f20cf93"
+      "o": "391f851d-6639-4a82-8ecc-8044c53095c9"
     },
     {
-      "s": "b07defe2-2a27-4098-abde-e7bf5f20cf93",
+      "s": "391f851d-6639-4a82-8ecc-8044c53095c9",
       "p": "on-success",
-      "o": "6d623940-326e-4e30-93e2-38586ef20a24"
+      "o": "d962ab99-7990-4a4b-8b8d-7eca36769d6a"
     },
     {
-      "s": "6d623940-326e-4e30-93e2-38586ef20a24",
+      "s": "d962ab99-7990-4a4b-8b8d-7eca36769d6a",
       "p": "on-failure",
-      "o": "f70e65cd-38f6-4116-a2db-0481dbe2e020"
+      "o": "5f8542e6-057d-4650-a3a9-69c7c8776ac2"
     }
   ],
   "tags": [

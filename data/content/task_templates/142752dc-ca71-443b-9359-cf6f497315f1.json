@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "74e58cfc-7021-4d31-8cad-3aa7e0a1ad9f",
+      "id": "e4c4fa69-b408-4735-b645-e9ff228ba174",
       "type": "execute-command",
       "data": {
-        "command": "$which_openssl genrsa -out #{private_key_path} #{encryption_bit_size}\n$which_openssl rsa -in #{private_key_path} -pubout -out #{public_key_path}\n$which_openssl rsautl -encrypt -inkey #{public_key_path} -pubin -in #{input_file_path} -out #{encrypted_file_path}\n",
+        "command": "$which_openssl genrsa -out #{private_key_path} #{encryption_bit_size}\n$which_openssl rsa -in #{private_key_path} -pubout -out #{public_key_path}\n$which_openssl rsautl -encrypt -inkey #{public_key_path} -pubin -in #{input_file_path} -out #{encrypted_file_path}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "032b5e7c-12bc-4c09-8899-abfe667bedb2",
+      "id": "f995b848-1490-4dcc-8fa0-690384e3f9c2",
       "type": "execute-command",
       "data": {
-        "command": "$which_openssl rsautl -decrypt -inkey #{private_key_path} -in #{encrypted_file_path}\nrm #{encrypted_file_path}\n",
+        "command": "$which_openssl rsautl -decrypt -inkey #{private_key_path} -in #{encrypted_file_path}\nrm #{encrypted_file_path}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "1e0563fd-0af0-4337-9fbd-86d427c688aa",
+      "id": "d38b7cf0-fc63-480b-8735-7f98e4b4c2df",
       "name": "Check dependency 1/1",
       "description": "Finds where openssl is located\n",
       "type": "execute-command",
       "data": {
-        "command": "which_openssl=`which openssl`\n",
-        "command_type": ""
+        "command": "which_openssl=`which openssl`",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "50f0ab10-8d84-47ff-b774-d77e33d1f0ca",
+      "id": "a9f06451-9429-4de4-b2e0-af88cba910c8",
       "name": "Resolve dependency 1/1",
       "description": "Finds where openssl is located\n",
       "type": "execute-command",
       "data": {
         "command": "",
-        "command_type": ""
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "01c6b390-9f36-4124-8d2a-41aded8a1706",
+      "id": "8430766d-bc0b-4740-be16-18bcdaa38b97",
       "name": "Re-check dependency 1/1",
       "description": "Finds where openssl is located\n",
       "type": "execute-command",
       "data": {
-        "command": "which_openssl=`which openssl`\n",
-        "command_type": ""
+        "command": "which_openssl=`which openssl`",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "74e58cfc-7021-4d31-8cad-3aa7e0a1ad9f",
+      "s": "e4c4fa69-b408-4735-b645-e9ff228ba174",
       "p": "on-success",
-      "o": "032b5e7c-12bc-4c09-8899-abfe667bedb2"
+      "o": "f995b848-1490-4dcc-8fa0-690384e3f9c2"
     },
     {
-      "s": "74e58cfc-7021-4d31-8cad-3aa7e0a1ad9f",
+      "s": "e4c4fa69-b408-4735-b645-e9ff228ba174",
       "p": "on-failure",
-      "o": "032b5e7c-12bc-4c09-8899-abfe667bedb2"
+      "o": "f995b848-1490-4dcc-8fa0-690384e3f9c2"
     },
     {
-      "s": "1e0563fd-0af0-4337-9fbd-86d427c688aa",
+      "s": "d38b7cf0-fc63-480b-8735-7f98e4b4c2df",
       "p": "on-success",
-      "o": "74e58cfc-7021-4d31-8cad-3aa7e0a1ad9f"
+      "o": "e4c4fa69-b408-4735-b645-e9ff228ba174"
     },
     {
-      "s": "1e0563fd-0af0-4337-9fbd-86d427c688aa",
+      "s": "d38b7cf0-fc63-480b-8735-7f98e4b4c2df",
       "p": "on-failure",
-      "o": "50f0ab10-8d84-47ff-b774-d77e33d1f0ca"
+      "o": "a9f06451-9429-4de4-b2e0-af88cba910c8"
     },
     {
-      "s": "50f0ab10-8d84-47ff-b774-d77e33d1f0ca",
+      "s": "a9f06451-9429-4de4-b2e0-af88cba910c8",
       "p": "on-success",
-      "o": "01c6b390-9f36-4124-8d2a-41aded8a1706"
+      "o": "8430766d-bc0b-4740-be16-18bcdaa38b97"
     },
     {
-      "s": "01c6b390-9f36-4124-8d2a-41aded8a1706",
+      "s": "8430766d-bc0b-4740-be16-18bcdaa38b97",
       "p": "on-failure",
-      "o": "74e58cfc-7021-4d31-8cad-3aa7e0a1ad9f"
+      "o": "e4c4fa69-b408-4735-b645-e9ff228ba174"
     }
   ],
   "tags": [

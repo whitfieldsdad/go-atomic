@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "09253836-e55a-4db1-b8ca-6fe53f2e92c5",
+      "id": "b7ef53fd-c7ea-4cd3-b9e2-868339e57736",
       "type": "execute-command",
       "data": {
         "command": "killall 'Google Chrome'\nsleep 1\nopen -a \"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --args --remote-debugging-port=1337 --remote-allow-origins=http://localhost/\nsleep 1\n/tmp/WhiteChocolateMacademiaNut/chocolate -d cookies -p 1337",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "1ffc083a-78db-4785-8564-edec77b14f37",
+      "id": "f8f73aa0-9997-42fa-890a-a0a221d6d874",
       "type": "execute-command",
       "data": {
         "command": "rm -rf /tmp/WhiteChocolateMacademiaNut",
@@ -25,122 +25,122 @@
       "elevation_required": false
     },
     {
-      "id": "4fc60d96-bf8a-4b96-b9bf-504b9de8abe3",
+      "id": "0f66ec07-2a81-4d5e-aa70-00da096a8b2e",
       "name": "Check dependency 1/2",
       "description": "Install Go",
       "type": "execute-command",
       "data": {
         "command": "go version",
-        "command_type": ""
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "2b700e54-4e2e-4334-bb3c-f6c3354de060",
+      "id": "99e9f038-7f9e-4533-b831-d3404a1fb836",
       "name": "Resolve dependency 1/2",
       "description": "Install Go",
       "type": "execute-command",
       "data": {
         "command": "brew install go",
-        "command_type": ""
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "d17d94c0-52e7-44ab-a0ca-52100caeca79",
+      "id": "eda71878-86e0-45bf-8dc4-9e608838c647",
       "name": "Re-check dependency 1/2",
       "description": "Install Go",
       "type": "execute-command",
       "data": {
         "command": "go version",
-        "command_type": ""
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "7ef834ec-5f63-40b4-9e84-2483868bb6c0",
+      "id": "01ee4449-11bb-4858-808b-da145da997fb",
       "name": "Check dependency 2/2",
       "description": "Download and compile WhiteChocolateMacademiaNut",
       "type": "execute-command",
       "data": {
         "command": "/tmp/WhiteChocolateMacademiaNut/chocolate -h",
-        "command_type": ""
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "b20492fa-3fc9-4386-bd6f-88f07b1f88ab",
+      "id": "2952a22f-f513-4381-9d01-e68c749578bd",
       "name": "Resolve dependency 2/2",
       "description": "Download and compile WhiteChocolateMacademiaNut",
       "type": "execute-command",
       "data": {
         "command": "git clone https://github.com/slyd0g/WhiteChocolateMacademiaNut.git /tmp/WhiteChocolateMacademiaNut\ncd /tmp/WhiteChocolateMacademiaNut\ngo mod init chocolate\ngo mod tidy\ngo build",
-        "command_type": ""
+        "command_type": "bash"
       },
       "elevation_required": false
     },
     {
-      "id": "769e3cf5-dcb0-4afa-8f21-5a0f4b9241cf",
+      "id": "7a73b53c-0fda-4613-89fc-f12a29e2c108",
       "name": "Re-check dependency 2/2",
       "description": "Download and compile WhiteChocolateMacademiaNut",
       "type": "execute-command",
       "data": {
         "command": "/tmp/WhiteChocolateMacademiaNut/chocolate -h",
-        "command_type": ""
+        "command_type": "bash"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "09253836-e55a-4db1-b8ca-6fe53f2e92c5",
+      "s": "b7ef53fd-c7ea-4cd3-b9e2-868339e57736",
       "p": "on-success",
-      "o": "1ffc083a-78db-4785-8564-edec77b14f37"
+      "o": "f8f73aa0-9997-42fa-890a-a0a221d6d874"
     },
     {
-      "s": "09253836-e55a-4db1-b8ca-6fe53f2e92c5",
+      "s": "b7ef53fd-c7ea-4cd3-b9e2-868339e57736",
       "p": "on-failure",
-      "o": "1ffc083a-78db-4785-8564-edec77b14f37"
+      "o": "f8f73aa0-9997-42fa-890a-a0a221d6d874"
     },
     {
-      "s": "4fc60d96-bf8a-4b96-b9bf-504b9de8abe3",
+      "s": "0f66ec07-2a81-4d5e-aa70-00da096a8b2e",
       "p": "on-success",
-      "o": "09253836-e55a-4db1-b8ca-6fe53f2e92c5"
+      "o": "b7ef53fd-c7ea-4cd3-b9e2-868339e57736"
     },
     {
-      "s": "4fc60d96-bf8a-4b96-b9bf-504b9de8abe3",
+      "s": "0f66ec07-2a81-4d5e-aa70-00da096a8b2e",
       "p": "on-failure",
-      "o": "2b700e54-4e2e-4334-bb3c-f6c3354de060"
+      "o": "99e9f038-7f9e-4533-b831-d3404a1fb836"
     },
     {
-      "s": "2b700e54-4e2e-4334-bb3c-f6c3354de060",
+      "s": "99e9f038-7f9e-4533-b831-d3404a1fb836",
       "p": "on-success",
-      "o": "d17d94c0-52e7-44ab-a0ca-52100caeca79"
+      "o": "eda71878-86e0-45bf-8dc4-9e608838c647"
     },
     {
-      "s": "d17d94c0-52e7-44ab-a0ca-52100caeca79",
+      "s": "eda71878-86e0-45bf-8dc4-9e608838c647",
       "p": "on-failure",
-      "o": "09253836-e55a-4db1-b8ca-6fe53f2e92c5"
+      "o": "b7ef53fd-c7ea-4cd3-b9e2-868339e57736"
     },
     {
-      "s": "7ef834ec-5f63-40b4-9e84-2483868bb6c0",
+      "s": "01ee4449-11bb-4858-808b-da145da997fb",
       "p": "on-success",
-      "o": "09253836-e55a-4db1-b8ca-6fe53f2e92c5"
+      "o": "b7ef53fd-c7ea-4cd3-b9e2-868339e57736"
     },
     {
-      "s": "7ef834ec-5f63-40b4-9e84-2483868bb6c0",
+      "s": "01ee4449-11bb-4858-808b-da145da997fb",
       "p": "on-failure",
-      "o": "b20492fa-3fc9-4386-bd6f-88f07b1f88ab"
+      "o": "2952a22f-f513-4381-9d01-e68c749578bd"
     },
     {
-      "s": "b20492fa-3fc9-4386-bd6f-88f07b1f88ab",
+      "s": "2952a22f-f513-4381-9d01-e68c749578bd",
       "p": "on-success",
-      "o": "769e3cf5-dcb0-4afa-8f21-5a0f4b9241cf"
+      "o": "7a73b53c-0fda-4613-89fc-f12a29e2c108"
     },
     {
-      "s": "769e3cf5-dcb0-4afa-8f21-5a0f4b9241cf",
+      "s": "7a73b53c-0fda-4613-89fc-f12a29e2c108",
       "p": "on-failure",
-      "o": "09253836-e55a-4db1-b8ca-6fe53f2e92c5"
+      "o": "b7ef53fd-c7ea-4cd3-b9e2-868339e57736"
     }
   ],
   "tags": [

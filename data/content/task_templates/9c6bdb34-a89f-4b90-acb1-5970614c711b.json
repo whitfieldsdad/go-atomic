@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "b8366e1f-f15e-4a94-a169-9042559d38ae",
+      "id": "7de60aeb-2128-488d-9d07-64096833e89c",
       "type": "execute-command",
       "data": {
-        "command": "if sudo test -f /etc/pam.d/password-auth; then sudo cp /etc/pam.d/password-auth /tmp/password-auth.bk; fi;\nif sudo test -f /etc/pam.d/system-auth; then sudo cp /etc/pam.d/system-auth /tmp/system-auth.bk; fi;\nsudo touch /tmp/password-auth.bk\nsudo touch /tmp/system-auth.bk sudo echo \"session    required    pam_tty_audit.so\nenable=* log_password\" \u003e\u003e /etc/pam.d/password-auth sudo echo \"session    required    pam_tty_audit.so\nenable=* log_password\" \u003e\u003e /etc/pam.d/system-auth\n",
+        "command": "if sudo test -f /etc/pam.d/password-auth; then sudo cp /etc/pam.d/password-auth /tmp/password-auth.bk; fi;\nif sudo test -f /etc/pam.d/system-auth; then sudo cp /etc/pam.d/system-auth /tmp/system-auth.bk; fi;\nsudo touch /tmp/password-auth.bk\nsudo touch /tmp/system-auth.bk sudo echo \"session    required    pam_tty_audit.so\nenable=* log_password\" \u003e\u003e /etc/pam.d/password-auth sudo echo \"session    required    pam_tty_audit.so\nenable=* log_password\" \u003e\u003e /etc/pam.d/system-auth",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "4d0e8c4e-2b57-4f3a-8433-1b18b79b0253",
+      "id": "273fd98f-8cac-4d89-99fb-9af4d6efdc19",
       "type": "execute-command",
       "data": {
-        "command": "sudo cp -f /tmp/password-auth.bk /etc/pam.d/password-auth\nsudo cp -f /tmp/system-auth.bk /etc/pam.d/system-auth\n",
+        "command": "sudo cp -f /tmp/password-auth.bk /etc/pam.d/password-auth\nsudo cp -f /tmp/system-auth.bk /etc/pam.d/system-auth",
         "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "9612efc0-18f1-43da-aa70-7d376d794b69",
+      "id": "48f23bcf-29cf-4789-8729-9c2679f6c1d2",
       "name": "Check dependency 1/1",
       "description": "Checking if pam_tty_audit.so is installed\n",
       "type": "execute-command",
       "data": {
-        "command": "test -f '/usr/lib/pam/pam_tty_audit.so -o  /usr/lib64/security/pam_tty_audit.so'\n",
-        "command_type": ""
+        "command": "test -f '/usr/lib/pam/pam_tty_audit.so -o  /usr/lib64/security/pam_tty_audit.so'",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "bdf7588a-8d38-4396-9047-fb319b01068b",
+      "id": "c2819791-d6e6-47f6-9786-95519894a61a",
       "name": "Resolve dependency 1/1",
       "description": "Checking if pam_tty_audit.so is installed\n",
       "type": "execute-command",
       "data": {
-        "command": "echo \"Sorry, you must install module pam_tty_audit.so and recompile, for this test to work\"\n",
-        "command_type": ""
+        "command": "echo \"Sorry, you must install module pam_tty_audit.so and recompile, for this test to work\"",
+        "command_type": "sh"
       },
       "elevation_required": true
     },
     {
-      "id": "4a9ea13a-b564-4b6e-9f2f-d8011910c96b",
+      "id": "b2930eb0-f289-4afd-9ded-5f052453cc9b",
       "name": "Re-check dependency 1/1",
       "description": "Checking if pam_tty_audit.so is installed\n",
       "type": "execute-command",
       "data": {
-        "command": "test -f '/usr/lib/pam/pam_tty_audit.so -o  /usr/lib64/security/pam_tty_audit.so'\n",
-        "command_type": ""
+        "command": "test -f '/usr/lib/pam/pam_tty_audit.so -o  /usr/lib64/security/pam_tty_audit.so'",
+        "command_type": "sh"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "b8366e1f-f15e-4a94-a169-9042559d38ae",
+      "s": "7de60aeb-2128-488d-9d07-64096833e89c",
       "p": "on-success",
-      "o": "4d0e8c4e-2b57-4f3a-8433-1b18b79b0253"
+      "o": "273fd98f-8cac-4d89-99fb-9af4d6efdc19"
     },
     {
-      "s": "b8366e1f-f15e-4a94-a169-9042559d38ae",
+      "s": "7de60aeb-2128-488d-9d07-64096833e89c",
       "p": "on-failure",
-      "o": "4d0e8c4e-2b57-4f3a-8433-1b18b79b0253"
+      "o": "273fd98f-8cac-4d89-99fb-9af4d6efdc19"
     },
     {
-      "s": "9612efc0-18f1-43da-aa70-7d376d794b69",
+      "s": "48f23bcf-29cf-4789-8729-9c2679f6c1d2",
       "p": "on-success",
-      "o": "b8366e1f-f15e-4a94-a169-9042559d38ae"
+      "o": "7de60aeb-2128-488d-9d07-64096833e89c"
     },
     {
-      "s": "9612efc0-18f1-43da-aa70-7d376d794b69",
+      "s": "48f23bcf-29cf-4789-8729-9c2679f6c1d2",
       "p": "on-failure",
-      "o": "bdf7588a-8d38-4396-9047-fb319b01068b"
+      "o": "c2819791-d6e6-47f6-9786-95519894a61a"
     },
     {
-      "s": "bdf7588a-8d38-4396-9047-fb319b01068b",
+      "s": "c2819791-d6e6-47f6-9786-95519894a61a",
       "p": "on-success",
-      "o": "4a9ea13a-b564-4b6e-9f2f-d8011910c96b"
+      "o": "b2930eb0-f289-4afd-9ded-5f052453cc9b"
     },
     {
-      "s": "4a9ea13a-b564-4b6e-9f2f-d8011910c96b",
+      "s": "b2930eb0-f289-4afd-9ded-5f052453cc9b",
       "p": "on-failure",
-      "o": "b8366e1f-f15e-4a94-a169-9042559d38ae"
+      "o": "7de60aeb-2128-488d-9d07-64096833e89c"
     }
   ],
   "tags": [

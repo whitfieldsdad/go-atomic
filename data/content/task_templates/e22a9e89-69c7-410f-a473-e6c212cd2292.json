@@ -8,87 +8,87 @@
   ],
   "steps": [
     {
-      "id": "9cbebdd2-b867-4935-9477-f40d2a4179c7",
+      "id": "70af09c6-bd14-4c01-9867-c41a264555e3",
       "type": "execute-command",
       "data": {
-        "command": "truncate -s +1 #{file_to_pad} #adds a byte to the file size\n",
+        "command": "truncate -s +1 #{file_to_pad} #adds a byte to the file size",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "5fe4da87-a5cd-4c29-ae7a-5f23f8f8e04e",
+      "id": "27b50937-6795-4430-8909-cfbca1a0310a",
       "type": "execute-command",
       "data": {
-        "command": "rm #{file_to_pad}\n",
+        "command": "rm #{file_to_pad}",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "38c06a7d-7222-4eea-b3a1-290166141245",
+      "id": "834b90a1-ecbc-4243-96fd-fc3cb7ecfa7b",
       "name": "Check dependency 1/1",
       "description": "The binary must exist on disk at specified location (#{file_to_pad})\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f #{file_to_pad} ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -f #{file_to_pad} ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "8b256727-7223-4410-8fb7-a13868afe07e",
+      "id": "a9082b08-be80-43a5-861a-ec967820919e",
       "name": "Resolve dependency 1/1",
       "description": "The binary must exist on disk at specified location (#{file_to_pad})\n",
       "type": "execute-command",
       "data": {
-        "command": "cp /bin/ls #{file_to_pad}\n",
-        "command_type": ""
+        "command": "cp /bin/ls #{file_to_pad}",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "12c87447-dcb5-42ca-b7b4-d104a68eb646",
+      "id": "36c1e846-81d5-4232-90c0-aa43aab7065b",
       "name": "Re-check dependency 1/1",
       "description": "The binary must exist on disk at specified location (#{file_to_pad})\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f #{file_to_pad} ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -f #{file_to_pad} ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "9cbebdd2-b867-4935-9477-f40d2a4179c7",
+      "s": "70af09c6-bd14-4c01-9867-c41a264555e3",
       "p": "on-success",
-      "o": "5fe4da87-a5cd-4c29-ae7a-5f23f8f8e04e"
+      "o": "27b50937-6795-4430-8909-cfbca1a0310a"
     },
     {
-      "s": "9cbebdd2-b867-4935-9477-f40d2a4179c7",
+      "s": "70af09c6-bd14-4c01-9867-c41a264555e3",
       "p": "on-failure",
-      "o": "5fe4da87-a5cd-4c29-ae7a-5f23f8f8e04e"
+      "o": "27b50937-6795-4430-8909-cfbca1a0310a"
     },
     {
-      "s": "38c06a7d-7222-4eea-b3a1-290166141245",
+      "s": "834b90a1-ecbc-4243-96fd-fc3cb7ecfa7b",
       "p": "on-success",
-      "o": "9cbebdd2-b867-4935-9477-f40d2a4179c7"
+      "o": "70af09c6-bd14-4c01-9867-c41a264555e3"
     },
     {
-      "s": "38c06a7d-7222-4eea-b3a1-290166141245",
+      "s": "834b90a1-ecbc-4243-96fd-fc3cb7ecfa7b",
       "p": "on-failure",
-      "o": "8b256727-7223-4410-8fb7-a13868afe07e"
+      "o": "a9082b08-be80-43a5-861a-ec967820919e"
     },
     {
-      "s": "8b256727-7223-4410-8fb7-a13868afe07e",
+      "s": "a9082b08-be80-43a5-861a-ec967820919e",
       "p": "on-success",
-      "o": "12c87447-dcb5-42ca-b7b4-d104a68eb646"
+      "o": "36c1e846-81d5-4232-90c0-aa43aab7065b"
     },
     {
-      "s": "12c87447-dcb5-42ca-b7b4-d104a68eb646",
+      "s": "36c1e846-81d5-4232-90c0-aa43aab7065b",
       "p": "on-failure",
-      "o": "9cbebdd2-b867-4935-9477-f40d2a4179c7"
+      "o": "70af09c6-bd14-4c01-9867-c41a264555e3"
     }
   ],
   "tags": [

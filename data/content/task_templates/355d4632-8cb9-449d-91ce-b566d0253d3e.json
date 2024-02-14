@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "08404ede-c1c7-476e-901d-6f983d2e3299",
+      "id": "800a90c4-884a-4efe-bcc1-91b0d9390b1d",
       "type": "execute-command",
       "data": {
-        "command": "$Server=#{logonserver}\n$User = Join-Path #{domain} #{username}\n$Password=\"#{password}\"\ncmdkey /generic:TERMSRV/$Server /user:$User /pass:$Password\nmstsc /v:$Server\necho \"RDP connection established\"\n",
+        "command": "$Server=#{logonserver}\n$User = Join-Path #{domain} #{username}\n$Password=\"#{password}\"\ncmdkey /generic:TERMSRV/$Server /user:$User /pass:$Password\nmstsc /v:$Server\necho \"RDP connection established\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "3a457b07-33cd-4165-9525-cc2fc7d8e546",
+      "id": "5daa543f-d13f-44fa-a1a2-380ea791ed46",
       "type": "execute-command",
       "data": {
-        "command": "$p=Tasklist /svc /fi \"IMAGENAME eq mstsc.exe\" /fo csv | convertfrom-csv\nif(-not ([string]::IsNullOrEmpty($p.PID))) { Stop-Process -Id $p.PID }\n",
+        "command": "$p=Tasklist /svc /fi \"IMAGENAME eq mstsc.exe\" /fo csv | convertfrom-csv\nif(-not ([string]::IsNullOrEmpty($p.PID))) { Stop-Process -Id $p.PID }",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "cd407446-fa72-4baa-919c-67612049523c",
+      "id": "b5848b19-d921-490d-8bff-da57a528697c",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
       "data": {
-        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) { exit 0} else { exit 1}\n",
-        "command_type": ""
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) { exit 0} else { exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "524baf1a-90ff-4b58-ac69-77eec7b3a3f1",
+      "id": "37edf5c8-40cc-41c9-a965-998feaf4d449",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
       "data": {
-        "command": "Write-Host Joining this computer to a domain must be done manually\n",
-        "command_type": ""
+        "command": "Write-Host Joining this computer to a domain must be done manually",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "dd8e9e1c-4a2a-48f3-b893-4de1062a0640",
+      "id": "9960be9f-0024-4176-8e44-f01964dabe2f",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
       "data": {
-        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) { exit 0} else { exit 1}\n",
-        "command_type": ""
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) { exit 0} else { exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "08404ede-c1c7-476e-901d-6f983d2e3299",
+      "s": "800a90c4-884a-4efe-bcc1-91b0d9390b1d",
       "p": "on-success",
-      "o": "3a457b07-33cd-4165-9525-cc2fc7d8e546"
+      "o": "5daa543f-d13f-44fa-a1a2-380ea791ed46"
     },
     {
-      "s": "08404ede-c1c7-476e-901d-6f983d2e3299",
+      "s": "800a90c4-884a-4efe-bcc1-91b0d9390b1d",
       "p": "on-failure",
-      "o": "3a457b07-33cd-4165-9525-cc2fc7d8e546"
+      "o": "5daa543f-d13f-44fa-a1a2-380ea791ed46"
     },
     {
-      "s": "cd407446-fa72-4baa-919c-67612049523c",
+      "s": "b5848b19-d921-490d-8bff-da57a528697c",
       "p": "on-success",
-      "o": "08404ede-c1c7-476e-901d-6f983d2e3299"
+      "o": "800a90c4-884a-4efe-bcc1-91b0d9390b1d"
     },
     {
-      "s": "cd407446-fa72-4baa-919c-67612049523c",
+      "s": "b5848b19-d921-490d-8bff-da57a528697c",
       "p": "on-failure",
-      "o": "524baf1a-90ff-4b58-ac69-77eec7b3a3f1"
+      "o": "37edf5c8-40cc-41c9-a965-998feaf4d449"
     },
     {
-      "s": "524baf1a-90ff-4b58-ac69-77eec7b3a3f1",
+      "s": "37edf5c8-40cc-41c9-a965-998feaf4d449",
       "p": "on-success",
-      "o": "dd8e9e1c-4a2a-48f3-b893-4de1062a0640"
+      "o": "9960be9f-0024-4176-8e44-f01964dabe2f"
     },
     {
-      "s": "dd8e9e1c-4a2a-48f3-b893-4de1062a0640",
+      "s": "9960be9f-0024-4176-8e44-f01964dabe2f",
       "p": "on-failure",
-      "o": "08404ede-c1c7-476e-901d-6f983d2e3299"
+      "o": "800a90c4-884a-4efe-bcc1-91b0d9390b1d"
     }
   ],
   "tags": [

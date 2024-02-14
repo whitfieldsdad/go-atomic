@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "f1e343b0-e173-47b9-8330-f54666b0d8a3",
+      "id": "382e7eb5-a926-47ba-bd76-492c41ebea05",
       "type": "execute-command",
       "data": {
-        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nSet-MailboxAuditBypassAssociation -Identity \"#{target_email}\" -AuditBypassEnabled $true\n",
+        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nSet-MailboxAuditBypassAssociation -Identity \"#{target_email}\" -AuditBypassEnabled $true",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "1cf3df13-8acf-40d2-a9ee-b5a4307a81a0",
+      "id": "a92cc059-6ad0-4d57-9c61-1cc3a87b92af",
       "type": "execute-command",
       "data": {
-        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nSet-MailboxAuditBypassAssociation -Identity \"#{target_email}\" -AuditBypassEnabled $false\nDisconnect-ExchangeOnline -Confirm:$false\n",
+        "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nSet-MailboxAuditBypassAssociation -Identity \"#{target_email}\" -AuditBypassEnabled $false\nDisconnect-ExchangeOnline -Confirm:$false",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "4fa44aa7-f14a-4695-be1b-c168b744da1f",
+      "id": "f9d1f796-1308-414b-b4b1-3b799dd749c7",
       "name": "Check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n",
-        "command_type": ""
+        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "0f0ea0f9-e857-49d0-b7c8-acaf08018d54",
+      "id": "c5fe42c8-ca58-41b8-aa03-3fc2f9ccdcfd",
       "name": "Resolve dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "Install-Module -Name ExchangeOnlineManagement         \nImport-Module ExchangeOnlineManagement\n",
-        "command_type": ""
+        "command": "Install-Module -Name ExchangeOnlineManagement         \nImport-Module ExchangeOnlineManagement",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "3fa54af1-9b0e-428f-a695-3c7637b3e3b1",
+      "id": "45fb366f-83a8-4bc9-a012-40dbf3bd8684",
       "name": "Re-check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n",
-        "command_type": ""
+        "command": "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {exit 1}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "f1e343b0-e173-47b9-8330-f54666b0d8a3",
+      "s": "382e7eb5-a926-47ba-bd76-492c41ebea05",
       "p": "on-success",
-      "o": "1cf3df13-8acf-40d2-a9ee-b5a4307a81a0"
+      "o": "a92cc059-6ad0-4d57-9c61-1cc3a87b92af"
     },
     {
-      "s": "f1e343b0-e173-47b9-8330-f54666b0d8a3",
+      "s": "382e7eb5-a926-47ba-bd76-492c41ebea05",
       "p": "on-failure",
-      "o": "1cf3df13-8acf-40d2-a9ee-b5a4307a81a0"
+      "o": "a92cc059-6ad0-4d57-9c61-1cc3a87b92af"
     },
     {
-      "s": "4fa44aa7-f14a-4695-be1b-c168b744da1f",
+      "s": "f9d1f796-1308-414b-b4b1-3b799dd749c7",
       "p": "on-success",
-      "o": "f1e343b0-e173-47b9-8330-f54666b0d8a3"
+      "o": "382e7eb5-a926-47ba-bd76-492c41ebea05"
     },
     {
-      "s": "4fa44aa7-f14a-4695-be1b-c168b744da1f",
+      "s": "f9d1f796-1308-414b-b4b1-3b799dd749c7",
       "p": "on-failure",
-      "o": "0f0ea0f9-e857-49d0-b7c8-acaf08018d54"
+      "o": "c5fe42c8-ca58-41b8-aa03-3fc2f9ccdcfd"
     },
     {
-      "s": "0f0ea0f9-e857-49d0-b7c8-acaf08018d54",
+      "s": "c5fe42c8-ca58-41b8-aa03-3fc2f9ccdcfd",
       "p": "on-success",
-      "o": "3fa54af1-9b0e-428f-a695-3c7637b3e3b1"
+      "o": "45fb366f-83a8-4bc9-a012-40dbf3bd8684"
     },
     {
-      "s": "3fa54af1-9b0e-428f-a695-3c7637b3e3b1",
+      "s": "45fb366f-83a8-4bc9-a012-40dbf3bd8684",
       "p": "on-failure",
-      "o": "f1e343b0-e173-47b9-8330-f54666b0d8a3"
+      "o": "382e7eb5-a926-47ba-bd76-492c41ebea05"
     }
   ],
   "tags": [
@@ -95,6 +95,12 @@
     "T1562.008"
   ],
   "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "office-365 username",
+      "value": "o365_user_test"
+    },
     {
       "name": "password",
       "type": "string",
@@ -106,12 +112,6 @@
       "type": "string",
       "description": "office-365 target_email",
       "value": "o365_email_test"
-    },
-    {
-      "name": "username",
-      "type": "string",
-      "description": "office-365 username",
-      "value": "o365_user_test"
     }
   ]
 }

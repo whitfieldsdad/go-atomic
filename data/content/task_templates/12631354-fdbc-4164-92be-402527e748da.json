@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "9fed13fd-e8ef-4d0f-a7a3-a8ef2e275c17",
+      "id": "fcb1d3ab-d186-4cfc-ab25-b3236cf3dd70",
       "type": "execute-command",
       "data": {
-        "command": "osascript -e 'tell application \"Terminal\" to do script \"tor\"'\n",
+        "command": "osascript -e 'tell application \"Terminal\" to do script \"tor\"'",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "5d2c6bd0-0ab1-4a7e-9b98-a66a13003f21",
+      "id": "d2b9a71a-4499-4a65-af87-733f42e809b8",
       "type": "execute-command",
       "data": {
-        "command": "killall tor \u003e /dev/null 2\u003e\u00261\n",
+        "command": "killall tor \u003e /dev/null 2\u003e\u00261",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "b5b0803f-0f77-4168-a827-cd8f9ea7e04d",
+      "id": "3f593193-ccc8-48d9-aae5-e7d62955da50",
       "name": "Check dependency 1/1",
       "description": "Tor must be installed on the machine \n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v tor --version)\" ]; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v tor --version)\" ]; then exit 0; else exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "31053710-37ea-4cd9-9bf5-303daf6c5201",
+      "id": "d1ca9b18-8bb2-44e8-b99d-f70e3052fcd2",
       "name": "Resolve dependency 1/1",
       "description": "Tor must be installed on the machine \n",
       "type": "execute-command",
       "data": {
-        "command": "if [ ! -x \"$(command -v brew --version)\" ]; then /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh keystroke return)\"; fi\nbrew install tor\n",
-        "command_type": ""
+        "command": "if [ ! -x \"$(command -v brew --version)\" ]; then /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh keystroke return)\"; fi\nbrew install tor",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "1f8eb0c3-6678-4eb2-96ff-744a69d37683",
+      "id": "b8d5dda8-2618-40dc-9578-65dd1569302b",
       "name": "Re-check dependency 1/1",
       "description": "Tor must be installed on the machine \n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v tor --version)\" ]; then exit 0; else exit 1; fi\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v tor --version)\" ]; then exit 0; else exit 1; fi",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "9fed13fd-e8ef-4d0f-a7a3-a8ef2e275c17",
+      "s": "fcb1d3ab-d186-4cfc-ab25-b3236cf3dd70",
       "p": "on-success",
-      "o": "5d2c6bd0-0ab1-4a7e-9b98-a66a13003f21"
+      "o": "d2b9a71a-4499-4a65-af87-733f42e809b8"
     },
     {
-      "s": "9fed13fd-e8ef-4d0f-a7a3-a8ef2e275c17",
+      "s": "fcb1d3ab-d186-4cfc-ab25-b3236cf3dd70",
       "p": "on-failure",
-      "o": "5d2c6bd0-0ab1-4a7e-9b98-a66a13003f21"
+      "o": "d2b9a71a-4499-4a65-af87-733f42e809b8"
     },
     {
-      "s": "b5b0803f-0f77-4168-a827-cd8f9ea7e04d",
+      "s": "3f593193-ccc8-48d9-aae5-e7d62955da50",
       "p": "on-success",
-      "o": "9fed13fd-e8ef-4d0f-a7a3-a8ef2e275c17"
+      "o": "fcb1d3ab-d186-4cfc-ab25-b3236cf3dd70"
     },
     {
-      "s": "b5b0803f-0f77-4168-a827-cd8f9ea7e04d",
+      "s": "3f593193-ccc8-48d9-aae5-e7d62955da50",
       "p": "on-failure",
-      "o": "31053710-37ea-4cd9-9bf5-303daf6c5201"
+      "o": "d1ca9b18-8bb2-44e8-b99d-f70e3052fcd2"
     },
     {
-      "s": "31053710-37ea-4cd9-9bf5-303daf6c5201",
+      "s": "d1ca9b18-8bb2-44e8-b99d-f70e3052fcd2",
       "p": "on-success",
-      "o": "1f8eb0c3-6678-4eb2-96ff-744a69d37683"
+      "o": "b8d5dda8-2618-40dc-9578-65dd1569302b"
     },
     {
-      "s": "1f8eb0c3-6678-4eb2-96ff-744a69d37683",
+      "s": "b8d5dda8-2618-40dc-9578-65dd1569302b",
       "p": "on-failure",
-      "o": "9fed13fd-e8ef-4d0f-a7a3-a8ef2e275c17"
+      "o": "fcb1d3ab-d186-4cfc-ab25-b3236cf3dd70"
     }
   ],
   "tags": [

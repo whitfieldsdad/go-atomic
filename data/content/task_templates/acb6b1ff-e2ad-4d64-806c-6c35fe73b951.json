@@ -8,68 +8,68 @@
   ],
   "steps": [
     {
-      "id": "c1756a54-a45e-4d7f-adda-c709df2560b2",
+      "id": "30c712fa-3584-4ff2-848a-80c67a5b6d28",
       "type": "execute-command",
       "data": {
-        "command": "arp -a | grep -v '^?'\n",
+        "command": "arp -a | grep -v '^?'",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "82a2106e-44e8-4727-8029-b376c1ec8924",
+      "id": "1e5ccbb2-39a3-43e2-96db-dc97f111994e",
       "name": "Check dependency 1/1",
       "description": "Check if arp command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v arp)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v arp)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "5c737ff7-14c8-4f80-a02d-a5441ac83ba5",
+      "id": "993f57c9-7573-4e8a-9f68-61438d04c7df",
       "name": "Resolve dependency 1/1",
       "description": "Check if arp command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "(which yum \u0026\u0026 yum -y install net-tools)||(which apt-get \u0026\u0026 apt-get install -y net-tools)\n",
-        "command_type": ""
+        "command": "(which yum \u0026\u0026 yum -y install net-tools)||(which apt-get \u0026\u0026 apt-get install -y net-tools)",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "77ef15e9-cdd3-4719-9c2f-57840c10f1f4",
+      "id": "26009b2c-ba3a-42bd-823d-ebefc0c1049e",
       "name": "Re-check dependency 1/1",
       "description": "Check if arp command exists on the machine\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v arp)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v arp)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "82a2106e-44e8-4727-8029-b376c1ec8924",
+      "s": "1e5ccbb2-39a3-43e2-96db-dc97f111994e",
       "p": "on-success",
-      "o": "c1756a54-a45e-4d7f-adda-c709df2560b2"
+      "o": "30c712fa-3584-4ff2-848a-80c67a5b6d28"
     },
     {
-      "s": "82a2106e-44e8-4727-8029-b376c1ec8924",
+      "s": "1e5ccbb2-39a3-43e2-96db-dc97f111994e",
       "p": "on-failure",
-      "o": "5c737ff7-14c8-4f80-a02d-a5441ac83ba5"
+      "o": "993f57c9-7573-4e8a-9f68-61438d04c7df"
     },
     {
-      "s": "5c737ff7-14c8-4f80-a02d-a5441ac83ba5",
+      "s": "993f57c9-7573-4e8a-9f68-61438d04c7df",
       "p": "on-success",
-      "o": "77ef15e9-cdd3-4719-9c2f-57840c10f1f4"
+      "o": "26009b2c-ba3a-42bd-823d-ebefc0c1049e"
     },
     {
-      "s": "77ef15e9-cdd3-4719-9c2f-57840c10f1f4",
+      "s": "26009b2c-ba3a-42bd-823d-ebefc0c1049e",
       "p": "on-failure",
-      "o": "c1756a54-a45e-4d7f-adda-c709df2560b2"
+      "o": "30c712fa-3584-4ff2-848a-80c67a5b6d28"
     }
   ],
   "tags": [

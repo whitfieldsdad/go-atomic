@@ -7,121 +7,121 @@
   ],
   "steps": [
     {
-      "id": "309d3976-2661-4eb0-949a-1feb991c7566",
+      "id": "6252d3d0-d000-4fe7-8bfb-b4f8b48300bb",
       "type": "execute-command",
       "data": {
-        "command": "get-aduser -f * -pr DoesNotRequirePreAuth | where {$_.DoesNotRequirePreAuth -eq $TRUE}\n",
+        "command": "get-aduser -f * -pr DoesNotRequirePreAuth | where {$_.DoesNotRequirePreAuth -eq $TRUE}",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "7f38fb5c-61a5-43d7-b4ef-e212bb795585",
+      "id": "e9ddbac6-6252-4089-b9e3-bd28cf397dab",
       "name": "Check dependency 1/2",
       "description": "Computer must be domain joined.\n",
       "type": "execute-command",
       "data": {
-        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "afe5d47e-635a-4741-b89b-593f54aea763",
+      "id": "320bc380-ba30-4bd9-b50e-c1ec60385132",
       "name": "Resolve dependency 1/2",
       "description": "Computer must be domain joined.\n",
       "type": "execute-command",
       "data": {
-        "command": "Write-Host Joining this computer to a domain must be done manually.\n",
-        "command_type": ""
+        "command": "Write-Host Joining this computer to a domain must be done manually.",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "0c0bf7d6-7d32-4657-9616-032f229952d0",
+      "id": "4cbc1c4a-282d-4eab-9fff-6e20d57ac845",
       "name": "Re-check dependency 1/2",
       "description": "Computer must be domain joined.\n",
       "type": "execute-command",
       "data": {
-        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "1fd8d928-99aa-4e21-95c8-59937d4368b0",
+      "id": "5b0e3217-206a-430d-8180-3e07d658cd1f",
       "name": "Check dependency 2/2",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "279f2a55-0292-4ca0-b649-92419ed06d7b",
+      "id": "c83478fc-d062-438e-9c32-f5b50f659813",
       "name": "Resolve dependency 2/2",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "Add-WindowsCapability -Online -Name \"Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0\"\n",
-        "command_type": ""
+        "command": "Add-WindowsCapability -Online -Name \"Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0\"",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "c8df488b-81d9-42fd-8fff-690a734d644a",
+      "id": "e1811242-4749-4147-88eb-f23ae138c30b",
       "name": "Re-check dependency 2/2",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
       "data": {
-        "command": "if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "7f38fb5c-61a5-43d7-b4ef-e212bb795585",
+      "s": "e9ddbac6-6252-4089-b9e3-bd28cf397dab",
       "p": "on-success",
-      "o": "309d3976-2661-4eb0-949a-1feb991c7566"
+      "o": "6252d3d0-d000-4fe7-8bfb-b4f8b48300bb"
     },
     {
-      "s": "7f38fb5c-61a5-43d7-b4ef-e212bb795585",
+      "s": "e9ddbac6-6252-4089-b9e3-bd28cf397dab",
       "p": "on-failure",
-      "o": "afe5d47e-635a-4741-b89b-593f54aea763"
+      "o": "320bc380-ba30-4bd9-b50e-c1ec60385132"
     },
     {
-      "s": "afe5d47e-635a-4741-b89b-593f54aea763",
+      "s": "320bc380-ba30-4bd9-b50e-c1ec60385132",
       "p": "on-success",
-      "o": "0c0bf7d6-7d32-4657-9616-032f229952d0"
+      "o": "4cbc1c4a-282d-4eab-9fff-6e20d57ac845"
     },
     {
-      "s": "0c0bf7d6-7d32-4657-9616-032f229952d0",
+      "s": "4cbc1c4a-282d-4eab-9fff-6e20d57ac845",
       "p": "on-failure",
-      "o": "309d3976-2661-4eb0-949a-1feb991c7566"
+      "o": "6252d3d0-d000-4fe7-8bfb-b4f8b48300bb"
     },
     {
-      "s": "1fd8d928-99aa-4e21-95c8-59937d4368b0",
+      "s": "5b0e3217-206a-430d-8180-3e07d658cd1f",
       "p": "on-success",
-      "o": "309d3976-2661-4eb0-949a-1feb991c7566"
+      "o": "6252d3d0-d000-4fe7-8bfb-b4f8b48300bb"
     },
     {
-      "s": "1fd8d928-99aa-4e21-95c8-59937d4368b0",
+      "s": "5b0e3217-206a-430d-8180-3e07d658cd1f",
       "p": "on-failure",
-      "o": "279f2a55-0292-4ca0-b649-92419ed06d7b"
+      "o": "c83478fc-d062-438e-9c32-f5b50f659813"
     },
     {
-      "s": "279f2a55-0292-4ca0-b649-92419ed06d7b",
+      "s": "c83478fc-d062-438e-9c32-f5b50f659813",
       "p": "on-success",
-      "o": "c8df488b-81d9-42fd-8fff-690a734d644a"
+      "o": "e1811242-4749-4147-88eb-f23ae138c30b"
     },
     {
-      "s": "c8df488b-81d9-42fd-8fff-690a734d644a",
+      "s": "e1811242-4749-4147-88eb-f23ae138c30b",
       "p": "on-failure",
-      "o": "309d3976-2661-4eb0-949a-1feb991c7566"
+      "o": "6252d3d0-d000-4fe7-8bfb-b4f8b48300bb"
     }
   ],
   "tags": [

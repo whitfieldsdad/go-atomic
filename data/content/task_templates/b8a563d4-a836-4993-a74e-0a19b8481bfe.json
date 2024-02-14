@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "61764d2c-f763-460a-b700-dc480cd74083",
+      "id": "f1f0150f-56af-43f3-9f6b-10a90c3248c1",
       "type": "execute-command",
       "data": {
         "command": "$target = $env:LOGONSERVER\n$target = $target.Trim(\"\\\\\")\n$IpAddress = [System.Net.Dns]::GetHostAddresses($target) | select IPAddressToString -ExpandProperty IPAddressToString\nwmic.exe /node:$IpAddress process call create 'wevtutil epl Security C:\\\\ntlmusers.evtx /q:\\\"Event[System[(EventID=4776)]]\"'",
@@ -16,10 +16,10 @@
       "elevation_required": false
     },
     {
-      "id": "714e3177-6c06-423a-aad3-5d85e07e37d8",
+      "id": "df4e59a4-bb0a-4ebe-a0ee-bf9d5f69e5ca",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item -Path \\\\$IpAddress\\c$\\ntlmusers.evtx\n",
+        "command": "Remove-Item -Path \\\\$IpAddress\\c$\\ntlmusers.evtx",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "61764d2c-f763-460a-b700-dc480cd74083",
+      "s": "f1f0150f-56af-43f3-9f6b-10a90c3248c1",
       "p": "on-success",
-      "o": "714e3177-6c06-423a-aad3-5d85e07e37d8"
+      "o": "df4e59a4-bb0a-4ebe-a0ee-bf9d5f69e5ca"
     },
     {
-      "s": "61764d2c-f763-460a-b700-dc480cd74083",
+      "s": "f1f0150f-56af-43f3-9f6b-10a90c3248c1",
       "p": "on-failure",
-      "o": "714e3177-6c06-423a-aad3-5d85e07e37d8"
+      "o": "df4e59a4-bb0a-4ebe-a0ee-bf9d5f69e5ca"
     }
   ],
   "tags": [

@@ -7,87 +7,87 @@
   ],
   "steps": [
     {
-      "id": "0ae9e8d9-fb50-462b-973c-418c63a0fb47",
+      "id": "0ce73e33-8eea-4c1a-98b5-04466066707e",
       "type": "execute-command",
       "data": {
-        "command": "mv #{settings_json_def} #{settings_json_tmp}\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.015/src/settings.json?raw=true\" -OutFile \"#{settings_json_def}\"\nwt.exe\n",
+        "command": "mv #{settings_json_def} #{settings_json_tmp}\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.015/src/settings.json?raw=true\" -OutFile \"#{settings_json_def}\"\nwt.exe",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "cb7418a5-4f58-45de-b2b0-407559ae76a4",
+      "id": "febd9b2d-36c3-4d7d-9439-955246fb6414",
       "type": "execute-command",
       "data": {
-        "command": "mv -Force #{settings_json_tmp} #{settings_json_def}\ntaskkill /F /IM \"#{calculator}\" \u003e $null\n",
+        "command": "mv -Force #{settings_json_tmp} #{settings_json_def}\ntaskkill /F /IM \"#{calculator}\" \u003e $null",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "8a0ff5dd-651a-489e-b8cb-96fbb6217c23",
+      "id": "5ec4e274-1610-4e4b-a75a-bd9a66b7fa76",
       "name": "Check dependency 1/1",
       "description": "Windows Terminal must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path #{wt_exe}) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path #{wt_exe}) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "a3aa4cc2-a464-46b9-8023-de0765d7a835",
+      "id": "9d6a598c-734f-47a9-bba4-7450dbfec0e8",
       "name": "Resolve dependency 1/1",
       "description": "Windows Terminal must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "$(rm ~\\AppData\\Local\\Packages\\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\\LocalState\\StoreEdgeFD\\installed.db -ErrorAction Ignore; Write-Output \"\"; $?) -and $(winget install --id=Microsoft.WindowsTerminal)\n",
-        "command_type": ""
+        "command": "$(rm ~\\AppData\\Local\\Packages\\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\\LocalState\\StoreEdgeFD\\installed.db -ErrorAction Ignore; Write-Output \"\"; $?) -and $(winget install --id=Microsoft.WindowsTerminal)",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "04aae455-5f8e-4127-a06b-e3377f446b5c",
+      "id": "ff81a621-a274-458a-a44c-7d7bef582833",
       "name": "Re-check dependency 1/1",
       "description": "Windows Terminal must be installed\n",
       "type": "execute-command",
       "data": {
-        "command": "if (Test-Path #{wt_exe}) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if (Test-Path #{wt_exe}) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "0ae9e8d9-fb50-462b-973c-418c63a0fb47",
+      "s": "0ce73e33-8eea-4c1a-98b5-04466066707e",
       "p": "on-success",
-      "o": "cb7418a5-4f58-45de-b2b0-407559ae76a4"
+      "o": "febd9b2d-36c3-4d7d-9439-955246fb6414"
     },
     {
-      "s": "0ae9e8d9-fb50-462b-973c-418c63a0fb47",
+      "s": "0ce73e33-8eea-4c1a-98b5-04466066707e",
       "p": "on-failure",
-      "o": "cb7418a5-4f58-45de-b2b0-407559ae76a4"
+      "o": "febd9b2d-36c3-4d7d-9439-955246fb6414"
     },
     {
-      "s": "8a0ff5dd-651a-489e-b8cb-96fbb6217c23",
+      "s": "5ec4e274-1610-4e4b-a75a-bd9a66b7fa76",
       "p": "on-success",
-      "o": "0ae9e8d9-fb50-462b-973c-418c63a0fb47"
+      "o": "0ce73e33-8eea-4c1a-98b5-04466066707e"
     },
     {
-      "s": "8a0ff5dd-651a-489e-b8cb-96fbb6217c23",
+      "s": "5ec4e274-1610-4e4b-a75a-bd9a66b7fa76",
       "p": "on-failure",
-      "o": "a3aa4cc2-a464-46b9-8023-de0765d7a835"
+      "o": "9d6a598c-734f-47a9-bba4-7450dbfec0e8"
     },
     {
-      "s": "a3aa4cc2-a464-46b9-8023-de0765d7a835",
+      "s": "9d6a598c-734f-47a9-bba4-7450dbfec0e8",
       "p": "on-success",
-      "o": "04aae455-5f8e-4127-a06b-e3377f446b5c"
+      "o": "ff81a621-a274-458a-a44c-7d7bef582833"
     },
     {
-      "s": "04aae455-5f8e-4127-a06b-e3377f446b5c",
+      "s": "ff81a621-a274-458a-a44c-7d7bef582833",
       "p": "on-failure",
-      "o": "0ae9e8d9-fb50-462b-973c-418c63a0fb47"
+      "o": "0ce73e33-8eea-4c1a-98b5-04466066707e"
     }
   ],
   "tags": [
@@ -95,6 +95,12 @@
     "T1547.015"
   ],
   "input_arguments": [
+    {
+      "name": "calculator",
+      "type": "string",
+      "description": "Test program used to imitate a maliciously called program.",
+      "value": "calculator.exe"
+    },
     {
       "name": "settings_json_def",
       "type": "path",
@@ -112,12 +118,6 @@
       "type": "path",
       "description": "Windows Terminal executable.",
       "value": "~\\AppData\\Local\\Microsoft\\WindowsApps\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\wt.exe"
-    },
-    {
-      "name": "calculator",
-      "type": "string",
-      "description": "Test program used to imitate a maliciously called program.",
-      "value": "calculator.exe"
     }
   ]
 }

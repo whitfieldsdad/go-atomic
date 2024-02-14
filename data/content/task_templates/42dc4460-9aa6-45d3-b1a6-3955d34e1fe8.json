@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "dca197e1-7792-4a40-bb82-6eb0e55a01a5",
+      "id": "7e5c14e3-bbee-4942-9801-fabe6e642165",
       "type": "execute-command",
       "data": {
-        "command": "(New-Object System.Net.WebClient).DownloadFile(\"#{remote_file}\", \"#{destination_path}\")\n",
+        "command": "(New-Object System.Net.WebClient).DownloadFile(\"#{remote_file}\", \"#{destination_path}\")",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "26a95f3f-ff53-4094-8419-88df7ac55d3d",
+      "id": "f1f6db50-7f58-4e45-871f-3588d7eb5dd4",
       "type": "execute-command",
       "data": {
-        "command": "Remove-Item #{destination_path} -Force -ErrorAction Ignore\n",
+        "command": "Remove-Item #{destination_path} -Force -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "dca197e1-7792-4a40-bb82-6eb0e55a01a5",
+      "s": "7e5c14e3-bbee-4942-9801-fabe6e642165",
       "p": "on-success",
-      "o": "26a95f3f-ff53-4094-8419-88df7ac55d3d"
+      "o": "f1f6db50-7f58-4e45-871f-3588d7eb5dd4"
     },
     {
-      "s": "dca197e1-7792-4a40-bb82-6eb0e55a01a5",
+      "s": "7e5c14e3-bbee-4942-9801-fabe6e642165",
       "p": "on-failure",
-      "o": "26a95f3f-ff53-4094-8419-88df7ac55d3d"
+      "o": "f1f6db50-7f58-4e45-871f-3588d7eb5dd4"
     }
   ],
   "tags": [

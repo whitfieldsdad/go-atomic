@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "e9563366-2581-4d5c-838a-270a9a337809",
+      "id": "f4249d24-f324-4694-bba3-3abfdb19039c",
       "type": "execute-command",
       "data": {
-        "command": "Add-Type -AssemblyName System.IdentityModel  \nsetspn.exe -T #{domain_name} -Q */* | Select-String '^CN' -Context 0,1 | % { New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim() }  \n",
+        "command": "Add-Type -AssemblyName System.IdentityModel  \nsetspn.exe -T #{domain_name} -Q */* | Select-String '^CN' -Context 0,1 | % { New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim() }",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "6be1c510-55da-4ee0-9d44-56e38a4cedc2",
+      "id": "4ac9c89a-ba1b-485a-9ea4-bd11921c7836",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
       "data": {
-        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "2b18b5e5-9782-4e56-ab06-e3af298aabc3",
+      "id": "3e964f5b-432b-400d-8268-98bfd15209d1",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
       "data": {
-        "command": "Write-Host Joining this computer to a domain must be done manually\n",
-        "command_type": ""
+        "command": "Write-Host Joining this computer to a domain must be done manually",
+        "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "4ea2ad8d-9074-439d-a441-b405a938d141",
+      "id": "7b2293ee-09dc-4bf9-8981-a2ad269189d3",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
       "data": {
-        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}\n",
-        "command_type": ""
+        "command": "if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {exit 1}",
+        "command_type": "powershell"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "6be1c510-55da-4ee0-9d44-56e38a4cedc2",
+      "s": "4ac9c89a-ba1b-485a-9ea4-bd11921c7836",
       "p": "on-success",
-      "o": "e9563366-2581-4d5c-838a-270a9a337809"
+      "o": "f4249d24-f324-4694-bba3-3abfdb19039c"
     },
     {
-      "s": "6be1c510-55da-4ee0-9d44-56e38a4cedc2",
+      "s": "4ac9c89a-ba1b-485a-9ea4-bd11921c7836",
       "p": "on-failure",
-      "o": "2b18b5e5-9782-4e56-ab06-e3af298aabc3"
+      "o": "3e964f5b-432b-400d-8268-98bfd15209d1"
     },
     {
-      "s": "2b18b5e5-9782-4e56-ab06-e3af298aabc3",
+      "s": "3e964f5b-432b-400d-8268-98bfd15209d1",
       "p": "on-success",
-      "o": "4ea2ad8d-9074-439d-a441-b405a938d141"
+      "o": "7b2293ee-09dc-4bf9-8981-a2ad269189d3"
     },
     {
-      "s": "4ea2ad8d-9074-439d-a441-b405a938d141",
+      "s": "7b2293ee-09dc-4bf9-8981-a2ad269189d3",
       "p": "on-failure",
-      "o": "e9563366-2581-4d5c-838a-270a9a337809"
+      "o": "f4249d24-f324-4694-bba3-3abfdb19039c"
     }
   ],
   "tags": [

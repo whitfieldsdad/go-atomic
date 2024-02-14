@@ -7,68 +7,68 @@
   ],
   "steps": [
     {
-      "id": "14a69c50-31bc-4467-96e6-64b498bb067e",
+      "id": "20330aca-ee16-40c5-a045-f151eb0fd695",
       "type": "execute-command",
       "data": {
-        "command": "for bucket in \"$(aws s3 ls | cut -d \" \" -f3)\"; do aws s3api list-objects-v2 --bucket $bucket --output text; done\n",
+        "command": "for bucket in \"$(aws s3 ls | cut -d \" \" -f3)\"; do aws s3api list-objects-v2 --bucket $bucket --output text; done",
         "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "61d8d958-5901-4c51-8679-b753683e66d4",
+      "id": "2b706bc7-42df-48b0-972f-8b4205041e28",
       "name": "Check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "cat ~/.aws/credentials | grep \"default\"\n",
-        "command_type": ""
+        "command": "cat ~/.aws/credentials | grep \"default\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "940c2139-1ddb-4793-badb-fdf1607dffbb",
+      "id": "f1295b0d-fabf-4162-aa24-9961e72c5010",
       "name": "Resolve dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "echo Please install the aws-cli and configure your AWS default profile using: aws configure\n",
-        "command_type": ""
+        "command": "echo Please install the aws-cli and configure your AWS default profile using: aws configure",
+        "command_type": "sh"
       },
       "elevation_required": false
     },
     {
-      "id": "c8404c10-cd0e-4868-8571-953a3ac44dc5",
+      "id": "f463a127-e561-4f65-8210-37ae88a86a86",
       "name": "Re-check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
       "data": {
-        "command": "cat ~/.aws/credentials | grep \"default\"\n",
-        "command_type": ""
+        "command": "cat ~/.aws/credentials | grep \"default\"",
+        "command_type": "sh"
       },
       "elevation_required": false
     }
   ],
   "flows": [
     {
-      "s": "61d8d958-5901-4c51-8679-b753683e66d4",
+      "s": "2b706bc7-42df-48b0-972f-8b4205041e28",
       "p": "on-success",
-      "o": "14a69c50-31bc-4467-96e6-64b498bb067e"
+      "o": "20330aca-ee16-40c5-a045-f151eb0fd695"
     },
     {
-      "s": "61d8d958-5901-4c51-8679-b753683e66d4",
+      "s": "2b706bc7-42df-48b0-972f-8b4205041e28",
       "p": "on-failure",
-      "o": "940c2139-1ddb-4793-badb-fdf1607dffbb"
+      "o": "f1295b0d-fabf-4162-aa24-9961e72c5010"
     },
     {
-      "s": "940c2139-1ddb-4793-badb-fdf1607dffbb",
+      "s": "f1295b0d-fabf-4162-aa24-9961e72c5010",
       "p": "on-success",
-      "o": "c8404c10-cd0e-4868-8571-953a3ac44dc5"
+      "o": "f463a127-e561-4f65-8210-37ae88a86a86"
     },
     {
-      "s": "c8404c10-cd0e-4868-8571-953a3ac44dc5",
+      "s": "f463a127-e561-4f65-8210-37ae88a86a86",
       "p": "on-failure",
-      "o": "14a69c50-31bc-4467-96e6-64b498bb067e"
+      "o": "20330aca-ee16-40c5-a045-f151eb0fd695"
     }
   ],
   "tags": [

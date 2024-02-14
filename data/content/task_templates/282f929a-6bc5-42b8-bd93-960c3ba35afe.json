@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "f27cb92f-7f4a-497e-8187-562f5523ff54",
+      "id": "21902cd7-4b73-4e78-b4c1-8010226bfc5a",
       "type": "execute-command",
       "data": {
-        "command": "reg add HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /t REG_EXPAND_SZ /v SecurityHealth /d #{new_executable} /f\n",
+        "command": "reg add HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /t REG_EXPAND_SZ /v SecurityHealth /d #{new_executable} /f",
         "command_type": "command_prompt"
       },
       "elevation_required": true
     },
     {
-      "id": "e248d8cb-3ecb-4221-bde4-b8b4f8e6c7e5",
+      "id": "119fc9fb-f90f-4d0a-a79c-06ba142bbd33",
       "type": "execute-command",
       "data": {
-        "command": "reg delete HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v SecurityHealth /f \u003enul 2\u003e\u00261\n",
+        "command": "reg delete HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v SecurityHealth /f \u003enul 2\u003e\u00261",
         "command_type": "command_prompt"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "f27cb92f-7f4a-497e-8187-562f5523ff54",
+      "s": "21902cd7-4b73-4e78-b4c1-8010226bfc5a",
       "p": "on-success",
-      "o": "e248d8cb-3ecb-4221-bde4-b8b4f8e6c7e5"
+      "o": "119fc9fb-f90f-4d0a-a79c-06ba142bbd33"
     },
     {
-      "s": "f27cb92f-7f4a-497e-8187-562f5523ff54",
+      "s": "21902cd7-4b73-4e78-b4c1-8010226bfc5a",
       "p": "on-failure",
-      "o": "e248d8cb-3ecb-4221-bde4-b8b4f8e6c7e5"
+      "o": "119fc9fb-f90f-4d0a-a79c-06ba142bbd33"
     }
   ],
   "tags": [

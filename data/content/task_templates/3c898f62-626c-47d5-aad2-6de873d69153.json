@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "1d7058ca-acbe-4f16-943f-ee4cc5d5837c",
+      "id": "bb0008e7-fef6-43ad-aabb-c1516e9c480e",
       "type": "execute-command",
       "data": {
-        "command": "cmd /c start /b psr.exe /start /output #{output_file} /sc 1 /gui 0 /stopevent 12\nAdd-Type -MemberDefinition '[DllImport(\"user32.dll\")] public static extern void mouse_event(int flags, int dx, int dy, int cButtons, int info);' -Name U32 -Namespace W;\n[W.U32]::mouse_event(0x02 -bor 0x04 -bor 0x01, 0, 0, 0, 0);\ncmd /c \"timeout #{recording_time} \u003e NULL \u0026\u0026 psr.exe /stop\"\n",
+        "command": "cmd /c start /b psr.exe /start /output #{output_file} /sc 1 /gui 0 /stopevent 12\nAdd-Type -MemberDefinition '[DllImport(\"user32.dll\")] public static extern void mouse_event(int flags, int dx, int dy, int cButtons, int info);' -Name U32 -Namespace W;\n[W.U32]::mouse_event(0x02 -bor 0x04 -bor 0x01, 0, 0, 0, 0);\ncmd /c \"timeout #{recording_time} \u003e NULL \u0026\u0026 psr.exe /stop\"",
         "command_type": "powershell"
       },
       "elevation_required": false
     },
     {
-      "id": "fe7f6b4e-bae0-4b4d-8ab6-b98fa7e9be86",
+      "id": "b6d017d0-f63c-4e4e-8f8c-1fefa7c25286",
       "type": "execute-command",
       "data": {
-        "command": "rm #{output_file} -ErrorAction Ignore\n",
+        "command": "rm #{output_file} -ErrorAction Ignore",
         "command_type": "powershell"
       },
       "elevation_required": false
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "1d7058ca-acbe-4f16-943f-ee4cc5d5837c",
+      "s": "bb0008e7-fef6-43ad-aabb-c1516e9c480e",
       "p": "on-success",
-      "o": "fe7f6b4e-bae0-4b4d-8ab6-b98fa7e9be86"
+      "o": "b6d017d0-f63c-4e4e-8f8c-1fefa7c25286"
     },
     {
-      "s": "1d7058ca-acbe-4f16-943f-ee4cc5d5837c",
+      "s": "bb0008e7-fef6-43ad-aabb-c1516e9c480e",
       "p": "on-failure",
-      "o": "fe7f6b4e-bae0-4b4d-8ab6-b98fa7e9be86"
+      "o": "b6d017d0-f63c-4e4e-8f8c-1fefa7c25286"
     }
   ],
   "tags": [

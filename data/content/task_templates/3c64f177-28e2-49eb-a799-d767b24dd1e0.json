@@ -7,19 +7,19 @@
   ],
   "steps": [
     {
-      "id": "9ba0a3e5-83d1-4fbc-844a-a741f299741e",
+      "id": "c4b1feaf-151f-40dd-b331-e10adc6ea460",
       "type": "execute-command",
       "data": {
-        "command": "$FilterArgs = @{name='AtomicRedTeam-WMIPersistence-CommandLineEventConsumer-Example';\n                EventNameSpace='root\\CimV2';\n                QueryLanguage=\"WQL\";\n                Query=\"SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System' AND TargetInstance.SystemUpTime \u003e= 240 AND TargetInstance.SystemUpTime \u003c 325\"};\n$Filter=New-CimInstance -Namespace root/subscription -ClassName __EventFilter -Property $FilterArgs\n\n$ConsumerArgs = @{name='AtomicRedTeam-WMIPersistence-CommandLineEventConsumer-Example';\n                CommandLineTemplate=\"$($Env:SystemRoot)\\System32\\notepad.exe\";}\n$Consumer=New-CimInstance -Namespace root/subscription -ClassName CommandLineEventConsumer -Property $ConsumerArgs\n\n$FilterToConsumerArgs = @{\nFilter = [Ref] $Filter;\nConsumer = [Ref] $Consumer;\n}\n$FilterToConsumerBinding = New-CimInstance -Namespace root/subscription -ClassName __FilterToConsumerBinding -Property $FilterToConsumerArgs\n",
+        "command": "$FilterArgs = @{name='AtomicRedTeam-WMIPersistence-CommandLineEventConsumer-Example';\n                EventNameSpace='root\\CimV2';\n                QueryLanguage=\"WQL\";\n                Query=\"SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System' AND TargetInstance.SystemUpTime \u003e= 240 AND TargetInstance.SystemUpTime \u003c 325\"};\n$Filter=New-CimInstance -Namespace root/subscription -ClassName __EventFilter -Property $FilterArgs\n\n$ConsumerArgs = @{name='AtomicRedTeam-WMIPersistence-CommandLineEventConsumer-Example';\n                CommandLineTemplate=\"$($Env:SystemRoot)\\System32\\notepad.exe\";}\n$Consumer=New-CimInstance -Namespace root/subscription -ClassName CommandLineEventConsumer -Property $ConsumerArgs\n\n$FilterToConsumerArgs = @{\nFilter = [Ref] $Filter;\nConsumer = [Ref] $Consumer;\n}\n$FilterToConsumerBinding = New-CimInstance -Namespace root/subscription -ClassName __FilterToConsumerBinding -Property $FilterToConsumerArgs",
         "command_type": "powershell"
       },
       "elevation_required": true
     },
     {
-      "id": "916ffa0c-a727-4113-8a03-76d50a66cc1b",
+      "id": "ed669d88-2e86-41bc-97ab-b79bedb7905f",
       "type": "execute-command",
       "data": {
-        "command": "$EventConsumerToCleanup = Get-WmiObject -Namespace root/subscription -Class CommandLineEventConsumer -Filter \"Name = 'AtomicRedTeam-WMIPersistence-CommandLineEventConsumer-Example'\"\n$EventFilterToCleanup = Get-WmiObject -Namespace root/subscription -Class __EventFilter -Filter \"Name = 'AtomicRedTeam-WMIPersistence-CommandLineEventConsumer-Example'\"\n$FilterConsumerBindingToCleanup = Get-WmiObject -Namespace root/subscription -Query \"REFERENCES OF {$($EventConsumerToCleanup.__RELPATH)} WHERE ResultClass = __FilterToConsumerBinding\" -ErrorAction SilentlyContinue\n$FilterConsumerBindingToCleanup | Remove-WmiObject\n$EventConsumerToCleanup | Remove-WmiObject\n$EventFilterToCleanup | Remove-WmiObject\n",
+        "command": "$EventConsumerToCleanup = Get-WmiObject -Namespace root/subscription -Class CommandLineEventConsumer -Filter \"Name = 'AtomicRedTeam-WMIPersistence-CommandLineEventConsumer-Example'\"\n$EventFilterToCleanup = Get-WmiObject -Namespace root/subscription -Class __EventFilter -Filter \"Name = 'AtomicRedTeam-WMIPersistence-CommandLineEventConsumer-Example'\"\n$FilterConsumerBindingToCleanup = Get-WmiObject -Namespace root/subscription -Query \"REFERENCES OF {$($EventConsumerToCleanup.__RELPATH)} WHERE ResultClass = __FilterToConsumerBinding\" -ErrorAction SilentlyContinue\n$FilterConsumerBindingToCleanup | Remove-WmiObject\n$EventConsumerToCleanup | Remove-WmiObject\n$EventFilterToCleanup | Remove-WmiObject",
         "command_type": "powershell"
       },
       "elevation_required": true
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "9ba0a3e5-83d1-4fbc-844a-a741f299741e",
+      "s": "c4b1feaf-151f-40dd-b331-e10adc6ea460",
       "p": "on-success",
-      "o": "916ffa0c-a727-4113-8a03-76d50a66cc1b"
+      "o": "ed669d88-2e86-41bc-97ab-b79bedb7905f"
     },
     {
-      "s": "9ba0a3e5-83d1-4fbc-844a-a741f299741e",
+      "s": "c4b1feaf-151f-40dd-b331-e10adc6ea460",
       "p": "on-failure",
-      "o": "916ffa0c-a727-4113-8a03-76d50a66cc1b"
+      "o": "ed669d88-2e86-41bc-97ab-b79bedb7905f"
     }
   ],
   "tags": [
