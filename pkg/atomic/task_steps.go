@@ -14,9 +14,11 @@ import (
 type StepType string
 
 const (
-	StepTypeExecuteCommand StepType = "execute-command"
-	StepTypeListProcesses  StepType = "list-processes"
-	StepTypeListUsers      StepType = "list-users"
+	StepTypeExecuteCommand         StepType = "execute-command"
+	StepTypeListProcesses          StepType = "list-processes"
+	StepTypeListUsers              StepType = "list-users"
+	StepTypeListNetworkConnections StepType = "list-network-connections"
+	StepTypeListNetworkInterfaces  StepType = "list-network-interfaces"
 )
 
 type Step struct {
@@ -55,6 +57,12 @@ func (s Step) Run(ctx context.Context) StepResult {
 		result, err = o.Run(ctx)
 	case ListUsersStep:
 		o := d.(ListUsersStep)
+		result, err = o.Run(ctx)
+	case ListNetworkConnectionsStep:
+		o := d.(ListNetworkConnectionsStep)
+		result, err = o.Run(ctx)
+	case ListNetworkInterfacesStep:
+		o := d.(ListNetworkInterfacesStep)
 		result, err = o.Run(ctx)
 	default:
 		panic(fmt.Sprintf("Unresolved type: %s", s.Type))
@@ -206,4 +214,55 @@ func (s ListUsersStep) Run(ctx context.Context) (*ListUsersStepResult, error) {
 
 type ListUsersStepResult struct {
 	Users []User `json:"users"`
+}
+
+type ListNetworkConnectionsStep struct{}
+
+func NewListNetworkConnectionsStep() (*Step, error) {
+	s := &Step{
+		Id:   uuid.NewString(),
+		Type: StepTypeListNetworkConnections,
+		Data: ListNetworkConnectionsStep{},
+		Tags: []string{"T1049"},
+	}
+	return s, nil
+}
+
+func (s ListNetworkConnectionsStep) Run(ctx context.Context) (*ListNetworkConnectionsStepResult, error) {
+	conns, err := ListNetworkConnections()
+	if err != nil {
+		return nil, err
+	}
+	return &ListNetworkConnectionsStepResult{
+		Connections: conns,
+	}, nil
+}
+
+type ListNetworkConnectionsStepResult struct {
+	Connections []*NetworkConnection `json:"connections"`
+}
+
+type ListNetworkInterfacesStep struct{}
+
+func NewListNetworkInterfacesStep() (*Step, error) {
+	s := &Step{
+		Id:   uuid.NewString(),
+		Type: StepTypeListNetworkInterfaces,
+		Data: ListNetworkInterfacesStep{},
+	}
+	return s, nil
+}
+
+func (s ListNetworkInterfacesStep) Run(ctx context.Context) (*ListNetworkInterfacesStepResult, error) {
+	nics, err := ListNetworkInterfaces()
+	if err != nil {
+		return nil, err
+	}
+	return &ListNetworkInterfacesStepResult{
+		Interfaces: nics,
+	}, nil
+}
+
+type ListNetworkInterfacesStepResult struct {
+	Interfaces []NetworkInterface `json:"interfaces"`
 }
