@@ -178,14 +178,18 @@ type ExecuteCommandStepResult struct {
 	Process     Process `json:"process" mapstructure:"process"`
 }
 
-type ListUsersStep struct{}
+type ListUsersStep struct {
+}
 
 func NewListUsersStep() (*Step, error) {
 	s := &Step{
 		Id:   uuid.NewString(),
 		Type: StepTypeListUsers,
 		Data: ListUsersStep{},
-		Tags: []string{},
+		Tags: []string{
+			"T1087",
+			"T1087.001",
+		},
 	}
 	return s, nil
 }
