@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "55b17625-e605-4a54-9c37-9a4edcdd4c42",
+      "id": "f5c97648-b2c4-5396-ba71-049195c0a709",
       "type": "execute-command",
       "data": {
         "command": "Out-ATHPowerShellCommandLineParameter -CommandLineSwitchType #{command_line_switch_type} -EncodedCommandParamVariation #{encoded_command_param_variation} -UseEncodedArguments -EncodedArgumentsParamVariation #{encoded_arguments_param_variation} -Execute -ErrorAction Stop",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "e36a6e21-d6f4-4139-831e-09dec2219dc1",
+      "id": "40838a82-1f16-5072-b505-02b39129b4d1",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "6006982a-d691-47fd-a96b-8c788da3e348",
+      "id": "c5e22a0d-07d5-5012-8eb6-3ff252c7e83b",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "2f45d6b1-982f-4725-bee7-083940a034a0",
+      "id": "40838a82-1f16-5072-b505-02b39129b4d1",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "e36a6e21-d6f4-4139-831e-09dec2219dc1",
+      "s": "40838a82-1f16-5072-b505-02b39129b4d1",
       "p": "on-success",
-      "o": "55b17625-e605-4a54-9c37-9a4edcdd4c42"
+      "o": "f5c97648-b2c4-5396-ba71-049195c0a709"
     },
     {
-      "s": "e36a6e21-d6f4-4139-831e-09dec2219dc1",
+      "s": "40838a82-1f16-5072-b505-02b39129b4d1",
       "p": "on-failure",
-      "o": "6006982a-d691-47fd-a96b-8c788da3e348"
+      "o": "c5e22a0d-07d5-5012-8eb6-3ff252c7e83b"
     },
     {
-      "s": "6006982a-d691-47fd-a96b-8c788da3e348",
+      "s": "c5e22a0d-07d5-5012-8eb6-3ff252c7e83b",
       "p": "on-success",
-      "o": "2f45d6b1-982f-4725-bee7-083940a034a0"
+      "o": "40838a82-1f16-5072-b505-02b39129b4d1"
     },
     {
-      "s": "2f45d6b1-982f-4725-bee7-083940a034a0",
+      "s": "40838a82-1f16-5072-b505-02b39129b4d1",
       "p": "on-failure",
-      "o": "55b17625-e605-4a54-9c37-9a4edcdd4c42"
+      "o": "f5c97648-b2c4-5396-ba71-049195c0a709"
     }
   ],
   "tags": [
@@ -76,6 +76,12 @@
     "T1059.001"
   ],
   "input_arguments": [
+    {
+      "name": "encoded_arguments_param_variation",
+      "type": "string",
+      "description": "The \"EncodedArguments\" parameter variation to use",
+      "value": "EncodedArguments"
+    },
     {
       "name": "encoded_command_param_variation",
       "type": "string",
@@ -87,12 +93,6 @@
       "type": "string",
       "description": "The type of supported command-line switch to use",
       "value": "Hyphen"
-    },
-    {
-      "name": "encoded_arguments_param_variation",
-      "type": "string",
-      "description": "The \"EncodedArguments\" parameter variation to use",
-      "value": "EncodedArguments"
     }
   ]
 }

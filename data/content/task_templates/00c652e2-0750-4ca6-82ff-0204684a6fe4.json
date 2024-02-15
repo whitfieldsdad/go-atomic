@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b9ec8d8e-6dfc-4cf3-ac4f-f028da099246",
+      "id": "5ba06526-e7df-5391-af7c-09b19cd9b909",
       "type": "execute-command",
       "data": {
         "command": "(([adsisearcher]'').SearchRooT).Path | %{if(([ADSI]\"$_\").gPlink){Write-Host \"[+] Domain Path:\"([ADSI]\"$_\").Path;$a=((([ADSI]\"$_\").gplink) -replace \"[[;]\" -split \"]\");for($i=0;$i -lt $a.length;$i++){if($a[$i]){Write-Host \"Policy Path[$i]:\"([ADSI]($a[$i]).Substring(0,$a[$i].length-1)).Path;Write-Host \"Policy Name[$i]:\"([ADSI]($a[$i]).Substring(0,$a[$i].length-1)).DisplayName} };Write-Output \"`n\" }}",

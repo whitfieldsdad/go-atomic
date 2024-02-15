@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b8516d55-4085-420b-a4b6-7c9589b8a85f",
+      "id": "652f7f50-b09b-5a7c-889d-3b55f8199445",
       "type": "execute-command",
       "data": {
         "command": "mv #{settings_json_def} #{settings_json_tmp}\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.015/src/settings.json?raw=true\" -OutFile \"#{settings_json_def}\"\nwt.exe",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "9c484e87-61d5-438e-b4dc-04c73c1bca36",
+      "id": "26f793e8-b111-57bf-8097-5b2fec0f16b7",
       "type": "execute-command",
       "data": {
         "command": "mv -Force #{settings_json_tmp} #{settings_json_def}\ntaskkill /F /IM \"#{calculator}\" \u003e $null",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "08959bed-416a-46dc-809e-42e7b101593b",
+      "id": "db8b32b3-a32c-5c08-9113-4b7c55ac5e30",
       "name": "Check dependency 1/1",
       "description": "Windows Terminal must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "9c0d7b14-266f-4791-a082-c984d85085a5",
+      "id": "1cf7d28b-ea21-5521-9dad-2cc021514ea7",
       "name": "Resolve dependency 1/1",
       "description": "Windows Terminal must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "e2f50acb-3ec3-44e1-8830-613340f1d7eb",
+      "id": "db8b32b3-a32c-5c08-9113-4b7c55ac5e30",
       "name": "Re-check dependency 1/1",
       "description": "Windows Terminal must be installed\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "b8516d55-4085-420b-a4b6-7c9589b8a85f",
+      "s": "652f7f50-b09b-5a7c-889d-3b55f8199445",
       "p": "on-success",
-      "o": "9c484e87-61d5-438e-b4dc-04c73c1bca36"
+      "o": "26f793e8-b111-57bf-8097-5b2fec0f16b7"
     },
     {
-      "s": "b8516d55-4085-420b-a4b6-7c9589b8a85f",
+      "s": "652f7f50-b09b-5a7c-889d-3b55f8199445",
       "p": "on-failure",
-      "o": "9c484e87-61d5-438e-b4dc-04c73c1bca36"
+      "o": "26f793e8-b111-57bf-8097-5b2fec0f16b7"
     },
     {
-      "s": "08959bed-416a-46dc-809e-42e7b101593b",
+      "s": "db8b32b3-a32c-5c08-9113-4b7c55ac5e30",
       "p": "on-success",
-      "o": "b8516d55-4085-420b-a4b6-7c9589b8a85f"
+      "o": "652f7f50-b09b-5a7c-889d-3b55f8199445"
     },
     {
-      "s": "08959bed-416a-46dc-809e-42e7b101593b",
+      "s": "db8b32b3-a32c-5c08-9113-4b7c55ac5e30",
       "p": "on-failure",
-      "o": "9c0d7b14-266f-4791-a082-c984d85085a5"
+      "o": "1cf7d28b-ea21-5521-9dad-2cc021514ea7"
     },
     {
-      "s": "9c0d7b14-266f-4791-a082-c984d85085a5",
+      "s": "1cf7d28b-ea21-5521-9dad-2cc021514ea7",
       "p": "on-success",
-      "o": "e2f50acb-3ec3-44e1-8830-613340f1d7eb"
+      "o": "db8b32b3-a32c-5c08-9113-4b7c55ac5e30"
     },
     {
-      "s": "e2f50acb-3ec3-44e1-8830-613340f1d7eb",
+      "s": "db8b32b3-a32c-5c08-9113-4b7c55ac5e30",
       "p": "on-failure",
-      "o": "b8516d55-4085-420b-a4b6-7c9589b8a85f"
+      "o": "652f7f50-b09b-5a7c-889d-3b55f8199445"
     }
   ],
   "tags": [
@@ -95,12 +95,6 @@
     "T1547.015"
   ],
   "input_arguments": [
-    {
-      "name": "wt_exe",
-      "type": "path",
-      "description": "Windows Terminal executable.",
-      "value": "~\\AppData\\Local\\Microsoft\\WindowsApps\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\wt.exe"
-    },
     {
       "name": "calculator",
       "type": "string",
@@ -118,6 +112,12 @@
       "type": "path",
       "description": "Temp file for Windows Terminal.",
       "value": "~\\AppData\\Local\\Temp\\settings.json"
+    },
+    {
+      "name": "wt_exe",
+      "type": "path",
+      "description": "Windows Terminal executable.",
+      "value": "~\\AppData\\Local\\Microsoft\\WindowsApps\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\wt.exe"
     }
   ]
 }

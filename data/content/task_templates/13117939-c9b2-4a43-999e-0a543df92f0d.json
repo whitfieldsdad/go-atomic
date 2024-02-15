@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b3807705-44d8-4070-87a7-1f34009dd1d7",
+      "id": "e276b5a2-e122-57b5-8e4d-c6ac56cd879b",
       "type": "execute-command",
       "data": {
         "command": "$Name = \"GlobalFlag\"\n$Value = \"512\"\n$registryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{process}\"\nNew-Item -Path $registryPath -Force\nNew-ItemProperty -Path $registryPath -Name $Name -Value $Value -PropertyType DWord -Force\n$Name = \"ReportingMode\"\n$Value = \"1\"\n$SilentProcessExit = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{process}\"\nNew-Item -Path $SilentProcessExit -Force\nNew-ItemProperty -Path $SilentProcessExit -Name $Name -Value $Value -PropertyType DWord -Force \n\n$Name = \"MonitorProcess\"\n$Value = \"#{cmd_to_run}\"\nNew-ItemProperty -Path $SilentProcessExit -Name $Name -Value $Value -PropertyType String -Force\nStart-Process whoami.exe",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "f27a5c0b-af6d-4d47-9e8c-607435135ad1",
+      "id": "8f3e17c2-743b-5358-9f56-b242426493ea",
       "type": "execute-command",
       "data": {
         "command": "$SilentProcessExit = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{process}\" \nRemove-Item $SilentProcessExit -force\n$registryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{process}\"\nRemove-Item $registryPath -force",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "b3807705-44d8-4070-87a7-1f34009dd1d7",
+      "s": "e276b5a2-e122-57b5-8e4d-c6ac56cd879b",
       "p": "on-success",
-      "o": "f27a5c0b-af6d-4d47-9e8c-607435135ad1"
+      "o": "8f3e17c2-743b-5358-9f56-b242426493ea"
     },
     {
-      "s": "b3807705-44d8-4070-87a7-1f34009dd1d7",
+      "s": "e276b5a2-e122-57b5-8e4d-c6ac56cd879b",
       "p": "on-failure",
-      "o": "f27a5c0b-af6d-4d47-9e8c-607435135ad1"
+      "o": "8f3e17c2-743b-5358-9f56-b242426493ea"
     }
   ],
   "tags": [

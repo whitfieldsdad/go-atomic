@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "d4e802e0-e401-4b7f-9c6e-132c2f1bfbe9",
+      "id": "8777f79e-64c3-5013-a69e-68fef967edf5",
       "type": "execute-command",
       "data": {
         "command": "mkdir -p #{test_folder}\ncd #{test_folder}; touch a b c d e f g\nzip --password \"#{encryption_password}\" #{test_folder}/#{test_file} ./*\necho \"#{encryption_password}\" | gpg --batch --yes --passphrase-fd 0 --output #{test_folder}/#{test_file}.zip.gpg -c #{test_folder}/#{test_file}.zip\nls -l #{test_folder}",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "145e443e-130f-459d-aff9-c8a07cb6a167",
+      "id": "321c0c20-05be-5141-b9cd-97a8827e66fd",
       "type": "execute-command",
       "data": {
         "command": "rm -Rf #{test_folder}",
@@ -26,7 +26,7 @@
       "elevation_required": false
     },
     {
-      "id": "2bbfe87d-d07e-4c79-a0df-39355e792157",
+      "id": "4e937476-a459-5a5c-a731-25325b3ba286",
       "name": "Check dependency 1/1",
       "description": "gpg and zip are required to run the test.",
       "type": "execute-command",
@@ -37,7 +37,7 @@
       "elevation_required": false
     },
     {
-      "id": "8dab4b5e-d51b-45e4-8b6f-492adf0cebb6",
+      "id": "0b21247d-2c39-5c83-bd50-935c4fd9372c",
       "name": "Resolve dependency 1/1",
       "description": "gpg and zip are required to run the test.",
       "type": "execute-command",
@@ -48,7 +48,7 @@
       "elevation_required": false
     },
     {
-      "id": "399a81f9-f2b9-43ea-bf1b-b0c701d7e859",
+      "id": "4e937476-a459-5a5c-a731-25325b3ba286",
       "name": "Re-check dependency 1/1",
       "description": "gpg and zip are required to run the test.",
       "type": "execute-command",
@@ -61,34 +61,34 @@
   ],
   "flows": [
     {
-      "s": "d4e802e0-e401-4b7f-9c6e-132c2f1bfbe9",
+      "s": "8777f79e-64c3-5013-a69e-68fef967edf5",
       "p": "on-success",
-      "o": "145e443e-130f-459d-aff9-c8a07cb6a167"
+      "o": "321c0c20-05be-5141-b9cd-97a8827e66fd"
     },
     {
-      "s": "d4e802e0-e401-4b7f-9c6e-132c2f1bfbe9",
+      "s": "8777f79e-64c3-5013-a69e-68fef967edf5",
       "p": "on-failure",
-      "o": "145e443e-130f-459d-aff9-c8a07cb6a167"
+      "o": "321c0c20-05be-5141-b9cd-97a8827e66fd"
     },
     {
-      "s": "2bbfe87d-d07e-4c79-a0df-39355e792157",
+      "s": "4e937476-a459-5a5c-a731-25325b3ba286",
       "p": "on-success",
-      "o": "d4e802e0-e401-4b7f-9c6e-132c2f1bfbe9"
+      "o": "8777f79e-64c3-5013-a69e-68fef967edf5"
     },
     {
-      "s": "2bbfe87d-d07e-4c79-a0df-39355e792157",
+      "s": "4e937476-a459-5a5c-a731-25325b3ba286",
       "p": "on-failure",
-      "o": "8dab4b5e-d51b-45e4-8b6f-492adf0cebb6"
+      "o": "0b21247d-2c39-5c83-bd50-935c4fd9372c"
     },
     {
-      "s": "8dab4b5e-d51b-45e4-8b6f-492adf0cebb6",
+      "s": "0b21247d-2c39-5c83-bd50-935c4fd9372c",
       "p": "on-success",
-      "o": "399a81f9-f2b9-43ea-bf1b-b0c701d7e859"
+      "o": "4e937476-a459-5a5c-a731-25325b3ba286"
     },
     {
-      "s": "399a81f9-f2b9-43ea-bf1b-b0c701d7e859",
+      "s": "4e937476-a459-5a5c-a731-25325b3ba286",
       "p": "on-failure",
-      "o": "d4e802e0-e401-4b7f-9c6e-132c2f1bfbe9"
+      "o": "8777f79e-64c3-5013-a69e-68fef967edf5"
     }
   ],
   "tags": [

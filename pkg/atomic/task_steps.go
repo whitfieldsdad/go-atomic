@@ -150,8 +150,21 @@ type ExecuteCommandStep struct {
 }
 
 func NewExecuteCommandStep(command, commandType string) (*Step, error) {
+	command = strings.TrimSpace(command)
+	commandType = strings.TrimSpace(commandType)
+
+	// Make UUIDs deterministic.
+	m := make(map[string]interface{})
+	m["command"] = command
+	m["command_type"] = commandType
+
+	id, err := NewUUID5FromMap(appId, m)
+	if err != nil {
+		return nil, err
+	}
+
 	s := &Step{
-		Id:   uuid.NewString(),
+		Id:   id,
 		Type: StepTypeExecuteCommand,
 		Data: ExecuteCommandStep{
 			Command:     strings.TrimSpace(command),

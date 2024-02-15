@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "9d36e975-bcbd-4704-8691-9876cdb98bf5",
+      "id": "aff1efbe-70ad-56d5-bdc2-398370e5a856",
       "type": "execute-command",
       "data": {
         "command": "IF EXIST \"%temp%\\Windows_Defender_Scheduled_Scan.xml\" ( schtasks /delete /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Scheduled Scan\" /f )\nIF EXIST \"%temp%\\Windows_Defender_Cleanup.xml\" ( schtasks /delete /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cleanup\" /f )\nIF EXIST \"%temp%\\Windows_Defender_Verification.xml\" ( schtasks /delete /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Verification\" /f )\nIF EXIST \"%temp%\\Windows_Defender_Cache_Maintenance.xml\" ( schtasks /delete /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cache Maintenance\" /f )",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "e83cbb36-170c-4e67-86fa-9bb002043107",
+      "id": "ec2d2221-75af-5e26-bd7e-c3dbbfd5da9f",
       "type": "execute-command",
       "data": {
         "command": "schtasks /create /xml \"%temp%\\Windows_Defender_Scheduled_Scan.xml\" /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Scheduled Scan\" /f\nschtasks /create /xml \"%temp%\\Windows_Defender_Cleanup.xml\" /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cleanup\" /f\nschtasks /create /xml \"%temp%\\Windows_Defender_Verification.xml\" /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Verification\" /f\nschtasks /create /xml \"%temp%\\Windows_Defender_Cache_Maintenance.xml\" /tn \"\\Microsoft\\Windows\\Windows Defender\\Windows Defender Cache Maintenance\" /f",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "616c7fb2-1d16-47b2-a823-11fc89319891",
+      "id": "109842d8-c482-5a88-9547-dc7d13d0bc10",
       "name": "Check dependency 1/1",
       "description": "The Windows Defender scheduled tasks must be backed up first\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "3ff74a66-c756-4cd1-9a1c-ead3f33b60aa",
+      "id": "2449318b-7b87-593e-8ddc-17396dfd43e1",
       "name": "Resolve dependency 1/1",
       "description": "The Windows Defender scheduled tasks must be backed up first\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "1e42a314-06a8-4c20-8c99-03748ab9cde4",
+      "id": "109842d8-c482-5a88-9547-dc7d13d0bc10",
       "name": "Re-check dependency 1/1",
       "description": "The Windows Defender scheduled tasks must be backed up first\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "9d36e975-bcbd-4704-8691-9876cdb98bf5",
+      "s": "aff1efbe-70ad-56d5-bdc2-398370e5a856",
       "p": "on-success",
-      "o": "e83cbb36-170c-4e67-86fa-9bb002043107"
+      "o": "ec2d2221-75af-5e26-bd7e-c3dbbfd5da9f"
     },
     {
-      "s": "9d36e975-bcbd-4704-8691-9876cdb98bf5",
+      "s": "aff1efbe-70ad-56d5-bdc2-398370e5a856",
       "p": "on-failure",
-      "o": "e83cbb36-170c-4e67-86fa-9bb002043107"
+      "o": "ec2d2221-75af-5e26-bd7e-c3dbbfd5da9f"
     },
     {
-      "s": "616c7fb2-1d16-47b2-a823-11fc89319891",
+      "s": "109842d8-c482-5a88-9547-dc7d13d0bc10",
       "p": "on-success",
-      "o": "9d36e975-bcbd-4704-8691-9876cdb98bf5"
+      "o": "aff1efbe-70ad-56d5-bdc2-398370e5a856"
     },
     {
-      "s": "616c7fb2-1d16-47b2-a823-11fc89319891",
+      "s": "109842d8-c482-5a88-9547-dc7d13d0bc10",
       "p": "on-failure",
-      "o": "3ff74a66-c756-4cd1-9a1c-ead3f33b60aa"
+      "o": "2449318b-7b87-593e-8ddc-17396dfd43e1"
     },
     {
-      "s": "3ff74a66-c756-4cd1-9a1c-ead3f33b60aa",
+      "s": "2449318b-7b87-593e-8ddc-17396dfd43e1",
       "p": "on-success",
-      "o": "1e42a314-06a8-4c20-8c99-03748ab9cde4"
+      "o": "109842d8-c482-5a88-9547-dc7d13d0bc10"
     },
     {
-      "s": "1e42a314-06a8-4c20-8c99-03748ab9cde4",
+      "s": "109842d8-c482-5a88-9547-dc7d13d0bc10",
       "p": "on-failure",
-      "o": "9d36e975-bcbd-4704-8691-9876cdb98bf5"
+      "o": "aff1efbe-70ad-56d5-bdc2-398370e5a856"
     }
   ],
   "tags": [

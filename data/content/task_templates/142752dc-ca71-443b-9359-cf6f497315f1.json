@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "7fffcf42-edd0-4027-974f-4c6505510752",
+      "id": "c9a2d585-b535-5e0d-8bad-9d42a8693bba",
       "type": "execute-command",
       "data": {
         "command": "$which_openssl genrsa -out #{private_key_path} #{encryption_bit_size}\n$which_openssl rsa -in #{private_key_path} -pubout -out #{public_key_path}\n$which_openssl rsautl -encrypt -inkey #{public_key_path} -pubin -in #{input_file_path} -out #{encrypted_file_path}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "60730fa8-52e6-4811-86a5-715c6eef6151",
+      "id": "99c5af0b-f3e2-5664-b11f-8105e159548e",
       "type": "execute-command",
       "data": {
         "command": "$which_openssl rsautl -decrypt -inkey #{private_key_path} -in #{encrypted_file_path}\nrm #{encrypted_file_path}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "f110a30e-799f-42e2-98e4-437ee25c5ad9",
+      "id": "47f39016-6a17-5452-8dc6-25ac2935d292",
       "name": "Check dependency 1/1",
       "description": "Finds where openssl is located\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "05b29d5a-e051-4873-9e31-56de24505236",
+      "id": "2ddeb3c9-c878-5855-b29b-9daac087ae32",
       "name": "Resolve dependency 1/1",
       "description": "Finds where openssl is located\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "31b546b4-3f49-4fdf-8f63-4181c24ff37d",
+      "id": "47f39016-6a17-5452-8dc6-25ac2935d292",
       "name": "Re-check dependency 1/1",
       "description": "Finds where openssl is located\n",
       "type": "execute-command",
@@ -60,40 +60,46 @@
   ],
   "flows": [
     {
-      "s": "7fffcf42-edd0-4027-974f-4c6505510752",
+      "s": "c9a2d585-b535-5e0d-8bad-9d42a8693bba",
       "p": "on-success",
-      "o": "60730fa8-52e6-4811-86a5-715c6eef6151"
+      "o": "99c5af0b-f3e2-5664-b11f-8105e159548e"
     },
     {
-      "s": "7fffcf42-edd0-4027-974f-4c6505510752",
+      "s": "c9a2d585-b535-5e0d-8bad-9d42a8693bba",
       "p": "on-failure",
-      "o": "60730fa8-52e6-4811-86a5-715c6eef6151"
+      "o": "99c5af0b-f3e2-5664-b11f-8105e159548e"
     },
     {
-      "s": "f110a30e-799f-42e2-98e4-437ee25c5ad9",
+      "s": "47f39016-6a17-5452-8dc6-25ac2935d292",
       "p": "on-success",
-      "o": "7fffcf42-edd0-4027-974f-4c6505510752"
+      "o": "c9a2d585-b535-5e0d-8bad-9d42a8693bba"
     },
     {
-      "s": "f110a30e-799f-42e2-98e4-437ee25c5ad9",
+      "s": "47f39016-6a17-5452-8dc6-25ac2935d292",
       "p": "on-failure",
-      "o": "05b29d5a-e051-4873-9e31-56de24505236"
+      "o": "2ddeb3c9-c878-5855-b29b-9daac087ae32"
     },
     {
-      "s": "05b29d5a-e051-4873-9e31-56de24505236",
+      "s": "2ddeb3c9-c878-5855-b29b-9daac087ae32",
       "p": "on-success",
-      "o": "31b546b4-3f49-4fdf-8f63-4181c24ff37d"
+      "o": "47f39016-6a17-5452-8dc6-25ac2935d292"
     },
     {
-      "s": "31b546b4-3f49-4fdf-8f63-4181c24ff37d",
+      "s": "47f39016-6a17-5452-8dc6-25ac2935d292",
       "p": "on-failure",
-      "o": "7fffcf42-edd0-4027-974f-4c6505510752"
+      "o": "c9a2d585-b535-5e0d-8bad-9d42a8693bba"
     }
   ],
   "tags": [
     "T1486"
   ],
   "input_arguments": [
+    {
+      "name": "input_file_path",
+      "type": "path",
+      "description": "path to the file that you want to encrypt",
+      "value": "/etc/passwd"
+    },
     {
       "name": "private_key_path",
       "type": "path",
@@ -117,12 +123,6 @@
       "type": "path",
       "description": "path to the encrypted file",
       "value": "/tmp/passwd.zip"
-    },
-    {
-      "name": "input_file_path",
-      "type": "path",
-      "description": "path to the file that you want to encrypt",
-      "value": "/etc/passwd"
     }
   ]
 }

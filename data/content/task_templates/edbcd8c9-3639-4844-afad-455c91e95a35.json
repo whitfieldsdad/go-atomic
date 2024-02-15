@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b82f7c19-464b-494a-9a4f-ce2591a71d55",
+      "id": "77be66d2-4025-58df-bbbf-9f54fe71f17b",
       "type": "execute-command",
       "data": {
         "command": "psexec.py '#{domain}/#{username}:#{password}@#{remote_host}' '#{command}'",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "a6828c02-93c7-4f53-a799-ca456fc71d19",
+      "id": "2eb4bc68-71d0-58a4-866c-f7e6b3d81470",
       "name": "Check dependency 1/1",
       "description": "psexec.py (Impacket)\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "12da22db-8b52-4049-81c1-7c507b883970",
+      "id": "3595449d-4efb-5907-a2df-3d2e6ccb7e7f",
       "name": "Resolve dependency 1/1",
       "description": "psexec.py (Impacket)\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "b1906b1e-e1b9-497a-80f8-55463e11ad3a",
+      "id": "2eb4bc68-71d0-58a4-866c-f7e6b3d81470",
       "name": "Re-check dependency 1/1",
       "description": "psexec.py (Impacket)\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "a6828c02-93c7-4f53-a799-ca456fc71d19",
+      "s": "2eb4bc68-71d0-58a4-866c-f7e6b3d81470",
       "p": "on-success",
-      "o": "b82f7c19-464b-494a-9a4f-ce2591a71d55"
+      "o": "77be66d2-4025-58df-bbbf-9f54fe71f17b"
     },
     {
-      "s": "a6828c02-93c7-4f53-a799-ca456fc71d19",
+      "s": "2eb4bc68-71d0-58a4-866c-f7e6b3d81470",
       "p": "on-failure",
-      "o": "12da22db-8b52-4049-81c1-7c507b883970"
+      "o": "3595449d-4efb-5907-a2df-3d2e6ccb7e7f"
     },
     {
-      "s": "12da22db-8b52-4049-81c1-7c507b883970",
+      "s": "3595449d-4efb-5907-a2df-3d2e6ccb7e7f",
       "p": "on-success",
-      "o": "b1906b1e-e1b9-497a-80f8-55463e11ad3a"
+      "o": "2eb4bc68-71d0-58a4-866c-f7e6b3d81470"
     },
     {
-      "s": "b1906b1e-e1b9-497a-80f8-55463e11ad3a",
+      "s": "2eb4bc68-71d0-58a4-866c-f7e6b3d81470",
       "p": "on-failure",
-      "o": "b82f7c19-464b-494a-9a4f-ce2591a71d55"
+      "o": "77be66d2-4025-58df-bbbf-9f54fe71f17b"
     }
   ],
   "tags": [
@@ -76,12 +76,6 @@
     "T1569.002"
   ],
   "input_arguments": [
-    {
-      "name": "password",
-      "type": "string",
-      "description": "Password",
-      "value": "P@ssw0rd1"
-    },
     {
       "name": "command",
       "type": "string",
@@ -105,6 +99,12 @@
       "type": "string",
       "description": "Target domain",
       "value": ""
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password",
+      "value": "P@ssw0rd1"
     }
   ]
 }

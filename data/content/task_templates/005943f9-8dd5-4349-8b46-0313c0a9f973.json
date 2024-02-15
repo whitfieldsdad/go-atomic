@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "5410fce7-9cf3-4475-85b3-dc24a358f572",
+      "id": "eeba938e-4813-5fba-bf5c-694e4a4b3d8f",
       "type": "execute-command",
       "data": {
         "command": "ENCODED=$(echo '#{message}' | xxd -ps -c 256)\nprintf $ENCODED | xxd -r -p\necho $ENCODED | xxd -r -p\necho $(echo $ENCODED) | xxd -r -p\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 xxd -r -p #{encoded_file}\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 xxd -r -p \u003c #{encoded_file}\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 cat #{encoded_file} | xxd -r -p\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 cat \u003c #{encoded_file} | xxd -r -p",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "25c88b5d-42d7-42a0-ad9e-dd8daa50891b",
+      "id": "867e8b81-2fad-553e-b17e-e19af790d089",
       "name": "Check dependency 1/1",
       "description": "xxd must be present\n",
       "type": "execute-command",
@@ -28,7 +28,7 @@
       "elevation_required": false
     },
     {
-      "id": "c70739ca-c561-4580-8b8e-34c32878c495",
+      "id": "eff5158c-e0b5-5bd7-b8ba-8c6f54813e72",
       "name": "Resolve dependency 1/1",
       "description": "xxd must be present\n",
       "type": "execute-command",
@@ -39,7 +39,7 @@
       "elevation_required": false
     },
     {
-      "id": "7a57b7a6-6edd-42b3-b0d4-a30959335dcf",
+      "id": "867e8b81-2fad-553e-b17e-e19af790d089",
       "name": "Re-check dependency 1/1",
       "description": "xxd must be present\n",
       "type": "execute-command",
@@ -52,24 +52,24 @@
   ],
   "flows": [
     {
-      "s": "25c88b5d-42d7-42a0-ad9e-dd8daa50891b",
+      "s": "867e8b81-2fad-553e-b17e-e19af790d089",
       "p": "on-success",
-      "o": "5410fce7-9cf3-4475-85b3-dc24a358f572"
+      "o": "eeba938e-4813-5fba-bf5c-694e4a4b3d8f"
     },
     {
-      "s": "25c88b5d-42d7-42a0-ad9e-dd8daa50891b",
+      "s": "867e8b81-2fad-553e-b17e-e19af790d089",
       "p": "on-failure",
-      "o": "c70739ca-c561-4580-8b8e-34c32878c495"
+      "o": "eff5158c-e0b5-5bd7-b8ba-8c6f54813e72"
     },
     {
-      "s": "c70739ca-c561-4580-8b8e-34c32878c495",
+      "s": "eff5158c-e0b5-5bd7-b8ba-8c6f54813e72",
       "p": "on-success",
-      "o": "7a57b7a6-6edd-42b3-b0d4-a30959335dcf"
+      "o": "867e8b81-2fad-553e-b17e-e19af790d089"
     },
     {
-      "s": "7a57b7a6-6edd-42b3-b0d4-a30959335dcf",
+      "s": "867e8b81-2fad-553e-b17e-e19af790d089",
       "p": "on-failure",
-      "o": "5410fce7-9cf3-4475-85b3-dc24a358f572"
+      "o": "eeba938e-4813-5fba-bf5c-694e4a4b3d8f"
     }
   ],
   "tags": [

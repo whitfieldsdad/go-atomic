@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6bdaf49a-a37a-488f-afe6-c01e23dc4921",
+      "id": "1f6f9a0c-0578-5c21-b331-471749c77218",
       "type": "execute-command",
       "data": {
         "command": "Get-ADObject -LDAPFilter '(UserAccountControl:1.2.840.113556.1.4.803:=#{uac_prop})' -Server #{domain}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "5a5a07e3-50ee-4880-9f6c-cc18fe57552a",
+      "id": "22e187ce-2796-5d42-b5ea-782437ad2bf3",
       "name": "Check dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "fe51b64c-71e0-4ffc-9fac-938bcc7a5f4f",
+      "id": "5e9c4742-5ea3-5a89-815f-32b5657ab139",
       "name": "Resolve dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "d2447927-f782-46d1-8605-0aa052b19cbc",
+      "id": "22e187ce-2796-5d42-b5ea-782437ad2bf3",
       "name": "Re-check dependency 1/1",
       "description": "PowerShell ActiveDirectory Module must be installed\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "5a5a07e3-50ee-4880-9f6c-cc18fe57552a",
+      "s": "22e187ce-2796-5d42-b5ea-782437ad2bf3",
       "p": "on-success",
-      "o": "6bdaf49a-a37a-488f-afe6-c01e23dc4921"
+      "o": "1f6f9a0c-0578-5c21-b331-471749c77218"
     },
     {
-      "s": "5a5a07e3-50ee-4880-9f6c-cc18fe57552a",
+      "s": "22e187ce-2796-5d42-b5ea-782437ad2bf3",
       "p": "on-failure",
-      "o": "fe51b64c-71e0-4ffc-9fac-938bcc7a5f4f"
+      "o": "5e9c4742-5ea3-5a89-815f-32b5657ab139"
     },
     {
-      "s": "fe51b64c-71e0-4ffc-9fac-938bcc7a5f4f",
+      "s": "5e9c4742-5ea3-5a89-815f-32b5657ab139",
       "p": "on-success",
-      "o": "d2447927-f782-46d1-8605-0aa052b19cbc"
+      "o": "22e187ce-2796-5d42-b5ea-782437ad2bf3"
     },
     {
-      "s": "d2447927-f782-46d1-8605-0aa052b19cbc",
+      "s": "22e187ce-2796-5d42-b5ea-782437ad2bf3",
       "p": "on-failure",
-      "o": "6bdaf49a-a37a-488f-afe6-c01e23dc4921"
+      "o": "1f6f9a0c-0578-5c21-b331-471749c77218"
     }
   ],
   "tags": [

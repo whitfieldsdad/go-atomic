@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "a6060c63-b84a-4513-a692-1abac5ef1776",
+      "id": "82175608-873b-56e7-91c4-01e3445235b9",
       "type": "execute-command",
       "data": {
         "command": "set -x\nsudo kextload #{module_path}\nkextstat 2\u003e/dev/null | grep SoftRAID\nsudo kextunload #{module_path}\nsudo kmutil load -p #{module_path}\nkextstat 2\u003e/dev/null | grep SoftRAID\nsudo kmutil unload -p #{module_path}",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "8b24b443-3cf0-483d-b8bc-642d233411c8",
+      "id": "f8893611-3c74-55fb-9629-a3d386d0294b",
       "name": "Check dependency 1/1",
       "description": "The kernel module must exist on disk at specified location\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": true
     },
     {
-      "id": "5f5c8af6-3ee4-4344-b3fe-1d157cb9380f",
+      "id": "4214d704-4f41-546c-be50-f630e6721b20",
       "name": "Resolve dependency 1/1",
       "description": "The kernel module must exist on disk at specified location\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": true
     },
     {
-      "id": "59ebb0d6-3dc3-4e5c-b394-a14b34f104d6",
+      "id": "f8893611-3c74-55fb-9629-a3d386d0294b",
       "name": "Re-check dependency 1/1",
       "description": "The kernel module must exist on disk at specified location\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "8b24b443-3cf0-483d-b8bc-642d233411c8",
+      "s": "f8893611-3c74-55fb-9629-a3d386d0294b",
       "p": "on-success",
-      "o": "a6060c63-b84a-4513-a692-1abac5ef1776"
+      "o": "82175608-873b-56e7-91c4-01e3445235b9"
     },
     {
-      "s": "8b24b443-3cf0-483d-b8bc-642d233411c8",
+      "s": "f8893611-3c74-55fb-9629-a3d386d0294b",
       "p": "on-failure",
-      "o": "5f5c8af6-3ee4-4344-b3fe-1d157cb9380f"
+      "o": "4214d704-4f41-546c-be50-f630e6721b20"
     },
     {
-      "s": "5f5c8af6-3ee4-4344-b3fe-1d157cb9380f",
+      "s": "4214d704-4f41-546c-be50-f630e6721b20",
       "p": "on-success",
-      "o": "59ebb0d6-3dc3-4e5c-b394-a14b34f104d6"
+      "o": "f8893611-3c74-55fb-9629-a3d386d0294b"
     },
     {
-      "s": "59ebb0d6-3dc3-4e5c-b394-a14b34f104d6",
+      "s": "f8893611-3c74-55fb-9629-a3d386d0294b",
       "p": "on-failure",
-      "o": "a6060c63-b84a-4513-a692-1abac5ef1776"
+      "o": "82175608-873b-56e7-91c4-01e3445235b9"
     }
   ],
   "tags": [

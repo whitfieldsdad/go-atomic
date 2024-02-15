@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "00a1690a-2add-4105-953d-a277e0ed75a1",
+      "id": "8d2721b3-689e-5982-a7af-028006ced234",
       "type": "execute-command",
       "data": {
         "command": "reg.exe add \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\#{weak_service_name}\" /f /v ImagePath /d \"#{malicious_service_path}\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "577d3d7a-8a7e-4ccc-95c3-8a485d14b9be",
+      "id": "8c522dbe-7e20-5566-9a81-411c3f612b54",
       "type": "execute-command",
       "data": {
         "command": "sc.exe delete #{weak_service_name}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "52edbf8d-6e38-4cd7-b4a3-f3d5952a2145",
+      "id": "903902b7-b9e7-51e3-8420-8cf442c220e8",
       "name": "Check dependency 1/1",
       "description": "The service must exist (#{weak_service_name})\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "bf2b777e-0496-43fb-91e9-c3f81f20ae1a",
+      "id": "3f65218c-1dd7-5942-ae1a-e3d4a2014246",
       "name": "Resolve dependency 1/1",
       "description": "The service must exist (#{weak_service_name})\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "2d347114-a368-4ffe-be0d-2af4679ce1e5",
+      "id": "903902b7-b9e7-51e3-8420-8cf442c220e8",
       "name": "Re-check dependency 1/1",
       "description": "The service must exist (#{weak_service_name})\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "00a1690a-2add-4105-953d-a277e0ed75a1",
+      "s": "8d2721b3-689e-5982-a7af-028006ced234",
       "p": "on-success",
-      "o": "577d3d7a-8a7e-4ccc-95c3-8a485d14b9be"
+      "o": "8c522dbe-7e20-5566-9a81-411c3f612b54"
     },
     {
-      "s": "00a1690a-2add-4105-953d-a277e0ed75a1",
+      "s": "8d2721b3-689e-5982-a7af-028006ced234",
       "p": "on-failure",
-      "o": "577d3d7a-8a7e-4ccc-95c3-8a485d14b9be"
+      "o": "8c522dbe-7e20-5566-9a81-411c3f612b54"
     },
     {
-      "s": "52edbf8d-6e38-4cd7-b4a3-f3d5952a2145",
+      "s": "903902b7-b9e7-51e3-8420-8cf442c220e8",
       "p": "on-success",
-      "o": "00a1690a-2add-4105-953d-a277e0ed75a1"
+      "o": "8d2721b3-689e-5982-a7af-028006ced234"
     },
     {
-      "s": "52edbf8d-6e38-4cd7-b4a3-f3d5952a2145",
+      "s": "903902b7-b9e7-51e3-8420-8cf442c220e8",
       "p": "on-failure",
-      "o": "bf2b777e-0496-43fb-91e9-c3f81f20ae1a"
+      "o": "3f65218c-1dd7-5942-ae1a-e3d4a2014246"
     },
     {
-      "s": "bf2b777e-0496-43fb-91e9-c3f81f20ae1a",
+      "s": "3f65218c-1dd7-5942-ae1a-e3d4a2014246",
       "p": "on-success",
-      "o": "2d347114-a368-4ffe-be0d-2af4679ce1e5"
+      "o": "903902b7-b9e7-51e3-8420-8cf442c220e8"
     },
     {
-      "s": "2d347114-a368-4ffe-be0d-2af4679ce1e5",
+      "s": "903902b7-b9e7-51e3-8420-8cf442c220e8",
       "p": "on-failure",
-      "o": "00a1690a-2add-4105-953d-a277e0ed75a1"
+      "o": "8d2721b3-689e-5982-a7af-028006ced234"
     }
   ],
   "tags": [
@@ -95,6 +95,12 @@
     "T1574.011"
   ],
   "input_arguments": [
+    {
+      "name": "malicious_service_path",
+      "type": "string",
+      "description": "malicious service path",
+      "value": "%windir%\\system32\\cmd.exe"
+    },
     {
       "name": "weak_service_name",
       "type": "string",
@@ -106,12 +112,6 @@
       "type": "string",
       "description": "weak service path",
       "value": "%windir%\\system32\\win32calc.exe"
-    },
-    {
-      "name": "malicious_service_path",
-      "type": "string",
-      "description": "malicious service path",
-      "value": "%windir%\\system32\\cmd.exe"
     }
   ]
 }

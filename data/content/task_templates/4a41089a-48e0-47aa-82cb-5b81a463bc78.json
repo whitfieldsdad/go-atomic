@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6afc4fb6-97b9-4573-b901-8b649a32a88a",
+      "id": "96ad8bc6-1192-591f-a742-e6024bc92f29",
       "type": "execute-command",
       "data": {
         "command": "$Manufacturer = Get-WmiObject -Class Win32_ComputerSystem | select-object -expandproperty \"Manufacturer\"\n$Model = Get-WmiObject -Class Win32_ComputerSystem | select-object -expandproperty \"Model\"\nif((($Manufacturer.ToLower() -eq \"microsoft corporation\") -and ($Model.ToLower().contains(\"virtual\"))) -or ($Manufacturer.ToLower().contains(\"vmware\")) -or ($Model.ToLower() -eq \"virtualbox\")) {write-host \"Virtualization environment detected!\"} else {write-host \"No virtualization environment detected!\"}",

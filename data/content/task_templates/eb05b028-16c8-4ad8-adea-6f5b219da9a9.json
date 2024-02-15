@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "41b2384c-a487-4ccc-9c13-cdca9413a4e7",
+      "id": "5d1f256e-4252-5f04-81f9-727bd205363a",
       "type": "execute-command",
       "data": {
         "command": "#{crackmapexec_exe} #{domain} -u #{user_name} -H #{ntlm} -x #{command}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "7b0e95cb-4dff-4afa-b155-ba94cb8dd952",
+      "id": "9c216b0b-dba9-59ab-8aa5-575aa124e86d",
       "name": "Check dependency 1/1",
       "description": "CrackMapExec executor must exist on disk at specified location (#{crackmapexec_exe})\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "1aa19be1-7c0e-4ad4-aaa9-e5dcf5e3ed95",
+      "id": "bbd29b79-5461-5f5d-9372-b879cd75817d",
       "name": "Resolve dependency 1/1",
       "description": "CrackMapExec executor must exist on disk at specified location (#{crackmapexec_exe})\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "631cc619-963f-4f37-ada4-dee8a56d1597",
+      "id": "9c216b0b-dba9-59ab-8aa5-575aa124e86d",
       "name": "Re-check dependency 1/1",
       "description": "CrackMapExec executor must exist on disk at specified location (#{crackmapexec_exe})\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "7b0e95cb-4dff-4afa-b155-ba94cb8dd952",
+      "s": "9c216b0b-dba9-59ab-8aa5-575aa124e86d",
       "p": "on-success",
-      "o": "41b2384c-a487-4ccc-9c13-cdca9413a4e7"
+      "o": "5d1f256e-4252-5f04-81f9-727bd205363a"
     },
     {
-      "s": "7b0e95cb-4dff-4afa-b155-ba94cb8dd952",
+      "s": "9c216b0b-dba9-59ab-8aa5-575aa124e86d",
       "p": "on-failure",
-      "o": "1aa19be1-7c0e-4ad4-aaa9-e5dcf5e3ed95"
+      "o": "bbd29b79-5461-5f5d-9372-b879cd75817d"
     },
     {
-      "s": "1aa19be1-7c0e-4ad4-aaa9-e5dcf5e3ed95",
+      "s": "bbd29b79-5461-5f5d-9372-b879cd75817d",
       "p": "on-success",
-      "o": "631cc619-963f-4f37-ada4-dee8a56d1597"
+      "o": "9c216b0b-dba9-59ab-8aa5-575aa124e86d"
     },
     {
-      "s": "631cc619-963f-4f37-ada4-dee8a56d1597",
+      "s": "9c216b0b-dba9-59ab-8aa5-575aa124e86d",
       "p": "on-failure",
-      "o": "41b2384c-a487-4ccc-9c13-cdca9413a4e7"
+      "o": "5d1f256e-4252-5f04-81f9-727bd205363a"
     }
   ],
   "tags": [
@@ -76,6 +76,12 @@
     "T1550.002"
   ],
   "input_arguments": [
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "domain",
+      "value": "%userdnsdomain%"
+    },
     {
       "name": "user_name",
       "type": "string",
@@ -99,12 +105,6 @@
       "type": "string",
       "description": "command",
       "value": "cc36cf7a8514893efccd3324464tkg1a"
-    },
-    {
-      "name": "domain",
-      "type": "string",
-      "description": "domain",
-      "value": "%userdnsdomain%"
     }
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6fde69fd-9aa6-495b-aa13-a3be8b17207c",
+      "id": "a77080ff-47d1-51d3-911f-689ad64397fa",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name Az.Resources\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzAccount -Credential $Credential\n\n$sp = Get-AzADServicePrincipal | where-object {$_.DisplayName -eq \"#{service_principal_name}\"}\nif ($sp -eq $null) { Write-Warning \"Service Principal not found\"; exit }\n$subscription = Get-AzSubscription | where-object {$_.Name -eq \"#{subscription}\"} \nif ($subscription -eq $null) { Write-Warning \"Subscription not found\"; exit }\n$role = Get-AzRoleDefinition | where-object {$_.Name -eq \"#{role_name}\"}\nif ($role -eq $null) { Write-Warning \"Role not found\"; exit }\n\nNew-AzRoleAssignment -ObjectId $sp.id -RoleDefinitionId $role.id -Scope /subscriptions/$subscription\nWrite-Host \"Service Principal $($sp.DisplayName) was added to $($role.Name) role in subscriptions $($subscriptions.Name)\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "b2fa40f9-73de-42d4-a29a-ca7c2289179f",
+      "id": "14c0330d-7bed-5d9d-94f4-28a672b08de0",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD -ErrorAction Ignore\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzAccount -Credential $Credential -ErrorAction Ignore\n\n$sp = Get-AzADServicePrincipal | where-object {$_.DisplayName -eq \"#{service_principal_name}\"}\nif ($sp -eq $null) { Write-Warning \"Service Principal not found\"; exit }\n$subscription = Get-AzSubscription | where-object {$_.Name -eq \"#{subscription}\"} \nif ($subscription -eq $null) { Write-Warning \"Subscription not found\"; exit }\n$role = Get-AzRoleDefinition | where-object {$_.Name -eq \"#{role_name}\"}\nif ($role -eq $null) { Write-Warning \"Role not found\"; exit }\n\nRemove-AzRoleAssignment -ObjectId $sp.id -RoleDefinitionId $role.id -Scope /subscriptions/$subscription\nWrite-Host \"Service Principal $($sp.DisplayName) was removed from $($role.Name) role in subscriptions $($subscriptions.Name)\"",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "22b08063-1af0-40f0-8e19-fce56c8371b5",
+      "id": "f295ce89-702b-588c-8dfc-cc9b322f04d0",
       "name": "Check dependency 1/1",
       "description": "Az.Resources module must be installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "1b217d10-e2d8-44de-8e5d-1c2b473c3b44",
+      "id": "054aaca1-ac9c-55aa-a50b-23f68bde5847",
       "name": "Resolve dependency 1/1",
       "description": "Az.Resources module must be installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "b2db129b-6daa-44db-ab91-7cac6a1fdae7",
+      "id": "f295ce89-702b-588c-8dfc-cc9b322f04d0",
       "name": "Re-check dependency 1/1",
       "description": "Az.Resources module must be installed.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "6fde69fd-9aa6-495b-aa13-a3be8b17207c",
+      "s": "a77080ff-47d1-51d3-911f-689ad64397fa",
       "p": "on-success",
-      "o": "b2fa40f9-73de-42d4-a29a-ca7c2289179f"
+      "o": "14c0330d-7bed-5d9d-94f4-28a672b08de0"
     },
     {
-      "s": "6fde69fd-9aa6-495b-aa13-a3be8b17207c",
+      "s": "a77080ff-47d1-51d3-911f-689ad64397fa",
       "p": "on-failure",
-      "o": "b2fa40f9-73de-42d4-a29a-ca7c2289179f"
+      "o": "14c0330d-7bed-5d9d-94f4-28a672b08de0"
     },
     {
-      "s": "22b08063-1af0-40f0-8e19-fce56c8371b5",
+      "s": "f295ce89-702b-588c-8dfc-cc9b322f04d0",
       "p": "on-success",
-      "o": "6fde69fd-9aa6-495b-aa13-a3be8b17207c"
+      "o": "a77080ff-47d1-51d3-911f-689ad64397fa"
     },
     {
-      "s": "22b08063-1af0-40f0-8e19-fce56c8371b5",
+      "s": "f295ce89-702b-588c-8dfc-cc9b322f04d0",
       "p": "on-failure",
-      "o": "1b217d10-e2d8-44de-8e5d-1c2b473c3b44"
+      "o": "054aaca1-ac9c-55aa-a50b-23f68bde5847"
     },
     {
-      "s": "1b217d10-e2d8-44de-8e5d-1c2b473c3b44",
+      "s": "054aaca1-ac9c-55aa-a50b-23f68bde5847",
       "p": "on-success",
-      "o": "b2db129b-6daa-44db-ab91-7cac6a1fdae7"
+      "o": "f295ce89-702b-588c-8dfc-cc9b322f04d0"
     },
     {
-      "s": "b2db129b-6daa-44db-ab91-7cac6a1fdae7",
+      "s": "f295ce89-702b-588c-8dfc-cc9b322f04d0",
       "p": "on-failure",
-      "o": "6fde69fd-9aa6-495b-aa13-a3be8b17207c"
+      "o": "a77080ff-47d1-51d3-911f-689ad64397fa"
     }
   ],
   "tags": [

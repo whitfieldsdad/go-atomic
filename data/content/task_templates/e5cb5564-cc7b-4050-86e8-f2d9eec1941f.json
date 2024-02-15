@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "4ff6568c-6fa0-404c-b899-34d40245396d",
+      "id": "9c0a4e1c-607f-5f07-8053-aa7cf367d67b",
       "type": "execute-command",
       "data": {
         "command": "$examplePath = Join-Path $env:windir \"system32\\Com\"; if (-not (Test-Path $examplePath)) { New-Item -ItemType Directory -Path $examplePath | Out-Null }; $exampleName = \"comadmin.dat\"; $exampleFullPath = Join-Path $examplePath $exampleName; $randomBytes = New-Object Byte[] 0x1000; (New-Object Random).NextBytes($randomBytes); [System.IO.File]::WriteAllBytes($exampleFullPath, $randomBytes)",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "aa0373c9-3c86-4d6b-93c4-7a5145b3c761",
+      "id": "50a76bb0-ff7c-5ba0-9a48-ddbea28d7308",
       "type": "execute-command",
       "data": {
         "command": "$examplePath = Join-Path $env:windir \"system32\\Com\"; $exampleName = \"comadmin.dat\"; $exampleFullPath = Join-Path $examplePath $exampleName; if (Test-Path $exampleFullPath) { Remove-Item $exampleFullPath -Force }",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "4ff6568c-6fa0-404c-b899-34d40245396d",
+      "s": "9c0a4e1c-607f-5f07-8053-aa7cf367d67b",
       "p": "on-success",
-      "o": "aa0373c9-3c86-4d6b-93c4-7a5145b3c761"
+      "o": "50a76bb0-ff7c-5ba0-9a48-ddbea28d7308"
     },
     {
-      "s": "4ff6568c-6fa0-404c-b899-34d40245396d",
+      "s": "9c0a4e1c-607f-5f07-8053-aa7cf367d67b",
       "p": "on-failure",
-      "o": "aa0373c9-3c86-4d6b-93c4-7a5145b3c761"
+      "o": "50a76bb0-ff7c-5ba0-9a48-ddbea28d7308"
     }
   ],
   "tags": [

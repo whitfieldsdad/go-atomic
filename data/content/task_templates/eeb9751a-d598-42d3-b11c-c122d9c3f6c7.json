@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "70d1f4cb-a9b9-4c8f-8dd0-67daf59afe3f",
+      "id": "6580bb12-20fa-5070-873a-5530a080ce0b",
       "type": "execute-command",
       "data": {
         "command": "for /L %a in (1,1,#{limit}) do @(certutil -f -v -encodehex \"\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy%a\\Windows\\System32\\config\\#{target_hive}\" %temp%\\#{target_hive}vss%a 2 \u003enul 2\u003e\u00261) \u0026 dir /B %temp%\\#{target_hive}vss*",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "a34b303d-2b62-4590-b0a6-86925535aa19",
+      "id": "a65b8421-0467-5287-9ce1-263a3e0bc7e8",
       "type": "execute-command",
       "data": {
         "command": "for /L %a in (1,1,#{limit}) do @(del %temp%\\#{target_hive}vss%a \u003enul 2\u003e\u00261)",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "70d1f4cb-a9b9-4c8f-8dd0-67daf59afe3f",
+      "s": "6580bb12-20fa-5070-873a-5530a080ce0b",
       "p": "on-success",
-      "o": "a34b303d-2b62-4590-b0a6-86925535aa19"
+      "o": "a65b8421-0467-5287-9ce1-263a3e0bc7e8"
     },
     {
-      "s": "70d1f4cb-a9b9-4c8f-8dd0-67daf59afe3f",
+      "s": "6580bb12-20fa-5070-873a-5530a080ce0b",
       "p": "on-failure",
-      "o": "a34b303d-2b62-4590-b0a6-86925535aa19"
+      "o": "a65b8421-0467-5287-9ce1-263a3e0bc7e8"
     }
   ],
   "tags": [

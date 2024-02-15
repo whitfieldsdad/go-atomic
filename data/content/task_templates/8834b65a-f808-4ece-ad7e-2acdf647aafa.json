@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "fb322630-4bdf-49b8-8172-0d655e4b5c3b",
+      "id": "6d171851-2a6e-5e72-b702-d80ac3c06b32",
       "type": "execute-command",
       "data": {
         "command": "New-Item -ItemType Directory -path \"#{new_startup_folder}\"\nCopy-Item -path \"#{payload}\" -destination \"#{new_startup_folder}\"\nSet-ItemProperty -Path  \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\" -Name \"Startup\" -Value \"#{new_startup_folder}\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "e848b050-4933-46eb-8aeb-6d0d57ae7d23",
+      "id": "be056fa3-6066-5239-a2b0-ef7e882d8060",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty -Path  \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\" -Name \"Startup\" -Value \"$env:APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\"\nRemove-Item \"#{new_startup_folder}\" -Recurse -Force",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "fb322630-4bdf-49b8-8172-0d655e4b5c3b",
+      "s": "6d171851-2a6e-5e72-b702-d80ac3c06b32",
       "p": "on-success",
-      "o": "e848b050-4933-46eb-8aeb-6d0d57ae7d23"
+      "o": "be056fa3-6066-5239-a2b0-ef7e882d8060"
     },
     {
-      "s": "fb322630-4bdf-49b8-8172-0d655e4b5c3b",
+      "s": "6d171851-2a6e-5e72-b702-d80ac3c06b32",
       "p": "on-failure",
-      "o": "e848b050-4933-46eb-8aeb-6d0d57ae7d23"
+      "o": "be056fa3-6066-5239-a2b0-ef7e882d8060"
     }
   ],
   "tags": [

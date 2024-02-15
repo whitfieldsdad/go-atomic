@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f18fdfc0-c21d-4419-8294-31d630b6f996",
+      "id": "e1d66f31-ca50-5d14-889e-2cfc8380e485",
       "type": "execute-command",
       "data": {
         "command": "filename='/etc/rc.common';if [ ! -f $filename ];then sudo touch $filename;else sudo cp $filename /etc/rc.common.original;fi\nprintf '%s\\n' '#!/bin/bash' | sudo tee /etc/rc.common\necho \"python3 -c \\\"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBtb2RpZnlpbmcgcmMuY29tbW9uID4gL3RtcC9UMTAzNy4wMDQucmMuY29tbW9uJykK'))\\\"\" | sudo tee -a /etc/rc.common\nprintf '%s\\n' 'exit 0' | sudo tee -a /etc/rc.common\nsudo chmod +x /etc/rc.common",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "7c2fd24a-8e82-4424-8d33-d9efb0e0eab6",
+      "id": "2251dd8a-bfc0-5f26-9b4e-8618937e2898",
       "type": "execute-command",
       "data": {
         "command": "origfilename='/etc/rc.common.original';if [ ! -f $origfilename ];then sudo rm /etc/rc.common;else sudo cp $origfilename /etc/rc.common \u0026\u0026 sudo rm $origfilename;fi",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "f18fdfc0-c21d-4419-8294-31d630b6f996",
+      "s": "e1d66f31-ca50-5d14-889e-2cfc8380e485",
       "p": "on-success",
-      "o": "7c2fd24a-8e82-4424-8d33-d9efb0e0eab6"
+      "o": "2251dd8a-bfc0-5f26-9b4e-8618937e2898"
     },
     {
-      "s": "f18fdfc0-c21d-4419-8294-31d630b6f996",
+      "s": "e1d66f31-ca50-5d14-889e-2cfc8380e485",
       "p": "on-failure",
-      "o": "7c2fd24a-8e82-4424-8d33-d9efb0e0eab6"
+      "o": "2251dd8a-bfc0-5f26-9b4e-8618937e2898"
     }
   ],
   "tags": [

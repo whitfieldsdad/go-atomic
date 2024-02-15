@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "966742f8-a1bd-4aa9-a3be-99580d45efa1",
+      "id": "e0ccb4bc-0a62-5479-9d61-7eabca3391f0",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp\" /v PortNumber /t REG_DWORD /d #{NEW_Remote_Port} /f\nnetsh advfirewall firewall add rule name=\"RDPPORTLatest-TCP-In\" dir=in action=allow protocol=TCP localport=#{NEW_Remote_Port}",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "dece3258-96d0-41a3-999e-60ab8e4141f7",
+      "id": "8e36b56a-4971-5e62-9436-31789decafdb",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp\" /v PortNumber /t REG_DWORD /d #{OLD_Remote_Port} /f \u003enul 2\u003e\u00261\nnetsh advfirewall firewall delete rule name=\"RDPPORTLatest-TCP-In\" \u003enul 2\u003e\u00261\nnet stop TermService /y \u003enul 2\u003e\u00261\nnet start TermService \u003enul 2\u003e\u00261",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "966742f8-a1bd-4aa9-a3be-99580d45efa1",
+      "s": "e0ccb4bc-0a62-5479-9d61-7eabca3391f0",
       "p": "on-success",
-      "o": "dece3258-96d0-41a3-999e-60ab8e4141f7"
+      "o": "8e36b56a-4971-5e62-9436-31789decafdb"
     },
     {
-      "s": "966742f8-a1bd-4aa9-a3be-99580d45efa1",
+      "s": "e0ccb4bc-0a62-5479-9d61-7eabca3391f0",
       "p": "on-failure",
-      "o": "dece3258-96d0-41a3-999e-60ab8e4141f7"
+      "o": "8e36b56a-4971-5e62-9436-31789decafdb"
     }
   ],
   "tags": [

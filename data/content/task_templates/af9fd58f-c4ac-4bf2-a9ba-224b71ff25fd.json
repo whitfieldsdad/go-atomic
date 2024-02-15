@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "4c75b79f-2c0b-404b-ad22-79954e0235af",
+      "id": "cd964acc-9205-52e1-98db-7dc04f5d02af",
       "type": "execute-command",
       "data": {
         "command": "$Action = New-ScheduledTaskAction -Execute \"calc.exe\"\n$Trigger = New-ScheduledTaskTrigger -AtLogon\n$User = New-ScheduledTaskPrincipal -GroupId \"BUILTIN\\Administrators\" -RunLevel Highest\n$Set = New-ScheduledTaskSettingsSet\n$object = New-ScheduledTask -Action $Action -Principal $User -Trigger $Trigger -Settings $Set\nRegister-ScheduledTask AtomicTask -InputObject $object",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "1a76ebc0-d917-48c6-8db0-91e30233ddc7",
+      "id": "0d3def9f-a916-53e2-a1dd-61b8805cf5ef",
       "type": "execute-command",
       "data": {
         "command": "Unregister-ScheduledTask -TaskName \"AtomicTask\" -confirm:$false \u003e$null 2\u003e\u00261",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "4c75b79f-2c0b-404b-ad22-79954e0235af",
+      "s": "cd964acc-9205-52e1-98db-7dc04f5d02af",
       "p": "on-success",
-      "o": "1a76ebc0-d917-48c6-8db0-91e30233ddc7"
+      "o": "0d3def9f-a916-53e2-a1dd-61b8805cf5ef"
     },
     {
-      "s": "4c75b79f-2c0b-404b-ad22-79954e0235af",
+      "s": "cd964acc-9205-52e1-98db-7dc04f5d02af",
       "p": "on-failure",
-      "o": "1a76ebc0-d917-48c6-8db0-91e30233ddc7"
+      "o": "0d3def9f-a916-53e2-a1dd-61b8805cf5ef"
     }
   ],
   "tags": [

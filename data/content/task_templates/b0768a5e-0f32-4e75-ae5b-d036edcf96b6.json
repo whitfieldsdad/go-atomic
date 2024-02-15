@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "baa685b9-34ea-4ff7-a9e2-a3932bde0025",
+      "id": "218669d2-352f-500e-b6a3-6e248b5f40e1",
       "type": "execute-command",
       "data": {
         "command": "sudo srm #{system_log_path} #system log file deletion\nsudo srm -r #{system_log_folder} #recursive deletion of log files",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "2f9b2613-dfc9-4235-a981-42fb54aded64",
+      "id": "7d2fb42f-c6ad-5d4f-8f7d-7b0758ae2a03",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": true
     },
     {
-      "id": "7eda014f-e126-45cb-b9df-121671f2a37e",
+      "id": "1fc99498-f294-5ea1-bafe-4e748ad98e78",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": true
     },
     {
-      "id": "3240a6f5-827c-4a79-a9ac-5a89b5312c14",
+      "id": "7d2fb42f-c6ad-5d4f-8f7d-7b0758ae2a03",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "2f9b2613-dfc9-4235-a981-42fb54aded64",
+      "s": "7d2fb42f-c6ad-5d4f-8f7d-7b0758ae2a03",
       "p": "on-success",
-      "o": "baa685b9-34ea-4ff7-a9e2-a3932bde0025"
+      "o": "218669d2-352f-500e-b6a3-6e248b5f40e1"
     },
     {
-      "s": "2f9b2613-dfc9-4235-a981-42fb54aded64",
+      "s": "7d2fb42f-c6ad-5d4f-8f7d-7b0758ae2a03",
       "p": "on-failure",
-      "o": "7eda014f-e126-45cb-b9df-121671f2a37e"
+      "o": "1fc99498-f294-5ea1-bafe-4e748ad98e78"
     },
     {
-      "s": "7eda014f-e126-45cb-b9df-121671f2a37e",
+      "s": "1fc99498-f294-5ea1-bafe-4e748ad98e78",
       "p": "on-success",
-      "o": "3240a6f5-827c-4a79-a9ac-5a89b5312c14"
+      "o": "7d2fb42f-c6ad-5d4f-8f7d-7b0758ae2a03"
     },
     {
-      "s": "3240a6f5-827c-4a79-a9ac-5a89b5312c14",
+      "s": "7d2fb42f-c6ad-5d4f-8f7d-7b0758ae2a03",
       "p": "on-failure",
-      "o": "baa685b9-34ea-4ff7-a9e2-a3932bde0025"
+      "o": "218669d2-352f-500e-b6a3-6e248b5f40e1"
     }
   ],
   "tags": [
@@ -77,16 +77,16 @@
   ],
   "input_arguments": [
     {
-      "name": "system_log_folder",
-      "type": "string",
-      "description": "path to log parent folder",
-      "value": "/var/log/"
-    },
-    {
       "name": "system_log_path",
       "type": "string",
       "description": "path to system.log",
       "value": "/var/log/system.log"
+    },
+    {
+      "name": "system_log_folder",
+      "type": "string",
+      "description": "path to log parent folder",
+      "value": "/var/log/"
     }
   ]
 }

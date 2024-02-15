@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "98fb2cf3-2deb-4198-b1f8-b441741041ba",
+      "id": "5d504151-1c6e-5c27-b63d-c62e9251b950",
       "type": "execute-command",
       "data": {
         "command": "cat \u003e /etc/init.d/T1543.002 \u003c\u003c EOF\n#!/bin/bash\n### BEGIN INIT INFO\n# Provides : Atomic Test T1543.002\n# Required-Start: $all\n# Required-Stop : \n# Default-Start: 2 3 4 5\n# Default-Stop: \n# Short Description: Atomic Test for Systemd Service Creation\n### END INIT INFO\npython3 -c \"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBDcmVhdGluZyBTeXN0ZW1kIFNlcnZpY2UgVDE1NDMuMDAyID4gL3RtcC9UMTU0My4wMDIuc3lzdGVtZC5zZXJ2aWNlLmNyZWF0aW9uJykK'))\"\nEOF\n\nchmod +x /etc/init.d/T1543.002\nif [ $(cat /etc/os-release | grep -i ID=ubuntu) ] || [ $(cat /etc/os-release | grep -i ID=kali) ]; then update-rc.d T1543.002 defaults; elif [ $(cat /etc/os-release | grep -i 'ID=\"centos\"') ]; then chkconfig T1543.002 on ; else echo \"Please run this test on Ubnutu , kali OR centos\" ; fi ;\nsystemctl enable T1543.002\nsystemctl start T1543.002\n\necho \"python3 -c \\\"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBtb2RpZnlpbmcgYSBTeXN0ZW1kIFNlcnZpY2UgVDE1NDMuMDAyID4gL3RtcC9UMTU0My4wMDIuc3lzdGVtZC5zZXJ2aWNlLm1vZGlmaWNhdGlvbicpCg=='))\\\"\" | sudo tee -a /etc/init.d/T1543.002\nsystemctl daemon-reload\nsystemctl restart T1543.002",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "a271108e-1972-428c-88db-3bf29993c958",
+      "id": "064d650b-acfe-5bd9-800e-3330da2a71cf",
       "type": "execute-command",
       "data": {
         "command": "systemctl stop T1543.002\nsystemctl disable T1543.002\nrm -rf /etc/init.d/T1543.002\nsystemctl daemon-reload",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "b433c907-3fb2-4767-93b5-44cf7dfa27e1",
+      "id": "05ab25f5-17ac-5fdf-bc50-54f7695813dd",
       "name": "Check dependency 1/1",
       "description": "System must be Ubuntu ,Kali OR CentOS.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "a4a094ec-3107-4319-b4f7-b3ba7fb5d9c2",
+      "id": "d133350d-08c9-5f31-8bae-5aad09ad5225",
       "name": "Resolve dependency 1/1",
       "description": "System must be Ubuntu ,Kali OR CentOS.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "2b7c30ad-494d-44c4-a091-8ff70feb252e",
+      "id": "05ab25f5-17ac-5fdf-bc50-54f7695813dd",
       "name": "Re-check dependency 1/1",
       "description": "System must be Ubuntu ,Kali OR CentOS.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "98fb2cf3-2deb-4198-b1f8-b441741041ba",
+      "s": "5d504151-1c6e-5c27-b63d-c62e9251b950",
       "p": "on-success",
-      "o": "a271108e-1972-428c-88db-3bf29993c958"
+      "o": "064d650b-acfe-5bd9-800e-3330da2a71cf"
     },
     {
-      "s": "98fb2cf3-2deb-4198-b1f8-b441741041ba",
+      "s": "5d504151-1c6e-5c27-b63d-c62e9251b950",
       "p": "on-failure",
-      "o": "a271108e-1972-428c-88db-3bf29993c958"
+      "o": "064d650b-acfe-5bd9-800e-3330da2a71cf"
     },
     {
-      "s": "b433c907-3fb2-4767-93b5-44cf7dfa27e1",
+      "s": "05ab25f5-17ac-5fdf-bc50-54f7695813dd",
       "p": "on-success",
-      "o": "98fb2cf3-2deb-4198-b1f8-b441741041ba"
+      "o": "5d504151-1c6e-5c27-b63d-c62e9251b950"
     },
     {
-      "s": "b433c907-3fb2-4767-93b5-44cf7dfa27e1",
+      "s": "05ab25f5-17ac-5fdf-bc50-54f7695813dd",
       "p": "on-failure",
-      "o": "a4a094ec-3107-4319-b4f7-b3ba7fb5d9c2"
+      "o": "d133350d-08c9-5f31-8bae-5aad09ad5225"
     },
     {
-      "s": "a4a094ec-3107-4319-b4f7-b3ba7fb5d9c2",
+      "s": "d133350d-08c9-5f31-8bae-5aad09ad5225",
       "p": "on-success",
-      "o": "2b7c30ad-494d-44c4-a091-8ff70feb252e"
+      "o": "05ab25f5-17ac-5fdf-bc50-54f7695813dd"
     },
     {
-      "s": "2b7c30ad-494d-44c4-a091-8ff70feb252e",
+      "s": "05ab25f5-17ac-5fdf-bc50-54f7695813dd",
       "p": "on-failure",
-      "o": "98fb2cf3-2deb-4198-b1f8-b441741041ba"
+      "o": "5d504151-1c6e-5c27-b63d-c62e9251b950"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "95ba7416-94af-4d18-872f-e0d191beb8b5",
+      "id": "730773f9-309d-5d7e-bb1a-91fd5bdb3574",
       "type": "execute-command",
       "data": {
         "command": "cmd /c certutil -urlcache -split -f #{remote_file} #{local_path}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "b5166164-44ed-402f-9118-6d55797f9bce",
+      "id": "3708bcd2-4db6-5a72-84df-6efb7e306578",
       "type": "execute-command",
       "data": {
         "command": "del #{local_path} \u003enul 2\u003e\u00261",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "95ba7416-94af-4d18-872f-e0d191beb8b5",
+      "s": "730773f9-309d-5d7e-bb1a-91fd5bdb3574",
       "p": "on-success",
-      "o": "b5166164-44ed-402f-9118-6d55797f9bce"
+      "o": "3708bcd2-4db6-5a72-84df-6efb7e306578"
     },
     {
-      "s": "95ba7416-94af-4d18-872f-e0d191beb8b5",
+      "s": "730773f9-309d-5d7e-bb1a-91fd5bdb3574",
       "p": "on-failure",
-      "o": "b5166164-44ed-402f-9118-6d55797f9bce"
+      "o": "3708bcd2-4db6-5a72-84df-6efb7e306578"
     }
   ],
   "tags": [
@@ -42,16 +42,16 @@
   ],
   "input_arguments": [
     {
-      "name": "local_path",
-      "type": "path",
-      "description": "Local path to place file",
-      "value": "Atomic-license.txt"
-    },
-    {
       "name": "remote_file",
       "type": "url",
       "description": "URL of file to copy",
       "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt"
+    },
+    {
+      "name": "local_path",
+      "type": "path",
+      "description": "Local path to place file",
+      "value": "Atomic-license.txt"
     }
   ]
 }

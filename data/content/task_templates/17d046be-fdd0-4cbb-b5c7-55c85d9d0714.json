@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "5e3ead11-26d0-4000-be37-b9adbee3edea",
+      "id": "8d47b9ca-22cd-5a71-8da7-79710ed075a5",
       "type": "execute-command",
       "data": {
         "command": "Import-Module ExchangeOnlineManagement\n$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nAdd-MailboxPermission -Identity \"#{delegate_target}\" -User \"#{operator_mailbox}\" -AccessRights FullAccess -InheritanceType All\nDisconnect-ExchangeOnline -Confirm:$false",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "568b1bb4-28c5-4df5-b161-1ba625f3dac1",
+      "id": "89f80fd1-6c1b-5bcf-865d-dd89617397ed",
       "type": "execute-command",
       "data": {
         "command": "Import-Module ExchangeOnlineManagement\n$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nRemove-MailboxPermission -Identity \"#{delegate_target}\" -User \"#{operator_mailbox}\" -AccessRights FullAccess -InheritanceType All -Confirm:$false\nDisconnect-ExchangeOnline -Confirm:$false",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "7b9b3162-92a6-4412-9d64-9c29723fa30b",
+      "id": "13db0513-a6c9-5001-ae52-d5f3ec78af64",
       "name": "Check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "8d090b3d-42bc-4f21-8f45-b1ad5c6f1e67",
+      "id": "32cd1522-c36c-5cdc-b7ee-e01364c38890",
       "name": "Resolve dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "102fb4b2-7d37-4d44-835d-2ad50e5f7e83",
+      "id": "13db0513-a6c9-5001-ae52-d5f3ec78af64",
       "name": "Re-check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "5e3ead11-26d0-4000-be37-b9adbee3edea",
+      "s": "8d47b9ca-22cd-5a71-8da7-79710ed075a5",
       "p": "on-success",
-      "o": "568b1bb4-28c5-4df5-b161-1ba625f3dac1"
+      "o": "89f80fd1-6c1b-5bcf-865d-dd89617397ed"
     },
     {
-      "s": "5e3ead11-26d0-4000-be37-b9adbee3edea",
+      "s": "8d47b9ca-22cd-5a71-8da7-79710ed075a5",
       "p": "on-failure",
-      "o": "568b1bb4-28c5-4df5-b161-1ba625f3dac1"
+      "o": "89f80fd1-6c1b-5bcf-865d-dd89617397ed"
     },
     {
-      "s": "7b9b3162-92a6-4412-9d64-9c29723fa30b",
+      "s": "13db0513-a6c9-5001-ae52-d5f3ec78af64",
       "p": "on-success",
-      "o": "5e3ead11-26d0-4000-be37-b9adbee3edea"
+      "o": "8d47b9ca-22cd-5a71-8da7-79710ed075a5"
     },
     {
-      "s": "7b9b3162-92a6-4412-9d64-9c29723fa30b",
+      "s": "13db0513-a6c9-5001-ae52-d5f3ec78af64",
       "p": "on-failure",
-      "o": "8d090b3d-42bc-4f21-8f45-b1ad5c6f1e67"
+      "o": "32cd1522-c36c-5cdc-b7ee-e01364c38890"
     },
     {
-      "s": "8d090b3d-42bc-4f21-8f45-b1ad5c6f1e67",
+      "s": "32cd1522-c36c-5cdc-b7ee-e01364c38890",
       "p": "on-success",
-      "o": "102fb4b2-7d37-4d44-835d-2ad50e5f7e83"
+      "o": "13db0513-a6c9-5001-ae52-d5f3ec78af64"
     },
     {
-      "s": "102fb4b2-7d37-4d44-835d-2ad50e5f7e83",
+      "s": "13db0513-a6c9-5001-ae52-d5f3ec78af64",
       "p": "on-failure",
-      "o": "5e3ead11-26d0-4000-be37-b9adbee3edea"
+      "o": "8d47b9ca-22cd-5a71-8da7-79710ed075a5"
     }
   ],
   "tags": [
@@ -95,6 +95,12 @@
     "T1098.002"
   ],
   "input_arguments": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "office-365 username",
+      "value": "o365_user_test@contoso.com"
+    },
     {
       "name": "password",
       "type": "string",
@@ -112,12 +118,6 @@
       "type": "string",
       "description": "office-365 target_email",
       "value": "operator@contoso.com"
-    },
-    {
-      "name": "username",
-      "type": "string",
-      "description": "office-365 username",
-      "value": "o365_user_test@contoso.com"
     }
   ]
 }

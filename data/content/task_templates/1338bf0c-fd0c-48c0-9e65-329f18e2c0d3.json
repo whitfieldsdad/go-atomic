@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "bd8c3dcc-0298-4893-a033-c299703dc446",
+      "id": "6f9e5aa5-0bea-5a11-8959-250937c5322d",
       "type": "execute-command",
       "data": {
         "command": "echo #{library_path} | tee -a /etc/ld.so.preload\n/usr/local/bin/evil_script.py localhost -c 10 \u003e/dev/null \u0026 pgrep -l evil_script.py || echo \"process hidden\"",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "9c941156-53b7-440a-a73c-d0e3d8163b9e",
+      "id": "87f6aa76-2360-5b27-9637-1d237c8690e4",
       "type": "execute-command",
       "data": {
         "command": "sed -i \"\\:^#{library_path}:d\" /etc/ld.so.preload\nrm -rf #{library_path} /usr/local/bin/evil_script.py /tmp/atomic",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "38908659-9fbe-497d-9ade-d6d7e23411b7",
+      "id": "725b0ed2-2007-58fb-a150-04f90aadef49",
       "name": "Check dependency 1/1",
       "description": "The preload library must exist on disk at specified location (#{library_path})\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "66332658-a4bc-439a-8107-a2b203d1d14e",
+      "id": "8ed1f43b-4edb-5403-869c-c657d6bb12cf",
       "name": "Resolve dependency 1/1",
       "description": "The preload library must exist on disk at specified location (#{library_path})\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "81190ff9-c689-4a8a-8e66-b31342a79d89",
+      "id": "725b0ed2-2007-58fb-a150-04f90aadef49",
       "name": "Re-check dependency 1/1",
       "description": "The preload library must exist on disk at specified location (#{library_path})\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "bd8c3dcc-0298-4893-a033-c299703dc446",
+      "s": "6f9e5aa5-0bea-5a11-8959-250937c5322d",
       "p": "on-success",
-      "o": "9c941156-53b7-440a-a73c-d0e3d8163b9e"
+      "o": "87f6aa76-2360-5b27-9637-1d237c8690e4"
     },
     {
-      "s": "bd8c3dcc-0298-4893-a033-c299703dc446",
+      "s": "6f9e5aa5-0bea-5a11-8959-250937c5322d",
       "p": "on-failure",
-      "o": "9c941156-53b7-440a-a73c-d0e3d8163b9e"
+      "o": "87f6aa76-2360-5b27-9637-1d237c8690e4"
     },
     {
-      "s": "38908659-9fbe-497d-9ade-d6d7e23411b7",
+      "s": "725b0ed2-2007-58fb-a150-04f90aadef49",
       "p": "on-success",
-      "o": "bd8c3dcc-0298-4893-a033-c299703dc446"
+      "o": "6f9e5aa5-0bea-5a11-8959-250937c5322d"
     },
     {
-      "s": "38908659-9fbe-497d-9ade-d6d7e23411b7",
+      "s": "725b0ed2-2007-58fb-a150-04f90aadef49",
       "p": "on-failure",
-      "o": "66332658-a4bc-439a-8107-a2b203d1d14e"
+      "o": "8ed1f43b-4edb-5403-869c-c657d6bb12cf"
     },
     {
-      "s": "66332658-a4bc-439a-8107-a2b203d1d14e",
+      "s": "8ed1f43b-4edb-5403-869c-c657d6bb12cf",
       "p": "on-success",
-      "o": "81190ff9-c689-4a8a-8e66-b31342a79d89"
+      "o": "725b0ed2-2007-58fb-a150-04f90aadef49"
     },
     {
-      "s": "81190ff9-c689-4a8a-8e66-b31342a79d89",
+      "s": "725b0ed2-2007-58fb-a150-04f90aadef49",
       "p": "on-failure",
-      "o": "bd8c3dcc-0298-4893-a033-c299703dc446"
+      "o": "6f9e5aa5-0bea-5a11-8959-250937c5322d"
     }
   ],
   "tags": [

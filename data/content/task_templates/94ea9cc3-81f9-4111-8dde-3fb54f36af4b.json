@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "57e6cad8-5e52-418c-aa63-858847de0367",
+      "id": "b671860e-4db3-576b-b65c-ea5bb012899d",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential\n\n$aadApplication = New-AzureADApplication -DisplayName \"#{application_name}\"\n$servicePrincipal = New-AzureADServicePrincipal -AppId $aadApplication.AppId\n#$aadApplication = Get-AzureADApplication -Filter \"DisplayName eq '#{application_name}'\"\n\n#Get Service Principal of Microsoft Graph Resource API \n$graphSP = Get-AzureADServicePrincipal -Filter \"DisplayName eq 'Microsoft Graph'\"\n\n#Initialize RequiredResourceAccess for Microsoft Graph Resource API \n$requiredGraphAccess = New-Object Microsoft.Open.AzureAD.Model.RequiredResourceAccess\n$requiredGraphAccess.ResourceAppId = $graphSP.AppId\n$requiredGraphAccess.ResourceAccess = New-Object System.Collections.Generic.List[Microsoft.Open.AzureAD.Model.ResourceAccess]\n\n#Set Application Permissions\n$ApplicationPermissions = @('#{application_permission}')\n\n$reqPermission = $graphSP.AppRoles | Where-Object {$_.Value -eq $ApplicationPermissions}\nif($reqPermission)\n{\n$resourceAccess = New-Object Microsoft.Open.AzureAD.Model.ResourceAccess\n$resourceAccess.Type = \"Role\"\n$resourceAccess.Id = $reqPermission.Id    \n#Add required app permission\n$requiredGraphAccess.ResourceAccess.Add($resourceAccess)\n}\nelse\n{\nWrite-Host \"App permission $permission not found in the Graph Resource API\" -ForegroundColor Red\n}\n\n#Add required resource accesses\n$requiredResourcesAccess = New-Object System.Collections.Generic.List[Microsoft.Open.AzureAD.Model.RequiredResourceAccess]\n$requiredResourcesAccess.Add($requiredGraphAccess)\n\n#Set permissions in existing Azure AD App\nSet-AzureADApplication -ObjectId $aadApplication.ObjectId -RequiredResourceAccess $requiredResourcesAccess\n\n$servicePrincipal = Get-AzureADServicePrincipal -Filter \"AppId eq '$($aadApplication.AppId)'\"\n\nNew-AzureADServiceAppRoleAssignment -ObjectId $servicePrincipal.ObjectId -PrincipalId $servicePrincipal.ObjectId -ResourceId $graphSP.ObjectId -Id $reqPermission.Id",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "7d60d636-b52c-4d5e-bcb7-40ac1a0b6eae",
+      "id": "b93874a7-f189-5b7f-a7b7-14aaffd634fd",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential\n\n$aadApplication = @(Get-AzureADApplication -Filter \"DisplayName eq '#{application_name}'\")\nIf ($aadApplication.Count -eq 0)\n{\n  Write-Host \"App not found: cannot delete it\"\n  exit\n}\nElseIf ($aadApplication.Count -gt 1)\n{\n  Write-Host \"Found several app with name '#{application_name}': one is likely the one this technique created, but as a precaution, none will be deleted. Manual cleanup is required.\"\n  exit\n}\nElse\n{\n  Remove-AzureADApplication -ObjectId $aadApplication[0].ObjectId\n  Write-Host \"Successfully deleted app\"\n}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "b3846447-0409-4b5c-9219-462b39a103ba",
+      "id": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "name": "Check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "3fcb6547-ea5e-4c3b-886d-e34e862183cb",
+      "id": "1fa9d886-4e7b-5fde-9622-fecd2533f775",
       "name": "Resolve dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "daf8ed15-d4ba-4180-92e4-56d44112dbb1",
+      "id": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "name": "Re-check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "57e6cad8-5e52-418c-aa63-858847de0367",
+      "s": "b671860e-4db3-576b-b65c-ea5bb012899d",
       "p": "on-success",
-      "o": "7d60d636-b52c-4d5e-bcb7-40ac1a0b6eae"
+      "o": "b93874a7-f189-5b7f-a7b7-14aaffd634fd"
     },
     {
-      "s": "57e6cad8-5e52-418c-aa63-858847de0367",
+      "s": "b671860e-4db3-576b-b65c-ea5bb012899d",
       "p": "on-failure",
-      "o": "7d60d636-b52c-4d5e-bcb7-40ac1a0b6eae"
+      "o": "b93874a7-f189-5b7f-a7b7-14aaffd634fd"
     },
     {
-      "s": "b3846447-0409-4b5c-9219-462b39a103ba",
+      "s": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "p": "on-success",
-      "o": "57e6cad8-5e52-418c-aa63-858847de0367"
+      "o": "b671860e-4db3-576b-b65c-ea5bb012899d"
     },
     {
-      "s": "b3846447-0409-4b5c-9219-462b39a103ba",
+      "s": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "p": "on-failure",
-      "o": "3fcb6547-ea5e-4c3b-886d-e34e862183cb"
+      "o": "1fa9d886-4e7b-5fde-9622-fecd2533f775"
     },
     {
-      "s": "3fcb6547-ea5e-4c3b-886d-e34e862183cb",
+      "s": "1fa9d886-4e7b-5fde-9622-fecd2533f775",
       "p": "on-success",
-      "o": "daf8ed15-d4ba-4180-92e4-56d44112dbb1"
+      "o": "653fec79-d5a5-51b2-adcd-921a50cf09f5"
     },
     {
-      "s": "daf8ed15-d4ba-4180-92e4-56d44112dbb1",
+      "s": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "p": "on-failure",
-      "o": "57e6cad8-5e52-418c-aa63-858847de0367"
+      "o": "b671860e-4db3-576b-b65c-ea5bb012899d"
     }
   ],
   "tags": [

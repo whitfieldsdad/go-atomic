@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "cdace770-fb1f-4f19-be7a-a197448c0dcb",
+      "id": "b39b1177-a954-56e4-aade-29ef2e38a345",
       "type": "execute-command",
       "data": {
         "command": "if (!(Test-Path -Path \"HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\")){\n  New-Item -ItemType Key -Path  \"HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\"\n}\nSet-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\" -Name \"#{target_key_value_name}\" -Value \"#{payload}\"",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "b0dbf49d-eaee-4335-bbec-f33e18d63918",
+      "id": "af1871d1-caa2-5e59-969c-1eb6b1601751",
       "type": "execute-command",
       "data": {
         "command": "Remove-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\" -Name \"#{target_key_value_name}\"",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "cdace770-fb1f-4f19-be7a-a197448c0dcb",
+      "s": "b39b1177-a954-56e4-aade-29ef2e38a345",
       "p": "on-success",
-      "o": "b0dbf49d-eaee-4335-bbec-f33e18d63918"
+      "o": "af1871d1-caa2-5e59-969c-1eb6b1601751"
     },
     {
-      "s": "cdace770-fb1f-4f19-be7a-a197448c0dcb",
+      "s": "b39b1177-a954-56e4-aade-29ef2e38a345",
       "p": "on-failure",
-      "o": "b0dbf49d-eaee-4335-bbec-f33e18d63918"
+      "o": "af1871d1-caa2-5e59-969c-1eb6b1601751"
     }
   ],
   "tags": [

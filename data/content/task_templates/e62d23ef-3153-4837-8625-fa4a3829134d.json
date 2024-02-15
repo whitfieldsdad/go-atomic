@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "214391b1-2d1c-4eb8-9b15-f2c6caab859b",
+      "id": "409417fb-26da-5962-a04a-4b95b624b586",
       "type": "execute-command",
       "data": {
         "command": "Connect-AzureAD\n$userprincipalname = \"#{userprincipalname}\"\n$username = \"#{username}\"      \n$password = \"#{password}\"\n$PasswordProfile = New-Object -TypeName Microsoft.Open.AzureAD.Model.PasswordProfile\n$PasswordProfile.Password = $password\nNew-AzureADUser -DisplayName $username -PasswordProfile $PasswordProfile -UserPrincipalName $userprincipalname -AccountEnabled $true -MailNickName $username",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "cb9101c8-9555-484a-9429-3dccd5b9948f",
+      "id": "8db91896-4b34-54f7-b156-3c1f04f635a2",
       "type": "execute-command",
       "data": {
         "command": "Remove-AzureADUser -ObjectId \"#{userprincipalname}\"",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "a94a1c07-8308-4d7c-bffc-ee1bd5a63be0",
+      "id": "f5769675-9562-58a6-abaa-192f6f2f458c",
       "name": "Check dependency 1/2",
       "description": "Check if AzureAD PowerShell module is installed",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "cd7e3cd0-7c6a-4a9f-8583-f8790571c9be",
+      "id": "cb5a8296-f4e4-59da-a08e-2a11739102ad",
       "name": "Resolve dependency 1/2",
       "description": "Check if AzureAD PowerShell module is installed",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "e3c3fb3a-6b8d-4159-9fe0-51c91acb38d0",
+      "id": "f5769675-9562-58a6-abaa-192f6f2f458c",
       "name": "Re-check dependency 1/2",
       "description": "Check if AzureAD PowerShell module is installed",
       "type": "execute-command",
@@ -58,7 +58,7 @@
       "elevation_required": false
     },
     {
-      "id": "d33ee008-1d5c-4150-9b4f-5212faf69072",
+      "id": "64e0a820-9690-59de-9a16-60f765d834c0",
       "name": "Check dependency 2/2",
       "description": "Check if AzureAD PowerShell module is installed",
       "type": "execute-command",
@@ -69,7 +69,7 @@
       "elevation_required": false
     },
     {
-      "id": "2c3b6db1-1cfa-49dd-9279-559d8ed7f039",
+      "id": "81001cae-93e6-5148-a885-5b96b43ce326",
       "name": "Resolve dependency 2/2",
       "description": "Check if AzureAD PowerShell module is installed",
       "type": "execute-command",
@@ -80,7 +80,7 @@
       "elevation_required": false
     },
     {
-      "id": "f6fe4e17-d9e8-4c93-84ac-2051b39cc6a1",
+      "id": "64e0a820-9690-59de-9a16-60f765d834c0",
       "name": "Re-check dependency 2/2",
       "description": "Check if AzureAD PowerShell module is installed",
       "type": "execute-command",
@@ -93,54 +93,54 @@
   ],
   "flows": [
     {
-      "s": "214391b1-2d1c-4eb8-9b15-f2c6caab859b",
+      "s": "409417fb-26da-5962-a04a-4b95b624b586",
       "p": "on-success",
-      "o": "cb9101c8-9555-484a-9429-3dccd5b9948f"
+      "o": "8db91896-4b34-54f7-b156-3c1f04f635a2"
     },
     {
-      "s": "214391b1-2d1c-4eb8-9b15-f2c6caab859b",
+      "s": "409417fb-26da-5962-a04a-4b95b624b586",
       "p": "on-failure",
-      "o": "cb9101c8-9555-484a-9429-3dccd5b9948f"
+      "o": "8db91896-4b34-54f7-b156-3c1f04f635a2"
     },
     {
-      "s": "a94a1c07-8308-4d7c-bffc-ee1bd5a63be0",
+      "s": "f5769675-9562-58a6-abaa-192f6f2f458c",
       "p": "on-success",
-      "o": "214391b1-2d1c-4eb8-9b15-f2c6caab859b"
+      "o": "409417fb-26da-5962-a04a-4b95b624b586"
     },
     {
-      "s": "a94a1c07-8308-4d7c-bffc-ee1bd5a63be0",
+      "s": "f5769675-9562-58a6-abaa-192f6f2f458c",
       "p": "on-failure",
-      "o": "cd7e3cd0-7c6a-4a9f-8583-f8790571c9be"
+      "o": "cb5a8296-f4e4-59da-a08e-2a11739102ad"
     },
     {
-      "s": "cd7e3cd0-7c6a-4a9f-8583-f8790571c9be",
+      "s": "cb5a8296-f4e4-59da-a08e-2a11739102ad",
       "p": "on-success",
-      "o": "e3c3fb3a-6b8d-4159-9fe0-51c91acb38d0"
+      "o": "f5769675-9562-58a6-abaa-192f6f2f458c"
     },
     {
-      "s": "e3c3fb3a-6b8d-4159-9fe0-51c91acb38d0",
+      "s": "f5769675-9562-58a6-abaa-192f6f2f458c",
       "p": "on-failure",
-      "o": "214391b1-2d1c-4eb8-9b15-f2c6caab859b"
+      "o": "409417fb-26da-5962-a04a-4b95b624b586"
     },
     {
-      "s": "d33ee008-1d5c-4150-9b4f-5212faf69072",
+      "s": "64e0a820-9690-59de-9a16-60f765d834c0",
       "p": "on-success",
-      "o": "214391b1-2d1c-4eb8-9b15-f2c6caab859b"
+      "o": "409417fb-26da-5962-a04a-4b95b624b586"
     },
     {
-      "s": "d33ee008-1d5c-4150-9b4f-5212faf69072",
+      "s": "64e0a820-9690-59de-9a16-60f765d834c0",
       "p": "on-failure",
-      "o": "2c3b6db1-1cfa-49dd-9279-559d8ed7f039"
+      "o": "81001cae-93e6-5148-a885-5b96b43ce326"
     },
     {
-      "s": "2c3b6db1-1cfa-49dd-9279-559d8ed7f039",
+      "s": "81001cae-93e6-5148-a885-5b96b43ce326",
       "p": "on-success",
-      "o": "f6fe4e17-d9e8-4c93-84ac-2051b39cc6a1"
+      "o": "64e0a820-9690-59de-9a16-60f765d834c0"
     },
     {
-      "s": "f6fe4e17-d9e8-4c93-84ac-2051b39cc6a1",
+      "s": "64e0a820-9690-59de-9a16-60f765d834c0",
       "p": "on-failure",
-      "o": "214391b1-2d1c-4eb8-9b15-f2c6caab859b"
+      "o": "409417fb-26da-5962-a04a-4b95b624b586"
     }
   ],
   "tags": [

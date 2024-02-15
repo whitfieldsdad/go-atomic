@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ce70390e-cccc-41ca-83cc-0a8820186041",
+      "id": "adf406cf-3815-5e8d-8a4f-ad6906994584",
       "type": "execute-command",
       "data": {
         "command": "$cert = New-SelfSignedCertificate -DnsName atomicredteam.com -CertStoreLocation cert:\\LocalMachine\\My\nSet-Location Cert:\\LocalMachine\\My\nExport-Certificate -Type CERT -Cert  Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -FilePath #{pfx_path}",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "f3595bc5-fcce-42d7-8c86-e1549f8e256d",
+      "id": "6cf1ccc5-1b28-5529-af66-45b5fa910031",
       "type": "execute-command",
       "data": {
         "command": "try {\n   $cert = Import-Certificate -FilePath #{pfx_path} -CertStoreLocation Cert:\\LocalMachine\\My -ErrorAction Ignore\n   Get-ChildItem Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\n   Get-ChildItem Cert:\\LocalMachine\\Root\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\n}\ncatch { }",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "ce70390e-cccc-41ca-83cc-0a8820186041",
+      "s": "adf406cf-3815-5e8d-8a4f-ad6906994584",
       "p": "on-success",
-      "o": "f3595bc5-fcce-42d7-8c86-e1549f8e256d"
+      "o": "6cf1ccc5-1b28-5529-af66-45b5fa910031"
     },
     {
-      "s": "ce70390e-cccc-41ca-83cc-0a8820186041",
+      "s": "adf406cf-3815-5e8d-8a4f-ad6906994584",
       "p": "on-failure",
-      "o": "f3595bc5-fcce-42d7-8c86-e1549f8e256d"
+      "o": "6cf1ccc5-1b28-5529-af66-45b5fa910031"
     }
   ],
   "tags": [

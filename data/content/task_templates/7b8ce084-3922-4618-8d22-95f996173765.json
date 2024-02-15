@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "387e1566-fa8a-4fbf-99de-c6ee1648d00d",
+      "id": "675c14af-b229-5a4f-bbd6-b13a9d355925",
       "type": "execute-command",
       "data": {
         "command": "echo \"#{pwd_for_encrypted_file}\" | $which_gpg --batch --yes --passphrase-fd 0 --cipher-algo #{encryption_alg} -o #{encrypted_file_path} -c #{input_file_path}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "3e112c9d-4a37-4d3e-8e8b-09157316e6da",
+      "id": "1b2f1f85-bfc7-5e5b-874f-bcb60431e087",
       "type": "execute-command",
       "data": {
         "command": "rm #{encrypted_file_path}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "19338e05-63f2-47d2-a60c-ce51466dc407",
+      "id": "d80dc245-2e9a-5dce-9534-f3729cefff79",
       "name": "Check dependency 1/1",
       "description": "Finds where gpg is located\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "369d4d82-1b70-4b04-b097-1f03cb90366e",
+      "id": "99af9f3c-11f3-5ff5-ad54-d50b12e0daad",
       "name": "Resolve dependency 1/1",
       "description": "Finds where gpg is located\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "ef76a94f-77fe-4da1-a9bf-9bc76b78f14f",
+      "id": "d80dc245-2e9a-5dce-9534-f3729cefff79",
       "name": "Re-check dependency 1/1",
       "description": "Finds where gpg is located\n",
       "type": "execute-command",
@@ -60,46 +60,40 @@
   ],
   "flows": [
     {
-      "s": "387e1566-fa8a-4fbf-99de-c6ee1648d00d",
+      "s": "675c14af-b229-5a4f-bbd6-b13a9d355925",
       "p": "on-success",
-      "o": "3e112c9d-4a37-4d3e-8e8b-09157316e6da"
+      "o": "1b2f1f85-bfc7-5e5b-874f-bcb60431e087"
     },
     {
-      "s": "387e1566-fa8a-4fbf-99de-c6ee1648d00d",
+      "s": "675c14af-b229-5a4f-bbd6-b13a9d355925",
       "p": "on-failure",
-      "o": "3e112c9d-4a37-4d3e-8e8b-09157316e6da"
+      "o": "1b2f1f85-bfc7-5e5b-874f-bcb60431e087"
     },
     {
-      "s": "19338e05-63f2-47d2-a60c-ce51466dc407",
+      "s": "d80dc245-2e9a-5dce-9534-f3729cefff79",
       "p": "on-success",
-      "o": "387e1566-fa8a-4fbf-99de-c6ee1648d00d"
+      "o": "675c14af-b229-5a4f-bbd6-b13a9d355925"
     },
     {
-      "s": "19338e05-63f2-47d2-a60c-ce51466dc407",
+      "s": "d80dc245-2e9a-5dce-9534-f3729cefff79",
       "p": "on-failure",
-      "o": "369d4d82-1b70-4b04-b097-1f03cb90366e"
+      "o": "99af9f3c-11f3-5ff5-ad54-d50b12e0daad"
     },
     {
-      "s": "369d4d82-1b70-4b04-b097-1f03cb90366e",
+      "s": "99af9f3c-11f3-5ff5-ad54-d50b12e0daad",
       "p": "on-success",
-      "o": "ef76a94f-77fe-4da1-a9bf-9bc76b78f14f"
+      "o": "d80dc245-2e9a-5dce-9534-f3729cefff79"
     },
     {
-      "s": "ef76a94f-77fe-4da1-a9bf-9bc76b78f14f",
+      "s": "d80dc245-2e9a-5dce-9534-f3729cefff79",
       "p": "on-failure",
-      "o": "387e1566-fa8a-4fbf-99de-c6ee1648d00d"
+      "o": "675c14af-b229-5a4f-bbd6-b13a9d355925"
     }
   ],
   "tags": [
     "T1486"
   ],
   "input_arguments": [
-    {
-      "name": "pwd_for_encrypted_file",
-      "type": "string",
-      "description": "the password that you want for the encrypted file",
-      "value": "passwd"
-    },
     {
       "name": "encrypted_file_path",
       "type": "path",
@@ -117,6 +111,12 @@
       "type": "string",
       "description": "encryption algorithm of the file",
       "value": "AES-256"
+    },
+    {
+      "name": "pwd_for_encrypted_file",
+      "type": "string",
+      "description": "the password that you want for the encrypted file",
+      "value": "passwd"
     }
   ]
 }

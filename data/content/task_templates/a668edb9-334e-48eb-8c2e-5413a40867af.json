@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b365b5d3-a466-4f0c-b089-3896cea09595",
+      "id": "0c95ac3f-cd4d-5972-91b5-09d341789c9d",
       "type": "execute-command",
       "data": {
         "command": "auditctl -a always,exit -F arch=b64 -S execve -k CMDS \nauditctl -a always,exit -F arch=b32 -S execve -k CMDS\nwhoami; ausearch -i --start $(date +\"%d/%m/%y %H:%M:%S\")",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "5bb3d27b-3687-4187-924d-3bd26bd91655",
+      "id": "98008010-3b80-5324-b969-894d8c666c98",
       "type": "execute-command",
       "data": {
         "command": "systemctl restart auditd",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "f9f43070-431e-4794-a4b8-68f2b964f10e",
+      "id": "98183324-0041-52c5-9f9c-d137e199d40f",
       "name": "Check dependency 1/1",
       "description": "This test requires sshd and auditd\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "7994f73f-301d-45c7-8fed-bd740ccec313",
+      "id": "9cdf8cf0-b2c0-55a3-a1c4-3f614621259a",
       "name": "Resolve dependency 1/1",
       "description": "This test requires sshd and auditd\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "aa26b86b-fb9f-4acb-b09d-69d8e1d10a71",
+      "id": "98183324-0041-52c5-9f9c-d137e199d40f",
       "name": "Re-check dependency 1/1",
       "description": "This test requires sshd and auditd\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "b365b5d3-a466-4f0c-b089-3896cea09595",
+      "s": "0c95ac3f-cd4d-5972-91b5-09d341789c9d",
       "p": "on-success",
-      "o": "5bb3d27b-3687-4187-924d-3bd26bd91655"
+      "o": "98008010-3b80-5324-b969-894d8c666c98"
     },
     {
-      "s": "b365b5d3-a466-4f0c-b089-3896cea09595",
+      "s": "0c95ac3f-cd4d-5972-91b5-09d341789c9d",
       "p": "on-failure",
-      "o": "5bb3d27b-3687-4187-924d-3bd26bd91655"
+      "o": "98008010-3b80-5324-b969-894d8c666c98"
     },
     {
-      "s": "f9f43070-431e-4794-a4b8-68f2b964f10e",
+      "s": "98183324-0041-52c5-9f9c-d137e199d40f",
       "p": "on-success",
-      "o": "b365b5d3-a466-4f0c-b089-3896cea09595"
+      "o": "0c95ac3f-cd4d-5972-91b5-09d341789c9d"
     },
     {
-      "s": "f9f43070-431e-4794-a4b8-68f2b964f10e",
+      "s": "98183324-0041-52c5-9f9c-d137e199d40f",
       "p": "on-failure",
-      "o": "7994f73f-301d-45c7-8fed-bd740ccec313"
+      "o": "9cdf8cf0-b2c0-55a3-a1c4-3f614621259a"
     },
     {
-      "s": "7994f73f-301d-45c7-8fed-bd740ccec313",
+      "s": "9cdf8cf0-b2c0-55a3-a1c4-3f614621259a",
       "p": "on-success",
-      "o": "aa26b86b-fb9f-4acb-b09d-69d8e1d10a71"
+      "o": "98183324-0041-52c5-9f9c-d137e199d40f"
     },
     {
-      "s": "aa26b86b-fb9f-4acb-b09d-69d8e1d10a71",
+      "s": "98183324-0041-52c5-9f9c-d137e199d40f",
       "p": "on-failure",
-      "o": "b365b5d3-a466-4f0c-b089-3896cea09595"
+      "o": "0c95ac3f-cd4d-5972-91b5-09d341789c9d"
     }
   ],
   "tags": [

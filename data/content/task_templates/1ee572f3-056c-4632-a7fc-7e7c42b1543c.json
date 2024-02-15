@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "3f7bb1bc-010d-4970-8e53-04ecbc14e4f1",
+      "id": "9d1fe39d-82b6-5dba-a35d-551bf4adcf95",
       "type": "execute-command",
       "data": {
         "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nSet-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $False",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "a0318e0d-4aec-4e8d-a099-615f198f47e8",
+      "id": "bc4a2084-745e-5c9e-84d2-f148afbc328c",
       "type": "execute-command",
       "data": {
         "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nSet-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $True",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "0e960f83-29c8-4d2d-8edf-4e03ec3c8b4e",
+      "id": "13db0513-a6c9-5001-ae52-d5f3ec78af64",
       "name": "Check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "3fb0abf3-8327-4e42-897f-ab3c6f822c19",
+      "id": "0d4f8e64-ddfe-5899-a297-4e8d54db9448",
       "name": "Resolve dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "74706c49-c190-40f3-91c3-32c972037421",
+      "id": "13db0513-a6c9-5001-ae52-d5f3ec78af64",
       "name": "Re-check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "3f7bb1bc-010d-4970-8e53-04ecbc14e4f1",
+      "s": "9d1fe39d-82b6-5dba-a35d-551bf4adcf95",
       "p": "on-success",
-      "o": "a0318e0d-4aec-4e8d-a099-615f198f47e8"
+      "o": "bc4a2084-745e-5c9e-84d2-f148afbc328c"
     },
     {
-      "s": "3f7bb1bc-010d-4970-8e53-04ecbc14e4f1",
+      "s": "9d1fe39d-82b6-5dba-a35d-551bf4adcf95",
       "p": "on-failure",
-      "o": "a0318e0d-4aec-4e8d-a099-615f198f47e8"
+      "o": "bc4a2084-745e-5c9e-84d2-f148afbc328c"
     },
     {
-      "s": "0e960f83-29c8-4d2d-8edf-4e03ec3c8b4e",
+      "s": "13db0513-a6c9-5001-ae52-d5f3ec78af64",
       "p": "on-success",
-      "o": "3f7bb1bc-010d-4970-8e53-04ecbc14e4f1"
+      "o": "9d1fe39d-82b6-5dba-a35d-551bf4adcf95"
     },
     {
-      "s": "0e960f83-29c8-4d2d-8edf-4e03ec3c8b4e",
+      "s": "13db0513-a6c9-5001-ae52-d5f3ec78af64",
       "p": "on-failure",
-      "o": "3fb0abf3-8327-4e42-897f-ab3c6f822c19"
+      "o": "0d4f8e64-ddfe-5899-a297-4e8d54db9448"
     },
     {
-      "s": "3fb0abf3-8327-4e42-897f-ab3c6f822c19",
+      "s": "0d4f8e64-ddfe-5899-a297-4e8d54db9448",
       "p": "on-success",
-      "o": "74706c49-c190-40f3-91c3-32c972037421"
+      "o": "13db0513-a6c9-5001-ae52-d5f3ec78af64"
     },
     {
-      "s": "74706c49-c190-40f3-91c3-32c972037421",
+      "s": "13db0513-a6c9-5001-ae52-d5f3ec78af64",
       "p": "on-failure",
-      "o": "3f7bb1bc-010d-4970-8e53-04ecbc14e4f1"
+      "o": "9d1fe39d-82b6-5dba-a35d-551bf4adcf95"
     }
   ],
   "tags": [

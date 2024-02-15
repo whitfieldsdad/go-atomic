@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ef26f5f9-a9c5-418b-8d71-3d623fd46f60",
+      "id": "57feed30-8c63-5d19-93cd-b28ef3275296",
       "type": "execute-command",
       "data": {
         "command": "$Server=#{logonserver}\n$User = Join-Path #{domain} #{username}\n$Password=\"#{password}\"\ncmdkey /generic:TERMSRV/$Server /user:$User /pass:$Password\nmstsc /v:$Server\necho \"RDP connection established\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "ab522c32-08df-410d-9663-53292407ddb6",
+      "id": "d6ce42e5-09f8-5e37-a0b1-bd60c8454ed3",
       "type": "execute-command",
       "data": {
         "command": "$p=Tasklist /svc /fi \"IMAGENAME eq mstsc.exe\" /fo csv | convertfrom-csv\nif(-not ([string]::IsNullOrEmpty($p.PID))) { Stop-Process -Id $p.PID }",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "8a45d8f4-9cbe-4a17-9a8f-fe8ba1518079",
+      "id": "674dc9f6-1fd8-55e3-9e03-8bffdff2b0c9",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "274c3104-5c2b-464f-9317-4ccf028c3104",
+      "id": "f6ed81ad-42c4-5823-ab55-dfc75410a2e0",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "f9bdee61-628f-469a-9cc2-5e07a72492ff",
+      "id": "674dc9f6-1fd8-55e3-9e03-8bffdff2b0c9",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "ef26f5f9-a9c5-418b-8d71-3d623fd46f60",
+      "s": "57feed30-8c63-5d19-93cd-b28ef3275296",
       "p": "on-success",
-      "o": "ab522c32-08df-410d-9663-53292407ddb6"
+      "o": "d6ce42e5-09f8-5e37-a0b1-bd60c8454ed3"
     },
     {
-      "s": "ef26f5f9-a9c5-418b-8d71-3d623fd46f60",
+      "s": "57feed30-8c63-5d19-93cd-b28ef3275296",
       "p": "on-failure",
-      "o": "ab522c32-08df-410d-9663-53292407ddb6"
+      "o": "d6ce42e5-09f8-5e37-a0b1-bd60c8454ed3"
     },
     {
-      "s": "8a45d8f4-9cbe-4a17-9a8f-fe8ba1518079",
+      "s": "674dc9f6-1fd8-55e3-9e03-8bffdff2b0c9",
       "p": "on-success",
-      "o": "ef26f5f9-a9c5-418b-8d71-3d623fd46f60"
+      "o": "57feed30-8c63-5d19-93cd-b28ef3275296"
     },
     {
-      "s": "8a45d8f4-9cbe-4a17-9a8f-fe8ba1518079",
+      "s": "674dc9f6-1fd8-55e3-9e03-8bffdff2b0c9",
       "p": "on-failure",
-      "o": "274c3104-5c2b-464f-9317-4ccf028c3104"
+      "o": "f6ed81ad-42c4-5823-ab55-dfc75410a2e0"
     },
     {
-      "s": "274c3104-5c2b-464f-9317-4ccf028c3104",
+      "s": "f6ed81ad-42c4-5823-ab55-dfc75410a2e0",
       "p": "on-success",
-      "o": "f9bdee61-628f-469a-9cc2-5e07a72492ff"
+      "o": "674dc9f6-1fd8-55e3-9e03-8bffdff2b0c9"
     },
     {
-      "s": "f9bdee61-628f-469a-9cc2-5e07a72492ff",
+      "s": "674dc9f6-1fd8-55e3-9e03-8bffdff2b0c9",
       "p": "on-failure",
-      "o": "ef26f5f9-a9c5-418b-8d71-3d623fd46f60"
+      "o": "57feed30-8c63-5d19-93cd-b28ef3275296"
     }
   ],
   "tags": [
@@ -95,18 +95,6 @@
     "T1021.001"
   ],
   "input_arguments": [
-    {
-      "name": "username",
-      "type": "string",
-      "description": "Username argument default %username%",
-      "value": "$ENV:USERNAME"
-    },
-    {
-      "name": "password",
-      "type": "string",
-      "description": "Password",
-      "value": "1password2!"
-    },
     {
       "name": "logonserver",
       "type": "string",
@@ -118,6 +106,18 @@
       "type": "string",
       "description": "domain argument default %USERDOMAIN%",
       "value": "$Env:USERDOMAIN"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "Username argument default %username%",
+      "value": "$ENV:USERNAME"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "Password",
+      "value": "1password2!"
     }
   ]
 }

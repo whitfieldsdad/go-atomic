@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "8c111560-384b-4ee1-8bd8-bf6c664ad6eb",
+      "id": "10746ec1-8621-5bfb-887f-10c98b725612",
       "type": "execute-command",
       "data": {
         "command": "ENCODED=$(perl -e \"use MIME::Base64;print(encode_base64('#{message}'));\")\nperl -le \"use MIME::Base64;print(decode_base64('$ENCODED'));\"\necho $ENCODED | perl -le 'use MIME::Base64;print(decode_base64(\u003cSTDIN\u003e));'\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 perl -le 'use MIME::Base64;open($f,\"\u003c\",\"#{encoded_file}\");print(decode_base64(\u003c$f\u003e));'",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "5623ba96-bef3-4ea0-8959-32435c7daf30",
+      "id": "66087ef1-c3b5-5f8e-aeab-de2b91fd8f87",
       "name": "Check dependency 1/1",
       "description": "Perl must be present\n",
       "type": "execute-command",
@@ -28,7 +28,7 @@
       "elevation_required": false
     },
     {
-      "id": "c46944d2-0232-4a31-bbe8-72a235ff6378",
+      "id": "bb1830cb-a84d-53dd-bc7a-7959edbf49e8",
       "name": "Resolve dependency 1/1",
       "description": "Perl must be present\n",
       "type": "execute-command",
@@ -39,7 +39,7 @@
       "elevation_required": false
     },
     {
-      "id": "ff00ef88-535e-480f-affa-0776d9c9a00e",
+      "id": "66087ef1-c3b5-5f8e-aeab-de2b91fd8f87",
       "name": "Re-check dependency 1/1",
       "description": "Perl must be present\n",
       "type": "execute-command",
@@ -52,24 +52,24 @@
   ],
   "flows": [
     {
-      "s": "5623ba96-bef3-4ea0-8959-32435c7daf30",
+      "s": "66087ef1-c3b5-5f8e-aeab-de2b91fd8f87",
       "p": "on-success",
-      "o": "8c111560-384b-4ee1-8bd8-bf6c664ad6eb"
+      "o": "10746ec1-8621-5bfb-887f-10c98b725612"
     },
     {
-      "s": "5623ba96-bef3-4ea0-8959-32435c7daf30",
+      "s": "66087ef1-c3b5-5f8e-aeab-de2b91fd8f87",
       "p": "on-failure",
-      "o": "c46944d2-0232-4a31-bbe8-72a235ff6378"
+      "o": "bb1830cb-a84d-53dd-bc7a-7959edbf49e8"
     },
     {
-      "s": "c46944d2-0232-4a31-bbe8-72a235ff6378",
+      "s": "bb1830cb-a84d-53dd-bc7a-7959edbf49e8",
       "p": "on-success",
-      "o": "ff00ef88-535e-480f-affa-0776d9c9a00e"
+      "o": "66087ef1-c3b5-5f8e-aeab-de2b91fd8f87"
     },
     {
-      "s": "ff00ef88-535e-480f-affa-0776d9c9a00e",
+      "s": "66087ef1-c3b5-5f8e-aeab-de2b91fd8f87",
       "p": "on-failure",
-      "o": "8c111560-384b-4ee1-8bd8-bf6c664ad6eb"
+      "o": "10746ec1-8621-5bfb-887f-10c98b725612"
     }
   ],
   "tags": [

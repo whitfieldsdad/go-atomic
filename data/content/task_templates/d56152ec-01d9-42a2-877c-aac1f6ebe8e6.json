@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "c01e1790-ea94-48d1-89ce-a198f8b1d3b4",
+      "id": "3aaa99ac-478e-57ff-8f44-8c1de1aac3c0",
       "type": "execute-command",
       "data": {
         "command": "gcloud config set project #{project-id}\ngcloud logging logs delete projects/#{project-id}/logs/cloudaudit.googleapis.com%2Factivity --quiet",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "2506472d-a460-40af-ab8b-935773c72000",
+      "id": "55724575-267a-5dcb-9ca3-375f92e31f0a",
       "name": "Check dependency 1/2",
       "description": "Requires gcloud\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "93930e76-2a85-4781-8882-10f664a44aaa",
+      "id": "1ab08a14-21be-5634-91c8-ed8fed3a26d1",
       "name": "Resolve dependency 1/2",
       "description": "Requires gcloud\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "b3492413-04eb-41d7-a2ce-d8f6abc6a61d",
+      "id": "55724575-267a-5dcb-9ca3-375f92e31f0a",
       "name": "Re-check dependency 1/2",
       "description": "Requires gcloud\n",
       "type": "execute-command",
@@ -49,7 +49,7 @@
       "elevation_required": false
     },
     {
-      "id": "908d100a-5d0c-4e0e-9492-42c2342dc3ca",
+      "id": "19704611-a439-5cc4-8f45-4815ea832395",
       "name": "Check dependency 2/2",
       "description": "Check if user is logged in \n",
       "type": "execute-command",
@@ -60,7 +60,7 @@
       "elevation_required": false
     },
     {
-      "id": "9678e231-98b5-4981-ba3f-38ca325fb919",
+      "id": "1357c352-d255-5716-bd61-cf33867d73e0",
       "name": "Resolve dependency 2/2",
       "description": "Check if user is logged in \n",
       "type": "execute-command",
@@ -71,7 +71,7 @@
       "elevation_required": false
     },
     {
-      "id": "ad8f7d77-d816-4bd8-bf2c-fcc9671d0f3a",
+      "id": "19704611-a439-5cc4-8f45-4815ea832395",
       "name": "Re-check dependency 2/2",
       "description": "Check if user is logged in \n",
       "type": "execute-command",
@@ -84,44 +84,44 @@
   ],
   "flows": [
     {
-      "s": "2506472d-a460-40af-ab8b-935773c72000",
+      "s": "55724575-267a-5dcb-9ca3-375f92e31f0a",
       "p": "on-success",
-      "o": "c01e1790-ea94-48d1-89ce-a198f8b1d3b4"
+      "o": "3aaa99ac-478e-57ff-8f44-8c1de1aac3c0"
     },
     {
-      "s": "2506472d-a460-40af-ab8b-935773c72000",
+      "s": "55724575-267a-5dcb-9ca3-375f92e31f0a",
       "p": "on-failure",
-      "o": "93930e76-2a85-4781-8882-10f664a44aaa"
+      "o": "1ab08a14-21be-5634-91c8-ed8fed3a26d1"
     },
     {
-      "s": "93930e76-2a85-4781-8882-10f664a44aaa",
+      "s": "1ab08a14-21be-5634-91c8-ed8fed3a26d1",
       "p": "on-success",
-      "o": "b3492413-04eb-41d7-a2ce-d8f6abc6a61d"
+      "o": "55724575-267a-5dcb-9ca3-375f92e31f0a"
     },
     {
-      "s": "b3492413-04eb-41d7-a2ce-d8f6abc6a61d",
+      "s": "55724575-267a-5dcb-9ca3-375f92e31f0a",
       "p": "on-failure",
-      "o": "c01e1790-ea94-48d1-89ce-a198f8b1d3b4"
+      "o": "3aaa99ac-478e-57ff-8f44-8c1de1aac3c0"
     },
     {
-      "s": "908d100a-5d0c-4e0e-9492-42c2342dc3ca",
+      "s": "19704611-a439-5cc4-8f45-4815ea832395",
       "p": "on-success",
-      "o": "c01e1790-ea94-48d1-89ce-a198f8b1d3b4"
+      "o": "3aaa99ac-478e-57ff-8f44-8c1de1aac3c0"
     },
     {
-      "s": "908d100a-5d0c-4e0e-9492-42c2342dc3ca",
+      "s": "19704611-a439-5cc4-8f45-4815ea832395",
       "p": "on-failure",
-      "o": "9678e231-98b5-4981-ba3f-38ca325fb919"
+      "o": "1357c352-d255-5716-bd61-cf33867d73e0"
     },
     {
-      "s": "9678e231-98b5-4981-ba3f-38ca325fb919",
+      "s": "1357c352-d255-5716-bd61-cf33867d73e0",
       "p": "on-success",
-      "o": "ad8f7d77-d816-4bd8-bf2c-fcc9671d0f3a"
+      "o": "19704611-a439-5cc4-8f45-4815ea832395"
     },
     {
-      "s": "ad8f7d77-d816-4bd8-bf2c-fcc9671d0f3a",
+      "s": "19704611-a439-5cc4-8f45-4815ea832395",
       "p": "on-failure",
-      "o": "c01e1790-ea94-48d1-89ce-a198f8b1d3b4"
+      "o": "3aaa99ac-478e-57ff-8f44-8c1de1aac3c0"
     }
   ],
   "tags": [

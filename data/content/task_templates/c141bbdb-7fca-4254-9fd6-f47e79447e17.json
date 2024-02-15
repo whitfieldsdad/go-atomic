@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "b2065759-93f3-4d94-b4ae-f327445f556b",
+      "id": "575692f8-cb78-5d17-b9ff-eeb745c4784a",
       "type": "execute-command",
       "data": {
         "command": "if [ \"$(uname)\" = 'FreeBSD' ]; then cmd=\"netstat -Sp tcp\"; else cmd=\"netstat -ant\"; fi;\nif [ -x \"$(command -v arp)\" ]; then arp -a; else echo \"arp is missing from the machine. skipping...\"; fi;\nif [ -x \"$(command -v ifconfig)\" ]; then ifconfig; else echo \"ifconfig is missing from the machine. skipping...\"; fi;\nif [ -x \"$(command -v ip)\" ]; then ip addr; else echo \"ip is missing from the machine. skipping...\"; fi;\nif [ -x \"$(command -v netstat)\" ]; then $cmd | awk '{print $NF}' | grep -v '[[:lower:]]' | sort | uniq -c; else echo \"netstat is missing from the machine. skipping...\"; fi;",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "dd396b14-b20e-48bb-a173-95a64f0574cb",
+      "id": "5cdfdda3-0ac2-51f0-b851-de55da8032fb",
       "name": "Check dependency 1/1",
       "description": "Check if arp command exists on the machine\n",
       "type": "execute-command",
@@ -28,7 +28,7 @@
       "elevation_required": false
     },
     {
-      "id": "0b13296f-1c1c-4030-b555-269f69ff72f8",
+      "id": "412ad88b-6e95-5d9f-822c-d2cc12ea266c",
       "name": "Resolve dependency 1/1",
       "description": "Check if arp command exists on the machine\n",
       "type": "execute-command",
@@ -39,7 +39,7 @@
       "elevation_required": false
     },
     {
-      "id": "7f5f31ff-06b4-4768-af08-dee6a78d35f7",
+      "id": "5cdfdda3-0ac2-51f0-b851-de55da8032fb",
       "name": "Re-check dependency 1/1",
       "description": "Check if arp command exists on the machine\n",
       "type": "execute-command",
@@ -52,24 +52,24 @@
   ],
   "flows": [
     {
-      "s": "dd396b14-b20e-48bb-a173-95a64f0574cb",
+      "s": "5cdfdda3-0ac2-51f0-b851-de55da8032fb",
       "p": "on-success",
-      "o": "b2065759-93f3-4d94-b4ae-f327445f556b"
+      "o": "575692f8-cb78-5d17-b9ff-eeb745c4784a"
     },
     {
-      "s": "dd396b14-b20e-48bb-a173-95a64f0574cb",
+      "s": "5cdfdda3-0ac2-51f0-b851-de55da8032fb",
       "p": "on-failure",
-      "o": "0b13296f-1c1c-4030-b555-269f69ff72f8"
+      "o": "412ad88b-6e95-5d9f-822c-d2cc12ea266c"
     },
     {
-      "s": "0b13296f-1c1c-4030-b555-269f69ff72f8",
+      "s": "412ad88b-6e95-5d9f-822c-d2cc12ea266c",
       "p": "on-success",
-      "o": "7f5f31ff-06b4-4768-af08-dee6a78d35f7"
+      "o": "5cdfdda3-0ac2-51f0-b851-de55da8032fb"
     },
     {
-      "s": "7f5f31ff-06b4-4768-af08-dee6a78d35f7",
+      "s": "5cdfdda3-0ac2-51f0-b851-de55da8032fb",
       "p": "on-failure",
-      "o": "b2065759-93f3-4d94-b4ae-f327445f556b"
+      "o": "575692f8-cb78-5d17-b9ff-eeb745c4784a"
     }
   ],
   "tags": [

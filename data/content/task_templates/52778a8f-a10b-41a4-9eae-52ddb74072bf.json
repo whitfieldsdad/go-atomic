@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "4b8c19f0-dddf-4590-9f84-124b3a6821b4",
+      "id": "3b47f042-baa6-5be4-af76-6cff9f2b1e0e",
       "type": "execute-command",
       "data": {
         "command": "Get-GPO -Domain $ENV:userdnsdomain #{gpo_param} \u003e\u003e #{gpo_output}",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "3dacdca2-e55a-4917-9aec-5b6a68f1a0e3",
+      "id": "77eeb346-bcd1-55ae-b4a4-dabf83a0e450",
       "type": "execute-command",
       "data": {
         "command": "del $env:temp\\GPO_Output.txt -erroraction silentlycontinue",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "7bc75faa-60ef-4fd4-9d24-580ef9346f8e",
+      "id": "85cb5640-68d2-5f5a-b21e-b18b182eac23",
       "name": "Check dependency 1/2",
       "description": "Add Rsat.ActiveDirectory.DS",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "3010f3f6-ffae-4d8f-bf79-6dfebab8b11b",
+      "id": "13fd4d95-4054-5d28-a2d1-e280935eee61",
       "name": "Resolve dependency 1/2",
       "description": "Add Rsat.ActiveDirectory.DS",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "58da08e2-638a-41b9-841c-2987fefb23cf",
+      "id": "85cb5640-68d2-5f5a-b21e-b18b182eac23",
       "name": "Re-check dependency 1/2",
       "description": "Add Rsat.ActiveDirectory.DS",
       "type": "execute-command",
@@ -58,7 +58,7 @@
       "elevation_required": true
     },
     {
-      "id": "a341cd2d-27de-4b33-82e0-58e9a33fd333",
+      "id": "fc1a7787-c1c7-56cb-9cb6-fd533b76cfaa",
       "name": "Check dependency 2/2",
       "description": "Add Rsat.GroupPolicy.Management.Tools ###Two RSAT Modules needed for this to work on Win10, WinServer 2019 works by default. This will take a long time (almost 2 minutes) to install RSAT Manually###.",
       "type": "execute-command",
@@ -69,7 +69,7 @@
       "elevation_required": true
     },
     {
-      "id": "e9095052-e3a2-4130-9fbe-8c93980b6e8b",
+      "id": "3a11a9e2-c36e-5336-8da9-bc0584402eab",
       "name": "Resolve dependency 2/2",
       "description": "Add Rsat.GroupPolicy.Management.Tools ###Two RSAT Modules needed for this to work on Win10, WinServer 2019 works by default. This will take a long time (almost 2 minutes) to install RSAT Manually###.",
       "type": "execute-command",
@@ -80,7 +80,7 @@
       "elevation_required": true
     },
     {
-      "id": "3562b558-b212-46fe-beca-f80e40cb90da",
+      "id": "fc1a7787-c1c7-56cb-9cb6-fd533b76cfaa",
       "name": "Re-check dependency 2/2",
       "description": "Add Rsat.GroupPolicy.Management.Tools ###Two RSAT Modules needed for this to work on Win10, WinServer 2019 works by default. This will take a long time (almost 2 minutes) to install RSAT Manually###.",
       "type": "execute-command",
@@ -93,54 +93,54 @@
   ],
   "flows": [
     {
-      "s": "4b8c19f0-dddf-4590-9f84-124b3a6821b4",
+      "s": "3b47f042-baa6-5be4-af76-6cff9f2b1e0e",
       "p": "on-success",
-      "o": "3dacdca2-e55a-4917-9aec-5b6a68f1a0e3"
+      "o": "77eeb346-bcd1-55ae-b4a4-dabf83a0e450"
     },
     {
-      "s": "4b8c19f0-dddf-4590-9f84-124b3a6821b4",
+      "s": "3b47f042-baa6-5be4-af76-6cff9f2b1e0e",
       "p": "on-failure",
-      "o": "3dacdca2-e55a-4917-9aec-5b6a68f1a0e3"
+      "o": "77eeb346-bcd1-55ae-b4a4-dabf83a0e450"
     },
     {
-      "s": "7bc75faa-60ef-4fd4-9d24-580ef9346f8e",
+      "s": "85cb5640-68d2-5f5a-b21e-b18b182eac23",
       "p": "on-success",
-      "o": "4b8c19f0-dddf-4590-9f84-124b3a6821b4"
+      "o": "3b47f042-baa6-5be4-af76-6cff9f2b1e0e"
     },
     {
-      "s": "7bc75faa-60ef-4fd4-9d24-580ef9346f8e",
+      "s": "85cb5640-68d2-5f5a-b21e-b18b182eac23",
       "p": "on-failure",
-      "o": "3010f3f6-ffae-4d8f-bf79-6dfebab8b11b"
+      "o": "13fd4d95-4054-5d28-a2d1-e280935eee61"
     },
     {
-      "s": "3010f3f6-ffae-4d8f-bf79-6dfebab8b11b",
+      "s": "13fd4d95-4054-5d28-a2d1-e280935eee61",
       "p": "on-success",
-      "o": "58da08e2-638a-41b9-841c-2987fefb23cf"
+      "o": "85cb5640-68d2-5f5a-b21e-b18b182eac23"
     },
     {
-      "s": "58da08e2-638a-41b9-841c-2987fefb23cf",
+      "s": "85cb5640-68d2-5f5a-b21e-b18b182eac23",
       "p": "on-failure",
-      "o": "4b8c19f0-dddf-4590-9f84-124b3a6821b4"
+      "o": "3b47f042-baa6-5be4-af76-6cff9f2b1e0e"
     },
     {
-      "s": "a341cd2d-27de-4b33-82e0-58e9a33fd333",
+      "s": "fc1a7787-c1c7-56cb-9cb6-fd533b76cfaa",
       "p": "on-success",
-      "o": "4b8c19f0-dddf-4590-9f84-124b3a6821b4"
+      "o": "3b47f042-baa6-5be4-af76-6cff9f2b1e0e"
     },
     {
-      "s": "a341cd2d-27de-4b33-82e0-58e9a33fd333",
+      "s": "fc1a7787-c1c7-56cb-9cb6-fd533b76cfaa",
       "p": "on-failure",
-      "o": "e9095052-e3a2-4130-9fbe-8c93980b6e8b"
+      "o": "3a11a9e2-c36e-5336-8da9-bc0584402eab"
     },
     {
-      "s": "e9095052-e3a2-4130-9fbe-8c93980b6e8b",
+      "s": "3a11a9e2-c36e-5336-8da9-bc0584402eab",
       "p": "on-success",
-      "o": "3562b558-b212-46fe-beca-f80e40cb90da"
+      "o": "fc1a7787-c1c7-56cb-9cb6-fd533b76cfaa"
     },
     {
-      "s": "3562b558-b212-46fe-beca-f80e40cb90da",
+      "s": "fc1a7787-c1c7-56cb-9cb6-fd533b76cfaa",
       "p": "on-failure",
-      "o": "4b8c19f0-dddf-4590-9f84-124b3a6821b4"
+      "o": "3b47f042-baa6-5be4-af76-6cff9f2b1e0e"
     }
   ],
   "tags": [
@@ -148,16 +148,16 @@
   ],
   "input_arguments": [
     {
-      "name": "gpo_param",
-      "type": "string",
-      "description": "You can specify a GPO by its display name or by its globally unique identifier (GUID) to get a single GPO, or you can get all the GPOs in the domain through the All parameter",
-      "value": "-All"
-    },
-    {
       "name": "gpo_output",
       "type": "string",
       "description": "The output of the Get-GPO cmdlet",
       "value": "$env:temp\\GPO_Output.txt"
+    },
+    {
+      "name": "gpo_param",
+      "type": "string",
+      "description": "You can specify a GPO by its display name or by its globally unique identifier (GUID) to get a single GPO, or you can get all the GPOs in the domain through the All parameter",
+      "value": "-All"
     }
   ]
 }

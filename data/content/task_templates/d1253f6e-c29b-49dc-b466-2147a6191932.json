@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "22473e14-7fb3-49d7-9180-8d9819fad47b",
+      "id": "9509dd24-a466-5199-8839-ab64c5988f8a",
       "type": "execute-command",
       "data": {
         "command": "if(-not (Test-Path #{filepath})){ \n  1..100 | ForEach-Object { Add-Content -Path #{filepath} -Value \"This is line $_.\" }\n}\n[System.Net.ServicePointManager]::Expect100Continue = $false\n$filecontent = Get-Content -Path #{filepath}\nInvoke-WebRequest -Uri #{destination_url} -Method POST -Body $filecontent -DisableKeepAlive",

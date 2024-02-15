@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "4def932f-49c6-4f32-b042-3da26b22fabd",
+      "id": "db0024c6-e6b5-5659-8a0f-17f15dde8f5b",
       "type": "execute-command",
       "data": {
         "command": "echo \"block in proto tcp from 1.2.3.4 to any\" | pfctl -a pf-rules -f -\npfctl -a pf-rules -s rules",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "c21a0841-7887-47b9-87c3-ab4e410bbdd8",
+      "id": "1e4b49d2-72d1-5d85-b522-2cac3a93743a",
       "type": "execute-command",
       "data": {
         "command": "pfctl -a pf-rules -F rules\nsed -i \"\" '/anchor pf-rules/d'\npfctl -f /etc/pf.conf",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "0b82db73-9b0d-4885-a2cb-e73c095f6f3c",
+      "id": "7dacf6c5-037a-531e-bd91-155d167a5ec9",
       "name": "Check dependency 1/1",
       "description": "Check if pf is installed on the machine and enabled.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "23dded46-c57d-415e-806f-e87168f84bbd",
+      "id": "e204cb3b-48aa-5ab5-96d9-2434de4b8f1e",
       "name": "Resolve dependency 1/1",
       "description": "Check if pf is installed on the machine and enabled.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "f31be950-cb98-4800-9f1a-ce1069857c95",
+      "id": "7dacf6c5-037a-531e-bd91-155d167a5ec9",
       "name": "Re-check dependency 1/1",
       "description": "Check if pf is installed on the machine and enabled.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "4def932f-49c6-4f32-b042-3da26b22fabd",
+      "s": "db0024c6-e6b5-5659-8a0f-17f15dde8f5b",
       "p": "on-success",
-      "o": "c21a0841-7887-47b9-87c3-ab4e410bbdd8"
+      "o": "1e4b49d2-72d1-5d85-b522-2cac3a93743a"
     },
     {
-      "s": "4def932f-49c6-4f32-b042-3da26b22fabd",
+      "s": "db0024c6-e6b5-5659-8a0f-17f15dde8f5b",
       "p": "on-failure",
-      "o": "c21a0841-7887-47b9-87c3-ab4e410bbdd8"
+      "o": "1e4b49d2-72d1-5d85-b522-2cac3a93743a"
     },
     {
-      "s": "0b82db73-9b0d-4885-a2cb-e73c095f6f3c",
+      "s": "7dacf6c5-037a-531e-bd91-155d167a5ec9",
       "p": "on-success",
-      "o": "4def932f-49c6-4f32-b042-3da26b22fabd"
+      "o": "db0024c6-e6b5-5659-8a0f-17f15dde8f5b"
     },
     {
-      "s": "0b82db73-9b0d-4885-a2cb-e73c095f6f3c",
+      "s": "7dacf6c5-037a-531e-bd91-155d167a5ec9",
       "p": "on-failure",
-      "o": "23dded46-c57d-415e-806f-e87168f84bbd"
+      "o": "e204cb3b-48aa-5ab5-96d9-2434de4b8f1e"
     },
     {
-      "s": "23dded46-c57d-415e-806f-e87168f84bbd",
+      "s": "e204cb3b-48aa-5ab5-96d9-2434de4b8f1e",
       "p": "on-success",
-      "o": "f31be950-cb98-4800-9f1a-ce1069857c95"
+      "o": "7dacf6c5-037a-531e-bd91-155d167a5ec9"
     },
     {
-      "s": "f31be950-cb98-4800-9f1a-ce1069857c95",
+      "s": "7dacf6c5-037a-531e-bd91-155d167a5ec9",
       "p": "on-failure",
-      "o": "4def932f-49c6-4f32-b042-3da26b22fabd"
+      "o": "db0024c6-e6b5-5659-8a0f-17f15dde8f5b"
     }
   ],
   "tags": [

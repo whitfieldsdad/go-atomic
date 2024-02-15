@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "dee04054-a98f-4bbc-9d64-7a931b293e20",
+      "id": "aa03f997-bc6d-537f-85dd-a01ff6e07e44",
       "type": "execute-command",
       "data": {
         "command": "Import-Module AADInternals -Force\nExport-AADIntADFSCertificates\nGet-ChildItem | Where-Object {$_ -like \"ADFS*\"}\nWrite-Host \"`nCertificates retrieved successfully\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "30d0b05a-ffeb-4790-99f6-1b35585decd4",
+      "id": "2f78063d-0ab9-5df4-9a42-5b34a8d9d486",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item -Path \".\\ADFS_encryption.pfx\" -ErrorAction Ignore\nRemove-Item -Path \".\\ADFS_signing.pfx\" -ErrorAction Ignore",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "cdd89f30-9dcb-4a78-94cc-db9fb5dc817b",
+      "id": "6416d089-b665-5a7b-b519-380ed25da560",
       "name": "Check dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "5ea6cfcd-d0fe-430a-9b90-a1e21fc6e39b",
+      "id": "4c663e8c-4669-5810-a778-44b56c46cd3c",
       "name": "Resolve dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "9a5a897f-b3b7-4338-9367-9031b8de17fb",
+      "id": "6416d089-b665-5a7b-b519-380ed25da560",
       "name": "Re-check dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "dee04054-a98f-4bbc-9d64-7a931b293e20",
+      "s": "aa03f997-bc6d-537f-85dd-a01ff6e07e44",
       "p": "on-success",
-      "o": "30d0b05a-ffeb-4790-99f6-1b35585decd4"
+      "o": "2f78063d-0ab9-5df4-9a42-5b34a8d9d486"
     },
     {
-      "s": "dee04054-a98f-4bbc-9d64-7a931b293e20",
+      "s": "aa03f997-bc6d-537f-85dd-a01ff6e07e44",
       "p": "on-failure",
-      "o": "30d0b05a-ffeb-4790-99f6-1b35585decd4"
+      "o": "2f78063d-0ab9-5df4-9a42-5b34a8d9d486"
     },
     {
-      "s": "cdd89f30-9dcb-4a78-94cc-db9fb5dc817b",
+      "s": "6416d089-b665-5a7b-b519-380ed25da560",
       "p": "on-success",
-      "o": "dee04054-a98f-4bbc-9d64-7a931b293e20"
+      "o": "aa03f997-bc6d-537f-85dd-a01ff6e07e44"
     },
     {
-      "s": "cdd89f30-9dcb-4a78-94cc-db9fb5dc817b",
+      "s": "6416d089-b665-5a7b-b519-380ed25da560",
       "p": "on-failure",
-      "o": "5ea6cfcd-d0fe-430a-9b90-a1e21fc6e39b"
+      "o": "4c663e8c-4669-5810-a778-44b56c46cd3c"
     },
     {
-      "s": "5ea6cfcd-d0fe-430a-9b90-a1e21fc6e39b",
+      "s": "4c663e8c-4669-5810-a778-44b56c46cd3c",
       "p": "on-success",
-      "o": "9a5a897f-b3b7-4338-9367-9031b8de17fb"
+      "o": "6416d089-b665-5a7b-b519-380ed25da560"
     },
     {
-      "s": "9a5a897f-b3b7-4338-9367-9031b8de17fb",
+      "s": "6416d089-b665-5a7b-b519-380ed25da560",
       "p": "on-failure",
-      "o": "dee04054-a98f-4bbc-9d64-7a931b293e20"
+      "o": "aa03f997-bc6d-537f-85dd-a01ff6e07e44"
     }
   ],
   "tags": [

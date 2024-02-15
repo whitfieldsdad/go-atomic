@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "29179442-8a63-4a0c-aedf-dfbf4c8b55a3",
+      "id": "1651f9c7-a437-54ab-869b-7bbca159d296",
       "type": "execute-command",
       "data": {
         "command": "mv #{cert_filename} /usr/local/share/ca-certificates\necho sudo update-ca-certificates",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "0d4f2650-8656-40d4-b894-23e7dd1dfd4c",
+      "id": "c7e51fab-3182-58c3-81a6-76b8e5edac08",
       "name": "Check dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": true
     },
     {
-      "id": "f149929d-69d2-4df0-9063-317a8ea838c6",
+      "id": "12feea2f-20ba-553f-beb8-7c0836ad36ec",
       "name": "Resolve dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": true
     },
     {
-      "id": "4474b7ae-9c40-49a4-8907-afca6e4cede1",
+      "id": "c7e51fab-3182-58c3-81a6-76b8e5edac08",
       "name": "Re-check dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "0d4f2650-8656-40d4-b894-23e7dd1dfd4c",
+      "s": "c7e51fab-3182-58c3-81a6-76b8e5edac08",
       "p": "on-success",
-      "o": "29179442-8a63-4a0c-aedf-dfbf4c8b55a3"
+      "o": "1651f9c7-a437-54ab-869b-7bbca159d296"
     },
     {
-      "s": "0d4f2650-8656-40d4-b894-23e7dd1dfd4c",
+      "s": "c7e51fab-3182-58c3-81a6-76b8e5edac08",
       "p": "on-failure",
-      "o": "f149929d-69d2-4df0-9063-317a8ea838c6"
+      "o": "12feea2f-20ba-553f-beb8-7c0836ad36ec"
     },
     {
-      "s": "f149929d-69d2-4df0-9063-317a8ea838c6",
+      "s": "12feea2f-20ba-553f-beb8-7c0836ad36ec",
       "p": "on-success",
-      "o": "4474b7ae-9c40-49a4-8907-afca6e4cede1"
+      "o": "c7e51fab-3182-58c3-81a6-76b8e5edac08"
     },
     {
-      "s": "4474b7ae-9c40-49a4-8907-afca6e4cede1",
+      "s": "c7e51fab-3182-58c3-81a6-76b8e5edac08",
       "p": "on-failure",
-      "o": "29179442-8a63-4a0c-aedf-dfbf4c8b55a3"
+      "o": "1651f9c7-a437-54ab-869b-7bbca159d296"
     }
   ],
   "tags": [
@@ -77,16 +77,16 @@
   ],
   "input_arguments": [
     {
-      "name": "cert_filename",
-      "type": "path",
-      "description": "CA file name",
-      "value": "rootCA.crt"
-    },
-    {
       "name": "key_filename",
       "type": "path",
       "description": "Key we create that is used to create the CA certificate",
       "value": "rootCA.key"
+    },
+    {
+      "name": "cert_filename",
+      "type": "path",
+      "description": "CA file name",
+      "value": "rootCA.crt"
     }
   ]
 }

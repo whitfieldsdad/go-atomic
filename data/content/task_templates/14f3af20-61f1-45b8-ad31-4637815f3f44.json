@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "355dc4f2-8026-4af8-93aa-b4cd6f484088",
+      "id": "7f999fe8-193e-5590-a69b-dafd4794d60b",
       "type": "execute-command",
       "data": {
         "command": "Import-Module MSOnline\nImport-Module AzureAD\n$password = ConvertTo-SecureString -String \"#{auth_password}\" -AsPlainText -Force\n$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{auth_username}\", $password\n$targetsecurepw = ConvertTo-SecureString -String \"#{target_password}\" -AsPlainText -Force\nConnect-MsolService -Credential $credential -ErrorAction:SilentlyContinue\nConnect-AzureAD -Credential $credential -ErrorAction:SilentlyContinue\n\n#Saving the ObjectId of the target_user into a variable\n$target_objid = Get-AzureADUser -filter \"userPrincipalName eq '#{target_user}'\" | Select-Object -ExpandProperty ObjectId\n\n#Reset the password of the target_user\nSet-AzureADUserPassword -ObjectId  $target_objid -Password $targetsecurepw -ErrorAction:SilentlyContinue\n\n#Adding target_user\nAdd-MsolRoleMember -RoleName \"Company Administrator\" -RoleMemberEmailAddress \"#{target_user}\"\nAdd-MsolRoleMember -RoleName \"Global Reader\" -RoleMemberEmailAddress \"#{target_user}\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "e4a58712-f6e7-427a-96b0-e735c57ca838",
+      "id": "e97d08c6-f716-56fa-89d8-2dfd21fd767b",
       "type": "execute-command",
       "data": {
         "command": "Import-Module MSOnline\n$password = ConvertTo-SecureString -String \"#{auth_password}\" -AsPlainText -Force\n$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{auth_username}\", $password\nConnect-MsolService -Credential $credential\nRemove-MsolRoleMember -RoleName \"Company Administrator\" -RoleMemberType User -RoleMemberEmailAddress \"#{target_user}\"\nRemove-MsolRoleMember -RoleName \"Global Reader\" -RoleMemberType User -RoleMemberEmailAddress \"#{target_user}\"",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "8f2a9b4d-628e-406d-8800-c730ba91ee88",
+      "id": "01b9cef6-1a2b-57c0-9e80-9da8f1a20cec",
       "name": "Check dependency 1/1",
       "description": "MSOnline and AzureAD modules must be installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "97b50500-b444-485d-b4e7-8a19eaf7358d",
+      "id": "87aa4a78-375c-5d44-98c6-33dae16860a6",
       "name": "Resolve dependency 1/1",
       "description": "MSOnline and AzureAD modules must be installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "8f3f1f87-d629-4258-a7dd-9c51b8deffa6",
+      "id": "01b9cef6-1a2b-57c0-9e80-9da8f1a20cec",
       "name": "Re-check dependency 1/1",
       "description": "MSOnline and AzureAD modules must be installed.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "355dc4f2-8026-4af8-93aa-b4cd6f484088",
+      "s": "7f999fe8-193e-5590-a69b-dafd4794d60b",
       "p": "on-success",
-      "o": "e4a58712-f6e7-427a-96b0-e735c57ca838"
+      "o": "e97d08c6-f716-56fa-89d8-2dfd21fd767b"
     },
     {
-      "s": "355dc4f2-8026-4af8-93aa-b4cd6f484088",
+      "s": "7f999fe8-193e-5590-a69b-dafd4794d60b",
       "p": "on-failure",
-      "o": "e4a58712-f6e7-427a-96b0-e735c57ca838"
+      "o": "e97d08c6-f716-56fa-89d8-2dfd21fd767b"
     },
     {
-      "s": "8f2a9b4d-628e-406d-8800-c730ba91ee88",
+      "s": "01b9cef6-1a2b-57c0-9e80-9da8f1a20cec",
       "p": "on-success",
-      "o": "355dc4f2-8026-4af8-93aa-b4cd6f484088"
+      "o": "7f999fe8-193e-5590-a69b-dafd4794d60b"
     },
     {
-      "s": "8f2a9b4d-628e-406d-8800-c730ba91ee88",
+      "s": "01b9cef6-1a2b-57c0-9e80-9da8f1a20cec",
       "p": "on-failure",
-      "o": "97b50500-b444-485d-b4e7-8a19eaf7358d"
+      "o": "87aa4a78-375c-5d44-98c6-33dae16860a6"
     },
     {
-      "s": "97b50500-b444-485d-b4e7-8a19eaf7358d",
+      "s": "87aa4a78-375c-5d44-98c6-33dae16860a6",
       "p": "on-success",
-      "o": "8f3f1f87-d629-4258-a7dd-9c51b8deffa6"
+      "o": "01b9cef6-1a2b-57c0-9e80-9da8f1a20cec"
     },
     {
-      "s": "8f3f1f87-d629-4258-a7dd-9c51b8deffa6",
+      "s": "01b9cef6-1a2b-57c0-9e80-9da8f1a20cec",
       "p": "on-failure",
-      "o": "355dc4f2-8026-4af8-93aa-b4cd6f484088"
+      "o": "7f999fe8-193e-5590-a69b-dafd4794d60b"
     }
   ],
   "tags": [
@@ -95,12 +95,6 @@
     "T1098.003"
   ],
   "input_arguments": [
-    {
-      "name": "auth_username",
-      "type": "string",
-      "description": "Azure AD username used to conduct the adversary activity",
-      "value": "jonh@contoso.com"
-    },
     {
       "name": "auth_password",
       "type": "string",
@@ -118,6 +112,12 @@
       "type": "string",
       "description": "The password that the user target_user will be reset to.",
       "value": "Ohn05GeMe#$"
+    },
+    {
+      "name": "auth_username",
+      "type": "string",
+      "description": "Azure AD username used to conduct the adversary activity",
+      "value": "jonh@contoso.com"
     }
   ]
 }

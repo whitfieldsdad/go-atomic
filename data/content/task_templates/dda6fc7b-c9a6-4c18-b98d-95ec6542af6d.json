@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e8f1713c-e71b-478b-b9af-79dc6a8e6e69",
+      "id": "9d9e3ff4-ec35-5a77-b8b5-0cc000092e25",
       "type": "execute-command",
       "data": {
         "command": "$Action = New-ScheduledTaskAction -Execute \"cmd.exe\"\n$Trigger = New-ScheduledTaskTrigger -AtLogon\n$User = New-ScheduledTaskPrincipal -GroupId \"BUILTIN\\Administrators\" -RunLevel Highest\n$Set = New-ScheduledTaskSettingsSet\n$object = New-ScheduledTask -Action $Action -Principal $User -Trigger $Trigger -Settings $Set\nRegister-ScheduledTask AtomicTaskModifed -InputObject $object\n$NewAction = New-ScheduledTaskAction -Execute \"Notepad.exe\"\nSet-ScheduledTask \"AtomicTaskModifed\" -Action $NewAction",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "a4ca6241-cbd4-437d-bfc1-9513e2e46276",
+      "id": "7c556ac0-0eb6-5d1b-ae81-5de03b9ef1f9",
       "type": "execute-command",
       "data": {
         "command": "Unregister-ScheduledTask -TaskName \"AtomicTaskModifed\" -confirm:$false \u003e$null 2\u003e\u00261",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "e8f1713c-e71b-478b-b9af-79dc6a8e6e69",
+      "s": "9d9e3ff4-ec35-5a77-b8b5-0cc000092e25",
       "p": "on-success",
-      "o": "a4ca6241-cbd4-437d-bfc1-9513e2e46276"
+      "o": "7c556ac0-0eb6-5d1b-ae81-5de03b9ef1f9"
     },
     {
-      "s": "e8f1713c-e71b-478b-b9af-79dc6a8e6e69",
+      "s": "9d9e3ff4-ec35-5a77-b8b5-0cc000092e25",
       "p": "on-failure",
-      "o": "a4ca6241-cbd4-437d-bfc1-9513e2e46276"
+      "o": "7c556ac0-0eb6-5d1b-ae81-5de03b9ef1f9"
     }
   ],
   "tags": [

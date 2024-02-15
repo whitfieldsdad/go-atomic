@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "5745f0f8-24ad-4f80-994f-1c4c85df25b1",
+      "id": "bbb6f46e-2aa8-5b6c-a2ba-62cf7caff783",
       "type": "execute-command",
       "data": {
         "command": "dd if=/dev/zero bs=1 count=1 \u003e\u003e #{file_to_pad} #adds null bytes\ndd if=/dev/random bs=1 count=1 \u003e\u003e #{file_to_pad} #adds high-quality random data\ndd if=/dev/urandom bs=1 count=1 \u003e\u003e #{file_to_pad} #adds low-quality random data",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "30bd276f-b162-438d-8a7a-7a52407e7bc8",
+      "id": "5d7a425a-0319-5244-941c-e23bdaa90382",
       "type": "execute-command",
       "data": {
         "command": "rm #{file_to_pad}",
@@ -26,7 +26,7 @@
       "elevation_required": false
     },
     {
-      "id": "2456c81a-c296-4deb-988e-0c39083231df",
+      "id": "66ecd908-f690-5871-818a-b5e10f31aa60",
       "name": "Check dependency 1/1",
       "description": "The binary must exist on disk at specified location (#{file_to_pad})\n",
       "type": "execute-command",
@@ -37,7 +37,7 @@
       "elevation_required": false
     },
     {
-      "id": "3704b0cd-0365-437a-acf8-bd35ef4a3053",
+      "id": "dbd0275f-d6d0-52af-8678-64e0b1caa26f",
       "name": "Resolve dependency 1/1",
       "description": "The binary must exist on disk at specified location (#{file_to_pad})\n",
       "type": "execute-command",
@@ -48,7 +48,7 @@
       "elevation_required": false
     },
     {
-      "id": "a69bc61f-b204-4619-9df1-e35b5a7d7568",
+      "id": "66ecd908-f690-5871-818a-b5e10f31aa60",
       "name": "Re-check dependency 1/1",
       "description": "The binary must exist on disk at specified location (#{file_to_pad})\n",
       "type": "execute-command",
@@ -61,34 +61,34 @@
   ],
   "flows": [
     {
-      "s": "5745f0f8-24ad-4f80-994f-1c4c85df25b1",
+      "s": "bbb6f46e-2aa8-5b6c-a2ba-62cf7caff783",
       "p": "on-success",
-      "o": "30bd276f-b162-438d-8a7a-7a52407e7bc8"
+      "o": "5d7a425a-0319-5244-941c-e23bdaa90382"
     },
     {
-      "s": "5745f0f8-24ad-4f80-994f-1c4c85df25b1",
+      "s": "bbb6f46e-2aa8-5b6c-a2ba-62cf7caff783",
       "p": "on-failure",
-      "o": "30bd276f-b162-438d-8a7a-7a52407e7bc8"
+      "o": "5d7a425a-0319-5244-941c-e23bdaa90382"
     },
     {
-      "s": "2456c81a-c296-4deb-988e-0c39083231df",
+      "s": "66ecd908-f690-5871-818a-b5e10f31aa60",
       "p": "on-success",
-      "o": "5745f0f8-24ad-4f80-994f-1c4c85df25b1"
+      "o": "bbb6f46e-2aa8-5b6c-a2ba-62cf7caff783"
     },
     {
-      "s": "2456c81a-c296-4deb-988e-0c39083231df",
+      "s": "66ecd908-f690-5871-818a-b5e10f31aa60",
       "p": "on-failure",
-      "o": "3704b0cd-0365-437a-acf8-bd35ef4a3053"
+      "o": "dbd0275f-d6d0-52af-8678-64e0b1caa26f"
     },
     {
-      "s": "3704b0cd-0365-437a-acf8-bd35ef4a3053",
+      "s": "dbd0275f-d6d0-52af-8678-64e0b1caa26f",
       "p": "on-success",
-      "o": "a69bc61f-b204-4619-9df1-e35b5a7d7568"
+      "o": "66ecd908-f690-5871-818a-b5e10f31aa60"
     },
     {
-      "s": "a69bc61f-b204-4619-9df1-e35b5a7d7568",
+      "s": "66ecd908-f690-5871-818a-b5e10f31aa60",
       "p": "on-failure",
-      "o": "5745f0f8-24ad-4f80-994f-1c4c85df25b1"
+      "o": "bbb6f46e-2aa8-5b6c-a2ba-62cf7caff783"
     }
   ],
   "tags": [

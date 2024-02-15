@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ca4ba58f-0c76-486e-8b3b-fdfde3d2a98c",
+      "id": "8257d8d9-e435-501f-8e4a-2c9dbccfae27",
       "type": "execute-command",
       "data": {
         "command": "ldapsearch -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{user} -w #{password} -b \"CN=Users,DC=#{domain},DC=#{top_level_domain}\" \"(objectClass=group)\" -s sub -a always -z 1000 dn",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "dbbd8912-8c48-41df-ad46-3a6bea7ce055",
+      "id": "b43e47c0-9f45-5ab3-8ff7-bf3f73c57f50",
       "name": "Check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapsearch\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "ed0edfb8-57ad-4b14-a4f3-0598e462b6f3",
+      "id": "a6aa11a3-f98e-5906-ba1e-eb3806aaf691",
       "name": "Resolve dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapsearch\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "11aa6070-9a51-40da-81ae-02412d030785",
+      "id": "b43e47c0-9f45-5ab3-8ff7-bf3f73c57f50",
       "name": "Re-check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapsearch\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "dbbd8912-8c48-41df-ad46-3a6bea7ce055",
+      "s": "b43e47c0-9f45-5ab3-8ff7-bf3f73c57f50",
       "p": "on-success",
-      "o": "ca4ba58f-0c76-486e-8b3b-fdfde3d2a98c"
+      "o": "8257d8d9-e435-501f-8e4a-2c9dbccfae27"
     },
     {
-      "s": "dbbd8912-8c48-41df-ad46-3a6bea7ce055",
+      "s": "b43e47c0-9f45-5ab3-8ff7-bf3f73c57f50",
       "p": "on-failure",
-      "o": "ed0edfb8-57ad-4b14-a4f3-0598e462b6f3"
+      "o": "a6aa11a3-f98e-5906-ba1e-eb3806aaf691"
     },
     {
-      "s": "ed0edfb8-57ad-4b14-a4f3-0598e462b6f3",
+      "s": "a6aa11a3-f98e-5906-ba1e-eb3806aaf691",
       "p": "on-success",
-      "o": "11aa6070-9a51-40da-81ae-02412d030785"
+      "o": "b43e47c0-9f45-5ab3-8ff7-bf3f73c57f50"
     },
     {
-      "s": "11aa6070-9a51-40da-81ae-02412d030785",
+      "s": "b43e47c0-9f45-5ab3-8ff7-bf3f73c57f50",
       "p": "on-failure",
-      "o": "ca4ba58f-0c76-486e-8b3b-fdfde3d2a98c"
+      "o": "8257d8d9-e435-501f-8e4a-2c9dbccfae27"
     }
   ],
   "tags": [
@@ -76,6 +76,12 @@
     "T1069.002"
   ],
   "input_arguments": [
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "The domain to be tested",
+      "value": "example"
+    },
     {
       "name": "top_level_domain",
       "type": "string",
@@ -93,12 +99,6 @@
       "type": "string",
       "description": "password of the user referenced inside user",
       "value": "s3CurePssw0rD!"
-    },
-    {
-      "name": "domain",
-      "type": "string",
-      "description": "The domain to be tested",
-      "value": "example"
     }
   ]
 }

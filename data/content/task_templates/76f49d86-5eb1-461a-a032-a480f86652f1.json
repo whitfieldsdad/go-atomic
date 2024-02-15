@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "5e3e1d9e-4107-4218-8e4b-c695ba8b41d4",
+      "id": "5d56c49e-6f5a-510a-91be-eac0c7c2b066",
       "type": "execute-command",
       "data": {
         "command": "$cert = Import-Certificate -FilePath #{pfx_path} -CertStoreLocation Cert:\\LocalMachine\\My\nMove-Item -Path $cert.PSPath -Destination \"Cert:\\LocalMachine\\Root\"",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "b841c396-19ea-45dc-9d64-2366dacc1a2f",
+      "id": "6cf1ccc5-1b28-5529-af66-45b5fa910031",
       "type": "execute-command",
       "data": {
         "command": "try {\n   $cert = Import-Certificate -FilePath #{pfx_path} -CertStoreLocation Cert:\\LocalMachine\\My -ErrorAction Ignore\n   Get-ChildItem Cert:\\LocalMachine\\My\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\n   Get-ChildItem Cert:\\LocalMachine\\Root\\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore\n}\ncatch { }",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "a5d99419-9f2c-4ff9-9bf6-0c6a3ef8ac2c",
+      "id": "6c0d4ae0-d1ae-5d1a-a63f-fbf127141669",
       "name": "Check dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "c62b4b0e-ee60-4ca5-9a15-22db33c81cb5",
+      "id": "edbc7091-5fb5-5c38-b0f2-e93b614cac26",
       "name": "Resolve dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "a2f65ff0-d56d-4a77-8920-10dbcf52d600",
+      "id": "6c0d4ae0-d1ae-5d1a-a63f-fbf127141669",
       "name": "Re-check dependency 1/1",
       "description": "Verify the certificate exists. It generates if not on disk.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "5e3e1d9e-4107-4218-8e4b-c695ba8b41d4",
+      "s": "5d56c49e-6f5a-510a-91be-eac0c7c2b066",
       "p": "on-success",
-      "o": "b841c396-19ea-45dc-9d64-2366dacc1a2f"
+      "o": "6cf1ccc5-1b28-5529-af66-45b5fa910031"
     },
     {
-      "s": "5e3e1d9e-4107-4218-8e4b-c695ba8b41d4",
+      "s": "5d56c49e-6f5a-510a-91be-eac0c7c2b066",
       "p": "on-failure",
-      "o": "b841c396-19ea-45dc-9d64-2366dacc1a2f"
+      "o": "6cf1ccc5-1b28-5529-af66-45b5fa910031"
     },
     {
-      "s": "a5d99419-9f2c-4ff9-9bf6-0c6a3ef8ac2c",
+      "s": "6c0d4ae0-d1ae-5d1a-a63f-fbf127141669",
       "p": "on-success",
-      "o": "5e3e1d9e-4107-4218-8e4b-c695ba8b41d4"
+      "o": "5d56c49e-6f5a-510a-91be-eac0c7c2b066"
     },
     {
-      "s": "a5d99419-9f2c-4ff9-9bf6-0c6a3ef8ac2c",
+      "s": "6c0d4ae0-d1ae-5d1a-a63f-fbf127141669",
       "p": "on-failure",
-      "o": "c62b4b0e-ee60-4ca5-9a15-22db33c81cb5"
+      "o": "edbc7091-5fb5-5c38-b0f2-e93b614cac26"
     },
     {
-      "s": "c62b4b0e-ee60-4ca5-9a15-22db33c81cb5",
+      "s": "edbc7091-5fb5-5c38-b0f2-e93b614cac26",
       "p": "on-success",
-      "o": "a2f65ff0-d56d-4a77-8920-10dbcf52d600"
+      "o": "6c0d4ae0-d1ae-5d1a-a63f-fbf127141669"
     },
     {
-      "s": "a2f65ff0-d56d-4a77-8920-10dbcf52d600",
+      "s": "6c0d4ae0-d1ae-5d1a-a63f-fbf127141669",
       "p": "on-failure",
-      "o": "5e3e1d9e-4107-4218-8e4b-c695ba8b41d4"
+      "o": "5d56c49e-6f5a-510a-91be-eac0c7c2b066"
     }
   ],
   "tags": [

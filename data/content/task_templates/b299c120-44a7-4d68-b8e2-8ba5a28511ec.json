@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "17e57cdc-8243-4836-8683-6acabe95c9ba",
+      "id": "64a03134-4350-557d-a810-ab58a78687fd",
       "type": "execute-command",
       "data": {
         "command": "$credFile = \"#{cred_file}\"\nif (Test-Path $credFile) {\n    $cred = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $env:USERNAME, (Get-Content $credFile | ConvertTo-SecureString)\n    if($cred.GetNetworkCredential().Password -eq \"#{new_password}\"){\n      Write-Host -ForegroundColor Yellow \"The new password is the same as the password stored in the credential file. Please specify a different new password.\"; exit -1\n    }\n    try {\n        $newPassword = ConvertTo-SecureString #{new_password} -AsPlainText -Force\n        Set-ADAccountPassword -Identity $env:USERNAME -OldPassword $cred.password -NewPassword $newPassword\n    }\n    catch { \n        $_.Exception\n        $errCode = $_.Exception.ErrorCode\n        Write-Host \"Error code: $errCode\"\n        if ($errCode -eq 86) {\n            Write-Host -ForegroundColor Yellow \"The stored password for the current user is incorrect. Please run the prereq commands to set the correct credentials\"\n            Remove-Item $credFile\n        }\n        exit $errCode\n    }\n    Write-Host -ForegroundColor Cyan \"Successfully changed the password to #{new_password}\"\n    $newCred = New-Object System.Management.Automation.PSCredential ($env:USERNAME, $(ConvertTo-SecureString \"#{new_password}\" -AsPlainText -Force))\n    $newCred.Password | ConvertFrom-SecureString | Out-File $credFile\n}\nelse {\n    Write-Host -ForegroundColor Yellow \"You must store the password of the current user by running the prerequisite commands first\"\n}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "8129d030-b08e-4429-8762-ce4adb5b962c",
+      "id": "a3e8f552-5fbb-5914-b5c4-e01b647db287",
       "name": "Check dependency 1/1",
       "description": "Password for current user must be stored in a credential file\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "18213523-de24-465f-a01e-5f682d2efb45",
+      "id": "8bd7cfb0-c354-5bae-8d17-b773778b2748",
       "name": "Resolve dependency 1/1",
       "description": "Password for current user must be stored in a credential file\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "2d363447-5319-4dfc-8fb7-5f0d81f0d2ab",
+      "id": "a3e8f552-5fbb-5914-b5c4-e01b647db287",
       "name": "Re-check dependency 1/1",
       "description": "Password for current user must be stored in a credential file\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "8129d030-b08e-4429-8762-ce4adb5b962c",
+      "s": "a3e8f552-5fbb-5914-b5c4-e01b647db287",
       "p": "on-success",
-      "o": "17e57cdc-8243-4836-8683-6acabe95c9ba"
+      "o": "64a03134-4350-557d-a810-ab58a78687fd"
     },
     {
-      "s": "8129d030-b08e-4429-8762-ce4adb5b962c",
+      "s": "a3e8f552-5fbb-5914-b5c4-e01b647db287",
       "p": "on-failure",
-      "o": "18213523-de24-465f-a01e-5f682d2efb45"
+      "o": "8bd7cfb0-c354-5bae-8d17-b773778b2748"
     },
     {
-      "s": "18213523-de24-465f-a01e-5f682d2efb45",
+      "s": "8bd7cfb0-c354-5bae-8d17-b773778b2748",
       "p": "on-success",
-      "o": "2d363447-5319-4dfc-8fb7-5f0d81f0d2ab"
+      "o": "a3e8f552-5fbb-5914-b5c4-e01b647db287"
     },
     {
-      "s": "2d363447-5319-4dfc-8fb7-5f0d81f0d2ab",
+      "s": "a3e8f552-5fbb-5914-b5c4-e01b647db287",
       "p": "on-failure",
-      "o": "17e57cdc-8243-4836-8683-6acabe95c9ba"
+      "o": "64a03134-4350-557d-a810-ab58a78687fd"
     }
   ],
   "tags": [
@@ -76,16 +76,16 @@
   ],
   "input_arguments": [
     {
-      "name": "cred_file",
-      "type": "path",
-      "description": "A file containing the password of the current user",
-      "value": "$env:LOCALAPPDATA\\AtomicRedTeam\\$env:USERNAME.txt"
-    },
-    {
       "name": "new_password",
       "type": "string",
       "description": "The password to set for the current domain user (default is long and has and lower case and special character and number but no uppercase)",
       "value": "lower-long-special-333"
+    },
+    {
+      "name": "cred_file",
+      "type": "path",
+      "description": "A file containing the password of the current user",
+      "value": "$env:LOCALAPPDATA\\AtomicRedTeam\\$env:USERNAME.txt"
     }
   ]
 }

@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "1bfb765a-8014-4e86-971b-b37c145b4630",
+      "id": "b261cc9d-c9c5-500f-b5e3-81074a6319d3",
       "type": "execute-command",
       "data": {
         "command": "for ip in $(seq #{start_host} #{stop_host}); do ping -c 1 #{subnet}.$ip; [ $? -eq 0 ] \u0026\u0026 echo \"#{subnet}.$ip UP\" || : ; done",
@@ -23,6 +23,12 @@
   ],
   "input_arguments": [
     {
+      "name": "start_host",
+      "type": "string",
+      "description": "Subnet used for ping sweep.",
+      "value": "1"
+    },
+    {
       "name": "stop_host",
       "type": "string",
       "description": "Subnet used for ping sweep.",
@@ -33,12 +39,6 @@
       "type": "string",
       "description": "Subnet used for ping sweep.",
       "value": "192.168.1"
-    },
-    {
-      "name": "start_host",
-      "type": "string",
-      "description": "Subnet used for ping sweep.",
-      "value": "1"
     }
   ]
 }

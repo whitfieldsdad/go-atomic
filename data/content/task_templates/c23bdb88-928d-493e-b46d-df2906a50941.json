@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "500f8b5f-ce68-45a7-844a-5db1e91af6c1",
+      "id": "e1553930-2ee5-585b-b62b-88db4b3714e3",
       "type": "execute-command",
       "data": {
         "command": "sudo cat /dev/null \u003e #{system_log_path} #truncating the file to zero bytes\nsudo dd if=/dev/zero bs=1000 count=5 of=#{system_log_path} #log file filled with null bytes(zeros)",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "3294c356-1f5c-4e5e-9957-0935f37655ad",
+      "id": "138d4794-2312-529d-a7ea-b23a7547c4d3",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": true
     },
     {
-      "id": "026825e0-aac9-4a08-a939-21724f980b80",
+      "id": "05417dbc-0b2a-5ef4-864a-2159e7cb8be4",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": true
     },
     {
-      "id": "be36d1a3-4b15-4f50-85fe-bed0a4929178",
+      "id": "138d4794-2312-529d-a7ea-b23a7547c4d3",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "3294c356-1f5c-4e5e-9957-0935f37655ad",
+      "s": "138d4794-2312-529d-a7ea-b23a7547c4d3",
       "p": "on-success",
-      "o": "500f8b5f-ce68-45a7-844a-5db1e91af6c1"
+      "o": "e1553930-2ee5-585b-b62b-88db4b3714e3"
     },
     {
-      "s": "3294c356-1f5c-4e5e-9957-0935f37655ad",
+      "s": "138d4794-2312-529d-a7ea-b23a7547c4d3",
       "p": "on-failure",
-      "o": "026825e0-aac9-4a08-a939-21724f980b80"
+      "o": "05417dbc-0b2a-5ef4-864a-2159e7cb8be4"
     },
     {
-      "s": "026825e0-aac9-4a08-a939-21724f980b80",
+      "s": "05417dbc-0b2a-5ef4-864a-2159e7cb8be4",
       "p": "on-success",
-      "o": "be36d1a3-4b15-4f50-85fe-bed0a4929178"
+      "o": "138d4794-2312-529d-a7ea-b23a7547c4d3"
     },
     {
-      "s": "be36d1a3-4b15-4f50-85fe-bed0a4929178",
+      "s": "138d4794-2312-529d-a7ea-b23a7547c4d3",
       "p": "on-failure",
-      "o": "500f8b5f-ce68-45a7-844a-5db1e91af6c1"
+      "o": "e1553930-2ee5-585b-b62b-88db4b3714e3"
     }
   ],
   "tags": [

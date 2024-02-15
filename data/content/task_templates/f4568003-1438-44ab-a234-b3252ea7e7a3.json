@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "8b908925-854a-4843-b692-c182bc117a2e",
+      "id": "596d9600-48c9-5d9d-b8a7-0caf6e229049",
       "type": "execute-command",
       "data": {
         "command": "openssl genrsa -out #{key_filename} 4096\nopenssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj \"/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com\" -out #{cert_filename}\ncp #{cert_filename} /usr/local/share/certs/\ncertctl rehash",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "7ee4d305-20dc-4a68-8f87-467d7d670fcf",
+      "id": "f1ef44fd-c8bd-53f9-8e36-ad1d0c6a59e0",
       "type": "execute-command",
       "data": {
         "command": "rm /usr/local/share/certs/#{cert_filename}\ncertctl rehash",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "8b908925-854a-4843-b692-c182bc117a2e",
+      "s": "596d9600-48c9-5d9d-b8a7-0caf6e229049",
       "p": "on-success",
-      "o": "7ee4d305-20dc-4a68-8f87-467d7d670fcf"
+      "o": "f1ef44fd-c8bd-53f9-8e36-ad1d0c6a59e0"
     },
     {
-      "s": "8b908925-854a-4843-b692-c182bc117a2e",
+      "s": "596d9600-48c9-5d9d-b8a7-0caf6e229049",
       "p": "on-failure",
-      "o": "7ee4d305-20dc-4a68-8f87-467d7d670fcf"
+      "o": "f1ef44fd-c8bd-53f9-8e36-ad1d0c6a59e0"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "cert_filename",
-      "type": "path",
-      "description": "Path of the CA certificate we create",
-      "value": "rootCA.crt"
-    },
-    {
       "name": "key_filename",
       "type": "path",
       "description": "Key we create that is used to create the CA certificate",
       "value": "rootCA.key"
+    },
+    {
+      "name": "cert_filename",
+      "type": "path",
+      "description": "Path of the CA certificate we create",
+      "value": "rootCA.crt"
     }
   ]
 }

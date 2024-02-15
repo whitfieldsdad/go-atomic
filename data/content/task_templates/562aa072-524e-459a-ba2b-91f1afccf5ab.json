@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "c13b2052-38e9-403f-b338-a20a0c660197",
+      "id": "ea3825c1-fc83-53d8-b8a5-039e341dae53",
       "type": "execute-command",
       "data": {
         "command": "echo \"dn: CN=Admin User,CN=Users,DC=#{domain},DC=#{top_level_domain}\\nchangetype: add\\nobjectClass: top\\nobjectClass: person\\nobjectClass: organizationalPerson\\nobjectClass: user\\ncn: Admin User\\nsn: User\\ngivenName: Atomic User\\nuserPrincipalName: adminuser@#{domain}.#{top_level_domain}\\nsAMAccountName: adminuser\\nuserAccountControl: 512\\nuserPassword: {CLEARTEXT}s3CureP4ssword123!\\nmemberOf: CN=Domain Admins,CN=Users,DC=#{domain},DC=#{top_level_domain}\" \u003e tempadmin.ldif\necho ldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif\nldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "85310a5a-9029-49bb-b1e7-ac0a1f9a3284",
+      "id": "90bef16f-eef4-5691-b9fc-98f29d5fea29",
       "type": "execute-command",
       "data": {
         "command": "echo removing Atomic User (temporary user)\necho \"dn: cn=Atomic User,cn=Users,dc=scwxscratch,dc=dev\\nchangetype: delete\" \u003e deleteuser.ldif\nldapmodify -H ldap://#{domain_controller}:389 -x -D #{admin_user} -w #{admin_password} -f deleteuser.ldif\nrm deleteuser.ldif\nrm tempadmin.ldif",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "efd00cfc-29f8-4221-8293-87bd2df364d7",
+      "id": "80a6c981-37b2-545b-b5e4-edaf360ba65d",
       "name": "Check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "56b95268-240d-4500-ad94-121f4aed8197",
+      "id": "e1faff06-f8d0-59c0-a22b-42cb6ef6d777",
       "name": "Resolve dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "4d432ea1-f693-465d-bddb-c83a5575eb2d",
+      "id": "80a6c981-37b2-545b-b5e4-edaf360ba65d",
       "name": "Re-check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "c13b2052-38e9-403f-b338-a20a0c660197",
+      "s": "ea3825c1-fc83-53d8-b8a5-039e341dae53",
       "p": "on-success",
-      "o": "85310a5a-9029-49bb-b1e7-ac0a1f9a3284"
+      "o": "90bef16f-eef4-5691-b9fc-98f29d5fea29"
     },
     {
-      "s": "c13b2052-38e9-403f-b338-a20a0c660197",
+      "s": "ea3825c1-fc83-53d8-b8a5-039e341dae53",
       "p": "on-failure",
-      "o": "85310a5a-9029-49bb-b1e7-ac0a1f9a3284"
+      "o": "90bef16f-eef4-5691-b9fc-98f29d5fea29"
     },
     {
-      "s": "efd00cfc-29f8-4221-8293-87bd2df364d7",
+      "s": "80a6c981-37b2-545b-b5e4-edaf360ba65d",
       "p": "on-success",
-      "o": "c13b2052-38e9-403f-b338-a20a0c660197"
+      "o": "ea3825c1-fc83-53d8-b8a5-039e341dae53"
     },
     {
-      "s": "efd00cfc-29f8-4221-8293-87bd2df364d7",
+      "s": "80a6c981-37b2-545b-b5e4-edaf360ba65d",
       "p": "on-failure",
-      "o": "56b95268-240d-4500-ad94-121f4aed8197"
+      "o": "e1faff06-f8d0-59c0-a22b-42cb6ef6d777"
     },
     {
-      "s": "56b95268-240d-4500-ad94-121f4aed8197",
+      "s": "e1faff06-f8d0-59c0-a22b-42cb6ef6d777",
       "p": "on-success",
-      "o": "4d432ea1-f693-465d-bddb-c83a5575eb2d"
+      "o": "80a6c981-37b2-545b-b5e4-edaf360ba65d"
     },
     {
-      "s": "4d432ea1-f693-465d-bddb-c83a5575eb2d",
+      "s": "80a6c981-37b2-545b-b5e4-edaf360ba65d",
       "p": "on-failure",
-      "o": "c13b2052-38e9-403f-b338-a20a0c660197"
+      "o": "ea3825c1-fc83-53d8-b8a5-039e341dae53"
     }
   ],
   "tags": [
@@ -95,6 +95,12 @@
     "T1136.002"
   ],
   "input_arguments": [
+    {
+      "name": "domain_controller",
+      "type": "string",
+      "description": "Name of the domain_controller machine, defined in etc/hosts",
+      "value": "adVM"
+    },
     {
       "name": "domain",
       "type": "string",
@@ -118,12 +124,6 @@
       "type": "string",
       "description": "password of the user with admin privileges referenced in admin_user",
       "value": "s3CurePssw0rD!"
-    },
-    {
-      "name": "domain_controller",
-      "type": "string",
-      "description": "Name of the domain_controller machine, defined in etc/hosts",
-      "value": "adVM"
     }
   ]
 }

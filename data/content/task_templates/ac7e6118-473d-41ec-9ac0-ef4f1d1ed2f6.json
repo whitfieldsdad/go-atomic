@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "45a2579b-1c82-47ee-b3f5-3f86b46e3431",
+      "id": "9da2e40a-417d-5800-a022-5c72be6d589d",
       "type": "execute-command",
       "data": {
         "command": "icacls \"#{path}\" /grant Everyone:F /T /C /Q",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "294fc741-46dd-492f-bf92-486ab5bedda7",
+      "id": "f76051ea-f3ce-59b2-aa42-c337e4111e4d",
       "type": "execute-command",
       "data": {
         "command": "icacls '#{path}' /restore #{file_path} /q \u003enul 2\u003e\u00261",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "d3ff3064-5f1c-42d7-a9a0-0b9c70f2bc10",
+      "id": "a75c8051-25f6-5fd6-ad97-0ddd979f43a6",
       "name": "Check dependency 1/1",
       "description": "Backup of original folder permissions should exist (for use in cleanup commands)\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "3fbaba19-67f4-4853-bcc7-112b12c6d760",
+      "id": "f37edd6a-5fc5-5a15-89c9-926117f725c1",
       "name": "Resolve dependency 1/1",
       "description": "Backup of original folder permissions should exist (for use in cleanup commands)\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "9e5fb137-2580-47be-b9cc-7260cc35e085",
+      "id": "a75c8051-25f6-5fd6-ad97-0ddd979f43a6",
       "name": "Re-check dependency 1/1",
       "description": "Backup of original folder permissions should exist (for use in cleanup commands)\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "45a2579b-1c82-47ee-b3f5-3f86b46e3431",
+      "s": "9da2e40a-417d-5800-a022-5c72be6d589d",
       "p": "on-success",
-      "o": "294fc741-46dd-492f-bf92-486ab5bedda7"
+      "o": "f76051ea-f3ce-59b2-aa42-c337e4111e4d"
     },
     {
-      "s": "45a2579b-1c82-47ee-b3f5-3f86b46e3431",
+      "s": "9da2e40a-417d-5800-a022-5c72be6d589d",
       "p": "on-failure",
-      "o": "294fc741-46dd-492f-bf92-486ab5bedda7"
+      "o": "f76051ea-f3ce-59b2-aa42-c337e4111e4d"
     },
     {
-      "s": "d3ff3064-5f1c-42d7-a9a0-0b9c70f2bc10",
+      "s": "a75c8051-25f6-5fd6-ad97-0ddd979f43a6",
       "p": "on-success",
-      "o": "45a2579b-1c82-47ee-b3f5-3f86b46e3431"
+      "o": "9da2e40a-417d-5800-a022-5c72be6d589d"
     },
     {
-      "s": "d3ff3064-5f1c-42d7-a9a0-0b9c70f2bc10",
+      "s": "a75c8051-25f6-5fd6-ad97-0ddd979f43a6",
       "p": "on-failure",
-      "o": "3fbaba19-67f4-4853-bcc7-112b12c6d760"
+      "o": "f37edd6a-5fc5-5a15-89c9-926117f725c1"
     },
     {
-      "s": "3fbaba19-67f4-4853-bcc7-112b12c6d760",
+      "s": "f37edd6a-5fc5-5a15-89c9-926117f725c1",
       "p": "on-success",
-      "o": "9e5fb137-2580-47be-b9cc-7260cc35e085"
+      "o": "a75c8051-25f6-5fd6-ad97-0ddd979f43a6"
     },
     {
-      "s": "9e5fb137-2580-47be-b9cc-7260cc35e085",
+      "s": "a75c8051-25f6-5fd6-ad97-0ddd979f43a6",
       "p": "on-failure",
-      "o": "45a2579b-1c82-47ee-b3f5-3f86b46e3431"
+      "o": "9da2e40a-417d-5800-a022-5c72be6d589d"
     }
   ],
   "tags": [
@@ -96,16 +96,16 @@
   ],
   "input_arguments": [
     {
-      "name": "file_path",
-      "type": "path",
-      "description": "Path of folder permission back",
-      "value": "%temp%\\T1222.001-folder-perms-backup.txt"
-    },
-    {
       "name": "path",
       "type": "path",
       "description": "Path of folder to recursively set permissions on",
       "value": "C:\\Users\\Public\\*"
+    },
+    {
+      "name": "file_path",
+      "type": "path",
+      "description": "Path of folder permission back",
+      "value": "%temp%\\T1222.001-folder-perms-backup.txt"
     }
   ]
 }

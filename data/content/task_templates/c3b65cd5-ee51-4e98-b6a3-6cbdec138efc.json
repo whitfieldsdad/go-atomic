@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "03ac1c81-92f2-46c1-bef6-a6b1b976929b",
+      "id": "b6061a0b-d5ef-57a9-8e7f-6c910cac2e3d",
       "type": "execute-command",
       "data": {
         "command": "python3 -c 'import base64; import subprocess; xor_decrypt = lambda text, key: \"\".join([chr(c ^ ord(k)) for c, k in zip(base64.b64decode(text.encode()), key)]); command = \"#{encrypted_command}\"; key = \"#{xor_key}\"; exec = xor_decrypt(command, key); subprocess.call(exec, shell=True)'",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "14622d69-7d53-403a-89f4-e079082bdf1c",
+      "id": "9b9183c8-4345-576b-8804-21f988b96bbd",
       "name": "Check dependency 1/1",
       "description": "Python3 must be installed",
       "type": "execute-command",
@@ -28,7 +28,7 @@
       "elevation_required": false
     },
     {
-      "id": "b98f0da6-371b-4e8a-af94-0d06493645ca",
+      "id": "7412c489-a10f-5889-9884-7d11c8d0ba55",
       "name": "Resolve dependency 1/1",
       "description": "Python3 must be installed",
       "type": "execute-command",
@@ -39,7 +39,7 @@
       "elevation_required": false
     },
     {
-      "id": "2ecf708a-46e0-4e93-b332-358738827ab4",
+      "id": "9b9183c8-4345-576b-8804-21f988b96bbd",
       "name": "Re-check dependency 1/1",
       "description": "Python3 must be installed",
       "type": "execute-command",
@@ -52,24 +52,24 @@
   ],
   "flows": [
     {
-      "s": "14622d69-7d53-403a-89f4-e079082bdf1c",
+      "s": "9b9183c8-4345-576b-8804-21f988b96bbd",
       "p": "on-success",
-      "o": "03ac1c81-92f2-46c1-bef6-a6b1b976929b"
+      "o": "b6061a0b-d5ef-57a9-8e7f-6c910cac2e3d"
     },
     {
-      "s": "14622d69-7d53-403a-89f4-e079082bdf1c",
+      "s": "9b9183c8-4345-576b-8804-21f988b96bbd",
       "p": "on-failure",
-      "o": "b98f0da6-371b-4e8a-af94-0d06493645ca"
+      "o": "7412c489-a10f-5889-9884-7d11c8d0ba55"
     },
     {
-      "s": "b98f0da6-371b-4e8a-af94-0d06493645ca",
+      "s": "7412c489-a10f-5889-9884-7d11c8d0ba55",
       "p": "on-success",
-      "o": "2ecf708a-46e0-4e93-b332-358738827ab4"
+      "o": "9b9183c8-4345-576b-8804-21f988b96bbd"
     },
     {
-      "s": "2ecf708a-46e0-4e93-b332-358738827ab4",
+      "s": "9b9183c8-4345-576b-8804-21f988b96bbd",
       "p": "on-failure",
-      "o": "03ac1c81-92f2-46c1-bef6-a6b1b976929b"
+      "o": "b6061a0b-d5ef-57a9-8e7f-6c910cac2e3d"
     }
   ],
   "tags": [

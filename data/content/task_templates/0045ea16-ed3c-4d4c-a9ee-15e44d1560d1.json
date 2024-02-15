@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "31223160-1eee-4152-9372-4202586e62c0",
+      "id": "8b070856-e2c7-5976-9387-500906370f19",
       "type": "execute-command",
       "data": {
         "command": "echo \"test\" \u003e #{file_name} | set-content -path test.txt -stream #{ads_filename} -value \"test\"\nset-content -path #{file_name} -stream #{ads_filename} -value \"test2\"\nset-content -path . -stream #{ads_filename} -value \"test3\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "3f1c4073-c9b6-4b7c-a1fe-4d148d2a280d",
+      "id": "b8764ce5-76c8-5a80-8979-8f9eb1cd0ec2",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item -Path #{file_name} -ErrorAction Ignore",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "1ac43bf5-88bb-4839-b131-546ac365eed7",
+      "id": "2e6bc876-bdde-5cef-bb74-e17e4ddfc6ef",
       "name": "Check dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_name})\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "648a36f6-d81a-4bda-af53-450db2712d87",
+      "id": "48fb90b1-d852-5d3f-b12f-598686b3f35b",
       "name": "Resolve dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_name})\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "fa9b404f-d5ed-453a-8005-06db040b8811",
+      "id": "2e6bc876-bdde-5cef-bb74-e17e4ddfc6ef",
       "name": "Re-check dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_name})\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "31223160-1eee-4152-9372-4202586e62c0",
+      "s": "8b070856-e2c7-5976-9387-500906370f19",
       "p": "on-success",
-      "o": "3f1c4073-c9b6-4b7c-a1fe-4d148d2a280d"
+      "o": "b8764ce5-76c8-5a80-8979-8f9eb1cd0ec2"
     },
     {
-      "s": "31223160-1eee-4152-9372-4202586e62c0",
+      "s": "8b070856-e2c7-5976-9387-500906370f19",
       "p": "on-failure",
-      "o": "3f1c4073-c9b6-4b7c-a1fe-4d148d2a280d"
+      "o": "b8764ce5-76c8-5a80-8979-8f9eb1cd0ec2"
     },
     {
-      "s": "1ac43bf5-88bb-4839-b131-546ac365eed7",
+      "s": "2e6bc876-bdde-5cef-bb74-e17e4ddfc6ef",
       "p": "on-success",
-      "o": "31223160-1eee-4152-9372-4202586e62c0"
+      "o": "8b070856-e2c7-5976-9387-500906370f19"
     },
     {
-      "s": "1ac43bf5-88bb-4839-b131-546ac365eed7",
+      "s": "2e6bc876-bdde-5cef-bb74-e17e4ddfc6ef",
       "p": "on-failure",
-      "o": "648a36f6-d81a-4bda-af53-450db2712d87"
+      "o": "48fb90b1-d852-5d3f-b12f-598686b3f35b"
     },
     {
-      "s": "648a36f6-d81a-4bda-af53-450db2712d87",
+      "s": "48fb90b1-d852-5d3f-b12f-598686b3f35b",
       "p": "on-success",
-      "o": "fa9b404f-d5ed-453a-8005-06db040b8811"
+      "o": "2e6bc876-bdde-5cef-bb74-e17e4ddfc6ef"
     },
     {
-      "s": "fa9b404f-d5ed-453a-8005-06db040b8811",
+      "s": "2e6bc876-bdde-5cef-bb74-e17e4ddfc6ef",
       "p": "on-failure",
-      "o": "31223160-1eee-4152-9372-4202586e62c0"
+      "o": "8b070856-e2c7-5976-9387-500906370f19"
     }
   ],
   "tags": [

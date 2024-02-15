@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "d8b31ceb-cec8-4f13-86ac-054b50b064e9",
+      "id": "5ebb3a60-8081-5e12-8343-b2b7f912c33f",
       "type": "execute-command",
       "data": {
         "command": "gcloud config set project #{project-id}\ngcloud iam service-accounts create #{service-account-name}\ngcloud iam service-accounts keys create #{output-key-file} --iam-account=#{service-account-email}",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "c344727d-6e8b-4216-a05d-a08557996886",
+      "id": "e33cf938-0f58-5dde-ba27-5cd1a34fa9ae",
       "type": "execute-command",
       "data": {
         "command": "gcloud iam service-accounts delete #{service-account-email} --quiet",
@@ -26,7 +26,7 @@
       "elevation_required": false
     },
     {
-      "id": "c68f5822-1277-450c-830f-6a4fedd429bc",
+      "id": "55724575-267a-5dcb-9ca3-375f92e31f0a",
       "name": "Check dependency 1/2",
       "description": "Requires gcloud\n",
       "type": "execute-command",
@@ -37,7 +37,7 @@
       "elevation_required": false
     },
     {
-      "id": "6bc81762-fec4-4ce7-a2ce-f526e1703033",
+      "id": "1ab08a14-21be-5634-91c8-ed8fed3a26d1",
       "name": "Resolve dependency 1/2",
       "description": "Requires gcloud\n",
       "type": "execute-command",
@@ -48,7 +48,7 @@
       "elevation_required": false
     },
     {
-      "id": "a259d3c8-9f55-4147-8bce-cb06f9b177c6",
+      "id": "55724575-267a-5dcb-9ca3-375f92e31f0a",
       "name": "Re-check dependency 1/2",
       "description": "Requires gcloud\n",
       "type": "execute-command",
@@ -59,7 +59,7 @@
       "elevation_required": false
     },
     {
-      "id": "a0283699-9032-4ecf-824e-d32360020ff0",
+      "id": "19704611-a439-5cc4-8f45-4815ea832395",
       "name": "Check dependency 2/2",
       "description": "Check if user is logged in \n",
       "type": "execute-command",
@@ -70,7 +70,7 @@
       "elevation_required": false
     },
     {
-      "id": "b8939ddf-42af-4973-9c57-2657f98c37f7",
+      "id": "1357c352-d255-5716-bd61-cf33867d73e0",
       "name": "Resolve dependency 2/2",
       "description": "Check if user is logged in \n",
       "type": "execute-command",
@@ -81,7 +81,7 @@
       "elevation_required": false
     },
     {
-      "id": "dec9574e-eeb8-48b8-b188-9f579fee33bb",
+      "id": "19704611-a439-5cc4-8f45-4815ea832395",
       "name": "Re-check dependency 2/2",
       "description": "Check if user is logged in \n",
       "type": "execute-command",
@@ -94,54 +94,54 @@
   ],
   "flows": [
     {
-      "s": "d8b31ceb-cec8-4f13-86ac-054b50b064e9",
+      "s": "5ebb3a60-8081-5e12-8343-b2b7f912c33f",
       "p": "on-success",
-      "o": "c344727d-6e8b-4216-a05d-a08557996886"
+      "o": "e33cf938-0f58-5dde-ba27-5cd1a34fa9ae"
     },
     {
-      "s": "d8b31ceb-cec8-4f13-86ac-054b50b064e9",
+      "s": "5ebb3a60-8081-5e12-8343-b2b7f912c33f",
       "p": "on-failure",
-      "o": "c344727d-6e8b-4216-a05d-a08557996886"
+      "o": "e33cf938-0f58-5dde-ba27-5cd1a34fa9ae"
     },
     {
-      "s": "c68f5822-1277-450c-830f-6a4fedd429bc",
+      "s": "55724575-267a-5dcb-9ca3-375f92e31f0a",
       "p": "on-success",
-      "o": "d8b31ceb-cec8-4f13-86ac-054b50b064e9"
+      "o": "5ebb3a60-8081-5e12-8343-b2b7f912c33f"
     },
     {
-      "s": "c68f5822-1277-450c-830f-6a4fedd429bc",
+      "s": "55724575-267a-5dcb-9ca3-375f92e31f0a",
       "p": "on-failure",
-      "o": "6bc81762-fec4-4ce7-a2ce-f526e1703033"
+      "o": "1ab08a14-21be-5634-91c8-ed8fed3a26d1"
     },
     {
-      "s": "6bc81762-fec4-4ce7-a2ce-f526e1703033",
+      "s": "1ab08a14-21be-5634-91c8-ed8fed3a26d1",
       "p": "on-success",
-      "o": "a259d3c8-9f55-4147-8bce-cb06f9b177c6"
+      "o": "55724575-267a-5dcb-9ca3-375f92e31f0a"
     },
     {
-      "s": "a259d3c8-9f55-4147-8bce-cb06f9b177c6",
+      "s": "55724575-267a-5dcb-9ca3-375f92e31f0a",
       "p": "on-failure",
-      "o": "d8b31ceb-cec8-4f13-86ac-054b50b064e9"
+      "o": "5ebb3a60-8081-5e12-8343-b2b7f912c33f"
     },
     {
-      "s": "a0283699-9032-4ecf-824e-d32360020ff0",
+      "s": "19704611-a439-5cc4-8f45-4815ea832395",
       "p": "on-success",
-      "o": "d8b31ceb-cec8-4f13-86ac-054b50b064e9"
+      "o": "5ebb3a60-8081-5e12-8343-b2b7f912c33f"
     },
     {
-      "s": "a0283699-9032-4ecf-824e-d32360020ff0",
+      "s": "19704611-a439-5cc4-8f45-4815ea832395",
       "p": "on-failure",
-      "o": "b8939ddf-42af-4973-9c57-2657f98c37f7"
+      "o": "1357c352-d255-5716-bd61-cf33867d73e0"
     },
     {
-      "s": "b8939ddf-42af-4973-9c57-2657f98c37f7",
+      "s": "1357c352-d255-5716-bd61-cf33867d73e0",
       "p": "on-success",
-      "o": "dec9574e-eeb8-48b8-b188-9f579fee33bb"
+      "o": "19704611-a439-5cc4-8f45-4815ea832395"
     },
     {
-      "s": "dec9574e-eeb8-48b8-b188-9f579fee33bb",
+      "s": "19704611-a439-5cc4-8f45-4815ea832395",
       "p": "on-failure",
-      "o": "d8b31ceb-cec8-4f13-86ac-054b50b064e9"
+      "o": "5ebb3a60-8081-5e12-8343-b2b7f912c33f"
     }
   ],
   "tags": [

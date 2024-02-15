@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6c8b8261-18d3-4ee2-adf2-3a24c59e7cd4",
+      "id": "6acf1bc4-9e71-5028-8b26-51d4f7e66195",
       "type": "execute-command",
       "data": {
         "command": "Add-Type -AssemblyName System.IdentityModel  \nsetspn.exe -T #{domain_name} -Q */* | Select-String '^CN' -Context 0,1 | % { New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim() }",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "6b1ce4c1-9cdd-468a-b224-c5974665928d",
+      "id": "f396aa98-15fc-5ec8-b1ba-f136a6d984fa",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "3420f939-5825-47e5-ab12-14c0144aeeab",
+      "id": "f6ed81ad-42c4-5823-ab55-dfc75410a2e0",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "8c1ac527-33db-4fd4-ab8d-efccf242f9f6",
+      "id": "f396aa98-15fc-5ec8-b1ba-f136a6d984fa",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "6b1ce4c1-9cdd-468a-b224-c5974665928d",
+      "s": "f396aa98-15fc-5ec8-b1ba-f136a6d984fa",
       "p": "on-success",
-      "o": "6c8b8261-18d3-4ee2-adf2-3a24c59e7cd4"
+      "o": "6acf1bc4-9e71-5028-8b26-51d4f7e66195"
     },
     {
-      "s": "6b1ce4c1-9cdd-468a-b224-c5974665928d",
+      "s": "f396aa98-15fc-5ec8-b1ba-f136a6d984fa",
       "p": "on-failure",
-      "o": "3420f939-5825-47e5-ab12-14c0144aeeab"
+      "o": "f6ed81ad-42c4-5823-ab55-dfc75410a2e0"
     },
     {
-      "s": "3420f939-5825-47e5-ab12-14c0144aeeab",
+      "s": "f6ed81ad-42c4-5823-ab55-dfc75410a2e0",
       "p": "on-success",
-      "o": "8c1ac527-33db-4fd4-ab8d-efccf242f9f6"
+      "o": "f396aa98-15fc-5ec8-b1ba-f136a6d984fa"
     },
     {
-      "s": "8c1ac527-33db-4fd4-ab8d-efccf242f9f6",
+      "s": "f396aa98-15fc-5ec8-b1ba-f136a6d984fa",
       "p": "on-failure",
-      "o": "6c8b8261-18d3-4ee2-adf2-3a24c59e7cd4"
+      "o": "6acf1bc4-9e71-5028-8b26-51d4f7e66195"
     }
   ],
   "tags": [

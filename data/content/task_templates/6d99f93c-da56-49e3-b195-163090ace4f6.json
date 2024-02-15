@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "69c43196-aabd-47f9-85b8-0c88c0439d70",
+      "id": "181d9fe9-d007-5d02-a836-7ebbc7064b8f",
       "type": "execute-command",
       "data": {
         "command": "mkdir -p /var/spool/mail/copy\nfor file in /var/spool/mail/*; do\n  if [ \"$(basename \"$file\")\" != \"copy\" ]\n  then\n    cp -R \"$file\" /var/spool/mail/copy/\n    if [ -f \"/var/spool/mail/copy/$(basename \"$file\")\" ]; then\n      echo \"Modification for Atomic Red Test\" \u003e\u003e \"/var/spool/mail/copy/$(basename \"$file\")\"\n    fi\n  fi\ndone",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "678ee410-79b9-44f3-891b-882d37070494",
+      "id": "ae46f0d4-84ea-5241-b45f-cc1d17533e21",
       "type": "execute-command",
       "data": {
         "command": "rm -rf /var/spool/mail/copy",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "69c43196-aabd-47f9-85b8-0c88c0439d70",
+      "s": "181d9fe9-d007-5d02-a836-7ebbc7064b8f",
       "p": "on-success",
-      "o": "678ee410-79b9-44f3-891b-882d37070494"
+      "o": "ae46f0d4-84ea-5241-b45f-cc1d17533e21"
     },
     {
-      "s": "69c43196-aabd-47f9-85b8-0c88c0439d70",
+      "s": "181d9fe9-d007-5d02-a836-7ebbc7064b8f",
       "p": "on-failure",
-      "o": "678ee410-79b9-44f3-891b-882d37070494"
+      "o": "ae46f0d4-84ea-5241-b45f-cc1d17533e21"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "5b45d580-b4f8-4586-b9eb-4dac8495c5a1",
+      "id": "934b33c2-9008-5314-b10c-8c54cb754418",
       "type": "execute-command",
       "data": {
         "command": "xwd -root -out #{output_file}\nxwud -in #{output_file}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "d1fa65e1-f11d-4a0c-b6ae-503e5acebeda",
+      "id": "e8679d17-b46c-5864-a56b-4597cbcb44e2",
       "type": "execute-command",
       "data": {
         "command": "rm #{output_file}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "2bf81c3c-c675-460b-a7a7-c3560fc0fdfd",
+      "id": "1fa329da-a4e6-580d-a617-45a3a9ffcf48",
       "name": "Check dependency 1/1",
       "description": "Package with XWD and XWUD must exist on device\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "65d9ab76-e57e-4c03-a6f3-3797f333a534",
+      "id": "1eb0a320-ad5a-5182-beef-424fa706d165",
       "name": "Resolve dependency 1/1",
       "description": "Package with XWD and XWUD must exist on device\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "36cf75ea-dbe6-43d1-8161-3f9a1802d1c5",
+      "id": "1fa329da-a4e6-580d-a617-45a3a9ffcf48",
       "name": "Re-check dependency 1/1",
       "description": "Package with XWD and XWUD must exist on device\n",
       "type": "execute-command",
@@ -60,40 +60,46 @@
   ],
   "flows": [
     {
-      "s": "5b45d580-b4f8-4586-b9eb-4dac8495c5a1",
+      "s": "934b33c2-9008-5314-b10c-8c54cb754418",
       "p": "on-success",
-      "o": "d1fa65e1-f11d-4a0c-b6ae-503e5acebeda"
+      "o": "e8679d17-b46c-5864-a56b-4597cbcb44e2"
     },
     {
-      "s": "5b45d580-b4f8-4586-b9eb-4dac8495c5a1",
+      "s": "934b33c2-9008-5314-b10c-8c54cb754418",
       "p": "on-failure",
-      "o": "d1fa65e1-f11d-4a0c-b6ae-503e5acebeda"
+      "o": "e8679d17-b46c-5864-a56b-4597cbcb44e2"
     },
     {
-      "s": "2bf81c3c-c675-460b-a7a7-c3560fc0fdfd",
+      "s": "1fa329da-a4e6-580d-a617-45a3a9ffcf48",
       "p": "on-success",
-      "o": "5b45d580-b4f8-4586-b9eb-4dac8495c5a1"
+      "o": "934b33c2-9008-5314-b10c-8c54cb754418"
     },
     {
-      "s": "2bf81c3c-c675-460b-a7a7-c3560fc0fdfd",
+      "s": "1fa329da-a4e6-580d-a617-45a3a9ffcf48",
       "p": "on-failure",
-      "o": "65d9ab76-e57e-4c03-a6f3-3797f333a534"
+      "o": "1eb0a320-ad5a-5182-beef-424fa706d165"
     },
     {
-      "s": "65d9ab76-e57e-4c03-a6f3-3797f333a534",
+      "s": "1eb0a320-ad5a-5182-beef-424fa706d165",
       "p": "on-success",
-      "o": "36cf75ea-dbe6-43d1-8161-3f9a1802d1c5"
+      "o": "1fa329da-a4e6-580d-a617-45a3a9ffcf48"
     },
     {
-      "s": "36cf75ea-dbe6-43d1-8161-3f9a1802d1c5",
+      "s": "1fa329da-a4e6-580d-a617-45a3a9ffcf48",
       "p": "on-failure",
-      "o": "5b45d580-b4f8-4586-b9eb-4dac8495c5a1"
+      "o": "934b33c2-9008-5314-b10c-8c54cb754418"
     }
   ],
   "tags": [
     "T1113"
   ],
   "input_arguments": [
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Output file path",
+      "value": "/tmp/T1113_desktop.xwd"
+    },
     {
       "name": "package_checker",
       "type": "string",
@@ -105,12 +111,6 @@
       "type": "string",
       "description": "Package installer command for linux. Debian system command- apt-get install x11-apps",
       "value": "yum install -y xorg-x11-apps"
-    },
-    {
-      "name": "output_file",
-      "type": "path",
-      "description": "Output file path",
-      "value": "/tmp/T1113_desktop.xwd"
     }
   ]
 }

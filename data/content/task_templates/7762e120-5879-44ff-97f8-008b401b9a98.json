@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "78df2b4e-eea5-4ac5-8ff4-9ee25af74e8c",
+      "id": "c88fff93-3722-555e-9fb4-fdebca5d14c4",
       "type": "execute-command",
       "data": {
         "command": "copy-item -Path \"\\\\#{remote}\\C$\\#{share_file}\" -Destination \"$Env:TEMP\\#{local_file}\"",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "dd5778c7-8107-4bc2-8fd7-35af8b071b18",
+      "id": "ba298794-85c1-506a-a2f1-2e6f44ffc27c",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item -Path \"\\\\#{remote}\\C$\\#{share_file}\"\nRemove-Item -Path \"$Env:TEMP\\#{local_file}\"",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "d9e98791-72df-41a1-a789-1f95604b5e9d",
+      "id": "31fbb39c-e38c-5c29-8345-3fed759e0c96",
       "name": "Check dependency 1/2",
       "description": "Administrative share must exist on #{remote}\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "a5c00f29-542b-4442-9809-3ba82894836b",
+      "id": "76d8bfe4-d0c5-5159-89cd-0e0e540f6c2c",
       "name": "Resolve dependency 1/2",
       "description": "Administrative share must exist on #{remote}\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "dbc30307-9e94-4d5b-acef-cb4fd4cf4096",
+      "id": "31fbb39c-e38c-5c29-8345-3fed759e0c96",
       "name": "Re-check dependency 1/2",
       "description": "Administrative share must exist on #{remote}\n",
       "type": "execute-command",
@@ -58,7 +58,7 @@
       "elevation_required": true
     },
     {
-      "id": "1d63ae9e-cb57-48ed-be87-70c9899a7d6a",
+      "id": "915cec0c-bdea-51ab-acb0-6d4736ed0b7c",
       "name": "Check dependency 2/2",
       "description": "\"\\\\#{remote}\\C$\\#{share_file}\" must exist on #{remote}\n",
       "type": "execute-command",
@@ -69,7 +69,7 @@
       "elevation_required": true
     },
     {
-      "id": "3a3dddf1-45c9-406b-9e1e-d68019b12081",
+      "id": "89d5268e-98e6-533d-8ec1-6708e2310a78",
       "name": "Resolve dependency 2/2",
       "description": "\"\\\\#{remote}\\C$\\#{share_file}\" must exist on #{remote}\n",
       "type": "execute-command",
@@ -80,7 +80,7 @@
       "elevation_required": true
     },
     {
-      "id": "3a839b4e-56f2-44c0-a868-9c2852431c24",
+      "id": "915cec0c-bdea-51ab-acb0-6d4736ed0b7c",
       "name": "Re-check dependency 2/2",
       "description": "\"\\\\#{remote}\\C$\\#{share_file}\" must exist on #{remote}\n",
       "type": "execute-command",
@@ -93,60 +93,66 @@
   ],
   "flows": [
     {
-      "s": "78df2b4e-eea5-4ac5-8ff4-9ee25af74e8c",
+      "s": "c88fff93-3722-555e-9fb4-fdebca5d14c4",
       "p": "on-success",
-      "o": "dd5778c7-8107-4bc2-8fd7-35af8b071b18"
+      "o": "ba298794-85c1-506a-a2f1-2e6f44ffc27c"
     },
     {
-      "s": "78df2b4e-eea5-4ac5-8ff4-9ee25af74e8c",
+      "s": "c88fff93-3722-555e-9fb4-fdebca5d14c4",
       "p": "on-failure",
-      "o": "dd5778c7-8107-4bc2-8fd7-35af8b071b18"
+      "o": "ba298794-85c1-506a-a2f1-2e6f44ffc27c"
     },
     {
-      "s": "d9e98791-72df-41a1-a789-1f95604b5e9d",
+      "s": "31fbb39c-e38c-5c29-8345-3fed759e0c96",
       "p": "on-success",
-      "o": "78df2b4e-eea5-4ac5-8ff4-9ee25af74e8c"
+      "o": "c88fff93-3722-555e-9fb4-fdebca5d14c4"
     },
     {
-      "s": "d9e98791-72df-41a1-a789-1f95604b5e9d",
+      "s": "31fbb39c-e38c-5c29-8345-3fed759e0c96",
       "p": "on-failure",
-      "o": "a5c00f29-542b-4442-9809-3ba82894836b"
+      "o": "76d8bfe4-d0c5-5159-89cd-0e0e540f6c2c"
     },
     {
-      "s": "a5c00f29-542b-4442-9809-3ba82894836b",
+      "s": "76d8bfe4-d0c5-5159-89cd-0e0e540f6c2c",
       "p": "on-success",
-      "o": "dbc30307-9e94-4d5b-acef-cb4fd4cf4096"
+      "o": "31fbb39c-e38c-5c29-8345-3fed759e0c96"
     },
     {
-      "s": "dbc30307-9e94-4d5b-acef-cb4fd4cf4096",
+      "s": "31fbb39c-e38c-5c29-8345-3fed759e0c96",
       "p": "on-failure",
-      "o": "78df2b4e-eea5-4ac5-8ff4-9ee25af74e8c"
+      "o": "c88fff93-3722-555e-9fb4-fdebca5d14c4"
     },
     {
-      "s": "1d63ae9e-cb57-48ed-be87-70c9899a7d6a",
+      "s": "915cec0c-bdea-51ab-acb0-6d4736ed0b7c",
       "p": "on-success",
-      "o": "78df2b4e-eea5-4ac5-8ff4-9ee25af74e8c"
+      "o": "c88fff93-3722-555e-9fb4-fdebca5d14c4"
     },
     {
-      "s": "1d63ae9e-cb57-48ed-be87-70c9899a7d6a",
+      "s": "915cec0c-bdea-51ab-acb0-6d4736ed0b7c",
       "p": "on-failure",
-      "o": "3a3dddf1-45c9-406b-9e1e-d68019b12081"
+      "o": "89d5268e-98e6-533d-8ec1-6708e2310a78"
     },
     {
-      "s": "3a3dddf1-45c9-406b-9e1e-d68019b12081",
+      "s": "89d5268e-98e6-533d-8ec1-6708e2310a78",
       "p": "on-success",
-      "o": "3a839b4e-56f2-44c0-a868-9c2852431c24"
+      "o": "915cec0c-bdea-51ab-acb0-6d4736ed0b7c"
     },
     {
-      "s": "3a839b4e-56f2-44c0-a868-9c2852431c24",
+      "s": "915cec0c-bdea-51ab-acb0-6d4736ed0b7c",
       "p": "on-failure",
-      "o": "78df2b4e-eea5-4ac5-8ff4-9ee25af74e8c"
+      "o": "c88fff93-3722-555e-9fb4-fdebca5d14c4"
     }
   ],
   "tags": [
     "T1039"
   ],
   "input_arguments": [
+    {
+      "name": "share_file",
+      "type": "path",
+      "description": "Remote Path to the file",
+      "value": "Windows\\temp\\Easter_Bunny.password"
+    },
     {
       "name": "local_file",
       "type": "string",
@@ -158,12 +164,6 @@
       "type": "string",
       "description": "Remote server name",
       "value": "127.0.0.1"
-    },
-    {
-      "name": "share_file",
-      "type": "path",
-      "description": "Remote Path to the file",
-      "value": "Windows\\temp\\Easter_Bunny.password"
     }
   ]
 }

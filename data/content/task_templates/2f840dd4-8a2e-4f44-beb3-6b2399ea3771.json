@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1308568e-9123-4fe9-b2e4-2d84745c1eb0",
+      "id": "079c690f-b523-5aac-8d78-c85b273978e0",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp' -name \"PortNumber\" -Value #{NEW_Remote_Port}\nNew-NetFirewallRule -DisplayName 'RDPPORTLatest-TCP-In' -Profile 'Public' -Direction Inbound -Action Allow -Protocol TCP -LocalPort #{NEW_Remote_Port}",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "52998779-e22b-46bc-9628-8f9cc4226151",
+      "id": "30211290-bc69-5154-a86e-530388f3c521",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp' -name \"PortNumber\" -Value #{OLD_Remote_Port}\nRemove-NetFirewallRule -DisplayName \"RDPPORTLatest-TCP-In\" -ErrorAction Ignore \nGet-Service TermService | Restart-Service -Force -ErrorAction Ignore",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "1308568e-9123-4fe9-b2e4-2d84745c1eb0",
+      "s": "079c690f-b523-5aac-8d78-c85b273978e0",
       "p": "on-success",
-      "o": "52998779-e22b-46bc-9628-8f9cc4226151"
+      "o": "30211290-bc69-5154-a86e-530388f3c521"
     },
     {
-      "s": "1308568e-9123-4fe9-b2e4-2d84745c1eb0",
+      "s": "079c690f-b523-5aac-8d78-c85b273978e0",
       "p": "on-failure",
-      "o": "52998779-e22b-46bc-9628-8f9cc4226151"
+      "o": "30211290-bc69-5154-a86e-530388f3c521"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "OLD_Remote_Port",
-      "type": "string",
-      "description": "Default RDP Listening Port",
-      "value": "3389"
-    },
-    {
       "name": "NEW_Remote_Port",
       "type": "string",
       "description": "New RDP Listening Port",
       "value": "4489"
+    },
+    {
+      "name": "OLD_Remote_Port",
+      "type": "string",
+      "description": "Default RDP Listening Port",
+      "value": "3389"
     }
   ]
 }

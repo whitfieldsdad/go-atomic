@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1a77cf55-9d43-4ea9-94e0-fef3ed01b9e0",
+      "id": "b5fb347e-d059-5617-bbae-b363a688e316",
       "type": "execute-command",
       "data": {
         "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 pw useradd art -g wheel -s /bin/csh || useradd -s /bin/bash art\ncat /etc/passwd |grep ^art\nchsh -s /bin/sh art\ncat /etc/passwd |grep ^art",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "eb5a0c39-c1b3-472a-a440-1065c38810bc",
+      "id": "d8a7a98b-3390-5fea-a83e-2c055c39ba5c",
       "type": "execute-command",
       "data": {
         "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 rmuser -y art || userdel art",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "956047c6-496b-40ec-bbb3-d7219d2593a6",
+      "id": "369c9394-098c-551b-adba-bfef1a01f59a",
       "name": "Check dependency 1/1",
       "description": "chsh - change login shell, must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "2c48eaf8-24f6-4055-ac60-45d99e2167f7",
+      "id": "aaeeba40-d20f-5760-8573-f02f7693df3d",
       "name": "Resolve dependency 1/1",
       "description": "chsh - change login shell, must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "ffb182e9-c2f7-403f-926c-51deea8fbc7f",
+      "id": "369c9394-098c-551b-adba-bfef1a01f59a",
       "name": "Re-check dependency 1/1",
       "description": "chsh - change login shell, must be installed\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "1a77cf55-9d43-4ea9-94e0-fef3ed01b9e0",
+      "s": "b5fb347e-d059-5617-bbae-b363a688e316",
       "p": "on-success",
-      "o": "eb5a0c39-c1b3-472a-a440-1065c38810bc"
+      "o": "d8a7a98b-3390-5fea-a83e-2c055c39ba5c"
     },
     {
-      "s": "1a77cf55-9d43-4ea9-94e0-fef3ed01b9e0",
+      "s": "b5fb347e-d059-5617-bbae-b363a688e316",
       "p": "on-failure",
-      "o": "eb5a0c39-c1b3-472a-a440-1065c38810bc"
+      "o": "d8a7a98b-3390-5fea-a83e-2c055c39ba5c"
     },
     {
-      "s": "956047c6-496b-40ec-bbb3-d7219d2593a6",
+      "s": "369c9394-098c-551b-adba-bfef1a01f59a",
       "p": "on-success",
-      "o": "1a77cf55-9d43-4ea9-94e0-fef3ed01b9e0"
+      "o": "b5fb347e-d059-5617-bbae-b363a688e316"
     },
     {
-      "s": "956047c6-496b-40ec-bbb3-d7219d2593a6",
+      "s": "369c9394-098c-551b-adba-bfef1a01f59a",
       "p": "on-failure",
-      "o": "2c48eaf8-24f6-4055-ac60-45d99e2167f7"
+      "o": "aaeeba40-d20f-5760-8573-f02f7693df3d"
     },
     {
-      "s": "2c48eaf8-24f6-4055-ac60-45d99e2167f7",
+      "s": "aaeeba40-d20f-5760-8573-f02f7693df3d",
       "p": "on-success",
-      "o": "ffb182e9-c2f7-403f-926c-51deea8fbc7f"
+      "o": "369c9394-098c-551b-adba-bfef1a01f59a"
     },
     {
-      "s": "ffb182e9-c2f7-403f-926c-51deea8fbc7f",
+      "s": "369c9394-098c-551b-adba-bfef1a01f59a",
       "p": "on-failure",
-      "o": "1a77cf55-9d43-4ea9-94e0-fef3ed01b9e0"
+      "o": "b5fb347e-d059-5617-bbae-b363a688e316"
     }
   ],
   "tags": [

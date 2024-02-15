@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f3da60db-b4f8-43e2-a33c-01eb3de97543",
+      "id": "7237282e-a06a-5cc8-91f3-8ac6e3a97cd2",
       "type": "execute-command",
       "data": {
         "command": "$PWord = ConvertTo-SecureString -String #{super_pass} -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList #{super_user}, $PWord\nif((Get-ADUser #{remove_user} -Properties memberof).memberof -like \"CN=Domain Admins*\"){\n  Remove-ADGroupMember -Identity \"Domain Admins\" -Members #{remove_user} -Credential $Credential -Confirm:$False\n} else{\n    write-host \"Error - Make sure #{remove_user} is in the domain admins group\" -foregroundcolor Red\n}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "404baf0b-a8b6-4c9f-8391-4ffc2c4f7607",
+      "id": "6b738e22-abdd-5156-89e0-5ab60ca90f45",
       "name": "Check dependency 1/1",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "d9587f72-85e7-4924-8e60-80aa0d05dac4",
+      "id": "e69b99cd-9493-51e1-ab01-986c13f518f3",
       "name": "Resolve dependency 1/1",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "e0c10532-dfbc-47be-a299-9c21431c7430",
+      "id": "6b738e22-abdd-5156-89e0-5ab60ca90f45",
       "name": "Re-check dependency 1/1",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
@@ -51,36 +51,30 @@
   ],
   "flows": [
     {
-      "s": "404baf0b-a8b6-4c9f-8391-4ffc2c4f7607",
+      "s": "6b738e22-abdd-5156-89e0-5ab60ca90f45",
       "p": "on-success",
-      "o": "f3da60db-b4f8-43e2-a33c-01eb3de97543"
+      "o": "7237282e-a06a-5cc8-91f3-8ac6e3a97cd2"
     },
     {
-      "s": "404baf0b-a8b6-4c9f-8391-4ffc2c4f7607",
+      "s": "6b738e22-abdd-5156-89e0-5ab60ca90f45",
       "p": "on-failure",
-      "o": "d9587f72-85e7-4924-8e60-80aa0d05dac4"
+      "o": "e69b99cd-9493-51e1-ab01-986c13f518f3"
     },
     {
-      "s": "d9587f72-85e7-4924-8e60-80aa0d05dac4",
+      "s": "e69b99cd-9493-51e1-ab01-986c13f518f3",
       "p": "on-success",
-      "o": "e0c10532-dfbc-47be-a299-9c21431c7430"
+      "o": "6b738e22-abdd-5156-89e0-5ab60ca90f45"
     },
     {
-      "s": "e0c10532-dfbc-47be-a299-9c21431c7430",
+      "s": "6b738e22-abdd-5156-89e0-5ab60ca90f45",
       "p": "on-failure",
-      "o": "f3da60db-b4f8-43e2-a33c-01eb3de97543"
+      "o": "7237282e-a06a-5cc8-91f3-8ac6e3a97cd2"
     }
   ],
   "tags": [
     "T1531"
   ],
   "input_arguments": [
-    {
-      "name": "remove_user",
-      "type": "string",
-      "description": "Account to remove from domain admins.",
-      "value": "remove_user"
-    },
     {
       "name": "super_user",
       "type": "string",
@@ -92,6 +86,12 @@
       "type": "string",
       "description": "super_user account password.",
       "value": "password"
+    },
+    {
+      "name": "remove_user",
+      "type": "string",
+      "description": "Account to remove from domain admins.",
+      "value": "remove_user"
     }
   ]
 }

@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "776a70a7-b215-45f8-a071-e1a26c9bfac1",
+      "id": "1d8138c6-24df-50a2-b391-fafa7c66314a",
       "type": "execute-command",
       "data": {
         "command": "timeout --preserve-status #{timeout} whois -h #{remote_host} -p #{remote_port} \"#{query}\" \u003e #{output_file}",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "fc1f0a65-b813-4ff7-bb25-4a293873434b",
+      "id": "b87056bd-5df1-5c7a-aefa-d5a7c61c8aa0",
       "type": "execute-command",
       "data": {
         "command": "rm -f #{output_file}",
@@ -26,7 +26,7 @@
       "elevation_required": false
     },
     {
-      "id": "cf166797-bf52-410d-86ce-0f545db00b03",
+      "id": "9d2efca6-6154-5fd0-b943-212edb7a213e",
       "name": "Check dependency 1/1",
       "description": "The whois and timeout commands must be present\n",
       "type": "execute-command",
@@ -37,7 +37,7 @@
       "elevation_required": false
     },
     {
-      "id": "25c36b1a-ac9b-4f04-8267-d37bb16798c7",
+      "id": "b745d0fb-3824-5cfa-953d-cfb95d0c4e0e",
       "name": "Resolve dependency 1/1",
       "description": "The whois and timeout commands must be present\n",
       "type": "execute-command",
@@ -48,7 +48,7 @@
       "elevation_required": false
     },
     {
-      "id": "754921fb-5ac4-4e28-8264-66eac8448158",
+      "id": "9d2efca6-6154-5fd0-b943-212edb7a213e",
       "name": "Re-check dependency 1/1",
       "description": "The whois and timeout commands must be present\n",
       "type": "execute-command",
@@ -61,40 +61,46 @@
   ],
   "flows": [
     {
-      "s": "776a70a7-b215-45f8-a071-e1a26c9bfac1",
+      "s": "1d8138c6-24df-50a2-b391-fafa7c66314a",
       "p": "on-success",
-      "o": "fc1f0a65-b813-4ff7-bb25-4a293873434b"
+      "o": "b87056bd-5df1-5c7a-aefa-d5a7c61c8aa0"
     },
     {
-      "s": "776a70a7-b215-45f8-a071-e1a26c9bfac1",
+      "s": "1d8138c6-24df-50a2-b391-fafa7c66314a",
       "p": "on-failure",
-      "o": "fc1f0a65-b813-4ff7-bb25-4a293873434b"
+      "o": "b87056bd-5df1-5c7a-aefa-d5a7c61c8aa0"
     },
     {
-      "s": "cf166797-bf52-410d-86ce-0f545db00b03",
+      "s": "9d2efca6-6154-5fd0-b943-212edb7a213e",
       "p": "on-success",
-      "o": "776a70a7-b215-45f8-a071-e1a26c9bfac1"
+      "o": "1d8138c6-24df-50a2-b391-fafa7c66314a"
     },
     {
-      "s": "cf166797-bf52-410d-86ce-0f545db00b03",
+      "s": "9d2efca6-6154-5fd0-b943-212edb7a213e",
       "p": "on-failure",
-      "o": "25c36b1a-ac9b-4f04-8267-d37bb16798c7"
+      "o": "b745d0fb-3824-5cfa-953d-cfb95d0c4e0e"
     },
     {
-      "s": "25c36b1a-ac9b-4f04-8267-d37bb16798c7",
+      "s": "b745d0fb-3824-5cfa-953d-cfb95d0c4e0e",
       "p": "on-success",
-      "o": "754921fb-5ac4-4e28-8264-66eac8448158"
+      "o": "9d2efca6-6154-5fd0-b943-212edb7a213e"
     },
     {
-      "s": "754921fb-5ac4-4e28-8264-66eac8448158",
+      "s": "9d2efca6-6154-5fd0-b943-212edb7a213e",
       "p": "on-failure",
-      "o": "776a70a7-b215-45f8-a071-e1a26c9bfac1"
+      "o": "1d8138c6-24df-50a2-b391-fafa7c66314a"
     }
   ],
   "tags": [
     "T1105"
   ],
   "input_arguments": [
+    {
+      "name": "remote_host",
+      "type": "string",
+      "description": "Remote hostname or IP address",
+      "value": "localhost"
+    },
     {
       "name": "remote_port",
       "type": "integer",
@@ -118,12 +124,6 @@
       "type": "integer",
       "description": "Timeout period before ending process (seconds)",
       "value": "1"
-    },
-    {
-      "name": "remote_host",
-      "type": "string",
-      "description": "Remote hostname or IP address",
-      "value": "localhost"
     }
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "daed5c80-66bd-43ff-b9c2-2759b9d48e86",
+      "id": "84640488-9d7c-5f4d-ad18-15547d68288e",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name Az.Resources\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzAccount -Credential $Credential\n\n$user = Get-AzADUser | where-object {$_.DisplayName -eq \"#{user_principal_name}\" -or $_.UserPrincipalName -eq \"#{user_principal_name}\" }\nif ($user -eq $null) { Write-Warning \"User not found\"; exit }\n$subscription = Get-AzSubscription | where-object {$_.Name -eq \"#{subscription}\"}\nif ($subscription -eq $null) { Write-Warning \"Subscription not found\"; exit }\n$role = Get-AzRoleDefinition | where-object {$_.Name -eq \"#{role_name}\"}\nif ($role -eq $null) { Write-Warning \"Role not found\"; exit }\n\nNew-AzRoleAssignment -ObjectId $user.id -RoleDefinitionId $role.id -Scope /subscriptions/$subscription\nWrite-Host \"User $($user.DisplayName) was added to $($role.Name) role in subscriptions $($subscriptions.Name)\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "ddd44b57-5867-46e5-8013-c82c2e9dd8e2",
+      "id": "418ed569-bd28-5dec-a953-205d2b86d379",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD -ErrorAction Ignore\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzAccount -Credential $Credential -ErrorAction Ignore\n\n$user = Get-AzADUser | where-object {$_.DisplayName -eq \"#{user_principal_name}\" -or $_.UserPrincipalName -eq \"#{user_principal_name}\" }\nif ($user -eq $null) { Write-Warning \"User not found\"; exit }\n$subscription = Get-AzSubscription | where-object {$_.Name -eq \"#{subscription}\"}\nif ($subscription -eq $null) { Write-Warning \"Subscription not found\"; exit }\n$role = Get-AzRoleDefinition | where-object {$_.Name -eq \"#{role_name}\"}\nif ($role -eq $null) { Write-Warning \"Role not found\"; exit }\n\nRemove-AzRoleAssignment -ObjectId $user.id -RoleDefinitionId $role.id -Scope /subscriptions/$subscription\nWrite-Host \"User Principal $($sp.DisplayName) was removed from $($role.Name) role in subscriptions $($subscriptions.Name)\"",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "046b5e46-1734-4ec2-81e2-8316b523807a",
+      "id": "f295ce89-702b-588c-8dfc-cc9b322f04d0",
       "name": "Check dependency 1/1",
       "description": "Az.Resources module must be installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "2010e63c-930c-4bb9-a09d-ebd50901a979",
+      "id": "054aaca1-ac9c-55aa-a50b-23f68bde5847",
       "name": "Resolve dependency 1/1",
       "description": "Az.Resources module must be installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "e1a3cef5-45c2-4935-8ccb-f908d9d4010f",
+      "id": "f295ce89-702b-588c-8dfc-cc9b322f04d0",
       "name": "Re-check dependency 1/1",
       "description": "Az.Resources module must be installed.\n",
       "type": "execute-command",
@@ -60,40 +60,46 @@
   ],
   "flows": [
     {
-      "s": "daed5c80-66bd-43ff-b9c2-2759b9d48e86",
+      "s": "84640488-9d7c-5f4d-ad18-15547d68288e",
       "p": "on-success",
-      "o": "ddd44b57-5867-46e5-8013-c82c2e9dd8e2"
+      "o": "418ed569-bd28-5dec-a953-205d2b86d379"
     },
     {
-      "s": "daed5c80-66bd-43ff-b9c2-2759b9d48e86",
+      "s": "84640488-9d7c-5f4d-ad18-15547d68288e",
       "p": "on-failure",
-      "o": "ddd44b57-5867-46e5-8013-c82c2e9dd8e2"
+      "o": "418ed569-bd28-5dec-a953-205d2b86d379"
     },
     {
-      "s": "046b5e46-1734-4ec2-81e2-8316b523807a",
+      "s": "f295ce89-702b-588c-8dfc-cc9b322f04d0",
       "p": "on-success",
-      "o": "daed5c80-66bd-43ff-b9c2-2759b9d48e86"
+      "o": "84640488-9d7c-5f4d-ad18-15547d68288e"
     },
     {
-      "s": "046b5e46-1734-4ec2-81e2-8316b523807a",
+      "s": "f295ce89-702b-588c-8dfc-cc9b322f04d0",
       "p": "on-failure",
-      "o": "2010e63c-930c-4bb9-a09d-ebd50901a979"
+      "o": "054aaca1-ac9c-55aa-a50b-23f68bde5847"
     },
     {
-      "s": "2010e63c-930c-4bb9-a09d-ebd50901a979",
+      "s": "054aaca1-ac9c-55aa-a50b-23f68bde5847",
       "p": "on-success",
-      "o": "e1a3cef5-45c2-4935-8ccb-f908d9d4010f"
+      "o": "f295ce89-702b-588c-8dfc-cc9b322f04d0"
     },
     {
-      "s": "e1a3cef5-45c2-4935-8ccb-f908d9d4010f",
+      "s": "f295ce89-702b-588c-8dfc-cc9b322f04d0",
       "p": "on-failure",
-      "o": "daed5c80-66bd-43ff-b9c2-2759b9d48e86"
+      "o": "84640488-9d7c-5f4d-ad18-15547d68288e"
     }
   ],
   "tags": [
     "T1098"
   ],
   "input_arguments": [
+    {
+      "name": "subscription",
+      "type": "string",
+      "description": "Name of the targeted subscription",
+      "value": "Azure subscription 1"
+    },
     {
       "name": "username",
       "type": "string",
@@ -117,12 +123,6 @@
       "type": "string",
       "description": "Name of the targeted Azure role",
       "value": "Reader"
-    },
-    {
-      "name": "subscription",
-      "type": "string",
-      "description": "Name of the targeted subscription",
-      "value": "Azure subscription 1"
     }
   ]
 }

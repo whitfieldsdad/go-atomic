@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "2846a451-026e-4fb4-a2e0-3365d3fa6be0",
+      "id": "96a56b80-a078-5526-b3c8-5092a923c992",
       "type": "execute-command",
       "data": {
         "command": "#{regsvr32path}\\#{regsvr32name} /s #{dll_file}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "f0c4732b-6e52-4353-8359-845996d48c65",
+      "id": "357b8421-0b51-502b-a3d9-6ba9c4cf1401",
       "type": "execute-command",
       "data": {
         "command": "#{regsvr32path}\\#{regsvr32name} /U /s #{dll_file}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "713f0a50-9f51-4d90-9f58-647a5eb47284",
+      "id": "965f52a3-33cf-5339-80e9-7c29daf0dae2",
       "name": "Check dependency 1/1",
       "description": "Test requires a renamed dll file\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "f6443b63-5f2b-4271-91a5-7819cc53854e",
+      "id": "0f24a98b-a0c1-5486-b024-adc737e9124b",
       "name": "Resolve dependency 1/1",
       "description": "Test requires a renamed dll file\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "86e0fbc6-fafd-44a5-9382-b27194b64d5b",
+      "id": "965f52a3-33cf-5339-80e9-7c29daf0dae2",
       "name": "Re-check dependency 1/1",
       "description": "Test requires a renamed dll file\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "2846a451-026e-4fb4-a2e0-3365d3fa6be0",
+      "s": "96a56b80-a078-5526-b3c8-5092a923c992",
       "p": "on-success",
-      "o": "f0c4732b-6e52-4353-8359-845996d48c65"
+      "o": "357b8421-0b51-502b-a3d9-6ba9c4cf1401"
     },
     {
-      "s": "2846a451-026e-4fb4-a2e0-3365d3fa6be0",
+      "s": "96a56b80-a078-5526-b3c8-5092a923c992",
       "p": "on-failure",
-      "o": "f0c4732b-6e52-4353-8359-845996d48c65"
+      "o": "357b8421-0b51-502b-a3d9-6ba9c4cf1401"
     },
     {
-      "s": "713f0a50-9f51-4d90-9f58-647a5eb47284",
+      "s": "965f52a3-33cf-5339-80e9-7c29daf0dae2",
       "p": "on-success",
-      "o": "2846a451-026e-4fb4-a2e0-3365d3fa6be0"
+      "o": "96a56b80-a078-5526-b3c8-5092a923c992"
     },
     {
-      "s": "713f0a50-9f51-4d90-9f58-647a5eb47284",
+      "s": "965f52a3-33cf-5339-80e9-7c29daf0dae2",
       "p": "on-failure",
-      "o": "f6443b63-5f2b-4271-91a5-7819cc53854e"
+      "o": "0f24a98b-a0c1-5486-b024-adc737e9124b"
     },
     {
-      "s": "f6443b63-5f2b-4271-91a5-7819cc53854e",
+      "s": "0f24a98b-a0c1-5486-b024-adc737e9124b",
       "p": "on-success",
-      "o": "86e0fbc6-fafd-44a5-9382-b27194b64d5b"
+      "o": "965f52a3-33cf-5339-80e9-7c29daf0dae2"
     },
     {
-      "s": "86e0fbc6-fafd-44a5-9382-b27194b64d5b",
+      "s": "965f52a3-33cf-5339-80e9-7c29daf0dae2",
       "p": "on-failure",
-      "o": "2846a451-026e-4fb4-a2e0-3365d3fa6be0"
+      "o": "96a56b80-a078-5526-b3c8-5092a923c992"
     }
   ],
   "tags": [
@@ -95,12 +95,6 @@
     "T1218.010"
   ],
   "input_arguments": [
-    {
-      "name": "dll_file",
-      "type": "path",
-      "description": "Path to renamed dll file to be registered",
-      "value": "%temp%\\shell32.jpg"
-    },
     {
       "name": "regsvr32path",
       "type": "path",
@@ -112,6 +106,12 @@
       "type": "string",
       "description": "Default name of Regsvr32.exe",
       "value": "regsvr32.exe"
+    },
+    {
+      "name": "dll_file",
+      "type": "path",
+      "description": "Path to renamed dll file to be registered",
+      "value": "%temp%\\shell32.jpg"
     }
   ]
 }

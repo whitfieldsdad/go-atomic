@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "7fa0ade5-30c3-4a84-b614-259bdc6677d2",
+      "id": "c330ec45-4fae-5a02-aa7e-7b3a90cc6f11",
       "type": "execute-command",
       "data": {
         "command": "#{flavor_command}",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "2f78c388-16c1-4e6b-b2b7-f01c99b817b9",
+      "id": "5216b2ae-26d2-5800-a7c0-f1bd84c4fda0",
       "type": "execute-command",
       "data": {
         "command": "#{cleanup_command}",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "7f8e9f9f-11da-4dc9-ba67-6c44008ec6e3",
+      "id": "f05540a8-6165-58e6-81a9-468c58d95aa2",
       "name": "Check dependency 1/1",
       "description": "Package with rsyslog must be on system\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "34bc7e13-12ad-43be-8852-d32509fbbb62",
+      "id": "90bc3f06-dce6-5d87-a981-3b4a9cd88950",
       "name": "Resolve dependency 1/1",
       "description": "Package with rsyslog must be on system\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "dcd5b11f-e2bc-47fa-824f-8e5808577061",
+      "id": "f05540a8-6165-58e6-81a9-468c58d95aa2",
       "name": "Re-check dependency 1/1",
       "description": "Package with rsyslog must be on system\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "7fa0ade5-30c3-4a84-b614-259bdc6677d2",
+      "s": "c330ec45-4fae-5a02-aa7e-7b3a90cc6f11",
       "p": "on-success",
-      "o": "2f78c388-16c1-4e6b-b2b7-f01c99b817b9"
+      "o": "5216b2ae-26d2-5800-a7c0-f1bd84c4fda0"
     },
     {
-      "s": "7fa0ade5-30c3-4a84-b614-259bdc6677d2",
+      "s": "c330ec45-4fae-5a02-aa7e-7b3a90cc6f11",
       "p": "on-failure",
-      "o": "2f78c388-16c1-4e6b-b2b7-f01c99b817b9"
+      "o": "5216b2ae-26d2-5800-a7c0-f1bd84c4fda0"
     },
     {
-      "s": "7f8e9f9f-11da-4dc9-ba67-6c44008ec6e3",
+      "s": "f05540a8-6165-58e6-81a9-468c58d95aa2",
       "p": "on-success",
-      "o": "7fa0ade5-30c3-4a84-b614-259bdc6677d2"
+      "o": "c330ec45-4fae-5a02-aa7e-7b3a90cc6f11"
     },
     {
-      "s": "7f8e9f9f-11da-4dc9-ba67-6c44008ec6e3",
+      "s": "f05540a8-6165-58e6-81a9-468c58d95aa2",
       "p": "on-failure",
-      "o": "34bc7e13-12ad-43be-8852-d32509fbbb62"
+      "o": "90bc3f06-dce6-5d87-a981-3b4a9cd88950"
     },
     {
-      "s": "34bc7e13-12ad-43be-8852-d32509fbbb62",
+      "s": "90bc3f06-dce6-5d87-a981-3b4a9cd88950",
       "p": "on-success",
-      "o": "dcd5b11f-e2bc-47fa-824f-8e5808577061"
+      "o": "f05540a8-6165-58e6-81a9-468c58d95aa2"
     },
     {
-      "s": "dcd5b11f-e2bc-47fa-824f-8e5808577061",
+      "s": "f05540a8-6165-58e6-81a9-468c58d95aa2",
       "p": "on-failure",
-      "o": "7fa0ade5-30c3-4a84-b614-259bdc6677d2"
+      "o": "c330ec45-4fae-5a02-aa7e-7b3a90cc6f11"
     }
   ],
   "tags": [
@@ -95,12 +95,6 @@
     "T1562.001"
   ],
   "input_arguments": [
-    {
-      "name": "cleanup_command",
-      "type": "string",
-      "description": "Command to enable syslog collection. Default newer rsyslog commands. i.e older command = service rsyslog start ; chkconfig rsyslog on",
-      "value": "systemctl start rsyslog ; systemctl enable rsyslog"
-    },
     {
       "name": "package_checker",
       "type": "string",
@@ -118,6 +112,12 @@
       "type": "string",
       "description": "Command to disable syslog collection. Default newer rsyslog commands. i.e older command = service rsyslog stop ; chkconfig off rsyslog",
       "value": "systemctl stop rsyslog ; systemctl disable rsyslog"
+    },
+    {
+      "name": "cleanup_command",
+      "type": "string",
+      "description": "Command to enable syslog collection. Default newer rsyslog commands. i.e older command = service rsyslog start ; chkconfig rsyslog on",
+      "value": "systemctl start rsyslog ; systemctl enable rsyslog"
     }
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "2fd56b1f-39ef-4769-b616-fb87eee1cab7",
+      "id": "b07893fc-77e2-5685-8c66-28c0757ae917",
       "type": "execute-command",
       "data": {
         "command": "Invoke-WebRequest #{pua_url} -OutFile #{pua_file}\n\u0026 \"#{pua_file}\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "f862e26a-ea0a-47f9-8f63-6f89d236409b",
+      "id": "bc902f5d-947e-57b3-8847-0bd4918183ad",
       "type": "execute-command",
       "data": {
         "command": "Stop-Process -name PotentiallyUnwanted\nRemove-Item #{pua_file} -ErrorAction Ignore",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "2fd56b1f-39ef-4769-b616-fb87eee1cab7",
+      "s": "b07893fc-77e2-5685-8c66-28c0757ae917",
       "p": "on-success",
-      "o": "f862e26a-ea0a-47f9-8f63-6f89d236409b"
+      "o": "bc902f5d-947e-57b3-8847-0bd4918183ad"
     },
     {
-      "s": "2fd56b1f-39ef-4769-b616-fb87eee1cab7",
+      "s": "b07893fc-77e2-5685-8c66-28c0757ae917",
       "p": "on-failure",
-      "o": "f862e26a-ea0a-47f9-8f63-6f89d236409b"
+      "o": "bc902f5d-947e-57b3-8847-0bd4918183ad"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "pua_file",
-      "type": "path",
-      "description": "path to PotentiallyUnwanted.exe",
-      "value": "$env:TEMP/PotentiallyUnwanted.exe"
-    },
-    {
       "name": "pua_url",
       "type": "url",
       "description": "url to PotentiallyUnwanted.exe",
       "value": "http://amtso.eicar.org/PotentiallyUnwanted.exe"
+    },
+    {
+      "name": "pua_file",
+      "type": "path",
+      "description": "path to PotentiallyUnwanted.exe",
+      "value": "$env:TEMP/PotentiallyUnwanted.exe"
     }
   ]
 }

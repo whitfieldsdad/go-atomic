@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ccda7443-b83d-4087-bbf4-eb8c311719d1",
+      "id": "a166d56a-850e-544d-8d4c-e068846b9aae",
       "type": "execute-command",
       "data": {
         "command": "for($i=0; $i -le #{query_volume}; $i++) { Resolve-DnsName -type \"#{query_type}\" \"#{subdomain}-$(Get-Random -Minimum 1 -Maximum 999999).#{domain}\" -QuickTimeout}",
@@ -23,18 +23,6 @@
   ],
   "input_arguments": [
     {
-      "name": "subdomain",
-      "type": "string",
-      "description": "Subdomain prepended to the domain name",
-      "value": "atomicredteam"
-    },
-    {
-      "name": "query_volume",
-      "type": "integer",
-      "description": "Number of DNS queries to send",
-      "value": "1000"
-    },
-    {
       "name": "domain",
       "type": "string",
       "description": "Default domain to simulate against",
@@ -45,6 +33,18 @@
       "type": "string",
       "description": "DNS query type",
       "value": "TXT"
+    },
+    {
+      "name": "subdomain",
+      "type": "string",
+      "description": "Subdomain prepended to the domain name",
+      "value": "atomicredteam"
+    },
+    {
+      "name": "query_volume",
+      "type": "integer",
+      "description": "Number of DNS queries to send",
+      "value": "1000"
     }
   ]
 }

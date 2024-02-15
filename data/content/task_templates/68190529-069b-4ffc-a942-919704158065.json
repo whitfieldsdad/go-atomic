@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "3f28578b-2b49-462b-a701-07c3b16734c1",
+      "id": "64a03134-4350-557d-a810-ab58a78687fd",
       "type": "execute-command",
       "data": {
         "command": "$credFile = \"#{cred_file}\"\nif (Test-Path $credFile) {\n    $cred = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $env:USERNAME, (Get-Content $credFile | ConvertTo-SecureString)\n    if($cred.GetNetworkCredential().Password -eq \"#{new_password}\"){\n      Write-Host -ForegroundColor Yellow \"The new password is the same as the password stored in the credential file. Please specify a different new password.\"; exit -1\n    }\n    try {\n        $newPassword = ConvertTo-SecureString #{new_password} -AsPlainText -Force\n        Set-ADAccountPassword -Identity $env:USERNAME -OldPassword $cred.password -NewPassword $newPassword\n    }\n    catch { \n        $_.Exception\n        $errCode = $_.Exception.ErrorCode\n        Write-Host \"Error code: $errCode\"\n        if ($errCode -eq 86) {\n            Write-Host -ForegroundColor Yellow \"The stored password for the current user is incorrect. Please run the prereq commands to set the correct credentials\"\n            Remove-Item $credFile\n        }\n        exit $errCode\n    }\n    Write-Host -ForegroundColor Cyan \"Successfully changed the password to #{new_password}\"\n    $newCred = New-Object System.Management.Automation.PSCredential ($env:USERNAME, $(ConvertTo-SecureString \"#{new_password}\" -AsPlainText -Force))\n    $newCred.Password | ConvertFrom-SecureString | Out-File $credFile\n}\nelse {\n    Write-Host -ForegroundColor Yellow \"You must store the password of the current user by running the prerequisite commands first\"\n}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "d51e958b-8fe6-442e-ad95-355a51e16b09",
+      "id": "a3e8f552-5fbb-5914-b5c4-e01b647db287",
       "name": "Check dependency 1/1",
       "description": "Password for current user must be stored in a credential file\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "d1bf7886-cb80-49cb-bb14-9b6320c54ba4",
+      "id": "8bd7cfb0-c354-5bae-8d17-b773778b2748",
       "name": "Resolve dependency 1/1",
       "description": "Password for current user must be stored in a credential file\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "7ab364c7-0d8e-4eba-8ebf-b7af4103f5e9",
+      "id": "a3e8f552-5fbb-5914-b5c4-e01b647db287",
       "name": "Re-check dependency 1/1",
       "description": "Password for current user must be stored in a credential file\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "d51e958b-8fe6-442e-ad95-355a51e16b09",
+      "s": "a3e8f552-5fbb-5914-b5c4-e01b647db287",
       "p": "on-success",
-      "o": "3f28578b-2b49-462b-a701-07c3b16734c1"
+      "o": "64a03134-4350-557d-a810-ab58a78687fd"
     },
     {
-      "s": "d51e958b-8fe6-442e-ad95-355a51e16b09",
+      "s": "a3e8f552-5fbb-5914-b5c4-e01b647db287",
       "p": "on-failure",
-      "o": "d1bf7886-cb80-49cb-bb14-9b6320c54ba4"
+      "o": "8bd7cfb0-c354-5bae-8d17-b773778b2748"
     },
     {
-      "s": "d1bf7886-cb80-49cb-bb14-9b6320c54ba4",
+      "s": "8bd7cfb0-c354-5bae-8d17-b773778b2748",
       "p": "on-success",
-      "o": "7ab364c7-0d8e-4eba-8ebf-b7af4103f5e9"
+      "o": "a3e8f552-5fbb-5914-b5c4-e01b647db287"
     },
     {
-      "s": "7ab364c7-0d8e-4eba-8ebf-b7af4103f5e9",
+      "s": "a3e8f552-5fbb-5914-b5c4-e01b647db287",
       "p": "on-failure",
-      "o": "3f28578b-2b49-462b-a701-07c3b16734c1"
+      "o": "64a03134-4350-557d-a810-ab58a78687fd"
     }
   ],
   "tags": [

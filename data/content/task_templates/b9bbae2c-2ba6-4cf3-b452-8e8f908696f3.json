@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "d925bd82-4678-48bd-bf84-0654853847cb",
+      "id": "5de391f3-4342-5e42-b8c8-38354649025f",
       "type": "execute-command",
       "data": {
         "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\n$test = Get-AntiPhishRule\nDisable-AntiPhishRule -Identity $test.Name -Confirm:$false\nGet-AntiPhishRule",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "2e7e5624-05b0-4ff6-a363-a6e4466f6879",
+      "id": "2d737800-52b1-5113-8c91-d7e30ace8cba",
       "type": "execute-command",
       "data": {
         "command": "if(\"#{password}\" -ne \"\") {\n$secure_pwd = (\"#{password}\" + \"\") | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\n$test = Get-AntiPhishRule\nEnable-AntiPhishRule -Identity $test.Name -Confirm:$false\nGet-AntiPhishRule\n}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "85583f76-0556-4c26-a4d5-efe611017173",
+      "id": "13db0513-a6c9-5001-ae52-d5f3ec78af64",
       "name": "Check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "f30bb326-e2c3-4c5b-bfbf-2b2003fe82c0",
+      "id": "ef6c800a-2170-5b8a-9880-cfef1397df4e",
       "name": "Resolve dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "35d474f1-65ac-4f49-b83f-ef0b2c11b6ef",
+      "id": "13db0513-a6c9-5001-ae52-d5f3ec78af64",
       "name": "Re-check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "d925bd82-4678-48bd-bf84-0654853847cb",
+      "s": "5de391f3-4342-5e42-b8c8-38354649025f",
       "p": "on-success",
-      "o": "2e7e5624-05b0-4ff6-a363-a6e4466f6879"
+      "o": "2d737800-52b1-5113-8c91-d7e30ace8cba"
     },
     {
-      "s": "d925bd82-4678-48bd-bf84-0654853847cb",
+      "s": "5de391f3-4342-5e42-b8c8-38354649025f",
       "p": "on-failure",
-      "o": "2e7e5624-05b0-4ff6-a363-a6e4466f6879"
+      "o": "2d737800-52b1-5113-8c91-d7e30ace8cba"
     },
     {
-      "s": "85583f76-0556-4c26-a4d5-efe611017173",
+      "s": "13db0513-a6c9-5001-ae52-d5f3ec78af64",
       "p": "on-success",
-      "o": "d925bd82-4678-48bd-bf84-0654853847cb"
+      "o": "5de391f3-4342-5e42-b8c8-38354649025f"
     },
     {
-      "s": "85583f76-0556-4c26-a4d5-efe611017173",
+      "s": "13db0513-a6c9-5001-ae52-d5f3ec78af64",
       "p": "on-failure",
-      "o": "f30bb326-e2c3-4c5b-bfbf-2b2003fe82c0"
+      "o": "ef6c800a-2170-5b8a-9880-cfef1397df4e"
     },
     {
-      "s": "f30bb326-e2c3-4c5b-bfbf-2b2003fe82c0",
+      "s": "ef6c800a-2170-5b8a-9880-cfef1397df4e",
       "p": "on-success",
-      "o": "35d474f1-65ac-4f49-b83f-ef0b2c11b6ef"
+      "o": "13db0513-a6c9-5001-ae52-d5f3ec78af64"
     },
     {
-      "s": "35d474f1-65ac-4f49-b83f-ef0b2c11b6ef",
+      "s": "13db0513-a6c9-5001-ae52-d5f3ec78af64",
       "p": "on-failure",
-      "o": "d925bd82-4678-48bd-bf84-0654853847cb"
+      "o": "5de391f3-4342-5e42-b8c8-38354649025f"
     }
   ],
   "tags": [
@@ -96,15 +96,15 @@
   ],
   "input_arguments": [
     {
-      "name": "username",
-      "type": "string",
-      "description": "office-365 username",
-      "value": ""
-    },
-    {
       "name": "password",
       "type": "string",
       "description": "office-365 password",
+      "value": ""
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "office-365 username",
       "value": ""
     }
   ]

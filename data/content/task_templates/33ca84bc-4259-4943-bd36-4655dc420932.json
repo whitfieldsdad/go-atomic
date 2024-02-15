@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "a0a0f70f-5441-4153-867e-f23523fc1e25",
+      "id": "50bc81b1-8160-59fa-b83b-b4225bee4e35",
       "type": "execute-command",
       "data": {
         "command": "aws logs create-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Created ***\"\naws logs create-log-stream --log-group-name #{cloudwatch_log_group_name} --log-stream-name #{cloudwatch_log_stream_name}\necho \"*** Log Stream Created ***\"\naws logs delete-log-stream --log-group-name #{cloudwatch_log_group_name} --log-stream-name #{cloudwatch_log_stream_name}\necho \"*** Log Stream Deleted ***\"\naws logs delete-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Deleted ***\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "b25a638e-5652-4b01-a1e6-443dd945e78a",
+      "id": "3ea7a855-1981-5160-a58e-a9539e3e32d1",
       "name": "Check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "afe7f736-2dc2-4710-9da2-b137d5263b7e",
+      "id": "784b64ac-3c48-5eca-b7b5-e8d36c5e56a0",
       "name": "Resolve dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "f5a13898-9849-47e7-ac5a-b69968009dff",
+      "id": "3ea7a855-1981-5160-a58e-a9539e3e32d1",
       "name": "Re-check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "b25a638e-5652-4b01-a1e6-443dd945e78a",
+      "s": "3ea7a855-1981-5160-a58e-a9539e3e32d1",
       "p": "on-success",
-      "o": "a0a0f70f-5441-4153-867e-f23523fc1e25"
+      "o": "50bc81b1-8160-59fa-b83b-b4225bee4e35"
     },
     {
-      "s": "b25a638e-5652-4b01-a1e6-443dd945e78a",
+      "s": "3ea7a855-1981-5160-a58e-a9539e3e32d1",
       "p": "on-failure",
-      "o": "afe7f736-2dc2-4710-9da2-b137d5263b7e"
+      "o": "784b64ac-3c48-5eca-b7b5-e8d36c5e56a0"
     },
     {
-      "s": "afe7f736-2dc2-4710-9da2-b137d5263b7e",
+      "s": "784b64ac-3c48-5eca-b7b5-e8d36c5e56a0",
       "p": "on-success",
-      "o": "f5a13898-9849-47e7-ac5a-b69968009dff"
+      "o": "3ea7a855-1981-5160-a58e-a9539e3e32d1"
     },
     {
-      "s": "f5a13898-9849-47e7-ac5a-b69968009dff",
+      "s": "3ea7a855-1981-5160-a58e-a9539e3e32d1",
       "p": "on-failure",
-      "o": "a0a0f70f-5441-4153-867e-f23523fc1e25"
+      "o": "50bc81b1-8160-59fa-b83b-b4225bee4e35"
     }
   ],
   "tags": [

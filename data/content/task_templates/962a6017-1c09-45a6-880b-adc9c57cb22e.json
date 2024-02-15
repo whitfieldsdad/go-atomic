@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1baad791-c668-4a7f-b840-4237450ed9d0",
+      "id": "f9c928b2-15bc-5d5b-8eb2-05f672d91ea7",
       "type": "execute-command",
       "data": {
         "command": "$DirectorySearcher = New-Object System.DirectoryServices.DirectorySearcher(\"(ObjectCategory=Computer)\")\n$DirectorySearcher.PropertiesToLoad.Add(\"Name\")\n$Computers = $DirectorySearcher.findall()\nforeach ($Computer in $Computers) {\n  $Computer = $Computer.Properties.name\n  if (!$Computer) { Continue }\n  Write-Host $Computer}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "473abb88-044d-42e6-b04d-97bd25791595",
+      "id": "c225870f-8ef0-513b-b3ef-c41b78a80024",
       "name": "Check dependency 1/1",
       "description": "This PC must be joined to a domain.",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "e4964d01-5d36-4648-8a5e-2dc90876ac95",
+      "id": "4af4825d-3691-5ab9-8c02-fc452a075055",
       "name": "Resolve dependency 1/1",
       "description": "This PC must be joined to a domain.",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "30017d17-1125-4f09-87bb-364ea8f3bd67",
+      "id": "c225870f-8ef0-513b-b3ef-c41b78a80024",
       "name": "Re-check dependency 1/1",
       "description": "This PC must be joined to a domain.",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "473abb88-044d-42e6-b04d-97bd25791595",
+      "s": "c225870f-8ef0-513b-b3ef-c41b78a80024",
       "p": "on-success",
-      "o": "1baad791-c668-4a7f-b840-4237450ed9d0"
+      "o": "f9c928b2-15bc-5d5b-8eb2-05f672d91ea7"
     },
     {
-      "s": "473abb88-044d-42e6-b04d-97bd25791595",
+      "s": "c225870f-8ef0-513b-b3ef-c41b78a80024",
       "p": "on-failure",
-      "o": "e4964d01-5d36-4648-8a5e-2dc90876ac95"
+      "o": "4af4825d-3691-5ab9-8c02-fc452a075055"
     },
     {
-      "s": "e4964d01-5d36-4648-8a5e-2dc90876ac95",
+      "s": "4af4825d-3691-5ab9-8c02-fc452a075055",
       "p": "on-success",
-      "o": "30017d17-1125-4f09-87bb-364ea8f3bd67"
+      "o": "c225870f-8ef0-513b-b3ef-c41b78a80024"
     },
     {
-      "s": "30017d17-1125-4f09-87bb-364ea8f3bd67",
+      "s": "c225870f-8ef0-513b-b3ef-c41b78a80024",
       "p": "on-failure",
-      "o": "1baad791-c668-4a7f-b840-4237450ed9d0"
+      "o": "f9c928b2-15bc-5d5b-8eb2-05f672d91ea7"
     }
   ],
   "tags": [

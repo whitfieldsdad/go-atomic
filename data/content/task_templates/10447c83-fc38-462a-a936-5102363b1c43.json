@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6a8576c1-8317-4f2b-be74-1a862a6f7a5d",
+      "id": "6ae5b525-4764-524f-a408-894448ecb93e",
       "type": "execute-command",
       "data": {
         "command": "$Class = New-Object Management.ManagementClass(New-Object Management.ManagementPath(\"Win32_Process\"))\n$NewClass = $Class.Derive(\"#{new_class}\")\n$NewClass.Put()\nInvoke-WmiMethod -Path #{new_class} -Name create -ArgumentList #{process_to_execute}",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "838154f8-aead-4fad-84bf-6e24122319ec",
+      "id": "90e92ffa-af0f-5287-ba13-454df373ed37",
       "type": "execute-command",
       "data": {
         "command": "$CleanupClass = New-Object Management.ManagementClass(New-Object Management.ManagementPath(\"#{new_class}\"))\ntry { $CleanupClass.Delete() } catch {}",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "6a8576c1-8317-4f2b-be74-1a862a6f7a5d",
+      "s": "6ae5b525-4764-524f-a408-894448ecb93e",
       "p": "on-success",
-      "o": "838154f8-aead-4fad-84bf-6e24122319ec"
+      "o": "90e92ffa-af0f-5287-ba13-454df373ed37"
     },
     {
-      "s": "6a8576c1-8317-4f2b-be74-1a862a6f7a5d",
+      "s": "6ae5b525-4764-524f-a408-894448ecb93e",
       "p": "on-failure",
-      "o": "838154f8-aead-4fad-84bf-6e24122319ec"
+      "o": "90e92ffa-af0f-5287-ba13-454df373ed37"
     }
   ],
   "tags": [
@@ -42,16 +42,16 @@
   ],
   "input_arguments": [
     {
-      "name": "new_class",
-      "type": "string",
-      "description": "Derived class name",
-      "value": "Win32_Atomic"
-    },
-    {
       "name": "process_to_execute",
       "type": "string",
       "description": "Name or path of process to execute.",
       "value": "notepad.exe"
+    },
+    {
+      "name": "new_class",
+      "type": "string",
+      "description": "Derived class name",
+      "value": "Win32_Atomic"
     }
   ]
 }

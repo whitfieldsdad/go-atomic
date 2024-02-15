@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "61f99de8-c3eb-4f52-a995-fdd8ffbbd29c",
+      "id": "7d8f05d2-7a3f-516e-aa9f-8dfdf19564db",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential\n\n$user = Get-AzureADUser -Filter \"DisplayName eq '#{user_principal_name}' or UserPrincipalName eq '#{user_principal_name}'\"\nif ($user -eq $null) { Write-Warning \"User not found\"; exit }\n$role = Get-AzureADDirectoryRole -Filter \"DisplayName eq '#{role_name}'\"\nif ($role -eq $null) { Write-Warning \"Role not found\"; exit }\nAdd-AzureADDirectoryRoleMember -ObjectId $role.ObjectId -RefObjectId $user.ObjectId\nWrite-Host \"User $($user.DisplayName) was added to $($role.DisplayName) role\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "cd13347c-dbe1-459e-bf6a-f2b73fcf2283",
+      "id": "bcd405d8-f7e5-5fee-ad9e-ced771ad6c74",
       "type": "execute-command",
       "data": {
         "command": "Import-Module -Name AzureAD -ErrorAction Ignore\n$PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\nConnect-AzureAD -Credential $Credential -ErrorAction Ignore\n\n$user = Get-AzureADUser -Filter \"DisplayName eq '#{user_principal_name}' or UserPrincipalName eq '#{user_principal_name}'\"\nif ($user -eq $null) { Write-Warning \"User not found\"; exit }\n$role = Get-AzureADDirectoryRole -Filter \"DisplayName eq '#{role_name}'\"\nif ($role -eq $null) { Write-Warning \"Role not found\"; exit }\n\nRemove-AzureADDirectoryRoleMember -ObjectId $role.ObjectId -MemberId $user.ObjectId\nWrite-Host \"User $($user.DisplayName) was removed from $($role.DisplayName) role\"",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "7485b6c7-4fd4-412b-8566-8334ced83e31",
+      "id": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "name": "Check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "75c1495f-d743-49c4-80b6-348eeb061bb2",
+      "id": "1fa9d886-4e7b-5fde-9622-fecd2533f775",
       "name": "Resolve dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "e8a9a87a-4903-4197-b5b9-25408750a052",
+      "id": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "name": "Re-check dependency 1/1",
       "description": "AzureAD module must be installed.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "61f99de8-c3eb-4f52-a995-fdd8ffbbd29c",
+      "s": "7d8f05d2-7a3f-516e-aa9f-8dfdf19564db",
       "p": "on-success",
-      "o": "cd13347c-dbe1-459e-bf6a-f2b73fcf2283"
+      "o": "bcd405d8-f7e5-5fee-ad9e-ced771ad6c74"
     },
     {
-      "s": "61f99de8-c3eb-4f52-a995-fdd8ffbbd29c",
+      "s": "7d8f05d2-7a3f-516e-aa9f-8dfdf19564db",
       "p": "on-failure",
-      "o": "cd13347c-dbe1-459e-bf6a-f2b73fcf2283"
+      "o": "bcd405d8-f7e5-5fee-ad9e-ced771ad6c74"
     },
     {
-      "s": "7485b6c7-4fd4-412b-8566-8334ced83e31",
+      "s": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "p": "on-success",
-      "o": "61f99de8-c3eb-4f52-a995-fdd8ffbbd29c"
+      "o": "7d8f05d2-7a3f-516e-aa9f-8dfdf19564db"
     },
     {
-      "s": "7485b6c7-4fd4-412b-8566-8334ced83e31",
+      "s": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "p": "on-failure",
-      "o": "75c1495f-d743-49c4-80b6-348eeb061bb2"
+      "o": "1fa9d886-4e7b-5fde-9622-fecd2533f775"
     },
     {
-      "s": "75c1495f-d743-49c4-80b6-348eeb061bb2",
+      "s": "1fa9d886-4e7b-5fde-9622-fecd2533f775",
       "p": "on-success",
-      "o": "e8a9a87a-4903-4197-b5b9-25408750a052"
+      "o": "653fec79-d5a5-51b2-adcd-921a50cf09f5"
     },
     {
-      "s": "e8a9a87a-4903-4197-b5b9-25408750a052",
+      "s": "653fec79-d5a5-51b2-adcd-921a50cf09f5",
       "p": "on-failure",
-      "o": "61f99de8-c3eb-4f52-a995-fdd8ffbbd29c"
+      "o": "7d8f05d2-7a3f-516e-aa9f-8dfdf19564db"
     }
   ],
   "tags": [

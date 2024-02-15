@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "c6ffc1ab-ccf4-4836-b670-1058b334ed08",
+      "id": "5b58bb76-6df5-59e3-9c93-4c401e6eb8cd",
       "type": "execute-command",
       "data": {
         "command": "sudo find /var/log -name '#{system_log_name1}.*' -exec rm {} \\; #using \"rm\" execution\nsudo find /var/log/ -name \"#{system_log_name2}.*\" -exec shred -u -z -n 3 {} \\; #using \"shred\" execution\nsudo find /var/log/ -name \"#{system_log_name3}.*\" -exec unlink {} \\; #using \"unlink\" execution",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "a02c796a-d0cc-4ecd-86bb-1bb779c30719",
+      "id": "f29492e6-d7f6-5fb7-866c-709bbdb2994c",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": true
     },
     {
-      "id": "98e37242-3517-45b7-8b15-85fe83ce689f",
+      "id": "1fb04953-8db0-5096-8bf6-aed7395d1680",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": true
     },
     {
-      "id": "9341a949-340a-48bd-bee4-6ab7b5a062c0",
+      "id": "f29492e6-d7f6-5fb7-866c-709bbdb2994c",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "a02c796a-d0cc-4ecd-86bb-1bb779c30719",
+      "s": "f29492e6-d7f6-5fb7-866c-709bbdb2994c",
       "p": "on-success",
-      "o": "c6ffc1ab-ccf4-4836-b670-1058b334ed08"
+      "o": "5b58bb76-6df5-59e3-9c93-4c401e6eb8cd"
     },
     {
-      "s": "a02c796a-d0cc-4ecd-86bb-1bb779c30719",
+      "s": "f29492e6-d7f6-5fb7-866c-709bbdb2994c",
       "p": "on-failure",
-      "o": "98e37242-3517-45b7-8b15-85fe83ce689f"
+      "o": "1fb04953-8db0-5096-8bf6-aed7395d1680"
     },
     {
-      "s": "98e37242-3517-45b7-8b15-85fe83ce689f",
+      "s": "1fb04953-8db0-5096-8bf6-aed7395d1680",
       "p": "on-success",
-      "o": "9341a949-340a-48bd-bee4-6ab7b5a062c0"
+      "o": "f29492e6-d7f6-5fb7-866c-709bbdb2994c"
     },
     {
-      "s": "9341a949-340a-48bd-bee4-6ab7b5a062c0",
+      "s": "f29492e6-d7f6-5fb7-866c-709bbdb2994c",
       "p": "on-failure",
-      "o": "c6ffc1ab-ccf4-4836-b670-1058b334ed08"
+      "o": "5b58bb76-6df5-59e3-9c93-4c401e6eb8cd"
     }
   ],
   "tags": [
@@ -76,12 +76,6 @@
     "T1070.002"
   ],
   "input_arguments": [
-    {
-      "name": "system_log_name1",
-      "type": "string",
-      "description": "name or prefix of system log to delete.",
-      "value": "system.log"
-    },
     {
       "name": "system_log_name2",
       "type": "string",
@@ -93,6 +87,12 @@
       "type": "string",
       "description": "name or prefix of system log to delete.",
       "value": "system.log.98.gz"
+    },
+    {
+      "name": "system_log_name1",
+      "type": "string",
+      "description": "name or prefix of system log to delete.",
+      "value": "system.log"
     }
   ]
 }

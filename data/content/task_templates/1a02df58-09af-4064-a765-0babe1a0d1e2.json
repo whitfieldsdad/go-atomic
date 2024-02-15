@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "c31f2fc4-91e8-4e5f-a417-41624fbc64ac",
+      "id": "b544be4f-f656-5f5a-8c01-0a38efa436f4",
       "type": "execute-command",
       "data": {
         "command": "$imewdbled = $env:SystemRoot + \"\\System32\\IME\\SHARED\\IMEWDBLD.exe\"\n\u0026 $imewdbled #{remote_url}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "e736b467-9831-419e-9870-9e7fa3b59399",
+      "id": "9c7af249-3cce-539c-a3cd-eaa98dc600c5",
       "type": "execute-command",
       "data": {
         "command": "$inetcache = $env:LOCALAPPDATA + \"\\Microsoft\\Windows\\INetCache\\\" \n$file_to_be_removed = [string[]] (Get-ChildItem -Path $inetcache -Include #{file_name}* -Recurse -Force -File -ErrorAction SilentlyContinue)\nif(\"\" -ne \"$file_to_be_removed\") { Remove-Item \"$file_to_be_removed\" -ErrorAction Ignore }",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "c31f2fc4-91e8-4e5f-a417-41624fbc64ac",
+      "s": "b544be4f-f656-5f5a-8c01-0a38efa436f4",
       "p": "on-success",
-      "o": "e736b467-9831-419e-9870-9e7fa3b59399"
+      "o": "9c7af249-3cce-539c-a3cd-eaa98dc600c5"
     },
     {
-      "s": "c31f2fc4-91e8-4e5f-a417-41624fbc64ac",
+      "s": "b544be4f-f656-5f5a-8c01-0a38efa436f4",
       "p": "on-failure",
-      "o": "e736b467-9831-419e-9870-9e7fa3b59399"
+      "o": "9c7af249-3cce-539c-a3cd-eaa98dc600c5"
     }
   ],
   "tags": [
@@ -42,16 +42,16 @@
   ],
   "input_arguments": [
     {
-      "name": "file_name",
-      "type": "string",
-      "description": "Name of the file to be downloaded without extension.",
-      "value": "T1105"
-    },
-    {
       "name": "remote_url",
       "type": "url",
       "description": "Location of file to be downloaded.",
       "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1105/T1105.yaml"
+    },
+    {
+      "name": "file_name",
+      "type": "string",
+      "description": "Name of the file to be downloaded without extension.",
+      "value": "T1105"
     }
   ]
 }
