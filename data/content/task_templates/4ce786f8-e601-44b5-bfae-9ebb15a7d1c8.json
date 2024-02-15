@@ -96,6 +96,18 @@
   ],
   "input_arguments": [
     {
+      "name": "cleanup_command",
+      "type": "string",
+      "description": "Command to enable syslog collection. Default newer rsyslog commands. i.e older command = service rsyslog start ; chkconfig rsyslog on",
+      "value": "systemctl start rsyslog ; systemctl enable rsyslog"
+    },
+    {
+      "name": "flavor_command",
+      "type": "string",
+      "description": "Command to disable syslog collection. Default newer rsyslog commands. i.e older command = service rsyslog stop ; chkconfig off rsyslog",
+      "value": "systemctl stop rsyslog ; systemctl disable rsyslog"
+    },
+    {
       "name": "package_checker",
       "type": "string",
       "description": "Package checking command for linux.",
@@ -106,18 +118,6 @@
       "type": "string",
       "description": "Package installer command for linux. Default yum",
       "value": "(which yum \u0026\u0026 yum -y install epel-release rsyslog)||(which apt-get \u0026\u0026 apt-get install -y rsyslog)"
-    },
-    {
-      "name": "flavor_command",
-      "type": "string",
-      "description": "Command to disable syslog collection. Default newer rsyslog commands. i.e older command = service rsyslog stop ; chkconfig off rsyslog",
-      "value": "systemctl stop rsyslog ; systemctl disable rsyslog"
-    },
-    {
-      "name": "cleanup_command",
-      "type": "string",
-      "description": "Command to enable syslog collection. Default newer rsyslog commands. i.e older command = service rsyslog start ; chkconfig rsyslog on",
-      "value": "systemctl start rsyslog ; systemctl enable rsyslog"
     }
   ]
 }

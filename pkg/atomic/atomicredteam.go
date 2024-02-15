@@ -3,6 +3,7 @@ package atomic
 import (
 	"fmt"
 	"os"
+	"sort"
 	"strings"
 
 	"github.com/charmbracelet/log"
@@ -70,7 +71,16 @@ func (t AtomicRedTeamTest) GetArgs() map[string]interface{} {
 
 func (t AtomicRedTeamTest) GetTaskTemplate() (*TaskTemplate, error) {
 	var args []InputArgument
-	for k, argspec := range t.InputArguments {
+
+	// To ensure a consistent order of input arguments, we sort them by key.
+	keys := make([]string, 0, len(t.InputArguments))
+	for k := range t.InputArguments {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+
+	for _, k := range keys {
+		argspec := t.InputArguments[k]
 		arg := InputArgument{
 			Name:        k,
 			Type:        ArgumentType(argspec.Type),
@@ -80,6 +90,7 @@ func (t AtomicRedTeamTest) GetTaskTemplate() (*TaskTemplate, error) {
 		args = append(args, arg)
 	}
 
+	// Tag tasks with ATT&CK technique and sub-technique IDs (e.g. T1003.001 -> [T1003, T1003.001]).
 	tags := make([]string, 0)
 	if strings.Contains(t.AttackTechniqueId, ".") {
 		parentTechniqueId := strings.Split(t.AttackTechniqueId, ".")[0]
@@ -158,7 +169,7 @@ func (t AtomicRedTeamTest) GetTaskTemplate() (*TaskTemplate, error) {
 			Platforms:   t.Platforms,
 			Steps:       steps,
 			Flows:       flows,
-			Tags: tags,
+			Tags:        tags,
 		},
 		InputArguments: args,
 	}
