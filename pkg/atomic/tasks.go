@@ -35,15 +35,19 @@ func NewFlow(s string, p FlowType, o string) Flow {
 	}
 }
 
+type TaskMetadata struct {
+	Id          string   `json:"id" mapstructure:"id"`
+	Name        string   `json:"name" mapstructure:"name"`
+	Description string   `json:"description" mapstructure:"description"`
+	Platforms   []string `json:"platforms" mapstructure:"platforms"`
+	Steps       []Step   `json:"steps" mapstructure:"steps"`
+	Flows       []Flow   `json:"flows" mapstructure:"flows"`
+	Tags        []string `json:"tags" mapstructure:"tags"`
+}
+
 type TaskTemplate struct {
-	Id             string          `json:"id"`
-	Name           string          `json:"name,omitempty"`
-	Description    string          `json:"description,omitempty"`
-	Platforms      []string        `json:"platforms,omitempty"`
-	Steps          []Step          `json:"steps"`
-	Flows          []Flow          `json:"flows,omitempty"`
-	Tags           []string        `json:"tags,omitempty"`
-	InputArguments []InputArgument `json:"input_arguments,omitempty"`
+	TaskMetadata   `json:",inline"`
+	InputArguments []InputArgument `json:"input_arguments" mapstructure:"input_arguments"`
 }
 
 func (t TaskTemplate) GetAttackTechniqueIds() []string {
@@ -119,25 +123,17 @@ func (t TaskTemplate) GetTask(args map[string]interface{}) (*Task, error) {
 			}
 		}
 	}
-	return &Task{
-		Id:          id,
-		TemplateId:  t.Id,
-		Name:        t.Name,
-		Description: t.Description,
-		Platforms:   t.Platforms,
-		Steps:       t.Steps,
-	}, nil
+	task := &Task{
+		TaskMetadata: t.TaskMetadata,
+		TemplateId:   t.Id,
+	}
+	task.Id = id
+	return task, nil
 }
 
 type Task struct {
-	Id          string   `json:"id"`
-	TemplateId  string   `json:"template_id"`
-	Name        string   `json:"name,omitempty"`
-	Description string   `json:"description,omitempty"`
-	Platforms   []string `json:"platforms,omitempty"`
-	Steps       []Step   `json:"steps"`
-	Flows       []Flow   `json:"flows,omitempty"`
-	Tags        []string `json:"tags,omitempty"`
+	TaskMetadata `json:",inline"`
+	TemplateId   string `json:"template_id"`
 }
 
 func (t Task) IsElevationRequired() bool {

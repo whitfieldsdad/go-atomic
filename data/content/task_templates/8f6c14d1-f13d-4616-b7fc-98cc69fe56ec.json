@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e89b1fe6-f1fa-4e33-a4ba-45933bd43a22",
+      "id": "e021eddb-e410-447b-b977-edf4d0b662cb",
       "type": "execute-command",
       "data": {
         "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\nGet-VMHostService -VMHost #{vm_host} | Where-Object {$_.Key -eq \"TSM-SSH\" } | Start-VMHostService -Confirm:$false",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "d3a6e13c-8259-43cc-b5bf-4f22811311fc",
+      "id": "058e1775-a803-4510-a932-9e208ededdb0",
       "type": "execute-command",
       "data": {
         "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\nGet-VMHostService -VMHost #{vm_host} | Where-Object {$_.Key -eq \"TSM-SSH\" } | Stop-VMHostService -Confirm:$false",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "2f93c061-d942-48cc-9265-a8cf3b764304",
+      "id": "c0dce3d8-5dfb-4480-aa43-e6feeee2ae75",
       "name": "Check dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "cd8b423d-8208-4795-a85e-e475553b2cf8",
+      "id": "860549a1-5bea-4716-bb59-836eeca54c33",
       "name": "Resolve dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "6917bce7-72ec-404a-9a9e-ba92c2d0c1f2",
+      "id": "b9f1af93-c42a-4a2e-a5fc-121bf0e3cacc",
       "name": "Re-check dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "e89b1fe6-f1fa-4e33-a4ba-45933bd43a22",
+      "s": "e021eddb-e410-447b-b977-edf4d0b662cb",
       "p": "on-success",
-      "o": "d3a6e13c-8259-43cc-b5bf-4f22811311fc"
+      "o": "058e1775-a803-4510-a932-9e208ededdb0"
     },
     {
-      "s": "e89b1fe6-f1fa-4e33-a4ba-45933bd43a22",
+      "s": "e021eddb-e410-447b-b977-edf4d0b662cb",
       "p": "on-failure",
-      "o": "d3a6e13c-8259-43cc-b5bf-4f22811311fc"
+      "o": "058e1775-a803-4510-a932-9e208ededdb0"
     },
     {
-      "s": "2f93c061-d942-48cc-9265-a8cf3b764304",
+      "s": "c0dce3d8-5dfb-4480-aa43-e6feeee2ae75",
       "p": "on-success",
-      "o": "e89b1fe6-f1fa-4e33-a4ba-45933bd43a22"
+      "o": "e021eddb-e410-447b-b977-edf4d0b662cb"
     },
     {
-      "s": "2f93c061-d942-48cc-9265-a8cf3b764304",
+      "s": "c0dce3d8-5dfb-4480-aa43-e6feeee2ae75",
       "p": "on-failure",
-      "o": "cd8b423d-8208-4795-a85e-e475553b2cf8"
+      "o": "860549a1-5bea-4716-bb59-836eeca54c33"
     },
     {
-      "s": "cd8b423d-8208-4795-a85e-e475553b2cf8",
+      "s": "860549a1-5bea-4716-bb59-836eeca54c33",
       "p": "on-success",
-      "o": "6917bce7-72ec-404a-9a9e-ba92c2d0c1f2"
+      "o": "b9f1af93-c42a-4a2e-a5fc-121bf0e3cacc"
     },
     {
-      "s": "6917bce7-72ec-404a-9a9e-ba92c2d0c1f2",
+      "s": "b9f1af93-c42a-4a2e-a5fc-121bf0e3cacc",
       "p": "on-failure",
-      "o": "e89b1fe6-f1fa-4e33-a4ba-45933bd43a22"
+      "o": "e021eddb-e410-447b-b977-edf4d0b662cb"
     }
   ],
   "tags": [
@@ -95,6 +95,12 @@
     "T1021.004"
   ],
   "input_arguments": [
+    {
+      "name": "vm_pass",
+      "type": "string",
+      "description": "Specify the privilege user password on ESXi Server",
+      "value": "pass"
+    },
     {
       "name": "vm_host",
       "type": "string",
@@ -106,12 +112,6 @@
       "type": "string",
       "description": "Specify the privilege user account on ESXi Server",
       "value": "root"
-    },
-    {
-      "name": "vm_pass",
-      "type": "string",
-      "description": "Specify the privilege user password on ESXi Server",
-      "value": "pass"
     }
   ]
 }

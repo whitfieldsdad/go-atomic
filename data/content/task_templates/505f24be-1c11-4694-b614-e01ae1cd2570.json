@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "13061901-99e9-4046-ab3f-f32dee4b58e1",
+      "id": "f4c033d9-65dc-40de-bd36-1757e5770814",
       "type": "execute-command",
       "data": {
         "command": "copy c:\\windows\\system32\\calc.exe 'C:\\users\\#{user}\\AppData\\local\\Microsoft\\WindowsApps\\foxprow.exe'\n$com = [System.Activator]::CreateInstance([type]::GetTypeFromProgID(\"Excel.Application\",\"#{computer_name}\"))\n$com.ActivateMicrosoftApp(\"5\")",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "70245b79-76c2-4636-9935-56c663d5ff88",
+      "id": "d50127b1-0ee2-452d-87ed-8cd94e729466",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item 'C:\\users\\#{user}\\AppData\\local\\Microsoft\\WindowsApps\\foxprow.exe'",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "632a8f7a-c18b-4a24-bfc7-d20424a60f4e",
+      "id": "8bbccba5-404f-4cf3-b9bb-239cd0d6a45f",
       "name": "Check dependency 1/1",
       "description": "Microsoft Excel must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "3df6cb75-e01e-4820-867c-28b533d04187",
+      "id": "449a44b1-1c60-4907-8787-0f16ac665906",
       "name": "Resolve dependency 1/1",
       "description": "Microsoft Excel must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "79180b06-9b71-4a19-a232-89eb96164df3",
+      "id": "f9980fbc-2801-4036-bffa-839dec422831",
       "name": "Re-check dependency 1/1",
       "description": "Microsoft Excel must be installed\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "13061901-99e9-4046-ab3f-f32dee4b58e1",
+      "s": "f4c033d9-65dc-40de-bd36-1757e5770814",
       "p": "on-success",
-      "o": "70245b79-76c2-4636-9935-56c663d5ff88"
+      "o": "d50127b1-0ee2-452d-87ed-8cd94e729466"
     },
     {
-      "s": "13061901-99e9-4046-ab3f-f32dee4b58e1",
+      "s": "f4c033d9-65dc-40de-bd36-1757e5770814",
       "p": "on-failure",
-      "o": "70245b79-76c2-4636-9935-56c663d5ff88"
+      "o": "d50127b1-0ee2-452d-87ed-8cd94e729466"
     },
     {
-      "s": "632a8f7a-c18b-4a24-bfc7-d20424a60f4e",
+      "s": "8bbccba5-404f-4cf3-b9bb-239cd0d6a45f",
       "p": "on-success",
-      "o": "13061901-99e9-4046-ab3f-f32dee4b58e1"
+      "o": "f4c033d9-65dc-40de-bd36-1757e5770814"
     },
     {
-      "s": "632a8f7a-c18b-4a24-bfc7-d20424a60f4e",
+      "s": "8bbccba5-404f-4cf3-b9bb-239cd0d6a45f",
       "p": "on-failure",
-      "o": "3df6cb75-e01e-4820-867c-28b533d04187"
+      "o": "449a44b1-1c60-4907-8787-0f16ac665906"
     },
     {
-      "s": "3df6cb75-e01e-4820-867c-28b533d04187",
+      "s": "449a44b1-1c60-4907-8787-0f16ac665906",
       "p": "on-success",
-      "o": "79180b06-9b71-4a19-a232-89eb96164df3"
+      "o": "f9980fbc-2801-4036-bffa-839dec422831"
     },
     {
-      "s": "79180b06-9b71-4a19-a232-89eb96164df3",
+      "s": "f9980fbc-2801-4036-bffa-839dec422831",
       "p": "on-failure",
-      "o": "13061901-99e9-4046-ab3f-f32dee4b58e1"
+      "o": "f4c033d9-65dc-40de-bd36-1757e5770814"
     }
   ],
   "tags": [
@@ -96,16 +96,16 @@
   ],
   "input_arguments": [
     {
-      "name": "user",
-      "type": "string",
-      "description": "Name of user",
-      "value": "admin"
-    },
-    {
       "name": "computer_name",
       "type": "string",
       "description": "Hostname or IP",
       "value": "localhost"
+    },
+    {
+      "name": "user",
+      "type": "string",
+      "description": "Name of user",
+      "value": "admin"
     }
   ]
 }

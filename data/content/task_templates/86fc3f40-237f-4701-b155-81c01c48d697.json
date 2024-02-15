@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "cc893383-5c4c-4704-a697-92ca72cf380e",
+      "id": "935a00e1-1fea-4da0-9d7e-23f5131a4d26",
       "type": "execute-command",
       "data": {
         "command": "#{xordump_exe} -out #{output_file} -x 0x41",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "0b9969b3-943b-469d-8049-4516dea4f6fd",
+      "id": "062f38b4-bbb3-4737-bab4-0a6de21ef152",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item #{output_file} -ErrorAction Ignore",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "1e2f0204-34f4-4500-bf90-5a8f65640af8",
+      "id": "ca6327b4-7b38-4814-9d90-701697ad5ca1",
       "name": "Check dependency 1/1",
       "description": "Computer must have xordump.exe\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "5b1ea7e3-473f-4c0d-8f32-bc496875a83d",
+      "id": "8e513b49-0c81-411f-894a-97d2405d0048",
       "name": "Resolve dependency 1/1",
       "description": "Computer must have xordump.exe\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "6e95ec75-33aa-4453-af90-fe1acd1b939c",
+      "id": "6cb3c20b-cf55-4d93-aca6-98b91d62b9c3",
       "name": "Re-check dependency 1/1",
       "description": "Computer must have xordump.exe\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "cc893383-5c4c-4704-a697-92ca72cf380e",
+      "s": "935a00e1-1fea-4da0-9d7e-23f5131a4d26",
       "p": "on-success",
-      "o": "0b9969b3-943b-469d-8049-4516dea4f6fd"
+      "o": "062f38b4-bbb3-4737-bab4-0a6de21ef152"
     },
     {
-      "s": "cc893383-5c4c-4704-a697-92ca72cf380e",
+      "s": "935a00e1-1fea-4da0-9d7e-23f5131a4d26",
       "p": "on-failure",
-      "o": "0b9969b3-943b-469d-8049-4516dea4f6fd"
+      "o": "062f38b4-bbb3-4737-bab4-0a6de21ef152"
     },
     {
-      "s": "1e2f0204-34f4-4500-bf90-5a8f65640af8",
+      "s": "ca6327b4-7b38-4814-9d90-701697ad5ca1",
       "p": "on-success",
-      "o": "cc893383-5c4c-4704-a697-92ca72cf380e"
+      "o": "935a00e1-1fea-4da0-9d7e-23f5131a4d26"
     },
     {
-      "s": "1e2f0204-34f4-4500-bf90-5a8f65640af8",
+      "s": "ca6327b4-7b38-4814-9d90-701697ad5ca1",
       "p": "on-failure",
-      "o": "5b1ea7e3-473f-4c0d-8f32-bc496875a83d"
+      "o": "8e513b49-0c81-411f-894a-97d2405d0048"
     },
     {
-      "s": "5b1ea7e3-473f-4c0d-8f32-bc496875a83d",
+      "s": "8e513b49-0c81-411f-894a-97d2405d0048",
       "p": "on-success",
-      "o": "6e95ec75-33aa-4453-af90-fe1acd1b939c"
+      "o": "6cb3c20b-cf55-4d93-aca6-98b91d62b9c3"
     },
     {
-      "s": "6e95ec75-33aa-4453-af90-fe1acd1b939c",
+      "s": "6cb3c20b-cf55-4d93-aca6-98b91d62b9c3",
       "p": "on-failure",
-      "o": "cc893383-5c4c-4704-a697-92ca72cf380e"
+      "o": "935a00e1-1fea-4da0-9d7e-23f5131a4d26"
     }
   ],
   "tags": [
@@ -96,16 +96,16 @@
   ],
   "input_arguments": [
     {
-      "name": "xordump_exe",
-      "type": "path",
-      "description": "Path to xordump",
-      "value": "C:\\Windows\\Temp\\xordump.exe"
-    },
-    {
       "name": "output_file",
       "type": "path",
       "description": "Path where resulting dump should be placed",
       "value": "C:\\Windows\\Temp\\lsass-xordump.t1003.001.dmp"
+    },
+    {
+      "name": "xordump_exe",
+      "type": "path",
+      "description": "Path to xordump",
+      "value": "C:\\Windows\\Temp\\xordump.exe"
     }
   ]
 }

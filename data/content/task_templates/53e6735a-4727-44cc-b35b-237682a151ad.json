@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "c14e51d7-9bfd-4bac-bfc6-a853ad52e9d7",
+      "id": "04e34e75-eb96-424d-ab7e-e8518603ae07",
       "type": "execute-command",
       "data": {
         "command": "$which_7z a -p#{pwd_for_encrypted_file} #{encrypted_file_path} #{input_file_path}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "87e935a2-ac36-41ed-8b15-73c0a54a9e8e",
+      "id": "1b38978c-0b22-4f4d-a7f3-ab06afed3f0c",
       "type": "execute-command",
       "data": {
         "command": "$which_7z e #{encrypted_file_path}\nrm #{encrypted_file_path}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "5b1a4d37-8d3f-40b0-978b-6d7de0637115",
+      "id": "88131707-e681-44cc-a9ae-2e5385c3fa6e",
       "name": "Check dependency 1/1",
       "description": "Finds where 7z is located\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "b715426d-817e-4afc-8270-8f0090ad0e8d",
+      "id": "fd549e48-eb8e-4e87-aa66-14e36c91e764",
       "name": "Resolve dependency 1/1",
       "description": "Finds where 7z is located\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "27c4df52-b330-42e5-b3c1-9c102f862341",
+      "id": "0f33aae5-f9a8-4fae-9118-b4d725de5742",
       "name": "Re-check dependency 1/1",
       "description": "Finds where 7z is located\n",
       "type": "execute-command",
@@ -60,46 +60,40 @@
   ],
   "flows": [
     {
-      "s": "c14e51d7-9bfd-4bac-bfc6-a853ad52e9d7",
+      "s": "04e34e75-eb96-424d-ab7e-e8518603ae07",
       "p": "on-success",
-      "o": "87e935a2-ac36-41ed-8b15-73c0a54a9e8e"
+      "o": "1b38978c-0b22-4f4d-a7f3-ab06afed3f0c"
     },
     {
-      "s": "c14e51d7-9bfd-4bac-bfc6-a853ad52e9d7",
+      "s": "04e34e75-eb96-424d-ab7e-e8518603ae07",
       "p": "on-failure",
-      "o": "87e935a2-ac36-41ed-8b15-73c0a54a9e8e"
+      "o": "1b38978c-0b22-4f4d-a7f3-ab06afed3f0c"
     },
     {
-      "s": "5b1a4d37-8d3f-40b0-978b-6d7de0637115",
+      "s": "88131707-e681-44cc-a9ae-2e5385c3fa6e",
       "p": "on-success",
-      "o": "c14e51d7-9bfd-4bac-bfc6-a853ad52e9d7"
+      "o": "04e34e75-eb96-424d-ab7e-e8518603ae07"
     },
     {
-      "s": "5b1a4d37-8d3f-40b0-978b-6d7de0637115",
+      "s": "88131707-e681-44cc-a9ae-2e5385c3fa6e",
       "p": "on-failure",
-      "o": "b715426d-817e-4afc-8270-8f0090ad0e8d"
+      "o": "fd549e48-eb8e-4e87-aa66-14e36c91e764"
     },
     {
-      "s": "b715426d-817e-4afc-8270-8f0090ad0e8d",
+      "s": "fd549e48-eb8e-4e87-aa66-14e36c91e764",
       "p": "on-success",
-      "o": "27c4df52-b330-42e5-b3c1-9c102f862341"
+      "o": "0f33aae5-f9a8-4fae-9118-b4d725de5742"
     },
     {
-      "s": "27c4df52-b330-42e5-b3c1-9c102f862341",
+      "s": "0f33aae5-f9a8-4fae-9118-b4d725de5742",
       "p": "on-failure",
-      "o": "c14e51d7-9bfd-4bac-bfc6-a853ad52e9d7"
+      "o": "04e34e75-eb96-424d-ab7e-e8518603ae07"
     }
   ],
   "tags": [
     "T1486"
   ],
   "input_arguments": [
-    {
-      "name": "input_file_path",
-      "type": "path",
-      "description": "path to the file that you want to encrypt",
-      "value": "/etc/passwd"
-    },
     {
       "name": "pwd_for_encrypted_file",
       "type": "string",
@@ -111,6 +105,12 @@
       "type": "path",
       "description": "path to the encrypted file",
       "value": "/tmp/passwd.zip"
+    },
+    {
+      "name": "input_file_path",
+      "type": "path",
+      "description": "path to the file that you want to encrypt",
+      "value": "/etc/passwd"
     }
   ]
 }

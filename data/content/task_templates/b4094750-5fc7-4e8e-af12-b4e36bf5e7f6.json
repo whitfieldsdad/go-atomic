@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1e6b2f7c-dc68-4e75-902b-40bee534af57",
+      "id": "2d9a5b95-c696-4057-82d0-d6b4941375d7",
       "type": "execute-command",
       "data": {
         "command": "Invoke-ATHCompiledHelp -InfoTechStorageHandler #{infotech_storage_handler} -HHFilePath #{hh_file_path} -CHMFilePath #{chm_file_path}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "d0bdd48b-d1ae-4566-b6e1-4377a522f36b",
+      "id": "68321011-bc01-420e-94ca-92a917b98f50",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHCompiledHelp must be exported in the module.",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "ae7cc0e8-044f-42cd-a3a8-e7caa541da95",
+      "id": "2dbe1b5a-82c6-403a-b210-8c61d48ea3b8",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHCompiledHelp must be exported in the module.",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "2d979dfa-79be-4e48-83da-cdcf9b3375bd",
+      "id": "8e02c68e-81e6-4921-bb37-f86f140c5d1b",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHCompiledHelp must be exported in the module.",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "d0bdd48b-d1ae-4566-b6e1-4377a522f36b",
+      "s": "68321011-bc01-420e-94ca-92a917b98f50",
       "p": "on-success",
-      "o": "1e6b2f7c-dc68-4e75-902b-40bee534af57"
+      "o": "2d9a5b95-c696-4057-82d0-d6b4941375d7"
     },
     {
-      "s": "d0bdd48b-d1ae-4566-b6e1-4377a522f36b",
+      "s": "68321011-bc01-420e-94ca-92a917b98f50",
       "p": "on-failure",
-      "o": "ae7cc0e8-044f-42cd-a3a8-e7caa541da95"
+      "o": "2dbe1b5a-82c6-403a-b210-8c61d48ea3b8"
     },
     {
-      "s": "ae7cc0e8-044f-42cd-a3a8-e7caa541da95",
+      "s": "2dbe1b5a-82c6-403a-b210-8c61d48ea3b8",
       "p": "on-success",
-      "o": "2d979dfa-79be-4e48-83da-cdcf9b3375bd"
+      "o": "8e02c68e-81e6-4921-bb37-f86f140c5d1b"
     },
     {
-      "s": "2d979dfa-79be-4e48-83da-cdcf9b3375bd",
+      "s": "8e02c68e-81e6-4921-bb37-f86f140c5d1b",
       "p": "on-failure",
-      "o": "1e6b2f7c-dc68-4e75-902b-40bee534af57"
+      "o": "2d9a5b95-c696-4057-82d0-d6b4941375d7"
     }
   ],
   "tags": [
@@ -76,6 +76,12 @@
     "T1218.001"
   ],
   "input_arguments": [
+    {
+      "name": "hh_file_path",
+      "type": "path",
+      "description": "path of modified HH.exe",
+      "value": "$env:windir\\hh.exe"
+    },
     {
       "name": "infotech_storage_handler",
       "type": "string",
@@ -87,12 +93,6 @@
       "type": "string",
       "description": "Default path of CHM",
       "value": "Test.chm"
-    },
-    {
-      "name": "hh_file_path",
-      "type": "path",
-      "description": "path of modified HH.exe",
-      "value": "$env:windir\\hh.exe"
     }
   ]
 }

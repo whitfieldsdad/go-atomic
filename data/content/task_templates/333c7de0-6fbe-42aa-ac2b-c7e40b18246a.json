@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "810a9fc6-9287-437d-a1e6-08f35113a92f",
+      "id": "8fcc44da-684b-4c68-8280-b345ba373632",
       "type": "execute-command",
       "data": {
         "command": "sc.exe create #{service_name} binPath= \"#{executable_command}\"\nsc sdset #{service_name} \"D:(D;;DCLCWPDTSD;;;IU)(D;;DCLCWPDTSD;;;SU)(D;;DCLCWPDTSD;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)\"",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "9fd0d92e-1eb4-4089-a5b9-55ac5ee886da",
+      "id": "22a8228a-a19c-407b-85ce-edf8854d7fcb",
       "type": "execute-command",
       "data": {
         "command": "sc sdset #{service_name} \"D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)\"\nsc.exe delete #{service_name}",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "810a9fc6-9287-437d-a1e6-08f35113a92f",
+      "s": "8fcc44da-684b-4c68-8280-b345ba373632",
       "p": "on-success",
-      "o": "9fd0d92e-1eb4-4089-a5b9-55ac5ee886da"
+      "o": "22a8228a-a19c-407b-85ce-edf8854d7fcb"
     },
     {
-      "s": "810a9fc6-9287-437d-a1e6-08f35113a92f",
+      "s": "8fcc44da-684b-4c68-8280-b345ba373632",
       "p": "on-failure",
-      "o": "9fd0d92e-1eb4-4089-a5b9-55ac5ee886da"
+      "o": "22a8228a-a19c-407b-85ce-edf8854d7fcb"
     }
   ],
   "tags": [

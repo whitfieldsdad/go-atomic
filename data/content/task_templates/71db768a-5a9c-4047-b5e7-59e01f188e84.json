@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "d7b2d56d-5e7a-4664-b542-ca15b72dd1f8",
+      "id": "c25d40ae-d505-4527-be97-caaa9160b8b1",
       "type": "execute-command",
       "data": {
         "command": "reg add HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer /v DisallowRun /t REG_DWORD /d 1 /f\nreg add HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\DisallowRun /f /t REG_SZ /v art1 /d \"regedit.exe\"\nreg add HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\DisallowRun /f /t REG_SZ /v art2 /d \"cmd.exe\"",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "9ae4f8e9-a105-47fe-b0b2-eac0c25465b9",
+      "id": "12e0bd89-6581-4777-a79c-84316f14faf0",
       "type": "execute-command",
       "data": {
         "command": "reg delete HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer /v DisallowRun /f \u003enul 2\u003e\u00261\nreg delete HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\DisallowRun /v art1 /f \u003enul 2\u003e\u00261\nreg delete HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\DisallowRun /v art2 /f \u003enul 2\u003e\u00261",
@@ -27,17 +27,18 @@
   ],
   "flows": [
     {
-      "s": "d7b2d56d-5e7a-4664-b542-ca15b72dd1f8",
+      "s": "c25d40ae-d505-4527-be97-caaa9160b8b1",
       "p": "on-success",
-      "o": "9ae4f8e9-a105-47fe-b0b2-eac0c25465b9"
+      "o": "12e0bd89-6581-4777-a79c-84316f14faf0"
     },
     {
-      "s": "d7b2d56d-5e7a-4664-b542-ca15b72dd1f8",
+      "s": "c25d40ae-d505-4527-be97-caaa9160b8b1",
       "p": "on-failure",
-      "o": "9ae4f8e9-a105-47fe-b0b2-eac0c25465b9"
+      "o": "12e0bd89-6581-4777-a79c-84316f14faf0"
     }
   ],
   "tags": [
     "T1112"
-  ]
+  ],
+  "input_arguments": null
 }

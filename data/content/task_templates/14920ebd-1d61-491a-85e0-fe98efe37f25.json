@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "cf528e18-5647-4838-8be1-5c3d7277f8eb",
+      "id": "a55d6267-2e62-496a-ae90-47df7d280a32",
       "type": "execute-command",
       "data": {
         "command": "Start-ATHProcessUnderSpecificParent -FilePath #{file_path} -CommandLine '#{command_line}' -ParentId #{parent_pid}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "723c5163-797f-4b88-a59b-cd1512099bd7",
+      "id": "0b4c110f-ac6b-4225-8f17-3b3e71854730",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "b59da31c-21de-4bb6-92c7-35fdb3bd6b69",
+      "id": "34ae6a19-32c4-42a9-bbe4-5e06a8ba0b7c",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "3223c4ae-64ee-4045-8cd5-6ec16947c3a3",
+      "id": "c123ad40-f059-4c8a-b21c-31cf186f60af",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Start-ATHProcessUnderSpecificParent must be exported in the module.",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "723c5163-797f-4b88-a59b-cd1512099bd7",
+      "s": "0b4c110f-ac6b-4225-8f17-3b3e71854730",
       "p": "on-success",
-      "o": "cf528e18-5647-4838-8be1-5c3d7277f8eb"
+      "o": "a55d6267-2e62-496a-ae90-47df7d280a32"
     },
     {
-      "s": "723c5163-797f-4b88-a59b-cd1512099bd7",
+      "s": "0b4c110f-ac6b-4225-8f17-3b3e71854730",
       "p": "on-failure",
-      "o": "b59da31c-21de-4bb6-92c7-35fdb3bd6b69"
+      "o": "34ae6a19-32c4-42a9-bbe4-5e06a8ba0b7c"
     },
     {
-      "s": "b59da31c-21de-4bb6-92c7-35fdb3bd6b69",
+      "s": "34ae6a19-32c4-42a9-bbe4-5e06a8ba0b7c",
       "p": "on-success",
-      "o": "3223c4ae-64ee-4045-8cd5-6ec16947c3a3"
+      "o": "c123ad40-f059-4c8a-b21c-31cf186f60af"
     },
     {
-      "s": "3223c4ae-64ee-4045-8cd5-6ec16947c3a3",
+      "s": "c123ad40-f059-4c8a-b21c-31cf186f60af",
       "p": "on-failure",
-      "o": "cf528e18-5647-4838-8be1-5c3d7277f8eb"
+      "o": "a55d6267-2e62-496a-ae90-47df7d280a32"
     }
   ],
   "tags": [
@@ -76,12 +76,6 @@
     "T1134.004"
   ],
   "input_arguments": [
-    {
-      "name": "command_line",
-      "type": "string",
-      "description": "Specified command line to use",
-      "value": "-Command Start-Sleep 10"
-    },
     {
       "name": "file_path",
       "type": "path",
@@ -93,6 +87,12 @@
       "type": "string",
       "description": "PID of process to spawn from",
       "value": "$PID"
+    },
+    {
+      "name": "command_line",
+      "type": "string",
+      "description": "Specified command line to use",
+      "value": "-Command Start-Sleep 10"
     }
   ]
 }

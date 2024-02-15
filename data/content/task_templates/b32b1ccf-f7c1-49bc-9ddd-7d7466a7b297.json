@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "8ab369d4-d166-4b03-a112-bc1c4712370d",
+      "id": "10e22386-3850-4b7d-806a-a6792e3b7ee0",
       "type": "execute-command",
       "data": {
         "command": "if (Test-Path \"#{falcond_path}\") {. \"#{falcond_path}\" /repair /uninstall /quiet } else { Get-ChildItem -Path \"C:\\ProgramData\\Package Cache\" -Include \"WindowsSensor.exe\" -Recurse | % { $sig=$(Get-AuthenticodeSignature -FilePath $_.FullName); if ($sig.Status -eq \"Valid\" -and $sig.SignerCertificate.DnsNameList -eq \"CrowdStrike, Inc.\") { . \"$_\" /repair /uninstall /quiet; break;}}}",
@@ -16,6 +16,7 @@
       "elevation_required": true
     }
   ],
+  "flows": [],
   "tags": [
     "T1562",
     "T1562.001"

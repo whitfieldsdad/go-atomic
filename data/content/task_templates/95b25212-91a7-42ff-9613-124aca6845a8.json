@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "679d33b5-ea3b-4bd1-8c5e-0f7ab6447f70",
+      "id": "6713fae6-fce4-4e3a-a080-bab26d0a8e8b",
       "type": "execute-command",
       "data": {
         "command": "reg  add HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\ModuleLogging /v EnableModuleLogging /t REG_DWORD /d 0 /f\nreg  add HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging /v EnableScriptBlockLogging /t REG_DWORD /d 0 /f\nreg  add HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription /v EnableTranscripting /t REG_DWORD /d 0 /f\nreg  add HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell /v EnableScripts /t REG_DWORD /d 0 /f\nREM do a little cleanup immediately to avoid execution issues with later tests\nreg delete HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell /v EnableScripts /f \u003enul 2\u003e\u00261",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "58a12776-a2d9-4182-bf35-932494104f1f",
+      "id": "393e3dd6-dc27-4420-8c3a-4b9fe77839d7",
       "type": "execute-command",
       "data": {
         "command": "reg delete HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\ModuleLogging /v EnableModuleLogging /f \u003enul 2\u003e\u00261\nreg delete HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging /v EnableScriptBlockLogging /f \u003enul 2\u003e\u00261\nreg delete HKCU\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription /v EnableTranscripting /f \u003enul 2\u003e\u00261",
@@ -27,17 +27,18 @@
   ],
   "flows": [
     {
-      "s": "679d33b5-ea3b-4bd1-8c5e-0f7ab6447f70",
+      "s": "6713fae6-fce4-4e3a-a080-bab26d0a8e8b",
       "p": "on-success",
-      "o": "58a12776-a2d9-4182-bf35-932494104f1f"
+      "o": "393e3dd6-dc27-4420-8c3a-4b9fe77839d7"
     },
     {
-      "s": "679d33b5-ea3b-4bd1-8c5e-0f7ab6447f70",
+      "s": "6713fae6-fce4-4e3a-a080-bab26d0a8e8b",
       "p": "on-failure",
-      "o": "58a12776-a2d9-4182-bf35-932494104f1f"
+      "o": "393e3dd6-dc27-4420-8c3a-4b9fe77839d7"
     }
   ],
   "tags": [
     "T1112"
-  ]
+  ],
+  "input_arguments": null
 }

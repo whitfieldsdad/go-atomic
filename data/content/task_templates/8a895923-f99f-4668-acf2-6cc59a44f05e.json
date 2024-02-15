@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f15f77ae-c830-4362-87be-e14ba3381edf",
+      "id": "ba22c917-f573-436b-a9f8-b98afcfa69bb",
       "type": "execute-command",
       "data": {
         "command": "docker build -t t1613  $PathtoAtomicsFolder/T1613/src/\ndocker run --name t1613_container  -d -t t1613\ndocker ps\ndocker stats --no-stream\ndocker inspect $(docker ps -l -q --filter ancestor=t1613)",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "eff175be-2757-4d37-ade9-918ae6999849",
+      "id": "c5d92e67-8371-4d45-9161-9596a966d4ef",
       "type": "execute-command",
       "data": {
         "command": "docker stop t1613_container\ndocker rmi -f t1613_container",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "79a0648b-f073-4bca-963d-fda7e367eba4",
+      "id": "7aa9ae00-07c1-44a4-8bca-5c8f0f9e5cbb",
       "name": "Check dependency 1/2",
       "description": "Verify docker is installed.",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "05f931f9-901e-4a1e-917d-96f60bf0e7ae",
+      "id": "2c75bd6e-3461-41b6-b5f8-bf4769e5b17a",
       "name": "Resolve dependency 1/2",
       "description": "Verify docker is installed.",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "30105062-1fbc-4998-bd3d-5c88fedb2586",
+      "id": "258b6f70-6821-4c9a-85e0-10b95c19c78d",
       "name": "Re-check dependency 1/2",
       "description": "Verify docker is installed.",
       "type": "execute-command",
@@ -58,7 +58,7 @@
       "elevation_required": false
     },
     {
-      "id": "cdfb3ae6-51f8-4530-b99b-fb61284b9f4f",
+      "id": "bd851262-ed16-4270-86d7-a3b0ad9e2471",
       "name": "Check dependency 2/2",
       "description": "Verify docker service is running.",
       "type": "execute-command",
@@ -69,7 +69,7 @@
       "elevation_required": false
     },
     {
-      "id": "32e9ca0f-cd68-4d0d-8eb3-5ed52e6649a3",
+      "id": "6de1716f-b2b4-4186-9f00-d16f1799684e",
       "name": "Resolve dependency 2/2",
       "description": "Verify docker service is running.",
       "type": "execute-command",
@@ -80,7 +80,7 @@
       "elevation_required": false
     },
     {
-      "id": "817d6c7b-14a0-4a13-8433-eafd281ea2b9",
+      "id": "51ed8661-f33b-4b1f-83c3-36fbbb8aa18b",
       "name": "Re-check dependency 2/2",
       "description": "Verify docker service is running.",
       "type": "execute-command",
@@ -93,57 +93,58 @@
   ],
   "flows": [
     {
-      "s": "f15f77ae-c830-4362-87be-e14ba3381edf",
+      "s": "ba22c917-f573-436b-a9f8-b98afcfa69bb",
       "p": "on-success",
-      "o": "eff175be-2757-4d37-ade9-918ae6999849"
+      "o": "c5d92e67-8371-4d45-9161-9596a966d4ef"
     },
     {
-      "s": "f15f77ae-c830-4362-87be-e14ba3381edf",
+      "s": "ba22c917-f573-436b-a9f8-b98afcfa69bb",
       "p": "on-failure",
-      "o": "eff175be-2757-4d37-ade9-918ae6999849"
+      "o": "c5d92e67-8371-4d45-9161-9596a966d4ef"
     },
     {
-      "s": "79a0648b-f073-4bca-963d-fda7e367eba4",
+      "s": "7aa9ae00-07c1-44a4-8bca-5c8f0f9e5cbb",
       "p": "on-success",
-      "o": "f15f77ae-c830-4362-87be-e14ba3381edf"
+      "o": "ba22c917-f573-436b-a9f8-b98afcfa69bb"
     },
     {
-      "s": "79a0648b-f073-4bca-963d-fda7e367eba4",
+      "s": "7aa9ae00-07c1-44a4-8bca-5c8f0f9e5cbb",
       "p": "on-failure",
-      "o": "05f931f9-901e-4a1e-917d-96f60bf0e7ae"
+      "o": "2c75bd6e-3461-41b6-b5f8-bf4769e5b17a"
     },
     {
-      "s": "05f931f9-901e-4a1e-917d-96f60bf0e7ae",
+      "s": "2c75bd6e-3461-41b6-b5f8-bf4769e5b17a",
       "p": "on-success",
-      "o": "30105062-1fbc-4998-bd3d-5c88fedb2586"
+      "o": "258b6f70-6821-4c9a-85e0-10b95c19c78d"
     },
     {
-      "s": "30105062-1fbc-4998-bd3d-5c88fedb2586",
+      "s": "258b6f70-6821-4c9a-85e0-10b95c19c78d",
       "p": "on-failure",
-      "o": "f15f77ae-c830-4362-87be-e14ba3381edf"
+      "o": "ba22c917-f573-436b-a9f8-b98afcfa69bb"
     },
     {
-      "s": "cdfb3ae6-51f8-4530-b99b-fb61284b9f4f",
+      "s": "bd851262-ed16-4270-86d7-a3b0ad9e2471",
       "p": "on-success",
-      "o": "f15f77ae-c830-4362-87be-e14ba3381edf"
+      "o": "ba22c917-f573-436b-a9f8-b98afcfa69bb"
     },
     {
-      "s": "cdfb3ae6-51f8-4530-b99b-fb61284b9f4f",
+      "s": "bd851262-ed16-4270-86d7-a3b0ad9e2471",
       "p": "on-failure",
-      "o": "32e9ca0f-cd68-4d0d-8eb3-5ed52e6649a3"
+      "o": "6de1716f-b2b4-4186-9f00-d16f1799684e"
     },
     {
-      "s": "32e9ca0f-cd68-4d0d-8eb3-5ed52e6649a3",
+      "s": "6de1716f-b2b4-4186-9f00-d16f1799684e",
       "p": "on-success",
-      "o": "817d6c7b-14a0-4a13-8433-eafd281ea2b9"
+      "o": "51ed8661-f33b-4b1f-83c3-36fbbb8aa18b"
     },
     {
-      "s": "817d6c7b-14a0-4a13-8433-eafd281ea2b9",
+      "s": "51ed8661-f33b-4b1f-83c3-36fbbb8aa18b",
       "p": "on-failure",
-      "o": "f15f77ae-c830-4362-87be-e14ba3381edf"
+      "o": "ba22c917-f573-436b-a9f8-b98afcfa69bb"
     }
   ],
   "tags": [
     "T1613"
-  ]
+  ],
+  "input_arguments": null
 }

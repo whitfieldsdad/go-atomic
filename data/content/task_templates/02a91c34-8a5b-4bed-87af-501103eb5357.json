@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ab7e0468-34d6-4438-bb53-f3fd450422a8",
+      "id": "bcbad883-2ac1-4016-ae9f-558282dc6328",
       "type": "execute-command",
       "data": {
         "command": "password=$(openssl passwd -1 art)\n([ \"$(uname)\" = 'Linux' ] \u0026\u0026 useradd --shell /bin/bash --create-home --password $password art) || (pw useradd art -g wheel -s /bin/sh \u0026\u0026 (echo $password | pw mod user testuser1 -h 0))\nsu art -c \"whoami; exit\"",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "75a6a516-3cda-4218-aeef-46d9474d89d7",
+      "id": "a7346529-7fcc-4118-b967-161429ff18aa",
       "type": "execute-command",
       "data": {
         "command": "[ \"$(uname)\" = 'Linux' ] \u0026\u0026 userdel art -rf || rmuser -y art",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "ab7e0468-34d6-4438-bb53-f3fd450422a8",
+      "s": "bcbad883-2ac1-4016-ae9f-558282dc6328",
       "p": "on-success",
-      "o": "75a6a516-3cda-4218-aeef-46d9474d89d7"
+      "o": "a7346529-7fcc-4118-b967-161429ff18aa"
     },
     {
-      "s": "ab7e0468-34d6-4438-bb53-f3fd450422a8",
+      "s": "bcbad883-2ac1-4016-ae9f-558282dc6328",
       "p": "on-failure",
-      "o": "75a6a516-3cda-4218-aeef-46d9474d89d7"
+      "o": "a7346529-7fcc-4118-b967-161429ff18aa"
     }
   ],
   "tags": [
     "T1078",
     "T1078.003"
-  ]
+  ],
+  "input_arguments": null
 }

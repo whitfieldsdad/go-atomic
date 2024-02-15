@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f4ea135b-70e0-4c90-9200-cefc25ab7cff",
+      "id": "1465062e-ea57-4ad2-96a3-564a063eb1b4",
       "type": "execute-command",
       "data": {
         "command": "cat /etc/passwd |grep nobody \n# -\u003e nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin\nchsh --shell /bin/bash nobody\nusermod --password $(openssl passwd -1 nobody) nobody\nsu nobody\nwhoami\nexit",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "5806c213-f9cf-462c-887b-4c66735bcd4a",
+      "id": "b2419c74-96aa-4611-a8c6-7309765e0a57",
       "type": "execute-command",
       "data": {
         "command": "chsh --shell /usr/sbin/nologin nobody\ncat /etc/passwd |grep nobody \n# -\u003e nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "f4ea135b-70e0-4c90-9200-cefc25ab7cff",
+      "s": "1465062e-ea57-4ad2-96a3-564a063eb1b4",
       "p": "on-success",
-      "o": "5806c213-f9cf-462c-887b-4c66735bcd4a"
+      "o": "b2419c74-96aa-4611-a8c6-7309765e0a57"
     },
     {
-      "s": "f4ea135b-70e0-4c90-9200-cefc25ab7cff",
+      "s": "1465062e-ea57-4ad2-96a3-564a063eb1b4",
       "p": "on-failure",
-      "o": "5806c213-f9cf-462c-887b-4c66735bcd4a"
+      "o": "b2419c74-96aa-4611-a8c6-7309765e0a57"
     }
   ],
   "tags": [
     "T1078",
     "T1078.003"
-  ]
+  ],
+  "input_arguments": null
 }

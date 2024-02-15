@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e538ab21-eda9-433f-a37d-ded839d3d91c",
+      "id": "94005b98-a31e-4129-9659-ad0226c27900",
       "type": "execute-command",
       "data": {
         "command": "sudo smbstatus --shares",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "2ada02ad-7f46-4991-868a-303bd34e64a3",
+      "id": "6e04f0e0-60e5-4364-8f6c-da6e448f0623",
       "name": "Check dependency 1/1",
       "description": "Package with smbstatus (samba) must exist on device\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": true
     },
     {
-      "id": "56a8562e-89f6-4fea-b423-857e98762c2d",
+      "id": "1320e5a5-ce00-4084-8c31-36d86025b11b",
       "name": "Resolve dependency 1/1",
       "description": "Package with smbstatus (samba) must exist on device\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": true
     },
     {
-      "id": "b6a3c9a2-4e1d-4469-888d-82bd2e09e08c",
+      "id": "ca87c856-0640-4791-a975-3c10ad36ae9f",
       "name": "Re-check dependency 1/1",
       "description": "Package with smbstatus (samba) must exist on device\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "2ada02ad-7f46-4991-868a-303bd34e64a3",
+      "s": "6e04f0e0-60e5-4364-8f6c-da6e448f0623",
       "p": "on-success",
-      "o": "e538ab21-eda9-433f-a37d-ded839d3d91c"
+      "o": "94005b98-a31e-4129-9659-ad0226c27900"
     },
     {
-      "s": "2ada02ad-7f46-4991-868a-303bd34e64a3",
+      "s": "6e04f0e0-60e5-4364-8f6c-da6e448f0623",
       "p": "on-failure",
-      "o": "56a8562e-89f6-4fea-b423-857e98762c2d"
+      "o": "1320e5a5-ce00-4084-8c31-36d86025b11b"
     },
     {
-      "s": "56a8562e-89f6-4fea-b423-857e98762c2d",
+      "s": "1320e5a5-ce00-4084-8c31-36d86025b11b",
       "p": "on-success",
-      "o": "b6a3c9a2-4e1d-4469-888d-82bd2e09e08c"
+      "o": "ca87c856-0640-4791-a975-3c10ad36ae9f"
     },
     {
-      "s": "b6a3c9a2-4e1d-4469-888d-82bd2e09e08c",
+      "s": "ca87c856-0640-4791-a975-3c10ad36ae9f",
       "p": "on-failure",
-      "o": "e538ab21-eda9-433f-a37d-ded839d3d91c"
+      "o": "94005b98-a31e-4129-9659-ad0226c27900"
     }
   ],
   "tags": [
@@ -76,16 +76,16 @@
   ],
   "input_arguments": [
     {
-      "name": "package_checker",
-      "type": "string",
-      "description": "Package checking command. Debian - dpkg -s samba",
-      "value": "(rpm -q samba \u0026\u003e/dev/null) || (dpkg -s samba | grep -q installed)"
-    },
-    {
       "name": "package_installer",
       "type": "string",
       "description": "Package installer command. Debian - apt install samba",
       "value": "(which yum \u0026\u0026 yum -y install epel-release samba)||(which apt-get \u0026\u0026 DEBIAN_FRONTEND=noninteractive apt-get install -y samba)"
+    },
+    {
+      "name": "package_checker",
+      "type": "string",
+      "description": "Package checking command. Debian - dpkg -s samba",
+      "value": "(rpm -q samba \u0026\u003e/dev/null) || (dpkg -s samba | grep -q installed)"
     }
   ]
 }

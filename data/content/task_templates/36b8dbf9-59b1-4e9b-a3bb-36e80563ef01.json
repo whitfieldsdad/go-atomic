@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "a1b9e6d5-b58d-451e-8f00-a8ca89d1ddb0",
+      "id": "941d30c0-dd89-47dd-9eb8-98c3d6b84e11",
       "type": "execute-command",
       "data": {
         "command": "$path = \"HKCU:\\Software\\Microsoft\\Command Processor\"\nif (!(Test-Path -path $path)){\n  New-Item -ItemType Key -Path $path\n}\nNew-ItemProperty -Path $path -Name \"AutoRun\" -Value \"#{command}\" -PropertyType \"String\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "daab6f2c-451d-4808-bdee-ca0ff4ff4c47",
+      "id": "c709d867-4b03-41ac-9c77-5891a54b6972",
       "type": "execute-command",
       "data": {
         "command": "Remove-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Command Processor\" -Name \"AutoRun\" -ErrorAction Ignore",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "a1b9e6d5-b58d-451e-8f00-a8ca89d1ddb0",
+      "s": "941d30c0-dd89-47dd-9eb8-98c3d6b84e11",
       "p": "on-success",
-      "o": "daab6f2c-451d-4808-bdee-ca0ff4ff4c47"
+      "o": "c709d867-4b03-41ac-9c77-5891a54b6972"
     },
     {
-      "s": "a1b9e6d5-b58d-451e-8f00-a8ca89d1ddb0",
+      "s": "941d30c0-dd89-47dd-9eb8-98c3d6b84e11",
       "p": "on-failure",
-      "o": "daab6f2c-451d-4808-bdee-ca0ff4ff4c47"
+      "o": "c709d867-4b03-41ac-9c77-5891a54b6972"
     }
   ],
   "tags": [

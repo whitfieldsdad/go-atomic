@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "8939a781-fe45-443c-bff9-d14e452b40a2",
+      "id": "4f8fbad6-6631-422a-b4fc-14f184c3fa82",
       "type": "execute-command",
       "data": {
         "command": "sudo rm #{journal_folder}/* #physically deletes the journal files, and not just their content\nsudo journalctl --vacuum-time=0 #clears the journal while still keeping the journal files in place",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "1b7c4910-3e1c-4c50-b282-ea1acf371125",
+      "id": "d47a5b10-ef8e-4beb-b479-39e13d3d36b6",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": true
     },
     {
-      "id": "6ac2f6dc-5476-40bc-a4c3-7685af5648d4",
+      "id": "e688a6f4-ee04-4b83-b71a-36a87c064253",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": true
     },
     {
-      "id": "de64d41e-30cf-4841-850c-c633a5b57a01",
+      "id": "d784e952-59ec-4647-994f-69da98263a67",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "1b7c4910-3e1c-4c50-b282-ea1acf371125",
+      "s": "d47a5b10-ef8e-4beb-b479-39e13d3d36b6",
       "p": "on-success",
-      "o": "8939a781-fe45-443c-bff9-d14e452b40a2"
+      "o": "4f8fbad6-6631-422a-b4fc-14f184c3fa82"
     },
     {
-      "s": "1b7c4910-3e1c-4c50-b282-ea1acf371125",
+      "s": "d47a5b10-ef8e-4beb-b479-39e13d3d36b6",
       "p": "on-failure",
-      "o": "6ac2f6dc-5476-40bc-a4c3-7685af5648d4"
+      "o": "e688a6f4-ee04-4b83-b71a-36a87c064253"
     },
     {
-      "s": "6ac2f6dc-5476-40bc-a4c3-7685af5648d4",
+      "s": "e688a6f4-ee04-4b83-b71a-36a87c064253",
       "p": "on-success",
-      "o": "de64d41e-30cf-4841-850c-c633a5b57a01"
+      "o": "d784e952-59ec-4647-994f-69da98263a67"
     },
     {
-      "s": "de64d41e-30cf-4841-850c-c633a5b57a01",
+      "s": "d784e952-59ec-4647-994f-69da98263a67",
       "p": "on-failure",
-      "o": "8939a781-fe45-443c-bff9-d14e452b40a2"
+      "o": "4f8fbad6-6631-422a-b4fc-14f184c3fa82"
     }
   ],
   "tags": [

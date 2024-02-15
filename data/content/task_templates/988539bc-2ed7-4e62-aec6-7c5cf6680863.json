@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "614fecfa-249a-4b28-9dbe-a040a0536edc",
+      "id": "1e90786f-1cba-4891-ac67-9982beaa47a1",
       "type": "execute-command",
       "data": {
         "command": "Add-Type -AssemblyName System.IdentityModel\n$ComputerFQDN=$env:LogonServer.trimStart('\\') + \".\" + $env:UserDnsDomain\nNew-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList \"HTTP/$ComputerFQDN\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "b3466845-d876-4bff-8deb-d696f4db9949",
+      "id": "f6e3d063-d2f1-4748-a958-0a6b299b15b8",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "bd69f186-ff0f-495f-94c0-d7da8b6bdf27",
+      "id": "feb2f61a-5229-4f9a-bf7c-45a8626ee13b",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "2e3df165-2a9e-46db-8455-d047e1959e96",
+      "id": "e23379d3-51ab-44b2-863a-892cf66a9c06",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -51,28 +51,29 @@
   ],
   "flows": [
     {
-      "s": "b3466845-d876-4bff-8deb-d696f4db9949",
+      "s": "f6e3d063-d2f1-4748-a958-0a6b299b15b8",
       "p": "on-success",
-      "o": "614fecfa-249a-4b28-9dbe-a040a0536edc"
+      "o": "1e90786f-1cba-4891-ac67-9982beaa47a1"
     },
     {
-      "s": "b3466845-d876-4bff-8deb-d696f4db9949",
+      "s": "f6e3d063-d2f1-4748-a958-0a6b299b15b8",
       "p": "on-failure",
-      "o": "bd69f186-ff0f-495f-94c0-d7da8b6bdf27"
+      "o": "feb2f61a-5229-4f9a-bf7c-45a8626ee13b"
     },
     {
-      "s": "bd69f186-ff0f-495f-94c0-d7da8b6bdf27",
+      "s": "feb2f61a-5229-4f9a-bf7c-45a8626ee13b",
       "p": "on-success",
-      "o": "2e3df165-2a9e-46db-8455-d047e1959e96"
+      "o": "e23379d3-51ab-44b2-863a-892cf66a9c06"
     },
     {
-      "s": "2e3df165-2a9e-46db-8455-d047e1959e96",
+      "s": "e23379d3-51ab-44b2-863a-892cf66a9c06",
       "p": "on-failure",
-      "o": "614fecfa-249a-4b28-9dbe-a040a0536edc"
+      "o": "1e90786f-1cba-4891-ac67-9982beaa47a1"
     }
   ],
   "tags": [
     "T1558",
     "T1558.003"
-  ]
+  ],
+  "input_arguments": null
 }

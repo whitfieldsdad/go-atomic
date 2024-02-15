@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "926d3388-abdd-4ba7-851a-64b63547c525",
+      "id": "b75cefcc-c4de-40f3-be3b-d20daed9478f",
       "type": "execute-command",
       "data": {
         "command": "ldapsearch -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{user} -w #{password} -b \"CN=Users,DC=#{domain},DC=#{top_level_domain}\" -s sub -a always -z 1000 dn",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "f4ca2c6f-6cac-401d-a937-e3d172771b86",
+      "id": "ab21ce31-ca1c-4ee2-92f4-fc2e5d6a483e",
       "name": "Check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapsearch\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "918a7335-7359-4cce-a78c-da0f515c5ca4",
+      "id": "65613b05-1502-44d8-aaf3-600ade9255da",
       "name": "Resolve dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapsearch\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "9ed40a27-4bca-4bb1-b480-94a478d9149e",
+      "id": "24020241-5e95-4ef8-8df5-8e02ba530235",
       "name": "Re-check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapsearch\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "f4ca2c6f-6cac-401d-a937-e3d172771b86",
+      "s": "ab21ce31-ca1c-4ee2-92f4-fc2e5d6a483e",
       "p": "on-success",
-      "o": "926d3388-abdd-4ba7-851a-64b63547c525"
+      "o": "b75cefcc-c4de-40f3-be3b-d20daed9478f"
     },
     {
-      "s": "f4ca2c6f-6cac-401d-a937-e3d172771b86",
+      "s": "ab21ce31-ca1c-4ee2-92f4-fc2e5d6a483e",
       "p": "on-failure",
-      "o": "918a7335-7359-4cce-a78c-da0f515c5ca4"
+      "o": "65613b05-1502-44d8-aaf3-600ade9255da"
     },
     {
-      "s": "918a7335-7359-4cce-a78c-da0f515c5ca4",
+      "s": "65613b05-1502-44d8-aaf3-600ade9255da",
       "p": "on-success",
-      "o": "9ed40a27-4bca-4bb1-b480-94a478d9149e"
+      "o": "24020241-5e95-4ef8-8df5-8e02ba530235"
     },
     {
-      "s": "9ed40a27-4bca-4bb1-b480-94a478d9149e",
+      "s": "24020241-5e95-4ef8-8df5-8e02ba530235",
       "p": "on-failure",
-      "o": "926d3388-abdd-4ba7-851a-64b63547c525"
+      "o": "b75cefcc-c4de-40f3-be3b-d20daed9478f"
     }
   ],
   "tags": [
@@ -76,18 +76,6 @@
     "T1087.002"
   ],
   "input_arguments": [
-    {
-      "name": "user",
-      "type": "string",
-      "description": "username@domain of a user within the ad database",
-      "value": "user@example.test"
-    },
-    {
-      "name": "password",
-      "type": "string",
-      "description": "password of the user with admin privileges referenced in admin_user",
-      "value": "s3CurePssw0rD!"
-    },
     {
       "name": "domain",
       "type": "string",
@@ -99,6 +87,18 @@
       "type": "string",
       "description": "The top level domain (.com, .test, .remote, etc... following domain, minus the .)",
       "value": "test"
+    },
+    {
+      "name": "user",
+      "type": "string",
+      "description": "username@domain of a user within the ad database",
+      "value": "user@example.test"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "password of the user with admin privileges referenced in admin_user",
+      "value": "s3CurePssw0rD!"
     }
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1950f000-0b8e-444a-9e4e-60deaee047f1",
+      "id": "d48c2329-edbf-40f2-b533-b8f8f67d118e",
       "type": "execute-command",
       "data": {
         "command": "pw useradd art -g wheel -s /bin/sh\necho $(openssl passwd -1 art) | pw mod user testuser1 -h 0\npw lock art\npw usermod art -e +1d\npw unlock art\npw user mod art -e +99d\nsu art\nwhoami\nexit",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "5e160687-800f-4da7-b385-9c9f73425ba5",
+      "id": "eb133e0d-200c-4103-9675-527c892dd0b8",
       "type": "execute-command",
       "data": {
         "command": "rmuser -y art",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "1950f000-0b8e-444a-9e4e-60deaee047f1",
+      "s": "d48c2329-edbf-40f2-b533-b8f8f67d118e",
       "p": "on-success",
-      "o": "5e160687-800f-4da7-b385-9c9f73425ba5"
+      "o": "eb133e0d-200c-4103-9675-527c892dd0b8"
     },
     {
-      "s": "1950f000-0b8e-444a-9e4e-60deaee047f1",
+      "s": "d48c2329-edbf-40f2-b533-b8f8f67d118e",
       "p": "on-failure",
-      "o": "5e160687-800f-4da7-b385-9c9f73425ba5"
+      "o": "eb133e0d-200c-4103-9675-527c892dd0b8"
     }
   ],
   "tags": [
     "T1078",
     "T1078.003"
-  ]
+  ],
+  "input_arguments": null
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e5acbe6f-293d-472e-93a9-4f6d4ab0c756",
+      "id": "62105a97-0944-4f47-8c7e-01877250008c",
       "type": "execute-command",
       "data": {
         "command": "New-Item -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\"\nNew-Item -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\"\nNew-Item -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\\ProtectedView\"\nNew-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\" -Name \"VBAWarnings\" -Value \"1\" -PropertyType \"Dword\"\nNew-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\\ProtectedView\" -Name \"DisableInternetFilesInPV\" -Value \"1\" -PropertyType \"Dword\"\nNew-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\\ProtectedView\" -Name \"DisableUnsafeLocationsInPV\" -Value \"1\" -PropertyType \"Dword\"\nNew-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\\ProtectedView\" -Name \"DisableAttachementsInPV\" -Value \"1\" -PropertyType \"Dword\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "1fcf6039-1a86-44fd-b54c-1e75c84b65c9",
+      "id": "a4b76d03-ff2c-4f6b-9757-15e5ac7f963f",
       "type": "execute-command",
       "data": {
         "command": "Remove-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\" -Name \"VBAWarnings\" -ErrorAction Ignore | Out-Null\nRemove-Item -Path \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\\ProtectedView\" -ErrorAction Ignore",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "e5acbe6f-293d-472e-93a9-4f6d4ab0c756",
+      "s": "62105a97-0944-4f47-8c7e-01877250008c",
       "p": "on-success",
-      "o": "1fcf6039-1a86-44fd-b54c-1e75c84b65c9"
+      "o": "a4b76d03-ff2c-4f6b-9757-15e5ac7f963f"
     },
     {
-      "s": "e5acbe6f-293d-472e-93a9-4f6d4ab0c756",
+      "s": "62105a97-0944-4f47-8c7e-01877250008c",
       "p": "on-failure",
-      "o": "1fcf6039-1a86-44fd-b54c-1e75c84b65c9"
+      "o": "a4b76d03-ff2c-4f6b-9757-15e5ac7f963f"
     }
   ],
   "tags": [
     "T1562",
     "T1562.001"
-  ]
+  ],
+  "input_arguments": null
 }

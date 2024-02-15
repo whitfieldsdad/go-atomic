@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "14f5d273-0133-41be-8305-43fa402c496a",
+      "id": "9b16fb24-bb67-4371-aa7a-4822695566b5",
       "type": "execute-command",
       "data": {
         "command": "aws logs create-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Created ***\"\naws logs delete-log-group --log-group-name #{cloudwatch_log_group_name} --region #{region} --output json\necho \"*** Log Group Deleted ***\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "d785dac3-b840-47b0-ac40-e8c624dfac28",
+      "id": "e1690814-7477-47b0-a266-d6fca53b1fb1",
       "name": "Check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "23b56be5-563b-4afd-98c9-df2dd6f62b2f",
+      "id": "90d0209a-0cd9-4caa-8644-9b4896b9ec06",
       "name": "Resolve dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "fd73604d-1d8f-45a9-92b8-0e03b5908c39",
+      "id": "826fbc65-e0d1-4d4a-af59-8e6cd5987166",
       "name": "Re-check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "d785dac3-b840-47b0-ac40-e8c624dfac28",
+      "s": "e1690814-7477-47b0-a266-d6fca53b1fb1",
       "p": "on-success",
-      "o": "14f5d273-0133-41be-8305-43fa402c496a"
+      "o": "9b16fb24-bb67-4371-aa7a-4822695566b5"
     },
     {
-      "s": "d785dac3-b840-47b0-ac40-e8c624dfac28",
+      "s": "e1690814-7477-47b0-a266-d6fca53b1fb1",
       "p": "on-failure",
-      "o": "23b56be5-563b-4afd-98c9-df2dd6f62b2f"
+      "o": "90d0209a-0cd9-4caa-8644-9b4896b9ec06"
     },
     {
-      "s": "23b56be5-563b-4afd-98c9-df2dd6f62b2f",
+      "s": "90d0209a-0cd9-4caa-8644-9b4896b9ec06",
       "p": "on-success",
-      "o": "fd73604d-1d8f-45a9-92b8-0e03b5908c39"
+      "o": "826fbc65-e0d1-4d4a-af59-8e6cd5987166"
     },
     {
-      "s": "fd73604d-1d8f-45a9-92b8-0e03b5908c39",
+      "s": "826fbc65-e0d1-4d4a-af59-8e6cd5987166",
       "p": "on-failure",
-      "o": "14f5d273-0133-41be-8305-43fa402c496a"
+      "o": "9b16fb24-bb67-4371-aa7a-4822695566b5"
     }
   ],
   "tags": [
@@ -77,16 +77,16 @@
   ],
   "input_arguments": [
     {
-      "name": "region",
-      "type": "string",
-      "description": "Name of the region",
-      "value": "us-east-1"
-    },
-    {
       "name": "cloudwatch_log_group_name",
       "type": "string",
       "description": "Name of the cloudWatch log group",
       "value": "log-test"
+    },
+    {
+      "name": "region",
+      "type": "string",
+      "description": "Name of the region",
+      "value": "us-east-1"
     }
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "84846362-f88b-421d-b776-d66ac7a90a21",
+      "id": "90c8d11f-1e7e-4ebe-a937-1140469d41aa",
       "type": "execute-command",
       "data": {
         "command": "Invoke-ATHHTMLApplication -ScriptEngine #{script_engine} -InlineProtocolHandler #{protocol_handler} -UseRundll32 -Rundll32FilePath #{rundll32_file_path}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "83be3757-7bfa-4e98-a43d-616835fb5ce8",
+      "id": "2c926ba9-46c6-4096-b63e-3bed3d6ee307",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "8828778b-0bdb-4945-89c7-2e6c0f8d3b64",
+      "id": "87779b40-1c16-4af1-97ab-d17152afc935",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "e7e756d6-5c77-4d92-8e37-09a0efd1dd7b",
+      "id": "4d7f8c8f-1bcf-4a2a-97c6-a25d441a220f",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHHTMLApplication must be exported in the module.",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "83be3757-7bfa-4e98-a43d-616835fb5ce8",
+      "s": "2c926ba9-46c6-4096-b63e-3bed3d6ee307",
       "p": "on-success",
-      "o": "84846362-f88b-421d-b776-d66ac7a90a21"
+      "o": "90c8d11f-1e7e-4ebe-a937-1140469d41aa"
     },
     {
-      "s": "83be3757-7bfa-4e98-a43d-616835fb5ce8",
+      "s": "2c926ba9-46c6-4096-b63e-3bed3d6ee307",
       "p": "on-failure",
-      "o": "8828778b-0bdb-4945-89c7-2e6c0f8d3b64"
+      "o": "87779b40-1c16-4af1-97ab-d17152afc935"
     },
     {
-      "s": "8828778b-0bdb-4945-89c7-2e6c0f8d3b64",
+      "s": "87779b40-1c16-4af1-97ab-d17152afc935",
       "p": "on-success",
-      "o": "e7e756d6-5c77-4d92-8e37-09a0efd1dd7b"
+      "o": "4d7f8c8f-1bcf-4a2a-97c6-a25d441a220f"
     },
     {
-      "s": "e7e756d6-5c77-4d92-8e37-09a0efd1dd7b",
+      "s": "4d7f8c8f-1bcf-4a2a-97c6-a25d441a220f",
       "p": "on-failure",
-      "o": "84846362-f88b-421d-b776-d66ac7a90a21"
+      "o": "90c8d11f-1e7e-4ebe-a937-1140469d41aa"
     }
   ],
   "tags": [
@@ -76,6 +76,12 @@
     "T1218.005"
   ],
   "input_arguments": [
+    {
+      "name": "protocol_handler",
+      "type": "string",
+      "description": "Protocol Handler to use",
+      "value": "About"
+    },
     {
       "name": "rundll32_file_path",
       "type": "path",
@@ -87,12 +93,6 @@
       "type": "string",
       "description": "Script Engine to use",
       "value": "JScript"
-    },
-    {
-      "name": "protocol_handler",
-      "type": "string",
-      "description": "Protocol Handler to use",
-      "value": "About"
     }
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "800a90c4-884a-4efe-bcc1-91b0d9390b1d",
+      "id": "ef26f5f9-a9c5-418b-8d71-3d623fd46f60",
       "type": "execute-command",
       "data": {
         "command": "$Server=#{logonserver}\n$User = Join-Path #{domain} #{username}\n$Password=\"#{password}\"\ncmdkey /generic:TERMSRV/$Server /user:$User /pass:$Password\nmstsc /v:$Server\necho \"RDP connection established\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "5daa543f-d13f-44fa-a1a2-380ea791ed46",
+      "id": "ab522c32-08df-410d-9663-53292407ddb6",
       "type": "execute-command",
       "data": {
         "command": "$p=Tasklist /svc /fi \"IMAGENAME eq mstsc.exe\" /fo csv | convertfrom-csv\nif(-not ([string]::IsNullOrEmpty($p.PID))) { Stop-Process -Id $p.PID }",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "b5848b19-d921-490d-8bff-da57a528697c",
+      "id": "8a45d8f4-9cbe-4a17-9a8f-fe8ba1518079",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "37edf5c8-40cc-41c9-a965-998feaf4d449",
+      "id": "274c3104-5c2b-464f-9317-4ccf028c3104",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "9960be9f-0024-4176-8e44-f01964dabe2f",
+      "id": "f9bdee61-628f-469a-9cc2-5e07a72492ff",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "800a90c4-884a-4efe-bcc1-91b0d9390b1d",
+      "s": "ef26f5f9-a9c5-418b-8d71-3d623fd46f60",
       "p": "on-success",
-      "o": "5daa543f-d13f-44fa-a1a2-380ea791ed46"
+      "o": "ab522c32-08df-410d-9663-53292407ddb6"
     },
     {
-      "s": "800a90c4-884a-4efe-bcc1-91b0d9390b1d",
+      "s": "ef26f5f9-a9c5-418b-8d71-3d623fd46f60",
       "p": "on-failure",
-      "o": "5daa543f-d13f-44fa-a1a2-380ea791ed46"
+      "o": "ab522c32-08df-410d-9663-53292407ddb6"
     },
     {
-      "s": "b5848b19-d921-490d-8bff-da57a528697c",
+      "s": "8a45d8f4-9cbe-4a17-9a8f-fe8ba1518079",
       "p": "on-success",
-      "o": "800a90c4-884a-4efe-bcc1-91b0d9390b1d"
+      "o": "ef26f5f9-a9c5-418b-8d71-3d623fd46f60"
     },
     {
-      "s": "b5848b19-d921-490d-8bff-da57a528697c",
+      "s": "8a45d8f4-9cbe-4a17-9a8f-fe8ba1518079",
       "p": "on-failure",
-      "o": "37edf5c8-40cc-41c9-a965-998feaf4d449"
+      "o": "274c3104-5c2b-464f-9317-4ccf028c3104"
     },
     {
-      "s": "37edf5c8-40cc-41c9-a965-998feaf4d449",
+      "s": "274c3104-5c2b-464f-9317-4ccf028c3104",
       "p": "on-success",
-      "o": "9960be9f-0024-4176-8e44-f01964dabe2f"
+      "o": "f9bdee61-628f-469a-9cc2-5e07a72492ff"
     },
     {
-      "s": "9960be9f-0024-4176-8e44-f01964dabe2f",
+      "s": "f9bdee61-628f-469a-9cc2-5e07a72492ff",
       "p": "on-failure",
-      "o": "800a90c4-884a-4efe-bcc1-91b0d9390b1d"
+      "o": "ef26f5f9-a9c5-418b-8d71-3d623fd46f60"
     }
   ],
   "tags": [
@@ -95,18 +95,6 @@
     "T1021.001"
   ],
   "input_arguments": [
-    {
-      "name": "logonserver",
-      "type": "string",
-      "description": "ComputerName argument default %logonserver%",
-      "value": "$ENV:logonserver.TrimStart(\"\\\")"
-    },
-    {
-      "name": "domain",
-      "type": "string",
-      "description": "domain argument default %USERDOMAIN%",
-      "value": "$Env:USERDOMAIN"
-    },
     {
       "name": "username",
       "type": "string",
@@ -118,6 +106,18 @@
       "type": "string",
       "description": "Password",
       "value": "1password2!"
+    },
+    {
+      "name": "logonserver",
+      "type": "string",
+      "description": "ComputerName argument default %logonserver%",
+      "value": "$ENV:logonserver.TrimStart(\"\\\")"
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "domain argument default %USERDOMAIN%",
+      "value": "$Env:USERDOMAIN"
     }
   ]
 }

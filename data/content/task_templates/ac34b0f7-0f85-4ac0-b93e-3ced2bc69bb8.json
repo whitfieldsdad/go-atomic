@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6d63f76b-ffbe-4962-9686-8827c52fb0f8",
+      "id": "d4b4c32a-a924-4697-80cc-ae1a453840fe",
       "type": "execute-command",
       "data": {
         "command": "reg add HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\policies\\system /v DisableRegistryTools /t REG_DWORD /d 1 /f",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "26a5c544-0d49-4349-8e74-f06a3b079426",
+      "id": "2757ab41-9553-44c3-885b-431c26aaead7",
       "type": "execute-command",
       "data": {
         "command": "powershell Remove-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\policies\\system\" -Name DisableRegistryTools -ErrorAction Ignore",
@@ -27,17 +27,18 @@
   ],
   "flows": [
     {
-      "s": "6d63f76b-ffbe-4962-9686-8827c52fb0f8",
+      "s": "d4b4c32a-a924-4697-80cc-ae1a453840fe",
       "p": "on-success",
-      "o": "26a5c544-0d49-4349-8e74-f06a3b079426"
+      "o": "2757ab41-9553-44c3-885b-431c26aaead7"
     },
     {
-      "s": "6d63f76b-ffbe-4962-9686-8827c52fb0f8",
+      "s": "d4b4c32a-a924-4697-80cc-ae1a453840fe",
       "p": "on-failure",
-      "o": "26a5c544-0d49-4349-8e74-f06a3b079426"
+      "o": "2757ab41-9553-44c3-885b-431c26aaead7"
     }
   ],
   "tags": [
     "T1112"
-  ]
+  ],
+  "input_arguments": null
 }

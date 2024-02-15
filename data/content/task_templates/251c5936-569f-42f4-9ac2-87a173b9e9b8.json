@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "9e9e51ba-250d-40e8-b844-e5bf1329bf33",
+      "id": "c78b5e20-653e-4936-8fd4-633bdf949ad0",
       "type": "execute-command",
       "data": {
         "command": "$orgValue =(Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name ConsentPromptBehaviorAdmin).ConsentPromptBehaviorAdmin\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name ConsentPromptBehaviorAdmin -Value 0 -Type Dword -Force",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "7cd8d8fc-6577-45a9-af80-62715983a052",
+      "id": "d6b78d26-fe8e-47e1-9d36-273f02cd4cd8",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name ConsentPromptBehaviorAdmin -Value $orgValue -Type Dword -Force",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "9e9e51ba-250d-40e8-b844-e5bf1329bf33",
+      "s": "c78b5e20-653e-4936-8fd4-633bdf949ad0",
       "p": "on-success",
-      "o": "7cd8d8fc-6577-45a9-af80-62715983a052"
+      "o": "d6b78d26-fe8e-47e1-9d36-273f02cd4cd8"
     },
     {
-      "s": "9e9e51ba-250d-40e8-b844-e5bf1329bf33",
+      "s": "c78b5e20-653e-4936-8fd4-633bdf949ad0",
       "p": "on-failure",
-      "o": "7cd8d8fc-6577-45a9-af80-62715983a052"
+      "o": "d6b78d26-fe8e-47e1-9d36-273f02cd4cd8"
     }
   ],
   "tags": [
     "T1548",
     "T1548.002"
-  ]
+  ],
+  "input_arguments": null
 }

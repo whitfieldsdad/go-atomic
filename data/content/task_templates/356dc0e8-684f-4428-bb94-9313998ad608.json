@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "365a2663-5d95-4b3f-aaed-087d8368d6bc",
+      "id": "89416798-7dad-4cfe-9cf4-a72e3d7ab5f8",
       "type": "execute-command",
       "data": {
         "command": "ENCODED=$(python3 -c 'import base64;enc=base64.b64encode(\"#{message}\".encode());print(enc.decode())')\npython3 -c \"import base64;dec=base64.b64decode(\\\"$ENCODED\\\");print(dec.decode())\"\npython3 -c \"import base64 as d;dec=d.b64decode(\\\"$ENCODED\\\");print(dec.decode())\"\npython3 -c \"from base64 import b64decode;dec=b64decode(\\\"$ENCODED\\\");print(dec.decode())\"\npython3 -c \"from base64 import b64decode as d;dec=d(\\\"$ENCODED\\\");print(dec.decode())\"\necho $ENCODED | python3 -c \"import base64,sys;dec=base64.b64decode(sys.stdin.read());print(dec.decode())\"\necho $ENCODED \u003e #{encoded_file} \u0026\u0026 python3 -c \"import base64;dec=base64.b64decode(open('#{encoded_file}').read());print(dec.decode())\"",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "fa7795aa-e742-4e6d-a7ea-3ec43b5f0cd7",
+      "id": "d158b9fd-cd9b-4cb3-9111-ce42b72faf4c",
       "name": "Check dependency 1/1",
       "description": "Python must be present\n",
       "type": "execute-command",
@@ -28,7 +28,7 @@
       "elevation_required": false
     },
     {
-      "id": "6d1e0d31-43eb-43fe-8492-08f1efc1f797",
+      "id": "cb9682c0-21b6-4319-b863-1551858a97ac",
       "name": "Resolve dependency 1/1",
       "description": "Python must be present\n",
       "type": "execute-command",
@@ -39,7 +39,7 @@
       "elevation_required": false
     },
     {
-      "id": "465b3844-7b7b-44ce-8e1a-ece930109c9b",
+      "id": "169b9119-118a-46e4-ad3e-0ed13a65566f",
       "name": "Re-check dependency 1/1",
       "description": "Python must be present\n",
       "type": "execute-command",
@@ -52,24 +52,24 @@
   ],
   "flows": [
     {
-      "s": "fa7795aa-e742-4e6d-a7ea-3ec43b5f0cd7",
+      "s": "d158b9fd-cd9b-4cb3-9111-ce42b72faf4c",
       "p": "on-success",
-      "o": "365a2663-5d95-4b3f-aaed-087d8368d6bc"
+      "o": "89416798-7dad-4cfe-9cf4-a72e3d7ab5f8"
     },
     {
-      "s": "fa7795aa-e742-4e6d-a7ea-3ec43b5f0cd7",
+      "s": "d158b9fd-cd9b-4cb3-9111-ce42b72faf4c",
       "p": "on-failure",
-      "o": "6d1e0d31-43eb-43fe-8492-08f1efc1f797"
+      "o": "cb9682c0-21b6-4319-b863-1551858a97ac"
     },
     {
-      "s": "6d1e0d31-43eb-43fe-8492-08f1efc1f797",
+      "s": "cb9682c0-21b6-4319-b863-1551858a97ac",
       "p": "on-success",
-      "o": "465b3844-7b7b-44ce-8e1a-ece930109c9b"
+      "o": "169b9119-118a-46e4-ad3e-0ed13a65566f"
     },
     {
-      "s": "465b3844-7b7b-44ce-8e1a-ece930109c9b",
+      "s": "169b9119-118a-46e4-ad3e-0ed13a65566f",
       "p": "on-failure",
-      "o": "365a2663-5d95-4b3f-aaed-087d8368d6bc"
+      "o": "89416798-7dad-4cfe-9cf4-a72e3d7ab5f8"
     }
   ],
   "tags": [

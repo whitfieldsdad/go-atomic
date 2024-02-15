@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "265b263f-64aa-490b-a936-57f030bb3b5c",
+      "id": "b040ae55-aae5-4059-945b-e6f0619beaec",
       "type": "execute-command",
       "data": {
         "command": "icacls.exe #{file_or_folder} /grant #{user_or_group}:F",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "e57ad32b-da40-4e68-8097-c1f0c9e6b673",
+      "id": "1aba4500-9a16-482a-8684-c02367a316f1",
       "name": "Check dependency 1/1",
       "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "5fec0f95-fff2-4607-9e59-54b58291189d",
+      "id": "dffdd967-d3b0-44c5-9b56-0329205384e0",
       "name": "Resolve dependency 1/1",
       "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "a1037055-15c2-4e77-be0d-5615b29b225f",
+      "id": "44d36a31-7c2d-459f-972c-5aee395b134b",
       "name": "Re-check dependency 1/1",
       "description": "Test requrires a file to modify to be located at (#{file_or_folder})\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "e57ad32b-da40-4e68-8097-c1f0c9e6b673",
+      "s": "1aba4500-9a16-482a-8684-c02367a316f1",
       "p": "on-success",
-      "o": "265b263f-64aa-490b-a936-57f030bb3b5c"
+      "o": "b040ae55-aae5-4059-945b-e6f0619beaec"
     },
     {
-      "s": "e57ad32b-da40-4e68-8097-c1f0c9e6b673",
+      "s": "1aba4500-9a16-482a-8684-c02367a316f1",
       "p": "on-failure",
-      "o": "5fec0f95-fff2-4607-9e59-54b58291189d"
+      "o": "dffdd967-d3b0-44c5-9b56-0329205384e0"
     },
     {
-      "s": "5fec0f95-fff2-4607-9e59-54b58291189d",
+      "s": "dffdd967-d3b0-44c5-9b56-0329205384e0",
       "p": "on-success",
-      "o": "a1037055-15c2-4e77-be0d-5615b29b225f"
+      "o": "44d36a31-7c2d-459f-972c-5aee395b134b"
     },
     {
-      "s": "a1037055-15c2-4e77-be0d-5615b29b225f",
+      "s": "44d36a31-7c2d-459f-972c-5aee395b134b",
       "p": "on-failure",
-      "o": "265b263f-64aa-490b-a936-57f030bb3b5c"
+      "o": "b040ae55-aae5-4059-945b-e6f0619beaec"
     }
   ],
   "tags": [
@@ -77,16 +77,16 @@
   ],
   "input_arguments": [
     {
-      "name": "file_or_folder",
-      "type": "path",
-      "description": "Path of the file or folder to change permissions.",
-      "value": "%temp%\\T1222.001_cacls"
-    },
-    {
       "name": "user_or_group",
       "type": "string",
       "description": "User or group to allow full control",
       "value": "Everyone"
+    },
+    {
+      "name": "file_or_folder",
+      "type": "path",
+      "description": "Path of the file or folder to change permissions.",
+      "value": "%temp%\\T1222.001_cacls"
     }
   ]
 }

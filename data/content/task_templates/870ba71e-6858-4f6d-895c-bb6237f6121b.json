@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6252d3d0-d000-4fe7-8bfb-b4f8b48300bb",
+      "id": "708be14a-c72f-4a84-9097-c08c327517b9",
       "type": "execute-command",
       "data": {
         "command": "get-aduser -f * -pr DoesNotRequirePreAuth | where {$_.DoesNotRequirePreAuth -eq $TRUE}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "e9ddbac6-6252-4089-b9e3-bd28cf397dab",
+      "id": "e4d34f69-ba9d-4852-8a6f-c5f5d49106cb",
       "name": "Check dependency 1/2",
       "description": "Computer must be domain joined.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "320bc380-ba30-4bd9-b50e-c1ec60385132",
+      "id": "eae400c7-519e-4a96-b6d3-02c63c5da182",
       "name": "Resolve dependency 1/2",
       "description": "Computer must be domain joined.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "4cbc1c4a-282d-4eab-9fff-6e20d57ac845",
+      "id": "da3d9a25-d5eb-43f5-b2ff-d6821d2d8e12",
       "name": "Re-check dependency 1/2",
       "description": "Computer must be domain joined.\n",
       "type": "execute-command",
@@ -49,7 +49,7 @@
       "elevation_required": false
     },
     {
-      "id": "5b0e3217-206a-430d-8180-3e07d658cd1f",
+      "id": "5020545c-f7be-4a89-b261-98e1dab765d6",
       "name": "Check dependency 2/2",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
@@ -60,7 +60,7 @@
       "elevation_required": false
     },
     {
-      "id": "c83478fc-d062-438e-9c32-f5b50f659813",
+      "id": "2e9a79d4-21a5-4df8-a81a-9d005c569833",
       "name": "Resolve dependency 2/2",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
@@ -71,7 +71,7 @@
       "elevation_required": false
     },
     {
-      "id": "e1811242-4749-4147-88eb-f23ae138c30b",
+      "id": "f8391ffb-ac7e-4c13-8503-55c6d968ddbd",
       "name": "Re-check dependency 2/2",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
@@ -84,48 +84,49 @@
   ],
   "flows": [
     {
-      "s": "e9ddbac6-6252-4089-b9e3-bd28cf397dab",
+      "s": "e4d34f69-ba9d-4852-8a6f-c5f5d49106cb",
       "p": "on-success",
-      "o": "6252d3d0-d000-4fe7-8bfb-b4f8b48300bb"
+      "o": "708be14a-c72f-4a84-9097-c08c327517b9"
     },
     {
-      "s": "e9ddbac6-6252-4089-b9e3-bd28cf397dab",
+      "s": "e4d34f69-ba9d-4852-8a6f-c5f5d49106cb",
       "p": "on-failure",
-      "o": "320bc380-ba30-4bd9-b50e-c1ec60385132"
+      "o": "eae400c7-519e-4a96-b6d3-02c63c5da182"
     },
     {
-      "s": "320bc380-ba30-4bd9-b50e-c1ec60385132",
+      "s": "eae400c7-519e-4a96-b6d3-02c63c5da182",
       "p": "on-success",
-      "o": "4cbc1c4a-282d-4eab-9fff-6e20d57ac845"
+      "o": "da3d9a25-d5eb-43f5-b2ff-d6821d2d8e12"
     },
     {
-      "s": "4cbc1c4a-282d-4eab-9fff-6e20d57ac845",
+      "s": "da3d9a25-d5eb-43f5-b2ff-d6821d2d8e12",
       "p": "on-failure",
-      "o": "6252d3d0-d000-4fe7-8bfb-b4f8b48300bb"
+      "o": "708be14a-c72f-4a84-9097-c08c327517b9"
     },
     {
-      "s": "5b0e3217-206a-430d-8180-3e07d658cd1f",
+      "s": "5020545c-f7be-4a89-b261-98e1dab765d6",
       "p": "on-success",
-      "o": "6252d3d0-d000-4fe7-8bfb-b4f8b48300bb"
+      "o": "708be14a-c72f-4a84-9097-c08c327517b9"
     },
     {
-      "s": "5b0e3217-206a-430d-8180-3e07d658cd1f",
+      "s": "5020545c-f7be-4a89-b261-98e1dab765d6",
       "p": "on-failure",
-      "o": "c83478fc-d062-438e-9c32-f5b50f659813"
+      "o": "2e9a79d4-21a5-4df8-a81a-9d005c569833"
     },
     {
-      "s": "c83478fc-d062-438e-9c32-f5b50f659813",
+      "s": "2e9a79d4-21a5-4df8-a81a-9d005c569833",
       "p": "on-success",
-      "o": "e1811242-4749-4147-88eb-f23ae138c30b"
+      "o": "f8391ffb-ac7e-4c13-8503-55c6d968ddbd"
     },
     {
-      "s": "e1811242-4749-4147-88eb-f23ae138c30b",
+      "s": "f8391ffb-ac7e-4c13-8503-55c6d968ddbd",
       "p": "on-failure",
-      "o": "6252d3d0-d000-4fe7-8bfb-b4f8b48300bb"
+      "o": "708be14a-c72f-4a84-9097-c08c327517b9"
     }
   ],
   "tags": [
     "T1069",
     "T1069.002"
-  ]
+  ],
+  "input_arguments": null
 }

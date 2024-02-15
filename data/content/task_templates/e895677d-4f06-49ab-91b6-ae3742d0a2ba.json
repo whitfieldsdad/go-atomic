@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e88b1ba7-b779-4f6c-ae02-7e272b819298",
+      "id": "34002313-9c2e-4e18-bd2f-b9b214ebbc77",
       "type": "execute-command",
       "data": {
         "command": "reg add HKCU\\SOFTWARE\\ATOMIC-T1053.005 /v test /t REG_SZ /d cGluZyAxMjcuMC4wLjE= /f\nschtasks.exe /Create /F /TN \"ATOMIC-T1053.005\" /TR \"cmd /c start /min \\\"\\\" powershell.exe -Command IEX([System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String((Get-ItemProperty -Path HKCU:\\\\SOFTWARE\\\\ATOMIC-T1053.005).test)))\" /sc daily /st #{time}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "9225c64b-4cc4-4ead-87fc-7d7fb9c6c111",
+      "id": "fb0b8da3-b3c5-48e2-a9ee-b3093acabb86",
       "type": "execute-command",
       "data": {
         "command": "schtasks /delete /tn \"ATOMIC-T1053.005\" /F \u003enul 2\u003e\u00261\nreg delete HKCU\\SOFTWARE\\ATOMIC-T1053.005 /F \u003enul 2\u003e\u00261",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "e88b1ba7-b779-4f6c-ae02-7e272b819298",
+      "s": "34002313-9c2e-4e18-bd2f-b9b214ebbc77",
       "p": "on-success",
-      "o": "9225c64b-4cc4-4ead-87fc-7d7fb9c6c111"
+      "o": "fb0b8da3-b3c5-48e2-a9ee-b3093acabb86"
     },
     {
-      "s": "e88b1ba7-b779-4f6c-ae02-7e272b819298",
+      "s": "34002313-9c2e-4e18-bd2f-b9b214ebbc77",
       "p": "on-failure",
-      "o": "9225c64b-4cc4-4ead-87fc-7d7fb9c6c111"
+      "o": "fb0b8da3-b3c5-48e2-a9ee-b3093acabb86"
     }
   ],
   "tags": [

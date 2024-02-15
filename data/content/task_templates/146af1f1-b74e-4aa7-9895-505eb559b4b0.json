@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "d7d9d2bb-f282-4458-ad89-290e9f52bfa5",
+      "id": "97dcdfe7-7499-48a5-a393-674ccb4e8639",
       "type": "execute-command",
       "data": {
         "command": "try{$response = invoke-webrequest \"https://#{base_name}.blob.core.windows.net/#{container_name}/#{blob_name}\" -method \"GET\"}\ncatch [system.net.webexception]\n{if($_.Exception.Response -ne $null)\n{$Response = $_.Exception.Response.GetResponseStream()\n$ReadResponse = New-Object System.IO.StreamReader($Response)\n$ReadResponse.BaseStream.Position = 0\n$responseBody = $ReadResponse.ReadToEnd()}\nelse {$responseBody = \"The storage account could not be anonymously accessed.\"}}\n\"Response received for #{base_name}.blob.core.windows.net/#{container_name}/#{blob_name}: $responsebody\" | out-file -filepath #{output_file} -append",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "0f71c837-130f-479c-b188-98d00aed63d7",
+      "id": "a5994f2a-275f-4588-80b5-ed4b6458a83f",
       "type": "execute-command",
       "data": {
         "command": "remove-item #{output_file} -erroraction silentlycontinue",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "d7d9d2bb-f282-4458-ad89-290e9f52bfa5",
+      "s": "97dcdfe7-7499-48a5-a393-674ccb4e8639",
       "p": "on-success",
-      "o": "0f71c837-130f-479c-b188-98d00aed63d7"
+      "o": "a5994f2a-275f-4588-80b5-ed4b6458a83f"
     },
     {
-      "s": "d7d9d2bb-f282-4458-ad89-290e9f52bfa5",
+      "s": "97dcdfe7-7499-48a5-a393-674ccb4e8639",
       "p": "on-failure",
-      "o": "0f71c837-130f-479c-b188-98d00aed63d7"
+      "o": "a5994f2a-275f-4588-80b5-ed4b6458a83f"
     }
   ],
   "tags": [

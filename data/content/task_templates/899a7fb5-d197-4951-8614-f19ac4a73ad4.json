@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f5a9460e-4999-4759-9a95-faefa3d4aa7b",
+      "id": "4ab89480-d035-49e0-abc1-dcc616e4e712",
       "type": "execute-command",
       "data": {
         "command": "iptables-save \u003e /tmp/iptables.rules\niptables -D OUTPUT -p tcp --dport 21 -j DROP",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "5895b308-6fe3-42eb-92be-eac90e975864",
+      "id": "16ce3dd7-218e-4974-805f-59db23bafbbc",
       "type": "execute-command",
       "data": {
         "command": "iptables-restore \u003c /tmp/iptables.rules",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "036b97a6-5d9c-4fd1-852e-8558748381c1",
+      "id": "88452aba-d292-465f-9cad-304fc1dd70b8",
       "name": "Check dependency 1/1",
       "description": "Check if iptables is installed on the machine.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "d2a5b943-b03a-4cae-8e67-cc4693ad7d11",
+      "id": "e942a0c8-97f3-4e2f-9d0d-42d679af46b4",
       "name": "Resolve dependency 1/1",
       "description": "Check if iptables is installed on the machine.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "99d7c73d-ba00-4e87-8c7c-db526fbb216f",
+      "id": "96965947-f4a4-486c-a70b-9bd7a4a4ebe5",
       "name": "Re-check dependency 1/1",
       "description": "Check if iptables is installed on the machine.\n",
       "type": "execute-command",
@@ -60,38 +60,39 @@
   ],
   "flows": [
     {
-      "s": "f5a9460e-4999-4759-9a95-faefa3d4aa7b",
+      "s": "4ab89480-d035-49e0-abc1-dcc616e4e712",
       "p": "on-success",
-      "o": "5895b308-6fe3-42eb-92be-eac90e975864"
+      "o": "16ce3dd7-218e-4974-805f-59db23bafbbc"
     },
     {
-      "s": "f5a9460e-4999-4759-9a95-faefa3d4aa7b",
+      "s": "4ab89480-d035-49e0-abc1-dcc616e4e712",
       "p": "on-failure",
-      "o": "5895b308-6fe3-42eb-92be-eac90e975864"
+      "o": "16ce3dd7-218e-4974-805f-59db23bafbbc"
     },
     {
-      "s": "036b97a6-5d9c-4fd1-852e-8558748381c1",
+      "s": "88452aba-d292-465f-9cad-304fc1dd70b8",
       "p": "on-success",
-      "o": "f5a9460e-4999-4759-9a95-faefa3d4aa7b"
+      "o": "4ab89480-d035-49e0-abc1-dcc616e4e712"
     },
     {
-      "s": "036b97a6-5d9c-4fd1-852e-8558748381c1",
+      "s": "88452aba-d292-465f-9cad-304fc1dd70b8",
       "p": "on-failure",
-      "o": "d2a5b943-b03a-4cae-8e67-cc4693ad7d11"
+      "o": "e942a0c8-97f3-4e2f-9d0d-42d679af46b4"
     },
     {
-      "s": "d2a5b943-b03a-4cae-8e67-cc4693ad7d11",
+      "s": "e942a0c8-97f3-4e2f-9d0d-42d679af46b4",
       "p": "on-success",
-      "o": "99d7c73d-ba00-4e87-8c7c-db526fbb216f"
+      "o": "96965947-f4a4-486c-a70b-9bd7a4a4ebe5"
     },
     {
-      "s": "99d7c73d-ba00-4e87-8c7c-db526fbb216f",
+      "s": "96965947-f4a4-486c-a70b-9bd7a4a4ebe5",
       "p": "on-failure",
-      "o": "f5a9460e-4999-4759-9a95-faefa3d4aa7b"
+      "o": "4ab89480-d035-49e0-abc1-dcc616e4e712"
     }
   ],
   "tags": [
     "T1562",
     "T1562.004"
-  ]
+  ],
+  "input_arguments": null
 }

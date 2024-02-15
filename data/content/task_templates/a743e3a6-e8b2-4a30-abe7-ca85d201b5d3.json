@@ -8,7 +8,7 @@
   ],
   "steps": [
     {
-      "id": "273b7722-e3a3-43f6-b65e-9bf1a94de4af",
+      "id": "75a89960-9162-4ba2-8a24-fc2c31e74e79",
       "type": "execute-command",
       "data": {
         "command": "zip -r  #{input_folder}/#{input_file}.zip #{input_folder}\nopenssl enc -aes-256-cbc -pass pass:#{enc_pass} -p -in #{input_folder}/#{input_file}.zip -out #{input_folder}/#{input_file}.enc \ncat #{input_folder}/#{input_file}.enc | base64",
@@ -17,7 +17,7 @@
       "elevation_required": false
     },
     {
-      "id": "6fff847d-6d48-441d-b2e7-ede84fbc72e4",
+      "id": "4d483e25-f32c-431a-8223-e9c02ce1a758",
       "type": "execute-command",
       "data": {
         "command": "rm -rf #{input_folder}",
@@ -26,7 +26,7 @@
       "elevation_required": false
     },
     {
-      "id": "7909a427-22c1-4964-b96f-740dad704e4d",
+      "id": "b2cc91c6-358d-49fe-8bef-adc1a0cd25f9",
       "name": "Check dependency 1/1",
       "description": "The folder and test files must exist",
       "type": "execute-command",
@@ -37,7 +37,7 @@
       "elevation_required": false
     },
     {
-      "id": "8a20ec6d-f966-4b9e-8b4d-91a9c74cdea7",
+      "id": "f3419254-bea8-44e0-a1a0-1fd6d3e43685",
       "name": "Resolve dependency 1/1",
       "description": "The folder and test files must exist",
       "type": "execute-command",
@@ -48,7 +48,7 @@
       "elevation_required": false
     },
     {
-      "id": "78a8da9a-67f6-4a66-a03f-d2c97557d3f5",
+      "id": "6b1fd937-23ad-4ff0-a90e-adb78bbf2851",
       "name": "Re-check dependency 1/1",
       "description": "The folder and test files must exist",
       "type": "execute-command",
@@ -61,34 +61,34 @@
   ],
   "flows": [
     {
-      "s": "273b7722-e3a3-43f6-b65e-9bf1a94de4af",
+      "s": "75a89960-9162-4ba2-8a24-fc2c31e74e79",
       "p": "on-success",
-      "o": "6fff847d-6d48-441d-b2e7-ede84fbc72e4"
+      "o": "4d483e25-f32c-431a-8223-e9c02ce1a758"
     },
     {
-      "s": "273b7722-e3a3-43f6-b65e-9bf1a94de4af",
+      "s": "75a89960-9162-4ba2-8a24-fc2c31e74e79",
       "p": "on-failure",
-      "o": "6fff847d-6d48-441d-b2e7-ede84fbc72e4"
+      "o": "4d483e25-f32c-431a-8223-e9c02ce1a758"
     },
     {
-      "s": "7909a427-22c1-4964-b96f-740dad704e4d",
+      "s": "b2cc91c6-358d-49fe-8bef-adc1a0cd25f9",
       "p": "on-success",
-      "o": "273b7722-e3a3-43f6-b65e-9bf1a94de4af"
+      "o": "75a89960-9162-4ba2-8a24-fc2c31e74e79"
     },
     {
-      "s": "7909a427-22c1-4964-b96f-740dad704e4d",
+      "s": "b2cc91c6-358d-49fe-8bef-adc1a0cd25f9",
       "p": "on-failure",
-      "o": "8a20ec6d-f966-4b9e-8b4d-91a9c74cdea7"
+      "o": "f3419254-bea8-44e0-a1a0-1fd6d3e43685"
     },
     {
-      "s": "8a20ec6d-f966-4b9e-8b4d-91a9c74cdea7",
+      "s": "f3419254-bea8-44e0-a1a0-1fd6d3e43685",
       "p": "on-success",
-      "o": "78a8da9a-67f6-4a66-a03f-d2c97557d3f5"
+      "o": "6b1fd937-23ad-4ff0-a90e-adb78bbf2851"
     },
     {
-      "s": "78a8da9a-67f6-4a66-a03f-d2c97557d3f5",
+      "s": "6b1fd937-23ad-4ff0-a90e-adb78bbf2851",
       "p": "on-failure",
-      "o": "273b7722-e3a3-43f6-b65e-9bf1a94de4af"
+      "o": "75a89960-9162-4ba2-8a24-fc2c31e74e79"
     }
   ],
   "tags": [
@@ -96,6 +96,12 @@
     "T1560.001"
   ],
   "input_arguments": [
+    {
+      "name": "input_folder",
+      "type": "path",
+      "description": "Path to the folder used to store the test files",
+      "value": "/tmp/t1560"
+    },
     {
       "name": "input_file",
       "type": "string",
@@ -107,12 +113,6 @@
       "type": "string",
       "description": "Password used to encrypt the data",
       "value": "atomic_enc_pass"
-    },
-    {
-      "name": "input_folder",
-      "type": "path",
-      "description": "Path to the folder used to store the test files",
-      "value": "/tmp/t1560"
     }
   ]
 }

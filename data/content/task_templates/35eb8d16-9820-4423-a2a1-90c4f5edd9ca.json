@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e32cca22-cd2a-45b9-9ea2-282fe90216de",
+      "id": "c0818db3-5431-4a49-bb39-91536522c438",
       "type": "execute-command",
       "data": {
         "command": "Add-Type -TypeDefinition @'\npublic class Test {\n    public static void Main(string[] args) {\n        System.Console.WriteLine(\"tweet, tweet\");\n    }\n}\n'@ -OutputAssembly \"#{executable_filepath}\"\n\nStart-Process -FilePath \"#{executable_filepath}\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "7ae9a480-d910-4d4b-9fd3-0109e1a52b1f",
+      "id": "353b3ca5-8e69-494f-a384-0f12b45d6aa0",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item -Path \"#{executable_filepath}\" -ErrorAction Ignore",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "e32cca22-cd2a-45b9-9ea2-282fe90216de",
+      "s": "c0818db3-5431-4a49-bb39-91536522c438",
       "p": "on-success",
-      "o": "7ae9a480-d910-4d4b-9fd3-0109e1a52b1f"
+      "o": "353b3ca5-8e69-494f-a384-0f12b45d6aa0"
     },
     {
-      "s": "e32cca22-cd2a-45b9-9ea2-282fe90216de",
+      "s": "c0818db3-5431-4a49-bb39-91536522c438",
       "p": "on-failure",
-      "o": "7ae9a480-d910-4d4b-9fd3-0109e1a52b1f"
+      "o": "353b3ca5-8e69-494f-a384-0f12b45d6aa0"
     }
   ],
   "tags": [

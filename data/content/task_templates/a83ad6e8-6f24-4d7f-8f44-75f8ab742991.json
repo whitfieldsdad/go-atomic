@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "5f153d4b-c17c-4f8a-bbd9-a5515dfa9794",
+      "id": "bd8b5316-665d-481f-a206-10aae8ba1055",
       "type": "execute-command",
       "data": {
         "command": "sudo sed -i 's/env_reset.*$/env_reset,timestamp_timeout=-1/' /usr/local/etc/sudoers\nsudo visudo -c -f /usr/local/etc/sudoers",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "5fb5c008-5fb0-4bfe-a759-4ec8ec272782",
+      "id": "0c555f42-399f-417b-a110-94b2c689ff38",
       "name": "Check dependency 1/1",
       "description": "Check if sudo is installed.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": true
     },
     {
-      "id": "86f2676e-7be7-424d-b954-0272155320dc",
+      "id": "1ebb6536-eb24-41b7-8a08-b8bacb72db16",
       "name": "Resolve dependency 1/1",
       "description": "Check if sudo is installed.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": true
     },
     {
-      "id": "e5f5c6c6-b598-4a51-b604-9995817ab7f7",
+      "id": "aedd27c0-fdfe-4b3f-bec8-2450f965061f",
       "name": "Re-check dependency 1/1",
       "description": "Check if sudo is installed.\n",
       "type": "execute-command",
@@ -51,28 +51,29 @@
   ],
   "flows": [
     {
-      "s": "5fb5c008-5fb0-4bfe-a759-4ec8ec272782",
+      "s": "0c555f42-399f-417b-a110-94b2c689ff38",
       "p": "on-success",
-      "o": "5f153d4b-c17c-4f8a-bbd9-a5515dfa9794"
+      "o": "bd8b5316-665d-481f-a206-10aae8ba1055"
     },
     {
-      "s": "5fb5c008-5fb0-4bfe-a759-4ec8ec272782",
+      "s": "0c555f42-399f-417b-a110-94b2c689ff38",
       "p": "on-failure",
-      "o": "86f2676e-7be7-424d-b954-0272155320dc"
+      "o": "1ebb6536-eb24-41b7-8a08-b8bacb72db16"
     },
     {
-      "s": "86f2676e-7be7-424d-b954-0272155320dc",
+      "s": "1ebb6536-eb24-41b7-8a08-b8bacb72db16",
       "p": "on-success",
-      "o": "e5f5c6c6-b598-4a51-b604-9995817ab7f7"
+      "o": "aedd27c0-fdfe-4b3f-bec8-2450f965061f"
     },
     {
-      "s": "e5f5c6c6-b598-4a51-b604-9995817ab7f7",
+      "s": "aedd27c0-fdfe-4b3f-bec8-2450f965061f",
       "p": "on-failure",
-      "o": "5f153d4b-c17c-4f8a-bbd9-a5515dfa9794"
+      "o": "bd8b5316-665d-481f-a206-10aae8ba1055"
     }
   ],
   "tags": [
     "T1548",
     "T1548.003"
-  ]
+  ],
+  "input_arguments": null
 }

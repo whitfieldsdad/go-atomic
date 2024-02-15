@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f72c76e0-dbb4-48df-97d7-375a911d8624",
+      "id": "4f272ae4-90ec-4690-a70e-dd36c7e93b61",
       "type": "execute-command",
       "data": {
         "command": "# Set the remote computer name and credentials\n $RemoteComputer = \"#{dest}\"\n $PWord = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Pword\n\n # Create a CIM session\n $CimSession = New-CimSession -ComputerName $RemoteComputer -Credential $Credential\n\n # Define the process you want to start\n $ProcessToStart = \"#{process}\"\n\n # Invoke the Create method on the Win32_Process class to start the process\n $Result = Invoke-CimMethod -CimSession $CimSession -ClassName Win32_Process -MethodName Create -Arguments @{CommandLine = $ProcessToStart}\n\n # Check the result\n if ($Result.ReturnValue -eq 0) {\n     Write-Host \"Process started successfully with Process ID: $($Result.ProcessId)\"\n } else {\n     Write-Host \"Failed to start the process. Error code: $($Result.ReturnValue)\"\n }\n\n # Clean up the CIM session\n Remove-CimSession -CimSession $CimSession",
@@ -16,6 +16,7 @@
       "elevation_required": true
     }
   ],
+  "flows": [],
   "tags": [
     "T1546"
   ],

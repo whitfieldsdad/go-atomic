@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "3780f4e1-e148-4cce-8118-d46a2af06ce0",
+      "id": "35fc0aed-a99d-41e1-8cee-ed766308f020",
       "type": "execute-command",
       "data": {
         "command": "(([adsisearcher]'(objectcategory=organizationalunit)').FindAll()).Path | %{if(([ADSI]\"$_\").gPlink){Write-Host \"[+] OU Path:\"([ADSI]\"$_\").Path;$a=((([ADSI]\"$_\").gplink) -replace \"[[;]\" -split \"]\");for($i=0;$i -lt $a.length;$i++){if($a[$i]){Write-Host \"Policy Path[$i]:\"([ADSI]($a[$i]).Substring(0,$a[$i].length-1)).Path;Write-Host \"Policy Name[$i]:\"([ADSI]($a[$i]).Substring(0,$a[$i].length-1)).DisplayName} };Write-Output \"`n\" }}",
@@ -16,8 +16,10 @@
       "elevation_required": false
     }
   ],
+  "flows": [],
   "tags": [
     "T1087",
     "T1087.002"
-  ]
+  ],
+  "input_arguments": null
 }

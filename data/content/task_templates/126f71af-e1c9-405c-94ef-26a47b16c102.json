@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "1893ac7f-d1e3-4cff-8cd4-4924942d3b5e",
+      "id": "5e51e59a-333b-4302-87e3-5a4225176812",
       "type": "execute-command",
       "data": {
         "command": "filename='/etc/rc.local';if [ ! -f $filename ];then sudo touch $filename;else sudo cp $filename /etc/rc.local.original;fi\n[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 alias python3=python3.9 \u0026\u0026 printf '#\\!/usr/local/bin/bash' | sudo tee /etc/rc.local || printf '#!/bin/bash' | sudo tee /etc/rc.local\necho \"\\npython3 -c \\\"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBtb2RpZnlpbmcgcmMubG9jYWwgPiAvdG1wL1QxMDM3LjAwNC5yYy5sb2NhbCcpCgo='))\\\"\" | sudo tee -a /etc/rc.local\nprintf 'exit 0' | sudo tee -a /etc/rc.local\nsudo chmod +x /etc/rc.local",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "78363868-abf4-4102-bbe6-a8de1403d32d",
+      "id": "53bd786e-6fd4-48ff-90ff-3ee8c87ab9b6",
       "type": "execute-command",
       "data": {
         "command": "origfilename='/etc/rc.local.original';if [ ! -f $origfilename ];then sudo rm /etc/rc.local;else sudo cp $origfilename /etc/rc.local \u0026\u0026 sudo rm $origfilename;fi",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "1893ac7f-d1e3-4cff-8cd4-4924942d3b5e",
+      "s": "5e51e59a-333b-4302-87e3-5a4225176812",
       "p": "on-success",
-      "o": "78363868-abf4-4102-bbe6-a8de1403d32d"
+      "o": "53bd786e-6fd4-48ff-90ff-3ee8c87ab9b6"
     },
     {
-      "s": "1893ac7f-d1e3-4cff-8cd4-4924942d3b5e",
+      "s": "5e51e59a-333b-4302-87e3-5a4225176812",
       "p": "on-failure",
-      "o": "78363868-abf4-4102-bbe6-a8de1403d32d"
+      "o": "53bd786e-6fd4-48ff-90ff-3ee8c87ab9b6"
     }
   ],
   "tags": [
     "T1037",
     "T1037.004"
-  ]
+  ],
+  "input_arguments": null
 }

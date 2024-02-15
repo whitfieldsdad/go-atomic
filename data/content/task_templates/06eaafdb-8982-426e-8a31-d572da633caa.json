@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "db54d509-05be-48db-843f-7d1d31bc5e47",
+      "id": "7bcf7e09-efb4-4422-a12c-d65ff378c2e6",
       "type": "execute-command",
       "data": {
         "command": "docker build -t t1046 /root/AtomicRedTeam/atomics/T1046/src/\ndocker run --name t1046_container  -d -t t1046\ndocker exec t1046_container ./test.sh",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "3314caa4-1b77-4496-adeb-b4f5cbec1b2a",
+      "id": "7ee68e57-4702-40b8-8484-ddc585cd089c",
       "type": "execute-command",
       "data": {
         "command": "docker stop t1046_container\ndocker rmi -f t1046",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "a90ecb0e-c2d5-4ea8-9b40-73bb90643492",
+      "id": "8714a1ad-afb2-4bcd-9d59-29ce19b06d20",
       "name": "Check dependency 1/2",
       "description": "Verify docker is installed.",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "8f050a28-ff11-4f43-8999-fd3b8b99e164",
+      "id": "608cfe96-df18-4eec-bad2-05bf5a2c79cd",
       "name": "Resolve dependency 1/2",
       "description": "Verify docker is installed.",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "9442ddf7-bc06-405a-9be4-f72a1c2a5865",
+      "id": "3650c2ed-871f-43d4-8ac3-226be7c8afbd",
       "name": "Re-check dependency 1/2",
       "description": "Verify docker is installed.",
       "type": "execute-command",
@@ -58,7 +58,7 @@
       "elevation_required": false
     },
     {
-      "id": "1d714a39-c5c4-46ce-aa52-af3188d8704c",
+      "id": "066e0121-95e5-4701-b8f7-4b69512e735d",
       "name": "Check dependency 2/2",
       "description": "Verify docker service is running.",
       "type": "execute-command",
@@ -69,7 +69,7 @@
       "elevation_required": false
     },
     {
-      "id": "36926508-6cac-436f-8730-f2cf6e2edbf2",
+      "id": "1e190105-ec73-4eb4-a4a9-6e775381eea6",
       "name": "Resolve dependency 2/2",
       "description": "Verify docker service is running.",
       "type": "execute-command",
@@ -80,7 +80,7 @@
       "elevation_required": false
     },
     {
-      "id": "a3cd8a13-7ad0-4e51-ae19-d1d2f1b91609",
+      "id": "6b43187f-48a8-45ec-be0c-bb2848aecbcc",
       "name": "Re-check dependency 2/2",
       "description": "Verify docker service is running.",
       "type": "execute-command",
@@ -93,57 +93,58 @@
   ],
   "flows": [
     {
-      "s": "db54d509-05be-48db-843f-7d1d31bc5e47",
+      "s": "7bcf7e09-efb4-4422-a12c-d65ff378c2e6",
       "p": "on-success",
-      "o": "3314caa4-1b77-4496-adeb-b4f5cbec1b2a"
+      "o": "7ee68e57-4702-40b8-8484-ddc585cd089c"
     },
     {
-      "s": "db54d509-05be-48db-843f-7d1d31bc5e47",
+      "s": "7bcf7e09-efb4-4422-a12c-d65ff378c2e6",
       "p": "on-failure",
-      "o": "3314caa4-1b77-4496-adeb-b4f5cbec1b2a"
+      "o": "7ee68e57-4702-40b8-8484-ddc585cd089c"
     },
     {
-      "s": "a90ecb0e-c2d5-4ea8-9b40-73bb90643492",
+      "s": "8714a1ad-afb2-4bcd-9d59-29ce19b06d20",
       "p": "on-success",
-      "o": "db54d509-05be-48db-843f-7d1d31bc5e47"
+      "o": "7bcf7e09-efb4-4422-a12c-d65ff378c2e6"
     },
     {
-      "s": "a90ecb0e-c2d5-4ea8-9b40-73bb90643492",
+      "s": "8714a1ad-afb2-4bcd-9d59-29ce19b06d20",
       "p": "on-failure",
-      "o": "8f050a28-ff11-4f43-8999-fd3b8b99e164"
+      "o": "608cfe96-df18-4eec-bad2-05bf5a2c79cd"
     },
     {
-      "s": "8f050a28-ff11-4f43-8999-fd3b8b99e164",
+      "s": "608cfe96-df18-4eec-bad2-05bf5a2c79cd",
       "p": "on-success",
-      "o": "9442ddf7-bc06-405a-9be4-f72a1c2a5865"
+      "o": "3650c2ed-871f-43d4-8ac3-226be7c8afbd"
     },
     {
-      "s": "9442ddf7-bc06-405a-9be4-f72a1c2a5865",
+      "s": "3650c2ed-871f-43d4-8ac3-226be7c8afbd",
       "p": "on-failure",
-      "o": "db54d509-05be-48db-843f-7d1d31bc5e47"
+      "o": "7bcf7e09-efb4-4422-a12c-d65ff378c2e6"
     },
     {
-      "s": "1d714a39-c5c4-46ce-aa52-af3188d8704c",
+      "s": "066e0121-95e5-4701-b8f7-4b69512e735d",
       "p": "on-success",
-      "o": "db54d509-05be-48db-843f-7d1d31bc5e47"
+      "o": "7bcf7e09-efb4-4422-a12c-d65ff378c2e6"
     },
     {
-      "s": "1d714a39-c5c4-46ce-aa52-af3188d8704c",
+      "s": "066e0121-95e5-4701-b8f7-4b69512e735d",
       "p": "on-failure",
-      "o": "36926508-6cac-436f-8730-f2cf6e2edbf2"
+      "o": "1e190105-ec73-4eb4-a4a9-6e775381eea6"
     },
     {
-      "s": "36926508-6cac-436f-8730-f2cf6e2edbf2",
+      "s": "1e190105-ec73-4eb4-a4a9-6e775381eea6",
       "p": "on-success",
-      "o": "a3cd8a13-7ad0-4e51-ae19-d1d2f1b91609"
+      "o": "6b43187f-48a8-45ec-be0c-bb2848aecbcc"
     },
     {
-      "s": "a3cd8a13-7ad0-4e51-ae19-d1d2f1b91609",
+      "s": "6b43187f-48a8-45ec-be0c-bb2848aecbcc",
       "p": "on-failure",
-      "o": "db54d509-05be-48db-843f-7d1d31bc5e47"
+      "o": "7bcf7e09-efb4-4422-a12c-d65ff378c2e6"
     }
   ],
   "tags": [
     "T1046"
-  ]
+  ],
+  "input_arguments": null
 }

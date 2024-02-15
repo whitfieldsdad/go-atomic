@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "06966f5a-ec89-43db-8fbf-d3087a9a33fb",
+      "id": "5d4207d7-0456-45c4-80f5-b3a1008d0d6a",
       "type": "execute-command",
       "data": {
         "command": "copy-item \"$env:windir\\System32\\cmd.exe\" -destination \"$env:allusersprofile\\cmd.exe\"\nstart-process \"$env:allusersprofile\\cmd.exe\"\nsleep -s 5 \nstop-process -name \"cmd\" | out-null",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "ecb310e3-b298-490d-af53-64dc954c5cad",
+      "id": "a079cf73-153c-4e4d-83c1-0d59053ab178",
       "type": "execute-command",
       "data": {
         "command": "remove-item \"$env:allusersprofile\\cmd.exe\" -force -erroraction silentlycontinue",
@@ -27,17 +27,18 @@
   ],
   "flows": [
     {
-      "s": "06966f5a-ec89-43db-8fbf-d3087a9a33fb",
+      "s": "5d4207d7-0456-45c4-80f5-b3a1008d0d6a",
       "p": "on-success",
-      "o": "ecb310e3-b298-490d-af53-64dc954c5cad"
+      "o": "a079cf73-153c-4e4d-83c1-0d59053ab178"
     },
     {
-      "s": "06966f5a-ec89-43db-8fbf-d3087a9a33fb",
+      "s": "5d4207d7-0456-45c4-80f5-b3a1008d0d6a",
       "p": "on-failure",
-      "o": "ecb310e3-b298-490d-af53-64dc954c5cad"
+      "o": "a079cf73-153c-4e4d-83c1-0d59053ab178"
     }
   ],
   "tags": [
     "T1036"
-  ]
+  ],
+  "input_arguments": null
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e642ef2a-0b6a-4526-a2eb-1f37da87c225",
+      "id": "f1884293-6d7d-4412-b745-d0b575d9abc9",
       "type": "execute-command",
       "data": {
         "command": "netsh.exe advfirewall  show allprofiles \nnetsh.exe advfirewall firewall dump\nnetsh.exe advfirewall show currentprofile\nnetsh.exe advfirewall firewall show rule name=all\nnetsh.exe firewall show state\nnetsh.exe firewall show config\nsc query windefend\npowershell.exe /c \"Get-Process | Where-Object { $_.ProcessName -eq 'Sysmon' }\"\npowershell.exe /c \"Get-Service | where-object {$_.DisplayName -like '*sysm*'}\"\npowershell.exe /c \"Get-CimInstance Win32_Service -Filter 'Description = ''System Monitor service'''\"\ntasklist.exe\ntasklist.exe | findstr /i virus\ntasklist.exe | findstr /i cb\ntasklist.exe | findstr /i defender\ntasklist.exe | findstr /i cylance\ntasklist.exe | findstr /i mc\ntasklist.exe | findstr /i \"virus cb defender cylance mc\"",
@@ -16,8 +16,10 @@
       "elevation_required": false
     }
   ],
+  "flows": [],
   "tags": [
     "T1518",
     "T1518.001"
-  ]
+  ],
+  "input_arguments": null
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "37582c39-9f1c-44df-9fb5-5803a60e4b2e",
+      "id": "9bd868ba-933f-45e7-91ad-3d9c97298e2e",
       "type": "execute-command",
       "data": {
         "command": "import-module msonline\n$Password = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Password\nConnect-MsolService -Credential $Credential\n$users = Get-MsolUser -All;\nforeach($user in $users)\n{$props = @();$user | Get-Member | foreach-object{$props+=$_.Name}; \nforeach($prop in $props)\n{if($user.$prop -like \"*password*\")\n{(\"[*]\" + $user.UserPrincipalName + \"[\" + $prop + \"]\" + \" : \" + $user.$prop) | out-file -filepath $env:temp\\T1552.005Test1.txt -append -force}}}\nget-content -path $env:temp\\T1552.005Test1.txt -erroraction silentlycontinue",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "036c4a32-4ab2-4e07-851b-85cbd72de231",
+      "id": "166c0d5c-8a12-45bd-924c-9be706b32acb",
       "type": "execute-command",
       "data": {
         "command": "remove-item $env:temp\\T1552.005Test1.txt -force -erroraction silentlycontinue",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "e58c8826-7a94-4397-b0e2-4e98188db043",
+      "id": "507ad45d-6743-4caf-83f3-b5046b24749e",
       "name": "Check dependency 1/1",
       "description": "The MSOnline module must be installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "bce800a0-4165-4eff-9a5e-3de6fc4e4b9b",
+      "id": "99b4929b-bdbc-44e5-99f3-5178bfe09e34",
       "name": "Resolve dependency 1/1",
       "description": "The MSOnline module must be installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "973b31f2-7b24-4fdb-8616-8069d7ac710a",
+      "id": "71b988dd-aa8b-47c2-b489-c04c3c3de1af",
       "name": "Re-check dependency 1/1",
       "description": "The MSOnline module must be installed.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "37582c39-9f1c-44df-9fb5-5803a60e4b2e",
+      "s": "9bd868ba-933f-45e7-91ad-3d9c97298e2e",
       "p": "on-success",
-      "o": "036c4a32-4ab2-4e07-851b-85cbd72de231"
+      "o": "166c0d5c-8a12-45bd-924c-9be706b32acb"
     },
     {
-      "s": "37582c39-9f1c-44df-9fb5-5803a60e4b2e",
+      "s": "9bd868ba-933f-45e7-91ad-3d9c97298e2e",
       "p": "on-failure",
-      "o": "036c4a32-4ab2-4e07-851b-85cbd72de231"
+      "o": "166c0d5c-8a12-45bd-924c-9be706b32acb"
     },
     {
-      "s": "e58c8826-7a94-4397-b0e2-4e98188db043",
+      "s": "507ad45d-6743-4caf-83f3-b5046b24749e",
       "p": "on-success",
-      "o": "37582c39-9f1c-44df-9fb5-5803a60e4b2e"
+      "o": "9bd868ba-933f-45e7-91ad-3d9c97298e2e"
     },
     {
-      "s": "e58c8826-7a94-4397-b0e2-4e98188db043",
+      "s": "507ad45d-6743-4caf-83f3-b5046b24749e",
       "p": "on-failure",
-      "o": "bce800a0-4165-4eff-9a5e-3de6fc4e4b9b"
+      "o": "99b4929b-bdbc-44e5-99f3-5178bfe09e34"
     },
     {
-      "s": "bce800a0-4165-4eff-9a5e-3de6fc4e4b9b",
+      "s": "99b4929b-bdbc-44e5-99f3-5178bfe09e34",
       "p": "on-success",
-      "o": "973b31f2-7b24-4fdb-8616-8069d7ac710a"
+      "o": "71b988dd-aa8b-47c2-b489-c04c3c3de1af"
     },
     {
-      "s": "973b31f2-7b24-4fdb-8616-8069d7ac710a",
+      "s": "71b988dd-aa8b-47c2-b489-c04c3c3de1af",
       "p": "on-failure",
-      "o": "37582c39-9f1c-44df-9fb5-5803a60e4b2e"
+      "o": "9bd868ba-933f-45e7-91ad-3d9c97298e2e"
     }
   ],
   "tags": [

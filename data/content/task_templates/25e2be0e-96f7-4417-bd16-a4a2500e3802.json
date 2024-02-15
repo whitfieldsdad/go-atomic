@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "7151c753-0605-4f13-970f-fbdc4344e230",
+      "id": "a5ab0c1f-71ef-42de-8856-15cec905fbfd",
       "type": "execute-command",
       "data": {
         "command": "mkdir -p /var/spool/mail/copy\nfor file in /var/spool/mail/*; do\n  if [ \"$(basename \"$file\")\" != \"copy\" ]\n  then\n    cp -R \"$file\" /var/spool/mail/copy/\n  fi\ndone\nrm -rf /var/spool/mail/copy/*",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "b455f985-ddae-4be1-9877-02239ebc74db",
+      "id": "16778cea-ddf1-4e76-b28a-bd394e352f74",
       "type": "execute-command",
       "data": {
         "command": "rm -rf /var/spool/mail/copy",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "7151c753-0605-4f13-970f-fbdc4344e230",
+      "s": "a5ab0c1f-71ef-42de-8856-15cec905fbfd",
       "p": "on-success",
-      "o": "b455f985-ddae-4be1-9877-02239ebc74db"
+      "o": "16778cea-ddf1-4e76-b28a-bd394e352f74"
     },
     {
-      "s": "7151c753-0605-4f13-970f-fbdc4344e230",
+      "s": "a5ab0c1f-71ef-42de-8856-15cec905fbfd",
       "p": "on-failure",
-      "o": "b455f985-ddae-4be1-9877-02239ebc74db"
+      "o": "16778cea-ddf1-4e76-b28a-bd394e352f74"
     }
   ],
   "tags": [
     "T1070",
     "T1070.008"
-  ]
+  ],
+  "input_arguments": null
 }

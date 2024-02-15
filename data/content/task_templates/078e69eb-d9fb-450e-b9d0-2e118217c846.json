@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "d2c29783-d309-4262-9ef4-e98f9d44c71b",
+      "id": "a549262c-da8f-44fa-a67e-80c2d692ac10",
       "type": "execute-command",
       "data": {
         "command": "echo \"#{command}\" \u003e /etc/cron.d/#{cron_script_name}",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "5ae80f2e-da3f-4eb9-a5c8-d92c26311e6d",
+      "id": "75fa9888-8815-40d8-bb0f-94571dfc4af2",
       "type": "execute-command",
       "data": {
         "command": "rm /etc/cron.d/#{cron_script_name}",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "d2c29783-d309-4262-9ef4-e98f9d44c71b",
+      "s": "a549262c-da8f-44fa-a67e-80c2d692ac10",
       "p": "on-success",
-      "o": "5ae80f2e-da3f-4eb9-a5c8-d92c26311e6d"
+      "o": "75fa9888-8815-40d8-bb0f-94571dfc4af2"
     },
     {
-      "s": "d2c29783-d309-4262-9ef4-e98f9d44c71b",
+      "s": "a549262c-da8f-44fa-a67e-80c2d692ac10",
       "p": "on-failure",
-      "o": "5ae80f2e-da3f-4eb9-a5c8-d92c26311e6d"
+      "o": "75fa9888-8815-40d8-bb0f-94571dfc4af2"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "command",
-      "type": "string",
-      "description": "Command to execute",
-      "value": "echo '*/5     *       *       *       *       root    echo \"Hello from Atomic Red Team\"' \u003e /tmp/atomic.log"
-    },
-    {
       "name": "cron_script_name",
       "type": "string",
       "description": "Name of file to store in cron folder",
       "value": "persistevil"
+    },
+    {
+      "name": "command",
+      "type": "string",
+      "description": "Command to execute",
+      "value": "echo '*/5     *       *       *       *       root    echo \"Hello from Atomic Red Team\"' \u003e /tmp/atomic.log"
     }
   ]
 }

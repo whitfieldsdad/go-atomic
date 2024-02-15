@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "d2625b36-711b-4d7c-bcb9-47ed3a74354a",
+      "id": "c1fc5fa3-a086-41f3-8290-a96aa77b08ae",
       "type": "execute-command",
       "data": {
         "command": "$orgLegalNoticeCaption = (Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeCaption).LegalNoticeCaption\n$orgLegalNoticeText = (Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeText).LegalNoticeText\n$newLegalNoticeCaption = \"#{legal_notice_caption}\"\n$newLegalNoticeText = \"#{legal_notice_text}\"\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeCaption -Value $newLegalNoticeCaption -Type String -Force\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeText -Value $newLegalNoticeText -Type String -Force",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "4764dc9f-cd29-4d06-b9e7-e00cb883821c",
+      "id": "073a2062-161a-432c-a9d0-415ee45ee9dc",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeCaption -Value $orgLegalNoticeCaption -Type String -Force\nSet-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System -Name LegalNoticeText -Value $orgLegalNoticeText -Type String -Force",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "d2625b36-711b-4d7c-bcb9-47ed3a74354a",
+      "s": "c1fc5fa3-a086-41f3-8290-a96aa77b08ae",
       "p": "on-success",
-      "o": "4764dc9f-cd29-4d06-b9e7-e00cb883821c"
+      "o": "073a2062-161a-432c-a9d0-415ee45ee9dc"
     },
     {
-      "s": "d2625b36-711b-4d7c-bcb9-47ed3a74354a",
+      "s": "c1fc5fa3-a086-41f3-8290-a96aa77b08ae",
       "p": "on-failure",
-      "o": "4764dc9f-cd29-4d06-b9e7-e00cb883821c"
+      "o": "073a2062-161a-432c-a9d0-415ee45ee9dc"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6d66beaa-d18c-43d9-a79a-b2eda9f7cc22",
+      "id": "bfdd9428-b68a-4ebc-82ee-706398afdfbf",
       "type": "execute-command",
       "data": {
         "command": "$x = Get-Random -Minimum 2 -Maximum 9999\n$y = Get-Random -Minimum 2 -Maximum 9999\n$z = Get-Random -Minimum 2 -Maximum 9999\n$w = Get-Random -Minimum 2 -Maximum 9999\nWrite-Host HaHa_$x$y$z\n\n$fmm = Get-LocalGroupMember -Group Administrators |?{ $_.ObjectClass -match \"User\" -and $_.PrincipalSource -match \"Local\"} | Select Name\n\nforeach($member in $fmm) {\n    if($member -like \"*Administrator*\") {\n        $account = $member.Name.Split(\"\\\")[-1] # strip computername\\\n        $originalDescription = (Get-LocalUser -Name $account).Description\n        Set-LocalUser -Name $account -Description \"atr:$account;$originalDescription\".Substring(0,48) # Keep original name in description\n        Rename-LocalUser -Name $account -NewName \"HaHa_$x$y$z\" # Required due to length limitation\n        Write-Host \"Successfully Renamed $account Account on \" $Env:COMPUTERNAME\n        }\n    }",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "f988dc74-42ff-474f-9b54-8c1365de7643",
+      "id": "8677f542-d6bf-453b-a136-7d19e1a35940",
       "type": "execute-command",
       "data": {
         "command": "$list = Get-LocalUser |?{$_.Description -like \"atr:*\"}\nforeach($u in $list) {\n  $u.Description -match \"atr:(?\u003cName\u003e[^;]+);(?\u003cDescription\u003e.*)\"\n  Set-LocalUser -Name $u.Name -Description $Matches.Description\n  Rename-LocalUser -Name $u.Name -NewName $Matches.Name\n  Write-Host \"Successfully Reverted Account $($u.Name) to $($Matches.Name) on \" $Env:COMPUTERNAME\n}",
@@ -27,17 +27,18 @@
   ],
   "flows": [
     {
-      "s": "6d66beaa-d18c-43d9-a79a-b2eda9f7cc22",
+      "s": "bfdd9428-b68a-4ebc-82ee-706398afdfbf",
       "p": "on-success",
-      "o": "f988dc74-42ff-474f-9b54-8c1365de7643"
+      "o": "8677f542-d6bf-453b-a136-7d19e1a35940"
     },
     {
-      "s": "6d66beaa-d18c-43d9-a79a-b2eda9f7cc22",
+      "s": "bfdd9428-b68a-4ebc-82ee-706398afdfbf",
       "p": "on-failure",
-      "o": "f988dc74-42ff-474f-9b54-8c1365de7643"
+      "o": "8677f542-d6bf-453b-a136-7d19e1a35940"
     }
   ],
   "tags": [
     "T1098"
-  ]
+  ],
+  "input_arguments": null
 }

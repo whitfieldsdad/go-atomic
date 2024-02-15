@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "30ba12c2-38e3-4bb3-beb4-0bab4b27b397",
+      "id": "f1267c75-adc2-487e-9019-48fc25e35be8",
       "type": "execute-command",
       "data": {
         "command": "wmic /node:\"#{target_host}\" shadowcopy call create Volume=#{drive_letter}",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "9c959450-3c5c-46de-b2a9-e80428a7ad00",
+      "id": "99dc88bf-0018-41d7-804e-751548989dfc",
       "name": "Check dependency 1/1",
       "description": "Target must be a reachable Domain Controller, and current context must be domain admin\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": true
     },
     {
-      "id": "e2dca3aa-b3c2-485a-9b8b-b75c1eea7407",
+      "id": "05729dec-596c-46a5-a42e-fb56f042abf2",
       "name": "Resolve dependency 1/1",
       "description": "Target must be a reachable Domain Controller, and current context must be domain admin\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": true
     },
     {
-      "id": "0e07b8cf-cbe0-44ba-9171-20aac5b34892",
+      "id": "4af8f289-6f15-49bc-8c74-de8b5f06401e",
       "name": "Re-check dependency 1/1",
       "description": "Target must be a reachable Domain Controller, and current context must be domain admin\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "9c959450-3c5c-46de-b2a9-e80428a7ad00",
+      "s": "99dc88bf-0018-41d7-804e-751548989dfc",
       "p": "on-success",
-      "o": "30ba12c2-38e3-4bb3-beb4-0bab4b27b397"
+      "o": "f1267c75-adc2-487e-9019-48fc25e35be8"
     },
     {
-      "s": "9c959450-3c5c-46de-b2a9-e80428a7ad00",
+      "s": "99dc88bf-0018-41d7-804e-751548989dfc",
       "p": "on-failure",
-      "o": "e2dca3aa-b3c2-485a-9b8b-b75c1eea7407"
+      "o": "05729dec-596c-46a5-a42e-fb56f042abf2"
     },
     {
-      "s": "e2dca3aa-b3c2-485a-9b8b-b75c1eea7407",
+      "s": "05729dec-596c-46a5-a42e-fb56f042abf2",
       "p": "on-success",
-      "o": "0e07b8cf-cbe0-44ba-9171-20aac5b34892"
+      "o": "4af8f289-6f15-49bc-8c74-de8b5f06401e"
     },
     {
-      "s": "0e07b8cf-cbe0-44ba-9171-20aac5b34892",
+      "s": "4af8f289-6f15-49bc-8c74-de8b5f06401e",
       "p": "on-failure",
-      "o": "30ba12c2-38e3-4bb3-beb4-0bab4b27b397"
+      "o": "f1267c75-adc2-487e-9019-48fc25e35be8"
     }
   ],
   "tags": [

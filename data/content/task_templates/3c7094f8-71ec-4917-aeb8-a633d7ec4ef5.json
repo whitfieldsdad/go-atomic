@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "20330aca-ee16-40c5-a045-f151eb0fd695",
+      "id": "7592a732-fba8-419c-aaef-f94600d18bf3",
       "type": "execute-command",
       "data": {
         "command": "for bucket in \"$(aws s3 ls | cut -d \" \" -f3)\"; do aws s3api list-objects-v2 --bucket $bucket --output text; done",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "2b706bc7-42df-48b0-972f-8b4205041e28",
+      "id": "840e880d-f104-4572-9c31-3a62b6797c0b",
       "name": "Check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "f1295b0d-fabf-4162-aa24-9961e72c5010",
+      "id": "1b5788d7-a724-460c-b365-b26070658f99",
       "name": "Resolve dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "f463a127-e561-4f65-8210-37ae88a86a86",
+      "id": "7e6d0284-c908-4633-a909-9b626a34da79",
       "name": "Re-check dependency 1/1",
       "description": "Check if ~/.aws/credentials file has a default stanza is configured\n",
       "type": "execute-command",
@@ -51,27 +51,28 @@
   ],
   "flows": [
     {
-      "s": "2b706bc7-42df-48b0-972f-8b4205041e28",
+      "s": "840e880d-f104-4572-9c31-3a62b6797c0b",
       "p": "on-success",
-      "o": "20330aca-ee16-40c5-a045-f151eb0fd695"
+      "o": "7592a732-fba8-419c-aaef-f94600d18bf3"
     },
     {
-      "s": "2b706bc7-42df-48b0-972f-8b4205041e28",
+      "s": "840e880d-f104-4572-9c31-3a62b6797c0b",
       "p": "on-failure",
-      "o": "f1295b0d-fabf-4162-aa24-9961e72c5010"
+      "o": "1b5788d7-a724-460c-b365-b26070658f99"
     },
     {
-      "s": "f1295b0d-fabf-4162-aa24-9961e72c5010",
+      "s": "1b5788d7-a724-460c-b365-b26070658f99",
       "p": "on-success",
-      "o": "f463a127-e561-4f65-8210-37ae88a86a86"
+      "o": "7e6d0284-c908-4633-a909-9b626a34da79"
     },
     {
-      "s": "f463a127-e561-4f65-8210-37ae88a86a86",
+      "s": "7e6d0284-c908-4633-a909-9b626a34da79",
       "p": "on-failure",
-      "o": "20330aca-ee16-40c5-a045-f151eb0fd695"
+      "o": "7592a732-fba8-419c-aaef-f94600d18bf3"
     }
   ],
   "tags": [
     "T1619"
-  ]
+  ],
+  "input_arguments": null
 }

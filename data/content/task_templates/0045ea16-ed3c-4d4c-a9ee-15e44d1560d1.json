@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b6982cba-5a42-4e11-953c-ba8d22039f17",
+      "id": "31223160-1eee-4152-9372-4202586e62c0",
       "type": "execute-command",
       "data": {
         "command": "echo \"test\" \u003e #{file_name} | set-content -path test.txt -stream #{ads_filename} -value \"test\"\nset-content -path #{file_name} -stream #{ads_filename} -value \"test2\"\nset-content -path . -stream #{ads_filename} -value \"test3\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "00497d90-6175-424b-b307-39efd03d5794",
+      "id": "3f1c4073-c9b6-4b7c-a1fe-4d148d2a280d",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item -Path #{file_name} -ErrorAction Ignore",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "d3ccfa55-4046-4f47-9873-ed71dd54d3b1",
+      "id": "1ac43bf5-88bb-4839-b131-546ac365eed7",
       "name": "Check dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_name})\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "79dcdd42-3c18-4cdf-b2f3-8f43ea1dce6c",
+      "id": "648a36f6-d81a-4bda-af53-450db2712d87",
       "name": "Resolve dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_name})\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "53599a30-794c-45e4-81ac-fec5ee7da335",
+      "id": "fa9b404f-d5ed-453a-8005-06db040b8811",
       "name": "Re-check dependency 1/1",
       "description": "The file must exist on disk at specified location (#{file_name})\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "b6982cba-5a42-4e11-953c-ba8d22039f17",
+      "s": "31223160-1eee-4152-9372-4202586e62c0",
       "p": "on-success",
-      "o": "00497d90-6175-424b-b307-39efd03d5794"
+      "o": "3f1c4073-c9b6-4b7c-a1fe-4d148d2a280d"
     },
     {
-      "s": "b6982cba-5a42-4e11-953c-ba8d22039f17",
+      "s": "31223160-1eee-4152-9372-4202586e62c0",
       "p": "on-failure",
-      "o": "00497d90-6175-424b-b307-39efd03d5794"
+      "o": "3f1c4073-c9b6-4b7c-a1fe-4d148d2a280d"
     },
     {
-      "s": "d3ccfa55-4046-4f47-9873-ed71dd54d3b1",
+      "s": "1ac43bf5-88bb-4839-b131-546ac365eed7",
       "p": "on-success",
-      "o": "b6982cba-5a42-4e11-953c-ba8d22039f17"
+      "o": "31223160-1eee-4152-9372-4202586e62c0"
     },
     {
-      "s": "d3ccfa55-4046-4f47-9873-ed71dd54d3b1",
+      "s": "1ac43bf5-88bb-4839-b131-546ac365eed7",
       "p": "on-failure",
-      "o": "79dcdd42-3c18-4cdf-b2f3-8f43ea1dce6c"
+      "o": "648a36f6-d81a-4bda-af53-450db2712d87"
     },
     {
-      "s": "79dcdd42-3c18-4cdf-b2f3-8f43ea1dce6c",
+      "s": "648a36f6-d81a-4bda-af53-450db2712d87",
       "p": "on-success",
-      "o": "53599a30-794c-45e4-81ac-fec5ee7da335"
+      "o": "fa9b404f-d5ed-453a-8005-06db040b8811"
     },
     {
-      "s": "53599a30-794c-45e4-81ac-fec5ee7da335",
+      "s": "fa9b404f-d5ed-453a-8005-06db040b8811",
       "p": "on-failure",
-      "o": "b6982cba-5a42-4e11-953c-ba8d22039f17"
+      "o": "31223160-1eee-4152-9372-4202586e62c0"
     }
   ],
   "tags": [
@@ -96,16 +96,16 @@
   ],
   "input_arguments": [
     {
-      "name": "ads_filename",
-      "type": "string",
-      "description": "Name of ADS file.",
-      "value": "adstest.txt"
-    },
-    {
       "name": "file_name",
       "type": "string",
       "description": "File name of file to create ADS on.",
       "value": "$env:TEMP\\T1564.004_has_ads_powershell.txt"
+    },
+    {
+      "name": "ads_filename",
+      "type": "string",
+      "description": "Name of ADS file.",
+      "value": "adstest.txt"
     }
   ]
 }

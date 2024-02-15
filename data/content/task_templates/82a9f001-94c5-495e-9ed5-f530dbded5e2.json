@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6d6f30d8-7f2f-441e-8f8b-40bbf3176ca0",
+      "id": "1210fc2b-f6a1-4b0f-8d2a-e514f79762b0",
       "type": "execute-command",
       "data": {
         "command": "copy %temp%\\ExplorerSync.db %temp%\\..\\Microsoft\\ExplorerSync.db\nschtasks /create /tn ExplorerSync /tr \"javaw -jar %temp%\\..\\Microsoft\\ExplorerSync.db\" /sc MINUTE /f",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "961edcf7-36cc-4467-b162-f5e32107ed16",
+      "id": "471ccde1-5a86-4418-8b42-6ea0607ef2ac",
       "type": "execute-command",
       "data": {
         "command": "schtasks /delete /tn ExplorerSync /F 2\u003enull\ndel %temp%\\..\\Microsoft\\ExplorerSync.db 2\u003enull\ndel %temp%\\ExplorerSync.db 2\u003enull",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "5e7311b2-7d2f-4e05-b65c-c4bfad07ab33",
+      "id": "0bc805b8-8f8b-432e-a4cc-1da404637ede",
       "name": "Check dependency 1/1",
       "description": "ExplorerSync.db must exist on disk at specified location (#{rat_payload})\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "d164b1d2-161d-418c-a9ce-f51d6797dca1",
+      "id": "707dbbc9-5933-4b9e-8c06-3fc4e5dd97fa",
       "name": "Resolve dependency 1/1",
       "description": "ExplorerSync.db must exist on disk at specified location (#{rat_payload})\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "052e17e3-64c8-48b7-825e-fcf92abc3d16",
+      "id": "46256b91-60c2-4dc9-9efd-a3a067234f66",
       "name": "Re-check dependency 1/1",
       "description": "ExplorerSync.db must exist on disk at specified location (#{rat_payload})\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "6d6f30d8-7f2f-441e-8f8b-40bbf3176ca0",
+      "s": "1210fc2b-f6a1-4b0f-8d2a-e514f79762b0",
       "p": "on-success",
-      "o": "961edcf7-36cc-4467-b162-f5e32107ed16"
+      "o": "471ccde1-5a86-4418-8b42-6ea0607ef2ac"
     },
     {
-      "s": "6d6f30d8-7f2f-441e-8f8b-40bbf3176ca0",
+      "s": "1210fc2b-f6a1-4b0f-8d2a-e514f79762b0",
       "p": "on-failure",
-      "o": "961edcf7-36cc-4467-b162-f5e32107ed16"
+      "o": "471ccde1-5a86-4418-8b42-6ea0607ef2ac"
     },
     {
-      "s": "5e7311b2-7d2f-4e05-b65c-c4bfad07ab33",
+      "s": "0bc805b8-8f8b-432e-a4cc-1da404637ede",
       "p": "on-success",
-      "o": "6d6f30d8-7f2f-441e-8f8b-40bbf3176ca0"
+      "o": "1210fc2b-f6a1-4b0f-8d2a-e514f79762b0"
     },
     {
-      "s": "5e7311b2-7d2f-4e05-b65c-c4bfad07ab33",
+      "s": "0bc805b8-8f8b-432e-a4cc-1da404637ede",
       "p": "on-failure",
-      "o": "d164b1d2-161d-418c-a9ce-f51d6797dca1"
+      "o": "707dbbc9-5933-4b9e-8c06-3fc4e5dd97fa"
     },
     {
-      "s": "d164b1d2-161d-418c-a9ce-f51d6797dca1",
+      "s": "707dbbc9-5933-4b9e-8c06-3fc4e5dd97fa",
       "p": "on-success",
-      "o": "052e17e3-64c8-48b7-825e-fcf92abc3d16"
+      "o": "46256b91-60c2-4dc9-9efd-a3a067234f66"
     },
     {
-      "s": "052e17e3-64c8-48b7-825e-fcf92abc3d16",
+      "s": "46256b91-60c2-4dc9-9efd-a3a067234f66",
       "p": "on-failure",
-      "o": "6d6f30d8-7f2f-441e-8f8b-40bbf3176ca0"
+      "o": "1210fc2b-f6a1-4b0f-8d2a-e514f79762b0"
     }
   ],
   "tags": [

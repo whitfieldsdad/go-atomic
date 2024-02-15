@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6ba71203-3faa-4b1a-b932-ef056b2a55b7",
+      "id": "4acc2cf1-8c0e-4d93-8841-e0e6d4f47280",
       "type": "execute-command",
       "data": {
         "command": "Invoke-ATHRemoteFXvGPUDisablementCommand -ModuleName #{module_name} -ModulePath #{module_path}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "1adf809e-57d3-4ebe-9507-e4e7cc0a6404",
+      "id": "a33072f8-a297-4543-9dff-3c9b79c318c3",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHRemoteFXvGPUDisablementCommand must be exported in the module.",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "c8fa2d78-81fb-4267-bf97-1e64b97ba143",
+      "id": "9b2ac0c1-4507-44fd-b99d-d884a5ac6ebc",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHRemoteFXvGPUDisablementCommand must be exported in the module.",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "9babb09f-3dba-4162-93e9-f17b21ca3931",
+      "id": "047ce380-6ad8-4e55-8a92-2cc348a30aa7",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Invoke-ATHRemoteFXvGPUDisablementCommand must be exported in the module.",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "1adf809e-57d3-4ebe-9507-e4e7cc0a6404",
+      "s": "a33072f8-a297-4543-9dff-3c9b79c318c3",
       "p": "on-success",
-      "o": "6ba71203-3faa-4b1a-b932-ef056b2a55b7"
+      "o": "4acc2cf1-8c0e-4d93-8841-e0e6d4f47280"
     },
     {
-      "s": "1adf809e-57d3-4ebe-9507-e4e7cc0a6404",
+      "s": "a33072f8-a297-4543-9dff-3c9b79c318c3",
       "p": "on-failure",
-      "o": "c8fa2d78-81fb-4267-bf97-1e64b97ba143"
+      "o": "9b2ac0c1-4507-44fd-b99d-d884a5ac6ebc"
     },
     {
-      "s": "c8fa2d78-81fb-4267-bf97-1e64b97ba143",
+      "s": "9b2ac0c1-4507-44fd-b99d-d884a5ac6ebc",
       "p": "on-success",
-      "o": "9babb09f-3dba-4162-93e9-f17b21ca3931"
+      "o": "047ce380-6ad8-4e55-8a92-2cc348a30aa7"
     },
     {
-      "s": "9babb09f-3dba-4162-93e9-f17b21ca3931",
+      "s": "047ce380-6ad8-4e55-8a92-2cc348a30aa7",
       "p": "on-failure",
-      "o": "6ba71203-3faa-4b1a-b932-ef056b2a55b7"
+      "o": "4acc2cf1-8c0e-4d93-8841-e0e6d4f47280"
     }
   ],
   "tags": [
@@ -76,16 +76,16 @@
   ],
   "input_arguments": [
     {
-      "name": "module_path",
-      "type": "string",
-      "description": "Specifies an alternate, non-default PowerShell module path for RemoteFXvGPUDisablement.exe. If -ModulePath is not specified, the first entry in %PSModulePath% will be used. Typically, this is %USERPROFILE%\\Documents\\WindowsPowerShell\\Modules.",
-      "value": "$PWD"
-    },
-    {
       "name": "module_name",
       "type": "string",
       "description": "Specifies a temporary module name to use. If -ModuleName is not supplied, a 16-character random temporary module name is used. A PowerShell module can have any name. Because Get-VMRemoteFXPhysicalVideoAdapter abuses module load order, a module name must be specified.",
       "value": "foo"
+    },
+    {
+      "name": "module_path",
+      "type": "string",
+      "description": "Specifies an alternate, non-default PowerShell module path for RemoteFXvGPUDisablement.exe. If -ModulePath is not specified, the first entry in %PSModulePath% will be used. Typically, this is %USERPROFILE%\\Documents\\WindowsPowerShell\\Modules.",
+      "value": "$PWD"
     }
   ]
 }

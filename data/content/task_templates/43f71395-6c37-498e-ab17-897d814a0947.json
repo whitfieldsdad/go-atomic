@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "70b57f57-6c75-4bf3-aac9-290d7d01938e",
+      "id": "f3da60db-b4f8-43e2-a33c-01eb3de97543",
       "type": "execute-command",
       "data": {
         "command": "$PWord = ConvertTo-SecureString -String #{super_pass} -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList #{super_user}, $PWord\nif((Get-ADUser #{remove_user} -Properties memberof).memberof -like \"CN=Domain Admins*\"){\n  Remove-ADGroupMember -Identity \"Domain Admins\" -Members #{remove_user} -Credential $Credential -Confirm:$False\n} else{\n    write-host \"Error - Make sure #{remove_user} is in the domain admins group\" -foregroundcolor Red\n}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "17c7445e-30c4-4683-a987-42c77e1c4896",
+      "id": "404baf0b-a8b6-4c9f-8391-4ffc2c4f7607",
       "name": "Check dependency 1/1",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "f4cc8a27-4db8-4da9-a228-ce7f5d87f179",
+      "id": "d9587f72-85e7-4924-8e60-80aa0d05dac4",
       "name": "Resolve dependency 1/1",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "23b3268d-7422-4d5c-8524-43406e67abbf",
+      "id": "e0c10532-dfbc-47be-a299-9c21431c7430",
       "name": "Re-check dependency 1/1",
       "description": "Requires the Active Directory module for powershell to be installed.\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "17c7445e-30c4-4683-a987-42c77e1c4896",
+      "s": "404baf0b-a8b6-4c9f-8391-4ffc2c4f7607",
       "p": "on-success",
-      "o": "70b57f57-6c75-4bf3-aac9-290d7d01938e"
+      "o": "f3da60db-b4f8-43e2-a33c-01eb3de97543"
     },
     {
-      "s": "17c7445e-30c4-4683-a987-42c77e1c4896",
+      "s": "404baf0b-a8b6-4c9f-8391-4ffc2c4f7607",
       "p": "on-failure",
-      "o": "f4cc8a27-4db8-4da9-a228-ce7f5d87f179"
+      "o": "d9587f72-85e7-4924-8e60-80aa0d05dac4"
     },
     {
-      "s": "f4cc8a27-4db8-4da9-a228-ce7f5d87f179",
+      "s": "d9587f72-85e7-4924-8e60-80aa0d05dac4",
       "p": "on-success",
-      "o": "23b3268d-7422-4d5c-8524-43406e67abbf"
+      "o": "e0c10532-dfbc-47be-a299-9c21431c7430"
     },
     {
-      "s": "23b3268d-7422-4d5c-8524-43406e67abbf",
+      "s": "e0c10532-dfbc-47be-a299-9c21431c7430",
       "p": "on-failure",
-      "o": "70b57f57-6c75-4bf3-aac9-290d7d01938e"
+      "o": "f3da60db-b4f8-43e2-a33c-01eb3de97543"
     }
   ],
   "tags": [

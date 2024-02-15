@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "69dd72c7-dba0-4804-a6aa-96381f4917e7",
+      "id": "fef5f953-1b01-4ace-8856-88b0cb95d16c",
       "type": "execute-command",
       "data": {
         "command": "copy \"#{inputfile}\" #{outputfile}\n$myT1036_003 = (Start-Process -PassThru -FilePath #{outputfile}).Id\nStop-Process -ID $myT1036_003",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "9158e9b8-d5e9-4a9d-ad17-a15d450816eb",
+      "id": "d71aa64a-b12b-4d6c-b4f7-8a8cdc7758f5",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item #{outputfile} -Force -ErrorAction Ignore",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "69dd72c7-dba0-4804-a6aa-96381f4917e7",
+      "s": "fef5f953-1b01-4ace-8856-88b0cb95d16c",
       "p": "on-success",
-      "o": "9158e9b8-d5e9-4a9d-ad17-a15d450816eb"
+      "o": "d71aa64a-b12b-4d6c-b4f7-8a8cdc7758f5"
     },
     {
-      "s": "69dd72c7-dba0-4804-a6aa-96381f4917e7",
+      "s": "fef5f953-1b01-4ace-8856-88b0cb95d16c",
       "p": "on-failure",
-      "o": "9158e9b8-d5e9-4a9d-ad17-a15d450816eb"
+      "o": "d71aa64a-b12b-4d6c-b4f7-8a8cdc7758f5"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "outputfile",
-      "type": "path",
-      "description": "path of file to execute",
-      "value": "($env:TEMP + \"\\svchost.exe\")"
-    },
-    {
       "name": "inputfile",
       "type": "path",
       "description": "path of file to copy",
       "value": "$env:ComSpec"
+    },
+    {
+      "name": "outputfile",
+      "type": "path",
+      "description": "path of file to execute",
+      "value": "($env:TEMP + \"\\svchost.exe\")"
     }
   ]
 }

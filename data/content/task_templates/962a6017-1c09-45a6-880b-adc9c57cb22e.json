@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "04592a64-90bb-4d73-9e04-7c36512fcc9c",
+      "id": "1baad791-c668-4a7f-b840-4237450ed9d0",
       "type": "execute-command",
       "data": {
         "command": "$DirectorySearcher = New-Object System.DirectoryServices.DirectorySearcher(\"(ObjectCategory=Computer)\")\n$DirectorySearcher.PropertiesToLoad.Add(\"Name\")\n$Computers = $DirectorySearcher.findall()\nforeach ($Computer in $Computers) {\n  $Computer = $Computer.Properties.name\n  if (!$Computer) { Continue }\n  Write-Host $Computer}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "017af82b-882d-45b6-9aaa-47ea931e7d78",
+      "id": "473abb88-044d-42e6-b04d-97bd25791595",
       "name": "Check dependency 1/1",
       "description": "This PC must be joined to a domain.",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "041d0ded-7302-4882-a61f-43b289082155",
+      "id": "e4964d01-5d36-4648-8a5e-2dc90876ac95",
       "name": "Resolve dependency 1/1",
       "description": "This PC must be joined to a domain.",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "a72b9435-d229-4500-9065-cbb4308f49b4",
+      "id": "30017d17-1125-4f09-87bb-364ea8f3bd67",
       "name": "Re-check dependency 1/1",
       "description": "This PC must be joined to a domain.",
       "type": "execute-command",
@@ -51,27 +51,28 @@
   ],
   "flows": [
     {
-      "s": "017af82b-882d-45b6-9aaa-47ea931e7d78",
+      "s": "473abb88-044d-42e6-b04d-97bd25791595",
       "p": "on-success",
-      "o": "04592a64-90bb-4d73-9e04-7c36512fcc9c"
+      "o": "1baad791-c668-4a7f-b840-4237450ed9d0"
     },
     {
-      "s": "017af82b-882d-45b6-9aaa-47ea931e7d78",
+      "s": "473abb88-044d-42e6-b04d-97bd25791595",
       "p": "on-failure",
-      "o": "041d0ded-7302-4882-a61f-43b289082155"
+      "o": "e4964d01-5d36-4648-8a5e-2dc90876ac95"
     },
     {
-      "s": "041d0ded-7302-4882-a61f-43b289082155",
+      "s": "e4964d01-5d36-4648-8a5e-2dc90876ac95",
       "p": "on-success",
-      "o": "a72b9435-d229-4500-9065-cbb4308f49b4"
+      "o": "30017d17-1125-4f09-87bb-364ea8f3bd67"
     },
     {
-      "s": "a72b9435-d229-4500-9065-cbb4308f49b4",
+      "s": "30017d17-1125-4f09-87bb-364ea8f3bd67",
       "p": "on-failure",
-      "o": "04592a64-90bb-4d73-9e04-7c36512fcc9c"
+      "o": "1baad791-c668-4a7f-b840-4237450ed9d0"
     }
   ],
   "tags": [
     "T1018"
-  ]
+  ],
+  "input_arguments": null
 }

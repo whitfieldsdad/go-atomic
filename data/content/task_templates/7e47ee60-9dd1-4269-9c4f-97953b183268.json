@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "d4c5754a-ee56-4d93-8741-842e4c9872a3",
+      "id": "bb43fd5a-2aff-423c-bae9-127fe0d9c545",
       "type": "execute-command",
       "data": {
         "command": "$file = New-Item $env:windir\\registration\\04e53197-72be-4dd8-88b1-533fe6eed577.04e53197-72be-4dd8-88b1-533fe6eed577.crmlog; $file.Attributes = 'Hidden', 'System', 'Archive'; Write-Host \"File created: $($file.FullName)\"",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "f3b885c8-3a49-48bc-a25e-9afa7be910d1",
+      "id": "08345dca-e98c-4c71-8c31-919a583ed40e",
       "type": "execute-command",
       "data": {
         "command": "$fileNameToDelete = '04e53197-72be-4dd8-88b1-533fe6eed577.04e53197-72be-4dd8-88b1-533fe6eed577.crmlog'; $filePathToDelete = \"$env:windir\\registration\\\"; $fullPathToDelete = Join-Path $filePathToDelete $fileNameToDelete; if (Test-Path $fullPathToDelete) { Remove-Item -Path $fullPathToDelete -Force; Write-Host \"File deleted: $fullPathToDelete\" } else { Write-Host \"File not found: $fullPathToDelete\" }",
@@ -27,17 +27,18 @@
   ],
   "flows": [
     {
-      "s": "d4c5754a-ee56-4d93-8741-842e4c9872a3",
+      "s": "bb43fd5a-2aff-423c-bae9-127fe0d9c545",
       "p": "on-success",
-      "o": "f3b885c8-3a49-48bc-a25e-9afa7be910d1"
+      "o": "08345dca-e98c-4c71-8c31-919a583ed40e"
     },
     {
-      "s": "d4c5754a-ee56-4d93-8741-842e4c9872a3",
+      "s": "bb43fd5a-2aff-423c-bae9-127fe0d9c545",
       "p": "on-failure",
-      "o": "f3b885c8-3a49-48bc-a25e-9afa7be910d1"
+      "o": "08345dca-e98c-4c71-8c31-919a583ed40e"
     }
   ],
   "tags": [
     "T1027"
-  ]
+  ],
+  "input_arguments": null
 }

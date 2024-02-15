@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b5f21941-f120-4241-a8fe-9cedfd9bf6f4",
+      "id": "9e37ed7a-3737-4c70-8b72-7bcb174d247a",
       "type": "execute-command",
       "data": {
         "command": "if (!(Test-Path C:\\Users\\Public\\Libraries\\yanki -PathType Container)) {\n    New-Item -ItemType Directory -Force -Path C:\\Users\\Public\\Libraries\\yanki\n    }\nStart-Process -FilePath \"$env:comspec\" -ArgumentList \"/c,type,#{payload_path},\u003e,`\"#{ads_file_path}:#{ads_name}`\"\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "45301499-b30f-48b0-8e53-63b457b2dce8",
+      "id": "98a72121-f7f9-49cf-868d-81a0fb712514",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item \"#{ads_file_path}\" -Force -ErrorAction Ignore",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "b5f21941-f120-4241-a8fe-9cedfd9bf6f4",
+      "s": "9e37ed7a-3737-4c70-8b72-7bcb174d247a",
       "p": "on-success",
-      "o": "45301499-b30f-48b0-8e53-63b457b2dce8"
+      "o": "98a72121-f7f9-49cf-868d-81a0fb712514"
     },
     {
-      "s": "b5f21941-f120-4241-a8fe-9cedfd9bf6f4",
+      "s": "9e37ed7a-3737-4c70-8b72-7bcb174d247a",
       "p": "on-failure",
-      "o": "45301499-b30f-48b0-8e53-63b457b2dce8"
+      "o": "98a72121-f7f9-49cf-868d-81a0fb712514"
     }
   ],
   "tags": [
@@ -42,12 +42,6 @@
     "T1564.004"
   ],
   "input_arguments": [
-    {
-      "name": "ads_name",
-      "type": "string",
-      "description": "Name of ADS",
-      "value": "desktop.ini"
-    },
     {
       "name": "payload_path",
       "type": "path",
@@ -59,6 +53,12 @@
       "type": "path",
       "description": "Path of file to create an ADS under",
       "value": "C:\\Users\\Public\\Libraries\\yanki\\desktop.ini"
+    },
+    {
+      "name": "ads_name",
+      "type": "string",
+      "description": "Name of ADS",
+      "value": "desktop.ini"
     }
   ]
 }

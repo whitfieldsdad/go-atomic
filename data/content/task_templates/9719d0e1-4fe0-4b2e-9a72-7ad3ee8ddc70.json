@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "dbe88f19-f571-4171-bb2b-f3ad1449a313",
+      "id": "a8bc30f4-449e-4188-8806-72078ca640f1",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v AutoAdminLogon /t REG_DWORD /d 1 /f\nreg add \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v DefaultUserName /t REG_SZ /d Administrator /f\nreg add \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v DefaultDomainName /t REG_SZ /d contoso.com /f\nreg add \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v DefaultPassword /t REG_SZ /d password1 /f",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "064d34d0-dc3e-4cbd-b87c-a98da046d91b",
+      "id": "473fce42-3f95-43f2-9197-7c0b18e3610d",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v AutoAdminLogon /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v DefaultUserName /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v DefaultDomainName /f \u003enul 2\u003e\u00261\nreg delete \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v DefaultPassword /f \u003enul 2\u003e\u00261",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "dbe88f19-f571-4171-bb2b-f3ad1449a313",
+      "s": "a8bc30f4-449e-4188-8806-72078ca640f1",
       "p": "on-success",
-      "o": "064d34d0-dc3e-4cbd-b87c-a98da046d91b"
+      "o": "473fce42-3f95-43f2-9197-7c0b18e3610d"
     },
     {
-      "s": "dbe88f19-f571-4171-bb2b-f3ad1449a313",
+      "s": "a8bc30f4-449e-4188-8806-72078ca640f1",
       "p": "on-failure",
-      "o": "064d34d0-dc3e-4cbd-b87c-a98da046d91b"
+      "o": "473fce42-3f95-43f2-9197-7c0b18e3610d"
     }
   ],
   "tags": [
     "T1562",
     "T1562.001"
-  ]
+  ],
+  "input_arguments": null
 }

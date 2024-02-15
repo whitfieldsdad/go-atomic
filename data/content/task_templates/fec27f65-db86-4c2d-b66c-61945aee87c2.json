@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "a7dda5d1-6a38-47c6-b8cf-430f2d46356c",
+      "id": "066e33c6-4c72-4600-8a1c-0be1705fb097",
       "type": "execute-command",
       "data": {
         "command": "schtasks /create /tn \"T1053_005_OnLogon\" /sc onlogon /tr \"cmd.exe /c calc.exe\"\nschtasks /create /tn \"T1053_005_OnStartup\" /sc onstart /ru system /tr \"cmd.exe /c calc.exe\"",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "df29f59d-8b23-4743-8035-417e73f8593e",
+      "id": "d70c050e-8f6a-44c5-9773-d849febdd879",
       "type": "execute-command",
       "data": {
         "command": "schtasks /delete /tn \"T1053_005_OnLogon\" /f \u003enul 2\u003e\u00261\nschtasks /delete /tn \"T1053_005_OnStartup\" /f \u003enul 2\u003e\u00261",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "a7dda5d1-6a38-47c6-b8cf-430f2d46356c",
+      "s": "066e33c6-4c72-4600-8a1c-0be1705fb097",
       "p": "on-success",
-      "o": "df29f59d-8b23-4743-8035-417e73f8593e"
+      "o": "d70c050e-8f6a-44c5-9773-d849febdd879"
     },
     {
-      "s": "a7dda5d1-6a38-47c6-b8cf-430f2d46356c",
+      "s": "066e33c6-4c72-4600-8a1c-0be1705fb097",
       "p": "on-failure",
-      "o": "df29f59d-8b23-4743-8035-417e73f8593e"
+      "o": "d70c050e-8f6a-44c5-9773-d849febdd879"
     }
   ],
   "tags": [
     "T1053",
     "T1053.005"
-  ]
+  ],
+  "input_arguments": null
 }

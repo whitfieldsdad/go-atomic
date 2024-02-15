@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "81b632fa-0205-4799-888f-5cf5719f6f08",
+      "id": "8f87ff9b-9ab0-4391-a288-1a4f9d0ada8f",
       "type": "execute-command",
       "data": {
         "command": "New-Item -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -ItemType Directory -ErrorAction Ignore\nGet-ChildItem -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\" -Exclude copy | ForEach-Object { Copy-Item -Path $_.FullName -Destination \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -Recurse -Force -ErrorAction Ignore }\nGet-ChildItem -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -File | ForEach-Object { Add-Content -Path $_.FullName -Value \"Modification for Atomic Red Test\" -ErrorAction Ignore }",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "313680f7-8cba-4644-b424-011c41d99116",
+      "id": "af38a2bd-7120-47fc-8f6c-05e495264992",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item -Path \"C:\\Users\\$env:USERNAME\\AppData\\Local\\Comms\\Unistore\\data\\copy\" -Recurse -Force -ErrorAction Ignore",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "81b632fa-0205-4799-888f-5cf5719f6f08",
+      "s": "8f87ff9b-9ab0-4391-a288-1a4f9d0ada8f",
       "p": "on-success",
-      "o": "313680f7-8cba-4644-b424-011c41d99116"
+      "o": "af38a2bd-7120-47fc-8f6c-05e495264992"
     },
     {
-      "s": "81b632fa-0205-4799-888f-5cf5719f6f08",
+      "s": "8f87ff9b-9ab0-4391-a288-1a4f9d0ada8f",
       "p": "on-failure",
-      "o": "313680f7-8cba-4644-b424-011c41d99116"
+      "o": "af38a2bd-7120-47fc-8f6c-05e495264992"
     }
   ],
   "tags": [
     "T1070",
     "T1070.008"
-  ]
+  ],
+  "input_arguments": null
 }

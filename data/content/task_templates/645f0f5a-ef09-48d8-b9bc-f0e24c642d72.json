@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "11a6d86d-014c-4c55-9341-eb4cd55a7b58",
+      "id": "eff0d728-e6f8-422f-985d-03dc03ec1278",
       "type": "execute-command",
       "data": {
         "command": "7z a -p #{file_password} -mhe=on #{encrypted_file_name} #{input_file_path}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "b76677d2-1dab-43d4-86f2-8c06ad847621",
+      "id": "0c60d4d9-186f-46ce-acce-6aa49bbcc75f",
       "type": "execute-command",
       "data": {
         "command": "rm #{encrypted_file_name}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "32ae3536-30ba-4c54-ae35-25afbf79eb5e",
+      "id": "1f6e9732-4265-4c7a-b84a-9fa04fa16e71",
       "name": "Check dependency 1/1",
       "description": "Check if 7z command exists on the machine\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "61960423-462b-4b62-98ea-fb73018bab2c",
+      "id": "6a014cc4-ce90-4d48-a2db-644377196edd",
       "name": "Resolve dependency 1/1",
       "description": "Check if 7z command exists on the machine\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "696716a9-1ba7-488b-9d16-82e52498ddac",
+      "id": "9b8930ab-6dbc-4499-bcd3-eeb33dd47057",
       "name": "Re-check dependency 1/1",
       "description": "Check if 7z command exists on the machine\n",
       "type": "execute-command",
@@ -60,40 +60,46 @@
   ],
   "flows": [
     {
-      "s": "11a6d86d-014c-4c55-9341-eb4cd55a7b58",
+      "s": "eff0d728-e6f8-422f-985d-03dc03ec1278",
       "p": "on-success",
-      "o": "b76677d2-1dab-43d4-86f2-8c06ad847621"
+      "o": "0c60d4d9-186f-46ce-acce-6aa49bbcc75f"
     },
     {
-      "s": "11a6d86d-014c-4c55-9341-eb4cd55a7b58",
+      "s": "eff0d728-e6f8-422f-985d-03dc03ec1278",
       "p": "on-failure",
-      "o": "b76677d2-1dab-43d4-86f2-8c06ad847621"
+      "o": "0c60d4d9-186f-46ce-acce-6aa49bbcc75f"
     },
     {
-      "s": "32ae3536-30ba-4c54-ae35-25afbf79eb5e",
+      "s": "1f6e9732-4265-4c7a-b84a-9fa04fa16e71",
       "p": "on-success",
-      "o": "11a6d86d-014c-4c55-9341-eb4cd55a7b58"
+      "o": "eff0d728-e6f8-422f-985d-03dc03ec1278"
     },
     {
-      "s": "32ae3536-30ba-4c54-ae35-25afbf79eb5e",
+      "s": "1f6e9732-4265-4c7a-b84a-9fa04fa16e71",
       "p": "on-failure",
-      "o": "61960423-462b-4b62-98ea-fb73018bab2c"
+      "o": "6a014cc4-ce90-4d48-a2db-644377196edd"
     },
     {
-      "s": "61960423-462b-4b62-98ea-fb73018bab2c",
+      "s": "6a014cc4-ce90-4d48-a2db-644377196edd",
       "p": "on-success",
-      "o": "696716a9-1ba7-488b-9d16-82e52498ddac"
+      "o": "9b8930ab-6dbc-4499-bcd3-eeb33dd47057"
     },
     {
-      "s": "696716a9-1ba7-488b-9d16-82e52498ddac",
+      "s": "9b8930ab-6dbc-4499-bcd3-eeb33dd47057",
       "p": "on-failure",
-      "o": "11a6d86d-014c-4c55-9341-eb4cd55a7b58"
+      "o": "eff0d728-e6f8-422f-985d-03dc03ec1278"
     }
   ],
   "tags": [
     "T1486"
   ],
   "input_arguments": [
+    {
+      "name": "file_password",
+      "type": "string",
+      "description": "Password to be provided for archiving the file",
+      "value": "ARTPass"
+    },
     {
       "name": "encrypted_file_name",
       "type": "string",
@@ -105,12 +111,6 @@
       "type": "path",
       "description": "Path to the file that you want to encrypt",
       "value": "~/test.txt"
-    },
-    {
-      "name": "file_password",
-      "type": "string",
-      "description": "Password to be provided for archiving the file",
-      "value": "ARTPass"
     }
   ]
 }

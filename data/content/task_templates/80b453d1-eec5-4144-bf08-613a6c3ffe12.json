@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ddf52535-e98f-4574-ab63-2ae550fdf9d5",
+      "id": "0a25852a-1e5c-4675-b05b-6940bc5f1a65",
       "type": "execute-command",
       "data": {
         "command": "New-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\" -Name EnableFirewall -PropertyType DWORD -Value 0 -Force\nNew-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\StandardProfile\" -Name EnableFirewall -PropertyType DWORD -Value 0 -Force",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "e4db589a-c1b0-4b04-b67e-f1ec84a2fe0e",
+      "id": "000b10f0-df83-4409-bd66-3b4924a6ba6e",
       "type": "execute-command",
       "data": {
         "command": "Remove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\"  -Name EnableFirewall -Force -ErrorAction Ignore\nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\StandardProfile\" -Name EnableFirewall -Force -ErrorAction Ignore",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "ddf52535-e98f-4574-ab63-2ae550fdf9d5",
+      "s": "0a25852a-1e5c-4675-b05b-6940bc5f1a65",
       "p": "on-success",
-      "o": "e4db589a-c1b0-4b04-b67e-f1ec84a2fe0e"
+      "o": "000b10f0-df83-4409-bd66-3b4924a6ba6e"
     },
     {
-      "s": "ddf52535-e98f-4574-ab63-2ae550fdf9d5",
+      "s": "0a25852a-1e5c-4675-b05b-6940bc5f1a65",
       "p": "on-failure",
-      "o": "e4db589a-c1b0-4b04-b67e-f1ec84a2fe0e"
+      "o": "000b10f0-df83-4409-bd66-3b4924a6ba6e"
     }
   ],
   "tags": [
     "T1562",
     "T1562.004"
-  ]
+  ],
+  "input_arguments": null
 }

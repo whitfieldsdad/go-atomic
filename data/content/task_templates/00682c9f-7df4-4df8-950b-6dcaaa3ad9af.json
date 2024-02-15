@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b817e9ad-45b4-4716-b460-6835494bf9e6",
+      "id": "6ec64db1-ab02-43c7-b7af-1661f5cb9d5b",
       "type": "execute-command",
       "data": {
         "command": "c:\\windows\\system32\\cmd.exe /c cd /d #{script_path} \u0026 echo Set objShell = CreateObject(\"WScript.Shell\"):Set objExec = objShell.Exec(\"whoami\"):Set objExec = Nothing:Set objShell = Nothing \u003e #{script_name}.vbs \u0026 #{script_name}.vbs",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "f4fb14f7-e378-4976-b7e5-e17a84e254d4",
+      "id": "00e972b7-641e-4503-b09b-218b566af076",
       "type": "execute-command",
       "data": {
         "command": "del \"#{script_name}.vbs\" \u003enul 2\u003e\u00261",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "b817e9ad-45b4-4716-b460-6835494bf9e6",
+      "s": "6ec64db1-ab02-43c7-b7af-1661f5cb9d5b",
       "p": "on-success",
-      "o": "f4fb14f7-e378-4976-b7e5-e17a84e254d4"
+      "o": "00e972b7-641e-4503-b09b-218b566af076"
     },
     {
-      "s": "b817e9ad-45b4-4716-b460-6835494bf9e6",
+      "s": "6ec64db1-ab02-43c7-b7af-1661f5cb9d5b",
       "p": "on-failure",
-      "o": "f4fb14f7-e378-4976-b7e5-e17a84e254d4"
+      "o": "00e972b7-641e-4503-b09b-218b566af076"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "script_name",
-      "type": "string",
-      "description": "Script name (without the extension)",
-      "value": "AtomicTest"
-    },
-    {
       "name": "script_path",
       "type": "path",
       "description": "Path in which the script will be written.",
       "value": "%TEMP%\\"
+    },
+    {
+      "name": "script_name",
+      "type": "string",
+      "description": "Script name (without the extension)",
+      "value": "AtomicTest"
     }
   ]
 }

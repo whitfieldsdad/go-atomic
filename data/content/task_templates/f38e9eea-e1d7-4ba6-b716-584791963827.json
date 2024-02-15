@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b9178a5d-a097-4255-8340-0f67b4e34c4c",
+      "id": "00a1690a-2add-4105-953d-a277e0ed75a1",
       "type": "execute-command",
       "data": {
         "command": "reg.exe add \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\#{weak_service_name}\" /f /v ImagePath /d \"#{malicious_service_path}\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "7f4afd52-04a5-4295-9e6e-97dd267049ab",
+      "id": "577d3d7a-8a7e-4ccc-95c3-8a485d14b9be",
       "type": "execute-command",
       "data": {
         "command": "sc.exe delete #{weak_service_name}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "a2eaa189-b1c3-4ebd-b61d-143fd9154925",
+      "id": "52edbf8d-6e38-4cd7-b4a3-f3d5952a2145",
       "name": "Check dependency 1/1",
       "description": "The service must exist (#{weak_service_name})\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "0611d7f6-c963-4d16-85da-de614a5fcc01",
+      "id": "bf2b777e-0496-43fb-91e9-c3f81f20ae1a",
       "name": "Resolve dependency 1/1",
       "description": "The service must exist (#{weak_service_name})\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "e0578109-387a-43c4-a1ac-8f2723b33bea",
+      "id": "2d347114-a368-4ffe-be0d-2af4679ce1e5",
       "name": "Re-check dependency 1/1",
       "description": "The service must exist (#{weak_service_name})\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "b9178a5d-a097-4255-8340-0f67b4e34c4c",
+      "s": "00a1690a-2add-4105-953d-a277e0ed75a1",
       "p": "on-success",
-      "o": "7f4afd52-04a5-4295-9e6e-97dd267049ab"
+      "o": "577d3d7a-8a7e-4ccc-95c3-8a485d14b9be"
     },
     {
-      "s": "b9178a5d-a097-4255-8340-0f67b4e34c4c",
+      "s": "00a1690a-2add-4105-953d-a277e0ed75a1",
       "p": "on-failure",
-      "o": "7f4afd52-04a5-4295-9e6e-97dd267049ab"
+      "o": "577d3d7a-8a7e-4ccc-95c3-8a485d14b9be"
     },
     {
-      "s": "a2eaa189-b1c3-4ebd-b61d-143fd9154925",
+      "s": "52edbf8d-6e38-4cd7-b4a3-f3d5952a2145",
       "p": "on-success",
-      "o": "b9178a5d-a097-4255-8340-0f67b4e34c4c"
+      "o": "00a1690a-2add-4105-953d-a277e0ed75a1"
     },
     {
-      "s": "a2eaa189-b1c3-4ebd-b61d-143fd9154925",
+      "s": "52edbf8d-6e38-4cd7-b4a3-f3d5952a2145",
       "p": "on-failure",
-      "o": "0611d7f6-c963-4d16-85da-de614a5fcc01"
+      "o": "bf2b777e-0496-43fb-91e9-c3f81f20ae1a"
     },
     {
-      "s": "0611d7f6-c963-4d16-85da-de614a5fcc01",
+      "s": "bf2b777e-0496-43fb-91e9-c3f81f20ae1a",
       "p": "on-success",
-      "o": "e0578109-387a-43c4-a1ac-8f2723b33bea"
+      "o": "2d347114-a368-4ffe-be0d-2af4679ce1e5"
     },
     {
-      "s": "e0578109-387a-43c4-a1ac-8f2723b33bea",
+      "s": "2d347114-a368-4ffe-be0d-2af4679ce1e5",
       "p": "on-failure",
-      "o": "b9178a5d-a097-4255-8340-0f67b4e34c4c"
+      "o": "00a1690a-2add-4105-953d-a277e0ed75a1"
     }
   ],
   "tags": [

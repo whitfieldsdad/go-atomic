@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "d4769f9d-a8e1-4af4-98fb-5e54958e5a8e",
+      "id": "fb322630-4bdf-49b8-8172-0d655e4b5c3b",
       "type": "execute-command",
       "data": {
         "command": "New-Item -ItemType Directory -path \"#{new_startup_folder}\"\nCopy-Item -path \"#{payload}\" -destination \"#{new_startup_folder}\"\nSet-ItemProperty -Path  \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\" -Name \"Startup\" -Value \"#{new_startup_folder}\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "393e215e-3073-4e52-aa48-2ea1f25c6214",
+      "id": "e848b050-4933-46eb-8aeb-6d0d57ae7d23",
       "type": "execute-command",
       "data": {
         "command": "Set-ItemProperty -Path  \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\" -Name \"Startup\" -Value \"$env:APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\"\nRemove-Item \"#{new_startup_folder}\" -Recurse -Force",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "d4769f9d-a8e1-4af4-98fb-5e54958e5a8e",
+      "s": "fb322630-4bdf-49b8-8172-0d655e4b5c3b",
       "p": "on-success",
-      "o": "393e215e-3073-4e52-aa48-2ea1f25c6214"
+      "o": "e848b050-4933-46eb-8aeb-6d0d57ae7d23"
     },
     {
-      "s": "d4769f9d-a8e1-4af4-98fb-5e54958e5a8e",
+      "s": "fb322630-4bdf-49b8-8172-0d655e4b5c3b",
       "p": "on-failure",
-      "o": "393e215e-3073-4e52-aa48-2ea1f25c6214"
+      "o": "e848b050-4933-46eb-8aeb-6d0d57ae7d23"
     }
   ],
   "tags": [
@@ -43,16 +43,16 @@
   ],
   "input_arguments": [
     {
-      "name": "new_startup_folder",
-      "type": "string",
-      "description": "new startup folder to replace standard one",
-      "value": "$env:TMP\\atomictest\\"
-    },
-    {
       "name": "payload",
       "type": "string",
       "description": "executable to be placed in new startup location ",
       "value": "C:\\Windows\\System32\\calc.exe"
+    },
+    {
+      "name": "new_startup_folder",
+      "type": "string",
+      "description": "new startup folder to replace standard one",
+      "value": "$env:TMP\\atomictest\\"
     }
   ]
 }

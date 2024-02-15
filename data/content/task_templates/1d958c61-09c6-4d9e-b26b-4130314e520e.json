@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "2b6857f6-99f0-4058-b84e-b7cc8f6815ff",
+      "id": "cefd58e9-9cb5-453a-934e-f0fc21127bd1",
       "type": "execute-command",
       "data": {
         "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Shell\");\nSet-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Shell-backup\" -Value \"$oldvalue\";\n$newvalue = $oldvalue + \", #{payload}\";\nSet-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Shell\" -Value \"$newvalue\"",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "79a20ffb-3c91-4bd6-a329-cc87d2d0dd77",
+      "id": "ca1d69de-bba9-41b4-9e49-4d4725d885dc",
       "type": "execute-command",
       "data": {
         "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name 'Shell-backup');\nSet-ItemProperty -Path \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name \"Shell\" -Value \"$oldvalue\";\nRemove-ItemProperty -Path  \"HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" -Name 'Shell-backup'",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "2b6857f6-99f0-4058-b84e-b7cc8f6815ff",
+      "s": "cefd58e9-9cb5-453a-934e-f0fc21127bd1",
       "p": "on-success",
-      "o": "79a20ffb-3c91-4bd6-a329-cc87d2d0dd77"
+      "o": "ca1d69de-bba9-41b4-9e49-4d4725d885dc"
     },
     {
-      "s": "2b6857f6-99f0-4058-b84e-b7cc8f6815ff",
+      "s": "cefd58e9-9cb5-453a-934e-f0fc21127bd1",
       "p": "on-failure",
-      "o": "79a20ffb-3c91-4bd6-a329-cc87d2d0dd77"
+      "o": "ca1d69de-bba9-41b4-9e49-4d4725d885dc"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "58ef2153-83d6-4f60-bb54-ed86dd885d57",
+      "id": "cc6ea14a-7274-4fb9-a329-414326fcb9e0",
       "type": "execute-command",
       "data": {
         "command": "Out-ATHPowerShellCommandLineParameter -CommandLineSwitchType #{command_line_switch_type} -CommandParamVariation #{command_param_variation} -UseEncodedArguments -EncodedArgumentsParamVariation #{encoded_arguments_param_variation} -Execute -ErrorAction Stop",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "923f46cc-ecc1-424a-93d2-525409cd6869",
+      "id": "54990433-048a-4c5b-a884-84c404ee144c",
       "name": "Check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "36591b24-d771-4353-80ba-e55c39c7353f",
+      "id": "831752f6-6c0e-4354-a945-4bdaa2ff8655",
       "name": "Resolve dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "fe616118-bacb-4509-b7fa-2d6659f47b16",
+      "id": "e00c3872-8263-49a7-ae79-9d9171505f02",
       "name": "Re-check dependency 1/1",
       "description": "The AtomicTestHarnesses module must be installed and Out-ATHPowerShellCommandLineParameter must be exported in the module.",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "923f46cc-ecc1-424a-93d2-525409cd6869",
+      "s": "54990433-048a-4c5b-a884-84c404ee144c",
       "p": "on-success",
-      "o": "58ef2153-83d6-4f60-bb54-ed86dd885d57"
+      "o": "cc6ea14a-7274-4fb9-a329-414326fcb9e0"
     },
     {
-      "s": "923f46cc-ecc1-424a-93d2-525409cd6869",
+      "s": "54990433-048a-4c5b-a884-84c404ee144c",
       "p": "on-failure",
-      "o": "36591b24-d771-4353-80ba-e55c39c7353f"
+      "o": "831752f6-6c0e-4354-a945-4bdaa2ff8655"
     },
     {
-      "s": "36591b24-d771-4353-80ba-e55c39c7353f",
+      "s": "831752f6-6c0e-4354-a945-4bdaa2ff8655",
       "p": "on-success",
-      "o": "fe616118-bacb-4509-b7fa-2d6659f47b16"
+      "o": "e00c3872-8263-49a7-ae79-9d9171505f02"
     },
     {
-      "s": "fe616118-bacb-4509-b7fa-2d6659f47b16",
+      "s": "e00c3872-8263-49a7-ae79-9d9171505f02",
       "p": "on-failure",
-      "o": "58ef2153-83d6-4f60-bb54-ed86dd885d57"
+      "o": "cc6ea14a-7274-4fb9-a329-414326fcb9e0"
     }
   ],
   "tags": [
@@ -76,6 +76,12 @@
     "T1059.001"
   ],
   "input_arguments": [
+    {
+      "name": "encoded_arguments_param_variation",
+      "type": "string",
+      "description": "The \"EncodedArguments\" parameter variation to use",
+      "value": "EA"
+    },
     {
       "name": "command_line_switch_type",
       "type": "string",
@@ -87,12 +93,6 @@
       "type": "string",
       "description": "The \"Command\" parameter variation to use",
       "value": "C"
-    },
-    {
-      "name": "encoded_arguments_param_variation",
-      "type": "string",
-      "description": "The \"EncodedArguments\" parameter variation to use",
-      "value": "EA"
     }
   ]
 }

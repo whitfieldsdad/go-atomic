@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "6beddd90-f102-47ed-a88c-fe979fade4bc",
+      "id": "ef705fc0-d9c6-45a7-bc92-8cb3ff9da6f8",
       "type": "execute-command",
       "data": {
         "command": "$oldvalue = $(Get-ItemProperty HKLM:\\System\\CurrentControlSet\\Control\\Lsa -Name 'Security Packages' | Select-Object -ExpandProperty 'Security Packages');\nSet-ItemProperty -Path \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\" -Name 'Security Packages old' -Value \"$oldvalue\";\n$newvalue = \"AtomicTest.dll\";\nSet-ItemProperty HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Lsa -Name 'Security Packages' -Value $newvalue",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "26cc402b-f8f6-448a-9e4d-a91b855fccca",
+      "id": "b35dd447-d907-4a25-890c-e41e8143d3ae",
       "type": "execute-command",
       "data": {
         "command": "$oldvalue = $(Get-ItemPropertyValue -Path  \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\" -Name 'Security Packages old' | Select-Object -ExpandProperty 'Security Packages old');\nSet-ItemProperty -Path HKLM:\\System\\CurrentControlSet\\Control\\Lsa -Name 'Security Packages' -Value \"$oldvalue\";\nRemove-ItemProperty -Path  \"HKLM:\\System\\CurrentControlSet\\Control\\Lsa\" -Name 'Security Packages old';",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "6beddd90-f102-47ed-a88c-fe979fade4bc",
+      "s": "ef705fc0-d9c6-45a7-bc92-8cb3ff9da6f8",
       "p": "on-success",
-      "o": "26cc402b-f8f6-448a-9e4d-a91b855fccca"
+      "o": "b35dd447-d907-4a25-890c-e41e8143d3ae"
     },
     {
-      "s": "6beddd90-f102-47ed-a88c-fe979fade4bc",
+      "s": "ef705fc0-d9c6-45a7-bc92-8cb3ff9da6f8",
       "p": "on-failure",
-      "o": "26cc402b-f8f6-448a-9e4d-a91b855fccca"
+      "o": "b35dd447-d907-4a25-890c-e41e8143d3ae"
     }
   ],
   "tags": [
     "T1547",
     "T1547.005"
-  ]
+  ],
+  "input_arguments": null
 }

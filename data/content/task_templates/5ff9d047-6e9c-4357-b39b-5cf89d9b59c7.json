@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "5c532103-9f1c-467c-9e7f-503895b22c2b",
+      "id": "90ee91d7-bfcf-4817-8aa1-0ada49fdadfa",
       "type": "execute-command",
       "data": {
         "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 sysrc tor_enable=\"YES\" \u0026\u0026 service tor start || sudo systemctl start tor",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "d592bdd2-f844-4506-9b4c-26d1fd1dda7b",
+      "id": "b00e031b-5aa7-4ae8-8709-0dc8907f1c1f",
       "type": "execute-command",
       "data": {
         "command": "[ \"$(uname)\" = 'FreeBSD' ] \u0026\u0026 service tor stop \u0026\u0026 sysrc -x tor_enable || sudo systemctl stop tor",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "2efe7066-ea2f-43fd-b674-e697e6ecae15",
+      "id": "4884c103-0eee-40c5-917b-071013d345e5",
       "name": "Check dependency 1/1",
       "description": "Tor must be installed on the machine \n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "e7756f99-d531-40d1-bc4b-e19b4d07e4bb",
+      "id": "dc60b18b-a4db-44b8-8b50-e5604e00c0f9",
       "name": "Resolve dependency 1/1",
       "description": "Tor must be installed on the machine \n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "cddf01bb-769b-4543-92ec-cb979e40de2c",
+      "id": "1f706f68-58f3-4cfb-8214-880349f24f4d",
       "name": "Re-check dependency 1/1",
       "description": "Tor must be installed on the machine \n",
       "type": "execute-command",
@@ -60,38 +60,39 @@
   ],
   "flows": [
     {
-      "s": "5c532103-9f1c-467c-9e7f-503895b22c2b",
+      "s": "90ee91d7-bfcf-4817-8aa1-0ada49fdadfa",
       "p": "on-success",
-      "o": "d592bdd2-f844-4506-9b4c-26d1fd1dda7b"
+      "o": "b00e031b-5aa7-4ae8-8709-0dc8907f1c1f"
     },
     {
-      "s": "5c532103-9f1c-467c-9e7f-503895b22c2b",
+      "s": "90ee91d7-bfcf-4817-8aa1-0ada49fdadfa",
       "p": "on-failure",
-      "o": "d592bdd2-f844-4506-9b4c-26d1fd1dda7b"
+      "o": "b00e031b-5aa7-4ae8-8709-0dc8907f1c1f"
     },
     {
-      "s": "2efe7066-ea2f-43fd-b674-e697e6ecae15",
+      "s": "4884c103-0eee-40c5-917b-071013d345e5",
       "p": "on-success",
-      "o": "5c532103-9f1c-467c-9e7f-503895b22c2b"
+      "o": "90ee91d7-bfcf-4817-8aa1-0ada49fdadfa"
     },
     {
-      "s": "2efe7066-ea2f-43fd-b674-e697e6ecae15",
+      "s": "4884c103-0eee-40c5-917b-071013d345e5",
       "p": "on-failure",
-      "o": "e7756f99-d531-40d1-bc4b-e19b4d07e4bb"
+      "o": "dc60b18b-a4db-44b8-8b50-e5604e00c0f9"
     },
     {
-      "s": "e7756f99-d531-40d1-bc4b-e19b4d07e4bb",
+      "s": "dc60b18b-a4db-44b8-8b50-e5604e00c0f9",
       "p": "on-success",
-      "o": "cddf01bb-769b-4543-92ec-cb979e40de2c"
+      "o": "1f706f68-58f3-4cfb-8214-880349f24f4d"
     },
     {
-      "s": "cddf01bb-769b-4543-92ec-cb979e40de2c",
+      "s": "1f706f68-58f3-4cfb-8214-880349f24f4d",
       "p": "on-failure",
-      "o": "5c532103-9f1c-467c-9e7f-503895b22c2b"
+      "o": "90ee91d7-bfcf-4817-8aa1-0ada49fdadfa"
     }
   ],
   "tags": [
     "T1090",
     "T1090.003"
-  ]
+  ],
+  "input_arguments": null
 }

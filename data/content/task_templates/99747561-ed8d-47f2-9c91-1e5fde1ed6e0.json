@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "8171050a-33a9-4a89-ab75-e0e14242aef9",
+      "id": "89056f35-b7f1-49e9-a326-daa4b91693f7",
       "type": "execute-command",
       "data": {
         "command": "net user #{guest_user} /active:yes\nnet user #{guest_user} #{guest_password}\nnet localgroup #{local_admin_group} #{guest_user} /add\nnet localgroup \"#{remote_desktop_users_group_name}\" #{guest_user} /add\nreg add \"hklm\\system\\CurrentControlSet\\Control\\Terminal Server\" /v fDenyTSConnections /t REG_DWORD /d 0 /f\nreg add \"hklm\\system\\CurrentControlSet\\Control\\Terminal Server\" /v \"AllowTSConnections\" /t REG_DWORD /d 0x1 /f",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "3ab15de0-efb4-4b59-8459-0ebf1075dc7a",
+      "id": "3b7ed5e6-c9f3-4a69-bf2b-5fd742bef24e",
       "type": "execute-command",
       "data": {
         "command": "net user #{guest_user} /active:no \u003enul 2\u003e\u00261\nnet localgroup #{local_admin_group} #{guest_user} /delete \u003enul 2\u003e\u00261\nnet localgroup \"#{remote_desktop_users_group_name}\" #{guest_user} /delete \u003enul 2\u003e\u00261\nif #{remove_rdp_access_during_cleanup} NEQ 1 (echo Note: set remove_rdp_access_during_cleanup input argument to disable RDP access during cleanup)\nif #{remove_rdp_access_during_cleanup} EQU 1 (reg delete \"hklm\\system\\CurrentControlSet\\Control\\Terminal Server\" /v fDenyTSConnections /f \u003enul 2\u003e\u00261)\nif #{remove_rdp_access_during_cleanup} EQU 1 (reg delete \"hklm\\system\\CurrentControlSet\\Control\\Terminal Server\" /v \"AllowTSConnections\" /f \u003enul 2\u003e\u00261)",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "8171050a-33a9-4a89-ab75-e0e14242aef9",
+      "s": "89056f35-b7f1-49e9-a326-daa4b91693f7",
       "p": "on-success",
-      "o": "3ab15de0-efb4-4b59-8459-0ebf1075dc7a"
+      "o": "3b7ed5e6-c9f3-4a69-bf2b-5fd742bef24e"
     },
     {
-      "s": "8171050a-33a9-4a89-ab75-e0e14242aef9",
+      "s": "89056f35-b7f1-49e9-a326-daa4b91693f7",
       "p": "on-failure",
-      "o": "3ab15de0-efb4-4b59-8459-0ebf1075dc7a"
+      "o": "3b7ed5e6-c9f3-4a69-bf2b-5fd742bef24e"
     }
   ],
   "tags": [
@@ -42,18 +42,6 @@
     "T1078.001"
   ],
   "input_arguments": [
-    {
-      "name": "guest_user",
-      "type": "string",
-      "description": "Specify the guest account",
-      "value": "guest"
-    },
-    {
-      "name": "guest_password",
-      "type": "string",
-      "description": "Specify the guest password",
-      "value": "Password123!"
-    },
     {
       "name": "local_admin_group",
       "type": "string",
@@ -71,6 +59,18 @@
       "type": "integer",
       "description": "Set to 1 if you want the cleanup to remove RDP access to machine",
       "value": "0"
+    },
+    {
+      "name": "guest_user",
+      "type": "string",
+      "description": "Specify the guest account",
+      "value": "guest"
+    },
+    {
+      "name": "guest_password",
+      "type": "string",
+      "description": "Specify the guest password",
+      "value": "Password123!"
     }
   ]
 }

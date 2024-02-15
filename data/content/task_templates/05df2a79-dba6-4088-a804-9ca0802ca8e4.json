@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "81c849a9-2ad5-4116-ad41-25a404f81987",
+      "id": "caf8fb47-01a5-428e-996a-43703d5cfabe",
       "type": "execute-command",
       "data": {
         "command": "$ipAddr = \"#{ip_address}\"\nif ($ipAddr -eq \"\") {\n    # Assumes the \"primary\" interface is shown at the top\n    $interface = Get-NetIPInterface -AddressFamily IPv4 -ConnectionState Connected | Select-Object -ExpandProperty InterfaceAlias -First 1\n    Write-Host \"[i] Using Interface $interface\"\n    $ipAddr = Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias $interface | Select-Object -ExpandProperty IPAddress\n}\nWrite-Host \"[i] Base IP-Address for Subnet: $ipAddr\"\n$subnetSubstring = $ipAddr.Substring(0, $ipAddr.LastIndexOf('.') + 1)\n# Always assumes /24 subnet\nWrite-Host \"[i] Assuming /24 subnet. scanning $subnetSubstring'1' to $subnetSubstring'254'\"\n\n$ports = #{port_list}\n$subnetIPs = 1..254 | ForEach-Object { \"$subnetSubstring$_\" }\n\nforeach ($ip in $subnetIPs) {\n    foreach ($port in $ports) {\n      try {\n          $tcp = New-Object Net.Sockets.TcpClient\n          $tcp.ConnectAsync($ip, $port).Wait(#{timeout_ms}) | Out-Null\n      } catch {}\n      if ($tcp.Connected) {\n          $tcp.Close()\n          Write-Host \"Port $port is open on $ip\"\n      }\n    }\n}",
@@ -16,10 +16,17 @@
       "elevation_required": false
     }
   ],
+  "flows": [],
   "tags": [
     "T1046"
   ],
   "input_arguments": [
+    {
+      "name": "timeout_ms",
+      "type": "string",
+      "description": "Connection timeout in milliseconds",
+      "value": "200"
+    },
     {
       "name": "ip_address",
       "type": "string",
@@ -31,12 +38,6 @@
       "type": "string",
       "description": "Comma separated list of ports to scan",
       "value": "445, 3389"
-    },
-    {
-      "name": "timeout_ms",
-      "type": "string",
-      "description": "Connection timeout in milliseconds",
-      "value": "200"
     }
   ]
 }

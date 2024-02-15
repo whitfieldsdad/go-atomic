@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "c71cd7fc-0119-47c2-a8ca-71017db5f847",
+      "id": "5650fdf6-d9ea-4aff-bde0-ea37ef013bb1",
       "type": "execute-command",
       "data": {
         "command": "Import-Module MSOnline\n$Password = ConvertTo-SecureString -String \"#{password}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $Password\nConnect-MsolService -Credential $Credential\nAdd-MsolRoleMember -RoleName \"Company Administrator\" -RoleMemberEmailAddress \"#{target_user}\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "bfff06b6-2956-4681-b1a2-127330bcc8c4",
+      "id": "70483781-0bde-41f2-9a7d-6023268574a9",
       "type": "execute-command",
       "data": {
         "command": "Remove-MsolRoleMember -RoleName \"Company Administrator\" -RoleMemberType User -RoleMemberEmailAddress \"#{target_user}\"",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "828094c5-e996-49c1-baa8-54baf42f2554",
+      "id": "c1f1fe2f-0d0a-41d8-9e21-00385043f37e",
       "name": "Check dependency 1/1",
       "description": "MSOnline module must be installed.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "e685e204-7595-44b4-bf45-f64d88cdd782",
+      "id": "1127c970-9624-4720-bdb0-d10faedafdc6",
       "name": "Resolve dependency 1/1",
       "description": "MSOnline module must be installed.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "2efe799e-e2d5-4eca-bfa7-c782e77757ed",
+      "id": "6a769d6e-6866-4669-9287-c54462575132",
       "name": "Re-check dependency 1/1",
       "description": "MSOnline module must be installed.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "c71cd7fc-0119-47c2-a8ca-71017db5f847",
+      "s": "5650fdf6-d9ea-4aff-bde0-ea37ef013bb1",
       "p": "on-success",
-      "o": "bfff06b6-2956-4681-b1a2-127330bcc8c4"
+      "o": "70483781-0bde-41f2-9a7d-6023268574a9"
     },
     {
-      "s": "c71cd7fc-0119-47c2-a8ca-71017db5f847",
+      "s": "5650fdf6-d9ea-4aff-bde0-ea37ef013bb1",
       "p": "on-failure",
-      "o": "bfff06b6-2956-4681-b1a2-127330bcc8c4"
+      "o": "70483781-0bde-41f2-9a7d-6023268574a9"
     },
     {
-      "s": "828094c5-e996-49c1-baa8-54baf42f2554",
+      "s": "c1f1fe2f-0d0a-41d8-9e21-00385043f37e",
       "p": "on-success",
-      "o": "c71cd7fc-0119-47c2-a8ca-71017db5f847"
+      "o": "5650fdf6-d9ea-4aff-bde0-ea37ef013bb1"
     },
     {
-      "s": "828094c5-e996-49c1-baa8-54baf42f2554",
+      "s": "c1f1fe2f-0d0a-41d8-9e21-00385043f37e",
       "p": "on-failure",
-      "o": "e685e204-7595-44b4-bf45-f64d88cdd782"
+      "o": "1127c970-9624-4720-bdb0-d10faedafdc6"
     },
     {
-      "s": "e685e204-7595-44b4-bf45-f64d88cdd782",
+      "s": "1127c970-9624-4720-bdb0-d10faedafdc6",
       "p": "on-success",
-      "o": "2efe799e-e2d5-4eca-bfa7-c782e77757ed"
+      "o": "6a769d6e-6866-4669-9287-c54462575132"
     },
     {
-      "s": "2efe799e-e2d5-4eca-bfa7-c782e77757ed",
+      "s": "6a769d6e-6866-4669-9287-c54462575132",
       "p": "on-failure",
-      "o": "c71cd7fc-0119-47c2-a8ca-71017db5f847"
+      "o": "5650fdf6-d9ea-4aff-bde0-ea37ef013bb1"
     }
   ],
   "tags": [

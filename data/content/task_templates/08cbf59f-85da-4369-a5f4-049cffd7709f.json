@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "99172ea9-9c8d-4c8a-82f0-eb7f4f1cc9c6",
+      "id": "9982caba-b753-4fa2-af30-16a0132915fd",
       "type": "execute-command",
       "data": {
         "command": "if [ $USER == \"root\" ]; then $which_ccencrypt #{root_input_file_path}; file #{root_input_file_path}.cpt; #{impact_command}; else $which_ccencrypt #{user_input_file_path}; file #{user_input_file_path}.cpt; #{impact_command}; fi",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "71477ec3-9a28-49bc-adfe-c4c06373c76b",
+      "id": "b08f50a8-1121-44ba-8eb7-fe19b46937fe",
       "type": "execute-command",
       "data": {
         "command": "if [ $USER == \"root\" ]; then mv #{cped_file_path} #{root_input_file_path}; else cp #{cped_file_path} #{user_input_file_path}; fi",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "e5d775e7-129b-44c3-8230-840ca51ed1f9",
+      "id": "df4460a0-a3c8-4ef6-8c28-1401b5250277",
       "name": "Check dependency 1/1",
       "description": "Finds where ccencrypt and ccdecrypt is located and copies input file\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "e33c6cd9-4cc0-458b-81f5-64e41dc2b0c0",
+      "id": "9e7cf111-0115-4b6e-a6cf-6e7e480b3b52",
       "name": "Resolve dependency 1/1",
       "description": "Finds where ccencrypt and ccdecrypt is located and copies input file\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "b1e9610f-2e16-4a57-8577-2764a622e66d",
+      "id": "82300be5-36cc-4bd1-9e03-d9b58834ed5f",
       "name": "Re-check dependency 1/1",
       "description": "Finds where ccencrypt and ccdecrypt is located and copies input file\n",
       "type": "execute-command",
@@ -60,52 +60,40 @@
   ],
   "flows": [
     {
-      "s": "99172ea9-9c8d-4c8a-82f0-eb7f4f1cc9c6",
+      "s": "9982caba-b753-4fa2-af30-16a0132915fd",
       "p": "on-success",
-      "o": "71477ec3-9a28-49bc-adfe-c4c06373c76b"
+      "o": "b08f50a8-1121-44ba-8eb7-fe19b46937fe"
     },
     {
-      "s": "99172ea9-9c8d-4c8a-82f0-eb7f4f1cc9c6",
+      "s": "9982caba-b753-4fa2-af30-16a0132915fd",
       "p": "on-failure",
-      "o": "71477ec3-9a28-49bc-adfe-c4c06373c76b"
+      "o": "b08f50a8-1121-44ba-8eb7-fe19b46937fe"
     },
     {
-      "s": "e5d775e7-129b-44c3-8230-840ca51ed1f9",
+      "s": "df4460a0-a3c8-4ef6-8c28-1401b5250277",
       "p": "on-success",
-      "o": "99172ea9-9c8d-4c8a-82f0-eb7f4f1cc9c6"
+      "o": "9982caba-b753-4fa2-af30-16a0132915fd"
     },
     {
-      "s": "e5d775e7-129b-44c3-8230-840ca51ed1f9",
+      "s": "df4460a0-a3c8-4ef6-8c28-1401b5250277",
       "p": "on-failure",
-      "o": "e33c6cd9-4cc0-458b-81f5-64e41dc2b0c0"
+      "o": "9e7cf111-0115-4b6e-a6cf-6e7e480b3b52"
     },
     {
-      "s": "e33c6cd9-4cc0-458b-81f5-64e41dc2b0c0",
+      "s": "9e7cf111-0115-4b6e-a6cf-6e7e480b3b52",
       "p": "on-success",
-      "o": "b1e9610f-2e16-4a57-8577-2764a622e66d"
+      "o": "82300be5-36cc-4bd1-9e03-d9b58834ed5f"
     },
     {
-      "s": "b1e9610f-2e16-4a57-8577-2764a622e66d",
+      "s": "82300be5-36cc-4bd1-9e03-d9b58834ed5f",
       "p": "on-failure",
-      "o": "99172ea9-9c8d-4c8a-82f0-eb7f4f1cc9c6"
+      "o": "9982caba-b753-4fa2-af30-16a0132915fd"
     }
   ],
   "tags": [
     "T1486"
   ],
   "input_arguments": [
-    {
-      "name": "cped_file_path",
-      "type": "path",
-      "description": "path where you want your copied file to be",
-      "value": "/tmp/passwd"
-    },
-    {
-      "name": "root_input_file_path",
-      "type": "path",
-      "description": "path to the file that you want to be encrypted if you are root user",
-      "value": "/etc/passwd"
-    },
     {
       "name": "user_input_file_path",
       "type": "path",
@@ -117,6 +105,18 @@
       "type": "string",
       "description": "command to show impact of encryption",
       "value": "sudo su"
+    },
+    {
+      "name": "cped_file_path",
+      "type": "path",
+      "description": "path where you want your copied file to be",
+      "value": "/tmp/passwd"
+    },
+    {
+      "name": "root_input_file_path",
+      "type": "path",
+      "description": "path to the file that you want to be encrypted if you are root user",
+      "value": "/etc/passwd"
     }
   ]
 }

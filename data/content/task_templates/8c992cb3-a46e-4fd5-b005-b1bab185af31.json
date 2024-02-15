@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e38b9919-d7b2-4dac-b8b1-14e72acae9e3",
+      "id": "680ad63f-1140-4d38-bde7-00df36d55b36",
       "type": "execute-command",
       "data": {
         "command": "echo \"dn: cn=Atomic User, cn=Users,dc=#{domain},dc=#{top_level_domain}\\nobjectClass: person\\ncn: Atomic User\\nsn: User\" \u003e tempadmin.ldif\necho ldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif\nldapadd -H ldap://#{domain}.#{top_level_domain}:389 -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "4c22f8ef-82ff-41da-9b06-6c403f27ebc1",
+      "id": "bd5df45b-8da5-42bf-b41d-1063b66aeae5",
       "type": "execute-command",
       "data": {
         "command": "echo removing Atomic User (temporary user)\necho \"dn: cn=Atomic User,cn=Users,dc=scwxscratch,dc=dev\\nchangetype: delete\" \u003e deleteuser.ldif\nldapmodify -H ldap://#{domain_controller}:389 -x -D #{admin_user} -w #{admin_password} -f deleteuser.ldif\nrm deleteuser.ldif\nrm tempadmin.ldif",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "878414a7-fc6b-40c4-a81b-009e4b3152ac",
+      "id": "bff37ce8-2498-4d1c-bc06-1517b101bc2f",
       "name": "Check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapadd, ldapmodify\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "5eac6a0d-1de0-46d8-a14d-08a3b15789d6",
+      "id": "08694d2a-5f98-49da-9d71-c901a291bdb5",
       "name": "Resolve dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapadd, ldapmodify\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "2e3356f6-9c1f-421b-84aa-2aa4750d809e",
+      "id": "0355c20f-1a3d-469f-8c3d-67686dbb415f",
       "name": "Re-check dependency 1/1",
       "description": "Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapadd, ldapmodify\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "e38b9919-d7b2-4dac-b8b1-14e72acae9e3",
+      "s": "680ad63f-1140-4d38-bde7-00df36d55b36",
       "p": "on-success",
-      "o": "4c22f8ef-82ff-41da-9b06-6c403f27ebc1"
+      "o": "bd5df45b-8da5-42bf-b41d-1063b66aeae5"
     },
     {
-      "s": "e38b9919-d7b2-4dac-b8b1-14e72acae9e3",
+      "s": "680ad63f-1140-4d38-bde7-00df36d55b36",
       "p": "on-failure",
-      "o": "4c22f8ef-82ff-41da-9b06-6c403f27ebc1"
+      "o": "bd5df45b-8da5-42bf-b41d-1063b66aeae5"
     },
     {
-      "s": "878414a7-fc6b-40c4-a81b-009e4b3152ac",
+      "s": "bff37ce8-2498-4d1c-bc06-1517b101bc2f",
       "p": "on-success",
-      "o": "e38b9919-d7b2-4dac-b8b1-14e72acae9e3"
+      "o": "680ad63f-1140-4d38-bde7-00df36d55b36"
     },
     {
-      "s": "878414a7-fc6b-40c4-a81b-009e4b3152ac",
+      "s": "bff37ce8-2498-4d1c-bc06-1517b101bc2f",
       "p": "on-failure",
-      "o": "5eac6a0d-1de0-46d8-a14d-08a3b15789d6"
+      "o": "08694d2a-5f98-49da-9d71-c901a291bdb5"
     },
     {
-      "s": "5eac6a0d-1de0-46d8-a14d-08a3b15789d6",
+      "s": "08694d2a-5f98-49da-9d71-c901a291bdb5",
       "p": "on-success",
-      "o": "2e3356f6-9c1f-421b-84aa-2aa4750d809e"
+      "o": "0355c20f-1a3d-469f-8c3d-67686dbb415f"
     },
     {
-      "s": "2e3356f6-9c1f-421b-84aa-2aa4750d809e",
+      "s": "0355c20f-1a3d-469f-8c3d-67686dbb415f",
       "p": "on-failure",
-      "o": "e38b9919-d7b2-4dac-b8b1-14e72acae9e3"
+      "o": "680ad63f-1140-4d38-bde7-00df36d55b36"
     }
   ],
   "tags": [
@@ -95,6 +95,12 @@
     "T1136.002"
   ],
   "input_arguments": [
+    {
+      "name": "domain_controller",
+      "type": "string",
+      "description": "Name of the domain_controller machine, defined in etc/hosts",
+      "value": "adVM"
+    },
     {
       "name": "domain",
       "type": "string",
@@ -118,12 +124,6 @@
       "type": "string",
       "description": "password of the user",
       "value": "s3CurePssw0rD!"
-    },
-    {
-      "name": "domain_controller",
-      "type": "string",
-      "description": "Name of the domain_controller machine, defined in etc/hosts",
-      "value": "adVM"
     }
   ]
 }

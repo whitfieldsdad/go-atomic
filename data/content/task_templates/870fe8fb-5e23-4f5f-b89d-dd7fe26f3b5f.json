@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "dd2abb1a-fe7d-46ff-9b7a-dfde3199fc49",
+      "id": "9fa18417-d666-40de-9bea-e06bcf544032",
       "type": "execute-command",
       "data": {
         "command": "findstr /S cpassword %logonserver%\\sysvol\\*.xml",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "3114500b-2d54-4c15-aff6-a9e20d8e19b1",
+      "id": "53345283-5795-45cf-9b49-3ee4e13e9f9c",
       "name": "Check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "c33b780c-19a3-490b-8b48-aff69c95cecc",
+      "id": "0ecb3fa9-d7e9-4f89-b30a-9457dd963330",
       "name": "Resolve dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "c123dec4-58cb-467c-9765-d8ccd468fc85",
+      "id": "7f712309-6b82-4c0d-81f2-cb42e6eaff8c",
       "name": "Re-check dependency 1/1",
       "description": "Computer must be domain joined\n",
       "type": "execute-command",
@@ -51,28 +51,29 @@
   ],
   "flows": [
     {
-      "s": "3114500b-2d54-4c15-aff6-a9e20d8e19b1",
+      "s": "53345283-5795-45cf-9b49-3ee4e13e9f9c",
       "p": "on-success",
-      "o": "dd2abb1a-fe7d-46ff-9b7a-dfde3199fc49"
+      "o": "9fa18417-d666-40de-9bea-e06bcf544032"
     },
     {
-      "s": "3114500b-2d54-4c15-aff6-a9e20d8e19b1",
+      "s": "53345283-5795-45cf-9b49-3ee4e13e9f9c",
       "p": "on-failure",
-      "o": "c33b780c-19a3-490b-8b48-aff69c95cecc"
+      "o": "0ecb3fa9-d7e9-4f89-b30a-9457dd963330"
     },
     {
-      "s": "c33b780c-19a3-490b-8b48-aff69c95cecc",
+      "s": "0ecb3fa9-d7e9-4f89-b30a-9457dd963330",
       "p": "on-success",
-      "o": "c123dec4-58cb-467c-9765-d8ccd468fc85"
+      "o": "7f712309-6b82-4c0d-81f2-cb42e6eaff8c"
     },
     {
-      "s": "c123dec4-58cb-467c-9765-d8ccd468fc85",
+      "s": "7f712309-6b82-4c0d-81f2-cb42e6eaff8c",
       "p": "on-failure",
-      "o": "dd2abb1a-fe7d-46ff-9b7a-dfde3199fc49"
+      "o": "9fa18417-d666-40de-9bea-e06bcf544032"
     }
   ],
   "tags": [
     "T1552",
     "T1552.006"
-  ]
+  ],
+  "input_arguments": null
 }

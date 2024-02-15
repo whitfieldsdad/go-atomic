@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "8f34f3df-f1db-4c63-99e7-36b89e1cefda",
+      "id": "57869fe7-4f54-4184-a7c3-07082ee1a908",
       "type": "execute-command",
       "data": {
         "command": "$VM = \"#{vm_name}\"\nNew-VM -Name $VM -Generation 2\nSet-VMFirmware $VM -EnableSecureBoot Off\nStart-VM $VM",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "0f69758a-c6f5-4eae-9b5e-b4cef45ccf58",
+      "id": "187997a1-ce29-478c-bfc5-37b51e4c5c13",
       "type": "execute-command",
       "data": {
         "command": "Stop-VM $VM -Force\nRemove-VM $VM -Force",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "6104d7f9-16bf-48d5-b28e-c3b40b2ba8d6",
+      "id": "ce0e7403-1426-40bd-8b06-98bd96cbbf59",
       "name": "Check dependency 1/1",
       "description": "Hyper-V must be enabled on the system\nChecks whether Hyper-V is enabled. If not, enables Hyper-V and forces a required restart\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "56355625-0f29-4d8a-a68f-17c82f206938",
+      "id": "598e2060-2ab9-4832-97d2-4304f896cc5c",
       "name": "Resolve dependency 1/1",
       "description": "Hyper-V must be enabled on the system\nChecks whether Hyper-V is enabled. If not, enables Hyper-V and forces a required restart\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "3dccc007-61b7-47fd-a02b-9d2a2ab2a3da",
+      "id": "c2d17718-50df-4f2b-877b-83628e91429a",
       "name": "Re-check dependency 1/1",
       "description": "Hyper-V must be enabled on the system\nChecks whether Hyper-V is enabled. If not, enables Hyper-V and forces a required restart\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "8f34f3df-f1db-4c63-99e7-36b89e1cefda",
+      "s": "57869fe7-4f54-4184-a7c3-07082ee1a908",
       "p": "on-success",
-      "o": "0f69758a-c6f5-4eae-9b5e-b4cef45ccf58"
+      "o": "187997a1-ce29-478c-bfc5-37b51e4c5c13"
     },
     {
-      "s": "8f34f3df-f1db-4c63-99e7-36b89e1cefda",
+      "s": "57869fe7-4f54-4184-a7c3-07082ee1a908",
       "p": "on-failure",
-      "o": "0f69758a-c6f5-4eae-9b5e-b4cef45ccf58"
+      "o": "187997a1-ce29-478c-bfc5-37b51e4c5c13"
     },
     {
-      "s": "6104d7f9-16bf-48d5-b28e-c3b40b2ba8d6",
+      "s": "ce0e7403-1426-40bd-8b06-98bd96cbbf59",
       "p": "on-success",
-      "o": "8f34f3df-f1db-4c63-99e7-36b89e1cefda"
+      "o": "57869fe7-4f54-4184-a7c3-07082ee1a908"
     },
     {
-      "s": "6104d7f9-16bf-48d5-b28e-c3b40b2ba8d6",
+      "s": "ce0e7403-1426-40bd-8b06-98bd96cbbf59",
       "p": "on-failure",
-      "o": "56355625-0f29-4d8a-a68f-17c82f206938"
+      "o": "598e2060-2ab9-4832-97d2-4304f896cc5c"
     },
     {
-      "s": "56355625-0f29-4d8a-a68f-17c82f206938",
+      "s": "598e2060-2ab9-4832-97d2-4304f896cc5c",
       "p": "on-success",
-      "o": "3dccc007-61b7-47fd-a02b-9d2a2ab2a3da"
+      "o": "c2d17718-50df-4f2b-877b-83628e91429a"
     },
     {
-      "s": "3dccc007-61b7-47fd-a02b-9d2a2ab2a3da",
+      "s": "c2d17718-50df-4f2b-877b-83628e91429a",
       "p": "on-failure",
-      "o": "8f34f3df-f1db-4c63-99e7-36b89e1cefda"
+      "o": "57869fe7-4f54-4184-a7c3-07082ee1a908"
     }
   ],
   "tags": [

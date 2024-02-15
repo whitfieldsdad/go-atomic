@@ -151,13 +151,15 @@ func (t AtomicRedTeamTest) GetTaskTemplate() (*TaskTemplate, error) {
 	}
 
 	task := &TaskTemplate{
-		Id:             t.Id,
-		Name:           t.Name,
-		Description:    t.Description,
-		Platforms:      t.Platforms,
-		Steps:          steps,
-		Flows:          flows,
-		Tags:           tags,
+		TaskMetadata: TaskMetadata{
+			Id:          t.Id,
+			Name:        t.Name,
+			Description: t.Description,
+			Platforms:   t.Platforms,
+			Steps:       steps,
+			Flows:       flows,
+			Tags: tags,
+		},
 		InputArguments: args,
 	}
 	return task, nil

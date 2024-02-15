@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "eedba617-b7fc-410e-8d14-36c0e79f6936",
+      "id": "39cb1cb7-10e5-4c08-a6de-5d2ed2a36bdd",
       "type": "execute-command",
       "data": {
         "command": "kubectl create -f #{path} -n #{namespace}\n# wait 3 seconds for the instance to come up\nsleep 3\nkubectl exec -n #{namespace} busybox -- #{command}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "87037e02-73c7-4457-a7be-a4cd7aa6bed9",
+      "id": "a8adcbca-1274-4a9a-b8bc-4058287d39e2",
       "type": "execute-command",
       "data": {
         "command": "kubectl delete pod busybox -n #{namespace}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "7b3c5ee3-008a-440a-9de9-2b281ae0ca04",
+      "id": "c0f8757c-ee7d-42ed-84c3-d92c8d228ea6",
       "name": "Check dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "48e73e95-23c2-4bca-b30e-e33908378bd9",
+      "id": "a47437e8-7d98-43c1-8025-b3fde3ba9157",
       "name": "Resolve dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "813bb942-ec80-4aef-8ead-c2d5145b947e",
+      "id": "f4e511d4-dff8-48f8-b625-c756f6997cda",
       "name": "Re-check dependency 1/1",
       "description": "kubectl must be installed\n",
       "type": "execute-command",
@@ -60,40 +60,46 @@
   ],
   "flows": [
     {
-      "s": "eedba617-b7fc-410e-8d14-36c0e79f6936",
+      "s": "39cb1cb7-10e5-4c08-a6de-5d2ed2a36bdd",
       "p": "on-success",
-      "o": "87037e02-73c7-4457-a7be-a4cd7aa6bed9"
+      "o": "a8adcbca-1274-4a9a-b8bc-4058287d39e2"
     },
     {
-      "s": "eedba617-b7fc-410e-8d14-36c0e79f6936",
+      "s": "39cb1cb7-10e5-4c08-a6de-5d2ed2a36bdd",
       "p": "on-failure",
-      "o": "87037e02-73c7-4457-a7be-a4cd7aa6bed9"
+      "o": "a8adcbca-1274-4a9a-b8bc-4058287d39e2"
     },
     {
-      "s": "7b3c5ee3-008a-440a-9de9-2b281ae0ca04",
+      "s": "c0f8757c-ee7d-42ed-84c3-d92c8d228ea6",
       "p": "on-success",
-      "o": "eedba617-b7fc-410e-8d14-36c0e79f6936"
+      "o": "39cb1cb7-10e5-4c08-a6de-5d2ed2a36bdd"
     },
     {
-      "s": "7b3c5ee3-008a-440a-9de9-2b281ae0ca04",
+      "s": "c0f8757c-ee7d-42ed-84c3-d92c8d228ea6",
       "p": "on-failure",
-      "o": "48e73e95-23c2-4bca-b30e-e33908378bd9"
+      "o": "a47437e8-7d98-43c1-8025-b3fde3ba9157"
     },
     {
-      "s": "48e73e95-23c2-4bca-b30e-e33908378bd9",
+      "s": "a47437e8-7d98-43c1-8025-b3fde3ba9157",
       "p": "on-success",
-      "o": "813bb942-ec80-4aef-8ead-c2d5145b947e"
+      "o": "f4e511d4-dff8-48f8-b625-c756f6997cda"
     },
     {
-      "s": "813bb942-ec80-4aef-8ead-c2d5145b947e",
+      "s": "f4e511d4-dff8-48f8-b625-c756f6997cda",
       "p": "on-failure",
-      "o": "eedba617-b7fc-410e-8d14-36c0e79f6936"
+      "o": "39cb1cb7-10e5-4c08-a6de-5d2ed2a36bdd"
     }
   ],
   "tags": [
     "T1609"
   ],
   "input_arguments": [
+    {
+      "name": "command",
+      "type": "string",
+      "description": "Command to run",
+      "value": "uname"
+    },
     {
       "name": "path",
       "type": "string",
@@ -105,12 +111,6 @@
       "type": "string",
       "description": "K8s namespace to use",
       "value": "default"
-    },
-    {
-      "name": "command",
-      "type": "string",
-      "description": "Command to run",
-      "value": "uname"
     }
   ]
 }

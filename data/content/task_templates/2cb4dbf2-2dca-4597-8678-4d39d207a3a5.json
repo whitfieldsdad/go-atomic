@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "346ae077-c0bc-4cdd-9ba1-3383770805cc",
+      "id": "226dc722-5c57-43de-829b-21f0f71a191c",
       "type": "execute-command",
       "data": {
         "command": "Get-WMIObject Win32_PnPEntity | Format-Table Name, Description, Manufacturer \u003e $env:TEMP\\T1120_collection.txt\n$Space,$Heading,$Break,$Data = Get-Content $env:TEMP\\T1120_collection.txt\n@($Heading; $Break; $Data |Sort-Object -Unique) | ? {$_.trim() -ne \"\" } |Set-Content $env:TEMP\\T1120_collection.txt",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "98cc5197-8eb3-418f-a988-295a07f50ca1",
+      "id": "e8401984-4674-4404-8030-77d7ddc4a9f3",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item $env:TEMP\\T1120_collection.txt -ErrorAction Ignore",
@@ -27,17 +27,18 @@
   ],
   "flows": [
     {
-      "s": "346ae077-c0bc-4cdd-9ba1-3383770805cc",
+      "s": "226dc722-5c57-43de-829b-21f0f71a191c",
       "p": "on-success",
-      "o": "98cc5197-8eb3-418f-a988-295a07f50ca1"
+      "o": "e8401984-4674-4404-8030-77d7ddc4a9f3"
     },
     {
-      "s": "346ae077-c0bc-4cdd-9ba1-3383770805cc",
+      "s": "226dc722-5c57-43de-829b-21f0f71a191c",
       "p": "on-failure",
-      "o": "98cc5197-8eb3-418f-a988-295a07f50ca1"
+      "o": "e8401984-4674-4404-8030-77d7ddc4a9f3"
     }
   ],
   "tags": [
     "T1120"
-  ]
+  ],
+  "input_arguments": null
 }

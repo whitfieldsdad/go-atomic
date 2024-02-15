@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "67740c54-3bb6-4313-a2e5-11cac6cca3ba",
+      "id": "9ecc2feb-10e1-4011-9588-39ad8e99c364",
       "type": "execute-command",
       "data": {
         "command": "%windir%\\system32\\inetsrv\\appcmd.exe install module /name:#{module_name} /image:#{dll_path}",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "e7bc9289-d0a9-4255-8b18-9c47e4ab58c6",
+      "id": "99efbb3c-9b0c-4e00-97ab-c1657e34c2d3",
       "type": "execute-command",
       "data": {
         "command": "%windir%\\system32\\inetsrv\\appcmd.exe uninstall module #{module_name}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "f8ddfd28-9cf3-4be4-8120-16926e98ba3e",
+      "id": "8193e5e8-f9f0-4dce-9c80-788f8f22444e",
       "name": "Check dependency 1/1",
       "description": "IIS must be installed in order to add a module to IIS.\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "5866ac01-c1b8-4d95-a249-6278106a6beb",
+      "id": "ed979297-0f58-4225-9a14-8a4f0759f2d2",
       "name": "Resolve dependency 1/1",
       "description": "IIS must be installed in order to add a module to IIS.\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "971bffc2-3ca1-4ede-8833-626d16e95aff",
+      "id": "57bb0bf6-280e-4e79-aa22-9c346df1ddba",
       "name": "Re-check dependency 1/1",
       "description": "IIS must be installed in order to add a module to IIS.\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "67740c54-3bb6-4313-a2e5-11cac6cca3ba",
+      "s": "9ecc2feb-10e1-4011-9588-39ad8e99c364",
       "p": "on-success",
-      "o": "e7bc9289-d0a9-4255-8b18-9c47e4ab58c6"
+      "o": "99efbb3c-9b0c-4e00-97ab-c1657e34c2d3"
     },
     {
-      "s": "67740c54-3bb6-4313-a2e5-11cac6cca3ba",
+      "s": "9ecc2feb-10e1-4011-9588-39ad8e99c364",
       "p": "on-failure",
-      "o": "e7bc9289-d0a9-4255-8b18-9c47e4ab58c6"
+      "o": "99efbb3c-9b0c-4e00-97ab-c1657e34c2d3"
     },
     {
-      "s": "f8ddfd28-9cf3-4be4-8120-16926e98ba3e",
+      "s": "8193e5e8-f9f0-4dce-9c80-788f8f22444e",
       "p": "on-success",
-      "o": "67740c54-3bb6-4313-a2e5-11cac6cca3ba"
+      "o": "9ecc2feb-10e1-4011-9588-39ad8e99c364"
     },
     {
-      "s": "f8ddfd28-9cf3-4be4-8120-16926e98ba3e",
+      "s": "8193e5e8-f9f0-4dce-9c80-788f8f22444e",
       "p": "on-failure",
-      "o": "5866ac01-c1b8-4d95-a249-6278106a6beb"
+      "o": "ed979297-0f58-4225-9a14-8a4f0759f2d2"
     },
     {
-      "s": "5866ac01-c1b8-4d95-a249-6278106a6beb",
+      "s": "ed979297-0f58-4225-9a14-8a4f0759f2d2",
       "p": "on-success",
-      "o": "971bffc2-3ca1-4ede-8833-626d16e95aff"
+      "o": "57bb0bf6-280e-4e79-aa22-9c346df1ddba"
     },
     {
-      "s": "971bffc2-3ca1-4ede-8833-626d16e95aff",
+      "s": "57bb0bf6-280e-4e79-aa22-9c346df1ddba",
       "p": "on-failure",
-      "o": "67740c54-3bb6-4313-a2e5-11cac6cca3ba"
+      "o": "9ecc2feb-10e1-4011-9588-39ad8e99c364"
     }
   ],
   "tags": [

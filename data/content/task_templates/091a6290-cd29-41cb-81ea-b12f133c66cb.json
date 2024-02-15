@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "e850e285-96c1-446e-a0e8-1f61ba4aa106",
+      "id": "fd760b9d-98b4-4bdb-9ca8-ae87192a2b0b",
       "type": "execute-command",
       "data": {
         "command": "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server #{vm_host} -User #{vm_user} -Password #{vm_pass}\nGet-AdvancedSetting -Entity #{vm_host} -Name 'Security.AccountLockFailures' | Set-AdvancedSetting -Value '0' -Confirm:$false\nDisconnect-VIServer -Confirm:$false",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "224fb5c8-b729-49e4-879e-09ae26b6866e",
+      "id": "e6a608ba-26f5-415b-b783-a6df22a82ba2",
       "name": "Check dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": true
     },
     {
-      "id": "d1d81918-5ee9-4549-87ef-bbd3d8562ce8",
+      "id": "92b26ae2-7ed8-414d-96c2-6835ea597e31",
       "name": "Resolve dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": true
     },
     {
-      "id": "ea7993e3-acf8-4c9b-8424-b14ca5c56ffb",
+      "id": "d359b8d5-0247-4140-9e13-2915d497a396",
       "name": "Re-check dependency 1/1",
       "description": "Check if VMWARE PowerCLI PowerShell Module is installed.\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "224fb5c8-b729-49e4-879e-09ae26b6866e",
+      "s": "e6a608ba-26f5-415b-b783-a6df22a82ba2",
       "p": "on-success",
-      "o": "e850e285-96c1-446e-a0e8-1f61ba4aa106"
+      "o": "fd760b9d-98b4-4bdb-9ca8-ae87192a2b0b"
     },
     {
-      "s": "224fb5c8-b729-49e4-879e-09ae26b6866e",
+      "s": "e6a608ba-26f5-415b-b783-a6df22a82ba2",
       "p": "on-failure",
-      "o": "d1d81918-5ee9-4549-87ef-bbd3d8562ce8"
+      "o": "92b26ae2-7ed8-414d-96c2-6835ea597e31"
     },
     {
-      "s": "d1d81918-5ee9-4549-87ef-bbd3d8562ce8",
+      "s": "92b26ae2-7ed8-414d-96c2-6835ea597e31",
       "p": "on-success",
-      "o": "ea7993e3-acf8-4c9b-8424-b14ca5c56ffb"
+      "o": "d359b8d5-0247-4140-9e13-2915d497a396"
     },
     {
-      "s": "ea7993e3-acf8-4c9b-8424-b14ca5c56ffb",
+      "s": "d359b8d5-0247-4140-9e13-2915d497a396",
       "p": "on-failure",
-      "o": "e850e285-96c1-446e-a0e8-1f61ba4aa106"
+      "o": "fd760b9d-98b4-4bdb-9ca8-ae87192a2b0b"
     }
   ],
   "tags": [

@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "8f5932c3-d9aa-4134-b9c6-e464c31a8fc0",
+      "id": "c39eebbf-014d-4358-a58a-1bd39a7feab7",
       "type": "execute-command",
       "data": {
         "command": "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Office\\16.0\\Outlook\\Security\\Level\" /t REG_DWORD /d 1 /f\nmkdir  %APPDATA%\\Microsoft\\Outlook\\ \u003enul 2\u003e\u00261\necho \"Atomic Red Team TEST\" \u003e %APPDATA%\\Microsoft\\Outlook\\VbaProject.OTM",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "11275b39-de5d-4323-985f-a8f92c6164d7",
+      "id": "b32b41cf-fea7-4068-979f-c54559b8d12e",
       "type": "execute-command",
       "data": {
         "command": "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Office\\16.0\\Outlook\\Security\\Level\" /f \u003enul 2\u003e\u00261\ndel %APPDATA%\\Microsoft\\Outlook\\VbaProject.OTM \u003enul 2\u003e\u00261",
@@ -27,17 +27,18 @@
   ],
   "flows": [
     {
-      "s": "8f5932c3-d9aa-4134-b9c6-e464c31a8fc0",
+      "s": "c39eebbf-014d-4358-a58a-1bd39a7feab7",
       "p": "on-success",
-      "o": "11275b39-de5d-4323-985f-a8f92c6164d7"
+      "o": "b32b41cf-fea7-4068-979f-c54559b8d12e"
     },
     {
-      "s": "8f5932c3-d9aa-4134-b9c6-e464c31a8fc0",
+      "s": "c39eebbf-014d-4358-a58a-1bd39a7feab7",
       "p": "on-failure",
-      "o": "11275b39-de5d-4323-985f-a8f92c6164d7"
+      "o": "b32b41cf-fea7-4068-979f-c54559b8d12e"
     }
   ],
   "tags": [
     "T1137"
-  ]
+  ],
+  "input_arguments": null
 }

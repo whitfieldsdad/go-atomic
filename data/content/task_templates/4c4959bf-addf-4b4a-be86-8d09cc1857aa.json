@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "ebc88fa4-7834-435a-8d21-df2001f38d07",
+      "id": "d01be8fa-fbc6-4b56-a491-1beea51b6a0f",
       "type": "execute-command",
       "data": {
         "command": "cmd.exe /C whoami\nwmic useraccount get /ALL\nquser /SERVER:\"#{computer_name}\"\nquser\nqwinsta.exe /server:#{computer_name}\nqwinsta.exe\nfor /F \"tokens=1,2\" %i in ('qwinsta /server:#{computer_name} ^| findstr \"Active Disc\"') do @echo %i | find /v \"#\" | find /v \"console\" || echo %j \u003e computers.txt\n@FOR /F %n in (computers.txt) DO @FOR /F \"tokens=1,2\" %i in ('qwinsta /server:%n ^| findstr \"Active Disc\"') do @echo %i | find /v \"#\" | find /v \"console\" || echo %j \u003e usernames.txt",
@@ -16,6 +16,7 @@
       "elevation_required": false
     }
   ],
+  "flows": [],
   "tags": [
     "T1033"
   ],

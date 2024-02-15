@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "133d2d7b-8979-47e0-a59c-c78264667c17",
+      "id": "d925bd82-4678-48bd-bf84-0654853847cb",
       "type": "execute-command",
       "data": {
         "command": "$secure_pwd = \"#{password}\" | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\n$test = Get-AntiPhishRule\nDisable-AntiPhishRule -Identity $test.Name -Confirm:$false\nGet-AntiPhishRule",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "336c5f2b-9437-4a54-989b-45cefdc882e3",
+      "id": "2e7e5624-05b0-4ff6-a363-a6e4466f6879",
       "type": "execute-command",
       "data": {
         "command": "if(\"#{password}\" -ne \"\") {\n$secure_pwd = (\"#{password}\" + \"\") | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"#{username}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\n$test = Get-AntiPhishRule\nEnable-AntiPhishRule -Identity $test.Name -Confirm:$false\nGet-AntiPhishRule\n}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "519497d7-5bd6-484b-b3f4-a645de1d1e52",
+      "id": "85583f76-0556-4c26-a4d5-efe611017173",
       "name": "Check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "2209f9ba-fabb-4f77-a274-6df9e2093257",
+      "id": "f30bb326-e2c3-4c5b-bfbf-2b2003fe82c0",
       "name": "Resolve dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "68edbbf2-b347-4ed2-bd74-3ee067003c00",
+      "id": "35d474f1-65ac-4f49-b83f-ef0b2c11b6ef",
       "name": "Re-check dependency 1/1",
       "description": "ExchangeOnlineManagement PowerShell module must be installed\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "133d2d7b-8979-47e0-a59c-c78264667c17",
+      "s": "d925bd82-4678-48bd-bf84-0654853847cb",
       "p": "on-success",
-      "o": "336c5f2b-9437-4a54-989b-45cefdc882e3"
+      "o": "2e7e5624-05b0-4ff6-a363-a6e4466f6879"
     },
     {
-      "s": "133d2d7b-8979-47e0-a59c-c78264667c17",
+      "s": "d925bd82-4678-48bd-bf84-0654853847cb",
       "p": "on-failure",
-      "o": "336c5f2b-9437-4a54-989b-45cefdc882e3"
+      "o": "2e7e5624-05b0-4ff6-a363-a6e4466f6879"
     },
     {
-      "s": "519497d7-5bd6-484b-b3f4-a645de1d1e52",
+      "s": "85583f76-0556-4c26-a4d5-efe611017173",
       "p": "on-success",
-      "o": "133d2d7b-8979-47e0-a59c-c78264667c17"
+      "o": "d925bd82-4678-48bd-bf84-0654853847cb"
     },
     {
-      "s": "519497d7-5bd6-484b-b3f4-a645de1d1e52",
+      "s": "85583f76-0556-4c26-a4d5-efe611017173",
       "p": "on-failure",
-      "o": "2209f9ba-fabb-4f77-a274-6df9e2093257"
+      "o": "f30bb326-e2c3-4c5b-bfbf-2b2003fe82c0"
     },
     {
-      "s": "2209f9ba-fabb-4f77-a274-6df9e2093257",
+      "s": "f30bb326-e2c3-4c5b-bfbf-2b2003fe82c0",
       "p": "on-success",
-      "o": "68edbbf2-b347-4ed2-bd74-3ee067003c00"
+      "o": "35d474f1-65ac-4f49-b83f-ef0b2c11b6ef"
     },
     {
-      "s": "68edbbf2-b347-4ed2-bd74-3ee067003c00",
+      "s": "35d474f1-65ac-4f49-b83f-ef0b2c11b6ef",
       "p": "on-failure",
-      "o": "133d2d7b-8979-47e0-a59c-c78264667c17"
+      "o": "d925bd82-4678-48bd-bf84-0654853847cb"
     }
   ],
   "tags": [

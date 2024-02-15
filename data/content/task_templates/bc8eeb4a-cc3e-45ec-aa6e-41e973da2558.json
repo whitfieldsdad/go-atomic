@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "f78b4fa0-b75c-4fa7-bb22-2c86520e2731",
+      "id": "c6ffc1ab-ccf4-4836-b670-1058b334ed08",
       "type": "execute-command",
       "data": {
         "command": "sudo find /var/log -name '#{system_log_name1}.*' -exec rm {} \\; #using \"rm\" execution\nsudo find /var/log/ -name \"#{system_log_name2}.*\" -exec shred -u -z -n 3 {} \\; #using \"shred\" execution\nsudo find /var/log/ -name \"#{system_log_name3}.*\" -exec unlink {} \\; #using \"unlink\" execution",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "5e6b294d-f21b-479c-b962-060c9165cb34",
+      "id": "a02c796a-d0cc-4ecd-86bb-1bb779c30719",
       "name": "Check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": true
     },
     {
-      "id": "46511dc4-344f-4e09-b6ff-a76f2515ba20",
+      "id": "98e37242-3517-45b7-8b15-85fe83ce689f",
       "name": "Resolve dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": true
     },
     {
-      "id": "98d7c6c7-93a8-49f7-a5ab-f1ef62ebade0",
+      "id": "9341a949-340a-48bd-bee4-6ab7b5a062c0",
       "name": "Re-check dependency 1/1",
       "description": "target files must exist\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "5e6b294d-f21b-479c-b962-060c9165cb34",
+      "s": "a02c796a-d0cc-4ecd-86bb-1bb779c30719",
       "p": "on-success",
-      "o": "f78b4fa0-b75c-4fa7-bb22-2c86520e2731"
+      "o": "c6ffc1ab-ccf4-4836-b670-1058b334ed08"
     },
     {
-      "s": "5e6b294d-f21b-479c-b962-060c9165cb34",
+      "s": "a02c796a-d0cc-4ecd-86bb-1bb779c30719",
       "p": "on-failure",
-      "o": "46511dc4-344f-4e09-b6ff-a76f2515ba20"
+      "o": "98e37242-3517-45b7-8b15-85fe83ce689f"
     },
     {
-      "s": "46511dc4-344f-4e09-b6ff-a76f2515ba20",
+      "s": "98e37242-3517-45b7-8b15-85fe83ce689f",
       "p": "on-success",
-      "o": "98d7c6c7-93a8-49f7-a5ab-f1ef62ebade0"
+      "o": "9341a949-340a-48bd-bee4-6ab7b5a062c0"
     },
     {
-      "s": "98d7c6c7-93a8-49f7-a5ab-f1ef62ebade0",
+      "s": "9341a949-340a-48bd-bee4-6ab7b5a062c0",
       "p": "on-failure",
-      "o": "f78b4fa0-b75c-4fa7-bb22-2c86520e2731"
+      "o": "c6ffc1ab-ccf4-4836-b670-1058b334ed08"
     }
   ],
   "tags": [

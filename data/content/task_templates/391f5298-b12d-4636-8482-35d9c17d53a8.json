@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "2e2bcb41-d232-46ec-8664-b9cb78e2ce98",
+      "id": "229046fd-d8b2-47dd-bfc4-417d37f9084f",
       "type": "execute-command",
       "data": {
         "command": "which_python=`which python || which python3`\n$which_python -c \"import gzip;input_file=open('#{path_to_input_file}', 'rb');content=input_file.read();input_file.close();output_file=gzip.GzipFile('#{path_to_output_file}','wb',compresslevel=6);output_file.write(content);output_file.close();\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "b73f2e10-a4a2-41ea-96ba-131b619f2d43",
+      "id": "5366ccf6-cc87-41c1-a64c-b48e6e217ef3",
       "type": "execute-command",
       "data": {
         "command": "rm #{path_to_output_file}",
@@ -25,7 +25,7 @@
       "elevation_required": false
     },
     {
-      "id": "2a0b52c1-5446-494d-b0e6-2e4b6da96840",
+      "id": "8bb36e6e-d70f-417d-aee0-06a256985e1d",
       "name": "Check dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
@@ -36,7 +36,7 @@
       "elevation_required": false
     },
     {
-      "id": "b2ecc013-835f-46b8-8290-e884a003822d",
+      "id": "355a1e48-6b8c-4f27-acd6-8d9f421d523f",
       "name": "Resolve dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
@@ -47,7 +47,7 @@
       "elevation_required": false
     },
     {
-      "id": "fc89afcd-fd72-4d6c-94a7-7d78b57d73c0",
+      "id": "64ba4b64-6757-4ddb-b6f5-3f9f33fb16e3",
       "name": "Re-check dependency 1/1",
       "description": "Requires Python\n",
       "type": "execute-command",
@@ -60,34 +60,34 @@
   ],
   "flows": [
     {
-      "s": "2e2bcb41-d232-46ec-8664-b9cb78e2ce98",
+      "s": "229046fd-d8b2-47dd-bfc4-417d37f9084f",
       "p": "on-success",
-      "o": "b73f2e10-a4a2-41ea-96ba-131b619f2d43"
+      "o": "5366ccf6-cc87-41c1-a64c-b48e6e217ef3"
     },
     {
-      "s": "2e2bcb41-d232-46ec-8664-b9cb78e2ce98",
+      "s": "229046fd-d8b2-47dd-bfc4-417d37f9084f",
       "p": "on-failure",
-      "o": "b73f2e10-a4a2-41ea-96ba-131b619f2d43"
+      "o": "5366ccf6-cc87-41c1-a64c-b48e6e217ef3"
     },
     {
-      "s": "2a0b52c1-5446-494d-b0e6-2e4b6da96840",
+      "s": "8bb36e6e-d70f-417d-aee0-06a256985e1d",
       "p": "on-success",
-      "o": "2e2bcb41-d232-46ec-8664-b9cb78e2ce98"
+      "o": "229046fd-d8b2-47dd-bfc4-417d37f9084f"
     },
     {
-      "s": "2a0b52c1-5446-494d-b0e6-2e4b6da96840",
+      "s": "8bb36e6e-d70f-417d-aee0-06a256985e1d",
       "p": "on-failure",
-      "o": "b2ecc013-835f-46b8-8290-e884a003822d"
+      "o": "355a1e48-6b8c-4f27-acd6-8d9f421d523f"
     },
     {
-      "s": "b2ecc013-835f-46b8-8290-e884a003822d",
+      "s": "355a1e48-6b8c-4f27-acd6-8d9f421d523f",
       "p": "on-success",
-      "o": "fc89afcd-fd72-4d6c-94a7-7d78b57d73c0"
+      "o": "64ba4b64-6757-4ddb-b6f5-3f9f33fb16e3"
     },
     {
-      "s": "fc89afcd-fd72-4d6c-94a7-7d78b57d73c0",
+      "s": "64ba4b64-6757-4ddb-b6f5-3f9f33fb16e3",
       "p": "on-failure",
-      "o": "2e2bcb41-d232-46ec-8664-b9cb78e2ce98"
+      "o": "229046fd-d8b2-47dd-bfc4-417d37f9084f"
     }
   ],
   "tags": [

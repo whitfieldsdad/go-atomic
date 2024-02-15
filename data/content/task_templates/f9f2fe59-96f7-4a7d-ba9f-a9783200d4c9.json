@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "95442a68-a854-484d-9fb5-e7a0abf92a15",
+      "id": "3ccee489-517b-402d-805c-1d6bd7fa83db",
       "type": "execute-command",
       "data": {
         "command": "schtasks /create /ru system /sc daily /tr \"cmd /c powershell.exe -ep bypass -file c:\\T1036.004_NonExistingScript.ps1\" /tn win32times /f\nschtasks /query /tn win32times",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "a04efec3-d8e5-4a0e-8552-db33703cda04",
+      "id": "30c2df7d-ce4c-4ce5-bd85-3c0b947cd6e8",
       "type": "execute-command",
       "data": {
         "command": "schtasks /tn win32times /delete /f",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "95442a68-a854-484d-9fb5-e7a0abf92a15",
+      "s": "3ccee489-517b-402d-805c-1d6bd7fa83db",
       "p": "on-success",
-      "o": "a04efec3-d8e5-4a0e-8552-db33703cda04"
+      "o": "30c2df7d-ce4c-4ce5-bd85-3c0b947cd6e8"
     },
     {
-      "s": "95442a68-a854-484d-9fb5-e7a0abf92a15",
+      "s": "3ccee489-517b-402d-805c-1d6bd7fa83db",
       "p": "on-failure",
-      "o": "a04efec3-d8e5-4a0e-8552-db33703cda04"
+      "o": "30c2df7d-ce4c-4ce5-bd85-3c0b947cd6e8"
     }
   ],
   "tags": [
     "T1036",
     "T1036.004"
-  ]
+  ],
+  "input_arguments": null
 }

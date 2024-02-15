@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b9986a4f-ff56-4f81-bee4-6b3ff0c5548c",
+      "id": "2f40dabe-1d95-4573-847c-41772325c51a",
       "type": "execute-command",
       "data": {
         "command": "# Chromium\n$chromium =  \"https://commondatastorage.googleapis.com/chromium-browser-snapshots/Win_x64/1153778/chrome-win.zip\"\n\n# uBlock Origin Lite to test side-loading\n$extension = \"https://github.com/gorhill/uBlock/releases/download/uBOLite_0.1.23.6055/uBOLite_0.1.23.6055.chromium.mv3.zip\"\n\nSet-Location \"#{working_dir}\"\n\nSet-Variable ProgressPreference SilentlyContinue\nInvoke-WebRequest -URI $chromium -OutFile \"#{working_dir}\\chrome.zip\"\nInvoke-WebRequest -URI $extension -OutFile \"#{working_dir}\\extension.zip\"\n\n\nExpand-Archive chrome.zip -DestinationPath \"#{working_dir}\" -Force\nExpand-Archive extension.zip -Force\n\nStart-Process .\\chrome-win\\chrome.exe --load-extension=\"#{working_dir}\\extension\\\" -PassThru",
@@ -16,7 +16,7 @@
       "elevation_required": true
     },
     {
-      "id": "59a6637f-d993-4181-b8aa-08a55563e8e5",
+      "id": "7bd96c2a-e833-469d-8f24-88a77411dce7",
       "type": "execute-command",
       "data": {
         "command": "Set-Location \"#{working_dir}\"\nStop-Process -Name chrome -Force\nRemove-Item .\\chrome.zip, .\\chrome-win, .\\extension, .\\extension.zip -Recurse -Force\nSet-Variable ProgressPreference Continue",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "b9986a4f-ff56-4f81-bee4-6b3ff0c5548c",
+      "s": "2f40dabe-1d95-4573-847c-41772325c51a",
       "p": "on-success",
-      "o": "59a6637f-d993-4181-b8aa-08a55563e8e5"
+      "o": "7bd96c2a-e833-469d-8f24-88a77411dce7"
     },
     {
-      "s": "b9986a4f-ff56-4f81-bee4-6b3ff0c5548c",
+      "s": "2f40dabe-1d95-4573-847c-41772325c51a",
       "p": "on-failure",
-      "o": "59a6637f-d993-4181-b8aa-08a55563e8e5"
+      "o": "7bd96c2a-e833-469d-8f24-88a77411dce7"
     }
   ],
   "tags": [

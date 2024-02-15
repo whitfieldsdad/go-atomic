@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "b20cd93c-ac03-4988-9e00-a09fd1bfcc69",
+      "id": "43a8d631-04a5-49d2-97c6-dfc25a4ec2ed",
       "type": "execute-command",
       "data": {
         "command": "if ((${#HISTIGNORE[@]})); then echo \"\\$HISTIGNORE = $HISTIGNORE\"; else export HISTIGNORE='ls*:rm*:ssh*'; echo \"\\$HISTIGNORE = $HISTIGNORE\"; fi\n# -\u003e $HISTIGNORE = ls*:rm*:ssh*\nhistory -c \nls -la $HISTFILE\nls -la ~/.bash_logout\nif [ $(history |wc -l) -eq 1 ]; then echo \"ls commands are not in history\"; fi\n# -\u003e ls commands are not in history\nunset HISTIGNORE\n\nif ((${#HISTIGNORE[@]})); then echo \"\\$HISTIGNORE = $HISTIGNORE\"; else export HISTIGNORE='*'; echo \"\\$HISTIGNORE = $HISTIGNORE\"; fi\n# -\u003e $HISTIGNORE = *\nhistory -c \nwhoami\ngroups\nif [ $(history |wc -l) -eq 0 ]; then echo \"History cache is empty\"; fi\n# -\u003e History cache is empty",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "3f970b58-f18e-40a6-ad81-e1afac42770d",
+      "id": "71ae75e4-4c1d-4fa6-9ba9-56f9ee4cf017",
       "type": "execute-command",
       "data": {
         "command": "unset HISTIGNORE",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "b20cd93c-ac03-4988-9e00-a09fd1bfcc69",
+      "s": "43a8d631-04a5-49d2-97c6-dfc25a4ec2ed",
       "p": "on-success",
-      "o": "3f970b58-f18e-40a6-ad81-e1afac42770d"
+      "o": "71ae75e4-4c1d-4fa6-9ba9-56f9ee4cf017"
     },
     {
-      "s": "b20cd93c-ac03-4988-9e00-a09fd1bfcc69",
+      "s": "43a8d631-04a5-49d2-97c6-dfc25a4ec2ed",
       "p": "on-failure",
-      "o": "3f970b58-f18e-40a6-ad81-e1afac42770d"
+      "o": "71ae75e4-4c1d-4fa6-9ba9-56f9ee4cf017"
     }
   ],
   "tags": [
     "T1562",
     "T1562.003"
-  ]
+  ],
+  "input_arguments": null
 }

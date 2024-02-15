@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "5208c7a5-9684-436c-b114-176e5a8eec5a",
+      "id": "1f0a8c0c-12e7-4924-8a50-92524499065b",
       "type": "execute-command",
       "data": {
         "command": "which_python=$(which python || which python3 || which python3.9 || which python2)\n$which_python -c \"import pty;pty.spawn('/bin/sh')\"\nexit\n$which_python -c \"import pty;pty.spawn('/bin/bash')\"\nexit",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "82351a69-5768-4c53-8448-59296976a5ec",
+      "id": "46994ee0-260c-47f8-8eb0-79242afa9a3d",
       "name": "Check dependency 1/1",
       "description": "Verify if python is in the environment variable path and attempt to import requests library.\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "3d24d652-46b2-4b0c-b8d8-da8643aef86b",
+      "id": "1944ce95-d15a-4dbe-a71c-6a990fd081b5",
       "name": "Resolve dependency 1/1",
       "description": "Verify if python is in the environment variable path and attempt to import requests library.\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "5246fdb5-d4be-4a07-9f6a-52210c5413ce",
+      "id": "03e0e43b-00b4-4efb-82f4-7e9d11673b84",
       "name": "Re-check dependency 1/1",
       "description": "Verify if python is in the environment variable path and attempt to import requests library.\n",
       "type": "execute-command",
@@ -51,28 +51,29 @@
   ],
   "flows": [
     {
-      "s": "82351a69-5768-4c53-8448-59296976a5ec",
+      "s": "46994ee0-260c-47f8-8eb0-79242afa9a3d",
       "p": "on-success",
-      "o": "5208c7a5-9684-436c-b114-176e5a8eec5a"
+      "o": "1f0a8c0c-12e7-4924-8a50-92524499065b"
     },
     {
-      "s": "82351a69-5768-4c53-8448-59296976a5ec",
+      "s": "46994ee0-260c-47f8-8eb0-79242afa9a3d",
       "p": "on-failure",
-      "o": "3d24d652-46b2-4b0c-b8d8-da8643aef86b"
+      "o": "1944ce95-d15a-4dbe-a71c-6a990fd081b5"
     },
     {
-      "s": "3d24d652-46b2-4b0c-b8d8-da8643aef86b",
+      "s": "1944ce95-d15a-4dbe-a71c-6a990fd081b5",
       "p": "on-success",
-      "o": "5246fdb5-d4be-4a07-9f6a-52210c5413ce"
+      "o": "03e0e43b-00b4-4efb-82f4-7e9d11673b84"
     },
     {
-      "s": "5246fdb5-d4be-4a07-9f6a-52210c5413ce",
+      "s": "03e0e43b-00b4-4efb-82f4-7e9d11673b84",
       "p": "on-failure",
-      "o": "5208c7a5-9684-436c-b114-176e5a8eec5a"
+      "o": "1f0a8c0c-12e7-4924-8a50-92524499065b"
     }
   ],
   "tags": [
     "T1059",
     "T1059.006"
-  ]
+  ],
+  "input_arguments": null
 }

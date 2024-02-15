@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "bb0008e7-fef6-43ad-aabb-c1516e9c480e",
+      "id": "03317d50-47e7-4df3-8ed4-a0f74bafe8c1",
       "type": "execute-command",
       "data": {
         "command": "cmd /c start /b psr.exe /start /output #{output_file} /sc 1 /gui 0 /stopevent 12\nAdd-Type -MemberDefinition '[DllImport(\"user32.dll\")] public static extern void mouse_event(int flags, int dx, int dy, int cButtons, int info);' -Name U32 -Namespace W;\n[W.U32]::mouse_event(0x02 -bor 0x04 -bor 0x01, 0, 0, 0, 0);\ncmd /c \"timeout #{recording_time} \u003e NULL \u0026\u0026 psr.exe /stop\"",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "b6d017d0-f63c-4e4e-8f8c-1fefa7c25286",
+      "id": "e2952060-9a0c-413b-b47c-2f5b0e09693e",
       "type": "execute-command",
       "data": {
         "command": "rm #{output_file} -ErrorAction Ignore",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "bb0008e7-fef6-43ad-aabb-c1516e9c480e",
+      "s": "03317d50-47e7-4df3-8ed4-a0f74bafe8c1",
       "p": "on-success",
-      "o": "b6d017d0-f63c-4e4e-8f8c-1fefa7c25286"
+      "o": "e2952060-9a0c-413b-b47c-2f5b0e09693e"
     },
     {
-      "s": "bb0008e7-fef6-43ad-aabb-c1516e9c480e",
+      "s": "03317d50-47e7-4df3-8ed4-a0f74bafe8c1",
       "p": "on-failure",
-      "o": "b6d017d0-f63c-4e4e-8f8c-1fefa7c25286"
+      "o": "e2952060-9a0c-413b-b47c-2f5b0e09693e"
     }
   ],
   "tags": [

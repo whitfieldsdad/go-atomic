@@ -7,7 +7,7 @@
   ],
   "steps": [
     {
-      "id": "2994e5ed-7985-45aa-9abb-b2c5d57d9b92",
+      "id": "8a431132-86e5-45db-acf9-a7eeebfb148e",
       "type": "execute-command",
       "data": {
         "command": "New-Item \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\\AtomicRedTeam\" -Force\nSet-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\\AtomicRedTeam\" \"DllName\" \"#{binary_to_execute}\" -Type ExpandString -Force\nSet-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\\AtomicRedTeam\" \"Logon\" \"#{function_to_execute}\" -Force\nSet-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\\AtomicRedTeam\" \"Impersonate\" 1 -Type DWord -Force\nSet-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\\AtomicRedTeam\" \"Asynchronous\" 0 -Type DWord -Force",
@@ -16,7 +16,7 @@
       "elevation_required": false
     },
     {
-      "id": "959de108-4601-4d7b-841d-09c5756da8c9",
+      "id": "da48ca8c-f6bd-43b9-add7-1516b137649f",
       "type": "execute-command",
       "data": {
         "command": "Remove-Item \"HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\" -Force -ErrorAction Ignore",
@@ -27,14 +27,14 @@
   ],
   "flows": [
     {
-      "s": "2994e5ed-7985-45aa-9abb-b2c5d57d9b92",
+      "s": "8a431132-86e5-45db-acf9-a7eeebfb148e",
       "p": "on-success",
-      "o": "959de108-4601-4d7b-841d-09c5756da8c9"
+      "o": "da48ca8c-f6bd-43b9-add7-1516b137649f"
     },
     {
-      "s": "2994e5ed-7985-45aa-9abb-b2c5d57d9b92",
+      "s": "8a431132-86e5-45db-acf9-a7eeebfb148e",
       "p": "on-failure",
-      "o": "959de108-4601-4d7b-841d-09c5756da8c9"
+      "o": "da48ca8c-f6bd-43b9-add7-1516b137649f"
     }
   ],
   "tags": [
