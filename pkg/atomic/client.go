@@ -3,6 +3,7 @@ package atomic
 import (
 	"archive/tar"
 	"compress/gzip"
+	"fmt"
 	"os"
 	"strings"
 
@@ -13,39 +14,40 @@ import (
 	"github.com/spf13/afero/tarfs"
 )
 
-type Client struct {
-	Config ClientConfig
+type Client struct{}
+
+func NewClient() Client {
+	return Client{}
 }
 
-type ClientConfig struct {
-	Workdir string `json:"workdir"`
-}
-
-func NewClient(workdir string) (*Client, error) {
-	client := &Client{
-		Config: NewClientConfig(workdir),
+func (c Client) ImportTaskTemplates(inputPath, outputPath string) error {
+	templates, err := c.readTaskTemplatesFromPath(inputPath)
+	if err != nil {
+		log.Fatalf("Failed to read task templates: %v", err)
 	}
-	return client, nil
-}
-
-func NewClientConfig(workdir string) ClientConfig {
-	return ClientConfig{
-		Workdir: workdir,
+	for _, template := range templates {
+		filename := fmt.Sprintf("%s.json", template.Id)
+		path := fmt.Sprintf("%s/%s", outputPath, filename)
+		err := WriteJSONFile(path, template)
+		if err != nil {
+			return err
+		}
 	}
+	return nil
 }
 
-func (c Client) GenerateTaskTemplatesFromPath(path string) ([]TaskTemplate, error) {
-	path = getRealPath(path)
-	st, err := os.Stat(path)
+func (c Client) readTaskTemplatesFromPath(inputPath string) ([]TaskTemplate, error) {
+	inputPath = getRealPath(inputPath)
+	st, err := os.Stat(inputPath)
 	if err != nil {
 		return nil, err
 	}
 	if st.IsDir() {
-		return c.generateTaskTemplatesFromDir(path)
-	} else if strings.HasSuffix(path, ".tar.gz") {
-		return c.generateTaskTemplatesFromTarball(path)
-	} else if strings.HasSuffix(path, ".yaml") {
-		bundle, err := readAtomicRedTeamYAMLFile(path)
+		return c.generateTaskTemplatesFromDir(inputPath)
+	} else if strings.HasSuffix(inputPath, ".tar.gz") {
+		return c.generateTaskTemplatesFromTarball(inputPath)
+	} else if strings.HasSuffix(inputPath, ".yaml") {
+		bundle, err := readAtomicRedTeamYAMLFile(inputPath)
 		if err != nil {
 			return nil, err
 		}
