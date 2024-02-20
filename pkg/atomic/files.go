@@ -76,7 +76,7 @@ func findFiles(root, pathPattern string) ([]string, error) {
 	return paths, err
 }
 
-func writeJSONFile(path string, v interface{}) error {
+func WriteJSONFile(path string, v interface{}) error {
 	b, err := json.MarshalIndent(v, "", "  ")
 	if err != nil {
 		return err

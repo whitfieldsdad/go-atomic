@@ -75,7 +75,7 @@ func parseProcess(p *ps.Process) Process {
 		argv []string
 		argc int32
 	)
-	argv, err = p.CmdlineSlice()
+	argv, _ = p.CmdlineSlice()
 	if len(argv) != 0 {
 		argc = int32(len(argv))
 	}

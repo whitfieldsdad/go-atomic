@@ -1,7 +1,6 @@
 package atomic
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -15,7 +14,7 @@ const (
 )
 
 func (t ArgumentType) toString() string {
-	return fmt.Sprintf("%s", t)
+	return string(t)
 }
 
 type InputArgument struct {

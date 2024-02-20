@@ -78,7 +78,6 @@ func (s Step) Run(ctx context.Context) StepResult {
 	return StepResult{
 		Id:        uuid.NewString(),
 		StepId:    s.Id,
-		StepType:  s.Type,
 		StartTime: startTime,
 		Duration:  duration.Seconds(),
 		EndTime:   endTime,
@@ -90,7 +89,6 @@ func (s Step) Run(ctx context.Context) StepResult {
 type StepResult struct {
 	Id        string      `json:"id" mapstructure:"id"`
 	StepId    string      `json:"step_id" mapstructure:"step_id"`
-	StepType  StepType    `json:"step_type" mapstructure:"step_type"`
 	StartTime time.Time   `json:"start_time" mapstructure:"start_time"`
 	EndTime   time.Time   `json:"end_time" mapstructure:"end_time"`
 	Duration  float64     `json:"duration" mapstructure:"duration"`

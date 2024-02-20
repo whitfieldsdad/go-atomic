@@ -28,8 +28,6 @@ func ListNetworkConnections() ([]*NetworkConnection, error) {
 			RemotePort: int64(conn.Raddr.Port),
 			Pid:        int64(conn.Pid),
 			Status:     conn.Status,
-			//AddressFamily: "",
-			//SocketType:    "",
 		})
 	}
 	return connections, nil

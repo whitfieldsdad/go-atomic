@@ -3,19 +3,16 @@ package atomic
 import (
 	"log"
 	"os/user"
-	"time"
 
 	"github.com/shirou/gopsutil/v3/host"
 )
 
 type User struct {
-	Artifact       `json:",inline"`
-	UserId         string   `json:"user_id"`
-	Name           string   `json:"name"`
-	Username       string   `json:"username"`
-	PrimaryGroupId string   `json:"primary_group_id"`
-	GroupIds       []string `json:"group_ids"`
-	HomeDir        string   `json:"home_dir"`
+	Artifact `json:",inline"`
+	UserId   string `json:"user_id"`
+	Name     string `json:"name"`
+	Username string `json:"username"`
+	HomeDir  string `json:"home_dir"`
 }
 
 func ListUsers() ([]User, error) {
@@ -62,18 +59,14 @@ func GetUserByUsername(username string) (*User, error) {
 }
 
 func getUser(u user.User) *User {
-	gids, _ := u.GroupIds()
 	return &User{
 		Artifact: Artifact{
-			Id:   calculateUserId(u.Uid),
-			Time: time.Now(),
+			Id: calculateUserId(u.Uid),
 		},
-		UserId:         u.Uid,
-		Name:           u.Name,
-		Username:       u.Username,
-		HomeDir:        u.HomeDir,
-		PrimaryGroupId: u.Gid,
-		GroupIds:       gids,
+		UserId:   u.Uid,
+		Name:     u.Name,
+		Username: u.Username,
+		HomeDir:  u.HomeDir,
 	}
 }
 

@@ -3,7 +3,6 @@ package atomic
 import (
 	"os"
 	"runtime"
-	"time"
 
 	"github.com/NextronSystems/go-osversion"
 	"github.com/charmbracelet/log"
@@ -29,7 +28,6 @@ func GetHost() Host {
 	return Host{
 		Artifact: Artifact{
 			Id:   id,
-			Time: time.Now(),
 		},
 		Hostname: hostname,
 		OS:       GetOS(),
@@ -50,7 +48,6 @@ func GetHostId() string {
 }
 
 type OS struct {
-	Artifact `json:",inline"`
 	Type     string `json:"type"`
 	Arch     string `json:"arch"`
 	Version  string `json:"version"`
@@ -62,7 +59,6 @@ func GetOS() OS {
 		log.Fatalf("Failed to get OS version: %s", err)
 	}
 	return OS{
-		Artifact: NewArtifact(),
 		Type:     runtime.GOOS,
 		Arch:     runtime.GOARCH,
 		Version:  version,

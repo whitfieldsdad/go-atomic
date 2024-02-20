@@ -6,94 +6,58 @@ import (
 	"github.com/google/uuid"
 )
 
-type TaskStatusType string
+type TaskInvocationStatusType string
 
 const (
-	TaskCreated TaskStatusType = "created"
-	TaskQueued  TaskStatusType = "queued"
-	TaskRunning TaskStatusType = "running"
-	TaskFailed  TaskStatusType = "failed"
-	TaskSuccess TaskStatusType = "success"
+	TaskCreated TaskInvocationStatusType = "created"
+	TaskQueued  TaskInvocationStatusType = "queued"
+	TaskRunning TaskInvocationStatusType = "running"
+	TaskFailed  TaskInvocationStatusType = "failed"
+	TaskSuccess TaskInvocationStatusType = "success"
 )
 
-func (t TaskStatusType) String() string {
+func (t TaskInvocationStatusType) String() string {
 	return string(t)
 }
 
-type TaskInvocationStatusInterface interface {
-	GetSubtype() string
-}
-
-type baseTaskInvocationStatus struct {
-	Id               string    `json:"id"`
-	Time             time.Time `json:"time"`
-	Status           string    `json:"status"`
-	TaskId           string    `json:"task_id"`
-	TaskInvocationId string    `json:"task_invocation_id"`
-}
-
-func (s baseTaskInvocationStatus) IsCreated() bool {
-	return s.Status == string(TaskCreated)
-}
-
-func (s baseTaskInvocationStatus) IsQueued() bool {
-	return s.Status == string(TaskQueued)
-}
-
-func (s baseTaskInvocationStatus) IsRunning() bool {
-	return s.Status == string(TaskRunning)
-}
-
-func (s baseTaskInvocationStatus) IsFailed() bool {
-	return s.Status == string(TaskFailed)
-}
-
-func (s baseTaskInvocationStatus) IsSuccess() bool {
-	return s.IsSuccess()
-}
-
-func (s baseTaskInvocationStatus) IsDone() bool {
-	return s.IsSuccess() || s.IsFailed()
-}
-
 type TaskInvocationStatus struct {
-	baseTaskInvocationStatus
+	Id               string                   `json:"id"`
+	Time             time.Time                `json:"time"`
+	StatusType       TaskInvocationStatusType `json:"status_type"`
+	TaskId           string                   `json:"task_id"`
+	TaskInvocationId string                   `json:"task_invocation_id"`
 }
 
-func (s TaskInvocationStatus) GetSubtype() string {
-	return "task"
+func (s TaskInvocationStatus) IsCreated() bool {
+	return s.StatusType == TaskCreated
 }
 
-type TaskStepInvocationStatus struct {
-	baseTaskInvocationStatus
-	TaskStepId string `json:"task_step_id"`
+func (s TaskInvocationStatus) IsQueued() bool {
+	return s.StatusType == TaskQueued
 }
 
-func (s TaskStepInvocationStatus) GetSubtype() string {
-	return "step"
+func (s TaskInvocationStatus) IsRunning() bool {
+	return s.StatusType == TaskRunning
+}
+
+func (s TaskInvocationStatus) IsFailed() bool {
+	return s.StatusType == TaskFailed
+}
+
+func (s TaskInvocationStatus) IsSuccess() bool {
+	return s.StatusType == TaskSuccess
+}
+
+func (s TaskInvocationStatus) IsDone() bool {
+	return s.IsSuccess() || s.IsFailed()
 }
 
 func NewTaskInvocationStatus(taskId, taskStepId, taskInvocationId, status string) TaskInvocationStatus {
 	return TaskInvocationStatus{
-		baseTaskInvocationStatus: baseTaskInvocationStatus{
-			Id:               uuid.NewString(),
-			Time:             time.Now(),
-			Status:           status,
-			TaskId:           taskId,
-			TaskInvocationId: taskInvocationId,
-		},
-	}
-}
-
-func NewTaskStepInvocationStatus(taskId, taskStepId, taskInvocationId, status string) TaskStepInvocationStatus {
-	return TaskStepInvocationStatus{
-		baseTaskInvocationStatus: baseTaskInvocationStatus{
-			Id:               uuid.NewString(),
-			Time:             time.Now(),
-			Status:           status,
-			TaskId:           taskId,
-			TaskInvocationId: taskInvocationId,
-		},
-		TaskStepId: taskStepId,
+		Id:               uuid.NewString(),
+		Time:             time.Now(),
+		StatusType:       TaskInvocationStatusType(status),
+		TaskId:           taskId,
+		TaskInvocationId: taskInvocationId,
 	}
 }

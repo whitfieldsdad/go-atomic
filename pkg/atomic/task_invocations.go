@@ -8,7 +8,6 @@ type TaskInvocation struct {
 	TaskId string    `json:"task_id"`
 }
 
-// TODO
 func NewTaskInvocation(taskId string) *TaskInvocation {
 	return &TaskInvocation{
 		Id:     NewUUID4(),
